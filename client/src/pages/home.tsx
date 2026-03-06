@@ -83,7 +83,7 @@ export default function Home() {
 
         {/* Intro Section */}
         <div className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Intro</h2>
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
           <p className="text-[#555555] leading-[1.7] text-base">
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
@@ -93,7 +93,7 @@ export default function Home() {
 
         {/* Experience Section */}
         <div className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Experience</h2>
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-3">
             <div className="flex justify-between items-center text-base">
               <div className="flex items-center gap-3">
@@ -123,7 +123,7 @@ export default function Home() {
 
         {/* Projects Section */}
         <div className="px-5 md:px-8 py-8 pb-16">
-          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Projects</h2>
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
             {/* Project 1 */}
