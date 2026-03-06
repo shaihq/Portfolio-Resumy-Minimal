@@ -394,9 +394,9 @@ export default function Home() {
           <CursorProvider>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
               {/* Project 1 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                  <img src={project1} alt="Slate" className="w-full h-full object-cover" />
+                  <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
                 <p className="text-base text-[#7A736C] leading-relaxed">
@@ -405,9 +405,9 @@ export default function Home() {
               </div>
 
               {/* Project 2 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                  <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
+                  <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
                 <p className="text-base text-[#7A736C] leading-relaxed">
@@ -416,9 +416,9 @@ export default function Home() {
               </div>
 
               {/* Project 3 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                  <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
+                  <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
                 <p className="text-base text-[#7A736C] leading-relaxed">
@@ -427,9 +427,9 @@ export default function Home() {
               </div>
 
               {/* Project 4 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                  <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
+                  <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
                 <p className="text-base text-[#7A736C] leading-relaxed">
