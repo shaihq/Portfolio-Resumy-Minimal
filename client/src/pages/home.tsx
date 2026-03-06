@@ -295,11 +295,9 @@ export default function Home() {
                   <div className="flex flex-col">
                     <h3 className="font-medium text-base text-[#1A1A1A] mb-1">{rec.name}</h3>
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-black rounded-[2px] flex items-center justify-center transition-colors duration-200 group-hover:bg-[#0077B5]">
-                        <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 text-white" fill="currentColor">
-                          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                        </svg>
-                      </div>
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-black transition-colors duration-200 group-hover:text-[#0077B5]" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
                       <span className="text-[13px] text-[#7A736C]">{rec.role}</span>
                     </div>
                   </div>
