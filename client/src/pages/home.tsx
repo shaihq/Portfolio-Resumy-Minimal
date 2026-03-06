@@ -47,8 +47,8 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight">Hey I'm Matt.</h1>
-              <p className="text-[#666666] text-base">Product Designer</p>
+              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A]">Hey I'm Matt.</h1>
+              <p className="text-[#7A736C] text-base">Product Designer</p>
             </div>
             <a href="#" className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] pb-0.5 hover:opacity-70 transition-opacity w-fit">
               Download resume <Download className="w-3.5 h-3.5" />
@@ -84,7 +84,7 @@ export default function Home() {
         {/* Intro Section */}
         <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
-          <p className="text-[#555555] leading-[1.7] text-base">
+          <p className="text-[#7A736C] leading-[1.7] text-base">
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
         </div>
@@ -100,21 +100,21 @@ export default function Home() {
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
                 <span className="text-[#1A1A1A]">2025 / Apple</span>
               </div>
-              <span className="text-[#666666]">Staff Product Designer</span>
+              <span className="text-[#7A736C]">Staff Product Designer</span>
             </div>
             <div className="flex justify-between items-center text-base">
               <div className="flex items-center gap-3">
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
                 <span className="text-[#1A1A1A]">2025 / Apple</span>
               </div>
-              <span className="text-[#666666]">Lead Product Designer</span>
+              <span className="text-[#7A736C]">Lead Product Designer</span>
             </div>
             <div className="flex justify-between items-center text-base">
               <div className="flex items-center gap-3">
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
                 <span className="text-[#1A1A1A]">2025 / Apple</span>
               </div>
-              <span className="text-[#666666]">Product Designer II</span>
+              <span className="text-[#7A736C]">Product Designer II</span>
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function Home() {
                 <img src={project1} alt="Slate" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-              <p className="text-base text-[#666666] leading-relaxed">
+              <p className="text-base text-[#7A736C] leading-relaxed">
                 A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function Home() {
                 <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-              <p className="text-base text-[#666666] leading-relaxed">
+              <p className="text-base text-[#7A736C] leading-relaxed">
                 A dynamic, animation-focused landing page highlighting creative transitions.
               </p>
             </div>
@@ -154,7 +154,7 @@ export default function Home() {
                 <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-              <p className="text-base text-[#666666] leading-relaxed">
+              <p className="text-base text-[#7A736C] leading-relaxed">
                 A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
             </div>
@@ -165,7 +165,7 @@ export default function Home() {
                 <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-              <p className="text-base text-[#666666] leading-relaxed">
+              <p className="text-base text-[#7A736C] leading-relaxed">
                 A dynamic, animation-focused landing page highlighting creative transitions.
               </p>
             </div>
