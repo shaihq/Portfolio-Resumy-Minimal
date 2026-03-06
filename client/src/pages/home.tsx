@@ -308,10 +308,8 @@ export default function Home() {
                     <AvatarFallback>{rec.name[0]}</AvatarFallback>
                   </Avatar>
                 </div>
-                <div className="px-6 pb-6 pt-2">
-                  <div className="border-t border-dashed border-[#E5D7C4] pt-6 relative">
-                    <div className="absolute -top-[1px] left-0 w-4 h-[1px] bg-white"></div>
-                    <div className="absolute -top-[1px] right-0 w-4 h-[1px] bg-white"></div>
+                <div className="p-1">
+                  <div className="border border-dashed border-[#E5D7C4] rounded-[12px] p-6">
                     <p className="text-[#7A736C] text-sm md:text-[15px] leading-relaxed">
                       {rec.content}
                     </p>
