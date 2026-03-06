@@ -40,7 +40,7 @@ export default function Home() {
         
         {/* Header Section */}
         <div className="px-6 md:px-10 pt-12 md:pt-16 pb-6">
-          <Avatar className="w-[60px] h-[60px] rounded-2xl mb-6">
+          <Avatar className="w-[80px] h-[80px] rounded-2xl mb-6">
             <AvatarImage src={profileImg} className="object-cover" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
