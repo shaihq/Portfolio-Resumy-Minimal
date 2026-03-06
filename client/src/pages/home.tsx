@@ -162,9 +162,42 @@ export default function Home() {
                       transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="text-[#7A736C] text-[15px] leading-relaxed pb-4 pl-7 pr-4">
-                        {exp.description}
-                      </p>
+                      <div className="pb-4 pl-7 pr-4">
+                        <motion.p
+                          variants={{
+                            hidden: { opacity: 0 },
+                            show: {
+                              opacity: 1,
+                              transition: {
+                                staggerChildren: 0.015,
+                              },
+                            },
+                          }}
+                          initial="hidden"
+                          animate="show"
+                          className="text-[#7A736C] text-[15px] leading-relaxed break-words whitespace-normal"
+                        >
+                          {exp.description.split("").map((char, charIndex) => (
+                            <motion.span
+                              key={charIndex}
+                              variants={{
+                                hidden: {
+                                  opacity: 0,
+                                  filter: "blur(10px)",
+                                },
+                                show: {
+                                  opacity: 1,
+                                  filter: "blur(0px)",
+                                },
+                              }}
+                              transition={{ duration: 0.3 }}
+                              className="inline-block"
+                            >
+                              {char === " " ? "\u00A0" : char}
+                            </motion.span>
+                          ))}
+                        </motion.p>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
