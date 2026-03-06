@@ -39,7 +39,7 @@ export default function Home() {
       <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col">
         
         {/* Header Section */}
-        <div className="px-6 md:px-10 pt-12 md:pt-16 pb-6">
+        <div className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
           <Avatar className="w-[80px] h-[80px] rounded-2xl mb-6">
             <AvatarImage src={profileImg} className="object-cover" />
             <AvatarFallback>M</AvatarFallback>
@@ -59,7 +59,7 @@ export default function Home() {
         <div className="custom-dashed-t"></div>
 
         {/* Contact Section */}
-        <div className="px-6 md:px-10 py-4 flex justify-between items-center">
+        <div className="px-5 md:px-8 py-4 flex justify-between items-center">
           <a href="mailto:matt@gmail.com" className="flex items-center gap-2 text-[14px] text-[#666666] hover:text-[#1A1A1A] transition-colors">
             <Mail className="w-[18px] h-[18px]" />
             matt@gmail.com
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="custom-dashed-t"></div>
 
         {/* Intro Section */}
-        <div className="px-6 md:px-10 py-8">
+        <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Intro</h2>
           <p className="text-[#555555] leading-[1.7] text-base">
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
@@ -92,7 +92,7 @@ export default function Home() {
         <div className="custom-dashed-t"></div>
 
         {/* Experience Section */}
-        <div className="px-6 md:px-10 py-8">
+        <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-3">
             <div className="flex justify-between items-center text-[14px]">
@@ -122,7 +122,7 @@ export default function Home() {
         <div className="custom-dashed-t"></div>
 
         {/* Projects Section */}
-        <div className="px-6 md:px-10 py-8 pb-16">
+        <div className="px-5 md:px-8 py-8 pb-16">
           <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Projects</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
