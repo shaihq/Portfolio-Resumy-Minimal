@@ -392,7 +392,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
             {/* Project 1 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-white/40 transition-all duration-300">
+            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                 <img src={project1} alt="Slate" className="w-full h-full object-cover" />
               </div>
@@ -403,7 +403,7 @@ export default function Home() {
             </div>
 
             {/* Project 2 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-white/40 transition-all duration-300">
+            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                 <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
               </div>
@@ -414,7 +414,7 @@ export default function Home() {
             </div>
 
             {/* Project 3 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-white/40 transition-all duration-300">
+            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                 <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
               </div>
@@ -425,7 +425,7 @@ export default function Home() {
             </div>
 
             {/* Project 4 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-white/40 transition-all duration-300">
+            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                 <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
               </div>
