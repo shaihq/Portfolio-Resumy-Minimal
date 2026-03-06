@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRef, useState } from "react";
-import { Download, Dribbble, Mail, ChevronDown } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import profileImg from "@/assets/images/profile.png";
@@ -364,6 +364,92 @@ export default function Home() {
             <p>
               I thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use.
             </p>
+          </div>
+        </div>
+
+        <div className="custom-dashed-t"></div>
+
+        {/* Stack Section */}
+        <div className="px-5 md:px-8 py-8">
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
+          <div className="flex flex-wrap gap-4 items-center">
+            {[
+              { name: "Framer", icon: "/images/stack-framer.png" },
+              { name: "Notion", icon: "/images/stack-notion.png" },
+              { name: "Figma", icon: "/images/stack-figma.png" },
+              { name: "Raycast", icon: "/images/stack-raycast.png" },
+              { name: "Linear", icon: "/images/stack-linear.png" },
+              { name: "Slack", icon: "/images/stack-slack.png" },
+              { name: "Sketch", icon: "/images/stack-sketch.png" },
+            ].map((tool, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -4 }}
+                className="w-12 h-12 rounded-xl bg-white border border-black/5 shadow-sm overflow-hidden p-2 flex items-center justify-center cursor-pointer"
+              >
+                <img src={tool.icon} alt={tool.name} className="w-full h-full object-contain" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="custom-dashed-t"></div>
+
+        {/* Contact Section (Grid) */}
+        <div className="px-5 md:px-8 py-8">
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+            <button className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group">
+              <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
+              <AtSignIcon size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            </button>
+            <button className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group">
+              <span className="text-[#1A1A1A] font-medium text-sm">Copy phone</span>
+              <Phone size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            </button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+            {[
+              { name: "Linkedin", icon: Linkedin },
+              { name: "Dribbble", icon: Dribbble },
+              { name: "X", icon: Twitter },
+              { name: "Medium", icon: Globe },
+            ].map((social, i) => (
+              <button key={i} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group">
+                <span className="text-[#1A1A1A] font-medium text-sm">{social.name}</span>
+                <social.icon size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+              </button>
+            ))}
+          </div>
+          <button className="w-full flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group">
+            <span className="text-[#1A1A1A] font-medium text-sm">View resume</span>
+            <FileText size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+          </button>
+        </div>
+
+        <div className="custom-dashed-t"></div>
+
+        {/* Dino Game Placeholder Section */}
+        <div className="px-5 md:px-8 py-12 flex flex-col items-center justify-center">
+          <span className="text-[10px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-[0.2em] mb-8">Tap to play</span>
+          <div className="w-full max-w-md h-24 border-b border-[#E5D7C4] relative flex items-end overflow-hidden">
+            <motion.div 
+              animate={{ 
+                x: [-20, 640],
+              }}
+              transition={{ 
+                duration: 8, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+              className="mb-[-2px] ml-10"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 10H20V8H18V6H12V8H10V10H8V12H6V14H4V18H6V20H8V22H10V20H14V18H16V16H18V14H20V12H22V10Z" fill="#535353"/>
+                <path d="M12 10H14V12H12V10Z" fill="white"/>
+              </svg>
+            </motion.div>
+            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#E5D7C4]"></div>
           </div>
         </div>
       </div>
