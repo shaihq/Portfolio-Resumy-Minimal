@@ -9,8 +9,10 @@ import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
 import project4 from "@/assets/images/project4.png";
 import recommender1 from "/images/recommender-1.jpg";
-import story1 from "/images/story-1_1.jpg";
-import story2 from "/images/story-1_2.jpg";
+import story1 from "@/assets/images/story-1.jpg";
+import story2 from "@/assets/images/story-2.jpg";
+import story3 from "@/assets/images/story-3.jpg";
+import story4 from "@/assets/images/story-4.jpg";
 
 export default function Home() {
   const atSignRef = useRef<AtSignIconHandle>(null);
@@ -324,20 +326,34 @@ export default function Home() {
         <div className="px-5 md:px-8 py-8 pb-16">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
           
-          <div className="relative mb-8 h-48 flex items-center">
+          <div className="relative mb-8 h-56 flex items-center justify-center">
             <motion.div 
-              initial={{ rotate: -5, x: 0 }}
-              whileHover={{ rotate: -2, x: -5, zIndex: 10 }}
-              className="absolute left-0 top-0 w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg rotate-[-8deg] z-0"
+              initial={{ rotate: -8, x: -120, y: 0 }}
+              whileHover={{ rotate: -2, scale: 1.1, zIndex: 50 }}
+              className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg z-0"
             >
               <img src={story1} alt="My workspace" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
-              initial={{ rotate: 8, x: 80, y: 10 }}
-              whileHover={{ rotate: 4, x: 85, y: 5, zIndex: 10 }}
-              className="absolute left-0 top-0 w-36 h-36 rounded-xl overflow-hidden border-4 border-white shadow-lg rotate-[12deg] z-10"
+              initial={{ rotate: 12, x: -40, y: 15 }}
+              whileHover={{ rotate: 5, scale: 1.1, zIndex: 50 }}
+              className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white shadow-lg z-10"
             >
               <img src={story2} alt="Designing" className="w-full h-full object-cover" />
+            </motion.div>
+            <motion.div 
+              initial={{ rotate: -5, x: 40, y: -10 }}
+              whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
+              className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg z-20"
+            >
+              <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover" />
+            </motion.div>
+            <motion.div 
+              initial={{ rotate: 8, x: 120, y: 20 }}
+              whileHover={{ rotate: 3, scale: 1.1, zIndex: 50 }}
+              className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white shadow-lg z-30"
+            >
+              <img src={story4} alt="Creative studio" className="w-full h-full object-cover" />
             </motion.div>
           </div>
 
