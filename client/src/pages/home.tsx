@@ -53,8 +53,8 @@ export default function Home() {
     if (isJumping) return;
 
     setIsJumping(true);
-    let velocity = 15; // Increased jump power
-    const gravity = 0.8; // Snappier gravity
+    let velocity = 17; // Increased jump power further
+    const gravity = 0.7; // Slightly lower gravity for better hang time
     let currentY = 0;
 
     const jumpFrame = () => {
@@ -115,9 +115,9 @@ export default function Home() {
             // 2. Dino's left side hasn't passed obstacle's right side
             // 3. Dino's bottom is NOT high enough to clear the obstacle top
             if (
-              dinoRight - 15 > obsLeft && 
-              dinoLeft + 15 < obsRight && 
-              dinoBottom < obsTop
+              dinoRight - 22 > obsLeft && 
+              dinoLeft + 22 < obsRight && 
+              dinoBottom < obsTop - 5
             ) {
               setIsGameOver(true);
               setIsPlaying(false);
