@@ -15,12 +15,14 @@ export default function Home() {
           background-position: left;
           background-size: 1px 10px;
           background-repeat: repeat-y;
+          border-left: 1px solid transparent;
         }
         .dashed-border-right {
           background-image: linear-gradient(to bottom, #E5D7C4 50%, rgba(255,255,255,0) 0%);
           background-position: right;
           background-size: 1px 10px;
           background-repeat: repeat-y;
+          border-right: 1px solid transparent;
         }
         .dashed-separator {
           background-image: linear-gradient(to right, #E5D7C4 50%, rgba(255,255,255,0) 0%);
