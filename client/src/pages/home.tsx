@@ -8,12 +8,12 @@ import project4 from "@/assets/images/project4.png";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#F4F2EC] flex justify-center font-sans text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F4F2EC]">
-      <div className="w-full max-w-[640px] border-x border-dashed border-[#E2DFD3] relative min-h-screen bg-[#F4F2EC] flex flex-col">
+    <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-sans text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
+      <div className="w-full max-w-[640px] border-x border-dashed border-[#E2DFD3] relative min-h-screen bg-[#F0EDE7] flex flex-col">
         
         {/* Header Section */}
-        <div className="px-6 md:px-10 pt-16 md:pt-24 pb-8">
-          <Avatar className="w-[60px] h-[60px] rounded-2xl mb-8">
+        <div className="px-6 md:px-10 pt-12 md:pt-16 pb-6">
+          <Avatar className="w-[60px] h-[60px] rounded-2xl mb-6">
             <AvatarImage src={profileImg} className="object-cover" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
@@ -32,7 +32,7 @@ export default function Home() {
         <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
 
         {/* Contact Section */}
-        <div className="px-6 md:px-10 py-5 flex justify-between items-center">
+        <div className="px-6 md:px-10 py-4 flex justify-between items-center">
           <a href="mailto:matt@gmail.com" className="flex items-center gap-2 text-[14px] text-[#666666] hover:text-[#1A1A1A] transition-colors">
             <Mail className="w-[18px] h-[18px]" />
             matt@gmail.com
@@ -55,8 +55,8 @@ export default function Home() {
         <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
 
         {/* Intro Section */}
-        <div className="px-6 md:px-10 py-10">
-          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-6">Intro</h2>
+        <div className="px-6 md:px-10 py-8">
+          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Intro</h2>
           <p className="text-[#555555] leading-[1.7] text-[15px]">
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
@@ -65,9 +65,9 @@ export default function Home() {
         <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
 
         {/* Experience Section */}
-        <div className="px-6 md:px-10 py-10">
-          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-6">Experience</h2>
-          <div className="space-y-4">
+        <div className="px-6 md:px-10 py-8">
+          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Experience</h2>
+          <div className="space-y-3">
             <div className="flex justify-between items-center text-[14px]">
               <div className="flex items-center gap-3">
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
@@ -95,10 +95,10 @@ export default function Home() {
         <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
 
         {/* Projects Section */}
-        <div className="px-6 md:px-10 py-10 pb-20">
-          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-6">Projects</h2>
+        <div className="px-6 md:px-10 py-8 pb-16">
+          <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Projects</h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
             {/* Project 1 */}
             <div className="group cursor-pointer flex flex-col">
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5">
