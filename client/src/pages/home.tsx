@@ -1,7 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useRef } from "react";
-import { Download, Dribbble, Mail } from "lucide-react";
+import { useRef, useState } from "react";
+import { Download, Dribbble, Mail, ChevronDown } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
+import { motion, AnimatePresence } from "framer-motion";
 import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
@@ -11,6 +12,28 @@ import project4 from "@/assets/images/project4.png";
 export default function Home() {
   const atSignRef = useRef<AtSignIconHandle>(null);
   const downloadRef = useRef<DownloadIconHandle>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const experiences = [
+    {
+      year: "2025",
+      company: "Apple",
+      role: "Staff Product Designer",
+      description: "Leading design initiatives for core ecosystem products, focusing on seamless cross-device experiences and next-generation interface patterns."
+    },
+    {
+      year: "2024",
+      company: "Apple",
+      role: "Lead Product Designer",
+      description: "Spearheaded the redesign of iCloud services, improving user engagement by 40% through simplified sharing workflows and enhanced visual hierarchy."
+    },
+    {
+      year: "2023",
+      company: "Apple",
+      role: "Product Designer II",
+      description: "Contributed to the development of new accessibility features within iOS, ensuring inclusive design across all system-level components."
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
@@ -109,28 +132,41 @@ export default function Home() {
         {/* Experience Section */}
         <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center text-base">
-              <div className="flex items-center gap-3">
-                <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
-                <span className="text-[#1A1A1A]">2025 / Apple</span>
+          <div className="space-y-1">
+            {experiences.map((exp, index) => (
+              <div key={index} className="border-b border-transparent hover:border-[#E5D7C4] transition-colors">
+                <button 
+                  onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                  className="w-full flex justify-between items-center py-2.5 text-base group"
+                >
+                  <div className="flex items-center gap-3">
+                    <motion.span 
+                      animate={{ rotate: expandedIndex === index ? 45 : 0 }}
+                      className="text-[#888888] font-light text-lg leading-none mt-[1px] transition-colors group-hover:text-[#1A1A1A]"
+                    >
+                      +
+                    </motion.span>
+                    <span className="text-[#1A1A1A]">{exp.year} / {exp.company}</span>
+                  </div>
+                  <span className="text-[#7A736C] group-hover:text-[#1A1A1A] transition-colors">{exp.role}</span>
+                </button>
+                <AnimatePresence>
+                  {expandedIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="text-[#7A736C] text-[15px] leading-relaxed pb-4 pl-7 pr-4">
+                        {exp.description}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <span className="text-[#7A736C]">Staff Product Designer</span>
-            </div>
-            <div className="flex justify-between items-center text-base">
-              <div className="flex items-center gap-3">
-                <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
-                <span className="text-[#1A1A1A]">2025 / Apple</span>
-              </div>
-              <span className="text-[#7A736C]">Lead Product Designer</span>
-            </div>
-            <div className="flex justify-between items-center text-base">
-              <div className="flex items-center gap-3">
-                <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
-                <span className="text-[#1A1A1A]">2025 / Apple</span>
-              </div>
-              <span className="text-[#7A736C]">Product Designer II</span>
-            </div>
+            ))}
           </div>
         </div>
 
