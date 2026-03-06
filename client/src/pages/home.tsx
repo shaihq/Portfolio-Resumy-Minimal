@@ -106,12 +106,12 @@ export default function Home() {
           for (const obs of newObstacles) {
             const obsLeft = obs.x;
             const obsRight = obs.x + 24;
-            const obsTop = 36; // Obstacle height
+            const obsTop = 32; // Reduced obstacle height for hitbox
 
             if (
-              dinoRight - 10 > obsLeft && // Added some padding for better feel
-              dinoLeft + 10 < obsRight && 
-              dinoBottom < obsTop - 5
+              dinoRight - 15 > obsLeft && // Increased horizontal padding
+              dinoLeft + 15 < obsRight && 
+              dinoBottom < obsTop - 8 // Increased vertical padding
             ) {
               setIsGameOver(true);
               setIsPlaying(false);
