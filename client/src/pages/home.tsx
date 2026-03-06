@@ -96,22 +96,28 @@ export default function Home() {
             newObstacles.push({ id: Date.now(), x: 800 }); // Spawn further out
           }
 
-          // More forgiving Collision Detection
           // Dino is at x=48 (left-12 with 40px width)
           // Obstacle is at obs.x with 24px width
           const dinoLeft = 48;
           const dinoRight = 88;
+          // The dino is visually offset by 48px in the motion.div (animate={{ y: -dinoY - 48 }})
+          // But dinoY represents the jump height above the ground.
+          // Ground is at bottom-12.
           const dinoBottom = dinoY;
           
           for (const obs of newObstacles) {
             const obsLeft = obs.x;
             const obsRight = obs.x + 24;
-            const obsTop = 32; // Reduced obstacle height for hitbox
+            const obsTop = 30; // The cactus height is roughly 30-36px
 
+            // COLLISION LOGIC:
+            // 1. Dino's right side is past obstacle's left side
+            // 2. Dino's left side hasn't passed obstacle's right side
+            // 3. Dino's bottom is NOT high enough to clear the obstacle top
             if (
-              dinoRight - 15 > obsLeft && // Increased horizontal padding
+              dinoRight - 15 > obsLeft && 
               dinoLeft + 15 < obsRight && 
-              dinoBottom < obsTop - 8 // Increased vertical padding
+              dinoBottom < obsTop
             ) {
               setIsGameOver(true);
               setIsPlaying(false);
