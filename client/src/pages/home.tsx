@@ -47,8 +47,8 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[22px] font-semibold mb-0.5 tracking-tight">Hey I'm Matt.</h1>
-              <p className="text-[#666666] text-[15px]">Product Designer</p>
+              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight">24</h1>
+              <p className="text-[#666666] text-base">Product Designer</p>
             </div>
             <a href="#" className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] pb-0.5 hover:opacity-70 transition-opacity w-fit">
               Download resume <Download className="w-3.5 h-3.5" />
@@ -84,7 +84,7 @@ export default function Home() {
         {/* Intro Section */}
         <div className="px-6 md:px-10 py-8">
           <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Intro</h2>
-          <p className="text-[#555555] leading-[1.7] text-[15px]">
+          <p className="text-[#555555] leading-[1.7] text-base">
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
         </div>
@@ -131,7 +131,7 @@ export default function Home() {
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5">
                 <img src={project1} alt="Slate" className="w-full h-full object-cover" />
               </div>
-              <h3 className="font-medium text-[15px] mb-1.5 text-[#1A1A1A]">Slate</h3>
+              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
               <p className="text-[14px] text-[#666666] leading-relaxed">
                 A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
@@ -142,7 +142,7 @@ export default function Home() {
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5">
                 <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
               </div>
-              <h3 className="font-medium text-[15px] mb-1.5 text-[#1A1A1A]">Antimetal</h3>
+              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
               <p className="text-[14px] text-[#666666] leading-relaxed">
                 A dynamic, animation-focused landing page highlighting creative transitions.
               </p>
@@ -153,7 +153,7 @@ export default function Home() {
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5">
                 <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
               </div>
-              <h3 className="font-medium text-[15px] mb-1.5 text-[#1A1A1A]">Slate</h3>
+              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
               <p className="text-[14px] text-[#666666] leading-relaxed">
                 A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
@@ -164,7 +164,7 @@ export default function Home() {
               <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5">
                 <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
               </div>
-              <h3 className="font-medium text-[15px] mb-1.5 text-[#1A1A1A]">Antimetal</h3>
+              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
               <p className="text-[14px] text-[#666666] leading-relaxed">
                 A dynamic, animation-focused landing page highlighting creative transitions.
               </p>
