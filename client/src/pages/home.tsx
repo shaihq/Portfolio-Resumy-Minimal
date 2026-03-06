@@ -8,7 +8,7 @@ import project4 from "@/assets/images/project4.png";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-sans text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
+    <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-dashed-x {
           position: relative;
@@ -36,7 +36,7 @@ export default function Home() {
           background-size: 10px 1px;
         }
       `}} />
-      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col">
+      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col font-['Inter']">
         
         {/* Header Section */}
         <div className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
