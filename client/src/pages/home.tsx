@@ -9,7 +9,7 @@ import project4 from "@/assets/images/project4.png";
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-sans text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
-      <div className="w-full max-w-[640px] border-x border-dashed border-[#E2DFD3] relative min-h-screen bg-[#F0EDE7] flex flex-col">
+      <div className="w-full max-w-[640px] border-x border-dashed border-[#E5D7C4] relative min-h-screen bg-[#F0EDE7] flex flex-col">
         
         {/* Header Section */}
         <div className="px-6 md:px-10 pt-12 md:pt-16 pb-6">
@@ -29,7 +29,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
+        <div className="w-full border-t border-dashed border-[#E5D7C4]"></div>
 
         {/* Contact Section */}
         <div className="px-6 md:px-10 py-4 flex justify-between items-center">
@@ -52,7 +52,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
+        <div className="w-full border-t border-dashed border-[#E5D7C4]"></div>
 
         {/* Intro Section */}
         <div className="px-6 md:px-10 py-8">
@@ -62,7 +62,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
+        <div className="w-full border-t border-dashed border-[#E5D7C4]"></div>
 
         {/* Experience Section */}
         <div className="px-6 md:px-10 py-8">
@@ -92,7 +92,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full border-t border-dashed border-[#E2DFD3]"></div>
+        <div className="w-full border-t border-dashed border-[#E5D7C4]"></div>
 
         {/* Projects Section */}
         <div className="px-6 md:px-10 py-8 pb-16">
