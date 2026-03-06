@@ -172,8 +172,41 @@ export default function Home() {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0, 
+      filter: "blur(10px)",
+      y: 10
+    },
+    visible: { 
+      opacity: 1, 
+      filter: "blur(0px)",
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.21, 0.47, 0.32, 0.98],
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
+    <motion.div 
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]"
+    >
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-dashed-x {
           position: relative;
@@ -204,7 +237,7 @@ export default function Home() {
       <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col font-['Inter']">
         
         {/* Header Section */}
-        <div className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
           <Avatar className="w-[80px] h-[80px] rounded-2xl mb-6">
             <AvatarImage src={profileImg} className="object-cover" />
             <AvatarFallback>M</AvatarFallback>
@@ -224,12 +257,12 @@ export default function Home() {
               Download resume <DownloadIcon ref={downloadRef} size={14} />
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section */}
-        <div className="px-5 md:px-8 py-4 flex justify-between items-center">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 flex justify-between items-center">
           <a 
             href="mailto:matt@gmail.com" 
             className="flex items-center gap-2 text-base text-[#666666] hover:text-[#1A1A1A] transition-colors group"
@@ -252,22 +285,22 @@ export default function Home() {
               </svg>
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Intro Section */}
-        <div className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
           <p className="text-[#7A736C] leading-[1.7] text-base">
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Experience Section */}
-        <div className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
@@ -349,12 +382,12 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Projects Section */}
-        <div className="px-5 md:px-8 py-8 pb-16">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
@@ -402,12 +435,12 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Recommendations Section */}
-        <div className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
           <div className="space-y-6">
             {[
@@ -450,12 +483,12 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* My Story Section */}
-        <div className="px-5 md:px-8 py-8 pb-16">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
           
           <div className="relative mb-8 h-56 flex items-center justify-center">
@@ -497,12 +530,12 @@ export default function Home() {
               I thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use.
             </p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Stack Section */}
-        <div className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
           <div className="flex flex-wrap gap-6 items-center">
             {[
