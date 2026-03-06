@@ -556,12 +556,12 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section (Grid) */}
-        <div className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
             <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
@@ -590,12 +590,12 @@ export default function Home() {
             <span className="text-[#1A1A1A] font-medium text-sm">View resume</span>
             <FileText size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
           </Button>
-        </div>
+        </motion.div>
 
-        <div className="custom-dashed-t"></div>
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Dino Game Section */}
-        <div className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
+        <motion.div variants={itemVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
           <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34]/60 pointer-events-none">
             <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
             <div className="flex gap-4">
@@ -668,8 +668,8 @@ export default function Home() {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
