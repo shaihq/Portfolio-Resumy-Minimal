@@ -33,27 +33,40 @@ export default function Home() {
   const lastTimeRef = useRef<number>();
 
   const jump = useCallback(() => {
-    if (!isPlaying) {
+    if (isGameOver) {
       setIsPlaying(true);
       setIsGameOver(false);
       setScore(0);
       setObstacles([]);
+      setDinoY(0);
+      setIsJumping(false);
       return;
     }
-    if (isJumping || isGameOver) return;
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setScore(0);
+      setObstacles([]);
+      setDinoY(0);
+      setIsJumping(false);
+      return;
+    }
+    if (isJumping) return;
+
     setIsJumping(true);
-    let velocity = 12;
-    const gravity = 0.6;
+    let velocity = 15; // Increased jump power
+    const gravity = 0.8; // Snappier gravity
     let currentY = 0;
 
     const jumpFrame = () => {
       currentY += velocity;
       velocity -= gravity;
+      
       if (currentY <= 0) {
         setDinoY(0);
         setIsJumping(false);
         return;
       }
+      
       setDinoY(currentY);
       requestAnimationFrame(jumpFrame);
     };
@@ -61,26 +74,45 @@ export default function Home() {
   }, [isPlaying, isJumping, isGameOver]);
 
   useEffect(() => {
-    if (!isPlaying || isGameOver) return;
+    if (!isPlaying || isGameOver) {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+      return;
+    }
 
     const update = (time: number) => {
       if (lastTimeRef.current !== undefined) {
-        const deltaTime = time - lastTimeRef.current;
+        const deltaTime = Math.min(time - lastTimeRef.current, 32); // Cap delta time to prevent huge skips
         
         setScore(prev => prev + 1);
 
         setObstacles(prev => {
           const newObstacles = prev
-            .map(obs => ({ ...obs, x: obs.x - 0.4 * deltaTime }))
-            .filter(obs => obs.x > -50);
+            .map(obs => ({ ...obs, x: obs.x - 0.45 * deltaTime })) // Slightly faster obstacles
+            .filter(obs => obs.x > -100);
 
-          if (newObstacles.length === 0 || (newObstacles[newObstacles.length - 1].x < 450 && Math.random() < 0.02)) {
-            newObstacles.push({ id: Date.now(), x: 640 });
+          // Spawn new obstacles with better spacing logic
+          const lastObsX = newObstacles.length > 0 ? newObstacles[newObstacles.length - 1].x : 0;
+          if (newObstacles.length === 0 || (lastObsX < 400 && Math.random() < 0.03)) {
+            newObstacles.push({ id: Date.now(), x: 800 }); // Spawn further out
           }
 
-          // Collision Detection
+          // More forgiving Collision Detection
+          // Dino is at x=48 (left-12 with 40px width)
+          // Obstacle is at obs.x with 24px width
+          const dinoLeft = 48;
+          const dinoRight = 88;
+          const dinoBottom = dinoY;
+          
           for (const obs of newObstacles) {
-            if (obs.x > 35 && obs.x < 75 && dinoY < 30) {
+            const obsLeft = obs.x;
+            const obsRight = obs.x + 24;
+            const obsTop = 36; // Obstacle height
+
+            if (
+              dinoRight - 10 > obsLeft && // Added some padding for better feel
+              dinoLeft + 10 < obsRight && 
+              dinoBottom < obsTop - 5
+            ) {
               setIsGameOver(true);
               setIsPlaying(false);
               setHighScore(current => Math.max(current, Math.floor(score / 10)));
