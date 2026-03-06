@@ -290,10 +290,10 @@ export default function Home() {
                 image: recommender1
               }
             ].map((rec, i) => (
-              <div key={i} className="bg-white rounded-[24px] border border-black/5 drop-shadow-sm overflow-hidden group">
-                <div className="flex justify-between items-start p-8 pb-6">
-                  <div>
-                    <h3 className="font-medium text-base text-[#1A1A1A] mb-1.5">{rec.name}</h3>
+              <div key={i} className="bg-white rounded-[16px] border border-black/5 drop-shadow-sm overflow-hidden group">
+                <div className="flex justify-between items-center px-6 py-4">
+                  <div className="flex flex-col">
+                    <h3 className="font-medium text-base text-[#1A1A1A] mb-1">{rec.name}</h3>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-[#0077B5] rounded-[2px] flex items-center justify-center">
                         <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 text-white" fill="currentColor">
@@ -303,16 +303,16 @@ export default function Home() {
                       <span className="text-[13px] text-[#7A736C]">{rec.role}</span>
                     </div>
                   </div>
-                  <Avatar className="w-[84px] h-[100px] rounded-none -mr-8 -mt-8 grayscale group-hover:grayscale-0 transition-all duration-700">
+                  <Avatar className="w-[80px] h-[80px] rounded-none -mr-6 -my-4 grayscale group-hover:grayscale-0 transition-all duration-700">
                     <AvatarImage src={rec.image} className="object-cover" />
                     <AvatarFallback>{rec.name[0]}</AvatarFallback>
                   </Avatar>
                 </div>
-                <div className="px-8 pb-8">
-                  <div className="border-t border-dashed border-[#E5D7C4] pt-8 relative">
-                    <div className="absolute -top-[1px] left-0 w-8 h-[1px] bg-white"></div>
-                    <div className="absolute -top-[1px] right-0 w-8 h-[1px] bg-white"></div>
-                    <p className="text-[#7A736C] text-base leading-[1.7]">
+                <div className="px-6 pb-6 pt-2">
+                  <div className="border-t border-dashed border-[#E5D7C4] pt-6 relative">
+                    <div className="absolute -top-[1px] left-0 w-4 h-[1px] bg-white"></div>
+                    <div className="absolute -top-[1px] right-0 w-4 h-[1px] bg-white"></div>
+                    <p className="text-[#7A736C] text-sm md:text-[15px] leading-relaxed">
                       {rec.content}
                     </p>
                   </div>
