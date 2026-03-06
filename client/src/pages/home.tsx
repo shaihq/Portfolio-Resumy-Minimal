@@ -293,14 +293,14 @@ export default function Home() {
               <div key={i} className="bg-white rounded-[24px] border border-black/5 drop-shadow-sm overflow-hidden group">
                 <div className="flex justify-between items-start p-8 pb-6">
                   <div>
-                    <h3 className="font-semibold text-[20px] text-[#1A1A1A] mb-1 tracking-tight">{rec.name}</h3>
+                    <h3 className="font-medium text-base text-[#1A1A1A] mb-1.5">{rec.name}</h3>
                     <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 bg-[#0077B5] rounded-[3px] flex items-center justify-center">
-                        <svg viewBox="0 0 24 24" className="w-3 h-3 text-white" fill="currentColor">
+                      <div className="w-4 h-4 bg-[#0077B5] rounded-[2px] flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 text-white" fill="currentColor">
                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                         </svg>
                       </div>
-                      <span className="text-[15px] text-[#7A736C]">{rec.role}</span>
+                      <span className="text-[13px] text-[#7A736C]">{rec.role}</span>
                     </div>
                   </div>
                   <Avatar className="w-[84px] h-[100px] rounded-none -mr-8 -mt-8 grayscale group-hover:grayscale-0 transition-all duration-700">
@@ -312,7 +312,7 @@ export default function Home() {
                   <div className="border-t border-dashed border-[#E5D7C4] pt-8 relative">
                     <div className="absolute -top-[1px] left-0 w-8 h-[1px] bg-white"></div>
                     <div className="absolute -top-[1px] right-0 w-8 h-[1px] bg-white"></div>
-                    <p className="text-[#666666] text-[18px] leading-[1.6] font-medium">
+                    <p className="text-[#7A736C] text-base leading-[1.7]">
                       {rec.content}
                     </p>
                   </div>
