@@ -400,13 +400,13 @@ export default function Home() {
         <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-            <Button variant="outline" className="flex items-center justify-between px-4 py-6 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
               <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
-              <AtSignIcon size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+              <AtSignIcon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
             </Button>
-            <Button variant="outline" className="flex items-center justify-between px-4 py-6 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
               <span className="text-[#1A1A1A] font-medium text-sm">Copy phone</span>
-              <Phone size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+              <Phone size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
             </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
@@ -416,15 +416,15 @@ export default function Home() {
               { name: "X", icon: Twitter },
               { name: "Medium", icon: Globe },
             ].map((social, i) => (
-              <Button key={i} variant="outline" className="flex items-center justify-between px-4 py-6 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+              <Button key={i} variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
                 <span className="text-[#1A1A1A] font-medium text-sm">{social.name}</span>
-                <social.icon size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+                <social.icon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
               </Button>
             ))}
           </div>
-          <Button variant="outline" className="w-full flex items-center justify-between px-4 py-6 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+          <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
             <span className="text-[#1A1A1A] font-medium text-sm">View resume</span>
-            <FileText size={16} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            <FileText size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
           </Button>
         </div>
 
