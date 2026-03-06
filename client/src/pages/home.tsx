@@ -375,13 +375,13 @@ export default function Home() {
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
           <div className="flex flex-wrap gap-4 items-center">
             {[
-              { name: "Framer", icon: "/images/stack-framer.png" },
-              { name: "Notion", icon: "/images/stack-notion.png" },
-              { name: "Figma", icon: "/images/stack-figma.png" },
-              { name: "Raycast", icon: "/images/stack-raycast.png" },
-              { name: "Linear", icon: "/images/stack-linear.png" },
-              { name: "Slack", icon: "/images/stack-slack.png" },
-              { name: "Sketch", icon: "/images/stack-sketch.png" },
+              { name: "Figma", icon: "/tools/image 4.png" },
+              { name: "Notion", icon: "/tools/image 5.png" },
+              { name: "Raycast", icon: "/tools/image 6.png" },
+              { name: "Framer", icon: "/tools/image 7.png" },
+              { name: "Linear", icon: "/tools/image 8.png" },
+              { name: "Slack", icon: "/tools/image 9.png" },
+              { name: "Arc", icon: "/tools/image 10.png" },
             ].map((tool, i) => (
               <motion.div
                 key={i}
