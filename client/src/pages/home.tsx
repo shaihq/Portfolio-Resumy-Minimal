@@ -134,7 +134,7 @@ export default function Home() {
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
-              <div key={index} className="border-b border-transparent hover:border-[#E5D7C4] transition-colors">
+              <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] -mx-3 px-3">
                 <button 
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
                   className="w-full flex justify-between items-center py-2.5 text-base group"
