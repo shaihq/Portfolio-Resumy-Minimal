@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRef } from "react";
 import { Download, Dribbble, Mail } from "lucide-react";
-import { AtSignIcon, AtSignIconHandle } from "lucide-animated";
+import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
 import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
@@ -10,6 +10,7 @@ import project4 from "@/assets/images/project4.png";
 
 export default function Home() {
   const atSignRef = useRef<AtSignIconHandle>(null);
+  const downloadRef = useRef<DownloadIconHandle>(null);
 
   return (
     <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
@@ -54,8 +55,13 @@ export default function Home() {
               <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A]">Hey I'm Matt.</h1>
               <p className="text-[#7A736C] text-base">Product Designer</p>
             </div>
-            <a href="#" className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] pb-0.5 hover:opacity-70 transition-opacity w-fit">
-              Download resume <Download className="w-3.5 h-3.5" />
+            <a 
+              href="#" 
+              className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] pb-0.5 hover:opacity-70 transition-opacity w-fit group/download"
+              onMouseEnter={() => downloadRef.current?.startAnimation()}
+              onMouseLeave={() => downloadRef.current?.stopAnimation()}
+            >
+              Download resume <DownloadIcon ref={downloadRef} size={14} />
             </a>
           </div>
         </div>
