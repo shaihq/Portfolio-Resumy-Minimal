@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Download, Mail, Dribbble, Twitter } from "lucide-react";
+import { Download, Dribbble, Mail } from "lucide-react";
+import { AtSign } from "lucide-animated";
 import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
@@ -60,8 +61,8 @@ export default function Home() {
 
         {/* Contact Section */}
         <div className="px-5 md:px-8 py-4 flex justify-between items-center">
-          <a href="mailto:matt@gmail.com" className="flex items-center gap-2 text-base text-[#666666] hover:text-[#1A1A1A] transition-colors">
-            <Mail className="w-[18px] h-[18px]" />
+          <a href="mailto:matt@gmail.com" className="flex items-center gap-2 text-base text-[#666666] hover:text-[#1A1A1A] transition-colors group">
+            <AtSign size={18} className="transition-colors" />
             matt@gmail.com
           </a>
           <div className="flex items-center gap-5 text-[#1A1A1A]">
