@@ -177,24 +177,32 @@ export default function Home() {
                           animate="show"
                           className="text-[#7A736C] text-[15px] leading-relaxed break-words whitespace-normal"
                         >
-                          {exp.description.split("").map((char, charIndex) => (
-                            <motion.span
-                              key={charIndex}
-                              variants={{
-                                hidden: {
-                                  opacity: 0,
-                                  filter: "blur(10px)",
-                                },
-                                show: {
-                                  opacity: 1,
-                                  filter: "blur(0px)",
-                                },
-                              }}
-                              transition={{ duration: 0.3 }}
-                              className="inline-block"
-                            >
-                              {char === " " ? "\u00A0" : char}
-                            </motion.span>
+                          {exp.description.split(" ").map((word, wordIndex) => (
+                            <span key={wordIndex} className="inline-block whitespace-nowrap">
+                              {word.split("").map((char, charIndex) => (
+                                <motion.span
+                                  key={charIndex}
+                                  variants={{
+                                    hidden: {
+                                      opacity: 0,
+                                      filter: "blur(10px)",
+                                    },
+                                    show: {
+                                      opacity: 1,
+                                      filter: "blur(0px)",
+                                    },
+                                  }}
+                                  transition={{ duration: 0.3 }}
+                                  className="inline-block"
+                                >
+                                  {char}
+                                </motion.span>
+                              ))}
+                              {/* Add space after each word except the last one */}
+                              {wordIndex < exp.description.split(" ").length - 1 && (
+                                <span className="inline-block">&nbsp;</span>
+                              )}
+                            </span>
                           ))}
                         </motion.p>
                       </div>
