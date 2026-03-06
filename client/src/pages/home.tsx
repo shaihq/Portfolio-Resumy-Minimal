@@ -47,7 +47,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight">24</h1>
+              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight">Hey I'm Matt.</h1>
               <p className="text-[#666666] text-base">Product Designer</p>
             </div>
             <a href="#" className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] pb-0.5 hover:opacity-70 transition-opacity w-fit">
