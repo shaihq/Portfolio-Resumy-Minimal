@@ -8,6 +8,9 @@ import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
 import project4 from "@/assets/images/project4.png";
+import recommender1 from "/images/recommender-1.jpg";
+import story1 from "/images/story-1_1.jpg";
+import story2 from "/images/story-1_2.jpg";
 
 export default function Home() {
   const atSignRef = useRef<AtSignIconHandle>(null);
@@ -267,6 +270,84 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="custom-dashed-t"></div>
+
+        {/* Recommendations Section */}
+        <div className="px-5 md:px-8 py-8">
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
+          <div className="space-y-6">
+            {[
+              {
+                name: "Jonathan Carter",
+                role: "TechStarter CTO",
+                content: "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges. He is good in his domain.",
+                image: recommender1
+              },
+              {
+                name: "Michael Johnson",
+                role: "TechStarter CTO",
+                content: "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges. He is good in his domain.",
+                image: recommender1
+              }
+            ].map((rec, i) => (
+              <div key={i} className="bg-white rounded-2xl p-6 border border-black/5 drop-shadow-sm relative overflow-hidden group">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="font-semibold text-[17px] text-[#1A1A1A] mb-0.5">{rec.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-[#0077B5]" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                      <span className="text-[13px] text-[#7A736C]">{rec.role}</span>
+                    </div>
+                  </div>
+                  <Avatar className="w-12 h-12 rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <AvatarImage src={rec.image} className="object-cover" />
+                    <AvatarFallback>{rec.name[0]}</AvatarFallback>
+                  </Avatar>
+                </div>
+                <div className="border-t border-dashed border-[#E5D7C4] pt-4">
+                  <p className="text-[#7A736C] text-[15px] leading-relaxed italic">
+                    "{rec.content}"
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="custom-dashed-t"></div>
+
+        {/* My Story Section */}
+        <div className="px-5 md:px-8 py-8 pb-16">
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
+          
+          <div className="relative mb-8 h-48 flex items-center">
+            <motion.div 
+              initial={{ rotate: -5, x: 0 }}
+              whileHover={{ rotate: -2, x: -5, zIndex: 10 }}
+              className="absolute left-0 top-0 w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg rotate-[-8deg] z-0"
+            >
+              <img src={story1} alt="My workspace" className="w-full h-full object-cover" />
+            </motion.div>
+            <motion.div 
+              initial={{ rotate: 8, x: 80, y: 10 }}
+              whileHover={{ rotate: 4, x: 85, y: 5, zIndex: 10 }}
+              className="absolute left-0 top-0 w-36 h-36 rounded-xl overflow-hidden border-4 border-white shadow-lg rotate-[12deg] z-10"
+            >
+              <img src={story2} alt="Designing" className="w-full h-full object-cover" />
+            </motion.div>
+          </div>
+
+          <div className="space-y-6 text-[#7A736C] text-base leading-[1.7]">
+            <p>
+              I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design.
+            </p>
+            <p>
+              I thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
