@@ -10,28 +10,33 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#F0EDE7] flex justify-center font-sans text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]">
       <style dangerouslySetInnerHTML={{ __html: `
-        .dashed-border {
-          background-image: linear-gradient(to bottom, #E5D7C4 50%, rgba(255,255,255,0) 0%);
-          background-position: left;
-          background-size: 1px 10px;
-          background-repeat: repeat-y;
-          border-left: 1px solid transparent;
+        .custom-dashed-x {
+          position: relative;
         }
-        .dashed-border-right {
-          background-image: linear-gradient(to bottom, #E5D7C4 50%, rgba(255,255,255,0) 0%);
-          background-position: right;
+        .custom-dashed-x::before, .custom-dashed-x::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          background-image: linear-gradient(to bottom, #E5D7C4 50%, transparent 50%);
           background-size: 1px 10px;
-          background-repeat: repeat-y;
-          border-right: 1px solid transparent;
+          z-index: 50;
         }
-        .dashed-separator {
-          background-image: linear-gradient(to right, #E5D7C4 50%, rgba(255,255,255,0) 0%);
-          background-position: top;
+        .custom-dashed-x::before {
+          left: 0;
+        }
+        .custom-dashed-x::after {
+          right: 0;
+        }
+        .custom-dashed-t {
+          height: 1px;
+          width: 100%;
+          background-image: linear-gradient(to right, #E5D7C4 50%, transparent 50%);
           background-size: 10px 1px;
-          background-repeat: repeat-x;
         }
       `}} />
-      <div className="w-full max-w-[640px] dashed-border dashed-border-right relative min-h-screen bg-[#F0EDE7] flex flex-col">
+      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col">
         
         {/* Header Section */}
         <div className="px-6 md:px-10 pt-12 md:pt-16 pb-6">
@@ -51,7 +56,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full h-px dashed-separator"></div>
+        <div className="custom-dashed-t"></div>
 
         {/* Contact Section */}
         <div className="px-6 md:px-10 py-4 flex justify-between items-center">
@@ -74,7 +79,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full h-px dashed-separator"></div>
+        <div className="custom-dashed-t"></div>
 
         {/* Intro Section */}
         <div className="px-6 md:px-10 py-8">
@@ -84,7 +89,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="w-full h-px dashed-separator"></div>
+        <div className="custom-dashed-t"></div>
 
         {/* Experience Section */}
         <div className="px-6 md:px-10 py-8">
@@ -114,7 +119,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full h-px dashed-separator"></div>
+        <div className="custom-dashed-t"></div>
 
         {/* Projects Section */}
         <div className="px-6 md:px-10 py-8 pb-16">
