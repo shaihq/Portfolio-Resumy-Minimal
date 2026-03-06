@@ -373,7 +373,7 @@ export default function Home() {
         {/* Stack Section */}
         <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-wrap gap-6 items-center">
             {[
               { name: "Figma", icon: "/tools/image 4.png" },
               { name: "Notion", icon: "/tools/image 5.png" },
@@ -386,9 +386,9 @@ export default function Home() {
               <motion.div
                 key={i}
                 whileHover={{ y: -4 }}
-                className="w-12 h-12 rounded-xl bg-white border border-black/5 shadow-sm overflow-hidden p-2 flex items-center justify-center cursor-pointer"
+                className="w-8 h-8 flex items-center justify-center cursor-pointer"
               >
-                <img src={tool.icon} alt={tool.name} className="w-full h-full object-contain" />
+                <img src={tool.icon} alt={tool.name} className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" />
               </motion.div>
             ))}
           </div>
