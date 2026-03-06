@@ -74,13 +74,13 @@ export default function Home() {
             .map(obs => ({ ...obs, x: obs.x - 0.4 * deltaTime }))
             .filter(obs => obs.x > -50);
 
-          if (newObstacles.length === 0 || (newObstacles[newObstacles.length - 1].x < 300 && Math.random() < 0.02)) {
-            newObstacles.push({ id: Date.now(), x: 500 });
+          if (newObstacles.length === 0 || (newObstacles[newObstacles.length - 1].x < 450 && Math.random() < 0.02)) {
+            newObstacles.push({ id: Date.now(), x: 640 });
           }
 
           // Collision Detection
           for (const obs of newObstacles) {
-            if (obs.x > 20 && obs.x < 60 && dinoY < 30) {
+            if (obs.x > 35 && obs.x < 75 && dinoY < 30) {
               setIsGameOver(true);
               setIsPlaying(false);
               setHighScore(current => Math.max(current, Math.floor(score / 10)));
@@ -523,29 +523,32 @@ export default function Home() {
         <div className="custom-dashed-t"></div>
 
         {/* Dino Game Section */}
-        <div className="px-5 md:px-8 py-12 flex flex-col items-center justify-center">
-          <div className="flex justify-between w-full max-w-md mb-4 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34]">
+        <div className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
+          <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34]/60 pointer-events-none">
             <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
             <div className="flex gap-4">
               <span>HI {String(highScore).padStart(5, '0')}</span>
               <span>{String(Math.floor(score / 10)).padStart(5, '0')}</span>
             </div>
           </div>
+          
           <div 
             ref={gameRef}
             onClick={jump}
-            className="w-full max-w-md h-32 border-b border-[#E5D7C4] relative flex items-end overflow-hidden cursor-pointer select-none bg-black/[0.01] rounded-t-lg transition-colors hover:bg-black/[0.02]"
+            className="w-full h-48 relative flex items-end overflow-hidden cursor-pointer select-none bg-black/[0.015] transition-colors hover:bg-black/[0.025]"
           >
+            {/* Ground Line */}
+            <div className="absolute bottom-12 left-0 w-full h-[1px] bg-[#E5D7C4]"></div>
+            
             {/* Dino */}
             <motion.div 
-              animate={{ y: -dinoY }}
+              animate={{ y: -dinoY - 48 }}
               transition={{ type: "just" }}
-              className="absolute left-10 bottom-0 mb-[-2px]"
+              className="absolute left-12 bottom-0 mb-[-2px] z-20"
             >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
                 <path d="M22 10H20V8H18V6H12V8H10V10H8V12H6V14H4V18H6V20H8V22H10V20H14V18H16V16H18V14H20V12H22V10Z" fill="#535353"/>
                 <path d="M12 10H14V12H12V10Z" fill="white"/>
-                {/* Legs animation when playing */}
                 {isPlaying && !isJumping && (
                   <motion.path 
                     animate={{ opacity: [1, 0, 1] }}
@@ -561,10 +564,10 @@ export default function Home() {
             {obstacles.map(obs => (
               <div 
                 key={obs.id}
-                className="absolute bottom-0 mb-[-2px]"
+                className="absolute bottom-12 mb-[-2px] z-10"
                 style={{ left: `${obs.x}px` }}
               >
-                <svg width="20" height="30" viewBox="0 0 20 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="24" height="36" viewBox="0 0 20 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 30H12V0H8V30Z" fill="#535353"/>
                   <path d="M4 10H8V14H4V10Z" fill="#535353"/>
                   <path d="M12 5H16V9H12V5Z" fill="#535353"/>
@@ -572,19 +575,27 @@ export default function Home() {
               </div>
             ))}
 
+            {/* Decorative Background Elements */}
+            <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#E5D7C4]/30 to-transparent -translate-y-12"></div>
+
             {isGameOver && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-[1px]">
-                <div className="bg-[#F0EDE7] px-4 py-2 rounded-lg border border-[#E5D7C4] shadow-sm flex flex-col items-center">
-                  <span className="text-[10px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-1">Retry?</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#535353]">
-                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                    <path d="M3 3v5h5" />
-                  </svg>
-                </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-[#F0EDE7]/40 backdrop-blur-[2px] z-30">
+                <motion.div 
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="bg-white/80 backdrop-blur-md px-8 py-4 rounded-2xl border border-black/5 shadow-xl flex flex-col items-center gap-2"
+                >
+                  <span className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-[0.2em]">Game Over</span>
+                  <div className="flex flex-col items-center group">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#535353] mb-1 transition-transform group-hover:rotate-180 duration-500">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                      <path d="M3 3v5h5" />
+                    </svg>
+                    <span className="text-[9px] font-medium text-[#7A736C] uppercase tracking-widest">Tap to Restart</span>
+                  </div>
+                </motion.div>
               </div>
             )}
-            
-            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#E5D7C4]"></div>
           </div>
         </div>
       </div>
