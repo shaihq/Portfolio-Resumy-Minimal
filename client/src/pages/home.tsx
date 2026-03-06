@@ -146,7 +146,10 @@ export default function Home() {
                     >
                       +
                     </motion.span>
-                    <span className="text-[#1A1A1A]">{exp.year} / {exp.company}</span>
+                    <span className="text-[#1A1A1A]">
+                      <span className="text-[#7A736C]">{exp.year} / </span>
+                      {exp.company}
+                    </span>
                   </div>
                   <span className="text-[#7A736C] group-hover:text-[#1A1A1A] transition-colors">{exp.role}</span>
                 </button>
