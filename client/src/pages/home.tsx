@@ -71,7 +71,7 @@ export default function Home() {
       requestAnimationFrame(jumpFrame);
     };
     requestAnimationFrame(jumpFrame);
-  }, [isPlaying, isJumping, isGameOver]);
+  }, [isPlaying, isGameOver, isJumping]); // Added isJumping to dependencies
 
   useEffect(() => {
     if (!isPlaying || isGameOver) {
@@ -131,7 +131,7 @@ export default function Home() {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
       lastTimeRef.current = undefined;
     };
-  }, [isPlaying, isGameOver, dinoY, score]);
+  }, [isPlaying, isGameOver]); // Removed dinoY and score from dependencies to prevent effect restart on every frame
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
