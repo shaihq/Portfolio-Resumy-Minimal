@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,6 +19,98 @@ export default function Home() {
   const atSignRef = useRef<AtSignIconHandle>(null);
   const downloadRef = useRef<DownloadIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  // Dino Game State
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [dinoY, setDinoY] = useState(0);
+  const [isJumping, setIsJumping] = useState(false);
+  const [obstacles, setObstacles] = useState<{ id: number; x: number }[]>([]);
+  const gameRef = useRef<HTMLDivElement>(null);
+  const requestRef = useRef<number>();
+  const lastTimeRef = useRef<number>();
+
+  const jump = useCallback(() => {
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setIsGameOver(false);
+      setScore(0);
+      setObstacles([]);
+      return;
+    }
+    if (isJumping || isGameOver) return;
+    setIsJumping(true);
+    let velocity = 12;
+    const gravity = 0.6;
+    let currentY = 0;
+
+    const jumpFrame = () => {
+      currentY += velocity;
+      velocity -= gravity;
+      if (currentY <= 0) {
+        setDinoY(0);
+        setIsJumping(false);
+        return;
+      }
+      setDinoY(currentY);
+      requestAnimationFrame(jumpFrame);
+    };
+    requestAnimationFrame(jumpFrame);
+  }, [isPlaying, isJumping, isGameOver]);
+
+  useEffect(() => {
+    if (!isPlaying || isGameOver) return;
+
+    const update = (time: number) => {
+      if (lastTimeRef.current !== undefined) {
+        const deltaTime = time - lastTimeRef.current;
+        
+        setScore(prev => prev + 1);
+
+        setObstacles(prev => {
+          const newObstacles = prev
+            .map(obs => ({ ...obs, x: obs.x - 0.4 * deltaTime }))
+            .filter(obs => obs.x > -50);
+
+          if (newObstacles.length === 0 || (newObstacles[newObstacles.length - 1].x < 300 && Math.random() < 0.02)) {
+            newObstacles.push({ id: Date.now(), x: 500 });
+          }
+
+          // Collision Detection
+          for (const obs of newObstacles) {
+            if (obs.x > 20 && obs.x < 60 && dinoY < 30) {
+              setIsGameOver(true);
+              setIsPlaying(false);
+              setHighScore(current => Math.max(current, Math.floor(score / 10)));
+            }
+          }
+
+          return newObstacles;
+        });
+      }
+      lastTimeRef.current = time;
+      requestRef.current = requestAnimationFrame(update);
+    };
+
+    requestRef.current = requestAnimationFrame(update);
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+      lastTimeRef.current = undefined;
+    };
+  }, [isPlaying, isGameOver, dinoY, score]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" || e.code === "ArrowUp") {
+        e.preventDefault();
+        jump();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [jump]);
 
   const experiences = [
     {
@@ -430,26 +522,68 @@ export default function Home() {
 
         <div className="custom-dashed-t"></div>
 
-        {/* Dino Game Placeholder Section */}
+        {/* Dino Game Section */}
         <div className="px-5 md:px-8 py-12 flex flex-col items-center justify-center">
-          <span className="text-[10px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-[0.2em] mb-8">Tap to play</span>
-          <div className="w-full max-w-md h-24 border-b border-[#E5D7C4] relative flex items-end overflow-hidden">
+          <div className="flex justify-between w-full max-w-md mb-4 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34]">
+            <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
+            <div className="flex gap-4">
+              <span>HI {String(highScore).padStart(5, '0')}</span>
+              <span>{String(Math.floor(score / 10)).padStart(5, '0')}</span>
+            </div>
+          </div>
+          <div 
+            ref={gameRef}
+            onClick={jump}
+            className="w-full max-w-md h-32 border-b border-[#E5D7C4] relative flex items-end overflow-hidden cursor-pointer select-none bg-black/[0.01] rounded-t-lg transition-colors hover:bg-black/[0.02]"
+          >
+            {/* Dino */}
             <motion.div 
-              animate={{ 
-                x: [-20, 640],
-              }}
-              transition={{ 
-                duration: 8, 
-                repeat: Infinity, 
-                ease: "linear" 
-              }}
-              className="mb-[-2px] ml-10"
+              animate={{ y: -dinoY }}
+              transition={{ type: "just" }}
+              className="absolute left-10 bottom-0 mb-[-2px]"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
                 <path d="M22 10H20V8H18V6H12V8H10V10H8V12H6V14H4V18H6V20H8V22H10V20H14V18H16V16H18V14H20V12H22V10Z" fill="#535353"/>
                 <path d="M12 10H14V12H12V10Z" fill="white"/>
+                {/* Legs animation when playing */}
+                {isPlaying && !isJumping && (
+                  <motion.path 
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 0.2, repeat: Infinity }}
+                    d="M10 20H12V22H10V20ZM14 20H16V22H14V20Z" 
+                    fill="#F0EDE7"
+                  />
+                )}
               </svg>
             </motion.div>
+
+            {/* Obstacles */}
+            {obstacles.map(obs => (
+              <div 
+                key={obs.id}
+                className="absolute bottom-0 mb-[-2px]"
+                style={{ left: `${obs.x}px` }}
+              >
+                <svg width="20" height="30" viewBox="0 0 20 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 30H12V0H8V30Z" fill="#535353"/>
+                  <path d="M4 10H8V14H4V10Z" fill="#535353"/>
+                  <path d="M12 5H16V9H12V5Z" fill="#535353"/>
+                </svg>
+              </div>
+            ))}
+
+            {isGameOver && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-[1px]">
+                <div className="bg-[#F0EDE7] px-4 py-2 rounded-lg border border-[#E5D7C4] shadow-sm flex flex-col items-center">
+                  <span className="text-[10px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-1">Retry?</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#535353]">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                  </svg>
+                </div>
+              </div>
+            )}
+            
             <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#E5D7C4]"></div>
           </div>
         </div>
