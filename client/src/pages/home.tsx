@@ -60,7 +60,7 @@ export default function Home() {
 
         {/* Contact Section */}
         <div className="px-5 md:px-8 py-4 flex justify-between items-center">
-          <a href="mailto:matt@gmail.com" className="flex items-center gap-2 text-[14px] text-[#666666] hover:text-[#1A1A1A] transition-colors">
+          <a href="mailto:matt@gmail.com" className="flex items-center gap-2 text-base text-[#666666] hover:text-[#1A1A1A] transition-colors">
             <Mail className="w-[18px] h-[18px]" />
             matt@gmail.com
           </a>
@@ -95,21 +95,21 @@ export default function Home() {
         <div className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#888888] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-3">
-            <div className="flex justify-between items-center text-[14px]">
+            <div className="flex justify-between items-center text-base">
               <div className="flex items-center gap-3">
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
                 <span className="text-[#1A1A1A]">2025 / Apple</span>
               </div>
               <span className="text-[#666666]">Staff Product Designer</span>
             </div>
-            <div className="flex justify-between items-center text-[14px]">
+            <div className="flex justify-between items-center text-base">
               <div className="flex items-center gap-3">
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
                 <span className="text-[#1A1A1A]">2025 / Apple</span>
               </div>
               <span className="text-[#666666]">Lead Product Designer</span>
             </div>
-            <div className="flex justify-between items-center text-[14px]">
+            <div className="flex justify-between items-center text-base">
               <div className="flex items-center gap-3">
                 <span className="text-[#888888] font-light text-lg leading-none mt-[1px]">+</span>
                 <span className="text-[#1A1A1A]">2025 / Apple</span>
@@ -132,7 +132,7 @@ export default function Home() {
                 <img src={project1} alt="Slate" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-              <p className="text-[14px] text-[#666666] leading-relaxed">
+              <p className="text-base text-[#666666] leading-relaxed">
                 A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function Home() {
                 <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-              <p className="text-[14px] text-[#666666] leading-relaxed">
+              <p className="text-base text-[#666666] leading-relaxed">
                 A dynamic, animation-focused landing page highlighting creative transitions.
               </p>
             </div>
@@ -154,7 +154,7 @@ export default function Home() {
                 <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-              <p className="text-[14px] text-[#666666] leading-relaxed">
+              <p className="text-base text-[#666666] leading-relaxed">
                 A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
             </div>
@@ -165,7 +165,7 @@ export default function Home() {
                 <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-              <p className="text-[14px] text-[#666666] leading-relaxed">
+              <p className="text-base text-[#666666] leading-relaxed">
                 A dynamic, animation-focused landing page highlighting creative transitions.
               </p>
             </div>
