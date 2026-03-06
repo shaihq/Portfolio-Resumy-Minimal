@@ -473,8 +473,8 @@ export default function Home() {
                     <AvatarFallback>{rec.name[0]}</AvatarFallback>
                   </Avatar>
                 </div>
-                <div className="p-1">
-                  <div className="border border-dashed border-[#E5D7C4] rounded-[12px] p-6">
+                <div className="p-0">
+                  <div className="border border-dashed border-[#E5D7C4] rounded-[12px] p-4">
                     <p className="text-[#7A736C] text-sm md:text-[15px] leading-relaxed">
                       {rec.content}
                     </p>
