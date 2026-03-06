@@ -584,14 +584,13 @@ export default function Home() {
               transition={{ type: "just" }}
               className="absolute left-12 bottom-0 mb-[-2px] z-20"
             >
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
-                <path d="M22 10H20V8H18V6H12V8H10V10H8V12H6V14H4V18H6V20H8V22H10V20H14V18H16V16H18V14H20V12H22V10Z" fill="#535353"/>
-                <path d="M12 10H14V12H12V10Z" fill="white"/>
+              <svg width="40" height="40" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+                <path d="M45.4502 6.75024V8.55005H47.25V18.7317H35.1006V20.2502H40.5V21.5999H35.1006V25.6497H39.1504V29.7004H37.3506V27.8997H35.1006V34.6497H33.2998V37.8H31.0498V40.05H29.25V48.1497H31.0498V49.9504H27.4502L27 43.6497H25.6504V41.8499H23.4004V43.6497H21.1504V45.8997H18.9004V48.1497H21.1504V49.9504H17.1006V41.8499H14.8506V40.05H13.0498V37.8H10.7998V35.55H9V33.3H7.2002V22.05H9V25.6497H10.7998V27.8997H13.0498V29.7004H17.1006V27.8997H19.3506V25.6497H22.0498V23.8499H25.2002V21.5999H27.1689L27.4502 8.55005H29.25V6.30005L45.4502 6.75024ZM31.0498 10.3499V14.8499H35.5498V10.3499H31.0498ZM34.6504 11.2502V13.9504H31.9502V11.2502H34.6504Z" fill="#535353"/>
                 {isPlaying && !isJumping && (
                   <motion.path 
                     animate={{ opacity: [1, 0, 1] }}
                     transition={{ duration: 0.2, repeat: Infinity }}
-                    d="M10 20H12V22H10V20ZM14 20H16V22H14V20Z" 
+                    d="M18.9004 48.1497H21.1504V49.9504H17.1006V41.8499M29.25 48.1497H31.0498V49.9504H27.4502L27 43.6497" 
                     fill="#F0EDE7"
                   />
                 )}
