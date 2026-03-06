@@ -53,8 +53,8 @@ export default function Home() {
     if (isJumping) return;
 
     setIsJumping(true);
-    let velocity = 17; // Increased jump power further
-    const gravity = 0.7; // Slightly lower gravity for better hang time
+    let velocity = 12; // Reduced jump power for a more natural feel
+    const gravity = 0.6; // Smoother gravity for better control
     let currentY = 0;
 
     const jumpFrame = () => {
@@ -114,10 +114,11 @@ export default function Home() {
             // 1. Dino's right side is past obstacle's left side
             // 2. Dino's left side hasn't passed obstacle's right side
             // 3. Dino's bottom is NOT high enough to clear the obstacle top
+            // Very lenient collision: only hit if almost completely overlapping and low
             if (
-              dinoRight - 22 > obsLeft && 
-              dinoLeft + 22 < obsRight && 
-              dinoBottom < obsTop - 5
+              dinoRight - 28 > obsLeft && 
+              dinoLeft + 28 < obsRight && 
+              dinoBottom < obsTop - 15
             ) {
               setIsGameOver(true);
               setIsPlaying(false);
