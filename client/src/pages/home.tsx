@@ -1,9 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
+import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
@@ -390,51 +391,58 @@ export default function Home() {
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
-            {/* Project 1 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
-              <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                <img src={project1} alt="Slate" className="w-full h-full object-cover" />
+          <CursorProvider>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
+              {/* Project 1 */}
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+                  <img src={project1} alt="Slate" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
+                <p className="text-base text-[#7A736C] leading-relaxed">
+                  A sleek and responsive landing page designed for modern startups to showcase their product.
+                </p>
               </div>
-              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-              <p className="text-base text-[#7A736C] leading-relaxed">
-                A sleek and responsive landing page designed for modern startups to showcase their product.
-              </p>
-            </div>
 
-            {/* Project 2 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
-              <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
+              {/* Project 2 */}
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+                  <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
+                <p className="text-base text-[#7A736C] leading-relaxed">
+                  A dynamic, animation-focused landing page highlighting creative transitions.
+                </p>
               </div>
-              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-              <p className="text-base text-[#7A736C] leading-relaxed">
-                A dynamic, animation-focused landing page highlighting creative transitions.
-              </p>
-            </div>
 
-            {/* Project 3 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
-              <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
+              {/* Project 3 */}
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+                  <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
+                <p className="text-base text-[#7A736C] leading-relaxed">
+                  A sleek and responsive landing page designed for modern startups to showcase their product.
+                </p>
               </div>
-              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-              <p className="text-base text-[#7A736C] leading-relaxed">
-                A sleek and responsive landing page designed for modern startups to showcase their product.
-              </p>
-            </div>
 
-            {/* Project 4 */}
-            <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
-              <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
-                <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
+              {/* Project 4 */}
+              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.03] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+                  <img src={project4} alt="TaskMaster" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
+                <p className="text-base text-[#7A736C] leading-relaxed">
+                  A dynamic, animation-focused landing page highlighting creative transitions.
+                </p>
               </div>
-              <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-              <p className="text-base text-[#7A736C] leading-relaxed">
-                A dynamic, animation-focused landing page highlighting creative transitions.
-              </p>
             </div>
-          </div>
+            <CursorFollow>
+              <div className="bg-[#1A1A1A] text-[#F0EDE7] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
+                View Project <ArrowUpRight size={14} />
+              </div>
+            </CursorFollow>
+          </CursorProvider>
         </motion.div>
 
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
