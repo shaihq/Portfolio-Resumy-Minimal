@@ -22,34 +22,32 @@ export default function Navbar() {
             </Button>
           </div>
 
-          {/* Middle Actions */}
+          {/* Right Actions */}
           <div className="flex items-center gap-2">
             <Button 
               variant="secondary" 
               size="icon"
-              className="text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9"
+              className="text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full"
             >
               <Settings size={18} />
             </Button>
             <Button 
               variant="secondary" 
               size="icon"
-              className="text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9"
+              className="text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full"
             >
               <LayoutGrid size={18} />
             </Button>
             <Button 
-              className="bg-black dark:bg-white text-white dark:text-black hover:bg-[#1A1A1A] dark:hover:bg-[#F0EDE7] font-medium px-6 h-9 text-sm"
+              className="bg-black dark:bg-white text-white dark:text-black hover:bg-[#1A1A1A] dark:hover:bg-[#F0EDE7] font-medium px-6 h-9 text-sm rounded-full"
             >
               Publish
             </Button>
+            <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0">
+              <AvatarImage src={profileImg} alt="Profile" />
+              <AvatarFallback>MB</AvatarFallback>
+            </Avatar>
           </div>
-
-          {/* Avatar */}
-          <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0">
-            <AvatarImage src={profileImg} alt="Profile" />
-            <AvatarFallback>MB</AvatarFallback>
-          </Avatar>
         </div>
       </nav>
     </div>
