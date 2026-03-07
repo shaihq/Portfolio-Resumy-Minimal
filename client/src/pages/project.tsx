@@ -167,16 +167,19 @@ export default function Project() {
           />
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
-
         {/* Project Details */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Project Details</h2>
-          <div className="space-y-4">
-            {Object.entries(project.details).map(([key, value]) => (
-              <div key={key} className="flex justify-between items-start py-2 border-b border-[#E5D7C4]/50">
+          <div className="flex items-center gap-2 mb-6">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34]">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest">Project Details</h2>
+          </div>
+          <div className="border border-[#D4C5B0] rounded-lg overflow-hidden">
+            {Object.entries(project.details).map(([key, value], index) => (
+              <div key={key} className={`flex justify-between items-center px-6 py-4 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#D4C5B0]' : ''}`}>
                 <span className="text-[12px] font-medium text-[#463B34] uppercase tracking-wide">{key}</span>
-                <span className="text-base text-[#1A1A1A]">{value}</span>
+                <span className="text-base text-[#7A736C]">{value}</span>
               </div>
             ))}
           </div>
