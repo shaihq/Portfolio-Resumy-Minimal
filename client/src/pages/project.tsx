@@ -9,6 +9,7 @@ import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
 import project4 from "@/assets/images/project4.png";
 import slateImage from "@assets/image_1772894732476.png";
+import exampleImage from "@assets/image_1772895387927.png";
 
 const projectsData: Record<string, any> = {
   slate: {
@@ -23,15 +24,12 @@ const projectsData: Record<string, any> = {
       industry: "SaaS",
       platform: "Web app"
     },
-    introduction: "Slate represents a modern approach to landing page design. Part of the design systems family, Slate is built to help early-stage companies present their products with clarity and impact. It offers clean layouts, intuitive navigation, and customizable components aimed at making the product experience smoother and more efficient.",
+    introduction: "Freshsales, part of the Freshworks family, is a CRM designed to help sales teams manage leads, track deals, and close more business with less effort. It offers tools like email tracking, deal pipelines, and AI-powered insights, all aimed at making the sales process smoother and more efficient.\n\nIn this project, I'm redesigning the quote builder experience. The focus is on making it simpler and more intuitive for users to create and share quotes effortlessly. It's a meaningful update to a feature that's central to the sales workflow.",
     examples: [
       {
-        title: "Responsive Design",
-        description: "The design adapts seamlessly across all devices, ensuring a consistent experience whether viewed on desktop, tablet, or mobile. Every breakpoint has been carefully considered to maintain visual hierarchy and usability."
-      },
-      {
-        title: "Interactive Elements",
-        description: "Smooth transitions and micro-interactions guide users through the product, making the experience feel thoughtful and intentional. Animation is used purposefully to enhance, not distract."
+        title: "Examples",
+        description: "Freshsales, part of the Freshworks family, is a CRM designed to help sales teams manage leads, track deals, and close more business with less effort. It offers tools like email tracking, deal pipelines, and AI-powered insights, all aimed at making the sales process smoother and more efficient.\n\nIn this project, I'm redesigning the quote builder experience. The focus is on making it simpler and more intuitive for users to create and share quotes effortlessly. It's a meaningful update to a feature that's central to the sales workflow.",
+        image: exampleImage
       }
     ]
   },
@@ -195,11 +193,26 @@ export default function Project() {
 
         {/* Introduction */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Introduction</h2>
-          <p className="text-[#7A736C] leading-[1.7] text-base">
-            {project.introduction}
-          </p>
+          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
+          <div className="space-y-4 mb-6">
+            {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
+              <p key={idx} className="text-[#7A736C] leading-[1.7] text-base">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </motion.div>
+
+        {/* Introduction Image */}
+        {project.examples && project.examples[0]?.image && (
+          <motion.div variants={itemVariants} className="px-5 md:px-8 pb-8">
+            <img 
+              src={project.examples[0].image} 
+              alt="Introduction example"
+              className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5"
+            />
+          </motion.div>
+        )}
 
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
@@ -208,11 +221,26 @@ export default function Project() {
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Examples</h2>
           <div className="space-y-6">
             {project.examples.map((example: any, index: number) => (
-              <div key={index} className="space-y-3">
-                <h3 className="font-semibold text-base text-[#1A1A1A]">{example.title}</h3>
-                <p className="text-[#7A736C] text-base leading-relaxed">
-                  {example.description}
-                </p>
+              <div key={index} className="space-y-4">
+                {index > 0 && (
+                  <>
+                    <h3 className="font-semibold text-lg text-[#1A1A1A]">{example.title}</h3>
+                    <div className="space-y-3">
+                      {example.description.split('\n\n').map((paragraph: string, pIdx: number) => (
+                        <p key={pIdx} className="text-[#7A736C] text-base leading-[1.7]">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                    {example.image && (
+                      <img 
+                        src={example.image} 
+                        alt={example.title}
+                        className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5 mt-4"
+                      />
+                    )}
+                  </>
+                )}
               </div>
             ))}
           </div>
