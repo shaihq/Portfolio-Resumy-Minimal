@@ -68,6 +68,11 @@ export default function Project() {
   const projectId = (params?.id as string)?.toLowerCase();
   const project = projectsData[projectId] || projectsData.slate;
 
+  // Scroll to top on mount
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [projectId]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
