@@ -298,7 +298,7 @@ export default function Home() {
 
         {/* Intro Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
           <p className="text-[#7A736C] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
@@ -308,7 +308,7 @@ export default function Home() {
 
         {/* Experience Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
               <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] -mx-3 px-3">
@@ -395,7 +395,7 @@ export default function Home() {
 
         {/* Projects Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
           
           <CursorProvider>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
@@ -455,7 +455,7 @@ export default function Home() {
 
         {/* Recommendations Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
           <div className="space-y-6">
             {[
               {
@@ -503,7 +503,7 @@ export default function Home() {
 
         {/* My Story Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
           
           <div className="relative mb-8 h-56 flex items-center justify-center">
             <motion.div 
@@ -550,7 +550,7 @@ export default function Home() {
 
         {/* Stack Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
           <div className="flex flex-wrap gap-6 items-center">
             {[
               { name: "Figma", icon: "/tools/image 4.png" },
@@ -576,7 +576,7 @@ export default function Home() {
 
         {/* Contact Section (Grid) */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
             <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
               <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
