@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LayoutGrid, Settings, ChevronDown } from "lucide-react";
+import { ChevronDown, Lightbulb, Palette, Eye } from "lucide-react";
 import profileImg from "@/assets/images/profile.png";
 
 export default function Navbar() {
@@ -43,18 +43,32 @@ export default function Navbar() {
               variant="secondary" 
               size="icon"
               className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
+              data-testid="button-insights"
+              title="Insights"
             >
-              <Settings size={18} />
+              <Lightbulb size={18} />
             </Button>
             <Button 
               variant="secondary" 
               size="icon"
               className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
+              data-testid="button-themes"
+              title="Themes"
             >
-              <LayoutGrid size={18} />
+              <Palette size={18} />
+            </Button>
+            <Button 
+              variant="secondary" 
+              size="icon"
+              className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
+              data-testid="button-preview"
+              title="Preview"
+            >
+              <Eye size={18} />
             </Button>
             <Button 
               className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium px-6 h-9 text-sm rounded-full hover:cursor-pointer"
+              data-testid="button-publish"
             >
               Publish
             </Button>
