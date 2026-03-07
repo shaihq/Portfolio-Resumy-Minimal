@@ -6,7 +6,7 @@ import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
-import profileImg from "@/assets/images/profile.png";
+import profileImg from "@assets/image_1772896095217.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
