@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
@@ -211,13 +212,15 @@ export default function Home() {
   };
 
   return (
-    <motion.div 
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
-    >
-      <style dangerouslySetInnerHTML={{ __html: `
+    <>
+      <Navbar />
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
+      >
+        <style dangerouslySetInnerHTML={{ __html: `
         .custom-dashed-x {
           position: relative;
         }
@@ -745,6 +748,7 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 }
