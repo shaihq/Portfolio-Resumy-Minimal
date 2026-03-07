@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
-import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle } from "lucide-animated";
+import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
@@ -23,6 +23,7 @@ export default function Home() {
   const atSignRef = useRef<AtSignIconHandle>(null);
   const downloadRef = useRef<DownloadIconHandle>(null);
   const dribbbleRef = useRef<DribbbleIconHandle>(null);
+  const twitterRef = useRef<TwitterIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const handleProjectClick = (projectId: string) => {
@@ -305,7 +306,14 @@ export default function Home() {
             >
               <DribbbleIcon ref={dribbbleRef} size={16} className="transition-colors" />
             </a>
-            <a href="#" className="hover:opacity-70 transition-opacity"><Twitter className="w-4 h-4" /></a>
+            <a 
+              href="#" 
+              className="hover:opacity-70 transition-opacity"
+              onMouseEnter={() => twitterRef.current?.startAnimation()}
+              onMouseLeave={() => twitterRef.current?.stopAnimation()}
+            >
+              <TwitterIcon ref={twitterRef} size={16} className="transition-colors" />
+            </a>
             <a href="#" className="hover:opacity-70 transition-opacity">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
                 <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
