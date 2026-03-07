@@ -51,10 +51,10 @@ export default function Navbar() {
                 <Button 
                   variant="secondary" 
                   size="icon"
-                  className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
+                  className="group bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
                   data-testid="button-insights"
                 >
-                  <ChartSpline size={18} />
+                  <ChartSpline size={18} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Insights</TooltipContent>
@@ -64,10 +64,10 @@ export default function Navbar() {
                 <Button 
                   variant="secondary" 
                   size="icon"
-                  className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
+                  className="group bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
                   data-testid="button-themes"
                 >
-                  <PartyPopper size={18} />
+                  <PartyPopper size={18} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Themes</TooltipContent>
@@ -77,10 +77,10 @@ export default function Navbar() {
                 <Button 
                   variant="secondary" 
                   size="icon"
-                  className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
+                  className="group bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
                   data-testid="button-preview"
                 >
-                  <Eye size={18} />
+                  <Eye size={18} className="transition-transform duration-300 group-hover:scale-125" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Preview</TooltipContent>
