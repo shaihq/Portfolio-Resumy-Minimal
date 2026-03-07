@@ -25,14 +25,14 @@ export default function Navbar() {
           {/* Middle Actions */}
           <div className="flex items-center gap-2">
             <Button 
-              variant="ghost" 
+              variant="secondary" 
               size="icon"
               className="text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9"
             >
               <Settings size={18} />
             </Button>
             <Button 
-              variant="ghost" 
+              variant="secondary" 
               size="icon"
               className="text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9"
             >
