@@ -54,7 +54,7 @@ export default function Navbar() {
               <LayoutGrid size={18} />
             </Button>
             <Button 
-              className="bg-black dark:bg-white text-white dark:text-black hover:bg-[#1A1A1A] dark:hover:bg-[#F0EDE7] font-medium px-6 h-9 text-sm rounded-full"
+              className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium px-6 h-9 text-sm rounded-full"
             >
               Publish
             </Button>
