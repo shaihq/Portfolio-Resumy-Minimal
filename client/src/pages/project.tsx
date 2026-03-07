@@ -6,14 +6,15 @@ import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
 import project4 from "@/assets/images/project4.png";
+import slateImage from "@assets/image_1772894732476.png";
 
 const projectsData: Record<string, any> = {
   slate: {
     id: "slate",
-    title: "Slate",
-    subtitle: "A sleek and responsive landing page designed for modern startups",
-    description: "Focused on enhancing the experience for customers in the U.X.",
-    image: project1,
+    title: "Redesigning Quote Builder at Freshworks for 1,900+ Enterprise Users",
+    subtitle: "Focused on enhancing the experience for customers in the U.S.",
+    description: "Focused on enhancing the experience for customers in the U.S.",
+    image: slateImage,
     details: {
       client: "Startup Co.",
       role: "Lead Designer",
