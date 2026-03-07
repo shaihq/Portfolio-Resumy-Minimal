@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
-import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
+import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
@@ -22,6 +22,7 @@ export default function Home() {
   const [, navigate] = useLocation();
   const atSignRef = useRef<AtSignIconHandle>(null);
   const downloadRef = useRef<DownloadIconHandle>(null);
+  const dribbbleRef = useRef<DribbbleIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const handleProjectClick = (projectId: string) => {
@@ -296,12 +297,15 @@ export default function Home() {
             matt@gmail.com
           </a>
           <div className="flex items-center gap-5 text-[#1A1A1A] dark:text-[#F0EDE7]">
-            <a href="#" className="hover:opacity-70 transition-opacity"><Dribbble className="w-4 h-4" /></a>
-            <a href="#" className="hover:opacity-70 transition-opacity">
-              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
+            <a 
+              href="#" 
+              className="hover:opacity-70 transition-opacity"
+              onMouseEnter={() => dribbbleRef.current?.startAnimation()}
+              onMouseLeave={() => dribbbleRef.current?.stopAnimation()}
+            >
+              <DribbbleIcon ref={dribbbleRef} size={16} className="transition-colors" />
             </a>
+            <a href="#" className="hover:opacity-70 transition-opacity"><Twitter className="w-4 h-4" /></a>
             <a href="#" className="hover:opacity-70 transition-opacity">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
                 <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
