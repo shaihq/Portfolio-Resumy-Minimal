@@ -253,7 +253,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
               <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A]">Hey I'm Matt.</h1>
-              <p className="text-[#7A736C] text-base">Product Designer</p>
+              <p className="text-[#7A736C] text-base" style={{ fontWeight: 450 }}>Product Designer</p>
             </div>
             <a 
               href="#" 
@@ -299,7 +299,7 @@ export default function Home() {
         {/* Intro Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
-          <p className="text-[#7A736C] leading-[1.7] text-base">
+          <p className="text-[#7A736C] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
         </motion.div>
@@ -405,7 +405,7 @@ export default function Home() {
                   <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed">
+                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
                   A sleek and responsive landing page designed for modern startups to showcase their product.
                 </p>
               </div>
@@ -416,7 +416,7 @@ export default function Home() {
                   <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed">
+                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
                   A dynamic, animation-focused landing page highlighting creative transitions.
                 </p>
               </div>
@@ -427,7 +427,7 @@ export default function Home() {
                   <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed">
+                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
                   A sleek and responsive landing page designed for modern startups to showcase their product.
                 </p>
               </div>
@@ -438,7 +438,7 @@ export default function Home() {
                   <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed">
+                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
                   A dynamic, animation-focused landing page highlighting creative transitions.
                 </p>
               </div>
@@ -489,7 +489,7 @@ export default function Home() {
                 </div>
                 <div className="p-0">
                   <div className="border border-dashed border-[#E5D7C4] rounded-[12px] p-4">
-                    <p className="text-[#7A736C] text-sm md:text-[15px] leading-relaxed">
+                    <p className="text-[#7A736C] text-sm md:text-[15px] leading-relaxed" style={{ fontWeight: 450 }}>
                       {rec.content}
                     </p>
                   </div>
