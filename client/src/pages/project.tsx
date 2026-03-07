@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Phone } from "lucide-react";
 import { motion } from "framer-motion";
+import { AtSignIcon } from "lucide-animated";
+import { Button } from "@/components/ui/button";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
@@ -112,6 +114,9 @@ export default function Project() {
       className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]"
     >
       <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+      `}} />
+      <style dangerouslySetInnerHTML={{ __html: `
         .custom-dashed-x {
           position: relative;
         }
@@ -215,22 +220,26 @@ export default function Project() {
 
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
-        {/* Contact CTA */}
+        {/* Contact CTA / Footer */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-12 flex flex-col items-center text-center">
-          <h2 className="text-[20px] font-semibold mb-2 text-[#1A1A1A]">More stories.</h2>
-          <p className="text-[#7A736C] mb-6 text-base">Got a project in mind or just curious? Let's talk.</p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button className="px-6 py-2 text-[13px] font-medium text-[#1A1A1A] border border-[#1A1A1A] rounded-lg hover:bg-[#1A1A1A] hover:text-[#F0EDE7] transition-colors">
-              Copy mail
-            </button>
-            <button className="px-6 py-2 text-[13px] font-medium text-[#1A1A1A] border border-[#1A1A1A] rounded-lg hover:bg-[#1A1A1A] hover:text-[#F0EDE7] transition-colors">
-              Copy phone
-            </button>
+          <h1 className="text-[28px] font-['Cedarville_Cursive'] text-[#1A1A1A] mb-6">Mike Starves</h1>
+          <p className="text-[#1A1A1A] mb-8 text-base font-semibold max-w-sm">Got a project in mind or just curious? Let's talk.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+              <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
+              <AtSignIcon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            </Button>
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+              <span className="text-[#1A1A1A] font-medium text-sm">Copy phone</span>
+              <Phone size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            </Button>
           </div>
         </motion.div>
 
+        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+
         {/* Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-6 text-center border-t border-[#E5D7C4]/50">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-6 text-center">
           <p className="text-[12px] text-[#7A736C]">© ALL RIGHTS RESERVED.</p>
         </motion.div>
       </div>
