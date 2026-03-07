@@ -9,7 +9,7 @@ import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
 import project4 from "@/assets/images/project4.png";
 import slateImage from "@assets/image_1772894732476.png";
-import exampleImage from "@assets/image_1772895387927.png";
+import contentImage from "@assets/image_1772895554431.png";
 
 const projectsData: Record<string, any> = {
   slate: {
@@ -25,13 +25,7 @@ const projectsData: Record<string, any> = {
       platform: "Web app"
     },
     introduction: "Freshsales, part of the Freshworks family, is a CRM designed to help sales teams manage leads, track deals, and close more business with less effort. It offers tools like email tracking, deal pipelines, and AI-powered insights, all aimed at making the sales process smoother and more efficient.\n\nIn this project, I'm redesigning the quote builder experience. The focus is on making it simpler and more intuitive for users to create and share quotes effortlessly. It's a meaningful update to a feature that's central to the sales workflow.",
-    examples: [
-      {
-        title: "Examples",
-        description: "Freshsales, part of the Freshworks family, is a CRM designed to help sales teams manage leads, track deals, and close more business with less effort. It offers tools like email tracking, deal pipelines, and AI-powered insights, all aimed at making the sales process smoother and more efficient.\n\nIn this project, I'm redesigning the quote builder experience. The focus is on making it simpler and more intuitive for users to create and share quotes effortlessly. It's a meaningful update to a feature that's central to the sales workflow.",
-        image: exampleImage
-      }
-    ]
+    examples: []
   },
   antimetal: {
     id: "antimetal",
@@ -204,46 +198,12 @@ export default function Project() {
         </motion.div>
 
         {/* Introduction Image */}
-        {project.examples && project.examples[0]?.image && (
-          <motion.div variants={itemVariants} className="px-5 md:px-8 pb-8">
-            <img 
-              src={project.examples[0].image} 
-              alt="Introduction example"
-              className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5"
-            />
-          </motion.div>
-        )}
-
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
-
-        {/* Examples */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Examples</h2>
-          <div className="space-y-6">
-            {project.examples.map((example: any, index: number) => (
-              <div key={index} className="space-y-4">
-                {index > 0 && (
-                  <>
-                    <h3 className="font-semibold text-lg text-[#1A1A1A]">{example.title}</h3>
-                    <div className="space-y-3">
-                      {example.description.split('\n\n').map((paragraph: string, pIdx: number) => (
-                        <p key={pIdx} className="text-[#7A736C] text-base leading-[1.7]">
-                          {paragraph}
-                        </p>
-                      ))}
-                    </div>
-                    {example.image && (
-                      <img 
-                        src={example.image} 
-                        alt={example.title}
-                        className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5 mt-4"
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+        <motion.div variants={itemVariants} className="px-5 md:px-8 pb-8">
+          <img 
+            src={contentImage} 
+            alt="Introduction visual"
+            className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5"
+          />
         </motion.div>
 
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
