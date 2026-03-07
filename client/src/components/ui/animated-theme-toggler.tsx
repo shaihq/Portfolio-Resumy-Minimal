@@ -33,8 +33,45 @@ export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) =
     return () => observer.disconnect()
   }, [])
 
+  const playHeartbeat = useCallback(() => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const now = audioContext.currentTime
+
+      // First beat
+      const osc1 = audioContext.createOscillator()
+      const gain1 = audioContext.createGain()
+      osc1.connect(gain1)
+      gain1.connect(audioContext.destination)
+
+      osc1.frequency.setValueAtTime(150, now)
+      gain1.gain.setValueAtTime(0.3, now)
+      gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.1)
+
+      osc1.start(now)
+      osc1.stop(now + 0.1)
+
+      // Second beat (shortly after)
+      const osc2 = audioContext.createOscillator()
+      const gain2 = audioContext.createGain()
+      osc2.connect(gain2)
+      gain2.connect(audioContext.destination)
+
+      osc2.frequency.setValueAtTime(180, now + 0.12)
+      gain2.gain.setValueAtTime(0.2, now + 0.12)
+      gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.22)
+
+      osc2.start(now + 0.12)
+      osc2.stop(now + 0.22)
+    } catch (e) {
+      // Silently fail if audio context is not available
+    }
+  }, [])
+
   const onToggle = useCallback(async () => {
     if (!buttonRef.current) return
+
+    playHeartbeat()
 
     await document.startViewTransition(() => {
       flushSync(() => {
@@ -66,7 +103,7 @@ export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) =
         pseudoElement: "::view-transition-new(root)",
       }
     )
-  }, [darkMode])
+  }, [darkMode, playHeartbeat])
 
   return (
     <button
@@ -74,7 +111,8 @@ export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) =
       onClick={onToggle}
       aria-label="Switch theme"
       className={cn(
-        "flex items-center justify-center p-2 rounded-full outline-none focus:outline-none active:outline-none focus:ring-0 cursor-pointer hover:opacity-70 transition-opacity",
+        "flex items-center justify-center px-4 py-2 rounded-lg border-2 border-current outline-none focus:outline-none active:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer hover:opacity-80 transition-all",
+        darkMode ? "border-white text-white focus:ring-white" : "border-black text-black focus:ring-black",
         className
       )}
       type="button"
