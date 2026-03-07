@@ -626,7 +626,7 @@ export default function Home() {
 
         {/* Dino Game Section */}
         <motion.div variants={itemVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
-          <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34]/60 pointer-events-none">
+          <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34] dark:text-[#C4B5A0] pointer-events-none">
             <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
             <div className="flex gap-4">
               <span>HI {String(highScore).padStart(5, '0')}</span>
