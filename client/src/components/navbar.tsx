@@ -12,7 +12,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ChevronDown, Lightbulb, Palette, Eye } from "lucide-react";
+import { ChevronDown, Palette, Eye } from "lucide-react";
+import { Lightbulb } from "animate-ui";
 import profileImg from "@/assets/images/profile.png";
 
 export default function Navbar() {
