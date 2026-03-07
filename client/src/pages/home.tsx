@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
@@ -17,9 +18,14 @@ import story3 from "@/assets/images/story-3.jpg";
 import story4 from "@/assets/images/story-4.jpg";
 
 export default function Home() {
+  const [, navigate] = useLocation();
   const atSignRef = useRef<AtSignIconHandle>(null);
   const downloadRef = useRef<DownloadIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const handleProjectClick = (projectId: string) => {
+    navigate(`/project/${projectId}`);
+  };
 
   // Dino Game State
   const [isPlaying, setIsPlaying] = useState(false);
@@ -394,7 +400,7 @@ export default function Home() {
           <CursorProvider>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
               {/* Project 1 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
+              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                   <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
@@ -405,7 +411,7 @@ export default function Home() {
               </div>
 
               {/* Project 2 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
+              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                   <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
@@ -416,7 +422,7 @@ export default function Home() {
               </div>
 
               {/* Project 3 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
+              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                   <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
@@ -427,7 +433,7 @@ export default function Home() {
               </div>
 
               {/* Project 4 */}
-              <div className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
+              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
                 <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
                   <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
