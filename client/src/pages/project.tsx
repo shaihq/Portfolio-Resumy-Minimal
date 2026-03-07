@@ -153,7 +153,7 @@ export default function Project() {
         {/* Project Title & Intro */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6">
           <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A]">{project.title}</h1>
-          <p className="text-[#7A736C] text-base mb-4">{project.subtitle}</p>
+          <p className="text-[#7A736C] text-base mb-4" style={{ fontWeight: 450 }}>{project.subtitle}</p>
         </motion.div>
 
         {/* Featured Image */}
@@ -177,7 +177,7 @@ export default function Project() {
             {Object.entries(project.details).map(([key, value], index) => (
               <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD]' : ''}`}>
                 <span className="text-[12px] font-medium text-[#463B34] uppercase tracking-wide">{key}</span>
-                <span className="text-base text-[#7A736C]">{value}</span>
+                <span className="text-base text-[#7A736C]" style={{ fontWeight: 450 }}>{value}</span>
               </div>
             ))}
           </div>
@@ -190,7 +190,7 @@ export default function Project() {
           <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
           <div className="space-y-4 mb-6">
             {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
-              <p key={idx} className="text-[#7A736C] leading-[1.7] text-base">
+              <p key={idx} className="text-[#7A736C] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
                 {paragraph}
               </p>
             ))}
@@ -228,7 +228,7 @@ export default function Project() {
 
         {/* Footer */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 text-center">
-          <p className="text-[12px] text-[#7A736C]">© ALL RIGHTS RESERVED.</p>
+          <p className="text-[12px] text-[#7A736C]" style={{ fontWeight: 450 }}>© ALL RIGHTS RESERVED.</p>
         </motion.div>
       </div>
     </motion.div>
