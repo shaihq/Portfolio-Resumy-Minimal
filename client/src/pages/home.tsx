@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle } from "lucide-animated";
@@ -212,7 +213,7 @@ export default function Home() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]"
+      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
     >
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-dashed-x {
@@ -228,6 +229,9 @@ export default function Home() {
           background-size: 1px 10px;
           z-index: 50;
         }
+        .dark .custom-dashed-x::before, .dark .custom-dashed-x::after {
+          background-image: linear-gradient(to bottom, #3A352E 50%, transparent 50%);
+        }
         .custom-dashed-x::before {
           left: 0;
         }
@@ -240,24 +244,30 @@ export default function Home() {
           background-image: linear-gradient(to right, #E5D7C4 50%, transparent 50%);
           background-size: 10px 1px;
         }
+        .dark .custom-dashed-t {
+          background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
+        }
       `}} />
-      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col font-['Inter']">
+      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
         
         {/* Header Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
-          <Avatar className="w-[80px] h-[80px] rounded-2xl mb-6">
-            <AvatarImage src={profileImg} className="object-cover" />
-            <AvatarFallback>M</AvatarFallback>
-          </Avatar>
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <Avatar className="w-[80px] h-[80px] rounded-2xl">
+              <AvatarImage src={profileImg} className="object-cover" />
+              <AvatarFallback>M</AvatarFallback>
+            </Avatar>
+            <AnimatedThemeToggler className="mt-1" />
+          </div>
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A]">Hey I'm Matt.</h1>
-              <p className="text-[#7A736C] text-base" style={{ fontWeight: 450 }}>Product Designer</p>
+              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base" style={{ fontWeight: 450 }}>Product Designer</p>
             </div>
             <a 
               href="#" 
-              className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] pb-0.5 hover:opacity-70 transition-opacity w-fit group/download"
+              className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] dark:border-[#F0EDE7] pb-0.5 hover:opacity-70 transition-opacity w-fit group/download text-[#1A1A1A] dark:text-[#F0EDE7]"
               onMouseEnter={() => downloadRef.current?.startAnimation()}
               onMouseLeave={() => downloadRef.current?.stopAnimation()}
             >
@@ -272,14 +282,14 @@ export default function Home() {
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 flex justify-between items-center">
           <a 
             href="mailto:matt@gmail.com" 
-            className="flex items-center gap-2 text-base text-[#666666] hover:text-[#1A1A1A] transition-colors group"
+            className="flex items-center gap-2 text-base text-[#666666] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
             onMouseEnter={() => atSignRef.current?.startAnimation()}
             onMouseLeave={() => atSignRef.current?.stopAnimation()}
           >
             <AtSignIcon ref={atSignRef} size={18} className="transition-colors" />
             matt@gmail.com
           </a>
-          <div className="flex items-center gap-5 text-[#1A1A1A]">
+          <div className="flex items-center gap-5 text-[#1A1A1A] dark:text-[#F0EDE7]">
             <a href="#" className="hover:opacity-70 transition-opacity"><Dribbble className="w-4 h-4" /></a>
             <a href="#" className="hover:opacity-70 transition-opacity">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
@@ -298,8 +308,8 @@ export default function Home() {
 
         {/* Intro Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
-          <p className="text-[#7A736C] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
+          <p className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
         </motion.div>
@@ -308,10 +318,10 @@ export default function Home() {
 
         {/* Experience Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
-              <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] -mx-3 px-3">
+              <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05] -mx-3 px-3">
                 <button 
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
                   className="w-full flex justify-between items-center py-2.5 text-base group"
@@ -319,16 +329,16 @@ export default function Home() {
                   <div className="flex items-center gap-3">
                     <motion.span 
                       animate={{ rotate: expandedIndex === index ? 45 : 0 }}
-                      className="text-[#888888] font-light text-lg leading-none mt-[1px] transition-colors group-hover:text-[#1A1A1A]"
+                      className="text-[#888888] dark:text-[#7A736C] font-light text-lg leading-none mt-[1px] transition-colors group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
                     >
                       +
                     </motion.span>
-                    <span className="text-[#1A1A1A]">
-                      <span className="text-[#7A736C]">{exp.year} / </span>
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7]">
+                      <span className="text-[#7A736C] dark:text-[#9E9893]">{exp.year} / </span>
                       {exp.company}
                     </span>
                   </div>
-                  <span className="text-[#7A736C] group-hover:text-[#1A1A1A] transition-colors">{exp.role}</span>
+                  <span className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors">{exp.role}</span>
                 </button>
                 <AnimatePresence>
                   {expandedIndex === index && (
@@ -352,7 +362,7 @@ export default function Home() {
                           }}
                           initial="hidden"
                           animate="show"
-                          className="text-[#7A736C] text-[15px] leading-relaxed break-words whitespace-normal"
+                          className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed break-words whitespace-normal"
                         >
                           {exp.description.split(" ").map((word, wordIndex) => (
                             <span key={wordIndex} className="inline-block whitespace-nowrap">
@@ -395,56 +405,56 @@ export default function Home() {
 
         {/* Projects Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
           
           <CursorProvider>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
               {/* Project 1 */}
-              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
                   <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Slate</h3>
+                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
                   A sleek and responsive landing page designed for modern startups to showcase their product.
                 </p>
               </div>
 
               {/* Project 2 */}
-              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
                   <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Antimetal</h3>
+                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
                   A dynamic, animation-focused landing page highlighting creative transitions.
                 </p>
               </div>
 
               {/* Project 3 */}
-              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
                   <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Slate</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Slate</h3>
+                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
                   A sleek and responsive landing page designed for modern startups to showcase their product.
                 </p>
               </div>
 
               {/* Project 4 */}
-              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] transition-all duration-300">
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white drop-shadow-sm border border-black/5 group-hover:border-black/10 transition-colors">
+              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300">
+                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
                   <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A]">Antimetal</h3>
-                <p className="text-base text-[#7A736C] leading-relaxed" style={{ fontWeight: 450 }}>
+                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Antimetal</h3>
+                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
                   A dynamic, animation-focused landing page highlighting creative transitions.
                 </p>
               </div>
             </div>
             <CursorFollow>
-              <div className="bg-[#1A1A1A] text-[#F0EDE7] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
+              <div className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
                 View Project <ArrowUpRight size={14} />
               </div>
             </CursorFollow>
@@ -455,7 +465,7 @@ export default function Home() {
 
         {/* Recommendations Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
           <div className="space-y-6">
             {[
               {
@@ -471,15 +481,15 @@ export default function Home() {
                 image: recommender1
               }
             ].map((rec, i) => (
-              <div key={i} className="bg-white rounded-[16px] border border-black/5 drop-shadow-sm overflow-hidden group">
+              <div key={i} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group">
                 <div className="flex justify-between items-center px-6 py-4">
                   <div className="flex flex-col">
-                    <h3 className="font-medium text-base text-[#1A1A1A] mb-1">{rec.name}</h3>
+                    <h3 className="font-medium text-base text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">{rec.name}</h3>
                     <div className="flex items-center gap-2">
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-black transition-colors duration-200 hover:text-[#0077B5] cursor-pointer" fill="currentColor">
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-black dark:text-[#F0EDE7] transition-colors duration-200 hover:text-[#0077B5] dark:hover:text-[#87CEEB] cursor-pointer" fill="currentColor">
                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                       </svg>
-                      <span className="text-[13px] text-[#7A736C]">{rec.role}</span>
+                      <span className="text-[13px] text-[#7A736C] dark:text-[#9E9893]">{rec.role}</span>
                     </div>
                   </div>
                   <Avatar className="w-[80px] h-[80px] rounded-none -mr-6 -my-4 transition-all duration-700">
@@ -488,8 +498,8 @@ export default function Home() {
                   </Avatar>
                 </div>
                 <div className="p-0">
-                  <div className="border border-dashed border-[#E5D7C4] rounded-[12px] p-4">
-                    <p className="text-[#7A736C] text-sm md:text-[15px] leading-relaxed" style={{ fontWeight: 450 }}>
+                  <div className="border border-dashed border-[#E5D7C4] dark:border-[#3A352E] rounded-[12px] p-4">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm md:text-[15px] leading-relaxed" style={{ fontWeight: 450 }}>
                       {rec.content}
                     </p>
                   </div>
@@ -503,40 +513,40 @@ export default function Home() {
 
         {/* My Story Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
           
           <div className="relative mb-8 h-56 flex items-center justify-center">
             <motion.div 
               initial={{ rotate: -8, x: -120, y: 0 }}
               whileHover={{ rotate: -2, scale: 1.1, zIndex: 50 }}
-              className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg z-0"
+              className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-0"
             >
               <img src={story1} alt="My workspace" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
               initial={{ rotate: 12, x: -40, y: 15 }}
               whileHover={{ rotate: 5, scale: 1.1, zIndex: 50 }}
-              className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white shadow-lg z-10"
+              className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-10"
             >
               <img src={story2} alt="Designing" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
               initial={{ rotate: -5, x: 40, y: -10 }}
               whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
-              className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg z-20"
+              className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-20"
             >
               <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
               initial={{ rotate: 8, x: 120, y: 20 }}
               whileHover={{ rotate: 3, scale: 1.1, zIndex: 50 }}
-              className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white shadow-lg z-30"
+              className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-30"
             >
               <img src={story4} alt="Creative studio" className="w-full h-full object-cover" />
             </motion.div>
           </div>
 
-          <div className="space-y-6 text-[#7A736C] text-base leading-[1.7]">
+          <div className="space-y-6 text-[#7A736C] dark:text-[#B5AFA5] text-base leading-[1.7]">
             <p>
               I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design.
             </p>
@@ -550,7 +560,7 @@ export default function Home() {
 
         {/* Stack Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
           <div className="flex flex-wrap gap-6 items-center">
             {[
               { name: "Figma", icon: "/tools/image 4.png" },
@@ -576,15 +586,15 @@ export default function Home() {
 
         {/* Contact Section (Grid) */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[14px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
-              <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
-              <AtSignIcon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
+              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy mail</span>
+              <AtSignIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
             </Button>
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
-              <span className="text-[#1A1A1A] font-medium text-sm">Copy phone</span>
-              <Phone size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
+              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy phone</span>
+              <Phone size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
             </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
@@ -594,15 +604,15 @@ export default function Home() {
               { name: "X", icon: Twitter },
               { name: "Medium", icon: Globe },
             ].map((social, i) => (
-              <Button key={i} variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
-                <span className="text-[#1A1A1A] font-medium text-sm">{social.name}</span>
-                <social.icon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+              <Button key={i} variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
+                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">{social.name}</span>
+                <social.icon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
               </Button>
             ))}
           </div>
-          <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
-            <span className="text-[#1A1A1A] font-medium text-sm">View resume</span>
-            <FileText size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+          <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
+            <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">View resume</span>
+            <FileText size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
           </Button>
         </motion.div>
 
