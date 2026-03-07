@@ -153,16 +153,14 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Project Title & Intro */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h1 className="text-[28px] font-semibold mb-2 tracking-tight text-[#1A1A1A]">{project.title}</h1>
+        <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6">
+          <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A]">{project.title}</h1>
           <p className="text-[#7A736C] text-base mb-4">{project.subtitle}</p>
-          <p className="text-[13px] text-[#7A736C]">{project.description}</p>
+          <p className="text-[13px] text-[#7A736C] mb-6">{project.description}</p>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
-
         {/* Featured Image */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 pb-8">
           <img 
             src={project.image} 
             alt={project.title}
