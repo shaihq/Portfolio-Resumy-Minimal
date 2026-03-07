@@ -175,9 +175,9 @@ export default function Project() {
             </svg>
             <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest">Project Details</h2>
           </div>
-          <div className="border border-[#D4C5B0] rounded-lg overflow-hidden">
+          <div className="border border-[#C8C4BD] rounded-lg overflow-hidden bg-[#E7E3D9]">
             {Object.entries(project.details).map(([key, value], index) => (
-              <div key={key} className={`flex justify-between items-center px-6 py-4 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#D4C5B0]' : ''}`}>
+              <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD]' : ''}`}>
                 <span className="text-[12px] font-medium text-[#463B34] uppercase tracking-wide">{key}</span>
                 <span className="text-base text-[#7A736C]">{value}</span>
               </div>
