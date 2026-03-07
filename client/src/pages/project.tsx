@@ -156,7 +156,6 @@ export default function Project() {
         <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6">
           <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A]">{project.title}</h1>
           <p className="text-[#7A736C] text-base mb-4">{project.subtitle}</p>
-          <p className="text-[13px] text-[#7A736C] mb-6">{project.description}</p>
         </motion.div>
 
         {/* Featured Image */}
