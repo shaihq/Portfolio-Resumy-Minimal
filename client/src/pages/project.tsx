@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
@@ -61,17 +62,18 @@ export default function Project() {
   const [match, params] = useRoute("/project/:id");
   const [, navigate] = useLocation();
 
+  const projectId = (params?.id as string)?.toLowerCase();
+
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [projectId]);
+
   if (!match) {
     return null;
   }
 
-  const projectId = (params?.id as string)?.toLowerCase();
   const project = projectsData[projectId] || projectsData.slate;
-
-  // Scroll to top on mount
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [projectId]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
