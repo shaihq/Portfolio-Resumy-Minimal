@@ -6,8 +6,8 @@ import profileImg from "@/assets/images/profile.png";
 export default function Navbar() {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none pt-4 px-4">
-      <nav className="bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/10 rounded-2xl shadow-sm pointer-events-auto">
-        <div className="px-6 md:px-8 py-4 flex items-center justify-between gap-8">
+      <nav className="bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/10 rounded-full shadow-sm pointer-events-auto max-w-[640px] w-full">
+        <div className="px-5 md:px-6 py-3 flex items-center justify-between gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
             <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
