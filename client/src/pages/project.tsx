@@ -221,15 +221,15 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact CTA / Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-12 flex flex-col items-center text-center">
-          <h1 className="text-[28px] font-['Cedarville_Cursive'] text-[#1A1A1A] mb-6">Mike Starves</h1>
-          <p className="text-[#1A1A1A] mb-8 text-base font-semibold max-w-sm">Got a project in mind or just curious? Let's talk.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-5 flex flex-col items-center text-center">
+          <h1 className="text-[23px] font-['Cedarville_Cursive'] text-[#1A1A1A] mb-2">Mike Starves</h1>
+          <p className="text-[#1A1A1A] mb-4 text-[24px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
               <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
               <AtSignIcon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
             </Button>
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-4 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
               <span className="text-[#1A1A1A] font-medium text-sm">Copy phone</span>
               <Phone size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
             </Button>
@@ -239,7 +239,7 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-6 text-center">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 text-center">
           <p className="text-[12px] text-[#7A736C]">© ALL RIGHTS RESERVED.</p>
         </motion.div>
       </div>
