@@ -103,7 +103,7 @@ export default function Project() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-[#F0EDE7] flex justify-center font-['Inter'] text-[#1A1A1A] selection:bg-[#1A1A1A] selection:text-[#F0EDE7]"
+      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
     >
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
@@ -122,6 +122,9 @@ export default function Project() {
           background-size: 1px 10px;
           z-index: 50;
         }
+        .dark .custom-dashed-x::before, .dark .custom-dashed-x::after {
+          background-image: linear-gradient(to bottom, #3A352E 50%, transparent 50%);
+        }
         .custom-dashed-x::before {
           left: 0;
         }
@@ -134,14 +137,17 @@ export default function Project() {
           background-image: linear-gradient(to right, #E5D7C4 50%, transparent 50%);
           background-size: 10px 1px;
         }
+        .dark .custom-dashed-t {
+          background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
+        }
       `}} />
-      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] flex flex-col font-['Inter']">
+      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
         
         {/* Header */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6 flex items-center gap-3">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] hover:text-[#1A1A1A] transition-colors group"
+            className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
           >
             <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-1" />
             Go back
@@ -152,8 +158,8 @@ export default function Project() {
 
         {/* Project Title & Intro */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6">
-          <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A]">{project.title}</h1>
-          <p className="text-[#7A736C] text-base mb-4" style={{ fontWeight: 450 }}>{project.subtitle}</p>
+          <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
+          <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base mb-4" style={{ fontWeight: 450 }}>{project.subtitle}</p>
         </motion.div>
 
         {/* Featured Image */}
@@ -161,23 +167,23 @@ export default function Project() {
           <img 
             src={project.image} 
             alt={project.title}
-            className="w-full rounded-xl overflow-hidden drop-shadow-sm border border-black/5"
+            className="w-full rounded-xl overflow-hidden drop-shadow-sm border border-black/5 dark:border-white/10"
           />
         </motion.div>
 
         {/* Project Details */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-5">
           <div className="flex items-center gap-2 mb-6">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34] dark:text-[#D4C9BC]">
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest">Project Details</h2>
+            <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest">Project Details</h2>
           </div>
-          <div className="border border-[#C8C4BD] rounded-lg overflow-hidden bg-[#E7E3D9]">
+          <div className="border border-[#C8C4BD] dark:border-[#3A352E] rounded-lg overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
             {Object.entries(project.details).map(([key, value], index) => (
-              <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD]' : ''}`}>
-                <span className="text-[12px] font-medium text-[#463B34] uppercase tracking-wide">{key}</span>
-                <span className="text-base text-[#7A736C]" style={{ fontWeight: 450 }}>{value}</span>
+              <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD] dark:border-[#3A352E]' : ''}`}>
+                <span className="text-[12px] font-medium text-[#463B34] dark:text-[#D4C9BC] uppercase tracking-wide">{key}</span>
+                <span className="text-base text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontWeight: 450 }}>{value}</span>
               </div>
             ))}
           </div>
@@ -187,10 +193,10 @@ export default function Project() {
 
         {/* Introduction */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
+          <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
           <div className="space-y-4 mb-6">
             {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
-              <p key={idx} className="text-[#7A736C] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
+              <p key={idx} className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
                 {paragraph}
               </p>
             ))}
@@ -202,7 +208,7 @@ export default function Project() {
           <img 
             src={contentImage} 
             alt="Introduction visual"
-            className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5"
+            className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5 dark:border-white/10"
           />
         </motion.div>
 
@@ -210,16 +216,16 @@ export default function Project() {
 
         {/* Contact CTA / Footer */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-5 flex flex-col items-center text-center">
-          <h1 className="text-[23px] font-['Cedarville_Cursive'] text-[#1A1A1A] mb-2">Mike Starves</h1>
-          <p className="text-[#1A1A1A] mb-4 text-[24px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
+          <h1 className="text-[23px] font-['Cedarville_Cursive'] text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Mike Starves</h1>
+          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4 text-[24px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
-              <span className="text-[#1A1A1A] font-medium text-sm">Copy mail</span>
-              <AtSignIcon size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
+              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy mail</span>
+              <AtSignIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
             </Button>
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border border-black/5 shadow-sm hover:bg-gray-50 transition-colors group h-auto">
-              <span className="text-[#1A1A1A] font-medium text-sm">Copy phone</span>
-              <Phone size={14} className="text-[#7A736C] group-hover:text-[#1A1A1A]" />
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
+              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy phone</span>
+              <Phone size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
             </Button>
           </div>
         </motion.div>
@@ -228,7 +234,7 @@ export default function Project() {
 
         {/* Footer */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 text-center">
-          <p className="text-[12px] text-[#7A736C]" style={{ fontWeight: 450 }}>© ALL RIGHTS RESERVED.</p>
+          <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893]" style={{ fontWeight: 450 }}>© ALL RIGHTS RESERVED.</p>
         </motion.div>
       </div>
     </motion.div>
