@@ -25,6 +25,7 @@ import profileImg from "@/assets/images/profile.png";
 import { cn } from "@/lib/utils";
 
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTemplate } from "@/hooks/use-template";
 
 import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
 import { FluidDropdown } from "@/components/ui/fluid-dropdown";
@@ -33,6 +34,7 @@ export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(false);
   const isMobile = useIsMobile();
+  const { activeTemplate, setActiveTemplate } = useTemplate();
 
   useEffect(() => {
     const checkOverlay = () => setIsOverlay(window.innerWidth < 1024);
@@ -118,12 +120,13 @@ export default function Navbar() {
                   <div className="space-y-4 pt-2">
                     <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
-                      {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template, index) => {
-                        const isSelected = index === 0;
+                      {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template) => {
+                        const isSelected = activeTemplate === template;
                         return (
                           <div key={template} className="flex flex-col gap-3 items-center">
                             <div className="relative w-full">
                               <button 
+                                onClick={() => setActiveTemplate(template)}
                                 className={cn(
                                   "w-full aspect-square rounded-[24px] transition-all focus:outline-none cursor-pointer group",
                                   isSelected 

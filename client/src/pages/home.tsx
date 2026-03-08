@@ -7,6 +7,7 @@ import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, 
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
+import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import profileImg from "@assets/image_1772896095217.png";
 import project1 from "@/assets/images/project1.png";
@@ -211,6 +212,8 @@ export default function Home() {
     },
   };
 
+  const { activeTemplate } = useTemplate();
+
   return (
     <>
       <Navbar />
@@ -262,8 +265,10 @@ export default function Home() {
       `}} />
       <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
         
-        {/* Header Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
+        {activeTemplate === "Minimal" ? (
+          <>
+            {/* Header Section */}
+            <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
           <div className="flex items-start justify-between gap-4 mb-6">
             <Avatar className="w-[80px] h-[80px] rounded-2xl">
               <AvatarImage src={profileImg} className="object-cover" />
@@ -748,6 +753,28 @@ export default function Home() {
             )}
           </div>
         </motion.div>
+          </>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center space-y-4 px-6 mt-[-10vh]"
+            >
+              <div className="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-black/10 dark:border-white/10">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#7A736C] dark:text-[#9E9893]">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <h2 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">
+                {activeTemplate} Template
+              </h2>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base max-w-[280px] mx-auto">
+                Coming soon. This template is currently under construction.
+              </p>
+            </motion.div>
+          </div>
+        )}
       </div>
       </motion.div>
     </>
