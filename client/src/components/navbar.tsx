@@ -125,9 +125,6 @@ export default function Navbar() {
                   <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
-                  <div className="text-sm text-[#7A736C] dark:text-[#9E9893] mb-4">
-                    Theme configuration options
-                  </div>
                   <SwitchToggleThemeDemo />
                   {/* Theme configuration content */}
                 </div>
