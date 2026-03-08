@@ -69,8 +69,8 @@ const SheetContent = React.forwardRef<
       onCloseAutoFocus={(e) => e.preventDefault()}
       {...props}
     >
-      <SheetPrimitive.Close className="absolute right-5 top-[18px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]">
-        <X className="h-4 w-4" />
+      <SheetPrimitive.Close className="absolute right-[18px] top-[14px] rounded-full p-1 opacity-70 ring-offset-background transition-colors hover:bg-black/5 dark:hover:bg-white/10 hover:opacity-100 focus:outline-none disabled:pointer-events-none text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]">
+        <X className="h-[18px] w-[18px]" />
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close>
       {children}
