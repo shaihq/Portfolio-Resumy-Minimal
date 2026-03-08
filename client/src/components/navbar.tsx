@@ -20,12 +20,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ChevronDown, ChartSpline, Eye, PaintRoller } from "lucide-react";
+import { ChartSpline, Eye, PaintRoller } from "lucide-react";
 import profileImg from "@/assets/images/profile.png";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
+import { FluidDropdown } from "@/components/ui/fluid-dropdown";
 
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
@@ -64,21 +65,7 @@ export default function Navbar() {
               <rect width="37" height="37" rx="18.5" fill="#FF553E"/>
               <path d="M20.0417 4.625H16.9583V14.7781L9.77902 7.59877L7.59877 9.77902L14.7781 16.9583H4.625V20.0417H14.7781L7.59877 27.221L9.77902 29.4012L16.9583 22.2219V32.375H20.0417V22.2219L27.221 29.4012L29.4012 27.221L22.2219 20.0417H32.375V16.9583H22.2219L29.4012 9.77902L27.221 7.59877L20.0417 14.7781V4.625Z" fill="white"/>
             </svg>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="secondary" 
-                  className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#1A1A1A] dark:text-[#F0EDE7] font-medium px-3 text-sm rounded-full flex items-center gap-1 hover:cursor-pointer"
-                >
-                  Portfolio builder
-                  <ChevronDown size={16} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48">
-                <DropdownMenuItem>Portfolio Builder</DropdownMenuItem>
-                <DropdownMenuItem>Other AI tools</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <FluidDropdown />
           </div>
 
           {/* Right Actions */}
