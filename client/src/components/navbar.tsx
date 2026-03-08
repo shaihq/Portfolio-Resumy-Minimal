@@ -111,9 +111,22 @@ export default function Navbar() {
                 <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
                   <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
                 </SheetHeader>
-                <div className="flex-1 overflow-y-auto p-5 space-y-6">
+                <div className="flex-1 overflow-y-auto p-5 space-y-8">
                   <SwitchToggleThemeDemo />
-                  {/* Theme configuration content */}
+                  
+                  <div className="space-y-3">
+                    <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893]">Templates</div>
+                    <div className="flex flex-col gap-2">
+                      {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template) => (
+                        <button 
+                          key={template} 
+                          className="flex items-center p-3 rounded-xl border border-black/10 dark:border-white/10 hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531] transition-colors text-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-left focus:outline-none cursor-pointer"
+                        >
+                          {template}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
