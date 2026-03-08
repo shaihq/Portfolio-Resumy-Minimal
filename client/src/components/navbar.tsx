@@ -25,6 +25,8 @@ import profileImg from "@/assets/images/profile.png";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
+import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
+
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(false);
@@ -122,10 +124,11 @@ export default function Navbar() {
                 <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0">
                   <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
                 </SheetHeader>
-                <div className="flex-1 overflow-y-auto px-5 py-6 space-y-4">
-                  <div className="text-sm text-[#7A736C] dark:text-[#9E9893]">
-                    Theme configuration options will go here.
+                <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+                  <div className="text-sm text-[#7A736C] dark:text-[#9E9893] mb-4">
+                    Theme configuration options
                   </div>
+                  <SwitchToggleThemeDemo />
                   {/* Theme configuration content */}
                 </div>
               </SheetContent>
