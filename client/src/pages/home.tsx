@@ -232,7 +232,8 @@ export default function Home() {
           width: 1px;
           background-image: linear-gradient(to bottom, #E5D7C4 50%, transparent 50%);
           background-size: 1px 10px;
-          z-index: 10;
+          z-index: 0;
+          pointer-events: none;
         }
         .dark .custom-dashed-x::before, .dark .custom-dashed-x::after {
           background-image: linear-gradient(to bottom, #3A352E 50%, transparent 50%);
