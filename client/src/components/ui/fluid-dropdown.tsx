@@ -37,27 +37,10 @@ const categories: Category[] = [
 
 const IconWrapper = ({
   icon: Icon,
-  isHovered,
-  color,
-}: { icon: React.ElementType; isHovered: boolean; color: string }) => (
-  <motion.div 
-    className="w-4 h-4 mr-2 relative" 
-    initial={false} 
-    animate={isHovered ? { scale: 1.2 } : { scale: 1 }}
-  >
+}: { icon: React.ElementType }) => (
+  <div className="w-4 h-4 mr-2 relative">
     <Icon className="w-4 h-4" />
-    {isHovered && (
-      <motion.div
-        className="absolute inset-0"
-        style={{ color }}
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <Icon className="w-4 h-4" strokeWidth={2} />
-      </motion.div>
-    )}
-  </motion.div>
+  </div>
 )
 
 const containerVariants = {
@@ -66,18 +49,18 @@ const containerVariants = {
     opacity: 1,
     transition: {
       when: "beforeChildren",
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,
     },
   },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: -10 },
+  hidden: { opacity: 0, y: -5 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.2,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
@@ -182,12 +165,6 @@ export function FluidDropdown() {
                     />
                     {categories.map((category, index) => (
                       <Fragment key={category.id}>
-                        {index > 0 && (
-                          <motion.div 
-                            className="mx-2 my-1 border-t border-black/5 dark:border-white/5 relative z-10" 
-                            variants={itemVariants} 
-                          />
-                        )}
                         <motion.button
                           onClick={() => {
                             setSelectedCategory(category)
@@ -208,8 +185,6 @@ export function FluidDropdown() {
                         >
                           <IconWrapper
                             icon={category.icon}
-                            isHovered={hoveredCategory === category.id}
-                            color={category.color}
                           />
                           {category.label}
                         </motion.button>
