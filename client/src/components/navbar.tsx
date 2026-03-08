@@ -99,7 +99,13 @@ export default function Navbar() {
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Themes</TooltipContent>
               </Tooltip>
-              <SheetContent className="border-l border-black/10 dark:border-white/10 bg-[#F0EDE7] dark:bg-[#1A1A1A]" hasOverlay={false}>
+              <SheetContent 
+                className="border-l border-black/10 dark:border-white/10 bg-[#F0EDE7] dark:bg-[#1A1A1A]" 
+                hasOverlay={false}
+                onInteractOutside={(e) => {
+                  e.preventDefault();
+                }}
+              >
                 <SheetHeader>
                   <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7]">Themes settings</SheetTitle>
                 </SheetHeader>
