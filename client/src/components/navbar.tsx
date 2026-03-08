@@ -108,10 +108,10 @@ export default function Navbar() {
                   }
                 }}
               >
-                <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0">
+                <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
                   <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
                 </SheetHeader>
-                <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+                <div className="flex-1 overflow-y-auto p-5 space-y-6">
                   <SwitchToggleThemeDemo />
                   {/* Theme configuration content */}
                 </div>
