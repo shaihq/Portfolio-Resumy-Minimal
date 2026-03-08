@@ -43,29 +43,6 @@ const IconWrapper = ({
   </div>
 )
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.05,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: -5 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.2,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-}
-
 export function FluidDropdown() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedCategory, setSelectedCategory] = React.useState<Category>(categories[0])
@@ -94,7 +71,6 @@ export function FluidDropdown() {
             aria-haspopup="true"
           >
             <span className="flex items-center">
-              <IconWrapper icon={selectedCategory.icon} />
               {selectedCategory.label}
             </span>
             <motion.div
@@ -144,12 +120,7 @@ export function FluidDropdown() {
                   }}
                   style={{ transformOrigin: "top" }}
                 >
-                  <motion.div 
-                    className="relative flex flex-col" 
-                    variants={containerVariants} 
-                    initial="hidden" 
-                    animate="visible"
-                  >
+                  <div className="relative flex flex-col">
                     <motion.div
                       className="absolute top-0 left-0 right-0 bg-black/5 dark:bg-white/5 rounded-xl z-0"
                       initial={false}
@@ -166,14 +137,14 @@ export function FluidDropdown() {
                     {categories.map((category) => {
                       const isActive = (hoveredCategory || selectedCategory.id) === category.id;
                       return (
-                        <motion.button
+                        <button
                           key={category.id}
                           onClick={() => {
                             setSelectedCategory(category)
                             setIsOpen(false)
                           }}
-                          onHoverStart={() => setHoveredCategory(category.id)}
-                          onHoverEnd={() => setHoveredCategory(null)}
+                          onMouseEnter={() => setHoveredCategory(category.id)}
+                          onMouseLeave={() => setHoveredCategory(null)}
                           className={cn(
                             "relative z-10 flex w-full items-center justify-start px-3 h-[44px] text-[13px] font-medium rounded-xl text-left",
                             "transition-colors duration-150",
@@ -182,17 +153,15 @@ export function FluidDropdown() {
                               ? "text-[#1A1A1A] dark:text-[#F0EDE7]"
                               : "text-[#7A736C] dark:text-[#9E9893]",
                           )}
-                          whileTap={{ scale: 0.98 }}
-                          variants={itemVariants}
                         >
                           <div className="flex items-center justify-start w-full">
                             <IconWrapper icon={category.icon} />
                             {category.label}
                           </div>
-                        </motion.button>
+                        </button>
                       );
                     })}
-                  </motion.div>
+                  </div>
                 </motion.div>
               </motion.div>
             )}
