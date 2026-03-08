@@ -31,16 +31,16 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 const sheetVariants = cva(
-  "fixed z-50 gap-4 bg-background p-6 shadow-lg transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+  "fixed z-50 gap-4 bg-background p-6 shadow-lg",
   {
     variants: {
       side: {
-        top: "inset-x-0 top-0 border-b data-[state=closed]:-translate-y-full data-[state=open]:translate-y-0",
+        top: "inset-x-0 top-0 border-b data-[state=closed]:-translate-y-full data-[state=open]:translate-y-0 transition-transform duration-500",
         bottom:
-          "inset-x-0 bottom-0 border-t data-[state=closed]:translate-y-full data-[state=open]:translate-y-0",
-        left: "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0 sm:max-w-sm",
+          "inset-x-0 bottom-0 border-t data-[state=closed]:translate-y-full data-[state=open]:translate-y-0 transition-transform duration-500",
+        left: "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0 sm:max-w-sm transition-transform duration-500",
         right:
-          "inset-y-0 right-0 h-full border-l data-[state=closed]:translate-x-full data-[state=open]:translate-x-0 w-[var(--theme-panel-width)] max-w-[100vw]",
+          "inset-y-0 right-0 h-full border-l w-[var(--theme-panel-width)] max-w-[100vw] theme-panel-animate",
       },
     },
     defaultVariants: {

@@ -118,3 +118,21 @@ body {
 #root.theme-panel-open .fixed.top-0 {
   padding-right: var(--theme-panel-width);
 }
+
+.theme-panel-animate[data-state="open"] {
+  animation: slide-in-right-custom 500ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.theme-panel-animate[data-state="closed"] {
+  animation: slide-out-right-custom 500ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+@keyframes slide-in-right-custom {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slide-out-right-custom {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
