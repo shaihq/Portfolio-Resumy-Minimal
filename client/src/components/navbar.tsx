@@ -20,8 +20,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ChartSpline, Eye, PaintRoller } from "lucide-react";
+import { ChartSpline, Eye, PaintRoller, Check } from "lucide-react";
 import profileImg from "@/assets/images/profile.png";
+import { cn } from "@/lib/utils";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -116,15 +117,33 @@ export default function Navbar() {
                   
                   <div className="space-y-3">
                     <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893]">Templates</div>
-                    <div className="flex flex-col gap-2">
-                      {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template) => (
-                        <button 
-                          key={template} 
-                          className="flex items-center p-3 rounded-xl border border-black/10 dark:border-white/10 hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531] transition-colors text-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-left focus:outline-none cursor-pointer"
-                        >
-                          {template}
-                        </button>
-                      ))}
+                    <div className="grid grid-cols-2 gap-3">
+                      {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template, index) => {
+                        const isSelected = index === 0;
+                        return (
+                          <button 
+                            key={template} 
+                            className={cn(
+                              "relative flex flex-col items-center gap-2 p-2 rounded-xl border transition-all text-left focus:outline-none cursor-pointer group",
+                              isSelected 
+                                ? "border-[#1A1A1A] dark:border-[#F0EDE7] bg-black/5 dark:bg-white/5" 
+                                : "border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531]"
+                            )}
+                          >
+                            <div className="w-full aspect-[4/3] rounded-lg bg-[#E8E8E8] dark:bg-[#3A3531] overflow-hidden">
+                              {/* Placeholder for template thumbnail */}
+                            </div>
+                            <span className="text-xs font-medium text-[#1A1A1A] dark:text-[#F0EDE7] w-full text-center pb-1">
+                              {template}
+                            </span>
+                            {isSelected && (
+                              <div className="absolute -bottom-1 -left-1 bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-black rounded-full p-0.5 shadow-sm">
+                                <Check size={12} strokeWidth={3} />
+                              </div>
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
