@@ -53,17 +53,32 @@ function CursorProvider({ children, ...props }: CursorProviderProps) {
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = parent.getBoundingClientRect();
-      setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      setIsActive(true);
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Strict hover boundary detection with small inset to prevent edge overlap
+      const isInside = x > 0 && x < rect.width && y > 0 && y < rect.height;
+      
+      if (isInside) {
+        setCursorPos({ x, y });
+        setIsActive(true);
+      } else {
+        setIsActive(false);
+      }
     };
+    
+    // Add strict mouseenter/leave events to complement mousemove
+    const handleMouseEnter = () => setIsActive(true);
     const handleMouseLeave = () => setIsActive(false);
 
-    parent.addEventListener('mousemove', handleMouseMove);
+    parent.addEventListener('mouseenter', handleMouseEnter);
     parent.addEventListener('mouseleave', handleMouseLeave);
+    parent.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      parent.removeEventListener('mousemove', handleMouseMove);
+      parent.removeEventListener('mouseenter', handleMouseEnter);
       parent.removeEventListener('mouseleave', handleMouseLeave);
+      parent.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -112,7 +127,7 @@ function Cursor({ children, className, style, ...props }: CursorProps) {
           ref={cursorRef}
           data-slot="cursor"
           className={cn(
-            'pointer-events-none fixed -translate-x-1/2 -translate-y-1/2',
+            'pointer-events-none absolute -translate-x-1/2 -translate-y-1/2',
             className,
           )}
           style={{ top: y, left: x, zIndex: 99999, ...style }}
@@ -223,7 +238,7 @@ function CursorFollow({
           ref={cursorFollowRef}
           data-slot="cursor-follow"
           className={cn(
-            'pointer-events-none fixed -translate-x-1/2 -translate-y-1/2',
+            'pointer-events-none absolute -translate-x-1/2 -translate-y-1/2',
             className,
           )}
           style={{ top: springY, left: springX, zIndex: 99998, ...style }}
