@@ -80,5 +80,27 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    overflow-x: hidden;
   }
+}
+
+:root {
+  --theme-panel-width: 400px;
+}
+@media (min-width: 640px) {
+  :root {
+    --theme-panel-width: 540px;
+  }
+}
+
+#root {
+  transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-color: hsl(var(--background));
+}
+#root.theme-panel-open {
+  transform: translateX(calc(-1 * var(--theme-panel-width)));
 }

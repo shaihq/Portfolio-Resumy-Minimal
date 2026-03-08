@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -23,6 +24,22 @@ import { ChevronDown, ChartSpline, Eye, PaintRoller } from "lucide-react";
 import profileImg from "@/assets/images/profile.png";
 
 export default function Navbar() {
+  const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
+
+  useEffect(() => {
+    const root = document.getElementById('root');
+    if (root) {
+      if (isThemePanelOpen) {
+        root.classList.add('theme-panel-open');
+      } else {
+        root.classList.remove('theme-panel-open');
+      }
+    }
+    return () => {
+      if (root) root.classList.remove('theme-panel-open');
+    };
+  }, [isThemePanelOpen]);
+
   return (
     <TooltipProvider>
       <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none pt-4 px-4">
@@ -66,7 +83,7 @@ export default function Navbar() {
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Insights</TooltipContent>
             </Tooltip>
-            <Sheet>
+            <Sheet modal={false} open={isThemePanelOpen} onOpenChange={setIsThemePanelOpen}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <SheetTrigger asChild>
@@ -82,12 +99,12 @@ export default function Navbar() {
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Themes</TooltipContent>
               </Tooltip>
-              <SheetContent className="w-[400px] sm:w-[540px]">
+              <SheetContent className="border-l border-black/10 dark:border-white/10 bg-[#F0EDE7] dark:bg-[#1A1A1A]" hasOverlay={false}>
                 <SheetHeader>
-                  <SheetTitle>Themes settings</SheetTitle>
+                  <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7]">Themes settings</SheetTitle>
                 </SheetHeader>
                 <div className="py-6 space-y-4">
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-[#7A736C] dark:text-[#9E9893]">
                     Theme configuration options will go here.
                   </div>
                   {/* Theme configuration content */}
