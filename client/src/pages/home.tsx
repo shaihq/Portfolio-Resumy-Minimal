@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
+import { cn } from "@/lib/utils";
 import profileImg from "@assets/image_1772896095217.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
@@ -263,7 +264,7 @@ export default function Home() {
           fill: #B5AFA5;
         }
       `}} />
-      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
+      <div className={cn("w-full max-w-[640px] relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700", activeTemplate === "Minimal" && "custom-dashed-x")}>
         
         {activeTemplate === "Minimal" ? (
           <>
