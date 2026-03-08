@@ -100,16 +100,16 @@ export default function Navbar() {
                 <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Themes</TooltipContent>
               </Tooltip>
               <SheetContent 
-                className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520]" 
+                className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col" 
                 hasOverlay={false}
                 onInteractOutside={(e) => {
                   e.preventDefault();
                 }}
               >
-                <SheetHeader>
-                  <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7]">Themes settings</SheetTitle>
+                <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0">
+                  <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
                 </SheetHeader>
-                <div className="py-6 space-y-4">
+                <div className="flex-1 overflow-y-auto px-5 py-6 space-y-4">
                   <div className="text-sm text-[#7A736C] dark:text-[#9E9893]">
                     Theme configuration options will go here.
                   </div>
