@@ -38,7 +38,7 @@ const categories: Category[] = [
 const IconWrapper = ({
   icon: Icon,
 }: { icon: React.ElementType }) => (
-  <div className="w-4 h-4 mr-2 relative">
+  <div className="w-4 h-4 mr-2.5 relative flex items-center justify-center shrink-0">
     <Icon className="w-4 h-4" />
   </div>
 )
@@ -94,12 +94,13 @@ export function FluidDropdown() {
             aria-haspopup="true"
           >
             <span className="flex items-center">
+              <IconWrapper icon={selectedCategory.icon} />
               {selectedCategory.label}
             </span>
             <motion.div
               animate={{ rotate: isOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center justify-center w-4 h-4"
+              className="flex items-center justify-center w-4 h-4 shrink-0 ml-1"
             >
               <ChevronDown className="w-4 h-4" />
             </motion.div>
@@ -131,7 +132,7 @@ export function FluidDropdown() {
                     mass: 1,
                   },
                 }}
-                className="absolute left-0 top-full mt-2 z-50 min-w-[200px]"
+                className="absolute -left-1.5 top-full mt-2 z-50 min-w-[200px]"
                 onKeyDown={handleKeyDown}
               >
                 <motion.div
@@ -144,28 +145,29 @@ export function FluidDropdown() {
                   style={{ transformOrigin: "top" }}
                 >
                   <motion.div 
-                    className="relative" 
+                    className="relative flex flex-col" 
                     variants={containerVariants} 
                     initial="hidden" 
                     animate="visible"
                   >
                     <motion.div
-                      layoutId="hover-highlight"
-                      className="absolute inset-x-0 bg-black/5 dark:bg-white/5 rounded-xl z-0"
+                      className="absolute top-0 left-0 right-0 bg-black/5 dark:bg-white/5 rounded-xl z-0"
+                      initial={false}
                       animate={{
-                        y: categories.findIndex((c) => (hoveredCategory || selectedCategory.id) === c.id) * 44 +
-                          (categories.findIndex((c) => (hoveredCategory || selectedCategory.id) === c.id) > 0 ? 9 : 0),
+                        y: categories.findIndex((c) => (hoveredCategory || selectedCategory.id) === c.id) * 44,
                         height: 44,
                       }}
                       transition={{
                         type: "spring",
-                        bounce: 0.15,
-                        duration: 0.5,
+                        bounce: 0.2,
+                        duration: 0.4,
                       }}
                     />
-                    {categories.map((category, index) => (
-                      <Fragment key={category.id}>
+                    {categories.map((category) => {
+                      const isActive = (hoveredCategory || selectedCategory.id) === category.id;
+                      return (
                         <motion.button
+                          key={category.id}
                           onClick={() => {
                             setSelectedCategory(category)
                             setIsOpen(false)
@@ -173,23 +175,23 @@ export function FluidDropdown() {
                           onHoverStart={() => setHoveredCategory(category.id)}
                           onHoverEnd={() => setHoveredCategory(null)}
                           className={cn(
-                            "relative z-10 flex w-full items-center px-3 h-[44px] text-sm rounded-xl",
+                            "relative z-10 flex w-full items-center justify-start px-3 h-[44px] text-[13px] font-medium rounded-xl text-left",
                             "transition-colors duration-150",
                             "focus:outline-none cursor-pointer",
-                            selectedCategory.id === category.id || hoveredCategory === category.id
+                            isActive
                               ? "text-[#1A1A1A] dark:text-[#F0EDE7]"
                               : "text-[#7A736C] dark:text-[#9E9893]",
                           )}
                           whileTap={{ scale: 0.98 }}
                           variants={itemVariants}
                         >
-                          <IconWrapper
-                            icon={category.icon}
-                          />
-                          {category.label}
+                          <div className="flex items-center justify-start w-full">
+                            <IconWrapper icon={category.icon} />
+                            {category.label}
+                          </div>
                         </motion.button>
-                      </Fragment>
-                    ))}
+                      );
+                    })}
                   </motion.div>
                 </motion.div>
               </motion.div>
