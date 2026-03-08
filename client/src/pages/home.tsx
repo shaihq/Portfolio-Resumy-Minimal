@@ -39,52 +39,46 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [dinoY, setDinoY] = useState(0);
-  const [isJumping, setIsJumping] = useState(false);
   const [obstacles, setObstacles] = useState<{ id: number; x: number }[]>([]);
+  
+  const dinoYRef = useRef(0);
+  const velocityRef = useRef(0);
+  const obstaclesRef = useRef<{ id: number; x: number }[]>([]);
+  const scoreRef = useRef(0);
+  
+  const requestRef = useRef<number>(0);
+  const lastTimeRef = useRef<number | undefined>(undefined);
   const gameRef = useRef<HTMLDivElement>(null);
-  const requestRef = useRef<number>();
-  const lastTimeRef = useRef<number>();
 
   const jump = useCallback(() => {
     if (isGameOver) {
       setIsPlaying(true);
       setIsGameOver(false);
+      scoreRef.current = 0;
+      obstaclesRef.current = [];
+      dinoYRef.current = 0;
+      velocityRef.current = 0;
       setScore(0);
       setObstacles([]);
       setDinoY(0);
-      setIsJumping(false);
       return;
     }
     if (!isPlaying) {
       setIsPlaying(true);
+      scoreRef.current = 0;
+      obstaclesRef.current = [];
+      dinoYRef.current = 0;
+      velocityRef.current = 0;
       setScore(0);
       setObstacles([]);
       setDinoY(0);
-      setIsJumping(false);
       return;
     }
-    if (isJumping) return;
-
-    setIsJumping(true);
-    let velocity = 12; // Reduced jump power for a more natural feel
-    const gravity = 0.6; // Smoother gravity for better control
-    let currentY = 0;
-
-    const jumpFrame = () => {
-      currentY += velocity;
-      velocity -= gravity;
-      
-      if (currentY <= 0) {
-        setDinoY(0);
-        setIsJumping(false);
-        return;
-      }
-      
-      setDinoY(currentY);
-      requestAnimationFrame(jumpFrame);
-    };
-    requestAnimationFrame(jumpFrame);
-  }, [isPlaying, isGameOver, isJumping]); // Added isJumping to dependencies
+    if (dinoYRef.current === 0) {
+      velocityRef.current = 11; // Jump strength
+      dinoYRef.current = 0.1; // trigger jump
+    }
+  }, [isPlaying, isGameOver]);
 
   useEffect(() => {
     if (!isPlaying || isGameOver) {
@@ -94,54 +88,66 @@ export default function Home() {
 
     const update = (time: number) => {
       if (lastTimeRef.current !== undefined) {
-        const deltaTime = Math.min(time - lastTimeRef.current, 32); // Cap delta time to prevent huge skips
+        const deltaTime = Math.min(time - lastTimeRef.current, 32); 
         
-        setScore(prev => prev + 1);
-
-        setObstacles(prev => {
-          const newObstacles = prev
-            .map(obs => ({ ...obs, x: obs.x - 0.45 * deltaTime })) // Slightly faster obstacles
-            .filter(obs => obs.x > -100);
-
-          // Spawn new obstacles with better spacing logic
-          const lastObsX = newObstacles.length > 0 ? newObstacles[newObstacles.length - 1].x : 0;
-          if (newObstacles.length === 0 || (lastObsX < 400 && Math.random() < 0.03)) {
-            newObstacles.push({ id: Date.now(), x: 800 }); // Spawn further out
-          }
-
-          // Dino is at x=48 (left-12 with 40px width)
-          // Obstacle is at obs.x with 24px width
-          const dinoLeft = 48;
-          const dinoRight = 88;
-          // The dino is visually offset by 48px in the motion.div (animate={{ y: -dinoY - 48 }})
-          // But dinoY represents the jump height above the ground.
-          // Ground is at bottom-12.
-          const dinoBottom = dinoY;
+        scoreRef.current += 1;
+        
+        // Physics update
+        if (dinoYRef.current > 0 || velocityRef.current !== 0) {
+          dinoYRef.current += velocityRef.current * (deltaTime / 16);
+          velocityRef.current -= 0.6 * (deltaTime / 16); // Gravity
           
-          for (const obs of newObstacles) {
-            const obsLeft = obs.x;
-            const obsRight = obs.x + 24;
-            const obsTop = 30; // The cactus height is roughly 30-36px
-
-            // COLLISION LOGIC:
-            // 1. Dino's right side is past obstacle's left side
-            // 2. Dino's left side hasn't passed obstacle's right side
-            // 3. Dino's bottom is NOT high enough to clear the obstacle top
-            // Very lenient collision: only hit if almost completely overlapping and low
-            if (
-              dinoRight - 28 > obsLeft && 
-              dinoLeft + 28 < obsRight && 
-              dinoBottom < obsTop - 15
-            ) {
-              setIsGameOver(true);
-              setIsPlaying(false);
-              setHighScore(current => Math.max(current, Math.floor(score / 10)));
-            }
+          if (dinoYRef.current <= 0) {
+            dinoYRef.current = 0;
+            velocityRef.current = 0;
           }
+        }
 
-          return newObstacles;
-        });
+        // Obstacles update
+        let newObstacles = obstaclesRef.current
+          .map(obs => ({ ...obs, x: obs.x - 5.5 * (deltaTime / 16) })) // speed
+          .filter(obs => obs.x > -50);
+
+        const lastObsX = newObstacles.length > 0 ? newObstacles[newObstacles.length - 1].x : 0;
+        if (newObstacles.length === 0 || (lastObsX < 400 && Math.random() < 0.02)) {
+          newObstacles.push({ id: Date.now(), x: 700 });
+        }
+        
+        obstaclesRef.current = newObstacles;
+
+        // Collision check
+        const dinoLeft = 52; // roughly left-12 (48) + some padding
+        const dinoRight = 80;
+        const dinoBottom = dinoYRef.current;
+        
+        let hit = false;
+        for (const obs of newObstacles) {
+          const obsLeft = obs.x + 4;
+          const obsRight = obs.x + 20;
+          const obsTop = 28; // height of cactus
+
+          if (
+            dinoRight > obsLeft && 
+            dinoLeft < obsRight && 
+            dinoBottom < obsTop
+          ) {
+            hit = true;
+            break;
+          }
+        }
+
+        if (hit) {
+          setIsGameOver(true);
+          setIsPlaying(false);
+          setHighScore(current => Math.max(current, Math.floor(scoreRef.current / 10)));
+        } else {
+          // Sync state for rendering
+          setScore(scoreRef.current);
+          setDinoY(dinoYRef.current);
+          setObstacles(newObstacles);
+        }
       }
+      
       lastTimeRef.current = time;
       requestRef.current = requestAnimationFrame(update);
     };
@@ -151,7 +157,7 @@ export default function Home() {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
       lastTimeRef.current = undefined;
     };
-  }, [isPlaying, isGameOver]); // Removed dinoY and score from dependencies to prevent effect restart on every frame
+  }, [isPlaying, isGameOver]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -705,7 +711,7 @@ export default function Home() {
             >
               <svg width="40" height="40" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
                 <path d="M45.4502 6.75024V8.55005H47.25V18.7317H35.1006V20.2502H40.5V21.5999H35.1006V25.6497H39.1504V29.7004H37.3506V27.8997H35.1006V34.6497H33.2998V37.8H31.0498V40.05H29.25V48.1497H31.0498V49.9504H27.4502L27 43.6497H25.6504V41.8499H23.4004V43.6497H21.1504V45.8997H18.9004V48.1497H21.1504V49.9504H17.1006V41.8499H14.8506V40.05H13.0498V37.8H10.7998V35.55H9V33.3H7.2002V22.05H9V25.6497H10.7998V27.8997H13.0498V29.7004H17.1006V27.8997H19.3506V25.6497H22.0498V23.8499H25.2002V21.5999H27.1689L27.4502 8.55005H29.25V6.30005L45.4502 6.75024ZM31.0498 10.3499V14.8499H35.5498V10.3499H31.0498ZM34.6504 11.2502V13.9504H31.9502V11.2502H34.6504Z" className="dino-color"/>
-                {isPlaying && !isJumping && (
+                {isPlaying && dinoY === 0 && (
                   <motion.path 
                     animate={{ opacity: [1, 0, 1] }}
                     transition={{ duration: 0.2, repeat: Infinity }}
