@@ -23,8 +23,19 @@ import {
 import { ChevronDown, ChartSpline, Eye, PaintRoller } from "lucide-react";
 import profileImg from "@/assets/images/profile.png";
 
+import { useIsMobile } from "@/hooks/use-mobile";
+
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
+  const [isOverlay, setIsOverlay] = useState(false);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const checkOverlay = () => setIsOverlay(window.innerWidth < 1024);
+    checkOverlay();
+    window.addEventListener('resize', checkOverlay);
+    return () => window.removeEventListener('resize', checkOverlay);
+  }, []);
 
   useEffect(() => {
     const root = document.getElementById('root');
@@ -101,9 +112,11 @@ export default function Navbar() {
               </Tooltip>
               <SheetContent 
                 className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col" 
-                hasOverlay={false}
+                hasOverlay={isOverlay}
                 onInteractOutside={(e) => {
-                  e.preventDefault();
+                  if (!isOverlay) {
+                    e.preventDefault();
+                  }
                 }}
               >
                 <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0">
