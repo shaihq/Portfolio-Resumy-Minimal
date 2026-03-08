@@ -100,7 +100,7 @@ export default function Navbar() {
                 <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Themes</TooltipContent>
               </Tooltip>
               <SheetContent 
-                className="border-l border-black/10 dark:border-white/10 bg-[#F0EDE7] dark:bg-[#1A1A1A]" 
+                className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520]" 
                 hasOverlay={false}
                 onInteractOutside={(e) => {
                   e.preventDefault();
