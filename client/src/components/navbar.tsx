@@ -22,10 +22,11 @@ import {
 } from "@/components/ui/sheet";
 import { ChevronDown, ChartSpline, Eye, PaintRoller } from "lucide-react";
 import profileImg from "@/assets/images/profile.png";
-
 import { useIsMobile } from "@/hooks/use-mobile";
-
 import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
+import { navPreset } from "@/tokens/components";
+import { navIconHover } from "@/tokens/animation";
+import { componentLayout } from "@/tokens/spacing";
 
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
@@ -35,128 +36,157 @@ export default function Navbar() {
   useEffect(() => {
     const checkOverlay = () => setIsOverlay(window.innerWidth < 1024);
     checkOverlay();
-    window.addEventListener('resize', checkOverlay);
-    return () => window.removeEventListener('resize', checkOverlay);
+    window.addEventListener("resize", checkOverlay);
+    return () => window.removeEventListener("resize", checkOverlay);
   }, []);
 
   useEffect(() => {
-    const root = document.getElementById('root');
+    const root = document.getElementById("root");
     if (root) {
       if (isThemePanelOpen) {
-        root.classList.add('theme-panel-open');
+        root.classList.add("theme-panel-open");
       } else {
-        root.classList.remove('theme-panel-open');
+        root.classList.remove("theme-panel-open");
       }
     }
     return () => {
-      if (root) root.classList.remove('theme-panel-open');
+      if (root) root.classList.remove("theme-panel-open");
     };
   }, [isThemePanelOpen]);
 
   return (
     <TooltipProvider>
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none pt-4 px-4">
-        <nav className="bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/10 rounded-full shadow-sm pointer-events-auto max-w-[640px] w-full">
-          <div className="px-2 md:px-2 py-2 flex items-center justify-between gap-8">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="37" height="37" rx="18.5" fill="#FF553E"/>
-              <path d="M20.0417 4.625H16.9583V14.7781L9.77902 7.59877L7.59877 9.77902L14.7781 16.9583H4.625V20.0417H14.7781L7.59877 27.221L9.77902 29.4012L16.9583 22.2219V32.375H20.0417V22.2219L27.221 29.4012L29.4012 27.221L22.2219 20.0417H32.375V16.9583H22.2219L29.4012 9.77902L27.221 7.59877L20.0417 14.7781V4.625Z" fill="white"/>
-            </svg>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="secondary" 
-                  className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#1A1A1A] dark:text-[#F0EDE7] font-medium px-3 text-sm rounded-full flex items-center gap-1 hover:cursor-pointer"
-                >
-                  Portfolio builder
-                  <ChevronDown size={16} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48">
-                <DropdownMenuItem>Portfolio Builder</DropdownMenuItem>
-                <DropdownMenuItem>Other AI tools</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+      <div className={navPreset.wrapper}>
+        <nav className={navPreset.bar}>
+          <div className={navPreset.inner}>
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <svg
+                width="37"
+                height="37"
+                viewBox="0 0 37 37"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="37" height="37" rx="18.5" fill="#FF553E" />
+                <path
+                  d="M20.0417 4.625H16.9583V14.7781L9.77902 7.59877L7.59877 9.77902L14.7781 16.9583H4.625V20.0417H14.7781L7.59877 27.221L9.77902 29.4012L16.9583 22.2219V32.375H20.0417V22.2219L27.221 29.4012L29.4012 27.221L22.2219 20.0417H32.375V16.9583H22.2219L29.4012 9.77902L27.221 7.59877L20.0417 14.7781V4.625Z"
+                  fill="white"
+                />
+              </svg>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    className={navPreset.dropdownTrigger}
+                  >
+                    Portfolio builder
+                    <ChevronDown size={16} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuItem>Portfolio Builder</DropdownMenuItem>
+                  <DropdownMenuItem>Other AI tools</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="secondary" 
-                  size="icon"
-                  className="group bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
-                  data-testid="button-insights"
-                >
-                  <ChartSpline size={18} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Insights</TooltipContent>
-            </Tooltip>
-            <Sheet modal={false} open={isThemePanelOpen} onOpenChange={setIsThemePanelOpen}>
+            {/* Right Actions */}
+            <div className="flex items-center gap-2">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SheetTrigger asChild>
-                    <Button 
-                      variant="secondary" 
-                      size="icon"
-                      className="group bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
-                      data-testid="button-themes"
-                    >
-                      <PaintRoller size={18} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                    </Button>
-                  </SheetTrigger>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className={navPreset.iconButton}
+                    data-testid="button-insights"
+                  >
+                    <ChartSpline size={18} className={navIconHover.className} />
+                  </Button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Themes</TooltipContent>
+                <TooltipContent side="bottom" className={navPreset.tooltip}>
+                  Insights
+                </TooltipContent>
               </Tooltip>
-              <SheetContent 
-                className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col" 
-                hasOverlay={isOverlay}
-                onInteractOutside={(e) => {
-                  if (!isOverlay) {
-                    e.preventDefault();
-                  }
-                }}
+              <Sheet
+                modal={false}
+                open={isThemePanelOpen}
+                onOpenChange={setIsThemePanelOpen}
               >
-                <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0">
-                  <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
-                </SheetHeader>
-                <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
-                  <SwitchToggleThemeDemo />
-                  {/* Theme configuration content */}
-                </div>
-              </SheetContent>
-            </Sheet>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="secondary" 
-                  size="icon"
-                  className="group bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] h-9 w-9 rounded-full hover:cursor-pointer"
-                  data-testid="button-preview"
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SheetTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className={navPreset.iconButton}
+                        data-testid="button-themes"
+                      >
+                        <PaintRoller
+                          size={18}
+                          className={navIconHover.className}
+                        />
+                      </Button>
+                    </SheetTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className={navPreset.tooltip}>
+                    Themes
+                  </TooltipContent>
+                </Tooltip>
+                <SheetContent
+                  className="border-l border-black/10 dark:border-white/10 bg-[var(--color-surface-elevated)] p-0 flex flex-col"
+                  hasOverlay={isOverlay}
+                  onInteractOutside={(e) => {
+                    if (!isOverlay) {
+                      e.preventDefault();
+                    }
+                  }}
                 >
-                  <Eye size={18} className="transition-transform duration-300 group-hover:scale-125" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Preview</TooltipContent>
-            </Tooltip>
-            <Button 
-              className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium px-6 h-9 text-sm rounded-full hover:cursor-pointer"
-              data-testid="button-publish"
-            >
-              Publish
-            </Button>
-            <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0">
-              <AvatarImage src={profileImg} alt="Profile" />
-              <AvatarFallback>MB</AvatarFallback>
-            </Avatar>
+                  <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 shrink-0 flex flex-row items-center m-0 space-y-0">
+                    <SheetTitle className="text-foreground text-[15px] font-medium m-0">
+                      Themes settings
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+                    <SwitchToggleThemeDemo />
+                    {/* Theme configuration content */}
+                  </div>
+                </SheetContent>
+              </Sheet>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className={navPreset.iconButton}
+                    data-testid="button-preview"
+                  >
+                    <Eye
+                      size={18}
+                      className="transition-transform duration-300 group-hover:scale-125"
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className={navPreset.tooltip}>
+                  Preview
+                </TooltipContent>
+              </Tooltip>
+              <Button
+                className={navPreset.publishButton}
+                data-testid="button-publish"
+              >
+                Publish
+              </Button>
+              <Avatar
+                className={`${componentLayout.avatarNav} border border-black/10 dark:border-white/10 shrink-0`}
+              >
+                <AvatarImage src={profileImg} alt="Profile" />
+                <AvatarFallback>MB</AvatarFallback>
+              </Avatar>
+            </div>
           </div>
-        </div>
-      </nav>
-    </div>
+        </nav>
+      </div>
     </TooltipProvider>
   );
 }

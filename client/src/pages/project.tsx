@@ -4,6 +4,10 @@ import { ChevronLeft, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
+import { containerVariants, itemVariants } from "@/tokens/animation";
+import { layout } from "@/tokens/spacing";
+import { textPreset, cardPreset, pagePreset } from "@/tokens/components";
+import { bodyFontStyle } from "@/tokens/typography";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
@@ -14,43 +18,51 @@ import contentImage from "@assets/image_1772895554431.png";
 const projectsData: Record<string, any> = {
   slate: {
     id: "slate",
-    title: "Redesigning Quote Builder at Freshworks for 1,900+ Enterprise Users",
+    title:
+      "Redesigning Quote Builder at Freshworks for 1,900+ Enterprise Users",
     subtitle: "Focused on enhancing the experience for customers in the U.S.",
-    description: "Focused on enhancing the experience for customers in the U.S.",
+    description:
+      "Focused on enhancing the experience for customers in the U.S.",
     image: slateImage,
     details: {
       client: "Startup Co.",
       role: "Lead Designer",
       industry: "SaaS",
-      platform: "Web app"
+      platform: "Web app",
     },
-    introduction: "Freshsales, part of the Freshworks family, is a CRM designed to help sales teams manage leads, track deals, and close more business with less effort. It offers tools like email tracking, deal pipelines, and AI-powered insights, all aimed at making the sales process smoother and more efficient.\n\nIn this project, I'm redesigning the quote builder experience. The focus is on making it simpler and more intuitive for users to create and share quotes effortlessly. It's a meaningful update to a feature that's central to the sales workflow.",
-    examples: []
+    introduction:
+      "Freshsales, part of the Freshworks family, is a CRM designed to help sales teams manage leads, track deals, and close more business with less effort. It offers tools like email tracking, deal pipelines, and AI-powered insights, all aimed at making the sales process smoother and more efficient.\n\nIn this project, I'm redesigning the quote builder experience. The focus is on making it simpler and more intuitive for users to create and share quotes effortlessly. It's a meaningful update to a feature that's central to the sales workflow.",
+    examples: [],
   },
   antimetal: {
     id: "antimetal",
     title: "Antimetal",
-    subtitle: "A dynamic, animation-focused landing page highlighting creative transitions",
-    description: "Focused on enhancing creative visual experiences for animation enthusiasts.",
+    subtitle:
+      "A dynamic, animation-focused landing page highlighting creative transitions",
+    description:
+      "Focused on enhancing creative visual experiences for animation enthusiasts.",
     image: project2,
     details: {
       client: "Creative Studio",
       role: "Design Director",
       industry: "Entertainment",
-      platform: "Web app"
+      platform: "Web app",
     },
-    introduction: "Antimetal pushes the boundaries of digital design through bold, carefully-crafted animations. This project demonstrates how motion design can tell a story and create memorable user experiences. Every animation serves a purpose, contributing to the overall narrative.",
+    introduction:
+      "Antimetal pushes the boundaries of digital design through bold, carefully-crafted animations. This project demonstrates how motion design can tell a story and create memorable user experiences. Every animation serves a purpose, contributing to the overall narrative.",
     examples: [
       {
         title: "Motion Design",
-        description: "Custom animations bring the interface to life, creating a sense of fluidity and elegance. Each transition is orchestrated to feel natural while maintaining visual interest."
+        description:
+          "Custom animations bring the interface to life, creating a sense of fluidity and elegance. Each transition is orchestrated to feel natural while maintaining visual interest.",
       },
       {
         title: "Visual Storytelling",
-        description: "The design hierarchy uses motion to guide users through content progressively, making complex information feel approachable and engaging."
-      }
-    ]
-  }
+        description:
+          "The design hierarchy uses motion to guide users through content progressively, making complex information feel approachable and engaging.",
+      },
+    ],
+  },
 };
 
 export default function Project() {
@@ -70,103 +82,48 @@ export default function Project() {
 
   const project = projectsData[projectId] || projectsData.slate;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      filter: "blur(10px)",
-      y: 10
-    },
-    visible: { 
-      opacity: 1, 
-      filter: "blur(0px)",
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.21, 0.47, 0.32, 0.98],
-      },
-    },
-  };
-
   return (
-    <motion.div 
+    <motion.div
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
+      className={pagePreset.wrapper}
     >
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
-      `}} />
-      <style dangerouslySetInnerHTML={{ __html: `
-        .custom-dashed-x {
-          position: relative;
-        }
-        .custom-dashed-x::before, .custom-dashed-x::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 1px;
-          background-image: linear-gradient(to bottom, #E5D7C4 50%, transparent 50%);
-          background-size: 1px 10px;
-          z-index: 0;
-          pointer-events: none;
-        }
-        .dark .custom-dashed-x::before, .dark .custom-dashed-x::after {
-          background-image: linear-gradient(to bottom, #3A352E 50%, transparent 50%);
-        }
-        .custom-dashed-x::before {
-          left: 0;
-        }
-        .custom-dashed-x::after {
-          right: 0;
-        }
-        .custom-dashed-t {
-          height: 1px;
-          width: 100%;
-          background-image: linear-gradient(to right, #E5D7C4 50%, transparent 50%);
-          background-size: 10px 1px;
-        }
-        .dark .custom-dashed-t {
-          background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
-        }
-      `}} />
-      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
-        
+      <div className={pagePreset.column}>
         {/* Header */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6 flex items-center gap-3">
+        <motion.div
+          variants={itemVariants}
+          className={`${layout.subHeader} flex items-center gap-3`}
+        >
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
+            className={`flex items-center gap-1.5 ${textPreset.yearPrefix} hover:text-foreground transition-colors group text-[13px] font-medium`}
           >
-            <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-1" />
+            <ChevronLeft
+              size={18}
+              className="transition-transform group-hover:-translate-x-1"
+            />
             Go back
           </button>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div
+          variants={itemVariants}
+          className={layout.separator}
+        ></motion.div>
 
         {/* Project Title & Intro */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6">
-          <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
-          <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base mb-4" style={{ fontWeight: 450 }}>{project.subtitle}</p>
+          <h1 className={`${textPreset.pageTitle} mb-3`}>{project.title}</h1>
+          <p className={`${textPreset.subtitle} mb-4 font-body`}>
+            {project.subtitle}
+          </p>
         </motion.div>
 
         {/* Featured Image */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pb-4">
-          <img 
-            src={project.image} 
+        <motion.div variants={itemVariants} className={layout.media}>
+          <img
+            src={project.image}
             alt={project.title}
             className="w-full rounded-xl overflow-hidden drop-shadow-sm border border-black/5 dark:border-white/10"
           />
@@ -175,67 +132,118 @@ export default function Project() {
         {/* Project Details */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-5">
           <div className="flex items-center gap-2 mb-6">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34] dark:text-[#D4C9BC]">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="text-[var(--color-heading)]"
+            >
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest">Project Details</h2>
+            <h2 className={textPreset.subSectionHeading}>Project Details</h2>
           </div>
-          <div className="border border-[#C8C4BD] dark:border-[#3A352E] rounded-lg overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
+          <div className={cardPreset.detailTable}>
             {Object.entries(project.details).map(([key, value], index) => (
-              <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD] dark:border-[#3A352E]' : ''}`}>
-                <span className="text-[12px] font-medium text-[#463B34] dark:text-[#D4C9BC] uppercase tracking-wide">{key}</span>
-                <span className="text-base text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontWeight: 450 }}>{value}</span>
+              <div
+                key={key}
+                className={`${cardPreset.detailTableRow} ${
+                  index !== Object.entries(project.details).length - 1
+                    ? cardPreset.detailTableRowBorder
+                    : ""
+                }`}
+              >
+                <span
+                  className={`${textPreset.detailLabel} text-[var(--color-heading)]`}
+                >
+                  {key}
+                </span>
+                <span className="text-base text-muted-foreground font-body">
+                  {value as string}
+                </span>
               </div>
             ))}
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div
+          variants={itemVariants}
+          className={layout.separator}
+        ></motion.div>
 
         {/* Introduction */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
-          <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
+        <motion.div variants={itemVariants} className={layout.section}>
+          <h2 className={`${textPreset.subSectionHeading} mb-6`}>
+            Introduction
+          </h2>
           <div className="space-y-4 mb-6">
-            {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
-              <p key={idx} className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
-                {paragraph}
-              </p>
-            ))}
+            {project.introduction
+              .split("\n\n")
+              .map((paragraph: string, idx: number) => (
+                <p key={idx} className={`${textPreset.body} font-body`}>
+                  {paragraph}
+                </p>
+              ))}
           </div>
         </motion.div>
 
         {/* Introduction Image */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pb-8">
-          <img 
-            src={contentImage} 
+        <motion.div variants={itemVariants} className={layout.media}>
+          <img
+            src={contentImage}
             alt="Introduction visual"
             className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5 dark:border-white/10"
           />
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div
+          variants={itemVariants}
+          className={layout.separator}
+        ></motion.div>
 
         {/* Contact CTA / Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-5 flex flex-col items-center text-center">
-          <h1 className="text-[23px] font-['Cedarville_Cursive'] text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Mike Starves</h1>
-          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4 text-[24px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
+        <motion.div
+          variants={itemVariants}
+          className="px-5 md:px-8 py-5 flex flex-col items-center text-center"
+        >
+          <h1 className="text-[23px] font-['Cedarville_Cursive'] text-foreground mb-2">
+            Mike Starves
+          </h1>
+          <p className="text-foreground mb-4 text-2xl font-semibold max-w-sm leading-tight">
+            Got a project in mind or just curious? Let's talk.
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer">
-              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy mail</span>
-              <AtSignIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
+            <Button
+              variant="outline"
+              size="sm"
+              className={`${cardPreset.actionButton} hover:cursor-pointer`}
+            >
+              <span className={textPreset.actionLabel}>Copy mail</span>
+              <AtSignIcon size={14} className={textPreset.actionIcon} />
             </Button>
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer">
-              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy phone</span>
-              <Phone size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
+            <Button
+              variant="outline"
+              size="sm"
+              className={`${cardPreset.actionButton} hover:cursor-pointer`}
+            >
+              <span className={textPreset.actionLabel}>Copy phone</span>
+              <Phone size={14} className={textPreset.actionIcon} />
             </Button>
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div
+          variants={itemVariants}
+          className={layout.separator}
+        ></motion.div>
 
         {/* Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 text-center">
-          <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893]" style={{ fontWeight: 450 }}>© ALL RIGHTS RESERVED.</p>
+        <motion.div variants={itemVariants} className={layout.footer}>
+          <p className={`${textPreset.footerText} font-body`}>
+            © ALL RIGHTS RESERVED.
+          </p>
         </motion.div>
       </div>
     </motion.div>

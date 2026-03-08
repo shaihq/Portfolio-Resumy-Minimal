@@ -30,6 +30,7 @@
 }
 
 :root {
+  /* ── Core Semantic Tokens (used by Tailwind theme) ── */
   --background: 42 16% 92%;
   --foreground: 20 10% 15%;
   --card: 46 29% 94%;
@@ -50,6 +51,29 @@
   --input: 46 15% 80%;
   --ring: 20 10% 15%;
   --radius: 0.5rem;
+
+  /* ── Extended Design Tokens (theme-aware) ── */
+  /* Surface colors */
+  --color-surface-elevated: white;
+  --color-surface-subtle: #f5f5f5;
+  --color-surface-subtle-hover: #e8e8e8;
+  --color-surface-card-hover: #35302a;
+
+  /* Text colors */
+  --color-heading: #463b34;
+  --color-tertiary: #666666;
+  --color-icon: #7a736c;
+
+  /* Divider/border colors */
+  --color-divider-dashed: #e5d7c4;
+  --color-divider-table: #c8c4bd;
+  --color-divider-panel-bg: #e7e3d9;
+
+  /* Button */
+  --button-outline: rgba(0, 0, 0, 0.08);
+
+  /* Brand */
+  --color-brand: #ff553e;
 }
 
 .dark {
@@ -72,6 +96,19 @@
   --border: 20 10% 20%;
   --input: 20 10% 20%;
   --ring: 46 29% 94%;
+
+  /* ── Extended Dark Overrides ── */
+  --color-surface-elevated: #2a2520;
+  --color-surface-subtle: #3a3531;
+  --color-surface-subtle-hover: #4a4540;
+  --color-surface-card-hover: #35302a;
+  --color-heading: #d4c9bc;
+  --color-tertiary: #9e9893;
+  --color-icon: #9e9893;
+  --color-divider-dashed: #3a352e;
+  --color-divider-table: #3a352e;
+  --color-divider-panel-bg: #2a2520;
+  --button-outline: rgba(255, 255, 255, 0.1);
 }
 
 @layer base {
@@ -82,6 +119,63 @@
     @apply font-sans antialiased bg-background text-foreground;
     overflow-x: hidden;
   }
+}
+
+/* ── Custom Dashed Border System ──
+   Used by layout.pageContainer and layout.separator tokens.
+   These create the vertical dashed side-borders and horizontal dividers.
+*/
+.custom-dashed-x {
+  position: relative;
+}
+.custom-dashed-x::before,
+.custom-dashed-x::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-divider-dashed) 50%,
+    transparent 50%
+  );
+  background-size: 1px 10px;
+  z-index: 0;
+  pointer-events: none;
+}
+.custom-dashed-x::before {
+  left: 0;
+}
+.custom-dashed-x::after {
+  right: 0;
+}
+
+.custom-dashed-t {
+  height: 1px;
+  width: 100%;
+  background-image: linear-gradient(
+    to right,
+    var(--color-divider-dashed) 50%,
+    transparent 50%
+  );
+  background-size: 10px 1px;
+}
+
+/* ── Dino Game Colors ── */
+.dino-color {
+  fill: #535353;
+}
+.dark .dino-color {
+  fill: #b5afa5;
+}
+
+/* ── Font Weight 450 Utility ──
+   Tailwind doesn't support non-standard weights.
+   Use this class instead of inline style={{ fontWeight: 450 }}
+*/
+.font-body {
+  font-weight: 450;
 }
 
 :root {
@@ -128,15 +222,24 @@ body {
 }
 
 .theme-panel-animate[data-state="closed"] {
-  animation: slide-out-right-custom 500ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  animation: slide-out-right-custom 500ms cubic-bezier(0.32, 0.72, 0, 1)
+    forwards;
 }
 
 @keyframes slide-in-right-custom {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes slide-out-right-custom {
-  from { transform: translateX(0); }
-  to { transform: translateX(100%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
 }
