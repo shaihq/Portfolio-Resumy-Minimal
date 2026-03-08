@@ -85,41 +85,22 @@ export function FluidDropdown() {
           <AnimatePresence>
             {isOpen && (
               <motion.div
-                initial={{ opacity: 1, y: 0, height: 0 }}
+                initial={{ opacity: 0, y: -4 }}
                 animate={{
                   opacity: 1,
                   y: 0,
-                  height: "auto",
-                  transition: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                    mass: 1,
-                  },
+                  transition: { duration: 0.15, ease: "easeOut" },
                 }}
                 exit={{
                   opacity: 0,
-                  y: 0,
-                  height: 0,
-                  transition: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                    mass: 1,
-                  },
+                  y: -4,
+                  transition: { duration: 0.15, ease: "easeIn" },
                 }}
                 className="absolute -left-1.5 top-full mt-2 z-50 min-w-[200px]"
                 onKeyDown={handleKeyDown}
+                style={{ transformOrigin: "top left" }}
               >
-                <motion.div
-                  className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-1.5 shadow-lg overflow-hidden"
-                  initial={{ borderRadius: 12 }}
-                  animate={{
-                    borderRadius: 16,
-                    transition: { duration: 0.2 },
-                  }}
-                  style={{ transformOrigin: "top" }}
-                >
+                <div className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-1.5 shadow-lg overflow-hidden">
                   <div className="relative flex flex-col">
                     <motion.div
                       className="absolute top-0 left-0 right-0 bg-black/5 dark:bg-white/5 rounded-xl z-0"
@@ -162,7 +143,7 @@ export function FluidDropdown() {
                       );
                     })}
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
