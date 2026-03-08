@@ -115,33 +115,58 @@ export default function Navbar() {
                 <div className="flex-1 overflow-y-auto p-5 space-y-8">
                   <SwitchToggleThemeDemo />
                   
-                  <div className="space-y-3">
-                    <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893]">Templates</div>
-                    <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-4 pt-2">
+                    <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
                       {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template, index) => {
                         const isSelected = index === 0;
                         return (
-                          <button 
-                            key={template} 
-                            className={cn(
-                              "relative flex flex-col items-center gap-2 p-2 rounded-xl border transition-all text-left focus:outline-none cursor-pointer group",
-                              isSelected 
-                                ? "border-[#1A1A1A] dark:border-[#F0EDE7] bg-black/5 dark:bg-white/5" 
-                                : "border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531]"
-                            )}
-                          >
-                            <div className="w-full aspect-[4/3] rounded-lg bg-[#E8E8E8] dark:bg-[#3A3531] overflow-hidden">
-                              {/* Placeholder for template thumbnail */}
+                          <div key={template} className="flex flex-col gap-3 items-center">
+                            <div className="relative w-full">
+                              <button 
+                                className={cn(
+                                  "w-full aspect-square rounded-[24px] transition-all focus:outline-none cursor-pointer group",
+                                  isSelected 
+                                    ? "border-[2.5px] border-[#FF5A36] p-1.5" 
+                                    : "border-[2.5px] border-transparent p-1.5 hover:bg-black/5 dark:hover:bg-white/5"
+                                )}
+                              >
+                                <div className={cn(
+                                  "w-full h-full rounded-[14px] overflow-hidden transition-all shadow-sm border border-black/5 dark:border-white/5 relative",
+                                  isSelected 
+                                    ? "bg-[#F0EDE7] dark:bg-[#3A3531]" 
+                                    : "bg-[#F5F5F5] dark:bg-[#2A2520] group-hover:shadow-md"
+                                )}>
+                                   {/* Subtle wireframe placeholder */}
+                                   <div className="absolute inset-0 p-3 flex flex-col gap-2 opacity-40">
+                                     <div className="flex items-center gap-2">
+                                       <div className="w-5 h-5 rounded-full bg-black/20 dark:bg-white/20" />
+                                       <div className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
+                                     </div>
+                                     <div className="w-full h-12 mt-1 rounded-md bg-black/10 dark:bg-white/10" />
+                                     <div className="flex gap-2 mt-auto">
+                                       <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
+                                       <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
+                                     </div>
+                                   </div>
+                                </div>
+                              </button>
+                              
+                              {isSelected && (
+                                <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
+                                  <Check size={14} strokeWidth={3.5} />
+                                </div>
+                              )}
                             </div>
-                            <span className="text-xs font-medium text-[#1A1A1A] dark:text-[#F0EDE7] w-full text-center pb-1">
+                            <span className={cn(
+                              "text-[14px] text-center transition-colors font-medium",
+                              isSelected 
+                                ? "text-[#FF5A36]" 
+                                : "text-[#7A736C] dark:text-[#9E9893]"
+                            )}>
                               {template}
                             </span>
-                            {isSelected && (
-                              <div className="absolute -bottom-1 -left-1 bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-black rounded-full p-0.5 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                              </div>
-                            )}
-                          </button>
+                          </div>
                         );
                       })}
                     </div>
