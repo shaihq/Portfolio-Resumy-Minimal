@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square } from "lucide-react";
@@ -822,9 +823,14 @@ export default function Home() {
         ) : activeTemplate === "Professional" ? (
           <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
             <SmoothCursor type="professional" />
+            
             {/* Top section: Avatar, Title, Subtitle */}
-            <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
-              <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0">
+            <motion.div variants={itemVariants} className="flex flex-col items-center w-full relative px-4">
+              <div className="absolute top-0 right-4 z-50">
+                <CinematicThemeSwitcher />
+              </div>
+              
+              <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0 mt-2">
                 <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90 grayscale-[0.2]" style={{ filter: "contrast(1.2)" }} />
               </div>
               
