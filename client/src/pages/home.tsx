@@ -901,6 +901,20 @@ export default function Home() {
                   <span className="absolute bottom-2 left-[50%] -translate-x-1/2 w-0 h-[1px] bg-[#1A1A1A] dark:bg-[#F0EDE7] opacity-0 group-hover:opacity-100 group-hover:w-[60%] transition-all duration-300 ease-out z-10" />
                 )}
               </button>
+              <button 
+                onClick={() => setActiveTab("Testimonials")}
+                className={cn(
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[12px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  activeTab === "Testimonials" 
+                    ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
+                    : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
+                )}
+              >
+                <span className="relative z-10 transition-colors duration-200">Testimonials</span>
+                {activeTab !== "Testimonials" && (
+                  <span className="absolute bottom-2 left-[50%] -translate-x-1/2 w-0 h-[1px] bg-[#1A1A1A] dark:bg-[#F0EDE7] opacity-0 group-hover:opacity-100 group-hover:w-[60%] transition-all duration-300 ease-out z-10" />
+                )}
+              </button>
             </div>
 
             {/* Empty space for content below */}
@@ -1129,6 +1143,52 @@ export default function Home() {
                         <Linkedin className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
                         <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">LinkedIn</span>
                       </a>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "Testimonials" && (
+                <div className="p-4 md:p-6 pb-12">
+                  <div className="max-w-2xl space-y-6">
+                    <div className="group border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative">
+                      <div className="absolute top-6 right-6 opacity-20 dark:opacity-30">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M10 11L8 15H11V19H7L5 15V11H10ZM18 11L16 15H19V19H15L13 15V11H18Z" fill="currentColor"/>
+                        </svg>
+                      </div>
+                      <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed mb-6 italic relative z-10">
+                        "Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience."
+                      </p>
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
+                          <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Sarah Jenkins" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">Sarah Jenkins</h4>
+                          <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">VP of Product, Stripe</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="group border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative">
+                      <div className="absolute top-6 right-6 opacity-20 dark:opacity-30">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M10 11L8 15H11V19H7L5 15V11H10ZM18 11L16 15H19V19H15L13 15V11H18Z" fill="currentColor"/>
+                        </svg>
+                      </div>
+                      <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed mb-6 italic relative z-10">
+                        "We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI."
+                      </p>
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
+                          <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="David Chen" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">David Chen</h4>
+                          <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">Engineering Lead, Vercel</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
