@@ -1016,7 +1016,7 @@ export default function Home() {
                             >
                               +
                             </motion.span>
-                            <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[18px] font-medium tracking-wide uppercase">
+                            <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium tracking-wide uppercase">
                               <span className="text-[#7A736C] dark:text-[#9E9893] mr-2">{exp.year} /</span>
                               {exp.company}
                             </span>
