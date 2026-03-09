@@ -992,7 +992,7 @@ export default function Home() {
               )}
 
               {activeTab === "Experience" && (
-                <div className="p-4 md:p-6 pb-12">
+                <div className="pb-12">
                   <div className="space-y-0">
                     {experiences.map((exp, index) => (
                       <div key={index} className="group border-b border-[#D5D0C6] dark:border-[#3A352E] last:border-0 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors -mx-4 px-4 md:-mx-6 md:px-6">
