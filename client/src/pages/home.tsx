@@ -11,6 +11,7 @@ import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
+import { HudButton } from "@/components/ui/hud-button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import profileImg from "@assets/image_1772896095217.png";
@@ -1112,23 +1113,35 @@ export default function Home() {
               {activeTab === "Contact" && (
                 <div className="p-4 md:p-6 pb-12">
                   <div className="max-w-2xl h-full flex items-center justify-center min-h-[300px]">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                      <a href="mailto:hello@example.com" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
-                        <Mail className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">Email Me</span>
-                      </a>
-                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
-                        <Twitter className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">Twitter / X</span>
-                      </a>
-                      <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
-                        <Github className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">GitHub</span>
-                      </a>
-                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
-                        <Linkedin className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">LinkedIn</span>
-                      </a>
+                    <div className="flex flex-col sm:flex-row flex-wrap gap-6 items-center justify-center w-full">
+                      <HudButton 
+                        style="style1" 
+                        variant="secondary"
+                        onClick={() => window.location.href = "mailto:hello@example.com"}
+                      >
+                        Email Me
+                      </HudButton>
+                      <HudButton 
+                        style="style1" 
+                        variant="secondary"
+                        onClick={() => window.open("https://twitter.com", "_blank")}
+                      >
+                        Twitter / X
+                      </HudButton>
+                      <HudButton 
+                        style="style1" 
+                        variant="secondary"
+                        onClick={() => window.open("https://github.com", "_blank")}
+                      >
+                        GitHub
+                      </HudButton>
+                      <HudButton 
+                        style="style1" 
+                        variant="secondary"
+                        onClick={() => window.open("https://linkedin.com", "_blank")}
+                      >
+                        LinkedIn
+                      </HudButton>
                     </div>
                   </div>
                 </div>
