@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import profileImg from "@assets/image_1772896095217.png";
@@ -796,6 +797,7 @@ export default function Home() {
           </>
         ) : activeTemplate === "Professional" ? (
           <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+            <SmoothCursor />
             {/* Top section: Avatar, Title, Subtitle */}
             <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
               <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0">
