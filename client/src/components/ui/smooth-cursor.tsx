@@ -96,8 +96,6 @@ export function SmoothCursor({
   const previousAngle = useRef(0);
   const accumulatedRotation = useRef(0);
 
-  const [isVisible, setIsVisible] = useState(false);
-
   const cursorX = useSpring(0, springConfig);
   const cursorY = useSpring(0, springConfig);
   const rotation = useSpring(0, {
@@ -128,17 +126,6 @@ export function SmoothCursor({
     };
 
     const smoothMouseMove = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const isPortfolioArea = target.closest('#professional-portfolio-view');
-      const computedCursor = window.getComputedStyle(target).cursor;
-      const isPointer = computedCursor === 'pointer' || target.closest('button') || target.closest('a') || target.closest('.cursor-pointer');
-      
-      if (isPortfolioArea && !isPointer) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-
       const currentPos = { x: e.clientX, y: e.clientY };
       updateVelocity(currentPos);
 
@@ -183,10 +170,12 @@ export function SmoothCursor({
       });
     };
 
+    document.body.style.cursor = "none";
     window.addEventListener("mousemove", throttledMouseMove);
 
     return () => {
       window.removeEventListener("mousemove", throttledMouseMove);
+      document.body.style.cursor = "auto";
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, [cursorX, cursorY, rotation, scale]);
@@ -204,7 +193,6 @@ export function SmoothCursor({
         zIndex: 100,
         pointerEvents: "none",
         willChange: "transform",
-        opacity: isVisible ? 1 : 0,
       }}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
@@ -218,4 +206,3 @@ export function SmoothCursor({
     </motion.div>
   );
 }
-

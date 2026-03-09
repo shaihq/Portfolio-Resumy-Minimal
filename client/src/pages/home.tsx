@@ -796,7 +796,7 @@ export default function Home() {
         </motion.div>
           </>
         ) : activeTemplate === "Professional" ? (
-          <div id="professional-portfolio-view" className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A] cursor-none [&_button]:cursor-pointer [&_a]:cursor-pointer [&_.cursor-pointer]:cursor-pointer">
+          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
             <SmoothCursor />
             {/* Top section: Avatar, Title, Subtitle */}
             <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
