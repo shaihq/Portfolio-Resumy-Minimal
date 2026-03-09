@@ -14,6 +14,7 @@ import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import profileImg from "@assets/image_1772896095217.png";
+import { PixelImage } from "@/components/ui/pixel-image";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
@@ -1179,9 +1180,12 @@ export default function Home() {
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
-                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Sarah Jenkins" className="w-full h-full object-cover" />
-                          </div>
+                          <PixelImage 
+                            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                            className="w-10 h-10"
+                            imageClassName="rounded-[12px]"
+                            grid="4x6"
+                          />
                           <div>
                             <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">Sarah Jenkins</h4>
                             <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">VP of Product, Stripe</p>
@@ -1212,9 +1216,12 @@ export default function Home() {
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
-                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="David Chen" className="w-full h-full object-cover" />
-                          </div>
+                          <PixelImage 
+                            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                            className="w-10 h-10"
+                            imageClassName="rounded-[12px]"
+                            grid="4x6"
+                          />
                           <div>
                             <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">David Chen</h4>
                             <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">Engineering Lead, Vercel</p>
