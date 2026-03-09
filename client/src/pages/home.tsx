@@ -1189,27 +1189,26 @@ export default function Home() {
                         </div>
                         <button
                           onClick={() => handlePlayTestimonial("Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience.", 1)}
-                          className="flex items-center gap-2 px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#DED9CE] dark:hover:bg-[#2A2520] transition-colors relative overflow-hidden group"
+                          className="flex items-center gap-2 px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#DED9CE] dark:hover:bg-[#2A2520] transition-colors"
                         >
                           {playingTestimonial === 1 ? (
                             <>
-                              <div className="absolute inset-0 bg-[#1A1A1A]/5 dark:bg-[#F0EDE7]/5 flex items-center justify-center gap-[2px] z-0">
+                              <Square size={14} className="fill-current" />
+                              <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
                                 {[...Array(4)].map((_, i) => (
                                   <motion.div
                                     key={i}
-                                    className="w-[2px] bg-[#1A1A1A]/40 dark:bg-[#F0EDE7]/40 rounded-full"
+                                    className="w-[2px] bg-current rounded-full"
                                     animate={{ height: ["4px", "12px", "4px"] }}
                                     transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
                                   />
                                 ))}
                               </div>
-                              <Square size={14} className="fill-current relative z-10" />
-                              <span className="font-['JetBrains_Mono'] text-[12px] relative z-10">Stop</span>
                             </>
                           ) : (
                             <>
                               <Play size={14} className="fill-current" />
-                              <span className="font-['JetBrains_Mono'] text-[12px]">Play</span>
+                              <span className="font-['JetBrains_Mono'] text-[12px] w-[30px] text-center">Play</span>
                             </>
                           )}
                         </button>
@@ -1232,27 +1231,26 @@ export default function Home() {
                         </div>
                         <button
                           onClick={() => handlePlayTestimonial("We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI.", 2)}
-                          className="flex items-center gap-2 px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#DED9CE] dark:hover:bg-[#2A2520] transition-colors relative overflow-hidden group"
+                          className="flex items-center gap-2 px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#DED9CE] dark:hover:bg-[#2A2520] transition-colors"
                         >
                           {playingTestimonial === 2 ? (
                             <>
-                              <div className="absolute inset-0 bg-[#1A1A1A]/5 dark:bg-[#F0EDE7]/5 flex items-center justify-center gap-[2px] z-0">
+                              <Square size={14} className="fill-current" />
+                              <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
                                 {[...Array(4)].map((_, i) => (
                                   <motion.div
                                     key={i}
-                                    className="w-[2px] bg-[#1A1A1A]/40 dark:bg-[#F0EDE7]/40 rounded-full"
+                                    className="w-[2px] bg-current rounded-full"
                                     animate={{ height: ["4px", "12px", "4px"] }}
                                     transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
                                   />
                                 ))}
                               </div>
-                              <Square size={14} className="fill-current relative z-10" />
-                              <span className="font-['JetBrains_Mono'] text-[12px] relative z-10">Stop</span>
                             </>
                           ) : (
                             <>
                               <Play size={14} className="fill-current" />
-                              <span className="font-['JetBrains_Mono'] text-[12px]">Play</span>
+                              <span className="font-['JetBrains_Mono'] text-[12px] w-[30px] text-center">Play</span>
                             </>
                           )}
                         </button>
