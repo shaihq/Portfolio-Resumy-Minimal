@@ -1111,48 +1111,25 @@ export default function Home() {
 
               {activeTab === "Contact" && (
                 <div className="p-4 md:p-6 pb-12">
-                  <div className="max-w-2xl">
-                    <h3 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[24px] font-semibold uppercase tracking-wider mb-2">Get in touch</h3>
-                    <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[16px] mb-8">
-                      Currently available for freelance opportunities and full-time roles.
-                    </p>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                      <a href="mailto:hello@example.com" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                  <div className="max-w-2xl h-full flex items-center justify-center min-h-[300px]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                      <a href="mailto:hello@example.com" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
                         <Mail className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
                         <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">Email Me</span>
                       </a>
-                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
                         <Twitter className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
                         <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">Twitter / X</span>
                       </a>
-                      <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                      <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
                         <Github className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
                         <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">GitHub</span>
                       </a>
-                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm h-32">
                         <Linkedin className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
                         <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">LinkedIn</span>
                       </a>
                     </div>
-                    
-                    <form className="space-y-4 border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm bg-white/50 dark:bg-black/20">
-                      <div>
-                        <label htmlFor="name" className="block font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] uppercase tracking-wider mb-2">Name</label>
-                        <input type="text" id="name" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['JetBrains_Mono'] text-[16px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="John Doe" />
-                      </div>
-                      <div>
-                        <label htmlFor="email" className="block font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] uppercase tracking-wider mb-2 mt-4">Email</label>
-                        <input type="email" id="email" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['JetBrains_Mono'] text-[16px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="john@example.com" />
-                      </div>
-                      <div>
-                        <label htmlFor="message" className="block font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] uppercase tracking-wider mb-2 mt-4">Message</label>
-                        <textarea id="message" rows={4} className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['JetBrains_Mono'] text-[16px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors resize-none placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="Hello, I'd like to discuss..."></textarea>
-                      </div>
-                      <button type="button" className="mt-6 px-6 py-3 bg-[#E37941] text-white font-['JetBrains_Mono'] text-[16px] uppercase tracking-wider hover:bg-[#D66B35] transition-colors w-full sm:w-auto">
-                        Send Message
-                      </button>
-                    </form>
                   </div>
                 </div>
               )}
