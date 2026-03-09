@@ -894,7 +894,7 @@ export default function Home() {
             {/* Empty space for content below */}
             <div className="flex-1 bg-[#EFECE6] dark:bg-[#1A1A1A]">
               {activeTab === "Projects" && (
-                <div className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6 mt-4">
+                <div className="p-4 md:p-6 grid grid-cols-1 gap-8 md:gap-12 mt-4 max-w-4xl mx-auto">
                   {/* Project 1 */}
                   <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B] transition-transform hover:scale-[1.01] duration-300">
                     <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
