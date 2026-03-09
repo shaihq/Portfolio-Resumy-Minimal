@@ -1174,11 +1174,6 @@ export default function Home() {
                 <div className="p-4 md:p-6 pb-12">
                   <div className="max-w-2xl space-y-6">
                     <div className="group border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative">
-                      <div className="absolute top-6 right-6 opacity-20 dark:opacity-30">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M10 11L8 15H11V19H7L5 15V11H10ZM18 11L16 15H19V19H15L13 15V11H18Z" fill="currentColor"/>
-                        </svg>
-                      </div>
                       <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed mb-6 italic relative z-10">
                         "Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience."
                       </p>
@@ -1212,11 +1207,6 @@ export default function Home() {
                     </div>
 
                     <div className="group border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative">
-                      <div className="absolute top-6 right-6 opacity-20 dark:opacity-30">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M10 11L8 15H11V19H7L5 15V11H10ZM18 11L16 15H19V19H15L13 15V11H18Z" fill="currentColor"/>
-                        </svg>
-                      </div>
                       <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed mb-6 italic relative z-10">
                         "We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI."
                       </p>
