@@ -10,6 +10,7 @@ import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import profileImg from "@assets/image_1772896095217.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
@@ -220,6 +221,12 @@ export default function Home() {
   };
 
   const { activeTemplate } = useTemplate();
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <>
@@ -761,6 +768,58 @@ export default function Home() {
           </div>
         </motion.div>
           </>
+        ) : activeTemplate === "Professional" ? (
+          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+            {/* Top section: Avatar, Title, Subtitle */}
+            <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
+              <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0">
+                <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90 grayscale-[0.2]" style={{ filter: "contrast(1.2)" }} />
+              </div>
+              
+              <div className="w-full flex justify-center mb-6 relative overflow-hidden items-center h-[100px] md:h-[120px]">
+                <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight whitespace-nowrap text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6">
+                  DAVID JOHNSON
+                </h1>
+              </div>
+
+              <div className="text-center font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] leading-[1.8] mb-12">
+                <p>I'm a Web Designer, Music Artist & Photographer.</p>
+                <p>I spend most of time thinking about Tea.</p>
+              </div>
+            </motion.div>
+
+            {/* Time / Role row */}
+            <div className="border-t border-[#D5D0C6] dark:border-[#3A352E] flex justify-between items-center px-4 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wide text-[#1A1A1A] dark:text-[#B5AFA5]">
+              <div className="flex items-center gap-2">
+                <span>{format(currentTime, "E, MMM d")}</span>
+                <span className="text-[#E37941] text-[8px] mt-[1px]">◆</span>
+                <span>{format(currentTime, "h:mm:ss a")}</span>
+              </div>
+              <div className="tracking-wider">PRODUCT DESIGNER</div>
+            </div>
+
+            {/* Navigation row */}
+            <div className="bg-[#DED9CE] dark:bg-[#2A2520] px-3 py-2 flex justify-between items-center overflow-x-auto hide-scrollbar">
+              <button 
+                className="bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider font-semibold shadow-sm min-w-max"
+                style={{ clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" }}
+              >
+                Projects
+              </button>
+              <button className="text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 px-4 py-2 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity font-medium min-w-max">
+                Experience
+              </button>
+              <button className="text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 px-4 py-2 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity font-medium min-w-max">
+                About me
+              </button>
+              <button className="text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 px-4 py-2 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity font-medium min-w-max">
+                Contact
+              </button>
+            </div>
+
+            {/* Empty space for content below */}
+            <div className="flex-1 bg-[#EFECE6] dark:bg-[#1A1A1A]"></div>
+          </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
             <motion.div 
