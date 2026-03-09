@@ -825,12 +825,12 @@ export default function Home() {
             <SmoothCursor type="professional" />
             
             {/* Top section: Avatar, Title, Subtitle */}
-            <motion.div variants={itemVariants} className="flex flex-col items-center w-full relative px-4">
+            <motion.div variants={itemVariants} className="flex flex-col items-center w-full relative">
               <div className="absolute top-0 right-4 z-50">
                 <CinematicThemeSwitcher />
               </div>
               
-              <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0 mt-2">
+              <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0 mt-2 px-4">
                 <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90 grayscale-[0.2]" style={{ filter: "contrast(1.2)" }} />
               </div>
               
@@ -855,7 +855,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              <div className="text-center font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-[1.8] mb-12">
+              <div className="text-center font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-[1.8] mb-12 px-4">
                 <p>I'm a Web Designer, Music Artist & Photographer.</p>
                 <p>I spend most of time thinking about Tea.</p>
               </div>
