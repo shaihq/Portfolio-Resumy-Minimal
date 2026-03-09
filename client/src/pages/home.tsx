@@ -922,7 +922,7 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['JetBrains_Mono'] text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Slate</h3>
+                      <h3 className="font-['JetBrains_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Slate</h3>
                       <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                         A sleek and responsive landing page designed for modern startups to showcase their products.
                       </p>
@@ -945,7 +945,7 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['JetBrains_Mono'] text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Antimetal</h3>
+                      <h3 className="font-['JetBrains_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Antimetal</h3>
                       <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                         A dynamic, animation-focused landing page highlighting transitions.
                       </p>
@@ -968,7 +968,7 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['JetBrains_Mono'] text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Dashboard</h3>
+                      <h3 className="font-['JetBrains_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Dashboard</h3>
                       <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                         Complex data visualization with clean, intuitive interfaces.
                       </p>
@@ -991,7 +991,7 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['JetBrains_Mono'] text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">TaskMaster</h3>
+                      <h3 className="font-['JetBrains_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">TaskMaster</h3>
                       <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                         Productivity application with seamless drag-and-drop mechanics.
                       </p>
