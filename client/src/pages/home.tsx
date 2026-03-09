@@ -847,46 +847,58 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Projects")}
                 className={cn(
-                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max",
+                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Projects" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
-                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#E5D7C4]/70 dark:hover:bg-[#3A352E]/70 font-medium hover:[clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]"
+                    : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
                 )}
               >
-                Projects
+                <span className="relative z-10 transition-colors duration-200">Projects</span>
+                {activeTab !== "Projects" && (
+                  <span className="absolute bottom-2 left-[50%] -translate-x-1/2 w-0 h-[1px] bg-[#1A1A1A] dark:bg-[#F0EDE7] opacity-0 group-hover:opacity-100 group-hover:w-[60%] transition-all duration-300 ease-out z-10" />
+                )}
               </button>
               <button 
                 onClick={() => setActiveTab("Experience")}
                 className={cn(
-                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max",
+                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Experience" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
-                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#E5D7C4]/70 dark:hover:bg-[#3A352E]/70 font-medium hover:[clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]"
+                    : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
                 )}
               >
-                Experience
+                <span className="relative z-10 transition-colors duration-200">Experience</span>
+                {activeTab !== "Experience" && (
+                  <span className="absolute bottom-2 left-[50%] -translate-x-1/2 w-0 h-[1px] bg-[#1A1A1A] dark:bg-[#F0EDE7] opacity-0 group-hover:opacity-100 group-hover:w-[60%] transition-all duration-300 ease-out z-10" />
+                )}
               </button>
               <button 
                 onClick={() => setActiveTab("About")}
                 className={cn(
-                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max",
+                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "About" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
-                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#E5D7C4]/70 dark:hover:bg-[#3A352E]/70 font-medium hover:[clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]"
+                    : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
                 )}
               >
-                About me
+                <span className="relative z-10 transition-colors duration-200">About me</span>
+                {activeTab !== "About" && (
+                  <span className="absolute bottom-2 left-[50%] -translate-x-1/2 w-0 h-[1px] bg-[#1A1A1A] dark:bg-[#F0EDE7] opacity-0 group-hover:opacity-100 group-hover:w-[60%] transition-all duration-300 ease-out z-10" />
+                )}
               </button>
               <button 
                 onClick={() => setActiveTab("Contact")}
                 className={cn(
-                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max",
+                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Contact" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
-                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#E5D7C4]/70 dark:hover:bg-[#3A352E]/70 font-medium hover:[clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]"
+                    : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
                 )}
               >
-                Contact
+                <span className="relative z-10 transition-colors duration-200">Contact</span>
+                {activeTab !== "Contact" && (
+                  <span className="absolute bottom-2 left-[50%] -translate-x-1/2 w-0 h-[1px] bg-[#1A1A1A] dark:bg-[#F0EDE7] opacity-0 group-hover:opacity-100 group-hover:w-[60%] transition-all duration-300 ease-out z-10" />
+                )}
               </button>
             </div>
 
