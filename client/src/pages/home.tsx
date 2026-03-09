@@ -900,18 +900,15 @@ export default function Home() {
                     <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
                     <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
 
-                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] pt-8 px-8 md:pt-10 md:px-10 relative flex justify-center items-end overflow-hidden">
+                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] p-8 md:p-10 relative flex justify-center items-center overflow-hidden">
                       <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="w-[85%] md:w-[80%] relative z-10 flex flex-col items-center">
-                        <div className="bg-[#111111] rounded-lg p-2 md:p-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.4)] w-full">
-                          <div className="w-full aspect-[16/10] bg-white relative overflow-hidden rounded-sm">
-                            <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                          </div>
+                      <div className="w-full relative z-10 shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/5 dark:border-white/10">
+                        <div className="w-full aspect-[16/10] bg-white relative overflow-hidden">
+                          <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         </div>
-                        <div className="w-[20%] h-5 md:h-7 bg-gradient-to-r from-[#E0DDD8] via-[#B8B4AC] to-[#99948E] dark:from-[#4A453E] dark:via-[#2A2520] dark:to-[#12100E] -mt-1 relative z-0"></div>
                       </div>
                     </div>
 
@@ -928,18 +925,15 @@ export default function Home() {
                     <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
                     <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
 
-                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] pt-8 px-8 md:pt-10 md:px-10 relative flex justify-center items-end overflow-hidden">
+                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] p-8 md:p-10 relative flex justify-center items-center overflow-hidden">
                       <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="w-[85%] md:w-[80%] relative z-10 flex flex-col items-center">
-                        <div className="bg-[#111111] rounded-lg p-2 md:p-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.4)] w-full">
-                          <div className="w-full aspect-[16/10] bg-white relative overflow-hidden rounded-sm">
-                            <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                          </div>
+                      <div className="w-full relative z-10 shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/5 dark:border-white/10">
+                        <div className="w-full aspect-[16/10] bg-white relative overflow-hidden">
+                          <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         </div>
-                        <div className="w-[20%] h-5 md:h-7 bg-gradient-to-r from-[#E0DDD8] via-[#B8B4AC] to-[#99948E] dark:from-[#4A453E] dark:via-[#2A2520] dark:to-[#12100E] -mt-1 relative z-0"></div>
                       </div>
                     </div>
 
@@ -956,18 +950,15 @@ export default function Home() {
                     <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
                     <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
 
-                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] pt-8 px-8 md:pt-10 md:px-10 relative flex justify-center items-end overflow-hidden">
+                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] p-8 md:p-10 relative flex justify-center items-center overflow-hidden">
                       <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="w-[85%] md:w-[80%] relative z-10 flex flex-col items-center">
-                        <div className="bg-[#111111] rounded-lg p-2 md:p-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.4)] w-full">
-                          <div className="w-full aspect-[16/10] bg-white relative overflow-hidden rounded-sm">
-                            <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                          </div>
+                      <div className="w-full relative z-10 shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/5 dark:border-white/10">
+                        <div className="w-full aspect-[16/10] bg-white relative overflow-hidden">
+                          <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         </div>
-                        <div className="w-[20%] h-5 md:h-7 bg-gradient-to-r from-[#E0DDD8] via-[#B8B4AC] to-[#99948E] dark:from-[#4A453E] dark:via-[#2A2520] dark:to-[#12100E] -mt-1 relative z-0"></div>
                       </div>
                     </div>
 
@@ -984,18 +975,15 @@ export default function Home() {
                     <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
                     <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
 
-                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] pt-8 px-8 md:pt-10 md:px-10 relative flex justify-center items-end overflow-hidden">
+                    <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] p-8 md:p-10 relative flex justify-center items-center overflow-hidden">
                       <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
                       <div className="absolute bottom-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="w-[85%] md:w-[80%] relative z-10 flex flex-col items-center">
-                        <div className="bg-[#111111] rounded-lg p-2 md:p-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.4)] w-full">
-                          <div className="w-full aspect-[16/10] bg-white relative overflow-hidden rounded-sm">
-                            <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                          </div>
+                      <div className="w-full relative z-10 shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/5 dark:border-white/10">
+                        <div className="w-full aspect-[16/10] bg-white relative overflow-hidden">
+                          <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         </div>
-                        <div className="w-[20%] h-5 md:h-7 bg-gradient-to-r from-[#E0DDD8] via-[#B8B4AC] to-[#99948E] dark:from-[#4A453E] dark:via-[#2A2520] dark:to-[#12100E] -mt-1 relative z-0"></div>
                       </div>
                     </div>
 
