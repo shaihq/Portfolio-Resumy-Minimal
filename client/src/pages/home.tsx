@@ -802,10 +802,25 @@ export default function Home() {
                 <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90 grayscale-[0.2]" style={{ filter: "contrast(1.2)" }} />
               </div>
               
-              <div className="w-full flex justify-center mb-6 relative overflow-hidden items-center h-[100px] md:h-[120px]">
-                <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight whitespace-nowrap text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6">
-                  DAVID JOHNSON
-                </h1>
+              <div className="w-full flex mb-6 relative overflow-hidden items-center h-[100px] md:h-[120px]">
+                <motion.div 
+                  className="flex whitespace-nowrap"
+                  animate={{ x: [0, "-50%"] }}
+                  transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+                >
+                  <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6 pr-12">
+                    DAVID JOHNSON
+                  </h1>
+                  <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6 pr-12">
+                    DAVID JOHNSON
+                  </h1>
+                  <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6 pr-12">
+                    DAVID JOHNSON
+                  </h1>
+                  <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6 pr-12">
+                    DAVID JOHNSON
+                  </h1>
+                </motion.div>
               </div>
 
               <div className="text-center font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] leading-[1.8] mb-12">
