@@ -52,7 +52,7 @@ export function HudButton({
   const getColors = () => {
     if (variant === "primary") {
       return {
-        main: isDark ? "#4ade80" : "#16a34a", // Keep dark green, slightly darker for light
+        main: isDark ? "#4ade80" : "#16a34a",
         gradient: isDark ? "#4ade80" : "#16a34a",
         text: isDark ? "text-green-300" : "text-green-700",
         glow: isDark ? "rgba(74, 222, 128, 0.3)" : "rgba(22, 163, 74, 0.2)",
@@ -61,9 +61,9 @@ export function HudButton({
     } else {
       return {
         main: isDark ? "#F0EDE7" : "#1A1A1A",
-        gradient: isDark ? "#1A1A1A" : "#F0EDE7", // Matches app background for a hollow/clean look
+        gradient: isDark ? "#2A2520" : "#E8E3DA", // More subtle gradient matching backgrounds
         text: isDark ? "text-[#F0EDE7]" : "text-[#1A1A1A]",
-        glow: isDark ? "rgba(240, 237, 231, 0.15)" : "rgba(26, 26, 26, 0.1)", // Subtle hover glow
+        glow: "transparent", // Remove glow for secondary for cleaner look
         border: isDark ? "#3A352E" : "#D5D0C6"
       }
     }
@@ -191,14 +191,14 @@ export function HudButton({
     switch (size) {
       case "small":
         return {
-          width: "140px",
-          height: "39px",
+          width: style === "style1" ? "140px" : "140px",
+          height: style === "style1" ? "34px" : "39px",
           textClass: "text-xs tracking-wide"
         }
       case "large":
         return {
           width: "100%",
-          height: "128px", // Fixed 128px to match h-32 exactly
+          height: "128px",
           textClass: "text-[15px] tracking-wider"
         }
       default:
@@ -215,8 +215,8 @@ export function HudButton({
   const renderStyle1SVG = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="182.288"
-      height="43.721"
+      width="100%"
+      height="100%"
       viewBox="0 0 182.288 43.721"
       preserveAspectRatio="none"
       className="w-full h-full absolute inset-0"
@@ -314,8 +314,8 @@ export function HudButton({
 
   const renderStyle2SVG = () => (
     <svg
-      width="100%"
-      height="100%"
+      width={sizeStyles.width}
+      height={sizeStyles.height}
       viewBox="0 0 187 52"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
