@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -31,6 +31,28 @@ export default function Home() {
   const dribbbleRef = useRef<DribbbleIconHandle>(null);
   const twitterRef = useRef<TwitterIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleEnd = () => setPlayingTestimonial(null);
+    window.speechSynthesis.addEventListener('voiceschanged', () => {}); // Just to initialize
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  const handlePlayTestimonial = (text: string, id: number) => {
+    if (playingTestimonial === id) {
+      window.speechSynthesis.cancel();
+      setPlayingTestimonial(null);
+    } else {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.onend = () => setPlayingTestimonial(null);
+      window.speechSynthesis.speak(utterance);
+      setPlayingTestimonial(id);
+    }
+  };
 
   const handleProjectClick = (projectId: string) => {
     navigate(`/project/${projectId}`);
@@ -1160,14 +1182,32 @@ export default function Home() {
                       <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed mb-6 italic relative z-10">
                         "Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience."
                       </p>
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
-                          <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Sarah Jenkins" className="w-full h-full object-cover" />
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
+                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Sarah Jenkins" className="w-full h-full object-cover" />
+                          </div>
+                          <div>
+                            <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">Sarah Jenkins</h4>
+                            <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">VP of Product, Stripe</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">Sarah Jenkins</h4>
-                          <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">VP of Product, Stripe</p>
-                        </div>
+                        <button
+                          onClick={() => handlePlayTestimonial("Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience.", 1)}
+                          className="flex items-center gap-2 px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#DED9CE] dark:hover:bg-[#2A2520] transition-colors"
+                        >
+                          {playingTestimonial === 1 ? (
+                            <>
+                              <Square size={14} className="fill-current" />
+                              <span className="font-['JetBrains_Mono'] text-[12px]">Stop</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={14} className="fill-current" />
+                              <span className="font-['JetBrains_Mono'] text-[12px]">Play</span>
+                            </>
+                          )}
+                        </button>
                       </div>
                     </div>
 
@@ -1180,14 +1220,32 @@ export default function Home() {
                       <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed mb-6 italic relative z-10">
                         "We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI."
                       </p>
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
-                          <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="David Chen" className="w-full h-full object-cover" />
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-[#D5D0C6] dark:bg-[#3A352E] overflow-hidden">
+                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="David Chen" className="w-full h-full object-cover" />
+                          </div>
+                          <div>
+                            <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">David Chen</h4>
+                            <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">Engineering Lead, Vercel</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-semibold">David Chen</h4>
-                          <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider">Engineering Lead, Vercel</p>
-                        </div>
+                        <button
+                          onClick={() => handlePlayTestimonial("We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI.", 2)}
+                          className="flex items-center gap-2 px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#DED9CE] dark:hover:bg-[#2A2520] transition-colors"
+                        >
+                          {playingTestimonial === 2 ? (
+                            <>
+                              <Square size={14} className="fill-current" />
+                              <span className="font-['JetBrains_Mono'] text-[12px]">Stop</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={14} className="fill-current" />
+                              <span className="font-['JetBrains_Mono'] text-[12px]">Play</span>
+                            </>
+                          )}
+                        </button>
                       </div>
                     </div>
                   </div>
