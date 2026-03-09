@@ -806,7 +806,7 @@ export default function Home() {
                 <motion.div 
                   className="flex whitespace-nowrap"
                   animate={{ x: [0, "-50%"] }}
-                  transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+                  transition={{ ease: "linear", duration: 25, repeat: Infinity }}
                 >
                   <h1 className="text-[110px] md:text-[140px] leading-[0.8] font-['Pixelify_Sans'] tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7] select-none mt-6 pr-12">
                     DAVID JOHNSON
