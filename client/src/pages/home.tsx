@@ -10,6 +10,7 @@ import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
+import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import profileImg from "@assets/image_1772896095217.png";
@@ -1075,11 +1076,11 @@ export default function Home() {
               {activeTab === "About" && (
                 <div className="p-4 md:p-6 pb-12">
                   <div className="max-w-2xl">
-                    <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-8">
-                      I am a multi-disciplinary designer and developer based in San Francisco. I specialize in creating elevated digital experiences that combine intuitive functionality with meticulous aesthetic detail.
-                      <br /><br />
-                      With a background in both graphic design and computer science, I bridge the gap between creative vision and technical implementation. My work focuses on typography, considered whitespace, and subtle interactions that bring interfaces to life.
-                    </p>
+                    <TextGradientScroll 
+                      text={`I am a multi-disciplinary designer and developer based in San Francisco. I specialize in creating elevated digital experiences that combine intuitive functionality with meticulous aesthetic detail.\n\nWith a background in both graphic design and computer science, I bridge the gap between creative vision and technical implementation. My work focuses on typography, considered whitespace, and subtle interactions that bring interfaces to life.`}
+                      className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-8"
+                      textOpacity="medium"
+                    />
                     
                     <div className="space-y-6">
                       <div>
