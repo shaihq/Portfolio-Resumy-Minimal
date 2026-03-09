@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -222,6 +222,7 @@ export default function Home() {
 
   const { activeTemplate } = useTemplate();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [activeTab, setActiveTab] = useState("Projects");
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -804,24 +805,290 @@ export default function Home() {
             {/* Navigation row */}
             <div className="bg-[#DED9CE] dark:bg-[#2A2520] px-3 py-2 flex justify-between items-center overflow-x-auto hide-scrollbar">
               <button 
-                className="bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider font-semibold shadow-sm min-w-max"
-                style={{ clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" }}
+                onClick={() => setActiveTab("Projects")}
+                className={cn(
+                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity min-w-max",
+                  activeTab === "Projects" 
+                    ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm" 
+                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 font-medium"
+                )}
+                style={activeTab === "Projects" ? { clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" } : {}}
               >
                 Projects
               </button>
-              <button className="text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 px-4 py-2 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity font-medium min-w-max">
+              <button 
+                onClick={() => setActiveTab("Experience")}
+                className={cn(
+                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity min-w-max",
+                  activeTab === "Experience" 
+                    ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm" 
+                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 font-medium"
+                )}
+                style={activeTab === "Experience" ? { clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" } : {}}
+              >
                 Experience
               </button>
-              <button className="text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 px-4 py-2 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity font-medium min-w-max">
+              <button 
+                onClick={() => setActiveTab("About")}
+                className={cn(
+                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity min-w-max",
+                  activeTab === "About" 
+                    ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm" 
+                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 font-medium"
+                )}
+                style={activeTab === "About" ? { clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" } : {}}
+              >
                 About me
               </button>
-              <button className="text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 px-4 py-2 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity font-medium min-w-max">
+              <button 
+                onClick={() => setActiveTab("Contact")}
+                className={cn(
+                  "px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-opacity min-w-max",
+                  activeTab === "Contact" 
+                    ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm" 
+                    : "text-[#1A1A1A] dark:text-[#F0EDE7] hover:opacity-70 font-medium"
+                )}
+                style={activeTab === "Contact" ? { clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" } : {}}
+              >
                 Contact
               </button>
             </div>
 
             {/* Empty space for content below */}
-            <div className="flex-1 bg-[#EFECE6] dark:bg-[#1A1A1A]"></div>
+            <div className="flex-1 bg-[#EFECE6] dark:bg-[#1A1A1A]">
+              {activeTab === "Projects" && (
+                <div className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Project 1 */}
+                <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] p-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative overflow-hidden flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider mb-2 flex items-center justify-between">
+                      SLATE
+                      <div className="w-6 h-6 border border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowUpRight size={12} />
+                      </div>
+                    </h3>
+                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed mb-4">
+                      A sleek and responsive landing page designed for modern startups.
+                    </p>
+                  </div>
+                  <div className="aspect-[4/3] w-full bg-[#E5E0D8] dark:bg-[#2A2520] overflow-hidden border border-[#D5D0C6] dark:border-[#3A352E]">
+                    <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                </div>
+
+                {/* Project 2 */}
+                <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] p-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative overflow-hidden flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider mb-2 flex items-center justify-between">
+                      ANTIMETAL
+                      <div className="w-6 h-6 border border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowUpRight size={12} />
+                      </div>
+                    </h3>
+                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed mb-4">
+                      A dynamic, animation-focused landing page highlighting transitions.
+                    </p>
+                  </div>
+                  <div className="aspect-[4/3] w-full bg-[#E5E0D8] dark:bg-[#2A2520] overflow-hidden border border-[#D5D0C6] dark:border-[#3A352E]">
+                    <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                </div>
+
+                {/* Project 3 */}
+                <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] p-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative overflow-hidden flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider mb-2 flex items-center justify-between">
+                      DASHBOARD
+                      <div className="w-6 h-6 border border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowUpRight size={12} />
+                      </div>
+                    </h3>
+                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed mb-4">
+                      Complex data visualization with clean, intuitive interfaces.
+                    </p>
+                  </div>
+                  <div className="aspect-[4/3] w-full bg-[#E5E0D8] dark:bg-[#2A2520] overflow-hidden border border-[#D5D0C6] dark:border-[#3A352E]">
+                    <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                </div>
+
+                {/* Project 4 */}
+                <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] p-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors relative overflow-hidden flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider mb-2 flex items-center justify-between">
+                      TASKMASTER
+                      <div className="w-6 h-6 border border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowUpRight size={12} />
+                      </div>
+                    </h3>
+                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed mb-4">
+                      Productivity application with seamless drag-and-drop mechanics.
+                    </p>
+                  </div>
+                  <div className="aspect-[4/3] w-full bg-[#E5E0D8] dark:bg-[#2A2520] overflow-hidden border border-[#D5D0C6] dark:border-[#3A352E]">
+                    <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                </div>
+                </div>
+              )}
+
+              {activeTab === "Experience" && (
+                <div className="p-4 md:p-6 pb-12">
+                  <div className="space-y-0">
+                    {experiences.map((exp, index) => (
+                      <div key={index} className="group border-b border-[#D5D0C6] dark:border-[#3A352E] last:border-0 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors -mx-4 px-4 md:-mx-6 md:px-6">
+                        <button 
+                          onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                          className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between py-5 gap-2 sm:gap-4 text-left cursor-pointer"
+                        >
+                          <div className="flex items-center gap-4">
+                            <motion.span 
+                              animate={{ rotate: expandedIndex === index ? 45 : 0 }}
+                              className="text-[#1A1A1A] dark:text-[#F0EDE7] font-light text-lg leading-none transition-colors w-4 h-4 flex items-center justify-center shrink-0"
+                            >
+                              +
+                            </motion.span>
+                            <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium tracking-wide uppercase">
+                              <span className="text-[#7A736C] dark:text-[#9E9893] mr-2">{exp.year} /</span>
+                              {exp.company}
+                            </span>
+                          </div>
+                          <span className="font-['DM_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors ml-8 sm:ml-0">
+                            {exp.role}
+                          </span>
+                        </button>
+                        <AnimatePresence>
+                          {expandedIndex === index && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pb-6 pl-12 pr-4 sm:pr-0">
+                                <motion.p
+                                  variants={{
+                                    hidden: { opacity: 0 },
+                                    show: { opacity: 1, transition: { staggerChildren: 0.015 } },
+                                  }}
+                                  initial="hidden"
+                                  animate="show"
+                                  className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed max-w-xl"
+                                >
+                                  {exp.description.split(" ").map((word, wordIndex) => (
+                                    <span key={wordIndex} className="inline-block whitespace-nowrap">
+                                      {word.split("").map((char, charIndex) => (
+                                        <motion.span
+                                          key={charIndex}
+                                          variants={{
+                                            hidden: { opacity: 0, filter: "blur(4px)", y: 4 },
+                                            show: { opacity: 1, filter: "blur(0px)", y: 0 },
+                                          }}
+                                          transition={{ duration: 0.2 }}
+                                          className="inline-block"
+                                        >
+                                          {char}
+                                        </motion.span>
+                                      ))}
+                                      {wordIndex < exp.description.split(" ").length - 1 && <span className="inline-block">&nbsp;</span>}
+                                    </span>
+                                  ))}
+                                </motion.p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {activeTab === "About" && (
+                <div className="p-4 md:p-6 pb-12">
+                  <div className="max-w-2xl">
+                    <p className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6">
+                      I am a multi-disciplinary designer and developer based in San Francisco. I specialize in creating elevated digital experiences that combine intuitive functionality with meticulous aesthetic detail.
+                    </p>
+                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed mb-8">
+                      With a background in both graphic design and computer science, I bridge the gap between creative vision and technical implementation. My work focuses on typography, considered whitespace, and subtle interactions that bring interfaces to life.
+                    </p>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] uppercase tracking-wider mb-3 font-semibold">Capabilities</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {["UI/UX Design", "Frontend Development", "Design Systems", "Interaction Design", "Prototyping", "Art Direction"].map((skill) => (
+                            <span key={skill} className="px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] font-['DM_Mono'] text-[12px] text-[#7A736C] dark:text-[#B5AFA5] rounded-full">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] uppercase tracking-wider mb-3 font-semibold">Stack</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {["React", "TypeScript", "Tailwind CSS", "Figma", "Framer Motion", "Next.js", "Node.js"].map((tech) => (
+                            <span key={tech} className="px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] font-['DM_Mono'] text-[12px] text-[#1A1A1A] dark:text-[#F0EDE7] rounded-full">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "Contact" && (
+                <div className="p-4 md:p-6 pb-12">
+                  <div className="max-w-2xl">
+                    <h3 className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] font-semibold uppercase tracking-wider mb-2">Get in touch</h3>
+                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[14px] mb-8">
+                      Currently available for freelance opportunities and full-time roles.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                      <a href="mailto:hello@example.com" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                        <Mail className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">Email Me</span>
+                      </a>
+                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                        <Twitter className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">Twitter / X</span>
+                      </a>
+                      <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                        <Github className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">GitHub</span>
+                      </a>
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
+                        <Linkedin className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">LinkedIn</span>
+                      </a>
+                    </div>
+                    
+                    <form className="space-y-4 border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm bg-white/50 dark:bg-black/20">
+                      <div>
+                        <label htmlFor="name" className="block font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-2">Name</label>
+                        <input type="text" id="name" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['DM_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="John Doe" />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-2 mt-4">Email</label>
+                        <input type="email" id="email" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['DM_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="john@example.com" />
+                      </div>
+                      <div>
+                        <label htmlFor="message" className="block font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-2 mt-4">Message</label>
+                        <textarea id="message" rows={4} className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['DM_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors resize-none placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="Hello, I'd like to discuss..."></textarea>
+                      </div>
+                      <button type="button" className="mt-6 px-6 py-3 bg-[#E37941] text-white font-['DM_Mono'] text-[13px] uppercase tracking-wider hover:bg-[#D66B35] transition-colors w-full sm:w-auto">
+                        Send Message
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
