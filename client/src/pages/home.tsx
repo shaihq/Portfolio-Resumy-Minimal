@@ -894,30 +894,15 @@ export default function Home() {
             {/* Empty space for content below */}
             <div className="flex-1 bg-[#EFECE6] dark:bg-[#1A1A1A]">
               {activeTab === "Projects" && (
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full px-4 sm:px-6 md:px-8 py-8 md:py-12 gap-12">
                   {/* Project 1 */}
-                  <div className="border-b border-[#D5D0C6] dark:border-[#3A352E] overflow-hidden">
-                    <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col border-[40px] sm:border-[60px] md:border-[80px] lg:border-[100px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B] transition-transform duration-500 hover:scale-[1.005]">
-                      {/* Corner diagonal lines for the 3D frame effect */}
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] pointer-events-none z-10 overflow-hidden">
-                        {/* Top-left diagonal */}
-                        <div className="absolute top-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-left rotate-45"></div>
-                        {/* Top-right diagonal */}
-                        <div className="absolute top-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-right -rotate-45"></div>
-                        {/* Bottom-left diagonal */}
-                        <div className="absolute bottom-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-left -rotate-45"></div>
-                        {/* Bottom-right diagonal */}
-                        <div className="absolute bottom-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-right rotate-45"></div>
-                      </div>
-
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      
-                      <div className="bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.3)]">
-                        <div className="w-full relative bg-[#EFECE6] dark:bg-[#1A1A1A] overflow-hidden">
-                          <img src={project1} alt="Slate" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="w-full max-w-5xl mx-auto">
+                    <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col bg-[#EFECE6] dark:bg-[#1A1A1A] border-t-[#FFFFFF] border-l-[#FFFFFF] border-b-[#D5D0C6] border-r-[#D5D0C6] dark:border-t-[#2A2520] dark:border-l-[#2A2520] dark:border-b-[#0A0A0A] dark:border-r-[#0A0A0A] border-[4px] sm:border-[6px] md:border-[8px] transition-all duration-300 hover:-translate-y-1 shadow-[4px_4px_16px_rgba(0,0,0,0.05)] dark:shadow-[4px_4px_16px_rgba(0,0,0,0.4)] hover:shadow-[8px_12px_24px_rgba(0,0,0,0.12)] dark:hover:shadow-[8px_12px_24px_rgba(0,0,0,0.6)]">
+                      <div className="border border-[#D5D0C6] dark:border-[#3A352E] bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20">
+                        <div className="w-full relative overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+                          <img src={project1} alt="Slate" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
                         </div>
-                        <div className="p-5 md:p-8 bg-white dark:bg-[#1A1A1A] border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 relative z-10">
+                        <div className="p-5 md:p-8 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
                           <h3 className="font-['DM_Mono'] text-[16px] md:text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 md:mb-3">Slate</h3>
                           <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] md:text-[15px] leading-relaxed">
                             A sleek and responsive landing page designed for modern startups to showcase their products.
@@ -928,23 +913,13 @@ export default function Home() {
                   </div>
 
                   {/* Project 2 */}
-                  <div className="border-b border-[#D5D0C6] dark:border-[#3A352E] overflow-hidden">
-                    <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer relative flex flex-col border-[40px] sm:border-[60px] md:border-[80px] lg:border-[100px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B] transition-transform duration-500 hover:scale-[1.005]">
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] pointer-events-none z-10 overflow-hidden">
-                        <div className="absolute top-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-left rotate-45"></div>
-                        <div className="absolute top-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-right -rotate-45"></div>
-                        <div className="absolute bottom-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-left -rotate-45"></div>
-                        <div className="absolute bottom-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-right rotate-45"></div>
-                      </div>
-
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      
-                      <div className="bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.3)]">
-                        <div className="w-full relative bg-[#EFECE6] dark:bg-[#1A1A1A] overflow-hidden">
-                          <img src={project2} alt="Antimetal" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="w-full max-w-5xl mx-auto">
+                    <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer relative flex flex-col bg-[#EFECE6] dark:bg-[#1A1A1A] border-t-[#FFFFFF] border-l-[#FFFFFF] border-b-[#D5D0C6] border-r-[#D5D0C6] dark:border-t-[#2A2520] dark:border-l-[#2A2520] dark:border-b-[#0A0A0A] dark:border-r-[#0A0A0A] border-[4px] sm:border-[6px] md:border-[8px] transition-all duration-300 hover:-translate-y-1 shadow-[4px_4px_16px_rgba(0,0,0,0.05)] dark:shadow-[4px_4px_16px_rgba(0,0,0,0.4)] hover:shadow-[8px_12px_24px_rgba(0,0,0,0.12)] dark:hover:shadow-[8px_12px_24px_rgba(0,0,0,0.6)]">
+                      <div className="border border-[#D5D0C6] dark:border-[#3A352E] bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20">
+                        <div className="w-full relative overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+                          <img src={project2} alt="Antimetal" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
                         </div>
-                        <div className="p-5 md:p-8 bg-white dark:bg-[#1A1A1A] border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 relative z-10">
+                        <div className="p-5 md:p-8 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
                           <h3 className="font-['DM_Mono'] text-[16px] md:text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 md:mb-3">Antimetal</h3>
                           <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] md:text-[15px] leading-relaxed">
                             A dynamic, animation-focused landing page highlighting transitions.
@@ -955,23 +930,13 @@ export default function Home() {
                   </div>
 
                   {/* Project 3 */}
-                  <div className="border-b border-[#D5D0C6] dark:border-[#3A352E] overflow-hidden">
-                    <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col border-[40px] sm:border-[60px] md:border-[80px] lg:border-[100px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B] transition-transform duration-500 hover:scale-[1.005]">
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] pointer-events-none z-10 overflow-hidden">
-                        <div className="absolute top-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-left rotate-45"></div>
-                        <div className="absolute top-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-right -rotate-45"></div>
-                        <div className="absolute bottom-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-left -rotate-45"></div>
-                        <div className="absolute bottom-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-right rotate-45"></div>
-                      </div>
-
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      
-                      <div className="bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.3)]">
-                        <div className="w-full relative bg-[#EFECE6] dark:bg-[#1A1A1A] overflow-hidden">
-                          <img src={project3} alt="Financial Dashboard" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="w-full max-w-5xl mx-auto">
+                    <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col bg-[#EFECE6] dark:bg-[#1A1A1A] border-t-[#FFFFFF] border-l-[#FFFFFF] border-b-[#D5D0C6] border-r-[#D5D0C6] dark:border-t-[#2A2520] dark:border-l-[#2A2520] dark:border-b-[#0A0A0A] dark:border-r-[#0A0A0A] border-[4px] sm:border-[6px] md:border-[8px] transition-all duration-300 hover:-translate-y-1 shadow-[4px_4px_16px_rgba(0,0,0,0.05)] dark:shadow-[4px_4px_16px_rgba(0,0,0,0.4)] hover:shadow-[8px_12px_24px_rgba(0,0,0,0.12)] dark:hover:shadow-[8px_12px_24px_rgba(0,0,0,0.6)]">
+                      <div className="border border-[#D5D0C6] dark:border-[#3A352E] bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20">
+                        <div className="w-full relative overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+                          <img src={project3} alt="Financial Dashboard" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
                         </div>
-                        <div className="p-5 md:p-8 bg-white dark:bg-[#1A1A1A] border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 relative z-10">
+                        <div className="p-5 md:p-8 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
                           <h3 className="font-['DM_Mono'] text-[16px] md:text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 md:mb-3">Dashboard</h3>
                           <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] md:text-[15px] leading-relaxed">
                             Complex data visualization with clean, intuitive interfaces.
@@ -982,23 +947,13 @@ export default function Home() {
                   </div>
 
                   {/* Project 4 */}
-                  <div className="border-b border-[#D5D0C6] dark:border-[#3A352E] overflow-hidden">
-                    <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer relative flex flex-col border-[40px] sm:border-[60px] md:border-[80px] lg:border-[100px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B] transition-transform duration-500 hover:scale-[1.005]">
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] pointer-events-none z-10 overflow-hidden">
-                        <div className="absolute top-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-left rotate-45"></div>
-                        <div className="absolute top-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-top-right -rotate-45"></div>
-                        <div className="absolute bottom-0 left-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-left -rotate-45"></div>
-                        <div className="absolute bottom-0 right-0 w-[141.4%] h-[1px] bg-[#D5D0C6] dark:bg-[#3A352E] origin-bottom-right rotate-45"></div>
-                      </div>
-
-                      <div className="absolute inset-[-40px] sm:inset-[-60px] md:inset-[-80px] lg:inset-[-100px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-40"></div>
-                      
-                      <div className="bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.3)]">
-                        <div className="w-full relative bg-[#EFECE6] dark:bg-[#1A1A1A] overflow-hidden">
-                          <img src={project4} alt="TaskMaster" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="w-full max-w-5xl mx-auto">
+                    <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer relative flex flex-col bg-[#EFECE6] dark:bg-[#1A1A1A] border-t-[#FFFFFF] border-l-[#FFFFFF] border-b-[#D5D0C6] border-r-[#D5D0C6] dark:border-t-[#2A2520] dark:border-l-[#2A2520] dark:border-b-[#0A0A0A] dark:border-r-[#0A0A0A] border-[4px] sm:border-[6px] md:border-[8px] transition-all duration-300 hover:-translate-y-1 shadow-[4px_4px_16px_rgba(0,0,0,0.05)] dark:shadow-[4px_4px_16px_rgba(0,0,0,0.4)] hover:shadow-[8px_12px_24px_rgba(0,0,0,0.12)] dark:hover:shadow-[8px_12px_24px_rgba(0,0,0,0.6)]">
+                      <div className="border border-[#D5D0C6] dark:border-[#3A352E] bg-white dark:bg-[#1A1A1A] flex flex-col relative z-20">
+                        <div className="w-full relative overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+                          <img src={project4} alt="TaskMaster" className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
                         </div>
-                        <div className="p-5 md:p-8 bg-white dark:bg-[#1A1A1A] border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 relative z-10">
+                        <div className="p-5 md:p-8 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
                           <h3 className="font-['DM_Mono'] text-[16px] md:text-[20px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 md:mb-3">TaskMaster</h3>
                           <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] md:text-[15px] leading-relaxed">
                             Productivity application with seamless drag-and-drop mechanics.
