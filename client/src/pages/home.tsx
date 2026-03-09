@@ -821,7 +821,7 @@ export default function Home() {
         </motion.div>
           </>
         ) : activeTemplate === "Professional" ? (
-          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden">
             <SmoothCursor type="professional" />
             
             {/* Top section: Avatar, Title, Subtitle */}
@@ -946,7 +946,7 @@ export default function Home() {
             </div>
 
             {/* Empty space for content below */}
-            <div className="flex-1 bg-[#EFECE6] dark:bg-[#1A1A1A]">
+            <div className="flex-1">
               {activeTab === "Projects" && (
                 <div className="grid grid-cols-1 gap-0">
                   {/* Project 1 */}
