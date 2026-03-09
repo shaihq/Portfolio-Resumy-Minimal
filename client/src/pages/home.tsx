@@ -277,10 +277,32 @@ export default function Home() {
         .dark .dino-color {
           fill: #B5AFA5;
         }
+        .custom-solid-x {
+          position: relative;
+        }
+        .custom-solid-x::before, .custom-solid-x::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          background-color: #D5D0C6;
+          pointer-events: none;
+          z-index: 50;
+        }
+        .dark .custom-solid-x::before, .dark .custom-solid-x::after {
+          background-color: #3A352E;
+        }
+        .custom-solid-x::before {
+          left: 0;
+        }
+        .custom-solid-x::after {
+          right: 0;
+        }
       `}} />
       <div className={cn("w-full max-w-[640px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
         activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x" : 
-        activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] border-x border-[#D5D0C6] dark:border-[#3A352E]" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
+        activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
         {activeTemplate === "Minimal" ? (
@@ -773,7 +795,7 @@ export default function Home() {
         </motion.div>
           </>
         ) : activeTemplate === "Professional" ? (
-          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A] border-x border-[#D5D0C6] dark:border-[#3A352E]">
+          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
             {/* Top section: Avatar, Title, Subtitle */}
             <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
               <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0">
