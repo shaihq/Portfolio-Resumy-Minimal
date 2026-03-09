@@ -308,6 +308,7 @@ export default function Home() {
         
         {activeTemplate === "Minimal" ? (
           <>
+            <SmoothCursor type="minimal" />
             {/* Header Section */}
             <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
           <div className="flex items-start justify-between gap-4 mb-6">
@@ -797,7 +798,7 @@ export default function Home() {
           </>
         ) : activeTemplate === "Professional" ? (
           <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
-            <SmoothCursor />
+            <SmoothCursor type="professional" />
             {/* Top section: Avatar, Title, Subtitle */}
             <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
               <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0">
