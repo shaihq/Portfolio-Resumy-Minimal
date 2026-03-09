@@ -1182,7 +1182,7 @@ export default function Home() {
                         <div className="flex items-center gap-4">
                           <PixelImage 
                             src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                            className="w-10 h-10"
+                            className="w-10 h-10 shrink-0"
                             imageClassName="rounded-[12px]"
                             grid="4x6"
                           />
@@ -1218,7 +1218,7 @@ export default function Home() {
                         <div className="flex items-center gap-4">
                           <PixelImage 
                             src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                            className="w-10 h-10"
+                            className="w-10 h-10 shrink-0"
                             imageClassName="rounded-[12px]"
                             grid="4x6"
                           />

@@ -1,3 +1,10 @@
+Build this as my initial prototype
+
+Copy-paste this component to /components/ui folder:
+```tsx
+pixel-image.tsx
+"use client";
+
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 
@@ -24,8 +31,6 @@ interface PixelImageProps {
   pixelFadeInDuration?: number; // in ms
   maxAnimationDelay?: number; // in ms
   colorRevealDelay?: number; // in ms
-  className?: string;
-  imageClassName?: string;
 }
 
 export const PixelImage = ({
@@ -36,8 +41,6 @@ export const PixelImage = ({
   maxAnimationDelay = 1200,
   colorRevealDelay = 1300,
   customGrid,
-  className,
-  imageClassName,
 }: PixelImageProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showColor, setShowColor] = useState(false);
@@ -92,7 +95,7 @@ export const PixelImage = ({
   }, [rows, cols, maxAnimationDelay]);
 
   return (
-    <div className={cn("relative select-none", className)}>
+    <div className="relative h-72 w-72 select-none md:h-96 md:w-96">
       {pieces.map((piece, index) => (
         <div
           key={index}
@@ -110,9 +113,8 @@ export const PixelImage = ({
             src={src}
             alt={`Pixel image piece ${index + 1}`}
             className={cn(
-              "z-1 w-full h-full object-cover",
+              "z-1 object-cover rounded-[2.5rem]",
               grayscaleAnimation && (showColor ? "grayscale-0" : "grayscale"),
-              imageClassName || "rounded-[2.5rem]"
             )}
             style={{
               transition: grayscaleAnimation
@@ -126,3 +128,18 @@ export const PixelImage = ({
     </div>
   );
 };
+
+
+demo.tsx
+import { PixelImage } from "@/components/ui/pixel-image";
+ 
+export default function Page() {
+  return (
+    <PixelImage
+      src="https://images.unsplash.com/photo-1752779588144-938ea861bf05?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8"
+      grid="6x4"
+      grayscaleAnimation={true}
+    />
+  );
+}
+```
