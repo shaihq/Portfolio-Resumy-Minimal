@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
+import { PixelCanvas } from "@/components/ui/pixel-canvas";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import profileImg from "@assets/image_1772896095217.png";
@@ -910,11 +911,21 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Slate</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
-                        A sleek and responsive landing page designed for modern startups to showcase their products.
-                      </p>
+                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 overflow-hidden group/text">
+                      <div className="absolute inset-0 z-0 opacity-0 group-hover/text:opacity-100 transition-opacity duration-500">
+                        <PixelCanvas
+                          gap={10}
+                          speed={25}
+                          colors={["#e0f2fe", "#7dd3fc", "#0ea5e9"]}
+                          variant="icon"
+                        />
+                      </div>
+                      <div className="relative z-10">
+                        <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 group-hover/text:text-[#0ea5e9] transition-colors">Slate</h3>
+                        <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed group-hover/text:text-[#1A1A1A] dark:group-hover/text-[#F0EDE7] transition-colors">
+                          A sleek and responsive landing page designed for modern startups to showcase their products.
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -933,11 +944,21 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Antimetal</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
-                        A dynamic, animation-focused landing page highlighting transitions.
-                      </p>
+                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 overflow-hidden group/text">
+                      <div className="absolute inset-0 z-0 opacity-0 group-hover/text:opacity-100 transition-opacity duration-500">
+                        <PixelCanvas
+                          gap={10}
+                          speed={25}
+                          colors={["#e0f2fe", "#7dd3fc", "#0ea5e9"]}
+                          variant="icon"
+                        />
+                      </div>
+                      <div className="relative z-10">
+                        <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 group-hover/text:text-[#0ea5e9] transition-colors">Antimetal</h3>
+                        <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed group-hover/text:text-[#1A1A1A] dark:group-hover/text-[#F0EDE7] transition-colors">
+                          A dynamic, animation-focused landing page highlighting transitions.
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -956,11 +977,21 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Dashboard</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
-                        Complex data visualization with clean, intuitive interfaces.
-                      </p>
+                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 overflow-hidden group/text">
+                      <div className="absolute inset-0 z-0 opacity-0 group-hover/text:opacity-100 transition-opacity duration-500">
+                        <PixelCanvas
+                          gap={10}
+                          speed={25}
+                          colors={["#e0f2fe", "#7dd3fc", "#0ea5e9"]}
+                          variant="icon"
+                        />
+                      </div>
+                      <div className="relative z-10">
+                        <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 group-hover/text:text-[#0ea5e9] transition-colors">Dashboard</h3>
+                        <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed group-hover/text:text-[#1A1A1A] dark:group-hover/text-[#F0EDE7] transition-colors">
+                          Complex data visualization with clean, intuitive interfaces.
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -979,11 +1010,21 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">TaskMaster</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
-                        Productivity application with seamless drag-and-drop mechanics.
-                      </p>
+                    <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1 overflow-hidden group/text">
+                      <div className="absolute inset-0 z-0 opacity-0 group-hover/text:opacity-100 transition-opacity duration-500">
+                        <PixelCanvas
+                          gap={10}
+                          speed={25}
+                          colors={["#e0f2fe", "#7dd3fc", "#0ea5e9"]}
+                          variant="icon"
+                        />
+                      </div>
+                      <div className="relative z-10">
+                        <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 group-hover/text:text-[#0ea5e9] transition-colors">TaskMaster</h3>
+                        <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed group-hover/text:text-[#1A1A1A] dark:group-hover/text-[#F0EDE7] transition-colors">
+                          Productivity application with seamless drag-and-drop mechanics.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
