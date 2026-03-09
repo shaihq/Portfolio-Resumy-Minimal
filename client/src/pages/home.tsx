@@ -847,7 +847,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Projects")}
                 className={cn(
-                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[14px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[12px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Projects" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -861,7 +861,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Experience")}
                 className={cn(
-                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[14px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[12px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Experience" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -875,7 +875,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("About")}
                 className={cn(
-                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[14px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[12px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "About" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -889,7 +889,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Contact")}
                 className={cn(
-                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[14px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[12px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Contact" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
