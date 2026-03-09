@@ -1113,10 +1113,11 @@ export default function Home() {
               {activeTab === "Contact" && (
                 <div className="p-4 md:p-6 pb-12">
                   <div className="max-w-2xl h-full flex items-center justify-center min-h-[300px]">
-                    <div className="flex flex-col sm:flex-row flex-wrap gap-6 items-center justify-center w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                       <HudButton 
                         style="style1" 
                         variant="secondary"
+                        size="large"
                         onClick={() => window.location.href = "mailto:hello@example.com"}
                       >
                         Email Me
@@ -1124,6 +1125,7 @@ export default function Home() {
                       <HudButton 
                         style="style1" 
                         variant="secondary"
+                        size="large"
                         onClick={() => window.open("https://twitter.com", "_blank")}
                       >
                         Twitter / X
@@ -1131,6 +1133,7 @@ export default function Home() {
                       <HudButton 
                         style="style1" 
                         variant="secondary"
+                        size="large"
                         onClick={() => window.open("https://github.com", "_blank")}
                       >
                         GitHub
@@ -1138,6 +1141,7 @@ export default function Home() {
                       <HudButton 
                         style="style1" 
                         variant="secondary"
+                        size="large"
                         onClick={() => window.open("https://linkedin.com", "_blank")}
                       >
                         LinkedIn

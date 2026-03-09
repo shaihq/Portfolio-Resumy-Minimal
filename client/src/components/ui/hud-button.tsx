@@ -60,11 +60,11 @@ export function HudButton({
       }
     } else {
       return {
-        main: isDark ? "#64748b" : "#374151", // Keep dark slate, darker for light
-        gradient: isDark ? "#64748b" : "#374151", 
-        text: isDark ? "text-slate-600 dark:text-slate-300" : "text-gray-600",
-        glow: isDark ? "rgba(100, 116, 139, 0.2)" : "rgba(55, 65, 81, 0.1)",
-        border: isDark ? "#64748b" : "#374151"
+        main: isDark ? "#F0EDE7" : "#1A1A1A",
+        gradient: isDark ? "#1A1A1A" : "#F0EDE7", // Matches app background for a hollow/clean look
+        text: isDark ? "text-[#F0EDE7]" : "text-[#1A1A1A]",
+        glow: isDark ? "rgba(240, 237, 231, 0.15)" : "rgba(26, 26, 26, 0.1)", // Subtle hover glow
+        border: isDark ? "#3A352E" : "#D5D0C6"
       }
     }
   }
@@ -188,14 +188,6 @@ export function HudButton({
   const gradientId = `gradient-${uniqueId}`
 
   const getSizeStyles = () => {
-    if (style === "style1") {
-      return {
-        width: "182px",
-        height: "44px",
-        textClass: "text-sm tracking-wider"
-      }
-    }
-    
     switch (size) {
       case "small":
         return {
@@ -205,14 +197,14 @@ export function HudButton({
         }
       case "large":
         return {
-          width: "234px",
-          height: "65px",
-          textClass: "text-base tracking-wider"
+          width: "100%",
+          height: "128px", // Fixed 128px to match h-32 exactly
+          textClass: "text-[15px] tracking-wider"
         }
       default:
         return {
-          width: "187px",
-          height: "52px",
+          width: style === "style1" ? "182px" : "187px",
+          height: style === "style1" ? "44px" : "52px",
           textClass: "text-sm tracking-wider"
         }
     }
@@ -226,7 +218,8 @@ export function HudButton({
       width="182.288"
       height="43.721"
       viewBox="0 0 182.288 43.721"
-      className="w-full h-full"
+      preserveAspectRatio="none"
+      className="w-full h-full absolute inset-0"
     >
       <defs>
         <linearGradient
@@ -321,12 +314,13 @@ export function HudButton({
 
   const renderStyle2SVG = () => (
     <svg
-      width={sizeStyles.width}
-      height={sizeStyles.height}
+      width="100%"
+      height="100%"
       viewBox="0 0 187 52"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
+      preserveAspectRatio="none"
+      className="w-full h-full absolute inset-0"
     >
       <defs>
         <linearGradient id={gradientId1} x1="94.9995" y1="-62.017" x2="94.9995" y2="80.9853" gradientUnits="userSpaceOnUse">
