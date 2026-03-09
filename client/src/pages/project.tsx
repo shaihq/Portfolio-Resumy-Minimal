@@ -4,6 +4,7 @@ import { ChevronLeft, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
+import { useTemplate } from "@/hooks/use-template";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
@@ -97,6 +98,102 @@ export default function Project() {
       },
     },
   };
+
+  const { activeTemplate } = useTemplate();
+
+  if (activeTemplate === "Professional") {
+    return (
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#E37941] selection:text-white transition-colors duration-700"
+      >
+        <div className="w-full max-w-[640px] relative min-h-screen bg-[#EFECE6] dark:bg-[#1A1A1A] flex flex-col transition-colors duration-700 border-x border-[#D5D0C6] dark:border-[#3A352E]">
+          
+          {/* Header */}
+          <motion.div variants={itemVariants} className="border-b border-[#D5D0C6] dark:border-[#3A352E] flex justify-between items-center px-4 py-3 font-['JetBrains_Mono'] text-[13px] uppercase tracking-wide text-[#1A1A1A] dark:text-[#B5AFA5] bg-[#EFECE6] dark:bg-[#1A1A1A] sticky top-0 z-50">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2 hover:text-[#E37941] transition-colors"
+            >
+              <ChevronLeft size={16} /> BACK
+            </button>
+            <div className="tracking-wider">PROJECT / {project.id}</div>
+          </motion.div>
+
+          <div className="p-4 md:p-6 space-y-10 pb-16">
+            {/* Title */}
+            <motion.div variants={itemVariants}>
+              <h1 className="font-['JetBrains_Mono'] text-[22px] md:text-[28px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-[1.2] mb-4 uppercase tracking-tight">{project.title}</h1>
+              <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
+                {project.subtitle}
+              </p>
+            </motion.div>
+
+            {/* Hero Image */}
+            <motion.div variants={itemVariants} className="relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B]">
+              <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
+              <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
+              <div className="bg-gradient-to-br from-[#D2CEC8] to-[#A8A49D] dark:from-[#3A352E] dark:to-[#1A1A1A] p-4 md:p-5 relative overflow-hidden">
+                <div className="absolute top-2.5 left-2.5 md:top-3 md:left-3 w-2 h-2 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                <div className="absolute top-2.5 right-2.5 md:top-3 md:right-3 w-2 h-2 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                <div className="absolute bottom-2.5 left-2.5 md:bottom-3 md:left-3 w-2 h-2 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                <div className="absolute bottom-2.5 right-2.5 md:bottom-3 md:right-3 w-2 h-2 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                <div className="w-full aspect-[16/10] relative overflow-hidden bg-white dark:bg-[#1A1A1A] shadow-[0_0_10px_rgba(0,0,0,0.2)]">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Details Grid */}
+            <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-6 border-y border-[#D5D0C6] dark:border-[#3A352E] py-6">
+              {Object.entries(project.details).map(([key, value]) => (
+                <div key={key}>
+                  <h4 className="font-['JetBrains_Mono'] text-[11px] text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider mb-2">{key}</h4>
+                  <p className="font-['JetBrains_Mono'] text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] uppercase">{value as string}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Introduction */}
+            <motion.div variants={itemVariants}>
+              <h3 className="font-['JetBrains_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold mb-6 uppercase tracking-wider flex items-center gap-3">
+                <span className="w-2 h-2 bg-[#E37941]"></span> Overview
+              </h3>
+              <div className="space-y-6">
+                {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
+                  <p key={idx} className="font-['Inter'] text-[#1A1A1A] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Content Image */}
+            <motion.div variants={itemVariants} className="border border-[#D5D0C6] dark:border-[#3A352E] p-3 bg-[#DED9CE] dark:bg-[#2A2520]">
+              <div className="border border-[#D5D0C6] dark:border-[#3A352E] relative overflow-hidden">
+                <img 
+                  src={contentImage} 
+                  alt="Project details"
+                  className="w-full mix-blend-multiply dark:mix-blend-normal opacity-90 grayscale-[0.2]"
+                  style={{ filter: "contrast(1.1)" }}
+                />
+              </div>
+            </motion.div>
+            
+            {/* Footer nav */}
+            <motion.div variants={itemVariants} className="pt-8 border-t border-[#D5D0C6] dark:border-[#3A352E] flex justify-between items-center">
+               <button onClick={() => navigate("/")} className="font-['JetBrains_Mono'] text-[13px] uppercase tracking-wide text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#E37941] dark:hover:text-[#E37941] transition-colors flex items-center gap-2">
+                 <ChevronLeft size={16} /> All Projects
+               </button>
+            </motion.div>
+
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div 
