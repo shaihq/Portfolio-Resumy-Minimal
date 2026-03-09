@@ -277,7 +277,10 @@ export default function Home() {
           fill: #B5AFA5;
         }
       `}} />
-      <div className={cn("w-full max-w-[640px] relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700", activeTemplate === "Minimal" && "custom-dashed-x")}>
+      <div className={cn("w-full max-w-[640px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
+        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x" : 
+        activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] border-x border-[#D5D0C6] dark:border-[#3A352E]" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
+      )}>
         
         {activeTemplate === "Minimal" ? (
           <>
@@ -769,7 +772,7 @@ export default function Home() {
         </motion.div>
           </>
         ) : activeTemplate === "Professional" ? (
-          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A]">
+          <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden bg-[#EFECE6] dark:bg-[#1A1A1A] border-x border-[#D5D0C6] dark:border-[#3A352E]">
             {/* Top section: Avatar, Title, Subtitle */}
             <motion.div variants={itemVariants} className="flex flex-col items-center w-full">
               <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0">
