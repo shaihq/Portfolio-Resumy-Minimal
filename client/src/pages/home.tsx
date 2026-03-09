@@ -826,14 +826,14 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              <div className="text-center font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] leading-[1.8] mb-12">
+              <div className="text-center font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] leading-[1.8] mb-12">
                 <p>I'm a Web Designer, Music Artist & Photographer.</p>
                 <p>I spend most of time thinking about Tea.</p>
               </div>
             </motion.div>
 
             {/* Time / Role row */}
-            <div className="border-t border-[#D5D0C6] dark:border-[#3A352E] flex justify-between items-center px-4 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wide text-[#1A1A1A] dark:text-[#B5AFA5]">
+            <div className="border-t border-[#D5D0C6] dark:border-[#3A352E] flex justify-between items-center px-4 py-2.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-wide text-[#1A1A1A] dark:text-[#B5AFA5]">
               <div className="flex items-center gap-2">
                 <span>{format(currentTime, "E, MMM d")}</span>
                 <span className="text-[#E37941] text-[8px] mt-[1px]">◆</span>
@@ -847,7 +847,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Projects")}
                 className={cn(
-                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Projects" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -861,7 +861,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Experience")}
                 className={cn(
-                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Experience" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -875,7 +875,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("About")}
                 className={cn(
-                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "About" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -889,7 +889,7 @@ export default function Home() {
               <button 
                 onClick={() => setActiveTab("Contact")}
                 className={cn(
-                  "group px-6 py-2.5 font-['DM_Mono'] text-[11px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
+                  "group px-6 py-2.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-wider transition-all duration-200 min-w-max relative",
                   activeTab === "Contact" 
                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold shadow-sm [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)]" 
                     : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] font-medium bg-transparent"
@@ -922,8 +922,8 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Slate</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
+                      <h3 className="font-['JetBrains_Mono'] text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Slate</h3>
+                      <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed">
                         A sleek and responsive landing page designed for modern startups to showcase their products.
                       </p>
                     </div>
@@ -945,8 +945,8 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Antimetal</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
+                      <h3 className="font-['JetBrains_Mono'] text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Antimetal</h3>
+                      <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed">
                         A dynamic, animation-focused landing page highlighting transitions.
                       </p>
                     </div>
@@ -968,8 +968,8 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Dashboard</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
+                      <h3 className="font-['JetBrains_Mono'] text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Dashboard</h3>
+                      <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed">
                         Complex data visualization with clean, intuitive interfaces.
                       </p>
                     </div>
@@ -991,8 +991,8 @@ export default function Home() {
                     </div>
 
                     <div className="bg-white dark:bg-[#1A1A1A] p-4 md:p-5 relative z-20 border-t border-[#D5D0C6] dark:border-[#3A352E] flex-1">
-                      <h3 className="font-['DM_Mono'] text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">TaskMaster</h3>
-                      <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
+                      <h3 className="font-['JetBrains_Mono'] text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">TaskMaster</h3>
+                      <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed">
                         Productivity application with seamless drag-and-drop mechanics.
                       </p>
                     </div>
@@ -1016,12 +1016,12 @@ export default function Home() {
                             >
                               +
                             </motion.span>
-                            <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium tracking-wide uppercase">
+                            <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] font-medium tracking-wide uppercase">
                               <span className="text-[#7A736C] dark:text-[#9E9893] mr-2">{exp.year} /</span>
                               {exp.company}
                             </span>
                           </div>
-                          <span className="font-['DM_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[12px] uppercase tracking-wider group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors ml-8 sm:ml-0">
+                          <span className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#9E9893] text-[11px] uppercase tracking-wider group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors ml-8 sm:ml-0">
                             {exp.role}
                           </span>
                         </button>
@@ -1042,7 +1042,7 @@ export default function Home() {
                                   }}
                                   initial="hidden"
                                   animate="show"
-                                  className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed max-w-xl"
+                                  className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[12px] leading-relaxed max-w-xl"
                                 >
                                   {exp.description.split(" ").map((word, wordIndex) => (
                                     <span key={wordIndex} className="inline-block whitespace-nowrap">
@@ -1075,19 +1075,19 @@ export default function Home() {
               {activeTab === "About" && (
                 <div className="p-4 md:p-6 pb-12">
                   <div className="max-w-2xl">
-                    <p className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6">
+                    <p className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] leading-relaxed mb-6">
                       I am a multi-disciplinary designer and developer based in San Francisco. I specialize in creating elevated digital experiences that combine intuitive functionality with meticulous aesthetic detail.
                     </p>
-                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed mb-8">
+                    <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed mb-8">
                       With a background in both graphic design and computer science, I bridge the gap between creative vision and technical implementation. My work focuses on typography, considered whitespace, and subtle interactions that bring interfaces to life.
                     </p>
                     
                     <div className="space-y-6">
                       <div>
-                        <h4 className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] uppercase tracking-wider mb-3 font-semibold">Capabilities</h4>
+                        <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-3 font-semibold">Capabilities</h4>
                         <div className="flex flex-wrap gap-2">
                           {["UI/UX Design", "Frontend Development", "Design Systems", "Interaction Design", "Prototyping", "Art Direction"].map((skill) => (
-                            <span key={skill} className="px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] font-['DM_Mono'] text-[12px] text-[#7A736C] dark:text-[#B5AFA5] rounded-full">
+                            <span key={skill} className="px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] font-['JetBrains_Mono'] text-[11px] text-[#7A736C] dark:text-[#B5AFA5] rounded-full">
                               {skill}
                             </span>
                           ))}
@@ -1095,10 +1095,10 @@ export default function Home() {
                       </div>
                       
                       <div>
-                        <h4 className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px] uppercase tracking-wider mb-3 font-semibold">Stack</h4>
+                        <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-3 font-semibold">Stack</h4>
                         <div className="flex flex-wrap gap-2">
                           {["React", "TypeScript", "Tailwind CSS", "Figma", "Framer Motion", "Next.js", "Node.js"].map((tech) => (
-                            <span key={tech} className="px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] font-['DM_Mono'] text-[12px] text-[#1A1A1A] dark:text-[#F0EDE7] rounded-full">
+                            <span key={tech} className="px-3 py-1.5 border border-[#D5D0C6] dark:border-[#3A352E] bg-[#EFECE6] dark:bg-[#1A1A1A] font-['JetBrains_Mono'] text-[11px] text-[#1A1A1A] dark:text-[#F0EDE7] rounded-full">
                               {tech}
                             </span>
                           ))}
@@ -1112,44 +1112,44 @@ export default function Home() {
               {activeTab === "Contact" && (
                 <div className="p-4 md:p-6 pb-12">
                   <div className="max-w-2xl">
-                    <h3 className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] font-semibold uppercase tracking-wider mb-2">Get in touch</h3>
-                    <p className="font-['DM_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[14px] mb-8">
+                    <h3 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-semibold uppercase tracking-wider mb-2">Get in touch</h3>
+                    <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[13px] mb-8">
                       Currently available for freelance opportunities and full-time roles.
                     </p>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                       <a href="mailto:hello@example.com" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
                         <Mail className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">Email Me</span>
+                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px]">Email Me</span>
                       </a>
                       <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
                         <Twitter className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">Twitter / X</span>
+                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px]">Twitter / X</span>
                       </a>
                       <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
                         <Github className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">GitHub</span>
+                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px]">GitHub</span>
                       </a>
                       <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group p-5 border border-[#D5D0C6] dark:border-[#3A352E] flex flex-col items-center justify-center gap-3 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors rounded-sm">
                         <Linkedin className="w-6 h-6 text-[#1A1A1A] dark:text-[#F0EDE7] opacity-80 group-hover:opacity-100 transition-opacity" />
-                        <span className="font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[13px]">LinkedIn</span>
+                        <span className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px]">LinkedIn</span>
                       </a>
                     </div>
                     
                     <form className="space-y-4 border border-[#D5D0C6] dark:border-[#3A352E] p-6 rounded-sm bg-white/50 dark:bg-black/20">
                       <div>
-                        <label htmlFor="name" className="block font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-2">Name</label>
-                        <input type="text" id="name" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['DM_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="John Doe" />
+                        <label htmlFor="name" className="block font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[11px] uppercase tracking-wider mb-2">Name</label>
+                        <input type="text" id="name" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['JetBrains_Mono'] text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="John Doe" />
                       </div>
                       <div>
-                        <label htmlFor="email" className="block font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-2 mt-4">Email</label>
-                        <input type="email" id="email" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['DM_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="john@example.com" />
+                        <label htmlFor="email" className="block font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[11px] uppercase tracking-wider mb-2 mt-4">Email</label>
+                        <input type="email" id="email" className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['JetBrains_Mono'] text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="john@example.com" />
                       </div>
                       <div>
-                        <label htmlFor="message" className="block font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[12px] uppercase tracking-wider mb-2 mt-4">Message</label>
-                        <textarea id="message" rows={4} className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['DM_Mono'] text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors resize-none placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="Hello, I'd like to discuss..."></textarea>
+                        <label htmlFor="message" className="block font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[11px] uppercase tracking-wider mb-2 mt-4">Message</label>
+                        <textarea id="message" rows={4} className="w-full bg-transparent border-b border-[#D5D0C6] dark:border-[#3A352E] py-2 font-['JetBrains_Mono'] text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] focus:outline-none focus:border-[#1A1A1A] dark:focus:border-[#F0EDE7] transition-colors resize-none placeholder:text-[#7A736C]/50 dark:placeholder:text-[#B5AFA5]/50" placeholder="Hello, I'd like to discuss..."></textarea>
                       </div>
-                      <button type="button" className="mt-6 px-6 py-3 bg-[#E37941] text-white font-['DM_Mono'] text-[13px] uppercase tracking-wider hover:bg-[#D66B35] transition-colors w-full sm:w-auto">
+                      <button type="button" className="mt-6 px-6 py-3 bg-[#E37941] text-white font-['JetBrains_Mono'] text-[12px] uppercase tracking-wider hover:bg-[#D66B35] transition-colors w-full sm:w-auto">
                         Send Message
                       </button>
                     </form>
