@@ -54,10 +54,23 @@ export default function Home() {
       const rect = careerLadderRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
       const sectionHeight = rect.height;
       
-      // Calculate progress: 0 when section enters bottom, 1 when section exits top
-      let progress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
+      // Calculate progress: 0 when section bottom is at viewport top, 1 when section top is at viewport top
+      let progress;
+      
+      if (sectionBottom <= 0) {
+        // Section is completely above viewport
+        progress = 1;
+      } else if (sectionTop >= viewportHeight) {
+        // Section is completely below viewport
+        progress = 0;
+      } else {
+        // Section is partially visible
+        progress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
+      }
+      
       progress = Math.max(0, Math.min(1, progress));
       
       // Smooth character movement based on exact scroll progress
@@ -74,10 +87,17 @@ export default function Home() {
       rafId = requestAnimationFrame(updatePosition);
     };
     
+    // Update position on initial mount
+    updatePosition();
+    
+    // Add a small delay to also capture after layout is ready
+    const timeoutId = setTimeout(updatePosition, 100);
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafId) cancelAnimationFrame(rafId);
+      clearTimeout(timeoutId);
     };
   }, []);
 
