@@ -1285,7 +1285,7 @@ export default function Home() {
             </div>
           </div>
         ) : activeTemplate === "Creative" ? (
-          <div className="w-full flex-1 flex flex-col gap-4 py-4 md:py-6 px-4 md:px-6">
+          <div className="w-full flex-1 flex flex-col gap-4 py-4 md:py-6 px-4 md:px-6 pl-[0px] pr-[0px] pt-[0px] pb-[0px]">
             {/* Header / Date */}
             <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-black/5 dark:border-white/10 shadow-sm py-3 px-6 flex justify-between items-center w-full">
               <div className="flex items-center gap-2">
