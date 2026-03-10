@@ -1392,7 +1392,7 @@ export default function Home() {
               
               <div className="relative flex">
                 {/* Character climbing ladder */}
-                <div className="absolute left-[-5px] top-[-30px] z-20 w-[40px] h-[54px]">
+                <div className="absolute left-[1px] top-[15px] z-20 w-[40px] h-[54px]">
                   <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
                 </div>
                 {/* Timeline Line */}
