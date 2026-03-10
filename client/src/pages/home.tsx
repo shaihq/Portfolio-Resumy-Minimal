@@ -35,6 +35,7 @@ export default function Home() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
   const careerLadderRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [characterPosition, setCharacterPosition] = useState(0);
 
   useEffect(() => {
@@ -49,33 +50,37 @@ export default function Home() {
     let rafId: number;
     
     const updatePosition = () => {
-      if (!careerLadderRef.current) return;
+      if (!careerLadderRef.current || !contentRef.current) return;
       
       const rect = careerLadderRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const sectionTop = rect.top;
-      const sectionBottom = rect.bottom;
       const sectionHeight = rect.height;
       
-      // Calculate progress: 0 when section bottom is at viewport top, 1 when section top is at viewport top
+      // Calculate scroll progress: 0 at top, 1 at bottom
       let progress;
       
-      if (sectionBottom <= 0) {
-        // Section is completely above viewport
-        progress = 1;
-      } else if (sectionTop >= viewportHeight) {
+      if (sectionTop >= viewportHeight) {
         // Section is completely below viewport
         progress = 0;
+      } else if (sectionTop + sectionHeight <= 0) {
+        // Section is completely above viewport
+        progress = 1;
       } else {
-        // Section is partially visible
+        // Section is visible - calculate how far through it we've scrolled
         progress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
       }
       
       progress = Math.max(0, Math.min(1, progress));
       
-      // Smooth character movement based on exact scroll progress
-      const ladderHeight = 880; // Total scrollable ladder distance to reach the end
-      const newPosition = 0 + (progress * ladderHeight);
+      // Calculate actual available ladder height based on content
+      const contentHeight = contentRef.current.offsetHeight;
+      // The character should move within the visible ladder area
+      // Subtract a bit to ensure character stays visible and reaches proper endpoints
+      const maxPosition = contentHeight - 54; // 54 is character height
+      
+      // Apply speed multiplier (1.4x faster)
+      const newPosition = progress * maxPosition;
       
       setCharacterPosition(newPosition);
     };
@@ -87,11 +92,9 @@ export default function Home() {
       rafId = requestAnimationFrame(updatePosition);
     };
     
-    // Update position on initial mount
+    // Update position on initial mount and after slight delay for layout
     updatePosition();
-    
-    // Add a small delay to also capture after layout is ready
-    const timeoutId = setTimeout(updatePosition, 100);
+    const timeoutId = setTimeout(updatePosition, 50);
     
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
@@ -1460,7 +1463,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
+                <div ref={contentRef} className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
                   {/* Experience 1 */}
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
