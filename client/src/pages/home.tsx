@@ -66,13 +66,29 @@ export default function Home() {
       let progress = 0;
       
       // Calculate when the section is in viewport
-      // Start of animation: when bottom of section reaches bottom of viewport
-      // End of animation: when top of section reaches top of viewport
-      const animationStartPoint = viewportHeight; // When section bottom enters viewport
-      const animationEndPoint = -sectionHeight; // When section top exits viewport
+      // We want progress to be 0 when the section top reaches the middle of the screen
+      // and 1 when the section bottom reaches the middle of the screen
       
-      // How far through the scroll are we?
-      progress = (animationStartPoint - sectionTop) / (animationStartPoint - animationEndPoint);
+      const middleOfScreen = viewportHeight / 2;
+      
+      // Calculate how far the top of the section is from the middle of the screen
+      // Positive when below middle, negative when above middle
+      const distanceFromMiddle = sectionTop - middleOfScreen;
+      
+      // We start when top reaches middle (distance = 0)
+      // We end when bottom reaches middle (distance = -sectionHeight)
+      
+      // Map the distance to a 0-1 progress value
+      // 0 = sectionTop is at middleOfScreen
+      // 1 = sectionTop is at middleOfScreen - sectionHeight (so section bottom is at middle)
+      if (distanceFromMiddle > 0) {
+        progress = 0; // Section is below the middle
+      } else if (distanceFromMiddle < -sectionHeight) {
+        progress = 1; // Section is above the middle
+      } else {
+        // Section is passing through the middle
+        progress = Math.abs(distanceFromMiddle) / sectionHeight;
+      }
       progress = Math.max(0, Math.min(1, progress));
       
       // Get the max available height for character movement
