@@ -1388,29 +1388,29 @@ export default function Home() {
 
             {/* Experience / Career Ladder Section */}
             <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
-              <h2 className="text-[#1A1A1A] dark:text-[#F0EDE7] text-xs font-mono mb-6 uppercase tracking-wider" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
               
               <div className="relative flex">
                 {/* Timeline Line */}
-                <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#F2F0EB] dark:border-[#3A352E] py-1 bg-transparent">
+                <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#E5D7C4] dark:border-[#3A352E] py-1 bg-transparent">
                   {[...Array(38)].map((_, i) => (
-                    <div key={i} className="w-full h-[5px] bg-[#F2F0EB] dark:bg-[#3A352E]"></div>
+                    <div key={i} className="w-full h-[5px] bg-[#E5D7C4] dark:bg-[#3A352E]"></div>
                   ))}
                 </div>
 
-                <div className="space-y-12 pl-12 md:pl-16 relative z-10 w-full pt-1 pb-2">
+                <div className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
                   {/* Experience 1 */}
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
                       <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#F2F0EB] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] font-medium text-[#7A736C] dark:text-[#B5AFA5] w-fit whitespace-nowrap">
+                      <div className="bg-[#E5D7C4] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-[1.6] mb-4 font-medium">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-4">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
-                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px] font-medium">
+                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
                       <li className="flex items-start gap-2">
                         <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
                         <span>AI agents for recruiters</span>
@@ -1430,15 +1430,15 @@ export default function Home() {
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
                       <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#F2F0EB] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] font-medium text-[#7A736C] dark:text-[#B5AFA5] w-fit whitespace-nowrap">
+                      <div className="bg-[#E5D7C4] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-[1.6] mb-4 font-medium">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-4">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
-                    <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3 font-medium">Focus areas:</div>
-                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px] font-medium">
+                    <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
+                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
                       <li className="flex items-start gap-2">
                         <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
                         <span>AI agents for recruiters</span>
@@ -1458,15 +1458,15 @@ export default function Home() {
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
                       <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#F2F0EB] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] font-medium text-[#7A736C] dark:text-[#B5AFA5] w-fit whitespace-nowrap">
+                      <div className="bg-[#E5D7C4] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-[1.6] mb-4 font-medium">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-4">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
-                    <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3 font-medium">Focus areas:</div>
-                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px] font-medium">
+                    <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
+                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
                       <li className="flex items-start gap-2">
                         <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
                         <span>AI agents for recruiters</span>
