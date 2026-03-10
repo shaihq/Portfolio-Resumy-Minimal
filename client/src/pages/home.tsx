@@ -1423,7 +1423,7 @@ export default function Home() {
               
               <div className="relative flex">
                 {/* Character climbing ladder */}
-                <div className="absolute left-[1px] z-20 w-[40px] h-[54px] transition-all duration-300 ease-out" style={{ top: `${characterPosition}px` }}>
+                <div className="absolute left-[1px] z-20 w-[40px] h-[54px]" style={{ top: `${characterPosition}px`, willChange: 'top', transition: 'top 0.05s linear' }}>
                   <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
                 </div>
                 {/* Timeline Line */}
