@@ -46,32 +46,39 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId: number;
+    
+    const updatePosition = () => {
       if (!careerLadderRef.current) return;
       
       const rect = careerLadderRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      
-      // Calculate how much the section has scrolled through the viewport
-      // 0 when section is at bottom of viewport, 1 when it's at top
       const sectionTop = rect.top;
       const sectionHeight = rect.height;
       
-      // Progress from 0 to 1 where 0 = section at bottom, 1 = section at top
-      let progress = 1 - (sectionTop / (viewportHeight + sectionHeight));
+      // Calculate progress: 0 when section enters bottom, 1 when section exits top
+      let progress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
       progress = Math.max(0, Math.min(1, progress));
       
-      // Ladder has ~38 steps with 5px each + 12px spacing for content
-      // Total ladder height is approximately 600px
-      // Character should move from top-[15px] to bottom of the ladder
-      const ladderHeight = 600; // Approximate height of the entire ladder
+      // Smooth character movement based on exact scroll progress
+      const ladderHeight = 620; // Total scrollable ladder distance
       const newPosition = 15 + (progress * ladderHeight);
       
       setCharacterPosition(newPosition);
     };
     
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      // Cancel any pending RAF
+      if (rafId) cancelAnimationFrame(rafId);
+      // Schedule update on next frame for smooth 60fps movement
+      rafId = requestAnimationFrame(updatePosition);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handlePlayTestimonial = (text: string, id: number) => {
@@ -1423,7 +1430,7 @@ export default function Home() {
               
               <div className="relative flex">
                 {/* Character climbing ladder */}
-                <div className="absolute left-[1px] z-20 w-[40px] h-[54px]" style={{ top: `${characterPosition}px`, willChange: 'top', transition: 'top 0.05s linear' }}>
+                <div className="absolute left-[1px] z-20 w-[40px] h-[54px]" style={{ top: `${characterPosition}px`, willChange: 'transform' }}>
                   <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
                 </div>
                 {/* Timeline Line */}
