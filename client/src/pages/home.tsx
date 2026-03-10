@@ -1392,9 +1392,9 @@ export default function Home() {
               
               <div className="relative flex">
                 {/* Timeline Line */}
-                <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#E5D7C4] dark:border-[#3A352E] py-1 bg-transparent">
+                <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#F7F6F3] dark:border-[#3A352E] py-1 bg-transparent">
                   {[...Array(38)].map((_, i) => (
-                    <div key={i} className="w-full h-[5px] bg-[#E5D7C4] dark:bg-[#3A352E]"></div>
+                    <div key={i} className="w-full h-[5px] bg-[#F7F6F3] dark:bg-[#3A352E]"></div>
                   ))}
                 </div>
 
@@ -1403,7 +1403,7 @@ export default function Home() {
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
                       <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#E5D7C4] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                      <div className="bg-[#F7F6F3] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
@@ -1430,7 +1430,7 @@ export default function Home() {
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
                       <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#E5D7C4] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                      <div className="bg-[#F7F6F3] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
@@ -1458,7 +1458,7 @@ export default function Home() {
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
                       <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#E5D7C4] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                      <div className="bg-[#F7F6F3] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
