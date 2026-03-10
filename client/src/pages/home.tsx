@@ -35,7 +35,7 @@ export default function Home() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
   const careerLadderRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const ladderContainerRef = useRef<HTMLDivElement>(null);
   const [characterPosition, setCharacterPosition] = useState(0);
 
   useEffect(() => {
@@ -50,49 +50,45 @@ export default function Home() {
     let rafId: number;
     
     const updatePosition = () => {
-      if (!careerLadderRef.current || !contentRef.current) return;
+      if (!careerLadderRef.current || !ladderContainerRef.current) return;
       
-      const rect = careerLadderRef.current.getBoundingClientRect();
+      const sectionRect = careerLadderRef.current.getBoundingClientRect();
+      const containerHeight = ladderContainerRef.current.offsetHeight;
       const viewportHeight = window.innerHeight;
-      const sectionTop = rect.top;
-      const sectionHeight = rect.height;
       
-      // Calculate scroll progress: 0 at top, 1 at bottom
-      let progress;
+      // When does the section start entering the viewport?
+      // When sectionRect.bottom reaches viewportHeight (bottom of viewport)
+      // Progress: 0 = section entering from bottom, 1 = section exiting from top
       
-      if (sectionTop >= viewportHeight) {
-        // Section is completely below viewport
-        progress = 0;
-      } else if (sectionTop + sectionHeight <= 0) {
-        // Section is completely above viewport
-        progress = 1;
-      } else {
-        // Section is visible - calculate how far through it we've scrolled
-        progress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
-      }
+      const sectionTop = sectionRect.top;
+      const sectionHeight = sectionRect.height;
       
+      let progress = 0;
+      
+      // Calculate when the section is in viewport
+      // Start of animation: when bottom of section reaches bottom of viewport
+      // End of animation: when top of section reaches top of viewport
+      const animationStartPoint = viewportHeight; // When section bottom enters viewport
+      const animationEndPoint = -sectionHeight; // When section top exits viewport
+      
+      // How far through the scroll are we?
+      progress = (animationStartPoint - sectionTop) / (animationStartPoint - animationEndPoint);
       progress = Math.max(0, Math.min(1, progress));
       
-      // Calculate actual available ladder height based on content
-      const contentHeight = contentRef.current.offsetHeight;
-      // The character should move within the visible ladder area
-      // Subtract a bit to ensure character stays visible and reaches proper endpoints
-      const maxPosition = contentHeight - 54; // 54 is character height
+      // Get the max available height for character movement
+      const maxPosition = containerHeight - 54; // 54px is character height
       
-      // Apply speed multiplier (1.4x faster)
+      // Apply progress to move character across full ladder height
       const newPosition = progress * maxPosition;
       
       setCharacterPosition(newPosition);
     };
     
     const handleScroll = () => {
-      // Cancel any pending RAF
       if (rafId) cancelAnimationFrame(rafId);
-      // Schedule update on next frame for smooth 60fps movement
       rafId = requestAnimationFrame(updatePosition);
     };
     
-    // Update position on initial mount and after slight delay for layout
     updatePosition();
     const timeoutId = setTimeout(updatePosition, 50);
     
@@ -1451,7 +1447,7 @@ export default function Home() {
             <div ref={careerLadderRef} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
               
-              <div className="relative flex">
+              <div ref={ladderContainerRef} className="relative flex">
                 {/* Character climbing ladder */}
                 <div className="absolute left-[1px] z-20 w-[40px] h-[54px]" style={{ top: `${characterPosition}px`, willChange: 'transform' }}>
                   <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
@@ -1463,7 +1459,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div ref={contentRef} className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
+                <div className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
                   {/* Experience 1 */}
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
