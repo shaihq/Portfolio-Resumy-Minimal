@@ -1285,9 +1285,9 @@ export default function Home() {
             </div>
           </div>
         ) : activeTemplate === "Creative" ? (
-          <div className="w-full flex-1 flex flex-col pb-20">
+          <div className="w-full flex-1 flex flex-col gap-4 pb-20 pt-6 px-4 md:px-8 max-w-4xl mx-auto">
             {/* Header / Date */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md border-b border-black/5 dark:border-white/10 py-4 px-6 flex justify-between items-center w-full">
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-black/5 dark:border-white/10 shadow-sm py-4 px-6 flex justify-between items-center w-full">
               <div className="flex items-center gap-2">
                 <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Mon, Mar 9</span>
                 <div className="w-2 h-2 bg-[#E37941] rotate-45"></div>
@@ -1311,7 +1311,7 @@ export default function Home() {
             </div>
 
             {/* Intro Profile Card */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md border-b border-black/5 dark:border-white/10 p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start md:items-center w-full">
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-black/5 dark:border-white/10 shadow-sm p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start md:items-center w-full">
               <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
                 <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90" />
               </div>
@@ -1324,7 +1324,7 @@ export default function Home() {
             </div>
 
             {/* Marquee Tags */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md border-b border-black/5 dark:border-white/10 py-4 overflow-hidden relative w-full">
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-black/5 dark:border-white/10 shadow-sm py-4 overflow-hidden relative w-full">
               <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
               <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
               <motion.div 
@@ -1356,7 +1356,7 @@ export default function Home() {
             </div>
 
             {/* Projects Container */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md p-6 md:p-8 w-full flex-1">
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-black/5 dark:border-white/10 shadow-sm p-6 md:p-8 w-full flex-1">
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-sm font-semibold uppercase tracking-widest mb-6">PROJECTS</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
