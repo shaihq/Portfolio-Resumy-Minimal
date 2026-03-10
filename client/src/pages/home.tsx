@@ -1391,6 +1391,10 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
               
               <div className="relative flex">
+                {/* Character climbing ladder */}
+                <div className="absolute left-[-5px] top-[-30px] z-20 w-[60px] h-[80px]">
+                  <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
+                </div>
                 {/* Timeline Line */}
                 <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#F0EDE7] dark:border-[#3A352E] py-1 bg-transparent">
                   {[...Array(38)].map((_, i) => (
