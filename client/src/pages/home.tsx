@@ -1393,7 +1393,7 @@ export default function Home() {
               <div className="relative flex">
                 {/* Timeline Line */}
                 <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#F2F0EB] dark:border-[#3A352E] py-1 bg-transparent">
-                  {[...Array(9)].map((_, i) => (
+                  {[...Array(38)].map((_, i) => (
                     <div key={i} className="w-full h-[5px] bg-[#F2F0EB] dark:bg-[#3A352E]"></div>
                   ))}
                 </div>
