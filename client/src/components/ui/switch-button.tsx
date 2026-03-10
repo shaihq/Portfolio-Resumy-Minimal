@@ -101,13 +101,13 @@ export function Switch({
   return (
     <button
       ref={toggleRef}
-      className={`bg-card-foreground/15 flex w-12 cursor-pointer rounded-full p-0.5 ${
+      className={`flex w-12 cursor-pointer rounded-full p-0.5 bg-[#E5D7C4] dark:bg-card-foreground/15 ${
         value ? "justify-end" : "justify-start"
       } ${className}`}
       onClick={handleToggle}
     >
       <motion.div
-        className="flex justify-center items-center size-6 rounded-full bg-background text-foreground"
+        className="flex justify-center items-center size-6 rounded-full bg-white dark:bg-background text-[#1A1A1A] dark:text-foreground"
         layout
         transition={{
           type: "spring",
