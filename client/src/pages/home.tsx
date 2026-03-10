@@ -1316,8 +1316,8 @@ export default function Home() {
                 <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90" />
               </div>
               <div className="flex flex-col gap-2">
-                <h1 className="text-3xl md:text-4xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight">Hey I'm Matt.</h1>
-                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base md:text-lg leading-relaxed max-w-[480px]">
+                <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
+                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[480px]">
                   I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code.
                 </p>
               </div>
