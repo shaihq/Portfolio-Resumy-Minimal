@@ -1366,10 +1366,10 @@ export default function Home() {
                     <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug">
+                    <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
                       Redesigning Quote Builder at Freshworks for 1,900+ Enterprise U...
                     </h3>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm md:text-base leading-relaxed">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm leading-relaxed line-clamp-2">
                       A sleek and responsive landing page designed for modern startups to showca...
                     </p>
                   </div>
@@ -1381,10 +1381,10 @@ export default function Home() {
                     <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug">
+                    <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
                       Designfolio: No-Code Portfolio Builder for 9,000+ Users
                     </h3>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm md:text-base leading-relaxed">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm leading-relaxed line-clamp-2">
                       Helping Product folks build bragworthy portfolio websites.
                     </p>
                   </div>
