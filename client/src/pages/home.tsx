@@ -35,7 +35,7 @@ export default function Home() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
   const careerLadderRef = useRef<HTMLDivElement>(null);
-  const [characterPosition, setCharacterPosition] = useState(15);
+  const [characterPosition, setCharacterPosition] = useState(0);
 
   useEffect(() => {
     const handleEnd = () => setPlayingTestimonial(null);
@@ -61,8 +61,8 @@ export default function Home() {
       progress = Math.max(0, Math.min(1, progress));
       
       // Smooth character movement based on exact scroll progress
-      const ladderHeight = 620; // Total scrollable ladder distance
-      const newPosition = 15 + (progress * ladderHeight);
+      const ladderHeight = 880; // Total scrollable ladder distance to reach the end
+      const newPosition = 0 + (progress * ladderHeight);
       
       setCharacterPosition(newPosition);
     };
