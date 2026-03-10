@@ -34,6 +34,8 @@ export default function Home() {
   const twitterRef = useRef<TwitterIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
+  const careerLadderRef = useRef<HTMLDivElement>(null);
+  const [characterPosition, setCharacterPosition] = useState(15);
 
   useEffect(() => {
     const handleEnd = () => setPlayingTestimonial(null);
@@ -41,6 +43,35 @@ export default function Home() {
     return () => {
       window.speechSynthesis.cancel();
     };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!careerLadderRef.current) return;
+      
+      const rect = careerLadderRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate how much the section has scrolled through the viewport
+      // 0 when section is at bottom of viewport, 1 when it's at top
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      
+      // Progress from 0 to 1 where 0 = section at bottom, 1 = section at top
+      let progress = 1 - (sectionTop / (viewportHeight + sectionHeight));
+      progress = Math.max(0, Math.min(1, progress));
+      
+      // Ladder has ~38 steps with 5px each + 12px spacing for content
+      // Total ladder height is approximately 600px
+      // Character should move from top-[15px] to bottom of the ladder
+      const ladderHeight = 600; // Approximate height of the entire ladder
+      const newPosition = 15 + (progress * ladderHeight);
+      
+      setCharacterPosition(newPosition);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handlePlayTestimonial = (text: string, id: number) => {
@@ -1387,12 +1418,12 @@ export default function Home() {
             </div>
 
             {/* Experience / Career Ladder Section */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
+            <div ref={careerLadderRef} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
               
               <div className="relative flex">
                 {/* Character climbing ladder */}
-                <div className="absolute left-[1px] top-[15px] z-20 w-[40px] h-[54px]">
+                <div className="absolute left-[1px] z-20 w-[40px] h-[54px] transition-all duration-300 ease-out" style={{ top: `${characterPosition}px` }}>
                   <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
                 </div>
                 {/* Timeline Line */}
