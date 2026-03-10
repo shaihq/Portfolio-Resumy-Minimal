@@ -1356,7 +1356,7 @@ export default function Home() {
             </div>
 
             {/* Projects Container */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full flex-1">
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full">
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-sm font-semibold uppercase tracking-widest mb-6">PROJECTS</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
