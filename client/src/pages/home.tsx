@@ -1328,19 +1328,19 @@ export default function Home() {
               >
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex gap-4 items-center">
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[14px] uppercase tracking-wider">Interaction Design</span>
+                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">Interaction Design</span>
                     <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                     </div>
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[14px] uppercase tracking-wider">3D Design</span>
+                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">3D Design</span>
                     <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                     </div>
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[14px] uppercase tracking-wider">User Research</span>
+                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">User Research</span>
                     <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                     </div>
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[14px] uppercase tracking-wider">UI/UX Design</span>
+                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">UI/UX Design</span>
                     <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                     </div>
