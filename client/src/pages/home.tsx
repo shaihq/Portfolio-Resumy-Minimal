@@ -37,7 +37,15 @@ export default function Home() {
   const careerLadderRef = useRef<HTMLDivElement>(null);
   const ladderContainerRef = useRef<HTMLDivElement>(null);
   const pegboardRef = useRef<HTMLDivElement>(null);
+  const [zIndexes, setZIndexes] = useState({ 1: 10, 2: 20, 3: 10 });
   const [characterPosition, setCharacterPosition] = useState(0);
+
+  const bringToFront = (id: number) => {
+    setZIndexes(prev => {
+      const maxZ = Math.max(...Object.values(prev));
+      return { ...prev, [id]: maxZ + 1 };
+    });
+  };
 
   useEffect(() => {
     const handleEnd = () => setPlayingTestimonial(null);
@@ -1627,9 +1635,12 @@ export default function Home() {
                     dragConstraints={pegboardRef}
                     dragMomentum={false}
                     dragElastic={0}
-                    whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+                    onDragStart={() => bringToFront(1)}
+                    onPointerDown={() => bringToFront(1)}
+                    whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
                     initial={{ y: 10 }}
-                    className="relative w-28 md:w-36 aspect-[3/4] group z-10 cursor-grab" 
+                    style={{ zIndex: zIndexes[1] }}
+                    className="relative w-28 md:w-36 aspect-[3/4] group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(-4deg)' }}>
                       <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
@@ -1648,9 +1659,12 @@ export default function Home() {
                     dragConstraints={pegboardRef}
                     dragMomentum={false}
                     dragElastic={0}
-                    whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+                    onDragStart={() => bringToFront(2)}
+                    onPointerDown={() => bringToFront(2)}
+                    whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
                     initial={{ y: 15 }}
-                    className="relative w-32 md:w-44 aspect-square group z-20 cursor-grab" 
+                    style={{ zIndex: zIndexes[2] }}
+                    className="relative w-32 md:w-44 aspect-square group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(6deg)' }}>
                       <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col">
@@ -1680,9 +1694,12 @@ export default function Home() {
                     dragConstraints={pegboardRef}
                     dragMomentum={false}
                     dragElastic={0}
-                    whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+                    onDragStart={() => bringToFront(3)}
+                    onPointerDown={() => bringToFront(3)}
+                    whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
                     initial={{ y: -10 }}
-                    className="relative w-28 md:w-36 aspect-[3/4] group z-10 cursor-grab" 
+                    style={{ zIndex: zIndexes[3] }}
+                    className="relative w-28 md:w-36 aspect-[3/4] group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(-2deg)' }}>
                       <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
