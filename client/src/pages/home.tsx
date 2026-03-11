@@ -1646,7 +1646,7 @@ export default function Home() {
                     className="relative w-28 md:w-36 aspect-[3/4] group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(-4deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-md transition-shadow">
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-1.5 md:p-2 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-md transition-shadow">
                         <div className="relative w-full h-full">
                           <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
                           <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[6px] md:rounded-[8px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
@@ -1677,7 +1677,7 @@ export default function Home() {
                     className="relative w-32 md:w-44 aspect-square group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(6deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-lg transition-shadow">
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-1.5 md:p-2 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-lg transition-shadow">
                         <div className="relative w-full h-full">
                           <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" draggable="false" />
                           <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[16px] md:rounded-[24px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
@@ -1691,16 +1691,8 @@ export default function Home() {
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 md:w-20 h-5 md:h-6 bg-[#DFCDAA]/90 dark:bg-[#9B8C73]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }}></div>
                       
                       {/* Figma Logo Accent */}
-                      <div className="absolute -bottom-3 md:-bottom-5 -right-3 md:-right-5 w-10 md:w-14 h-10 md:h-14 bg-white dark:bg-[#2A2520] rounded-[12px] md:rounded-[16px] shadow-md flex items-center justify-center p-1 z-30" style={{ transform: 'rotate(-10deg)' }}>
-                        <div className="w-full h-full flex items-center justify-center border-[2px] border-white dark:border-[#3A352E] rounded-[8px] md:rounded-[12px] overflow-hidden bg-white">
-                          <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" className="w-5 h-5 md:w-7 md:h-7">
-                            <path d="M8 0h8v8H8z" fill="#F24E1E"/>
-                            <path d="M16 0h8v8h-8z" fill="#A259FF"/>
-                            <path d="M16 8h8v8h-8z" fill="#1ABCFE"/>
-                            <path d="M8 8h8v8H8z" fill="#0ACF83"/>
-                            <path d="M0 16h8v8H0z" fill="#F24E1E"/>
-                          </svg>
-                        </div>
+                      <div className="absolute -bottom-3 md:-bottom-5 -right-3 md:-right-5 w-12 md:w-16 h-12 md:h-16 z-30" style={{ transform: 'rotate(-10deg)' }}>
+                        <img src="/stickerfigma.png" alt="Figma Sticker" className="w-full h-full object-contain drop-shadow-md" draggable="false" />
                       </div>
                     </div>
                   </motion.div>
@@ -1719,7 +1711,7 @@ export default function Home() {
                     className="relative w-28 md:w-36 aspect-[3/4] group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(-2deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-md transition-shadow">
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-1.5 md:p-2 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-md transition-shadow">
                         <div className="relative w-full h-full">
                           <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
                           <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[6px] md:rounded-[8px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
