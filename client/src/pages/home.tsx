@@ -47,6 +47,45 @@ export default function Home() {
     });
   };
 
+  const playPegboardClick = (type: 'grab' | 'drop') => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const now = audioContext.currentTime;
+      
+      if (type === 'grab') {
+        // Grab sound - quick bright click
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } else {
+        // Drop sound - lower pitched click with depth
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        
+        osc.frequency.setValueAtTime(500, now);
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.12);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+        
+        osc.start(now);
+        osc.stop(now + 0.12);
+      }
+    } catch (e) {
+      // Audio context not available or blocked
+    }
+  };
+
   useEffect(() => {
     const handleEnd = () => setPlayingTestimonial(null);
     window.speechSynthesis.addEventListener('voiceschanged', () => {}); // Just to initialize
@@ -1674,7 +1713,11 @@ export default function Home() {
                     dragConstraints={pegboardRef}
                     dragMomentum={false}
                     dragElastic={0}
-                    onDragStart={() => bringToFront(1)}
+                    onDragStart={() => {
+                      bringToFront(1);
+                      playPegboardClick('grab');
+                    }}
+                    onDragEnd={() => playPegboardClick('drop')}
                     onPointerDown={() => bringToFront(1)}
                     whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
                     initial={{ y: 10 }}
@@ -1705,7 +1748,11 @@ export default function Home() {
                     dragConstraints={pegboardRef}
                     dragMomentum={false}
                     dragElastic={0}
-                    onDragStart={() => bringToFront(2)}
+                    onDragStart={() => {
+                      bringToFront(2);
+                      playPegboardClick('grab');
+                    }}
+                    onDragEnd={() => playPegboardClick('drop')}
                     onPointerDown={() => bringToFront(2)}
                     whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
                     initial={{ y: 15 }}
@@ -1739,7 +1786,11 @@ export default function Home() {
                     dragConstraints={pegboardRef}
                     dragMomentum={false}
                     dragElastic={0}
-                    onDragStart={() => bringToFront(3)}
+                    onDragStart={() => {
+                      bringToFront(3);
+                      playPegboardClick('grab');
+                    }}
+                    onDragEnd={() => playPegboardClick('drop')}
                     onPointerDown={() => bringToFront(3)}
                     whileDrag={{ scale: 1.05, cursor: 'grabbing' }}
                     initial={{ y: -10 }}
