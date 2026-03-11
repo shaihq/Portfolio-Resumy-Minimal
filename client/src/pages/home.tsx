@@ -1588,12 +1588,12 @@ export default function Home() {
                     { name: "Reeder", image: "/tools/image 8.png" },
                     { name: "Anthropic", image: "/tools/image 9.png" },
                   ].map((tool, i) => (
-                    <div 
-                      key={i} 
-                      className="flex-shrink-0 w-12 h-12 rounded-lg border border-black/10 dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:scale-105 cursor-pointer overflow-hidden"
-                    >
-                      <img src={tool.image} alt={tool.name} className="w-full h-full object-contain p-2 rounded-lg" />
-                    </div>
+                    <img 
+                      key={i}
+                      src={tool.image} 
+                      alt={tool.name} 
+                      className="flex-shrink-0 w-12 h-12 hover:scale-110 transition-transform cursor-pointer" 
+                    />
                   ))}
                 </motion.div>
               </div>
