@@ -1437,7 +1437,13 @@ export default function Home() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Project 1 */}
-                <div className="flex flex-col gap-4 group cursor-pointer" onClick={() => handleProjectClick("slate")}>
+                <motion.div 
+                  initial={{ opacity: 0, y: -40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: "easeOut", delay: 0 }}
+                  className="flex flex-col gap-4 group cursor-pointer" 
+                  onClick={() => handleProjectClick("slate")}
+                >
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
@@ -1449,10 +1455,16 @@ export default function Home() {
                       A sleek and responsive landing page designed for modern startups to showca...
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Project 2 */}
-                <div className="flex flex-col gap-4 group cursor-pointer" onClick={() => handleProjectClick("antimetal")}>
+                <motion.div 
+                  initial={{ opacity: 0, y: -40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+                  className="flex flex-col gap-4 group cursor-pointer" 
+                  onClick={() => handleProjectClick("antimetal")}
+                >
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
@@ -1464,7 +1476,7 @@ export default function Home() {
                       Helping Product folks build bragworthy portfolio websites.
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
 
