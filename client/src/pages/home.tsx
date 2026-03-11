@@ -1599,9 +1599,56 @@ export default function Home() {
               </div>
             </div>
 
-            {/* About Me Section */}
+            {/* About Me Section with Pegboard */}
             <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full">
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-4" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
+              
+              {/* Pegboard Grid Background */}
+              <div className="relative w-full mb-8 rounded-2xl overflow-hidden" style={{
+                backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(200, 180, 140, 0.15) 25%, rgba(200, 180, 140, 0.15) 26%, transparent 27%, transparent 74%, rgba(200, 180, 140, 0.15) 75%, rgba(200, 180, 140, 0.15) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(200, 180, 140, 0.15) 25%, rgba(200, 180, 140, 0.15) 26%, transparent 27%, transparent 74%, rgba(200, 180, 140, 0.15) 75%, rgba(200, 180, 140, 0.15) 76%, transparent 77%, transparent)',
+                backgroundSize: '40px 40px',
+                backgroundColor: '#F5F0EB'
+              }}>
+                <div className="dark:bg-[#1A1A1A]/50 relative h-80 md:h-96 flex items-center justify-center p-4">
+                  
+                  {/* Image 1 - Top Left with Yellow Tape */}
+                  <div className="absolute left-4 md:left-8 top-8 md:top-12 w-32 md:w-40 h-40 md:h-48 group" style={{ transform: 'rotate(-8deg)' }}>
+                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#2A2520] relative">
+                      <img src={story1} alt="My workspace" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute -top-2 -left-4 w-16 h-12 bg-yellow-200/80 rounded-lg" style={{ transform: 'rotate(-15deg)' }}></div>
+                  </div>
+
+                  {/* Image 2 - Center with Yellow Tape */}
+                  <div className="relative w-32 md:w-40 h-40 md:h-48 group" style={{ transform: 'rotate(12deg)' }}>
+                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#2A2520]">
+                      <img src={story2} alt="Designing" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute -top-3 -right-6 w-20 h-14 bg-yellow-200/80 rounded-lg" style={{ transform: 'rotate(20deg)' }}></div>
+                  </div>
+
+                  {/* Image 3 - Top Right with Yellow Tape */}
+                  <div className="absolute right-4 md:right-8 top-8 md:top-12 w-32 md:w-40 h-40 md:h-48 group" style={{ transform: 'rotate(-5deg)' }}>
+                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#2A2520]">
+                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute -top-2 -right-4 w-16 h-12 bg-yellow-200/80 rounded-lg" style={{ transform: 'rotate(-10deg)' }}></div>
+                  </div>
+
+                  {/* Figma Logo Accent */}
+                  <div className="absolute bottom-6 right-16 md:right-24 w-12 h-12 bg-white dark:bg-[#2A2520] rounded-full shadow-md flex items-center justify-center border-2 border-white dark:border-[#3A352E]" style={{ transform: 'scale(1.1)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M8 0h8v8H8z" fill="#F24E1E"/>
+                      <path d="M16 0h8v8h-8z" fill="#A259FF"/>
+                      <path d="M16 8h8v8h-8z" fill="#1ABCFE"/>
+                      <path d="M8 8h8v8H8z" fill="#0ACF83"/>
+                      <path d="M0 16h8v8H0z" fill="#F24E1E"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Story Text */}
               <div className="space-y-4">
                 <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed">
                   I'm Matt Chen, a passionate Design Engineer focused on crafting meaningful digital experiences where design meets code. Currently exploring new ways to create intuitive interfaces that users love, I'm driven by curiosity and a deep appreciation for thoughtful, purposeful design.
