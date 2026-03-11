@@ -1407,7 +1407,7 @@ export default function Home() {
             </div>
           </div>
         ) : activeTemplate === "Creative" ? (
-          <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-0 md:px-0 max-w-[640px] mx-auto">
+          <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-4 md:px-0 max-w-[640px] mx-auto">
             {/* Header / Date */}
             <motion.div 
               initial={{ opacity: 0, y: -40 }}
