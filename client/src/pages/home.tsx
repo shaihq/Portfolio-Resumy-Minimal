@@ -1604,47 +1604,56 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
-              <div className="relative w-full mb-8 rounded-2xl overflow-hidden" style={{
-                backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(200, 180, 140, 0.15) 25%, rgba(200, 180, 140, 0.15) 26%, transparent 27%, transparent 74%, rgba(200, 180, 140, 0.15) 75%, rgba(200, 180, 140, 0.15) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(200, 180, 140, 0.15) 25%, rgba(200, 180, 140, 0.15) 26%, transparent 27%, transparent 74%, rgba(200, 180, 140, 0.15) 75%, rgba(200, 180, 140, 0.15) 76%, transparent 77%, transparent)',
-                backgroundSize: '40px 40px',
-                backgroundColor: '#F5F0EB'
+              <div className="relative w-full mb-8 rounded-[32px] overflow-hidden border-2 border-black/5" style={{
+                backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px)',
+                backgroundSize: '48px 48px',
+                backgroundColor: '#F7F4EF',
+                backgroundPosition: 'center center'
               }}>
-                <div className="dark:bg-[#1A1A1A]/50 relative h-80 md:h-96 flex items-center justify-center p-4">
+                <div className="relative h-[450px] md:h-[500px] flex flex-col md:flex-row items-center justify-center p-4 gap-8 md:gap-16">
                   
-                  {/* Image 1 - Top Left with Yellow Tape */}
-                  <div className="absolute left-4 md:left-8 top-8 md:top-12 w-32 md:w-40 h-40 md:h-48 group" style={{ transform: 'rotate(-8deg)' }}>
-                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#2A2520] relative">
-                      <img src={story1} alt="My workspace" className="w-full h-full object-cover" />
+                  {/* Image 1 - Left with L-shape tape */}
+                  <div className="relative w-40 md:w-56 h-48 md:h-64 group z-10" style={{ transform: 'rotate(-4deg) translateY(10px)' }}>
+                    <div className="w-full h-full bg-white p-3 rounded-[24px] shadow-sm border border-black/5 flex flex-col">
+                      <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[16px]" />
                     </div>
-                    <div className="absolute -top-2 -left-4 w-16 h-12 bg-yellow-200/80 rounded-lg" style={{ transform: 'rotate(-15deg)' }}></div>
+                    {/* Top tape part */}
+                    <div className="absolute -top-1 -left-2 w-16 h-7 bg-[#E8CF82]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-2deg)' }}></div>
+                    {/* Side tape part */}
+                    <div className="absolute top-4 -left-3 w-7 h-12 bg-[#E8CF82]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(2deg)' }}></div>
                   </div>
 
-                  {/* Image 2 - Center with Yellow Tape */}
-                  <div className="relative w-32 md:w-40 h-40 md:h-48 group" style={{ transform: 'rotate(12deg)' }}>
-                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#2A2520]">
-                      <img src={story2} alt="Designing" className="w-full h-full object-cover" />
+                  {/* Image 2 - Center with Top Tape and Figma Logo */}
+                  <div className="relative w-40 md:w-56 h-48 md:h-64 group z-20" style={{ transform: 'rotate(6deg) translateY(30px)' }}>
+                    <div className="w-full h-full bg-white p-3 rounded-[24px] shadow-sm border border-black/5 flex flex-col">
+                      <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px]" />
                     </div>
-                    <div className="absolute -top-3 -right-6 w-20 h-14 bg-yellow-200/80 rounded-lg" style={{ transform: 'rotate(20deg)' }}></div>
+                    {/* Center tape */}
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-8 bg-[#DFCDAA]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }}></div>
+                    
+                    {/* Figma Logo Accent */}
+                    <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-white rounded-[20px] shadow-md flex items-center justify-center p-1 z-30" style={{ transform: 'rotate(-10deg)' }}>
+                      <div className="w-full h-full flex items-center justify-center border-[3px] border-white rounded-[16px] overflow-hidden">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                          <path d="M8 0h8v8H8z" fill="#F24E1E"/>
+                          <path d="M16 0h8v8h-8z" fill="#A259FF"/>
+                          <path d="M16 8h8v8h-8z" fill="#1ABCFE"/>
+                          <path d="M8 8h8v8H8z" fill="#0ACF83"/>
+                          <path d="M0 16h8v8H0z" fill="#F24E1E"/>
+                        </svg>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Image 3 - Top Right with Yellow Tape */}
-                  <div className="absolute right-4 md:right-8 top-8 md:top-12 w-32 md:w-40 h-40 md:h-48 group" style={{ transform: 'rotate(-5deg)' }}>
-                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#2A2520]">
-                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover" />
+                  {/* Image 3 - Right with Long Top Tape */}
+                  <div className="relative w-40 md:w-56 h-48 md:h-64 group z-10" style={{ transform: 'rotate(-2deg) translateY(-10px)' }}>
+                    <div className="w-full h-full bg-white p-3 rounded-[24px] shadow-sm border border-black/5 flex flex-col">
+                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[16px]" />
                     </div>
-                    <div className="absolute -top-2 -right-4 w-16 h-12 bg-yellow-200/80 rounded-lg" style={{ transform: 'rotate(-10deg)' }}></div>
+                    {/* Long horizontal tape */}
+                    <div className="absolute -top-4 -left-4 w-56 h-8 bg-[#D3C4A9]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(1deg)' }}></div>
                   </div>
 
-                  {/* Figma Logo Accent */}
-                  <div className="absolute bottom-6 right-16 md:right-24 w-12 h-12 bg-white dark:bg-[#2A2520] rounded-full shadow-md flex items-center justify-center border-2 border-white dark:border-[#3A352E]" style={{ transform: 'scale(1.1)' }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M8 0h8v8H8z" fill="#F24E1E"/>
-                      <path d="M16 0h8v8h-8z" fill="#A259FF"/>
-                      <path d="M16 8h8v8h-8z" fill="#1ABCFE"/>
-                      <path d="M8 8h8v8H8z" fill="#0ACF83"/>
-                      <path d="M0 16h8v8H0z" fill="#F24E1E"/>
-                    </svg>
-                  </div>
                 </div>
               </div>
 
