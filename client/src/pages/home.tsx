@@ -36,6 +36,7 @@ export default function Home() {
   const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
   const careerLadderRef = useRef<HTMLDivElement>(null);
   const ladderContainerRef = useRef<HTMLDivElement>(null);
+  const pegboardRef = useRef<HTMLDivElement>(null);
   const [characterPosition, setCharacterPosition] = useState(0);
 
   useEffect(() => {
@@ -1604,15 +1605,15 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
-              <div className="relative w-full mb-8 rounded-[32px] overflow-hidden border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
+              <div className="relative w-full mb-8 rounded-[32px] overflow-hidden border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]" ref={pegboardRef}>
                 {/* Light Mode Grid */}
-                <div className="absolute inset-0 dark:hidden" style={{
+                <div className="absolute inset-0 dark:hidden pointer-events-none" style={{
                   backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
                   backgroundSize: '40px 40px',
                   backgroundPosition: 'center center'
                 }}></div>
                 {/* Dark Mode Grid */}
-                <div className="absolute inset-0 hidden dark:block" style={{
+                <div className="absolute inset-0 hidden dark:block pointer-events-none" style={{
                   backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
                   backgroundSize: '40px 40px',
                   backgroundPosition: 'center center'
@@ -1621,26 +1622,38 @@ export default function Home() {
                 <div className="relative h-[260px] md:h-[320px] flex flex-row items-center justify-center px-2 md:p-4 gap-4 md:gap-10">
                   
                   {/* Image 1 - Left with L-shape tape (Portrait) */}
-                  <div className="relative w-28 md:w-36 aspect-[3/4] group z-10" style={{ transform: 'rotate(-4deg) translateY(10px)' }}>
-                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
-                      <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" />
+                  <motion.div 
+                    drag 
+                    dragConstraints={pegboardRef}
+                    whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+                    initial={{ rotate: -4, y: 10 }}
+                    className="relative w-28 md:w-36 aspect-[3/4] group z-10 cursor-grab" 
+                  >
+                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col pointer-events-none">
+                      <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
                     </div>
                     {/* Top tape part */}
-                    <div className="absolute -top-1 -left-2 w-12 md:w-16 h-5 md:h-6 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-2deg)' }}></div>
+                    <div className="absolute -top-1 -left-2 w-12 md:w-16 h-5 md:h-6 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20 pointer-events-none" style={{ transform: 'rotate(-2deg)' }}></div>
                     {/* Side tape part */}
-                    <div className="absolute top-3 md:top-4 -left-2 md:-left-3 w-5 md:w-6 h-10 md:h-12 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(2deg)' }}></div>
-                  </div>
+                    <div className="absolute top-3 md:top-4 -left-2 md:-left-3 w-5 md:w-6 h-10 md:h-12 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20 pointer-events-none" style={{ transform: 'rotate(2deg)' }}></div>
+                  </motion.div>
 
                   {/* Image 2 - Center with Top Tape and Figma Logo (Squircle) */}
-                  <div className="relative w-32 md:w-44 aspect-square group z-20" style={{ transform: 'rotate(6deg) translateY(15px)' }}>
-                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col">
-                      <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" />
+                  <motion.div 
+                    drag 
+                    dragConstraints={pegboardRef}
+                    whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+                    initial={{ rotate: 6, y: 15 }}
+                    className="relative w-32 md:w-44 aspect-square group z-20 cursor-grab" 
+                  >
+                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col pointer-events-none">
+                      <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" draggable="false" />
                     </div>
                     {/* Center tape */}
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 md:w-20 h-5 md:h-6 bg-[#DFCDAA]/90 dark:bg-[#9B8C73]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }}></div>
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 md:w-20 h-5 md:h-6 bg-[#DFCDAA]/90 dark:bg-[#9B8C73]/90 backdrop-blur-sm shadow-sm z-20 pointer-events-none" style={{ transform: 'rotate(-3deg)' }}></div>
                     
                     {/* Figma Logo Accent */}
-                    <div className="absolute -bottom-3 md:-bottom-5 -right-3 md:-right-5 w-10 md:w-14 h-10 md:h-14 bg-white dark:bg-[#2A2520] rounded-[12px] md:rounded-[16px] shadow-md flex items-center justify-center p-1 z-30" style={{ transform: 'rotate(-10deg)' }}>
+                    <div className="absolute -bottom-3 md:-bottom-5 -right-3 md:-right-5 w-10 md:w-14 h-10 md:h-14 bg-white dark:bg-[#2A2520] rounded-[12px] md:rounded-[16px] shadow-md flex items-center justify-center p-1 z-30 pointer-events-none" style={{ transform: 'rotate(-10deg)' }}>
                       <div className="w-full h-full flex items-center justify-center border-[2px] border-white dark:border-[#3A352E] rounded-[8px] md:rounded-[12px] overflow-hidden bg-white">
                         <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" className="w-5 h-5 md:w-7 md:h-7">
                           <path d="M8 0h8v8H8z" fill="#F24E1E"/>
@@ -1651,16 +1664,22 @@ export default function Home() {
                         </svg>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Image 3 - Right with Long Top Tape (Portrait) */}
-                  <div className="relative w-28 md:w-36 aspect-[3/4] group z-10" style={{ transform: 'rotate(-2deg) translateY(-10px)' }}>
-                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
-                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" />
+                  <motion.div 
+                    drag 
+                    dragConstraints={pegboardRef}
+                    whileDrag={{ scale: 1.05, zIndex: 50, cursor: 'grabbing' }}
+                    initial={{ rotate: -2, y: -10 }}
+                    className="relative w-28 md:w-36 aspect-[3/4] group z-10 cursor-grab" 
+                  >
+                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col pointer-events-none">
+                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
                     </div>
                     {/* Long horizontal tape */}
-                    <div className="absolute -top-3 md:-top-4 -left-2 md:-left-4 w-32 md:w-44 h-5 md:h-6 bg-[#D3C4A9]/90 dark:bg-[#8D826B]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(1deg)' }}></div>
-                  </div>
+                    <div className="absolute -top-3 md:-top-4 -left-2 md:-left-4 w-32 md:w-44 h-5 md:h-6 bg-[#D3C4A9]/90 dark:bg-[#8D826B]/90 backdrop-blur-sm shadow-sm z-20 pointer-events-none" style={{ transform: 'rotate(1deg)' }}></div>
+                  </motion.div>
 
                 </div>
               </div>
