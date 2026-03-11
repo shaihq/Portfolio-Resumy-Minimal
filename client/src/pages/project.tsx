@@ -93,8 +93,9 @@ export default function Project() {
       filter: "blur(0px)",
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.21, 0.47, 0.32, 0.98],
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
       },
     },
   };
