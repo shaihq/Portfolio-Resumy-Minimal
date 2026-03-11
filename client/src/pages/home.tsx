@@ -1613,15 +1613,18 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
-              <div className="relative w-full mb-8 rounded-[32px] overflow-hidden border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]" ref={pegboardRef}>
+              <div className="relative w-full mb-8 rounded-[32px] border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
+                {/* Invisible larger boundary for drag constraints allowing slight overflow */}
+                <div className="absolute -inset-6 md:-inset-10 pointer-events-none" ref={pegboardRef}></div>
+                
                 {/* Light Mode Grid */}
-                <div className="absolute inset-0 dark:hidden pointer-events-none" style={{
+                <div className="absolute inset-0 dark:hidden pointer-events-none rounded-[32px] overflow-hidden" style={{
                   backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
                   backgroundSize: '40px 40px',
                   backgroundPosition: 'center center'
                 }}></div>
                 {/* Dark Mode Grid */}
-                <div className="absolute inset-0 hidden dark:block pointer-events-none" style={{
+                <div className="absolute inset-0 hidden dark:block pointer-events-none rounded-[32px] overflow-hidden" style={{
                   backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
                   backgroundSize: '40px 40px',
                   backgroundPosition: 'center center'
