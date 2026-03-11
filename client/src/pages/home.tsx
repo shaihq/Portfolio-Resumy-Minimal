@@ -1604,37 +1604,45 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
-              <div className="relative w-full mb-8 rounded-[32px] overflow-hidden border-2 border-black/5" style={{
-                backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px)',
-                backgroundSize: '48px 48px',
-                backgroundColor: '#F7F4EF',
-                backgroundPosition: 'center center'
-              }}>
-                <div className="relative h-[450px] md:h-[500px] flex flex-col md:flex-row items-center justify-center p-4 gap-8 md:gap-16">
+              <div className="relative w-full mb-8 rounded-[32px] overflow-hidden border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
+                {/* Light Mode Grid */}
+                <div className="absolute inset-0 dark:hidden" style={{
+                  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
+                  backgroundSize: '40px 40px',
+                  backgroundPosition: 'center center'
+                }}></div>
+                {/* Dark Mode Grid */}
+                <div className="absolute inset-0 hidden dark:block" style={{
+                  backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
+                  backgroundSize: '40px 40px',
+                  backgroundPosition: 'center center'
+                }}></div>
+
+                <div className="relative h-[260px] md:h-[320px] flex flex-row items-center justify-center px-2 md:p-4 gap-4 md:gap-10">
                   
-                  {/* Image 1 - Left with L-shape tape */}
-                  <div className="relative w-40 md:w-56 h-48 md:h-64 group z-10" style={{ transform: 'rotate(-4deg) translateY(10px)' }}>
-                    <div className="w-full h-full bg-white p-3 rounded-[24px] shadow-sm border border-black/5 flex flex-col">
-                      <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[16px]" />
+                  {/* Image 1 - Left with L-shape tape (Portrait) */}
+                  <div className="relative w-28 md:w-36 aspect-[3/4] group z-10" style={{ transform: 'rotate(-4deg) translateY(10px)' }}>
+                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
+                      <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" />
                     </div>
                     {/* Top tape part */}
-                    <div className="absolute -top-1 -left-2 w-16 h-7 bg-[#E8CF82]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-2deg)' }}></div>
+                    <div className="absolute -top-1 -left-2 w-12 md:w-16 h-5 md:h-6 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-2deg)' }}></div>
                     {/* Side tape part */}
-                    <div className="absolute top-4 -left-3 w-7 h-12 bg-[#E8CF82]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(2deg)' }}></div>
+                    <div className="absolute top-3 md:top-4 -left-2 md:-left-3 w-5 md:w-6 h-10 md:h-12 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(2deg)' }}></div>
                   </div>
 
-                  {/* Image 2 - Center with Top Tape and Figma Logo */}
-                  <div className="relative w-40 md:w-56 h-48 md:h-64 group z-20" style={{ transform: 'rotate(6deg) translateY(30px)' }}>
-                    <div className="w-full h-full bg-white p-3 rounded-[24px] shadow-sm border border-black/5 flex flex-col">
-                      <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px]" />
+                  {/* Image 2 - Center with Top Tape and Figma Logo (Squircle) */}
+                  <div className="relative w-32 md:w-44 aspect-square group z-20" style={{ transform: 'rotate(6deg) translateY(15px)' }}>
+                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col">
+                      <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" />
                     </div>
                     {/* Center tape */}
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-8 bg-[#DFCDAA]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }}></div>
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 md:w-20 h-5 md:h-6 bg-[#DFCDAA]/90 dark:bg-[#9B8C73]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }}></div>
                     
                     {/* Figma Logo Accent */}
-                    <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-white rounded-[20px] shadow-md flex items-center justify-center p-1 z-30" style={{ transform: 'rotate(-10deg)' }}>
-                      <div className="w-full h-full flex items-center justify-center border-[3px] border-white rounded-[16px] overflow-hidden">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <div className="absolute -bottom-3 md:-bottom-5 -right-3 md:-right-5 w-10 md:w-14 h-10 md:h-14 bg-white dark:bg-[#2A2520] rounded-[12px] md:rounded-[16px] shadow-md flex items-center justify-center p-1 z-30" style={{ transform: 'rotate(-10deg)' }}>
+                      <div className="w-full h-full flex items-center justify-center border-[2px] border-white dark:border-[#3A352E] rounded-[8px] md:rounded-[12px] overflow-hidden bg-white">
+                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" className="w-5 h-5 md:w-7 md:h-7">
                           <path d="M8 0h8v8H8z" fill="#F24E1E"/>
                           <path d="M16 0h8v8h-8z" fill="#A259FF"/>
                           <path d="M16 8h8v8h-8z" fill="#1ABCFE"/>
@@ -1645,13 +1653,13 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Image 3 - Right with Long Top Tape */}
-                  <div className="relative w-40 md:w-56 h-48 md:h-64 group z-10" style={{ transform: 'rotate(-2deg) translateY(-10px)' }}>
-                    <div className="w-full h-full bg-white p-3 rounded-[24px] shadow-sm border border-black/5 flex flex-col">
-                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[16px]" />
+                  {/* Image 3 - Right with Long Top Tape (Portrait) */}
+                  <div className="relative w-28 md:w-36 aspect-[3/4] group z-10" style={{ transform: 'rotate(-2deg) translateY(-10px)' }}>
+                    <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
+                      <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" />
                     </div>
                     {/* Long horizontal tape */}
-                    <div className="absolute -top-4 -left-4 w-56 h-8 bg-[#D3C4A9]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(1deg)' }}></div>
+                    <div className="absolute -top-3 md:-top-4 -left-2 md:-left-4 w-32 md:w-44 h-5 md:h-6 bg-[#D3C4A9]/90 dark:bg-[#8D826B]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(1deg)' }}></div>
                   </div>
 
                 </div>
