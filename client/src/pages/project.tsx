@@ -85,12 +85,10 @@ export default function Project() {
   const itemVariants = {
     hidden: { 
       opacity: 0, 
-      filter: "blur(10px)",
       y: 10
     },
     visible: { 
       opacity: 1, 
-      filter: "blur(0px)",
       y: 0,
       transition: {
         type: "spring",
