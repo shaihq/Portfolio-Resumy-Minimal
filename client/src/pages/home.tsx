@@ -1576,23 +1576,23 @@ export default function Home() {
                   transition={{ ease: "linear", duration: 25, repeat: Infinity }}
                 >
                   {[
-                    { name: "Figma", icon: "🎨" },
-                    { name: "Notion", icon: "📝" },
-                    { name: "Figma", icon: "🎨" },
-                    { name: "Procreate", icon: "🖌️" },
-                    { name: "Plasticity", icon: "🎭" },
-                    { name: "Reeder", icon: "📱" },
-                    { name: "Anthropic", icon: "🤖" },
-                    { name: "Sketch", icon: "✨" },
-                    { name: "Figma", icon: "🎨" },
-                    { name: "Notion", icon: "📝" },
-                    { name: "Procreate", icon: "🖌️" },
+                    { name: "Figma", image: "/tools/image 4.png" },
+                    { name: "Notion", image: "/tools/image 5.png" },
+                    { name: "Procreate", image: "/tools/image 6.png" },
+                    { name: "Plasticity", image: "/tools/image 7.png" },
+                    { name: "Reeder", image: "/tools/image 8.png" },
+                    { name: "Anthropic", image: "/tools/image 9.png" },
+                    { name: "Sketch", image: "/tools/image 10.png" },
+                    { name: "Figma", image: "/tools/image 4.png" },
+                    { name: "Notion", image: "/tools/image 5.png" },
+                    { name: "Procreate", image: "/tools/image 6.png" },
+                    { name: "Plasticity", image: "/tools/image 7.png" },
                   ].map((tool, i) => (
                     <div 
                       key={i} 
-                      className="flex-shrink-0 w-20 h-20 bg-white dark:bg-[#3A352E] rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center text-4xl shadow-sm hover:shadow-md transition-all hover:scale-105 cursor-pointer"
+                      className="flex-shrink-0 w-20 h-20 rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:scale-105 cursor-pointer overflow-hidden"
                     >
-                      {tool.icon}
+                      <img src={tool.image} alt={tool.name} className="w-full h-full object-contain p-3" />
                     </div>
                   ))}
                 </motion.div>
