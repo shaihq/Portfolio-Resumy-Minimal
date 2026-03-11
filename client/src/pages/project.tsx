@@ -197,7 +197,7 @@ export default function Project() {
 
   if (activeTemplate === "Creative") {
     return (
-      <div className="min-h-screen bg-[#F7F4EF] dark:bg-[#1E1B18] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#E8CF82] selection:text-[#1A1A1A] transition-colors duration-700 p-4 md:p-8">
+      <div className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#E8CF82] selection:text-[#1A1A1A] transition-colors duration-700 p-4 md:p-8">
         <motion.div 
           initial="hidden"
           animate="visible"
