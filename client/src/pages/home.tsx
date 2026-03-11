@@ -1563,40 +1563,38 @@ export default function Home() {
             </div>
 
             {/* Tools Section */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY TOOLS</h2>
+            <div className="overflow-hidden relative w-full">
+              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#EFECE6] dark:from-[#1A1A1A] to-transparent z-10"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#EFECE6] dark:from-[#1A1A1A] to-transparent z-10"></div>
               
-              <div className="overflow-hidden relative w-full">
-                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
-                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
-                
-                <motion.div 
-                  className="flex gap-6 py-4"
-                  animate={{ x: [0, "-50%"] }}
-                  transition={{ ease: "linear", duration: 25, repeat: Infinity }}
-                >
-                  {[
-                    { name: "Figma", image: "/tools/image 4.png" },
-                    { name: "Notion", image: "/tools/image 5.png" },
-                    { name: "Procreate", image: "/tools/image 6.png" },
-                    { name: "Plasticity", image: "/tools/image 7.png" },
-                    { name: "Reeder", image: "/tools/image 8.png" },
-                    { name: "Anthropic", image: "/tools/image 9.png" },
-                    { name: "Sketch", image: "/tools/image 10.png" },
-                    { name: "Figma", image: "/tools/image 4.png" },
-                    { name: "Notion", image: "/tools/image 5.png" },
-                    { name: "Procreate", image: "/tools/image 6.png" },
-                    { name: "Plasticity", image: "/tools/image 7.png" },
-                  ].map((tool, i) => (
-                    <div 
-                      key={i} 
-                      className="flex-shrink-0 w-20 h-20 rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:scale-105 cursor-pointer overflow-hidden"
-                    >
-                      <img src={tool.image} alt={tool.name} className="w-full h-full object-contain p-3" />
-                    </div>
-                  ))}
-                </motion.div>
-              </div>
+              <motion.div 
+                className="flex gap-4 py-3"
+                animate={{ x: [0, "-50%"] }}
+                transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+              >
+                {[
+                  { name: "Figma", image: "/tools/image 4.png" },
+                  { name: "Notion", image: "/tools/image 5.png" },
+                  { name: "Procreate", image: "/tools/image 6.png" },
+                  { name: "Plasticity", image: "/tools/image 7.png" },
+                  { name: "Reeder", image: "/tools/image 8.png" },
+                  { name: "Anthropic", image: "/tools/image 9.png" },
+                  { name: "Sketch", image: "/tools/image 10.png" },
+                  { name: "Figma", image: "/tools/image 4.png" },
+                  { name: "Notion", image: "/tools/image 5.png" },
+                  { name: "Procreate", image: "/tools/image 6.png" },
+                  { name: "Plasticity", image: "/tools/image 7.png" },
+                  { name: "Reeder", image: "/tools/image 8.png" },
+                  { name: "Anthropic", image: "/tools/image 9.png" },
+                ].map((tool, i) => (
+                  <div 
+                    key={i} 
+                    className="flex-shrink-0 w-12 h-12 rounded-lg border border-black/10 dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:scale-105 cursor-pointer overflow-hidden"
+                  >
+                    <img src={tool.image} alt={tool.name} className="w-full h-full object-contain p-2" />
+                  </div>
+                ))}
+              </motion.div>
             </div>
           </div>
         ) : (
