@@ -1598,6 +1598,78 @@ export default function Home() {
                 </motion.div>
               </div>
             </div>
+
+            {/* About Me Section */}
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full">
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-4" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
+              <div className="space-y-4">
+                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed">
+                  I'm Matt Chen, a passionate Design Engineer focused on crafting meaningful digital experiences where design meets code. Currently exploring new ways to create intuitive interfaces that users love, I'm driven by curiosity and a deep appreciation for thoughtful, purposeful design.
+                </p>
+                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed">
+                  I thrive on transforming complex ideas into reality — whether it's designing seamless user experiences, building interactive prototypes, creating distinctive brand experiences, or developing websites that feel effortless to use.
+                </p>
+              </div>
+            </div>
+
+            {/* Contact Section */}
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full">
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CONTACT</h2>
+              
+              <div className="space-y-4">
+                {/* Email and Phone */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button className="flex-1 bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium">Copy mail</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <path d="M3 8l10-5 10 5M3 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8M3 8l9 5 9-5"/>
+                    </svg>
+                  </button>
+                  <button className="flex-1 bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium">Copy phone</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Social Links */}
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                  <button className="bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium">LinkedIn</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                  </button>
+                  <button className="bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium">Dribbble</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+                      <path d="M8.56 2.75c3.69 6.97 6.44 10 10.86 17.5m2.06-7c0 .01 0 .02 0 .02.07 1.1-1.4 2.81-3.17 4.63-1.77 1.82-5.02 4.69-7.56 6.26" stroke="currentColor" strokeWidth="2" fill="none"/>
+                    </svg>
+                  </button>
+                  <button className="bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium">X</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.627l-5.1-6.658-5.844 6.658H2.556l7.73-8.835L1.966 2.25h6.82l4.694 6.207 5.331-6.207zM17.534 20.766h1.885L6.455 3.812H4.46l13.074 16.954z"/>
+                    </svg>
+                  </button>
+                  <button className="bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium">Medium</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <path d="M2.5 3a.5.5 0 00-.5.5v17a.5.5 0 00.5.5h19a.5.5 0 00.5-.5V3.5a.5.5 0 00-.5-.5H2.5zm.5 1h18v16H3V4zm2.5 3.5a1 1 0 110 2 1 1 0 010-2zm9 0a3 3 0 110 6 3 3 0 010-6zm3.5 0a2 2 0 110 4 2 2 0 010-4z"/>
+                    </svg>
+                  </button>
+                  <button className="bg-[#F5F5F5] dark:bg-[#1A1A1A] hover:bg-[#EFEFEF] dark:hover:bg-[#242424] transition-colors px-4 py-3 rounded-xl flex items-center justify-between sm:col-span-1">
+                    <span className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] font-medium">Resume</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#7A736C] dark:text-[#B5AFA5]">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
