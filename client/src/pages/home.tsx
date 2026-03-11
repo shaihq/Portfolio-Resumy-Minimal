@@ -1563,13 +1563,13 @@ export default function Home() {
             </div>
 
             {/* Tools Section */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full">
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 py-2 w-full">
               <div className="overflow-hidden relative w-full">
                 <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
                 <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
                 
                 <motion.div 
-                  className="flex gap-4 py-3"
+                  className="flex gap-4 py-1"
                   animate={{ x: [0, "-50%"] }}
                   transition={{ ease: "linear", duration: 25, repeat: Infinity }}
                 >
