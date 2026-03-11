@@ -5,7 +5,7 @@ import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -1646,8 +1646,15 @@ export default function Home() {
                     className="relative w-28 md:w-36 aspect-[3/4] group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(-4deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
-                        <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-md transition-shadow">
+                        <div className="relative w-full h-full">
+                          <img src={story1} alt="My workspace" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
+                          <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[6px] md:rounded-[8px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+                            <div className="bg-white/80 dark:bg-black/60 backdrop-blur-md p-2 md:p-2.5 rounded-full shadow-sm scale-90 group-hover:scale-100 transition-transform duration-300">
+                              <Move className="w-4 h-4 md:w-5 md:h-5 text-gray-800 dark:text-gray-200" />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       {/* Top tape part */}
                       <div className="absolute -top-1 -left-2 w-12 md:w-16 h-5 md:h-6 bg-[#E8CF82]/90 dark:bg-[#B89B4D]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-2deg)' }}></div>
@@ -1670,8 +1677,15 @@ export default function Home() {
                     className="relative w-32 md:w-44 aspect-square group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(6deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col">
-                        <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" draggable="false" />
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-lg transition-shadow">
+                        <div className="relative w-full h-full">
+                          <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" draggable="false" />
+                          <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[16px] md:rounded-[24px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+                            <div className="bg-white/80 dark:bg-black/60 backdrop-blur-md p-2 md:p-2.5 rounded-full shadow-sm scale-90 group-hover:scale-100 transition-transform duration-300">
+                              <Move className="w-5 h-5 md:w-6 md:h-6 text-gray-800 dark:text-gray-200" />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       {/* Center tape */}
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 md:w-20 h-5 md:h-6 bg-[#DFCDAA]/90 dark:bg-[#9B8C73]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }}></div>
@@ -1705,8 +1719,15 @@ export default function Home() {
                     className="relative w-28 md:w-36 aspect-[3/4] group cursor-grab" 
                   >
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(-2deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col">
-                        <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-2 md:p-2.5 rounded-[12px] md:rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-md transition-shadow">
+                        <div className="relative w-full h-full">
+                          <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover rounded-[6px] md:rounded-[8px]" draggable="false" />
+                          <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[6px] md:rounded-[8px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+                            <div className="bg-white/80 dark:bg-black/60 backdrop-blur-md p-2 md:p-2.5 rounded-full shadow-sm scale-90 group-hover:scale-100 transition-transform duration-300">
+                              <Move className="w-4 h-4 md:w-5 md:h-5 text-gray-800 dark:text-gray-200" />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       {/* Long horizontal tape */}
                       <div className="absolute -top-3 md:-top-4 -left-2 md:-left-4 w-32 md:w-44 h-5 md:h-6 bg-[#D3C4A9]/90 dark:bg-[#8D826B]/90 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(1deg)' }}></div>
