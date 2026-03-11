@@ -53,33 +53,69 @@ export default function Home() {
       const now = audioContext.currentTime;
       
       if (type === 'grab') {
-        // Grab sound - quick bright click
-        const osc = audioContext.createOscillator();
+        // Grab sound - crisp, snappy, and bright
+        const osc1 = audioContext.createOscillator();
+        const osc2 = audioContext.createOscillator();
         const gain = audioContext.createGain();
-        osc.connect(gain);
+        const filter = audioContext.createBiquadFilter();
+        
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(3000, now);
+        
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
         gain.connect(audioContext.destination);
         
-        osc.frequency.setValueAtTime(800, now);
-        osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        // Primary tone
+        osc1.frequency.setValueAtTime(1200, now);
+        osc1.frequency.exponentialRampToValueAtTime(800, now + 0.05);
         
-        osc.start(now);
-        osc.stop(now + 0.08);
+        // Secondary tone for richness
+        osc2.frequency.setValueAtTime(1800, now);
+        osc2.frequency.exponentialRampToValueAtTime(1100, now + 0.05);
+        
+        // Sharp envelope
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.02, now + 0.05);
+        
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.05);
+        osc2.stop(now + 0.05);
       } else {
-        // Drop sound - lower pitched click with depth
-        const osc = audioContext.createOscillator();
+        // Drop sound - warm, resonant, with character
+        const osc1 = audioContext.createOscillator();
+        const osc2 = audioContext.createOscillator();
         const gain = audioContext.createGain();
-        osc.connect(gain);
+        const filter = audioContext.createBiquadFilter();
+        
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(4000, now);
+        filter.frequency.exponentialRampToValueAtTime(1500, now + 0.2);
+        filter.Q.setValueAtTime(1.5, now);
+        
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
         gain.connect(audioContext.destination);
         
-        osc.frequency.setValueAtTime(500, now);
-        osc.frequency.exponentialRampToValueAtTime(300, now + 0.12);
-        gain.gain.setValueAtTime(0.35, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+        // Deep base tone
+        osc1.frequency.setValueAtTime(220, now);
+        osc1.frequency.exponentialRampToValueAtTime(110, now + 0.15);
         
-        osc.start(now);
-        osc.stop(now + 0.12);
+        // Harmonic overtone
+        osc2.frequency.setValueAtTime(440, now);
+        osc2.frequency.exponentialRampToValueAtTime(200, now + 0.15);
+        
+        // Natural decay envelope
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.2);
+        osc2.stop(now + 0.2);
       }
     } catch (e) {
       // Audio context not available or blocked
