@@ -202,7 +202,7 @@ export default function Project() {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="w-full max-w-4xl flex flex-col gap-3 pb-20 pt-0"
+          className="w-full max-w-[640px] flex flex-col gap-3 pb-20 pt-0"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full">
