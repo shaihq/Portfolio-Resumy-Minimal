@@ -1370,7 +1370,12 @@ export default function Home() {
         ) : activeTemplate === "Creative" ? (
           <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-0 md:px-0 max-w-[640px] mx-auto">
             {/* Header / Date */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full"
+            >
               <div className="flex items-center gap-2">
                 <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Mon, Mar 9</span>
                 <div className="w-2 h-2 bg-[#E37941] rotate-45"></div>
@@ -1384,10 +1389,15 @@ export default function Home() {
                   iconOff={<Sun className="size-4" />}
                 />
               </div>
-            </div>
+            </motion.div>
 
             {/* Intro Profile Card */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col md:flex-row gap-6 items-start md:items-center w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col md:flex-row gap-6 items-start md:items-center w-full"
+            >
               <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
                 <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
               </div>
@@ -1397,10 +1407,15 @@ export default function Home() {
                   I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Marquee Tags */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full"
+            >
               <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
               <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
               <motion.div 
@@ -1429,21 +1444,20 @@ export default function Home() {
                   </div>
                 ))}
               </motion.div>
-            </div>
+            </motion.div>
 
             {/* Projects Container */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.45 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full"
+            >
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-3" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECTS</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Project 1 */}
-                <motion.div 
-                  initial={{ opacity: 0, y: -40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: 0 }}
-                  className="flex flex-col gap-4 group cursor-pointer" 
-                  onClick={() => handleProjectClick("slate")}
-                >
+                <div className="flex flex-col gap-4 group cursor-pointer" onClick={() => handleProjectClick("slate")}>
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
@@ -1455,16 +1469,10 @@ export default function Home() {
                       A sleek and responsive landing page designed for modern startups to showca...
                     </p>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Project 2 */}
-                <motion.div 
-                  initial={{ opacity: 0, y: -40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
-                  className="flex flex-col gap-4 group cursor-pointer" 
-                  onClick={() => handleProjectClick("antimetal")}
-                >
+                <div className="flex flex-col gap-4 group cursor-pointer" onClick={() => handleProjectClick("antimetal")}>
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
@@ -1476,12 +1484,18 @@ export default function Home() {
                       Helping Product folks build bragworthy portfolio websites.
                     </p>
                   </div>
-                </motion.div>
+                </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Experience / Career Ladder Section */}
-            <div ref={careerLadderRef} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+              ref={careerLadderRef} 
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2"
+            >
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
               
               <div ref={ladderContainerRef} className="relative flex">
@@ -1581,10 +1595,15 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Tools Section */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 py-2 w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.75 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 py-2 w-full"
+            >
               <div className="overflow-hidden relative w-full rounded-[32px]">
                 <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
                 <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
@@ -1618,10 +1637,15 @@ export default function Home() {
                   ))}
                 </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* About Me Section with Pegboard */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.9 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full"
+            >
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
@@ -1750,10 +1774,15 @@ export default function Home() {
                   I thrive on transforming complex ideas into reality — whether it's designing seamless user experiences, building interactive prototypes, creating distinctive brand experiences, or developing websites that feel effortless to use.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Contact Section */}
-            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 1.05 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full"
+            >
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CONTACT</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                 <motion.div whileHover="hover" initial="rest" className="w-full">
@@ -1815,7 +1844,7 @@ export default function Home() {
                   </motion.div>
                 </Button>
               </motion.div>
-            </div>
+            </motion.div>
           </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
