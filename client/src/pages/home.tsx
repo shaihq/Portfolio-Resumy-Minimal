@@ -1561,6 +1561,43 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
+            {/* Tools Section */}
+            <div className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2">
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY TOOLS</h2>
+              
+              <div className="overflow-hidden relative w-full">
+                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
+                
+                <motion.div 
+                  className="flex gap-6 py-4"
+                  animate={{ x: [0, "-50%"] }}
+                  transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+                >
+                  {[
+                    { name: "Figma", icon: "🎨" },
+                    { name: "Notion", icon: "📝" },
+                    { name: "Figma", icon: "🎨" },
+                    { name: "Procreate", icon: "🖌️" },
+                    { name: "Plasticity", icon: "🎭" },
+                    { name: "Reeder", icon: "📱" },
+                    { name: "Anthropic", icon: "🤖" },
+                    { name: "Sketch", icon: "✨" },
+                    { name: "Figma", icon: "🎨" },
+                    { name: "Notion", icon: "📝" },
+                    { name: "Procreate", icon: "🖌️" },
+                  ].map((tool, i) => (
+                    <div 
+                      key={i} 
+                      className="flex-shrink-0 w-20 h-20 bg-white dark:bg-[#3A352E] rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center text-4xl shadow-sm hover:shadow-md transition-all hover:scale-105 cursor-pointer"
+                    >
+                      {tool.icon}
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
