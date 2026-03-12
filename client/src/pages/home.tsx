@@ -1176,11 +1176,14 @@ export default function Home() {
                         <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Story Images</Label>
                         <div className="grid grid-cols-2 gap-3">
                           {[story1, story2, story3, story4].map((imgSrc, i) => (
-                            <div key={i} className="relative aspect-square rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 flex items-center justify-center overflow-hidden group cursor-pointer hover:border-black/20 dark:hover:border-white/20 transition-colors">
-                              <img src={imgSrc} alt={`Story image ${i+1}`} className="w-full h-full object-cover" />
-                              <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-sm transition-opacity">
-                                <Plus className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0EDE7] mb-1" />
-                                <span className="text-[10px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Replace</span>
+                            <div key={i} className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-black/5 dark:border-white/5 shadow-sm">
+                              <img src={imgSrc} alt={`Story image ${i+1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 dark:group-hover:bg-black/40 transition-colors duration-300" />
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100">
+                                <div className="bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-md px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-lg border border-black/5 dark:border-white/10">
+                                  <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                  <span className="text-[11px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Replace</span>
+                                </div>
                               </div>
                             </div>
                           ))}
