@@ -1397,17 +1397,6 @@ export default function Home() {
 
               {activeTab === "Experience" && (
                 <div className="px-4 md:px-6 pb-12 relative group/section">
-                  {isEditing && (
-                    <div className="absolute -top-3 right-4 md:right-6 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
-                      <Button variant="outline" size="sm" className="h-8 flex items-center gap-1.5 px-3 rounded-full bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]">
-                        <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                        <span className="text-xs font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Add Experience</span>
-                      </Button>
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]">
-                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </Button>
-                    </div>
-                  )}
                   <div className="space-y-0">
                     {experiences.map((exp, index) => (
                       <div key={index} className="group border-b border-[#D5D0C6] dark:border-[#3A352E] last:border-0 hover:bg-[#DED9CE]/30 dark:hover:bg-white/[0.02] transition-colors -mx-4 px-4 md:-mx-6 md:px-6 relative">
@@ -1485,6 +1474,16 @@ export default function Home() {
                         </AnimatePresence>
                       </div>
                     ))}
+                    
+                    {/* Add Experience Button */}
+                    {isEditing && (
+                      <div className="pt-6 mt-4 border-t border-[#D5D0C6]/50 dark:border-[#3A352E]/50 border-dashed">
+                        <button className="w-full flex items-center justify-center gap-2 py-4 border border-dashed border-[#D5D0C6] dark:border-[#3A352E] rounded-lg text-[#7A736C] dark:text-[#9E9893] hover:border-[#1A1A1A] dark:hover:border-[#F0EDE7] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-all bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.04] dark:hover:bg-white/[0.04]">
+                          <Plus className="w-4 h-4" />
+                          <span className="font-['JetBrains_Mono'] text-[13px] uppercase tracking-wider font-medium">Add New Experience</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
