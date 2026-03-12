@@ -8,7 +8,7 @@ import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2 } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -44,8 +44,41 @@ export default function Home() {
   const [characterPosition, setCharacterPosition] = useState(0);
   const [isEditing, setIsEditing] = useState(true);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
+  const [isStackPanelOpen, setIsStackPanelOpen] = useState(false);
   const [isDraggingResume, setIsDraggingResume] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [toolSearchQuery, setToolSearchQuery] = useState("");
+
+  const [activeTools, setActiveTools] = useState([
+    { name: "Figma", icon: "/tools/image 4.png" },
+    { name: "Notion", icon: "/tools/image 5.png" },
+    { name: "Raycast", icon: "/tools/image 6.png" },
+    { name: "Framer", icon: "/tools/image 7.png" },
+    { name: "Linear", icon: "/tools/image 8.png" },
+    { name: "Slack", icon: "/tools/image 9.png" },
+    { name: "Arc", icon: "/tools/image 10.png" },
+  ]);
+
+  const availableTools = [
+    { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+    { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
+    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+    { name: "Tailwind", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+    { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+    { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+    { name: "Vercel", icon: "https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" },
+  ];
+
+  const handleAddTool = (tool: { name: string, icon: string }) => {
+    if (!activeTools.find(t => t.name === tool.name)) {
+      setActiveTools([...activeTools, tool]);
+    }
+  };
+
+  const handleRemoveTool = (toolToRemove: { name: string, icon: string }) => {
+    setActiveTools(activeTools.filter(t => t.name !== toolToRemove.name));
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -74,7 +107,7 @@ export default function Home() {
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
-      if (isContactPanelOpen) {
+      if (isContactPanelOpen || isStackPanelOpen) {
         root.classList.add('theme-panel-open');
       } else {
         root.classList.remove('theme-panel-open');
@@ -83,19 +116,25 @@ export default function Home() {
     return () => {
       if (root) root.classList.remove('theme-panel-open');
     };
-  }, [isContactPanelOpen]);
+  }, [isContactPanelOpen, isStackPanelOpen]);
 
   useEffect(() => {
     if (isContactPanelOpen) {
       window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'contact' }));
     }
-  }, [isContactPanelOpen]);
+    if (isStackPanelOpen) {
+      window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'stack' }));
+    }
+  }, [isContactPanelOpen, isStackPanelOpen]);
 
   useEffect(() => {
     const handlePanelOpened = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (customEvent.detail !== 'contact') {
         setIsContactPanelOpen(false);
+      }
+      if (customEvent.detail !== 'stack') {
+        setIsStackPanelOpen(false);
       }
     };
     window.addEventListener('panelOpened', handlePanelOpened);
@@ -1020,22 +1059,100 @@ export default function Home() {
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
-                <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-              </Button>
+              <Sheet modal={false} open={isStackPanelOpen} onOpenChange={setIsStackPanelOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+                    <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent 
+                  className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col"
+                  hasOverlay={false}
+                  onInteractOutside={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+                    <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Edit Stack</SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                    <div className="space-y-3">
+                      <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Search Tools</Label>
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                        <Input 
+                          placeholder="Search for a tool..." 
+                          value={toolSearchQuery}
+                          onChange={(e) => setToolSearchQuery(e.target.value)}
+                          className="h-10 pl-9 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" 
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="text-[12px] font-semibold text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider px-1">Available Tools</div>
+                      <div className="grid grid-cols-4 gap-2">
+                        {availableTools.filter(t => t.name.toLowerCase().includes(toolSearchQuery.toLowerCase())).map((tool, i) => (
+                          <div 
+                            key={`avail-${i}`} 
+                            onClick={() => handleAddTool(tool)}
+                            className={`aspect-square rounded-xl border flex flex-col items-center justify-center gap-1 cursor-pointer transition-all group ${
+                              activeTools.some(t => t.name === tool.name)
+                                ? "border-[#1A1A1A] dark:border-[#F0EDE7] bg-black/[0.05] dark:bg-white/[0.05]"
+                                : "border-black/5 dark:border-white/5 bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
+                            }`}
+                          >
+                            <img 
+                              src={tool.icon} 
+                              alt={tool.name} 
+                              className={`w-6 h-6 object-contain transition-all ${
+                                activeTools.some(t => t.name === tool.name)
+                                  ? "grayscale-0 opacity-100"
+                                  : "grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
+                              }`} 
+                            />
+                            <span className={`text-[9px] font-medium truncate w-full px-1 text-center transition-colors ${
+                              activeTools.some(t => t.name === tool.name)
+                                ? "text-[#1A1A1A] dark:text-[#F0EDE7]"
+                                : "text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
+                            }`}>{tool.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="text-[12px] font-semibold text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider px-1">Active Stack ({activeTools.length})</div>
+                      <div className="flex flex-wrap gap-2">
+                        {activeTools.map((tool, i) => (
+                          <div key={`active-${i}`} className="h-9 px-3 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] flex items-center gap-2 shadow-sm group">
+                            <img src={tool.icon} alt={tool.name} className="w-4 h-4 object-contain" />
+                            <span className="text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{tool.name}</span>
+                            <button 
+                              onClick={() => handleRemoveTool(tool)}
+                              className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/30 text-[#7A736C] dark:text-[#9E9893] hover:text-red-500 transition-colors ml-1"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-5 border-t border-black/10 dark:border-white/10 flex justify-end gap-3 flex-shrink-0 bg-white dark:bg-[#2A2520]">
+                    <SheetClose asChild>
+                      <Button variant="outline" className="h-9 px-4 rounded-full text-[13px] font-medium border-black/10 dark:border-white/10 text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Close</Button>
+                    </SheetClose>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
           <div className="flex flex-wrap gap-6 items-center">
-            {[
-              { name: "Figma", icon: "/tools/image 4.png" },
-              { name: "Notion", icon: "/tools/image 5.png" },
-              { name: "Raycast", icon: "/tools/image 6.png" },
-              { name: "Framer", icon: "/tools/image 7.png" },
-              { name: "Linear", icon: "/tools/image 8.png" },
-              { name: "Slack", icon: "/tools/image 9.png" },
-              { name: "Arc", icon: "/tools/image 10.png" },
-            ].map((tool, i) => (
+            {activeTools.map((tool, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -4 }}
