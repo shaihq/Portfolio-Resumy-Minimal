@@ -813,7 +813,12 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* My Story Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+              <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+            </Button>
+          </div>
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
           
           <div className="relative mb-8 h-56 flex items-center justify-center">
@@ -860,7 +865,12 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Stack Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+              <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+            </Button>
+          </div>
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
           <div className="flex flex-wrap gap-6 items-center">
             {[
@@ -886,7 +896,12 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section (Grid) */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+              <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+            </Button>
+          </div>
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
             <motion.div whileHover="hover" initial="rest" className="w-full">
