@@ -748,7 +748,12 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Recommendations Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+          <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity z-10">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+              <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+            </Button>
+          </div>
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
           <div className="space-y-6">
             {[
@@ -765,8 +770,16 @@ export default function Home() {
                 image: recommender1
               }
             ].map((rec, i) => (
-              <div key={i} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group">
-                <div className="flex justify-between items-center px-6 py-4">
+              <div key={i} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative">
+                <div className="absolute top-3 right-3 z-10 opacity-0 group-hover/card:opacity-100 transition-opacity flex gap-2">
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]">
+                    <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400">
+                    <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                </div>
+                <div className="flex justify-between items-center px-6 py-4 pr-24">
                   <div className="flex flex-col">
                     <h3 className="font-medium text-base text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">{rec.name}</h3>
                     <div className="flex items-center gap-2">
