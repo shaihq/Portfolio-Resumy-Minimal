@@ -1,5 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
@@ -999,9 +1002,68 @@ export default function Home() {
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
-                <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-              </Button>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+                    <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-white dark:bg-[#1A1A1A] border-l border-[#E5D7C4] dark:border-[#3A352E] overflow-y-auto">
+                  <SheetHeader className="mb-6">
+                    <SheetTitle className="text-xl font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7]">Edit Contact Information</SheetTitle>
+                    <SheetDescription className="text-[#7A736C] dark:text-[#9E9893]">
+                      Update your contact details and social links.
+                    </SheetDescription>
+                  </SheetHeader>
+                  
+                  <div className="space-y-6 pb-20">
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider font-['DM_Mono']">Primary Contact</h3>
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Email Address</Label>
+                        <Input id="email" defaultValue="hello@example.com" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Phone Number</Label>
+                        <Input id="phone" defaultValue="+1 (555) 123-4567" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="resume" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Resume Link</Label>
+                        <Input id="resume" defaultValue="https://example.com/resume.pdf" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider font-['DM_Mono']">Social Links</h3>
+                      <div className="space-y-2">
+                        <Label htmlFor="linkedin" className="text-xs text-[#7A736C] dark:text-[#9E9893]">LinkedIn URL</Label>
+                        <Input id="linkedin" defaultValue="https://linkedin.com/in/username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="dribbble" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Dribbble URL</Label>
+                        <Input id="dribbble" defaultValue="https://dribbble.com/username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="twitter" className="text-xs text-[#7A736C] dark:text-[#9E9893]">X (Twitter) URL</Label>
+                        <Input id="twitter" defaultValue="https://x.com/username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="medium" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Medium URL</Label>
+                        <Input id="medium" defaultValue="https://medium.com/@username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-white dark:bg-[#1A1A1A] border-t border-[#E5D7C4] dark:border-[#3A352E] flex justify-end gap-3 z-10">
+                    <SheetClose asChild>
+                      <Button variant="outline" className="border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#2A2520]">Cancel</Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] hover:bg-black/80 dark:hover:bg-white/80">Save Changes</Button>
+                    </SheetClose>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
