@@ -1504,7 +1504,14 @@ export default function Home() {
                     />
                     
                     <div className="space-y-6">
-                      <div>
+                      <div className="relative group/skill">
+                        {isEditing && (
+                          <div className="absolute top-0 right-0 z-10 opacity-100 md:opacity-0 md:group-hover/skill:opacity-100 transition-opacity">
+                            <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]">
+                              <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                            </Button>
+                          </div>
+                        )}
                         <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[18px] uppercase tracking-wider mb-3 font-semibold">Capabilities</h4>
                         <div className="flex flex-wrap gap-2">
                           {["UI/UX Design", "Frontend Development", "Design Systems", "Interaction Design", "Prototyping", "Art Direction"].map((skill) => (
@@ -1515,7 +1522,14 @@ export default function Home() {
                         </div>
                       </div>
                       
-                      <div>
+                      <div className="relative group/tech">
+                        {isEditing && (
+                          <div className="absolute top-0 right-0 z-10 opacity-100 md:opacity-0 md:group-hover/tech:opacity-100 transition-opacity">
+                            <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]">
+                              <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                            </Button>
+                          </div>
+                        )}
                         <h4 className="font-['JetBrains_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[18px] uppercase tracking-wider mb-3 font-semibold">Stack</h4>
                         <div className="flex flex-wrap gap-2">
                           {["React", "TypeScript", "Tailwind CSS", "Figma", "Framer Motion", "Next.js", "Node.js"].map((tech) => (
