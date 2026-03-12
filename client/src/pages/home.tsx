@@ -377,8 +377,7 @@ export default function Home() {
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
   
-  // Edit mode state for mobile
-  const [isEditing, setIsEditing] = useState(false);
+  // Removed isEditing state
 
   const toggleTheme = () => {
     const newTheme = !isDark;
@@ -477,7 +476,7 @@ export default function Home() {
             <SmoothCursor type="minimal" />
             {/* Header Section */}
             <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6 relative group/section">
-          <div className={`absolute top-4 right-4 transition-opacity z-10 ${isEditing ? "opacity-100 block" : "opacity-0 hidden md:block md:group-hover/section:opacity-100"}`}>
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
             <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
             </Button>
@@ -488,17 +487,6 @@ export default function Home() {
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
             <div className="flex items-center gap-2 mt-1">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className={cn(
-                  "h-8 px-3 rounded-full border-black/10 dark:border-white/10 shadow-sm transition-colors text-xs font-medium md:hidden",
-                  isEditing ? "bg-[#1A1A1A] text-white dark:bg-[#F0EDE7] dark:text-[#1A1A1A]" : "bg-white dark:bg-[#2A2520] text-[#1A1A1A] dark:text-[#F0EDE7]"
-                )}
-                onClick={() => setIsEditing(!isEditing)}
-              >
-                {isEditing ? "Done" : "Edit"}
-              </Button>
               <AnimatedThemeToggler />
             </div>
           </div>
@@ -561,7 +549,7 @@ export default function Home() {
 
         {/* Intro Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
-          <div className={`absolute top-4 right-4 transition-opacity z-10 ${isEditing ? "opacity-100 block" : "opacity-0 hidden md:block md:group-hover/section:opacity-100"}`}>
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
             <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
             </Button>
@@ -576,7 +564,7 @@ export default function Home() {
 
         {/* Experience Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
-          <div className={`absolute top-4 right-4 transition-opacity z-10 ${isEditing ? "opacity-100 block" : "opacity-0 hidden md:block md:group-hover/section:opacity-100"}`}>
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
             <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
             </Button>
@@ -668,7 +656,7 @@ export default function Home() {
 
         {/* Projects Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
-          <div className={`absolute top-4 right-4 transition-opacity z-10 ${isEditing ? "opacity-100 block" : "opacity-0 hidden md:block md:group-hover/section:opacity-100"}`}>
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
             <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
             </Button>
@@ -679,7 +667,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
               {/* Project 1 */}
               <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                <div className={`absolute top-8 right-8 z-10 transition-opacity flex gap-2 ${isEditing ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}`}>
+                <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
@@ -698,7 +686,7 @@ export default function Home() {
 
               {/* Project 2 */}
               <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                <div className={`absolute top-8 right-8 z-10 transition-opacity flex gap-2 ${isEditing ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}`}>
+                <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
@@ -717,7 +705,7 @@ export default function Home() {
 
               {/* Project 3 */}
               <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                <div className={`absolute top-8 right-8 z-10 transition-opacity flex gap-2 ${isEditing ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}`}>
+                <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
@@ -736,7 +724,7 @@ export default function Home() {
 
               {/* Project 4 */}
               <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                <div className={`absolute top-8 right-8 z-10 transition-opacity flex gap-2 ${isEditing ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}`}>
+                <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
@@ -765,7 +753,7 @@ export default function Home() {
 
         {/* Recommendations Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
-          <div className={`absolute top-4 right-4 transition-opacity z-10 ${isEditing ? "opacity-100 block" : "opacity-0 hidden md:block md:group-hover/section:opacity-100"}`}>
+          <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
             <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
             </Button>
@@ -787,7 +775,7 @@ export default function Home() {
               }
             ].map((rec, i) => (
               <div key={i} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative">
-                <div className={`absolute top-3 right-3 z-20 transition-opacity flex gap-2 ${isEditing ? "opacity-100" : "opacity-0 md:group-hover/card:opacity-100"}`}>
+                <div className="absolute top-3 right-3 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]">
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
