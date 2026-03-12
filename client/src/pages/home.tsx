@@ -39,7 +39,7 @@ export default function Home() {
   const pegboardRef = useRef<HTMLDivElement>(null);
   const [zIndexes, setZIndexes] = useState({ 1: 10, 2: 20, 3: 10 });
   const [characterPosition, setCharacterPosition] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   const bringToFront = (id: number) => {
     setZIndexes(prev => {
