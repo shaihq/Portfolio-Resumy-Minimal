@@ -1176,7 +1176,12 @@ export default function Home() {
             {/* Empty space for content below */}
             <div className="flex-1">
               {activeTab === "Projects" && (
-                <div className="grid grid-cols-1 gap-0">
+                <div className="grid grid-cols-1 gap-0 relative group/section">
+                  <div className="absolute top-4 right-4 z-50 transition-opacity opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
+                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]">
+                      <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
                   {/* Project 1 */}
                   <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B]">
                     <div className="absolute top-4 right-4 z-40 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
