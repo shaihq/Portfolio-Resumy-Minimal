@@ -1112,24 +1112,31 @@ export default function Home() {
                           .map((tool) => {
                             const isSelected = activeTools.some(t => t.name === tool.name);
                             return (
-                              <button
+                              <motion.button
+                                layout
+                                transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                 key={`tool-${tool.name}`}
                                 onClick={() => isSelected ? handleRemoveTool(tool) : handleAddTool(tool)}
-                                className={`group h-[34px] px-3.5 rounded-xl flex items-center gap-2.5 text-[13px] font-medium transition-all duration-200 border ${
+                                className={`group h-[34px] px-3.5 rounded-xl flex items-center gap-2.5 text-[13px] font-medium transition-colors border ${
                                   isSelected 
                                     ? "bg-[#EFECE6] dark:bg-[#1A1A1A] border-black/5 dark:border-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] shadow-sm" 
                                     : "bg-transparent border-transparent text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
                                 }`}
                               >
-                                <img 
-                                  src={tool.icon} 
-                                  alt={tool.name} 
-                                  className={`w-4 h-4 object-contain transition-all duration-200 ${
-                                    isSelected ? "grayscale-0 opacity-100" : "grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100"
-                                  }`} 
-                                />
+                                <div className="relative w-4 h-4 flex items-center justify-center shrink-0">
+                                  <img 
+                                    src={tool.icon} 
+                                    alt={tool.name} 
+                                    className={`absolute inset-0 w-4 h-4 object-contain transition-all duration-200 ${
+                                      isSelected ? "grayscale-0 opacity-100" : "grayscale opacity-50 group-hover:opacity-0 group-hover:scale-50 group-hover:-rotate-45"
+                                    }`} 
+                                  />
+                                  {!isSelected && (
+                                    <Plus className="absolute inset-0 w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-200 scale-50 group-hover:scale-100 rotate-45 group-hover:rotate-0" />
+                                  )}
+                                </div>
                                 {tool.name}
-                              </button>
+                              </motion.button>
                             );
                           })}
                       </div>
