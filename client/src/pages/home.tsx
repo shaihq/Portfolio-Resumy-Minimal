@@ -475,7 +475,7 @@ export default function Home() {
             {/* Header Section */}
             <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6 relative group/section">
           <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Pencil className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
             </Button>
           </div>
@@ -546,7 +546,7 @@ export default function Home() {
         {/* Intro Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Pencil className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
             </Button>
           </div>
@@ -561,7 +561,7 @@ export default function Home() {
         {/* Experience Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Pencil className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
             </Button>
           </div>
@@ -653,7 +653,7 @@ export default function Home() {
         {/* Projects Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
           <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
               <Plus className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
             </Button>
           </div>
