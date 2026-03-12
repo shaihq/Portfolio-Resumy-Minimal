@@ -8,7 +8,7 @@ import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -59,7 +59,14 @@ export default function Home() {
     { name: "Arc", icon: "/tools/image 10.png" },
   ]);
 
-  const availableTools = [
+  const allTools = [
+    { name: "Figma", icon: "/tools/image 4.png" },
+    { name: "Notion", icon: "/tools/image 5.png" },
+    { name: "Raycast", icon: "/tools/image 6.png" },
+    { name: "Framer", icon: "/tools/image 7.png" },
+    { name: "Linear", icon: "/tools/image 8.png" },
+    { name: "Slack", icon: "/tools/image 9.png" },
+    { name: "Arc", icon: "/tools/image 10.png" },
     { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
     { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
     { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
@@ -68,6 +75,8 @@ export default function Home() {
     { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
     { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
     { name: "Vercel", icon: "https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" },
+    { name: "GitLab", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg" },
+    { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
   ];
 
   const handleAddTool = (tool: { name: string, icon: string }) => {
@@ -1090,53 +1099,44 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div className="text-[12px] font-semibold text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider px-1">Available Tools</div>
-                      <div className="grid grid-cols-4 gap-2">
-                        {availableTools.filter(t => t.name.toLowerCase().includes(toolSearchQuery.toLowerCase())).map((tool, i) => (
-                          <div 
-                            key={`avail-${i}`} 
-                            onClick={() => handleAddTool(tool)}
-                            className={`aspect-square rounded-xl border flex flex-col items-center justify-center gap-1 cursor-pointer transition-all group ${
-                              activeTools.some(t => t.name === tool.name)
-                                ? "border-[#1A1A1A] dark:border-[#F0EDE7] bg-black/[0.05] dark:bg-white/[0.05]"
-                                : "border-black/5 dark:border-white/5 bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
-                            }`}
-                          >
-                            <img 
-                              src={tool.icon} 
-                              alt={tool.name} 
-                              className={`w-6 h-6 object-contain transition-all ${
-                                activeTools.some(t => t.name === tool.name)
-                                  ? "grayscale-0 opacity-100"
-                                  : "grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
-                              }`} 
-                            />
-                            <span className={`text-[9px] font-medium truncate w-full px-1 text-center transition-colors ${
-                              activeTools.some(t => t.name === tool.name)
-                                ? "text-[#1A1A1A] dark:text-[#F0EDE7]"
-                                : "text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
-                            }`}>{tool.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="text-[12px] font-semibold text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider px-1">Active Stack ({activeTools.length})</div>
-                      <div className="flex flex-wrap gap-2">
-                        {activeTools.map((tool, i) => (
-                          <div key={`active-${i}`} className="h-9 px-3 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] flex items-center gap-2 shadow-sm group">
-                            <img src={tool.icon} alt={tool.name} className="w-4 h-4 object-contain" />
-                            <span className="text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{tool.name}</span>
-                            <button 
-                              onClick={() => handleRemoveTool(tool)}
-                              className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/30 text-[#7A736C] dark:text-[#9E9893] hover:text-red-500 transition-colors ml-1"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
-                          </div>
-                        ))}
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-2.5">
+                        {allTools
+                          .filter(t => t.name.toLowerCase().includes(toolSearchQuery.toLowerCase()))
+                          .sort((a, b) => {
+                            const isASelected = activeTools.some(t => t.name === a.name);
+                            const isBSelected = activeTools.some(t => t.name === b.name);
+                            if (isASelected === isBSelected) return a.name.localeCompare(b.name);
+                            return isASelected ? -1 : 1;
+                          })
+                          .map((tool, i) => {
+                            const isSelected = activeTools.some(t => t.name === tool.name);
+                            return (
+                              <button
+                                key={`tool-${i}`}
+                                onClick={() => isSelected ? handleRemoveTool(tool) : handleAddTool(tool)}
+                                className="h-10 pl-3 pr-1.5 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] flex items-center gap-2.5 transition-transform hover:-translate-y-0.5 shadow-sm"
+                              >
+                                <img 
+                                  src={tool.icon} 
+                                  alt={tool.name} 
+                                  className={`w-5 h-5 object-contain transition-all ${
+                                    isSelected ? "grayscale-0" : "grayscale opacity-80"
+                                  }`} 
+                                />
+                                <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">
+                                  {tool.name}
+                                </span>
+                                <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                                  isSelected 
+                                    ? "bg-[#5EED9E] text-white" 
+                                    : "bg-[#F3F4F6] dark:bg-[#35302A] text-[#1A1A1A] dark:text-[#F0EDE7]"
+                                }`}>
+                                  {isSelected ? <Check className="w-4 h-4 stroke-[3]" /> : <Plus className="w-4 h-4" />}
+                                </div>
+                              </button>
+                            );
+                          })}
                       </div>
                     </div>
                   </div>
