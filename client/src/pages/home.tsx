@@ -372,7 +372,35 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("Projects");
   
-  // Theme state for Creative template
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+
+  // Creative template specific states
+  const creativeTestimonials = [
+    {
+      id: 3,
+      name: "Sarah Jenkins",
+      title: "VP of Product, Stripe",
+      image: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      text: "Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience."
+    },
+    {
+      id: 4,
+      name: "David Chen",
+      title: "Engineering Lead, Vercel",
+      image: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+      text: "We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI."
+    }
+  ];
+
+  // Auto carousel effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonialIndex((prev) => (prev + 1) % creativeTestimonials.length);
+    }, 5000); // 5 seconds per testimonial
+    
+    return () => clearInterval(timer);
+  }, [creativeTestimonials.length]);
+
   const [isDark, setIsDark] = useState(() => {
     return localStorage.getItem("theme") === "dark" || 
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -2264,110 +2292,83 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>TESTIMONIALS</h2>
               
               <div className="space-y-4">
-                {/* Testimonial 1 */}
-                <div className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative">
-                  {isEditing && (
-                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                        <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </Button>
-                    </div>
-                  )}
-                  <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6 italic relative z-10">
-                    "Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience."
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
-                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Sarah Jenkins" className="w-full h-full object-cover" />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px]">Sarah Jenkins</h4>
-                        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">VP of Product, Stripe</p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handlePlayTestimonial("Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience.", 3)}
-                      className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-[#2A2520] border border-[#E5D7C4] dark:border-white/10 rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors shadow-sm"
+                <div className="relative w-full">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentTestimonialIndex}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative"
                     >
-                      {playingTestimonial === 3 ? (
-                        <>
-                          <Square size={14} className="fill-current" />
-                          <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
-                            {[...Array(4)].map((_, i) => (
-                              <motion.div
-                                key={i}
-                                className="w-[2px] bg-current rounded-full"
-                                animate={{ height: ["4px", "12px", "4px"] }}
-                                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
-                              />
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <Play size={14} className="fill-current" />
-                          <span className="text-[12px] font-medium w-[30px] text-center">Play</span>
-                        </>
+                      {isEditing && (
+                        <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                          <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                            <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                          </Button>
+                          <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                            <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                          </Button>
+                        </div>
                       )}
-                    </button>
-                  </div>
+                      <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6 italic relative z-10">
+                        "{creativeTestimonials[currentTestimonialIndex].text}"
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
+                            <img src={creativeTestimonials[currentTestimonialIndex].image} alt={creativeTestimonials[currentTestimonialIndex].name} className="w-full h-full object-cover" />
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px]">{creativeTestimonials[currentTestimonialIndex].name}</h4>
+                            <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{creativeTestimonials[currentTestimonialIndex].title}</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => handlePlayTestimonial(creativeTestimonials[currentTestimonialIndex].text, creativeTestimonials[currentTestimonialIndex].id)}
+                          className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-[#2A2520] border border-[#E5D7C4] dark:border-white/10 rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors shadow-sm"
+                        >
+                          {playingTestimonial === creativeTestimonials[currentTestimonialIndex].id ? (
+                            <>
+                              <Square size={14} className="fill-current" />
+                              <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
+                                {[...Array(4)].map((_, i) => (
+                                  <motion.div
+                                    key={i}
+                                    className="w-[2px] bg-current rounded-full"
+                                    animate={{ height: ["4px", "12px", "4px"] }}
+                                    transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
+                                  />
+                                ))}
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={14} className="fill-current" />
+                              <span className="text-[12px] font-medium w-[30px] text-center">Play</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
-
-                {/* Testimonial 2 */}
-                <div className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative">
-                  {isEditing && (
-                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                        <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </Button>
-                    </div>
-                  )}
-                  <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6 italic relative z-10">
-                    "We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI."
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
-                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="David Chen" className="w-full h-full object-cover" />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px]">David Chen</h4>
-                        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">Engineering Lead, Vercel</p>
-                      </div>
-                    </div>
+                
+                {/* Progress Indicators */}
+                <div className="flex justify-center gap-2 mt-4 pt-2">
+                  {creativeTestimonials.map((_, idx) => (
                     <button
-                      onClick={() => handlePlayTestimonial("We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI.", 4)}
-                      className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-[#2A2520] border border-[#E5D7C4] dark:border-white/10 rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors shadow-sm"
-                    >
-                      {playingTestimonial === 4 ? (
-                        <>
-                          <Square size={14} className="fill-current" />
-                          <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
-                            {[...Array(4)].map((_, i) => (
-                              <motion.div
-                                key={i}
-                                className="w-[2px] bg-current rounded-full"
-                                animate={{ height: ["4px", "12px", "4px"] }}
-                                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
-                              />
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <Play size={14} className="fill-current" />
-                          <span className="text-[12px] font-medium w-[30px] text-center">Play</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
+                      key={idx}
+                      onClick={() => setCurrentTestimonialIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentTestimonialIndex 
+                          ? "w-6 bg-[#1A1A1A] dark:bg-[#F0EDE7]" 
+                          : "w-1.5 bg-[#E5D7C4] dark:bg-white/20 hover:bg-[#D5D0C6] dark:hover:bg-white/40"
+                      }`}
+                      aria-label={`Go to testimonial ${idx + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </motion.div>
