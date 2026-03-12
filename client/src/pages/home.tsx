@@ -10,7 +10,7 @@ import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Reorder } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
@@ -50,6 +50,22 @@ export default function Home() {
   const [isDraggingResume, setIsDraggingResume] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [toolSearchQuery, setToolSearchQuery] = useState("");
+  const [recommendations, setRecommendations] = useState([
+    {
+      id: "rec-1",
+      name: "Jonathan Carter",
+      role: "TechStarter CTO",
+      content: "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges. He is good in his domain.",
+      image: recommender1
+    },
+    {
+      id: "rec-2",
+      name: "Michael Johnson",
+      role: "TechStarter CTO",
+      content: "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges. He is good in his domain.",
+      image: recommender1
+    }
+  ]);
 
   const [activeTools, setActiveTools] = useState([
     { name: "Figma", icon: "/tools/image 4.png" },
@@ -981,30 +997,26 @@ export default function Home() {
                   </SheetHeader>
                   
                   <div className="flex-1 overflow-y-auto p-6 space-y-3">
-                    {[
-                      {
-                        name: "Jonathan Carter",
-                        role: "TechStarter CTO",
-                        image: recommender1
-                      },
-                      {
-                        name: "Michael Johnson",
-                        role: "TechStarter CTO",
-                        image: recommender1
-                      }
-                    ].map((rec, i) => (
-                      <div key={i} className="flex items-center gap-3 p-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl cursor-grab active:cursor-grabbing hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors">
-                        <ChevronsUpDown className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
-                        <Avatar className="w-8 h-8 rounded-full">
-                          <AvatarImage src={rec.image} className="object-cover" />
-                          <AvatarFallback>{rec.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col flex-1 min-w-0">
-                          <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">{rec.name}</span>
-                          <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] truncate">{rec.role}</span>
-                        </div>
-                      </div>
-                    ))}
+                    <Reorder.Group axis="y" values={recommendations} onReorder={setRecommendations} className="space-y-3">
+                      {recommendations.map((rec) => (
+                        <Reorder.Item 
+                          key={rec.id} 
+                          value={rec}
+                          className="flex items-center gap-3 p-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl cursor-grab active:cursor-grabbing hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors relative bg-white dark:bg-[#2A2520]"
+                          whileDrag={{ scale: 1.02, zIndex: 10, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+                        >
+                          <ChevronsUpDown className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                          <Avatar className="w-8 h-8 rounded-full">
+                            <AvatarImage src={rec.image} className="object-cover" />
+                            <AvatarFallback>{rec.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col flex-1 min-w-0">
+                            <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">{rec.name}</span>
+                            <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] truncate">{rec.role}</span>
+                          </div>
+                        </Reorder.Item>
+                      ))}
+                    </Reorder.Group>
                   </div>
                   
                   <div className="p-5 border-t border-black/10 dark:border-white/10 flex justify-end gap-3 flex-shrink-0 bg-white dark:bg-[#2A2520]">
@@ -1079,21 +1091,8 @@ export default function Home() {
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
           <div className="space-y-6">
-            {[
-              {
-                name: "Jonathan Carter",
-                role: "TechStarter CTO",
-                content: "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges. He is good in his domain.",
-                image: recommender1
-              },
-              {
-                name: "Michael Johnson",
-                role: "TechStarter CTO",
-                content: "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges. He is good in his domain.",
-                image: recommender1
-              }
-            ].map((rec, i) => (
-              <div key={i} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative">
+            {recommendations.map((rec) => (
+              <div key={rec.id} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative">
                 {isEditing && (
                   <div className="absolute top-3 right-3 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                     <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
