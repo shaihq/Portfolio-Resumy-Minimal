@@ -618,7 +618,7 @@ export default function Home() {
                 )}
                 <button 
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                  className="w-full flex justify-between items-center py-2.5 text-base group md:pr-16"
+                  className="w-full flex justify-between items-center py-2.5 text-base group"
                 >
                   <div className="flex items-center gap-3">
                     <motion.span 
