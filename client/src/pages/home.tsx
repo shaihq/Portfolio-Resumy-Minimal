@@ -771,7 +771,7 @@ export default function Home() {
               }
             ].map((rec, i) => (
               <div key={i} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative">
-                <div className="absolute top-3 right-3 z-10 opacity-0 group-hover/card:opacity-100 transition-opacity flex gap-2">
+                <div className="absolute top-3 right-3 z-20 opacity-0 group-hover/card:opacity-100 transition-opacity flex gap-2">
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]">
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
@@ -779,8 +779,8 @@ export default function Home() {
                     <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
                 </div>
-                <div className="flex justify-between items-start px-6 py-4 pr-16">
-                  <div className="flex flex-col pt-1">
+                <div className="flex justify-between items-center px-6 py-4">
+                  <div className="flex flex-col">
                     <h3 className="font-medium text-base text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">{rec.name}</h3>
                     <div className="flex items-center gap-2">
                       <svg viewBox="0 0 24 24" className="w-4 h-4 text-black dark:text-[#F0EDE7] transition-colors duration-200 hover:text-[#0077B5] dark:hover:text-[#87CEEB] cursor-pointer" fill="currentColor">
@@ -789,12 +789,10 @@ export default function Home() {
                       <span className="text-[13px] text-[#7A736C] dark:text-[#9E9893]">{rec.role}</span>
                     </div>
                   </div>
-                  <div className="flex gap-3">
-                    <Avatar className="w-[60px] h-[60px] rounded-2xl transition-all duration-700">
-                      <AvatarImage src={rec.image} className="object-cover" />
-                      <AvatarFallback>{rec.name[0]}</AvatarFallback>
-                    </Avatar>
-                  </div>
+                  <Avatar className="w-[80px] h-[80px] rounded-none -mr-6 -my-4 transition-all duration-700">
+                    <AvatarImage src={rec.image} className="object-cover" />
+                    <AvatarFallback>{rec.name[0]}</AvatarFallback>
+                  </Avatar>
                 </div>
                 <div className="p-0">
                   <div className="border border-dashed border-[#E5D7C4] dark:border-[#3A352E] rounded-[12px] p-4">
