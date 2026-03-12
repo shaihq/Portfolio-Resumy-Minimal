@@ -2366,8 +2366,14 @@ export default function Home() {
                   {creativeTestimonials.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCurrentTestimonialIndex(idx)}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentTestimonialIndex(idx);
+                        // Temporarily pause auto-scroll when manually clicked
+                        setIsHoveringTestimonial(true);
+                        setTimeout(() => setIsHoveringTestimonial(false), 5000);
+                      }}
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                         idx === currentTestimonialIndex 
                           ? "w-6 bg-[#1A1A1A] dark:bg-[#F0EDE7]" 
                           : "w-1.5 bg-[#E5D7C4] dark:bg-white/20 hover:bg-[#D5D0C6] dark:hover:bg-white/40"
