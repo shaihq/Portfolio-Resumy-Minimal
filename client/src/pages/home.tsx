@@ -48,6 +48,7 @@ export default function Home() {
   const [isRecommendationsPanelOpen, setIsRecommendationsPanelOpen] = useState(false);
   const [isRecommendationsRearrangeOpen, setIsRecommendationsRearrangeOpen] = useState(false);
   const [isMyStoryPanelOpen, setIsMyStoryPanelOpen] = useState(false);
+  const [storyImages, setStoryImages] = useState([story1, story2, story3, story4]);
   const [isDraggingResume, setIsDraggingResume] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [toolSearchQuery, setToolSearchQuery] = useState("");
@@ -1175,11 +1176,30 @@ export default function Home() {
                       <div className="space-y-3 pt-2">
                         <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Story Images</Label>
                         <div className="grid grid-cols-2 gap-3">
-                          {[story1, story2, story3, story4].map((imgSrc, i) => (
+                          {storyImages.map((imgSrc, i) => (
                             <div key={i} className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-black/5 dark:border-white/5 shadow-sm">
+                              <input 
+                                type="file" 
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+                                accept="image/*"
+                                onChange={(e) => {
+                                  if (e.target.files && e.target.files[0]) {
+                                    const file = e.target.files[0];
+                                    const reader = new FileReader();
+                                    reader.onload = (event) => {
+                                      if (event.target?.result) {
+                                        const newImages = [...storyImages];
+                                        newImages[i] = event.target.result as string;
+                                        setStoryImages(newImages);
+                                      }
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
                               <img src={imgSrc} alt={`Story image ${i+1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 dark:group-hover:bg-black/40 transition-colors duration-300" />
-                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100">
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 dark:group-hover:bg-black/40 transition-colors duration-300 pointer-events-none" />
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100 pointer-events-none z-0">
                                 <div className="bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-md px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-lg border border-black/5 dark:border-white/10">
                                   <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                                   <span className="text-[11px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Replace</span>
@@ -1212,28 +1232,28 @@ export default function Home() {
               whileHover={{ rotate: -2, scale: 1.1, zIndex: 50 }}
               className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-0"
             >
-              <img src={story1} alt="My workspace" className="w-full h-full object-cover" />
+              <img src={storyImages[0]} alt="My workspace" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
               initial={{ rotate: 12, x: -40, y: 15 }}
               whileHover={{ rotate: 5, scale: 1.1, zIndex: 50 }}
               className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-10"
             >
-              <img src={story2} alt="Designing" className="w-full h-full object-cover" />
+              <img src={storyImages[1]} alt="Designing" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
               initial={{ rotate: -5, x: 40, y: -10 }}
               whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
               className="absolute w-32 h-40 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-20"
             >
-              <img src={story3} alt="Coffee and notes" className="w-full h-full object-cover" />
+              <img src={storyImages[2]} alt="Coffee and notes" className="w-full h-full object-cover" />
             </motion.div>
             <motion.div 
               initial={{ rotate: 8, x: 120, y: 20 }}
               whileHover={{ rotate: 3, scale: 1.1, zIndex: 50 }}
               className="absolute w-36 h-36 rounded-xl overflow-hidden border-4 border-white dark:border-[#2A2520] shadow-lg z-30"
             >
-              <img src={story4} alt="Creative studio" className="w-full h-full object-cover" />
+              <img src={storyImages[3]} alt="Creative studio" className="w-full h-full object-cover" />
             </motion.div>
           </div>
 
