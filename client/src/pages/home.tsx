@@ -1341,26 +1341,6 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-
-                  {/* Add Project Card */}
-                  <div className="group cursor-pointer relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B]">
-                    <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
-                    <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
-                    
-                    <div className="bg-[#EFECE6] dark:bg-[#1A1A1A] p-6 md:p-7 relative overflow-hidden flex-1 flex flex-col items-center justify-center min-h-[300px]">
-                      <div className="absolute top-3 left-3 md:top-3.5 md:left-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="absolute top-3 right-3 md:top-3.5 md:right-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="absolute bottom-3 left-3 md:bottom-3.5 md:left-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      <div className="absolute bottom-3 right-3 md:bottom-3.5 md:right-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
-                      
-                      <div className="w-16 h-16 rounded-full border-2 border-dashed border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center mb-4 text-[#7A736C] dark:text-[#9E9893] group-hover:border-[#1A1A1A] dark:group-hover:border-[#F0EDE7] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors bg-white dark:bg-[#2A2520] shadow-sm">
-                        <Plus className="w-6 h-6" />
-                      </div>
-                      <span className="font-['JetBrains_Mono'] text-[15px] font-medium text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors uppercase tracking-wider">
-                        Add New Project
-                      </span>
-                    </div>
-                  </div>
                 </div>
               )}
 
