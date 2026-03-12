@@ -2246,6 +2246,132 @@ export default function Home() {
               </div>
             </motion.div>
 
+            {/* Testimonials Section */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.95 }}
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+            >
+              {isEditing && (
+                <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
+                  <Button variant="outline" size="sm" className="h-8 flex items-center gap-1.5 px-3 rounded-full bg-white dark:bg-[#2A2520] shadow-md border border-[#E5D7C4] dark:border-white/10 hover:bg-gray-50 dark:hover:bg-[#35302A]">
+                    <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    <span className="text-xs font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Add Testimonial</span>
+                  </Button>
+                </div>
+              )}
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>TESTIMONIALS</h2>
+              
+              <div className="space-y-4">
+                {/* Testimonial 1 */}
+                <div className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative">
+                  {isEditing && (
+                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </Button>
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                        <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </Button>
+                    </div>
+                  )}
+                  <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6 italic relative z-10">
+                    "Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience."
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Sarah Jenkins" className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px]">Sarah Jenkins</h4>
+                        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">VP of Product, Stripe</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handlePlayTestimonial("Matt is one of the most talented designers I've had the pleasure of working with. His ability to balance aesthetics with complex functionality is truly impressive. He elevated our entire product experience.", 3)}
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-[#2A2520] border border-[#E5D7C4] dark:border-white/10 rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors shadow-sm"
+                    >
+                      {playingTestimonial === 3 ? (
+                        <>
+                          <Square size={14} className="fill-current" />
+                          <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
+                            {[...Array(4)].map((_, i) => (
+                              <motion.div
+                                key={i}
+                                className="w-[2px] bg-current rounded-full"
+                                animate={{ height: ["4px", "12px", "4px"] }}
+                                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={14} className="fill-current" />
+                          <span className="text-[12px] font-medium w-[30px] text-center">Play</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Testimonial 2 */}
+                <div className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative">
+                  {isEditing && (
+                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </Button>
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                        <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </Button>
+                    </div>
+                  )}
+                  <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6 italic relative z-10">
+                    "We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI."
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="David Chen" className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px]">David Chen</h4>
+                        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">Engineering Lead, Vercel</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handlePlayTestimonial("We brought Matt on for a critical redesign project. Not only did he deliver beautiful visuals, but his systematic approach to our component library completely transformed how our engineering team builds UI.", 4)}
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-[#2A2520] border border-[#E5D7C4] dark:border-white/10 rounded-full text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors shadow-sm"
+                    >
+                      {playingTestimonial === 4 ? (
+                        <>
+                          <Square size={14} className="fill-current" />
+                          <div className="flex items-center justify-center gap-[2px] h-[14px] w-[30px]">
+                            {[...Array(4)].map((_, i) => (
+                              <motion.div
+                                key={i}
+                                className="w-[2px] bg-current rounded-full"
+                                animate={{ height: ["4px", "12px", "4px"] }}
+                                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={14} className="fill-current" />
+                          <span className="text-[12px] font-medium w-[30px] text-center">Play</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Contact Section */}
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
