@@ -374,6 +374,8 @@ export default function Home() {
   
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
 
+  const [isHoveringTestimonial, setIsHoveringTestimonial] = useState(false);
+
   // Creative template specific states
   const creativeTestimonials = [
     {
@@ -394,12 +396,14 @@ export default function Home() {
 
   // Auto carousel effect
   useEffect(() => {
+    if (isHoveringTestimonial) return;
+    
     const timer = setInterval(() => {
       setCurrentTestimonialIndex((prev) => (prev + 1) % creativeTestimonials.length);
     }, 5000); // 5 seconds per testimonial
     
     return () => clearInterval(timer);
-  }, [creativeTestimonials.length]);
+  }, [creativeTestimonials.length, isHoveringTestimonial]);
 
   const [isDark, setIsDark] = useState(() => {
     return localStorage.getItem("theme") === "dark" || 
@@ -2300,6 +2304,8 @@ export default function Home() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
+                      onMouseEnter={() => setIsHoveringTestimonial(true)}
+                      onMouseLeave={() => setIsHoveringTestimonial(false)}
                       className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative"
                     >
                       {isEditing && (
