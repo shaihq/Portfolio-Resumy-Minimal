@@ -43,6 +43,21 @@ export default function Home() {
   const [zIndexes, setZIndexes] = useState({ 1: 10, 2: 20, 3: 10 });
   const [characterPosition, setCharacterPosition] = useState(0);
   const [isEditing, setIsEditing] = useState(true);
+  const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
+
+  useEffect(() => {
+    const root = document.getElementById('root');
+    if (root) {
+      if (isContactPanelOpen) {
+        root.classList.add('theme-panel-open');
+      } else {
+        root.classList.remove('theme-panel-open');
+      }
+    }
+    return () => {
+      if (root) root.classList.remove('theme-panel-open');
+    };
+  }, [isContactPanelOpen]);
 
   const bringToFront = (id: number) => {
     setZIndexes(prev => {
@@ -1002,64 +1017,71 @@ export default function Home() {
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
-              <Sheet>
+              <Sheet modal={false} open={isContactPanelOpen} onOpenChange={setIsContactPanelOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
                     <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-white dark:bg-[#1A1A1A] border-l border-[#E5D7C4] dark:border-[#3A352E] overflow-y-auto">
-                  <SheetHeader className="mb-6">
-                    <SheetTitle className="text-xl font-['DM_Mono'] text-[#1A1A1A] dark:text-[#F0EDE7]">Edit Contact Information</SheetTitle>
-                    <SheetDescription className="text-[#7A736C] dark:text-[#9E9893]">
-                      Update your contact details and social links.
-                    </SheetDescription>
+                <SheetContent 
+                  className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col"
+                  hasOverlay={false}
+                  onInteractOutside={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+                    <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Edit Contact Information</SheetTitle>
                   </SheetHeader>
                   
-                  <div className="space-y-6 pb-20">
+                  <div className="flex-1 overflow-y-auto p-6 space-y-8">
                     <div className="space-y-4">
-                      <h3 className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider font-['DM_Mono']">Primary Contact</h3>
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Email Address</Label>
-                        <Input id="email" defaultValue="hello@example.com" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="phone" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Phone Number</Label>
-                        <Input id="phone" defaultValue="+1 (555) 123-4567" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="resume" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Resume Link</Label>
-                        <Input id="resume" defaultValue="https://example.com/resume.pdf" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      <div className="text-[12px] font-semibold text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider px-1">Primary Contact</div>
+                      <div className="space-y-4">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="email" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Email Address</Label>
+                          <Input id="email" defaultValue="hello@example.com" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="phone" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Phone Number</Label>
+                          <Input id="phone" defaultValue="+1 (555) 123-4567" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="resume" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Resume Link</Label>
+                          <Input id="resume" defaultValue="https://example.com/resume.pdf" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
                       </div>
                     </div>
 
                     <div className="space-y-4">
-                      <h3 className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0EDE7] uppercase tracking-wider font-['DM_Mono']">Social Links</h3>
-                      <div className="space-y-2">
-                        <Label htmlFor="linkedin" className="text-xs text-[#7A736C] dark:text-[#9E9893]">LinkedIn URL</Label>
-                        <Input id="linkedin" defaultValue="https://linkedin.com/in/username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dribbble" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Dribbble URL</Label>
-                        <Input id="dribbble" defaultValue="https://dribbble.com/username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="twitter" className="text-xs text-[#7A736C] dark:text-[#9E9893]">X (Twitter) URL</Label>
-                        <Input id="twitter" defaultValue="https://x.com/username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="medium" className="text-xs text-[#7A736C] dark:text-[#9E9893]">Medium URL</Label>
-                        <Input id="medium" defaultValue="https://medium.com/@username" className="bg-white dark:bg-[#2A2520] border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      <div className="text-[12px] font-semibold text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wider px-1">Social Links</div>
+                      <div className="space-y-4">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="linkedin" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">LinkedIn URL</Label>
+                          <Input id="linkedin" defaultValue="https://linkedin.com/in/username" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="dribbble" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Dribbble URL</Label>
+                          <Input id="dribbble" defaultValue="https://dribbble.com/username" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="twitter" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">X (Twitter) URL</Label>
+                          <Input id="twitter" defaultValue="https://x.com/username" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="medium" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Medium URL</Label>
+                          <Input id="medium" defaultValue="https://medium.com/@username" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-white dark:bg-[#1A1A1A] border-t border-[#E5D7C4] dark:border-[#3A352E] flex justify-end gap-3 z-10">
+                  <div className="p-5 border-t border-black/10 dark:border-white/10 flex justify-end gap-3 flex-shrink-0 bg-white dark:bg-[#2A2520]">
                     <SheetClose asChild>
-                      <Button variant="outline" className="border-[#E5D7C4] dark:border-[#3A352E] text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-gray-50 dark:hover:bg-[#2A2520]">Cancel</Button>
+                      <Button variant="outline" className="h-9 px-4 rounded-full text-[13px] font-medium border-black/10 dark:border-white/10 text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Cancel</Button>
                     </SheetClose>
                     <SheetClose asChild>
-                      <Button className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] hover:bg-black/80 dark:hover:bg-white/80">Save Changes</Button>
+                      <Button className="h-9 px-5 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm">Save Changes</Button>
                     </SheetClose>
                   </div>
                 </SheetContent>
