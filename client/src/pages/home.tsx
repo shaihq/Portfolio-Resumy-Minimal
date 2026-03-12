@@ -8,7 +8,7 @@ import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder } from "framer-motion";
 import { useLocation } from "wouter";
@@ -1005,7 +1005,7 @@ export default function Home() {
                           className="flex items-center gap-3 p-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl cursor-grab active:cursor-grabbing hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors relative bg-white dark:bg-[#2A2520]"
                           whileDrag={{ scale: 1.02, zIndex: 10, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
                         >
-                          <ChevronsUpDown className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                          <GripVertical className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
                           <Avatar className="w-8 h-8 rounded-full">
                             <AvatarImage src={rec.image} className="object-cover" />
                             <AvatarFallback>{rec.name[0]}</AvatarFallback>
