@@ -8,7 +8,7 @@ import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -46,6 +46,7 @@ export default function Home() {
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
   const [isStackPanelOpen, setIsStackPanelOpen] = useState(false);
   const [isRecommendationsPanelOpen, setIsRecommendationsPanelOpen] = useState(false);
+  const [isRecommendationsRearrangeOpen, setIsRecommendationsRearrangeOpen] = useState(false);
   const [isDraggingResume, setIsDraggingResume] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [toolSearchQuery, setToolSearchQuery] = useState("");
@@ -117,7 +118,7 @@ export default function Home() {
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
-      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen) {
+      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen) {
         root.classList.add('theme-panel-open');
       } else {
         root.classList.remove('theme-panel-open');
@@ -126,7 +127,7 @@ export default function Home() {
     return () => {
       if (root) root.classList.remove('theme-panel-open');
     };
-  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen]);
+  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen]);
 
   useEffect(() => {
     if (isContactPanelOpen) {
@@ -138,7 +139,10 @@ export default function Home() {
     if (isRecommendationsPanelOpen) {
       window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'recommendations' }));
     }
-  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen]);
+    if (isRecommendationsRearrangeOpen) {
+      window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'rearrange' }));
+    }
+  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen]);
 
   useEffect(() => {
     const handlePanelOpened = (e: Event) => {
@@ -151,6 +155,9 @@ export default function Home() {
       }
       if (customEvent.detail !== 'recommendations') {
         setIsRecommendationsPanelOpen(false);
+      }
+      if (customEvent.detail !== 'rearrange') {
+        setIsRecommendationsRearrangeOpen(false);
       }
     };
     window.addEventListener('panelOpened', handlePanelOpened);
@@ -955,7 +962,59 @@ export default function Home() {
         {/* Recommendations Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           {isEditing && (
-            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
+            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
+              <Sheet modal={false} open={isRecommendationsRearrangeOpen} onOpenChange={setIsRecommendationsRearrangeOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+                    <ChevronsUpDown className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent 
+                  className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col"
+                  hasOverlay={false}
+                  onInteractOutside={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+                    <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Rearrange Recommendations</SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="flex-1 overflow-y-auto p-6 space-y-3">
+                    {[
+                      {
+                        name: "Jonathan Carter",
+                        role: "TechStarter CTO",
+                        image: recommender1
+                      },
+                      {
+                        name: "Michael Johnson",
+                        role: "TechStarter CTO",
+                        image: recommender1
+                      }
+                    ].map((rec, i) => (
+                      <div key={i} className="flex items-center gap-3 p-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl cursor-grab active:cursor-grabbing hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors">
+                        <ChevronsUpDown className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                        <Avatar className="w-8 h-8 rounded-full">
+                          <AvatarImage src={rec.image} className="object-cover" />
+                          <AvatarFallback>{rec.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col flex-1 min-w-0">
+                          <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">{rec.name}</span>
+                          <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] truncate">{rec.role}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="p-5 border-t border-black/10 dark:border-white/10 flex justify-end gap-3 flex-shrink-0 bg-white dark:bg-[#2A2520]">
+                    <SheetClose asChild>
+                      <Button className="h-9 px-5 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm">Done</Button>
+                    </SheetClose>
+                  </div>
+                </SheetContent>
+              </Sheet>
+
               <Sheet modal={false} open={isRecommendationsPanelOpen} onOpenChange={setIsRecommendationsPanelOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
