@@ -377,6 +377,25 @@ export default function Home() {
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
   
+  // Sync theme state with document class changes
+  useEffect(() => {
+    const syncTheme = () => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    };
+    
+    // Initial check
+    syncTheme();
+
+    // Listen for changes
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    
+    return () => observer.disconnect();
+  }, []);
+
   // Removed isEditing state
 
   const toggleTheme = () => {

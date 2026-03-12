@@ -12,11 +12,24 @@ interface Particle {
 export default function CinematicThemeSwitcher() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   
-  // Initialize theme from document class
+  // Initialize theme from document class and sync with external changes
   useEffect(() => {
-    if (document.documentElement.classList.contains('dark')) {
-      setTheme('dark');
-    }
+    const syncTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'dark' : 'light');
+    };
+    
+    // Initial check
+    syncTheme();
+
+    // Listen for changes
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    
+    return () => observer.disconnect();
   }, []);
 
   const playHeartbeat = useCallback(() => {
@@ -70,6 +83,7 @@ export default function CinematicThemeSwitcher() {
           } else {
             document.documentElement.classList.remove('dark');
           }
+          localStorage.setItem("theme", newTheme);
         });
       }).ready;
 
@@ -103,6 +117,7 @@ export default function CinematicThemeSwitcher() {
       } else {
         document.documentElement.classList.remove('dark');
       }
+      localStorage.setItem("theme", newTheme);
     }
   };
   
