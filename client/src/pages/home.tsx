@@ -5,7 +5,7 @@ import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch } from "@/components/ui/switch-button";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
@@ -473,7 +473,12 @@ export default function Home() {
           <>
             <SmoothCursor type="minimal" />
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6">
+            <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6 relative group/section">
+          <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+              <Pencil className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
+            </Button>
+          </div>
           <div className="flex items-start justify-between gap-4 mb-6">
             <Avatar className="w-[80px] h-[80px] rounded-2xl">
               <AvatarImage src={profileImg} className="object-cover" />
@@ -539,7 +544,12 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Intro Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+          <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+              <Pencil className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
+            </Button>
+          </div>
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
           <p className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
@@ -549,7 +559,12 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Experience Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+          <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm">
+              <Pencil className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#9E9893]" />
+            </Button>
+          </div>
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
