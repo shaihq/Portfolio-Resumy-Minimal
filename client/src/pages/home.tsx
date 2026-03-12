@@ -1176,12 +1176,29 @@ export default function Home() {
             {/* Empty space for content below */}
             <div className="flex-1">
               {activeTab === "Projects" && (
-                <div className="grid grid-cols-1 gap-0 relative group/section">
-                  <div className="absolute top-4 right-4 z-50 transition-opacity opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]">
-                      <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
+                <div className="grid grid-cols-1 gap-0">
+                  {/* Add Project Card */}
+                  <div className="group cursor-pointer relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B]">
+                    <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
+                    <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
+                    
+                    <div className="bg-white/50 dark:bg-[#1A1A1A]/50 p-6 md:p-7 relative overflow-hidden flex-1 flex flex-col items-center justify-center min-h-[120px] md:min-h-[160px]">
+                      <div className="absolute top-3 left-3 md:top-3.5 md:left-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      <div className="absolute top-3 right-3 md:top-3.5 md:right-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      <div className="absolute bottom-3 left-3 md:bottom-3.5 md:left-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      <div className="absolute bottom-3 right-3 md:bottom-3.5 md:right-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      
+                      <div className="flex flex-col items-center justify-center gap-3 mt-4 mb-4">
+                        <div className="w-12 h-12 rounded-full border border-dashed border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center text-[#7A736C] dark:text-[#9E9893] group-hover:border-[#1A1A1A] dark:group-hover:border-[#F0EDE7] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors bg-white dark:bg-[#2A2520] shadow-sm">
+                          <Plus className="w-5 h-5" />
+                        </div>
+                        <span className="font-['JetBrains_Mono'] text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors uppercase tracking-wider">
+                          Add New Project
+                        </span>
+                      </div>
+                    </div>
                   </div>
+
                   {/* Project 1 */}
                   <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B]">
                     <div className="absolute top-4 right-4 z-40 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
@@ -1303,6 +1320,26 @@ export default function Home() {
                       <p className="font-['JetBrains_Mono'] text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                         Productivity application with seamless drag-and-drop mechanics.
                       </p>
+                    </div>
+                  </div>
+
+                  {/* Add Project Card */}
+                  <div className="group cursor-pointer relative flex flex-col border-[16px] md:border-[20px] border-t-[#EBE7E0] border-r-[#DCD7CD] border-b-[#D2CDC2] border-l-[#E4DFD7] dark:border-t-[#2A2520] dark:border-r-[#1A1A1A] dark:border-b-[#12100E] dark:border-l-[#221F1B]">
+                    <div className="absolute inset-[-16px] md:inset-[-20px] border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none"></div>
+                    <div className="absolute inset-0 border border-[#D5D0C6] dark:border-[#3A352E] pointer-events-none z-30"></div>
+                    
+                    <div className="bg-[#EFECE6] dark:bg-[#1A1A1A] p-6 md:p-7 relative overflow-hidden flex-1 flex flex-col items-center justify-center min-h-[300px]">
+                      <div className="absolute top-3 left-3 md:top-3.5 md:left-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      <div className="absolute top-3 right-3 md:top-3.5 md:right-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      <div className="absolute bottom-3 left-3 md:bottom-3.5 md:left-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      <div className="absolute bottom-3 right-3 md:bottom-3.5 md:right-3.5 w-2.5 h-2.5 z-20 rounded-full bg-gradient-to-br from-[#F5F3EF] to-[#D0CCC5] shadow-[inset_-1px_-1px_2px_rgba(0,0,0,0.1),1px_1px_2px_rgba(0,0,0,0.2)] dark:from-[#5A554E] dark:to-[#2A2520]"></div>
+                      
+                      <div className="w-16 h-16 rounded-full border-2 border-dashed border-[#D5D0C6] dark:border-[#3A352E] flex items-center justify-center mb-4 text-[#7A736C] dark:text-[#9E9893] group-hover:border-[#1A1A1A] dark:group-hover:border-[#F0EDE7] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors bg-white dark:bg-[#2A2520] shadow-sm">
+                        <Plus className="w-6 h-6" />
+                      </div>
+                      <span className="font-['JetBrains_Mono'] text-[15px] font-medium text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors uppercase tracking-wider">
+                        Add New Project
+                      </span>
                     </div>
                   </div>
                 </div>
