@@ -59,6 +59,23 @@ export default function Home() {
     };
   }, [isContactPanelOpen]);
 
+  useEffect(() => {
+    if (isContactPanelOpen) {
+      window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'contact' }));
+    }
+  }, [isContactPanelOpen]);
+
+  useEffect(() => {
+    const handlePanelOpened = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail !== 'contact') {
+        setIsContactPanelOpen(false);
+      }
+    };
+    window.addEventListener('panelOpened', handlePanelOpened);
+    return () => window.removeEventListener('panelOpened', handlePanelOpened);
+  }, []);
+
   const bringToFront = (id: number) => {
     setZIndexes(prev => {
       const maxZ = Math.max(...Object.values(prev));

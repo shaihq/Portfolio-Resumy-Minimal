@@ -57,6 +57,23 @@ export default function Navbar() {
     };
   }, [isThemePanelOpen]);
 
+  useEffect(() => {
+    if (isThemePanelOpen) {
+      window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'theme' }));
+    }
+  }, [isThemePanelOpen]);
+
+  useEffect(() => {
+    const handlePanelOpened = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail !== 'theme') {
+        setIsThemePanelOpen(false);
+      }
+    };
+    window.addEventListener('panelOpened', handlePanelOpened);
+    return () => window.removeEventListener('panelOpened', handlePanelOpened);
+  }, []);
+
   return (
     <TooltipProvider>
       <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none pt-4 px-4">
