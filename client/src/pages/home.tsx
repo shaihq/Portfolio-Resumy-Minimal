@@ -2296,8 +2296,8 @@ export default function Home() {
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
                   <Button variant="outline" size="sm" className="h-8 flex items-center gap-1.5 px-3 rounded-full bg-white dark:bg-[#2A2520] shadow-md border border-[#E5D7C4] dark:border-white/10 hover:bg-gray-50 dark:hover:bg-[#35302A]">
-                    <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    <span className="text-xs font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Add Link</span>
+                    <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    <span className="text-xs font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Edit Contact</span>
                   </Button>
                 </div>
               )}
