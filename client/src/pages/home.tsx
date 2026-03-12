@@ -44,6 +44,32 @@ export default function Home() {
   const [characterPosition, setCharacterPosition] = useState(0);
   const [isEditing, setIsEditing] = useState(true);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
+  const [isDraggingResume, setIsDraggingResume] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingResume(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingResume(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingResume(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setResumeFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setResumeFile(e.target.files[0]);
+    }
+  };
 
   useEffect(() => {
     const root = document.getElementById('root');
@@ -1065,14 +1091,46 @@ export default function Home() {
                         </div>
                         <div className="space-y-1.5">
                           <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Resume</Label>
-                          <div className="h-32 bg-black/[0.03] dark:bg-white/[0.03] border-2 border-dashed border-black/10 dark:border-white/10 rounded-xl flex flex-col items-center justify-center gap-2 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors cursor-pointer relative overflow-hidden group">
-                            <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" accept=".pdf,.doc,.docx" />
-                            <div className="w-10 h-10 rounded-full bg-white dark:bg-[#2A2520] shadow-sm flex items-center justify-center text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] group-hover:scale-110 transition-all">
-                              <Download className="w-5 h-5" />
-                            </div>
-                            <div className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893]">
-                              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold underline decoration-black/20 dark:decoration-white/20 underline-offset-2">Click to upload</span> or drag and drop
-                            </div>
+                          <div 
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            className={`h-32 border-2 border-dashed rounded-xl flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative overflow-hidden group ${
+                              isDraggingResume 
+                                ? "bg-black/[0.05] dark:bg-white/[0.05] border-[#1A1A1A] dark:border-[#F0EDE7]" 
+                                : "bg-black/[0.03] dark:bg-white/[0.03] border-black/10 dark:border-white/10 hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
+                            }`}
+                          >
+                            <input 
+                              type="file" 
+                              className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                              accept=".pdf,.doc,.docx" 
+                              onChange={handleFileSelect}
+                            />
+                            {resumeFile ? (
+                              <>
+                                <div className="w-10 h-10 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] shadow-sm flex items-center justify-center text-white dark:text-[#1A1A1A]">
+                                  <FileText className="w-5 h-5" />
+                                </div>
+                                <div className="text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] flex flex-col items-center max-w-[80%]">
+                                  <span className="truncate w-full text-center">{resumeFile.name}</span>
+                                  <span className="text-[10px] text-[#7A736C] dark:text-[#9E9893] mt-0.5">Click or drag to replace</span>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className={`w-10 h-10 rounded-full bg-white dark:bg-[#2A2520] shadow-sm flex items-center justify-center transition-all ${
+                                  isDraggingResume 
+                                    ? "text-[#1A1A1A] dark:text-[#F0EDE7] scale-110" 
+                                    : "text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] group-hover:scale-110"
+                                }`}>
+                                  <Download className="w-5 h-5" />
+                                </div>
+                                <div className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893]">
+                                  <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold underline decoration-black/20 dark:decoration-white/20 underline-offset-2">Click to upload</span> or drag and drop
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
