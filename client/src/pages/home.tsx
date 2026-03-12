@@ -1100,7 +1100,7 @@ export default function Home() {
                     </div>
 
                     <div className="space-y-4">
-                      <div className="flex flex-wrap gap-2.5">
+                      <div className="flex flex-wrap gap-2">
                         {allTools
                           .filter(t => t.name.toLowerCase().includes(toolSearchQuery.toLowerCase()))
                           .sort((a, b) => {
@@ -1109,57 +1109,26 @@ export default function Home() {
                             if (isASelected === isBSelected) return a.name.localeCompare(b.name);
                             return isASelected ? -1 : 1;
                           })
-                          .map((tool, i) => {
+                          .map((tool) => {
                             const isSelected = activeTools.some(t => t.name === tool.name);
                             return (
                               <button
-                                key={`tool-${i}`}
+                                key={`tool-${tool.name}`}
                                 onClick={() => isSelected ? handleRemoveTool(tool) : handleAddTool(tool)}
-                                className={`h-10 pl-3 pr-1.5 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] flex items-center gap-2.5 transition-transform hover:-translate-y-0.5 shadow-sm group`}
+                                className={`group h-[34px] px-3.5 rounded-xl flex items-center gap-2.5 text-[13px] font-medium transition-all duration-200 border ${
+                                  isSelected 
+                                    ? "bg-[#EFECE6] dark:bg-[#1A1A1A] border-black/5 dark:border-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] shadow-sm" 
+                                    : "bg-transparent border-transparent text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
+                                }`}
                               >
                                 <img 
                                   src={tool.icon} 
                                   alt={tool.name} 
-                                  className={`w-5 h-5 object-contain transition-all duration-300 ${
-                                    isSelected ? "grayscale-0" : "grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100"
+                                  className={`w-4 h-4 object-contain transition-all duration-200 ${
+                                    isSelected ? "grayscale-0 opacity-100" : "grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100"
                                   }`} 
                                 />
-                                <span className={`text-[13px] font-medium transition-colors ${
-                                  isSelected ? "text-[#1A1A1A] dark:text-[#F0EDE7]" : "text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
-                                }`}>
-                                  {tool.name}
-                                </span>
-                                <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 relative overflow-hidden ${
-                                  isSelected 
-                                    ? "bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A]" 
-                                    : "bg-black/[0.03] dark:bg-white/[0.03] text-[#7A736C] dark:text-[#9E9893] group-hover:bg-black/[0.06] dark:group-hover:bg-white/[0.06] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
-                                }`}>
-                                  <AnimatePresence mode="wait">
-                                    {isSelected ? (
-                                      <motion.div
-                                        key="check"
-                                        initial={{ scale: 0, opacity: 0, rotate: -45 }}
-                                        animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                                        exit={{ scale: 0, opacity: 0, rotate: 45 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                        className="absolute inset-0 flex items-center justify-center"
-                                      >
-                                        <Check className="w-3.5 h-3.5 stroke-[3]" />
-                                      </motion.div>
-                                    ) : (
-                                      <motion.div
-                                        key="plus"
-                                        initial={{ scale: 0, opacity: 0, rotate: 45 }}
-                                        animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                                        exit={{ scale: 0, opacity: 0, rotate: -45 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                        className="absolute inset-0 flex items-center justify-center"
-                                      >
-                                        <Plus className="w-3.5 h-3.5" />
-                                      </motion.div>
-                                    )}
-                                  </AnimatePresence>
-                                </div>
+                                {tool.name}
                               </button>
                             );
                           })}
