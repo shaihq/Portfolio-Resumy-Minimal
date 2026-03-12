@@ -1064,8 +1064,16 @@ export default function Home() {
                           <Input id="phone" defaultValue="+1 (555) 123-4567" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
                         </div>
                         <div className="space-y-1.5">
-                          <Label htmlFor="resume" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Resume Link</Label>
-                          <Input id="resume" defaultValue="https://example.com/resume.pdf" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                          <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Resume</Label>
+                          <div className="h-32 bg-black/[0.03] dark:bg-white/[0.03] border-2 border-dashed border-black/10 dark:border-white/10 rounded-xl flex flex-col items-center justify-center gap-2 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors cursor-pointer relative overflow-hidden group">
+                            <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-10" accept=".pdf,.doc,.docx" />
+                            <div className="w-10 h-10 rounded-full bg-white dark:bg-[#2A2520] shadow-sm flex items-center justify-center text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] group-hover:scale-110 transition-all">
+                              <Download className="w-5 h-5" />
+                            </div>
+                            <div className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893]">
+                              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-semibold underline decoration-black/20 dark:decoration-white/20 underline-offset-2">Click to upload</span> or drag and drop
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
