@@ -1835,10 +1835,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.45 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full relative group"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full relative group/section"
             >
               {isEditing && (
-                <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10 flex gap-2">
+                <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
                   <Button variant="outline" size="icon" className="w-8 h-8 rounded-full bg-white dark:bg-[#2A2520] shadow-md border border-[#E5D7C4] dark:border-white/10 hover:bg-gray-50 dark:hover:bg-[#35302A]">
                     <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                   </Button>
@@ -1851,9 +1851,9 @@ export default function Home() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Project 1 */}
-                <div className="flex flex-col gap-4 group cursor-pointer relative" onClick={() => handleProjectClick("slate")}>
+                <div className="flex flex-col gap-4 group/card cursor-pointer relative" onClick={() => handleProjectClick("slate")}>
                   {isEditing && (
-                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                       <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
                         <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                       </Button>
@@ -1863,7 +1863,7 @@ export default function Home() {
                     </div>
                   )}
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-                    <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
                     <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
@@ -1876,9 +1876,9 @@ export default function Home() {
                 </div>
 
                 {/* Project 2 */}
-                <div className="flex flex-col gap-4 group cursor-pointer relative" onClick={() => handleProjectClick("antimetal")}>
+                <div className="flex flex-col gap-4 group/card cursor-pointer relative" onClick={() => handleProjectClick("antimetal")}>
                   {isEditing && (
-                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                    <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                       <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
                         <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                       </Button>
@@ -1888,7 +1888,7 @@ export default function Home() {
                     </div>
                   )}
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-                    <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
                     <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
