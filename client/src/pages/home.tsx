@@ -135,7 +135,7 @@ export default function Home() {
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
-      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen) {
+      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isMyStoryPanelOpen) {
         root.classList.add('theme-panel-open');
       } else {
         root.classList.remove('theme-panel-open');
@@ -144,7 +144,7 @@ export default function Home() {
     return () => {
       if (root) root.classList.remove('theme-panel-open');
     };
-  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen]);
+  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isMyStoryPanelOpen]);
 
   useEffect(() => {
     if (isContactPanelOpen) {
@@ -1163,20 +1163,11 @@ export default function Home() {
                   <div className="flex-1 overflow-y-auto p-6 space-y-6">
                     <div className="space-y-4">
                       <div className="space-y-1.5">
-                        <Label htmlFor="story-p1" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Paragraph 1</Label>
+                        <Label htmlFor="story-text" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Your Story</Label>
                         <textarea 
-                          id="story-p1" 
-                          rows={5}
-                          defaultValue="I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design."
-                          className="w-full bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all p-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30 resize-none" 
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="story-p2" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Paragraph 2</Label>
-                        <textarea 
-                          id="story-p2" 
-                          rows={4}
-                          defaultValue="I thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use."
+                          id="story-text" 
+                          rows={8}
+                          defaultValue={"I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design.\n\nI thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use."}
                           className="w-full bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all p-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30 resize-none" 
                         />
                       </div>
@@ -1184,9 +1175,9 @@ export default function Home() {
                       <div className="space-y-3 pt-2">
                         <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Story Images</Label>
                         <div className="grid grid-cols-2 gap-3">
-                          {[1, 2, 3, 4].map((i) => (
+                          {[story1, story2, story3, story4].map((imgSrc, i) => (
                             <div key={i} className="relative aspect-square rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 flex items-center justify-center overflow-hidden group cursor-pointer hover:border-black/20 dark:hover:border-white/20 transition-colors">
-                              <span className="text-[11px] font-medium text-[#7A736C] dark:text-[#9E9893] group-hover:hidden">Image {i}</span>
+                              <img src={imgSrc} alt={`Story image ${i+1}`} className="w-full h-full object-cover" />
                               <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-sm transition-opacity">
                                 <Plus className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0EDE7] mb-1" />
                                 <span className="text-[10px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Replace</span>
