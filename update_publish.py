@@ -1,4 +1,8 @@
-import React, { useState, useRef } from "react"
+import re
+
+path = 'client/src/components/ui/publish-dropdown.tsx'
+
+content = """import React, { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Copy, CheckCircle2 } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -81,13 +85,13 @@ export function PublishDropdown() {
               style={{ transformOrigin: "top right" }}
             >
               <div className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-1.5 shadow-lg overflow-hidden">
-                <div className="flex flex-col">
-                  <div className="flex items-center justify-between gap-3 px-3 py-2">
+                <div className="p-3 pb-2 flex flex-col gap-3">
+                  <div className="flex items-center justify-between gap-3">
                     <div className="flex flex-col gap-0.5 overflow-hidden">
                       <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">
                         shai.designfolio.me
                       </span>
-                      <span className="text-[12px] text-[#7A736C] dark:text-[#9E9893]">
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893]">
                         Updated 29 days ago
                       </span>
                     </div>
@@ -96,10 +100,10 @@ export function PublishDropdown() {
                       size="icon"
                       onClick={handleCopy}
                       className={cn(
-                        "h-8 w-8 rounded-xl shrink-0 transition-colors focus:outline-none cursor-pointer",
+                        "h-8 w-8 rounded-xl shrink-0 transition-colors",
                         copied 
                           ? "bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20" 
-                          : "text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
+                          : "bg-[#F5F5F5] dark:bg-[#3A3531] text-[#7A736C] dark:text-[#9E9893] hover:bg-[#E8E8E8] dark:hover:bg-[#4A4540] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
                       )}
                     >
                       {copied ? (
@@ -110,18 +114,18 @@ export function PublishDropdown() {
                     </Button>
                   </div>
                   
-                  <button 
+                  <Button 
                     onClick={handlePublish}
                     disabled={isPublishing}
                     className={cn(
-                      "relative z-10 flex w-full items-center justify-center px-3 h-[44px] text-[13px] font-medium rounded-xl transition-colors duration-150 focus:outline-none cursor-pointer mt-1",
+                      "w-full h-10 font-medium rounded-xl transition-all text-[13px]",
                       isPublishing
-                        ? "bg-black/5 dark:bg-white/5 text-[#7A736C] dark:text-[#9E9893]"
-                        : "bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-[#1A1A1A] dark:text-[#F0EDE7]"
+                        ? "bg-[#E8E8E8] dark:bg-[#3A3531] text-[#7A736C] dark:text-[#9E9893]"
+                        : "bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] text-[#1A1A1A] dark:text-[#F0EDE7]"
                     )}
                   >
                     {isPublishing ? "Updating..." : "Update changes"}
-                  </button>
+                  </Button>
                 </div>
               </div>
             </motion.div>
@@ -131,3 +135,7 @@ export function PublishDropdown() {
     </MotionConfig>
   )
 }
+"""
+
+with open(path, 'w') as f:
+    f.write(content)
