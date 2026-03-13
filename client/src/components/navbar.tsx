@@ -30,6 +30,7 @@ import { useTemplate } from "@/hooks/use-template";
 
 import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
 import { FluidDropdown } from "@/components/ui/fluid-dropdown";
+import { PublishDropdown } from "@/components/ui/publish-dropdown";
 
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
@@ -152,12 +153,22 @@ export default function Navbar() {
                     <Eye className="mr-2 h-4 w-4" />
                     Preview
                   </Button>
-                  <Button 
-                    className="w-full bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium h-10"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Publish
-                  </Button>
+                  <div className="flex w-full items-center justify-between gap-3 p-3 bg-black/5 dark:bg-white/5 rounded-xl border border-black/10 dark:border-white/10 mt-2">
+                    <div className="flex flex-col gap-0.5 overflow-hidden">
+                      <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">
+                        shai.designfolio.me
+                      </span>
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893]">
+                        Updated 29 days ago
+                      </span>
+                    </div>
+                    <Button 
+                      className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium px-4 h-8 text-xs rounded-lg whitespace-nowrap flex-shrink-0"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Update
+                    </Button>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -282,12 +293,7 @@ export default function Navbar() {
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Preview</TooltipContent>
             </Tooltip>
-            <Button 
-              className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium px-6 h-9 text-sm rounded-full hover:cursor-pointer"
-              data-testid="button-publish"
-            >
-              Publish
-            </Button>
+            <PublishDropdown />
             <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0">
               <AvatarImage src={profileImg} alt="Profile" />
               <AvatarFallback>MB</AvatarFallback>
