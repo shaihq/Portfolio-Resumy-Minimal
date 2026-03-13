@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
-import { Switch } from "@/components/ui/switch-button";
+import { Switch as SwitchButton } from "@/components/ui/switch-button";
+import { Switch } from "@/components/ui/switch";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical } from "lucide-react";
@@ -52,6 +53,7 @@ export default function Home() {
   const [isProjectsPanelOpen, setIsProjectsPanelOpen] = useState(false);
   const [isProjectsAddDropdownOpen, setIsProjectsAddDropdownOpen] = useState(false);
   const [isExperiencePanelOpen, setIsExperiencePanelOpen] = useState(false);
+  const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
   const [projects, setProjects] = useState([
     { id: "proj-1", slug: "slate", title: "Slate", description: "A sleek and responsive landing page designed for modern startups to showcase their product.", image: project1 },
     { id: "proj-2", slug: "antimetal", title: "Antimetal", description: "A dynamic, animation-focused landing page highlighting creative transitions.", image: project2 },
@@ -1069,6 +1071,39 @@ export default function Home() {
                             Upload Image
                           </Button>
                         </div>
+                      </div>
+
+                      <div className="pt-2">
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <Label className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Protect Project</Label>
+                            <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893] ml-1">Require a password to view this project (e.g., for NDAs).</p>
+                          </div>
+                          <Switch 
+                            checked={isProjectPasswordEnabled} 
+                            onCheckedChange={setIsProjectPasswordEnabled} 
+                          />
+                        </div>
+                        <AnimatePresence>
+                          {isProjectPasswordEnabled && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                              animate={{ opacity: 1, height: "auto", marginTop: 12 }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="space-y-1.5 px-1">
+                                <Input 
+                                  id="proj-password" 
+                                  type="password"
+                                  placeholder="Enter password" 
+                                  className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" 
+                                />
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
                     </div>
                   </div>
