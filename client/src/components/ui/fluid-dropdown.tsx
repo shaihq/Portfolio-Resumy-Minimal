@@ -65,7 +65,13 @@ export function FluidDropdown() {
       >
           <Button
             variant="secondary"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => {
+              const newIsOpen = !isOpen;
+              setIsOpen(newIsOpen);
+              if (newIsOpen) {
+                window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'fluid-dropdown-open' }));
+              }
+            }}
             className="bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#1A1A1A] dark:text-[#F0EDE7] font-medium px-3 text-sm rounded-full flex items-center gap-1 hover:cursor-pointer transition-all duration-200"
             aria-expanded={isOpen}
             aria-haspopup="true"
@@ -123,6 +129,8 @@ export function FluidDropdown() {
                           onClick={() => {
                             setSelectedCategory(category)
                             setIsOpen(false)
+                            // If this dropdown is inside a mobile sheet menu, it might be helpful to dispatch an event
+                            window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'fluid-dropdown-open' }));
                           }}
                           onMouseEnter={() => setHoveredCategory(category.id)}
                           onMouseLeave={() => setHoveredCategory(null)}

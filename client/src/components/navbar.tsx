@@ -34,6 +34,7 @@ import { FluidDropdown } from "@/components/ui/fluid-dropdown";
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
   const { activeTemplate, setActiveTemplate } = useTemplate();
 
@@ -65,10 +66,19 @@ export default function Navbar() {
   }, [isThemePanelOpen]);
 
   useEffect(() => {
+    if (isMobileMenuOpen) {
+      window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'mobile-menu' }));
+    }
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
     const handlePanelOpened = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (customEvent.detail !== 'theme') {
         setIsThemePanelOpen(false);
+      }
+      if (customEvent.detail !== 'mobile-menu' && customEvent.detail !== 'fluid-dropdown-open') {
+        setIsMobileMenuOpen(false);
       }
     };
     window.addEventListener('panelOpened', handlePanelOpened);
@@ -98,7 +108,7 @@ export default function Navbar() {
               <AvatarFallback>MB</AvatarFallback>
             </Avatar>
             
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button 
                   variant="secondary" 
@@ -118,7 +128,10 @@ export default function Navbar() {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531] h-10 px-4"
-                    onClick={() => setIsThemePanelOpen(true)}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsThemePanelOpen(true);
+                    }}
                   >
                     <PaintRoller className="mr-2 h-4 w-4" />
                     Themes settings
@@ -126,6 +139,7 @@ export default function Navbar() {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531] h-10 px-4"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <ChartSpline className="mr-2 h-4 w-4" />
                     Insights
@@ -133,12 +147,14 @@ export default function Navbar() {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-[#F5F5F5] dark:hover:bg-[#3A3531] h-10 px-4"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Eye className="mr-2 h-4 w-4" />
                     Preview
                   </Button>
                   <Button 
                     className="w-full bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium h-10"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Publish
                   </Button>
