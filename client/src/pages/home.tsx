@@ -47,6 +47,13 @@ export default function Home() {
   const [isStackPanelOpen, setIsStackPanelOpen] = useState(false);
   const [isRecommendationsPanelOpen, setIsRecommendationsPanelOpen] = useState(false);
   const [isRecommendationsRearrangeOpen, setIsRecommendationsRearrangeOpen] = useState(false);
+  const [isProjectsRearrangeOpen, setIsProjectsRearrangeOpen] = useState(false);
+  const [projects, setProjects] = useState([
+    { id: "proj-1", slug: "slate", title: "Slate", description: "A sleek and responsive landing page designed for modern startups to showcase their product.", image: project1 },
+    { id: "proj-2", slug: "antimetal", title: "Antimetal", description: "A dynamic, animation-focused landing page highlighting creative transitions.", image: project2 },
+    { id: "proj-3", slug: "slate-2", title: "Slate", description: "A sleek and responsive landing page designed for modern startups to showcase their product.", image: project3 },
+    { id: "proj-4", slug: "antimetal-2", title: "Antimetal", description: "A dynamic, animation-focused landing page highlighting creative transitions.", image: project4 },
+  ]);
   const [isMyStoryPanelOpen, setIsMyStoryPanelOpen] = useState(false);
   const [storyImages, setStoryImages] = useState([story1, story2, story3, story4]);
   const [isDraggingResume, setIsDraggingResume] = useState(false);
@@ -136,7 +143,7 @@ export default function Home() {
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
-      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isMyStoryPanelOpen) {
+      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isProjectsRearrangeOpen || isMyStoryPanelOpen) {
         root.classList.add('theme-panel-open');
       } else {
         root.classList.remove('theme-panel-open');
@@ -145,7 +152,7 @@ export default function Home() {
     return () => {
       if (root) root.classList.remove('theme-panel-open');
     };
-  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isMyStoryPanelOpen]);
+  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isProjectsRearrangeOpen, isMyStoryPanelOpen]);
 
   useEffect(() => {
     if (isContactPanelOpen) {
@@ -879,7 +886,54 @@ export default function Home() {
         {/* Projects Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
           {isEditing && (
-            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
+            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
+              <Sheet modal={false} open={isProjectsRearrangeOpen} onOpenChange={setIsProjectsRearrangeOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+                    <ChevronsUpDown className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent 
+                  className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col"
+                  hasOverlay={false}
+                  onInteractOutside={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+                    <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Rearrange Projects</SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="flex-1 overflow-y-auto p-6 space-y-3">
+                    <Reorder.Group axis="y" values={projects} onReorder={setProjects} className="space-y-3">
+                      {projects.map((proj) => (
+                        <Reorder.Item 
+                          key={proj.id} 
+                          value={proj}
+                          className="flex items-center gap-3 p-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl cursor-grab active:cursor-grabbing hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors relative bg-white dark:bg-[#2A2520]"
+                          whileDrag={{ scale: 1.02, zIndex: 10, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+                        >
+                          <GripVertical className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                          <div className="w-12 h-10 rounded-md overflow-hidden bg-black/5 shrink-0">
+                            <img src={proj.image} alt={proj.title} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex flex-col flex-1 min-w-0">
+                            <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">{proj.title}</span>
+                            <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] truncate">{proj.description}</span>
+                          </div>
+                        </Reorder.Item>
+                      ))}
+                    </Reorder.Group>
+                  </div>
+                  
+                  <div className="p-5 border-t border-black/10 dark:border-white/10 flex justify-end gap-3 flex-shrink-0 bg-white dark:bg-[#2A2520]">
+                    <SheetClose asChild>
+                      <Button className="h-9 px-5 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm">Done</Button>
+                    </SheetClose>
+                  </div>
+                </SheetContent>
+              </Sheet>
+
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
                 <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
               </Button>
@@ -889,89 +943,27 @@ export default function Home() {
           
           <CursorProvider>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
-              {/* Project 1 */}
-              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                {isEditing && (
-                  <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
-                      <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => e.stopPropagation()}>
-                      <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
+              {projects.map((project) => (
+                <div key={project.id} onClick={() => handleProjectClick(project.slug)} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
+                  {isEditing && (
+                    <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
+                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </Button>
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => e.stopPropagation()}>
+                        <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                      </Button>
+                    </div>
+                  )}
+                  <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
+                    <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                )}
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
-                  <img src={project1} alt="Slate" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
+                  <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
+                    {project.description}
+                  </p>
                 </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Slate</h3>
-                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
-                  A sleek and responsive landing page designed for modern startups to showcase their product.
-                </p>
-              </div>
-
-              {/* Project 2 */}
-              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                {isEditing && (
-                  <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
-                      <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => e.stopPropagation()}>
-                      <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
-                )}
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
-                  <img src={project2} alt="Antimetal" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Antimetal</h3>
-                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
-                  A dynamic, animation-focused landing page highlighting creative transitions.
-                </p>
-              </div>
-
-              {/* Project 3 */}
-              <div onClick={() => handleProjectClick("slate")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                {isEditing && (
-                  <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
-                      <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => e.stopPropagation()}>
-                      <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
-                )}
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
-                  <img src={project3} alt="Financial Dashboard" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Slate</h3>
-                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
-                  A sleek and responsive landing page designed for modern startups to showcase their product.
-                </p>
-              </div>
-
-              {/* Project 4 */}
-              <div onClick={() => handleProjectClick("antimetal")} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                {isEditing && (
-                  <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
-                      <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => e.stopPropagation()}>
-                      <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
-                )}
-                <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
-                  <img src={project4} alt="TaskMaster" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </div>
-                <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">Antimetal</h3>
-                <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
-                  A dynamic, animation-focused landing page highlighting creative transitions.
-                </p>
-              </div>
+              ))}
             </div>
             <CursorFollow>
               <div className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
