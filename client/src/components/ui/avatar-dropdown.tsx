@@ -98,10 +98,7 @@ export function AvatarDropdown() {
                             }}
                           />
                         )}
-                        <div className={cn(
-                          "relative z-10 flex items-center w-full px-3 py-3 rounded-xl transition-colors duration-150",
-                          isActive ? "text-[#1A1A1A] dark:text-[#F0EDE7]" : "text-[#7A736C] dark:text-[#9E9893]"
-                        )}>
+                        <div className="relative z-10 flex items-center w-full px-3 py-3 rounded-xl transition-colors duration-150 text-[#1A1A1A] dark:text-[#F0EDE7]">
                           <div className="flex items-center justify-center shrink-0 mr-3">
                             <Icon className="w-4 h-4" />
                           </div>
@@ -110,10 +107,7 @@ export function AvatarDropdown() {
                               {item.label}
                             </span>
                             {item.subLabel && (
-                              <span className={cn(
-                                "text-[12px] transition-colors duration-150",
-                                isActive ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#7A736C]/70 dark:text-[#9E9893]/70"
-                              )}>
+                              <span className="text-[12px] text-[#7A736C] dark:text-[#9E9893]">
                                 {item.subLabel}
                               </span>
                             )}
