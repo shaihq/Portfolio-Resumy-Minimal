@@ -50,6 +50,7 @@ export default function Home() {
   const [isRecommendationsRearrangeOpen, setIsRecommendationsRearrangeOpen] = useState(false);
   const [isProjectsRearrangeOpen, setIsProjectsRearrangeOpen] = useState(false);
   const [isProjectsPanelOpen, setIsProjectsPanelOpen] = useState(false);
+  const [isProjectsAddDropdownOpen, setIsProjectsAddDropdownOpen] = useState(false);
   const [isExperiencePanelOpen, setIsExperiencePanelOpen] = useState(false);
   const [projects, setProjects] = useState([
     { id: "proj-1", slug: "slate", title: "Slate", description: "A sleek and responsive landing page designed for modern startups to showcase their product.", image: project1 },
@@ -957,7 +958,7 @@ export default function Home() {
         {/* Projects Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
           {isEditing && (
-            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
+            <div className={`absolute top-4 right-4 z-10 transition-opacity flex gap-2 ${isProjectsAddDropdownOpen ? 'opacity-100' : 'opacity-100 md:opacity-0 md:group-hover/section:opacity-100'}`}>
               <Sheet modal={false} open={isProjectsRearrangeOpen} onOpenChange={setIsProjectsRearrangeOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1005,7 +1006,7 @@ export default function Home() {
                 </SheetContent>
               </Sheet>
 
-              <DropdownMenu>
+              <DropdownMenu open={isProjectsAddDropdownOpen} onOpenChange={setIsProjectsAddDropdownOpen}>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
                     <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
