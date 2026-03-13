@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Copy, CheckCircle2 } from "lucide-react"
+import { Copy, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence, MotionConfig } from "framer-motion"
 
@@ -95,18 +95,33 @@ export function PublishDropdown() {
                       variant="ghost"
                       size="icon"
                       onClick={handleCopy}
-                      className={cn(
-                        "h-8 w-8 rounded-xl shrink-0 transition-colors focus:outline-none cursor-pointer",
-                        copied 
-                          ? "bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20" 
-                          : "text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
-                      )}
+                      className="h-8 w-8 rounded-xl shrink-0 transition-colors focus:outline-none cursor-pointer text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] relative"
                     >
-                      {copied ? (
-                        <CheckCircle2 className="h-4 w-4" />
-                      ) : (
-                        <Copy className="h-4 w-4" />
-                      )}
+                      <AnimatePresence mode="wait" initial={false}>
+                        {copied ? (
+                          <motion.div
+                            key="check"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute inset-0 flex items-center justify-center text-[#1A1A1A] dark:text-[#F0EDE7]"
+                          >
+                            <Check className="h-4 w-4" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="copy"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute inset-0 flex items-center justify-center"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </Button>
                   </div>
                   
