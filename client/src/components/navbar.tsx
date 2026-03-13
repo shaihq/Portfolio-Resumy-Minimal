@@ -31,6 +31,7 @@ import { useTemplate } from "@/hooks/use-template";
 import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
 import { FluidDropdown } from "@/components/ui/fluid-dropdown";
 import { PublishDropdown } from "@/components/ui/publish-dropdown";
+import { AvatarDropdown } from "@/components/ui/avatar-dropdown";
 
 export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
@@ -104,10 +105,7 @@ export default function Navbar() {
 
           {/* Mobile Menu */}
           <div className="flex md:hidden items-center gap-2">
-            <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0">
-              <AvatarImage src={profileImg} alt="Profile" />
-              <AvatarFallback>MB</AvatarFallback>
-            </Avatar>
+            <AvatarDropdown />
             
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
@@ -294,10 +292,7 @@ export default function Navbar() {
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Preview</TooltipContent>
             </Tooltip>
             <PublishDropdown />
-            <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0">
-              <AvatarImage src={profileImg} alt="Profile" />
-              <AvatarFallback>MB</AvatarFallback>
-            </Avatar>
+            <AvatarDropdown />
           </div>
         </div>
       </nav>
