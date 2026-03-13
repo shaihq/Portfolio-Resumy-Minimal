@@ -47,7 +47,7 @@ export function FluidDropdown() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedCategory, setSelectedCategory] = React.useState<Category>(categories[0])
   const [hoveredCategory, setHoveredCategory] = React.useState<string | null>(null)
-  const dropdownRef = React.useRef<HTMLDivElement>(null)
+  const dropdownRef = React.useRef<HTMLDivElement>(null) as any
 
   useClickAway(dropdownRef, () => setIsOpen(false))
 

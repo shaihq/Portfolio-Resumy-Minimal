@@ -82,7 +82,7 @@ export default function Project() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: any = {
     hidden: { 
       opacity: 0, 
       filter: "blur(10px)",
@@ -374,7 +374,7 @@ export default function Project() {
             {Object.entries(project.details).map(([key, value], index) => (
               <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD] dark:border-[#3A352E]' : ''}`}>
                 <span className="text-[12px] font-medium text-[#463B34] dark:text-[#D4C9BC] uppercase tracking-wide">{key}</span>
-                <span className="text-base text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontWeight: 450 }}>{value}</span>
+                <span className="text-base text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontWeight: 450 }}>{value as any}</span>
               </div>
             ))}
           </div>
