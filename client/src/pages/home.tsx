@@ -49,6 +49,7 @@ export default function Home() {
   const [isRecommendationsRearrangeOpen, setIsRecommendationsRearrangeOpen] = useState(false);
   const [isProjectsRearrangeOpen, setIsProjectsRearrangeOpen] = useState(false);
   const [isProjectsPanelOpen, setIsProjectsPanelOpen] = useState(false);
+  const [isExperiencePanelOpen, setIsExperiencePanelOpen] = useState(false);
   const [projects, setProjects] = useState([
     { id: "proj-1", slug: "slate", title: "Slate", description: "A sleek and responsive landing page designed for modern startups to showcase their product.", image: project1 },
     { id: "proj-2", slug: "antimetal", title: "Antimetal", description: "A dynamic, animation-focused landing page highlighting creative transitions.", image: project2 },
@@ -144,7 +145,7 @@ export default function Home() {
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
-      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isProjectsRearrangeOpen || isProjectsPanelOpen || isMyStoryPanelOpen) {
+      if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isProjectsRearrangeOpen || isProjectsPanelOpen || isMyStoryPanelOpen || isExperiencePanelOpen) {
         root.classList.add('theme-panel-open');
       } else {
         root.classList.remove('theme-panel-open');
@@ -153,7 +154,7 @@ export default function Home() {
     return () => {
       if (root) root.classList.remove('theme-panel-open');
     };
-  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isProjectsRearrangeOpen, isProjectsPanelOpen, isMyStoryPanelOpen]);
+  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isProjectsRearrangeOpen, isProjectsPanelOpen, isMyStoryPanelOpen, isExperiencePanelOpen]);
 
   useEffect(() => {
     if (isContactPanelOpen) {
@@ -174,10 +175,13 @@ export default function Home() {
     if (isProjectsPanelOpen) {
       window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'projects' }));
     }
+    if (isExperiencePanelOpen) {
+      window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'experience' }));
+    }
     if (isMyStoryPanelOpen) {
       window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'mystory' }));
     }
-  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isProjectsRearrangeOpen, isProjectsPanelOpen, isMyStoryPanelOpen]);
+  }, [isContactPanelOpen, isStackPanelOpen, isRecommendationsPanelOpen, isRecommendationsRearrangeOpen, isProjectsRearrangeOpen, isProjectsPanelOpen, isMyStoryPanelOpen, isExperiencePanelOpen]);
 
   useEffect(() => {
     const handlePanelOpened = (e: Event) => {
@@ -199,6 +203,9 @@ export default function Home() {
       }
       if (customEvent.detail !== 'projects') {
         setIsProjectsPanelOpen(false);
+      }
+      if (customEvent.detail !== 'experience') {
+        setIsExperiencePanelOpen(false);
       }
       if (customEvent.detail !== 'mystory') {
         setIsMyStoryPanelOpen(false);
@@ -795,10 +802,60 @@ export default function Home() {
         {/* Experience Section */}
         <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
           {isEditing && (
-            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
-                <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-              </Button>
+            <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
+              <Sheet modal={false} open={isExperiencePanelOpen} onOpenChange={setIsExperiencePanelOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
+                    <Plus className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent 
+                  className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col"
+                  hasOverlay={false}
+                  onInteractOutside={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+                    <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Add Experience</SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                    <div className="space-y-4">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="exp-company" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Company</Label>
+                        <Input id="exp-company" placeholder="e.g. Apple" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="exp-role" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Role</Label>
+                        <Input id="exp-role" placeholder="e.g. Product Designer" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="exp-year" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Year</Label>
+                        <Input id="exp-year" placeholder="e.g. 2020 - Present" className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="exp-desc" className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] ml-1">Description</Label>
+                        <textarea 
+                          id="exp-desc" 
+                          rows={4}
+                          placeholder="What did you do?" 
+                          className="w-full bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all p-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30 resize-none" 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-5 border-t border-black/10 dark:border-white/10 flex justify-end gap-3 flex-shrink-0 bg-white dark:bg-[#2A2520]">
+                    <SheetClose asChild>
+                      <Button variant="outline" className="h-9 px-4 rounded-full text-[13px] font-medium border-black/10 dark:border-white/10 text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Cancel</Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button className="h-9 px-5 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm">Add Experience</Button>
+                    </SheetClose>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
