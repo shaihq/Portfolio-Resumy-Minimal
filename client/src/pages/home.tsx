@@ -3228,7 +3228,7 @@ export default function Home() {
             </motion.div>
           </div>
         ) : activeTemplate === "Chatfolio" ? (
-          <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8 overflow-hidden">
+          <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8">
             {/* Header */}
             <motion.div 
               initial={{ opacity: 0 }}
@@ -3277,7 +3277,7 @@ export default function Home() {
               </span>
             </motion.div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 pb-6">
               {/* Message 1 */}
               <AnimatePresence mode="popLayout">
                 {chatRevealStep >= 2 && (
@@ -3366,7 +3366,7 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
                       <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
@@ -3403,7 +3403,7 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
                       <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5">
@@ -3479,7 +3479,7 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
                       <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
@@ -3516,7 +3516,7 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
                       <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
@@ -3574,7 +3574,7 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
                       <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
