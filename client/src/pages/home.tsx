@@ -1216,7 +1216,7 @@ export default function Home() {
                               Are you sure you want to delete "{project.title}"? This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
-                          <AlertDialogFooter className="gap-3 sm:gap-0">
+                          <AlertDialogFooter className="gap-3 sm:gap-2">
                             <AlertDialogCancel onClick={(e) => e.stopPropagation()} className="rounded-xl border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] m-0 h-11 px-6">Cancel</AlertDialogCancel>
                             <AlertDialogAction 
                               onClick={(e) => {
