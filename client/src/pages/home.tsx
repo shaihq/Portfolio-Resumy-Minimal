@@ -603,6 +603,9 @@ export default function Home() {
       const timer7 = setTimeout(() => setChatRevealStep(7), 6500); // Message 5
       const timer8 = setTimeout(() => setChatRevealStep(8), 7500); // Message 6
       const timer9 = setTimeout(() => setChatRevealStep(9), 8500); // Message 7
+      const timer10 = setTimeout(() => setChatRevealStep(10), 9500); // Message 8 - You: Experience
+      const timer11 = setTimeout(() => setChatRevealStep(11), 10500); // Message 9 - Typing
+      const timer12 = setTimeout(() => setChatRevealStep(12), 11500); // Message 10 - Experience details
 
       return () => {
         clearTimeout(timer1);
@@ -614,6 +617,9 @@ export default function Home() {
         clearTimeout(timer7);
         clearTimeout(timer8);
         clearTimeout(timer9);
+        clearTimeout(timer10);
+        clearTimeout(timer11);
+        clearTimeout(timer12);
       };
     }
   }, [activeTemplate]);
@@ -2445,7 +2451,7 @@ export default function Home() {
                 <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Switch
+                <SwitchButton
                   value={isDark}
                   onToggle={toggleTheme}
                   iconOn={<Moon className="size-4" />}
@@ -3595,9 +3601,11 @@ export default function Home() {
                       </div>
                     )}
                     <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
-                      <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
-                        <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                      </motion.div>
+                      {chatRevealStep < 11 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
                       <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
@@ -3630,6 +3638,87 @@ export default function Home() {
                         )}
                         A dynamic, animation-focused landing page highlighting creative transitions.
                       </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 8 - You: Experience Prompt */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 10 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] self-end relative group/msg"
+                  >
+                    <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-tr-sm rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                      Tell me about your work experience?
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 9 - Experience Details */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 11 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 12 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                        <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                      </motion.div>
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
+                      {chatRevealStep === 11 ? (
+                        <div className="flex space-x-1.5 items-center px-1 min-h-[22px]">
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">Here's a quick overview of my experience:</p>
+                          <div className="space-y-4">
+                            {experiences.map((exp, index) => (
+                              <div key={index} className="relative group/exp">
+                                {isEditing && (
+                                  <div className="absolute -left-10 top-1 z-40 opacity-0 group-hover/exp:opacity-100 transition-opacity">
+                                    <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                                      <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                    </Button>
+                                  </div>
+                                )}
+                                <div className="flex flex-col">
+                                  <div className="flex justify-between items-baseline mb-1">
+                                    <h4 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">{exp.role}</h4>
+                                    <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{exp.year}</span>
+                                  </div>
+                                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] mb-1">{exp.company}</p>
+                                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">{exp.description}</p>
+                                </div>
+                                {index < experiences.length - 1 && (
+                                  <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 mt-4" />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 )}
