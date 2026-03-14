@@ -8,6 +8,12 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch as SwitchButton } from "@/components/ui/switch-button";
 import { Switch } from "@/components/ui/switch";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical } from "lucide-react";
@@ -3706,30 +3712,31 @@ export default function Home() {
                       ) : (
                         <div className="space-y-4">
                           <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">Here's a quick overview of my experience:</p>
-                          <div className="space-y-4">
+                          <Accordion type="single" collapsible className="w-full">
                             {experiences.map((exp, index) => (
-                              <div key={index} className="relative group/exp">
+                              <AccordionItem key={index} value={`item-${index}`} className="relative group/exp border-b border-black/5 dark:border-white/5 last:border-0">
                                 {isEditing && (
-                                  <div className="absolute -left-10 top-1 z-40 opacity-0 group-hover/exp:opacity-100 transition-opacity">
+                                  <div className="absolute -left-10 top-2 z-40 opacity-0 group-hover/exp:opacity-100 transition-opacity">
                                     <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
                                       <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
                                     </Button>
                                   </div>
                                 )}
-                                <div className="flex flex-col">
-                                  <div className="flex justify-between items-baseline mb-1">
+                                <AccordionTrigger className="hover:no-underline py-3 px-1">
+                                  <div className="flex justify-between items-baseline w-full pr-4">
                                     <h4 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">{exp.role}</h4>
                                     <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{exp.year}</span>
                                   </div>
-                                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] mb-1">{exp.company}</p>
-                                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">{exp.description}</p>
-                                </div>
-                                {index < experiences.length - 1 && (
-                                  <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 mt-4" />
-                                )}
-                              </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pb-3 px-1">
+                                  <div className="flex flex-col">
+                                    <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] mb-1 font-medium">{exp.company}</p>
+                                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">{exp.description}</p>
+                                  </div>
+                                </AccordionContent>
+                              </AccordionItem>
                             ))}
-                          </div>
+                          </Accordion>
                         </div>
                       )}
                     </div>
