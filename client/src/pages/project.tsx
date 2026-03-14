@@ -104,7 +104,12 @@ export default function Project() {
 
   if (activeTemplate === "Chatfolio") {
     return (
-      <div className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A8CFF] selection:text-white transition-colors duration-700">
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A8CFF] selection:text-white transition-colors duration-700"
+      >
         <div className="w-full max-w-2xl bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col min-h-screen relative pt-8 pb-24 px-4 sm:px-6">
           
           {/* Header */}
@@ -217,7 +222,7 @@ export default function Project() {
             </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
