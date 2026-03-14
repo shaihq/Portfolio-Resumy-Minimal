@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
 import { useLocation } from "wouter";
@@ -4183,6 +4183,38 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* Scroll to Top Button */}
+            <AnimatePresence>
+              {chatRevealStep >= 21 && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.5 }}
+                  className="flex justify-center pb-8 pt-4 w-full"
+                >
+                  <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="w-10 h-10 rounded-full bg-[#E5E2DB] dark:bg-[#2A2520] hover:bg-[#D5D0C6] dark:hover:bg-[#35302A] text-[#7A736C] dark:text-[#B5AFA5] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] flex items-center justify-center transition-all duration-300"
+                  >
+                    <ArrowUp className="w-5 h-5" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {chatRevealStep >= 21 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+                className="flex justify-center pb-12 w-full"
+              >
+                <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] font-medium">
+                  © 2026 Messenger by @justinmfarrugia
+                </p>
+              </motion.div>
+            )}
           </div>
         ) : null}
       </div>
