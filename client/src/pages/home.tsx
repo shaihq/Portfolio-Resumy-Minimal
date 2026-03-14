@@ -3986,34 +3986,20 @@ export default function Home() {
                             <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
                           </div>
                         ) : (
-                          <div className="relative h-40 sm:h-48 w-[260px] sm:w-[320px] flex items-center justify-center my-1 mx-2">
+                          <div className="relative h-24 sm:h-28 w-[140px] sm:w-[160px] flex items-center justify-center my-0.5 mx-1">
                             <motion.div 
-                              initial={{ rotate: -8, x: -60, y: 0 }}
-                              whileHover={{ rotate: -2, scale: 1.1, zIndex: 50 }}
-                              className="absolute w-24 h-32 sm:w-28 sm:h-36 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-0"
+                              initial={{ rotate: -6, x: -20, y: 0 }}
+                              whileHover={{ rotate: -2, scale: 1.05, zIndex: 50 }}
+                              className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-md z-0"
                             >
                               <img src={storyImages[0]} alt="My workspace" className="w-full h-full object-cover" />
                             </motion.div>
                             <motion.div 
-                              initial={{ rotate: 12, x: -20, y: 10 }}
-                              whileHover={{ rotate: 5, scale: 1.1, zIndex: 50 }}
-                              className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-10"
+                              initial={{ rotate: 6, x: 20, y: 5 }}
+                              whileHover={{ rotate: 2, scale: 1.05, zIndex: 50 }}
+                              className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-md z-10"
                             >
                               <img src={storyImages[1]} alt="Designing" className="w-full h-full object-cover" />
-                            </motion.div>
-                            <motion.div 
-                              initial={{ rotate: -5, x: 20, y: -5 }}
-                              whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
-                              className="absolute w-24 h-32 sm:w-28 sm:h-36 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-20"
-                            >
-                              <img src={storyImages[2]} alt="Coffee and notes" className="w-full h-full object-cover" />
-                            </motion.div>
-                            <motion.div 
-                              initial={{ rotate: 8, x: 60, y: 15 }}
-                              whileHover={{ rotate: 3, scale: 1.1, zIndex: 50 }}
-                              className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-30"
-                            >
-                              <img src={storyImages[3]} alt="Creative studio" className="w-full h-full object-cover" />
                             </motion.div>
                           </div>
                         )}
