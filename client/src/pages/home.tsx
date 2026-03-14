@@ -615,6 +615,9 @@ export default function Home() {
       const timer13 = setTimeout(() => setChatRevealStep(13), 12500); // Message 11 - You: Testimonials prompt
       const timer14 = setTimeout(() => setChatRevealStep(14), 13500); // Message 12 - Testimonials intro
       const timer15 = setTimeout(() => setChatRevealStep(15), 14500); // Message 13 - Testimonial card
+      const timer16 = setTimeout(() => setChatRevealStep(16), 15500); // Message 14 - You: Story prompt
+      const timer17 = setTimeout(() => setChatRevealStep(17), 16500); // Message 15 - Matt: Story images
+      const timer18 = setTimeout(() => setChatRevealStep(18), 17500); // Message 16 - Matt: Story text
 
       return () => {
         clearTimeout(timer1);
@@ -632,6 +635,9 @@ export default function Home() {
         clearTimeout(timer13);
         clearTimeout(timer14);
         clearTimeout(timer15);
+        clearTimeout(timer16);
+        clearTimeout(timer17);
+        clearTimeout(timer18);
       };
     }
   }, [activeTemplate]);
@@ -3904,6 +3910,131 @@ export default function Home() {
                       <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] leading-relaxed italic">
                         "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges, He is good in his domain."
                       </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 14 - You: Story prompt */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 16 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex justify-end relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                      <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                        Tell me more about you
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 15 - Story Images */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 17 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 18 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      {chatRevealStep < 18 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
+                      <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 sm:p-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-fit">
+                        {chatRevealStep === 17 ? (
+                          <div className="flex space-x-1.5 items-center px-1 min-h-[46px]">
+                            <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                            <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                            <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                          </div>
+                        ) : (
+                          <div className="flex relative">
+                            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm transform -rotate-[8deg] z-10 relative bg-gray-200 dark:bg-gray-800">
+                              {isEditing && (
+                                <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/msg:opacity-100 transition-opacity">
+                                   <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                                     <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                   </Button>
+                                </div>
+                              )}
+                              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="About me 1" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm transform rotate-[6deg] -ml-8 mt-2 bg-gray-200 dark:bg-gray-800 relative z-0">
+                              {isEditing && (
+                                <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/msg:opacity-100 transition-opacity">
+                                   <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                                     <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                   </Button>
+                                </div>
+                              )}
+                              <img src="https://images.unsplash.com/photo-1499996860827-19a293f28357?w=400&q=80" alt="About me 2" className="w-full h-full object-cover" />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 16 - Story Text */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 18 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                        <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                      </motion.div>
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
+                      Sure! I've been a brand designer for around 8 years and have been lucky enough to do identity work and brand design for clients ranging from early stage startups to publicly listed enterprises.
                     </div>
                   </motion.div>
                 )}
