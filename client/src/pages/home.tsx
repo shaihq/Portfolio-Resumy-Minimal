@@ -68,6 +68,7 @@ export default function Home() {
   ]);
   const [isMyStoryPanelOpen, setIsMyStoryPanelOpen] = useState(false);
   const [storyImages, setStoryImages] = useState([story1, story2, story3, story4]);
+  const [selectedStoryImage, setSelectedStoryImage] = useState<string | null>(null);
   const [isDraggingResume, setIsDraggingResume] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [toolSearchQuery, setToolSearchQuery] = useState("");
@@ -3989,13 +3990,15 @@ export default function Home() {
                           <div className="flex gap-2 my-1 mx-1">
                             <motion.div 
                               whileHover={{ scale: 1.05, zIndex: 10 }}
-                              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5"
+                              onClick={() => setSelectedStoryImage(storyImages[0])}
+                              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5 cursor-pointer"
                             >
                               <img src={storyImages[0]} alt="My workspace" className="w-full h-full object-cover" />
                             </motion.div>
                             <motion.div 
                               whileHover={{ scale: 1.05, zIndex: 10 }}
-                              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5"
+                              onClick={() => setSelectedStoryImage(storyImages[1])}
+                              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5 cursor-pointer"
                             >
                               <img src={storyImages[1]} alt="Designing" className="w-full h-full object-cover" />
                             </motion.div>
@@ -4205,6 +4208,40 @@ export default function Home() {
                 <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] font-medium">© ALL RIGHTS RESERVED.</p>
               </motion.div>
             )}
+
+            {/* Image Modal */}
+            <AnimatePresence>
+              {selectedStoryImage && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedStoryImage(null)}
+                  className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-8 cursor-zoom-out"
+                >
+                  <motion.div
+                    initial={{ scale: 0.9, y: 20, opacity: 0 }}
+                    animate={{ scale: 1, y: 0, opacity: 1 }}
+                    exit={{ scale: 0.9, y: 20, opacity: 0 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                    className="relative max-w-4xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button 
+                      onClick={() => setSelectedStoryImage(null)}
+                      className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/70 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                    <img 
+                      src={selectedStoryImage} 
+                      alt="Story full view" 
+                      className="w-auto h-auto max-w-full max-h-[90vh] object-contain"
+                    />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         ) : null}
       </div>
