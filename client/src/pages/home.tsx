@@ -1194,62 +1194,82 @@ export default function Home() {
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
           
-          <CursorProvider>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
-              {projects.map((project) => (
-                <div key={project.id} onClick={() => handleProjectClick(project.slug)} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
-                  {isEditing && (
-                    <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100" onClick={(e) => e.stopPropagation()}>
-                      <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
-                        <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                      </Button>
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400">
-                              <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7] group-hover/btn:text-red-600" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent onClick={(e) => e.stopPropagation()} className="bg-[#F0EDE7] dark:bg-[#1A1A1A] border-black/10 dark:border-white/10 rounded-2xl p-6 gap-6 max-w-md w-[90vw]">
-                            <AlertDialogHeader>
-                              <AlertDialogTitle className="text-xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Delete Project</AlertDialogTitle>
-                              <AlertDialogDescription className="text-[15px] text-[#7A736C] dark:text-[#B5AFA5]">
-                                Are you sure you want to delete "{project.title}"? This action cannot be undone.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter className="gap-3 sm:gap-2">
-                              <AlertDialogCancel className="rounded-xl border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] m-0 h-11 px-6">Cancel</AlertDialogCancel>
-                              <AlertDialogAction 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setProjects(projects.filter(p => p.id !== project.id));
-                                }}
-                                className="rounded-xl bg-red-600 text-white hover:bg-red-700 m-0 h-11 px-6 border-none shadow-none"
-                              >
-                                Delete Project
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </div>
-                  )}
-                  <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
-                    <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  </div>
-                  <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
-                  <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
-                    {project.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <CursorFollow>
-              <div className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
-                View Project <ArrowUpRight size={14} />
+          {projects.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-2xl border border-dashed border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 backdrop-blur-sm">
+              <div className="w-12 h-12 rounded-full bg-black/[0.03] dark:bg-white/[0.03] flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-[#7A736C] dark:text-[#9E9893]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
               </div>
-            </CursorFollow>
-          </CursorProvider>
+              <h3 className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">No projects yet</h3>
+              <p className="text-[13px] text-[#7A736C] dark:text-[#9E9893] max-w-[250px] mb-4">Add some projects to showcase your work and experience.</p>
+              {isEditing && (
+                <Button 
+                  onClick={() => setIsProjectsAddDropdownOpen(true)}
+                  className="h-9 px-4 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm"
+                >
+                  Add Project
+                </Button>
+              )}
+            </div>
+          ) : (
+            <CursorProvider>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
+                {projects.map((project) => (
+                  <div key={project.id} onClick={() => handleProjectClick(project.slug)} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
+                    {isEditing && (
+                      <div className="absolute top-8 right-8 z-10 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100" onClick={(e) => e.stopPropagation()}>
+                        <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
+                          <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400">
+                                <Trash2 className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7] group-hover/btn:text-red-600" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent onClick={(e) => e.stopPropagation()} className="bg-[#F0EDE7] dark:bg-[#1A1A1A] border-black/10 dark:border-white/10 rounded-2xl p-6 gap-6 max-w-md w-[90vw]">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle className="text-xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Delete Project</AlertDialogTitle>
+                                <AlertDialogDescription className="text-[15px] text-[#7A736C] dark:text-[#B5AFA5]">
+                                  Are you sure you want to delete "{project.title}"? This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter className="gap-3 sm:gap-2">
+                                <AlertDialogCancel className="rounded-xl border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] m-0 h-11 px-6">Cancel</AlertDialogCancel>
+                                <AlertDialogAction 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setProjects(projects.filter(p => p.id !== project.id));
+                                  }}
+                                  className="rounded-xl bg-red-600 text-white hover:bg-red-700 m-0 h-11 px-6 border-none shadow-none"
+                                >
+                                  Delete Project
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </div>
+                    )}
+                    <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
+                      <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    </div>
+                    <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
+                    <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
+                      {project.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <CursorFollow>
+                <div className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
+                  View Project <ArrowUpRight size={14} />
+                </div>
+              </CursorFollow>
+            </CursorProvider>
+          )}
         </motion.div>
 
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
