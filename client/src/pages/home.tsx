@@ -3723,15 +3723,17 @@ export default function Home() {
                                   </div>
                                 )}
                                 <AccordionTrigger className="hover:no-underline py-3 px-1">
-                                  <div className="flex justify-between items-baseline w-full pr-4">
-                                    <h4 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">{exp.role}</h4>
-                                    <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{exp.year}</span>
+                                  <div className="flex flex-col w-full pr-4 text-left">
+                                    <div className="flex justify-between items-baseline w-full">
+                                      <h4 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">{exp.role}</h4>
+                                      <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{exp.year}</span>
+                                    </div>
+                                    <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] mt-0.5">{exp.company}</span>
                                   </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pb-3 px-1">
                                   <div className="flex flex-col">
-                                    <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] mb-1 font-medium">{exp.company}</p>
-                                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">{exp.description}</p>
+                                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed mt-1">{exp.description}</p>
                                   </div>
                                 </AccordionContent>
                               </AccordionItem>
