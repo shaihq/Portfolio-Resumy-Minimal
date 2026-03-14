@@ -3370,8 +3370,12 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      {chatRevealStep < 6 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
                       {chatRevealStep === 5 ? (
@@ -3407,8 +3411,12 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      {chatRevealStep < 7 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5">
                       <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">This is my toolbox:</p>
@@ -3483,8 +3491,12 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      {chatRevealStep < 8 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
                       {chatRevealStep === 7 ? (
@@ -3520,8 +3532,12 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      {chatRevealStep < 9 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
                       <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
@@ -3578,8 +3594,10 @@ export default function Home() {
                         </Button>
                       </div>
                     )}
-                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                        <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                      </motion.div>
                     </div>
                     <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
                       <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
