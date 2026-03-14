@@ -4210,9 +4210,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: 0.8 }}
                 className="flex justify-center pb-12 w-full"
               >
-                <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] font-medium">
-                  © 2026 Messenger by @justinmfarrugia
-                </p>
+                <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] font-medium">© ALL RIGHTS RESERVED.</p>
               </motion.div>
             )}
           </div>
