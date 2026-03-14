@@ -588,6 +588,36 @@ export default function Home() {
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
   
+  const [chatRevealStep, setChatRevealStep] = useState(0);
+
+  useEffect(() => {
+    if (activeTemplate === "Chatfolio") {
+      setChatRevealStep(0);
+      
+      const timer1 = setTimeout(() => setChatRevealStep(1), 500); // Header
+      const timer2 = setTimeout(() => setChatRevealStep(2), 1500); // Typing indicator
+      const timer3 = setTimeout(() => setChatRevealStep(3), 2500); // Message 1
+      const timer4 = setTimeout(() => setChatRevealStep(4), 3500); // Message 2
+      const timer5 = setTimeout(() => setChatRevealStep(5), 4500); // Message 3
+      const timer6 = setTimeout(() => setChatRevealStep(6), 5500); // Message 4
+      const timer7 = setTimeout(() => setChatRevealStep(7), 6500); // Message 5
+      const timer8 = setTimeout(() => setChatRevealStep(8), 7500); // Message 6
+      const timer9 = setTimeout(() => setChatRevealStep(9), 8500); // Message 7
+
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+        clearTimeout(timer4);
+        clearTimeout(timer5);
+        clearTimeout(timer6);
+        clearTimeout(timer7);
+        clearTimeout(timer8);
+        clearTimeout(timer9);
+      };
+    }
+  }, [activeTemplate]);
+  
   // Sync theme state with document class changes
   useEffect(() => {
     const syncTheme = () => {
@@ -3198,8 +3228,18 @@ export default function Home() {
             </motion.div>
           </div>
         ) : activeTemplate === "Chatfolio" ? (
-          <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8">
-            <div className="flex flex-col items-center text-center space-y-4 pt-2">
+          <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8 overflow-hidden">
+            {/* Header */}
+            <motion.div 
+              initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
+              animate={{ 
+                filter: chatRevealStep >= 1 ? "blur(0px)" : "blur(10px)", 
+                opacity: chatRevealStep >= 1 ? 1 : 0,
+                y: chatRevealStep >= 1 ? 0 : 20
+              }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col items-center text-center space-y-4 pt-2"
+            >
               <div className="relative group/avatar cursor-pointer">
                 {isEditing && (
                   <div className="absolute -inset-2 z-40 transition-opacity flex items-center justify-center opacity-0 group-hover/avatar:opacity-100">
@@ -3225,265 +3265,357 @@ export default function Home() {
                   With 8+ years of experience designing SaaS platforms, I've led CRM design at Freshworks and SenseHQ.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="relative py-4 flex items-center justify-center">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: chatRevealStep >= 1 ? 1 : 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="relative py-4 flex items-center justify-center"
+            >
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-dashed border-black/10 dark:border-white/10"></div>
               </div>
               <span className="relative bg-[#EFECE6] dark:bg-[#1A1A1A] px-4 text-xs font-medium text-[#7A736C] dark:text-[#B5AFA5] transition-colors duration-700">
                 9 Mon, 2:31:57 AM
               </span>
-            </div>
+            </motion.div>
 
             <div className="space-y-6">
               {/* Message 1 */}
-              <div className="flex gap-3 max-w-[85%] relative group/msg">
-                {isEditing && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 2 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 3 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
+                      <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
+                        {chatRevealStep === 2 ? (
+                          <div className="flex space-x-1.5 items-center px-1">
+                            <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                            <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                            <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                          </div>
+                        ) : (
+                          "Hey! I'm Alexa, a Product Designer based in Manchester. How can I help?"
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
                 )}
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
-                  <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
-                    Hey! I'm Alexa, a Product Designer based in Manchester. How can I help?
-                  </div>
-                </div>
-              </div>
+              </AnimatePresence>
 
               {/* Message 2 (You) */}
-              <div className="flex justify-end relative group/msg">
-                {isEditing && (
-                  <div className="absolute -right-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 4 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex justify-end relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -right-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                      <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                        Can I see your work?
+                      </div>
+                    </div>
+                  </motion.div>
                 )}
-                <div className="flex flex-col gap-1 max-w-[85%] items-end">
-                  <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
-                  <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
-                    Can I see your work?
-                  </div>
-                </div>
-              </div>
+              </AnimatePresence>
 
               {/* Message 3 */}
-              <div className="flex gap-3 max-w-[85%] relative group/msg">
-                {isEditing && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 5 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 6 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
+                      {chatRevealStep === 5 ? (
+                        <div className="flex space-x-1.5 items-center px-1">
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                        </div>
+                      ) : (
+                        "My skills are logos, visual identities and marketing collateral"
+                      )}
+                    </div>
+                  </motion.div>
                 )}
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
-                  My skills are logos, visual identities and marketing collateral
-                </div>
-              </div>
+              </AnimatePresence>
 
               {/* Message 4 - Tools */}
-              <div className="flex gap-3 max-w-[85%] relative group/msg">
-                {isEditing && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
-                )}
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5">
-                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">This is my toolbox:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
-                      {isEditing && (
-                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
-                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
-                            <X size={10} />
-                          </button>
-                        </div>
-                      )}
-                      <img src="/tools/image 4.png" className="w-6 h-6 object-contain" alt="Figma" />
-                    </div>
-                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
-                      {isEditing && (
-                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
-                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
-                            <X size={10} />
-                          </button>
-                        </div>
-                      )}
-                      <img src="/tools/image 5.png" className="w-6 h-6 object-contain" alt="Notion" />
-                    </div>
-                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
-                      {isEditing && (
-                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
-                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
-                            <X size={10} />
-                          </button>
-                        </div>
-                      )}
-                      <img src="/tools/image 7.png" className="w-6 h-6 object-contain" alt="Framer" />
-                    </div>
-                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
-                      {isEditing && (
-                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
-                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
-                            <X size={10} />
-                          </button>
-                        </div>
-                      )}
-                      <img src="/tools/image 6.png" className="w-6 h-6 object-contain" alt="Raycast" />
-                    </div>
-                    {isEditing && (
-                      <button className="w-10 h-10 rounded-2xl bg-white/50 dark:bg-[#35302A]/50 border border-dashed border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                        <Plus className="w-5 h-5 text-[#7A736C] dark:text-[#9E9893]" />
-                      </button>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 6 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 7 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
                     )}
-                  </div>
-                </div>
-              </div>
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5">
+                      <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">This is my toolbox:</p>
+                      <div className="flex flex-wrap gap-2">
+                        <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                          {isEditing && (
+                            <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                              <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                                <X size={10} />
+                              </button>
+                            </div>
+                          )}
+                          <img src="/tools/image 4.png" className="w-6 h-6 object-contain" alt="Figma" />
+                        </div>
+                        <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                          {isEditing && (
+                            <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                              <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                                <X size={10} />
+                              </button>
+                            </div>
+                          )}
+                          <img src="/tools/image 5.png" className="w-6 h-6 object-contain" alt="Notion" />
+                        </div>
+                        <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                          {isEditing && (
+                            <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                              <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                                <X size={10} />
+                              </button>
+                            </div>
+                          )}
+                          <img src="/tools/image 7.png" className="w-6 h-6 object-contain" alt="Framer" />
+                        </div>
+                        <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                          {isEditing && (
+                            <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                              <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                                <X size={10} />
+                              </button>
+                            </div>
+                          )}
+                          <img src="/tools/image 6.png" className="w-6 h-6 object-contain" alt="Raycast" />
+                        </div>
+                        {isEditing && (
+                          <button className="w-10 h-10 rounded-2xl bg-white/50 dark:bg-[#35302A]/50 border border-dashed border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                            <Plus className="w-5 h-5 text-[#7A736C] dark:text-[#9E9893]" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Message 5 - Recent work prompt */}
-              <div className="flex gap-3 max-w-[85%] relative group/msg">
-                {isEditing && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 7 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 8 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
+                      {chatRevealStep === 7 ? (
+                        <div className="flex space-x-1.5 items-center px-1">
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                        </div>
+                      ) : (
+                        "And here's some recent work"
+                      )}
+                    </div>
+                  </motion.div>
                 )}
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
-                  And here's some recent work
-                </div>
-              </div>
+              </AnimatePresence>
 
               {/* Message 6 - Project 1 */}
-              <div className="flex gap-3 max-w-[85%] relative group/msg">
-                {isEditing && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 8 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
+                      <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
+                        {isEditing && (
+                          <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
+                             <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                               <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                             </Button>
+                          </div>
+                        )}
+                        <img src={project1} alt="Slate" className="w-full h-full object-cover" />
+                      </div>
+                      <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px] mb-1 px-1 relative group/title">
+                        {isEditing && (
+                          <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/title:opacity-100 transition-opacity">
+                             <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                               <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                             </Button>
+                          </div>
+                        )}
+                        Slate
+                      </h3>
+                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed px-1 relative group/desc line-clamp-2">
+                        {isEditing && (
+                          <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/desc:opacity-100 transition-opacity">
+                             <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                               <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                             </Button>
+                          </div>
+                        )}
+                        A sleek and responsive landing page designed for modern startups to showcase their product.
+                      </p>
+                    </div>
+                  </motion.div>
                 )}
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
-                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
-                    {isEditing && (
-                      <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
-                         <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                           <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                         </Button>
-                      </div>
-                    )}
-                    <img src={project1} alt="Slate" className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px] mb-1 px-1 relative group/title">
-                    {isEditing && (
-                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/title:opacity-100 transition-opacity">
-                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                         </Button>
-                      </div>
-                    )}
-                    Slate
-                  </h3>
-                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed px-1 relative group/desc line-clamp-2">
-                    {isEditing && (
-                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/desc:opacity-100 transition-opacity">
-                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                         </Button>
-                      </div>
-                    )}
-                    A sleek and responsive landing page designed for modern startups to showcase their product.
-                  </p>
-                </div>
-              </div>
+              </AnimatePresence>
 
               {/* Message 7 - Project 2 */}
-              <div className="flex gap-3 max-w-[85%] relative group/msg">
-                {isEditing && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
-                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                    </Button>
-                  </div>
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 9 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                      <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
+                      <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
+                        {isEditing && (
+                          <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
+                             <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                               <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                             </Button>
+                          </div>
+                        )}
+                        <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
+                      </div>
+                      <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px] mb-1 px-1 relative group/title">
+                        {isEditing && (
+                          <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/title:opacity-100 transition-opacity">
+                             <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                               <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                             </Button>
+                          </div>
+                        )}
+                        Antimetal
+                      </h3>
+                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed px-1 relative group/desc line-clamp-2">
+                        {isEditing && (
+                          <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/desc:opacity-100 transition-opacity">
+                             <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                               <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                             </Button>
+                          </div>
+                        )}
+                        A dynamic, animation-focused landing page highlighting creative transitions.
+                      </p>
+                    </div>
+                  </motion.div>
                 )}
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
-                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
-                    {isEditing && (
-                      <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
-                         <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                           <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                         </Button>
-                      </div>
-                    )}
-                    <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px] mb-1 px-1 relative group/title">
-                    {isEditing && (
-                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/title:opacity-100 transition-opacity">
-                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                         </Button>
-                      </div>
-                    )}
-                    Antimetal
-                  </h3>
-                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed px-1 relative group/desc line-clamp-2">
-                    {isEditing && (
-                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/desc:opacity-100 transition-opacity">
-                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                         </Button>
-                      </div>
-                    )}
-                    A dynamic, animation-focused landing page highlighting creative transitions.
-                  </p>
-                </div>
-              </div>
+              </AnimatePresence>
             </div>
           </div>
         ) : null}
