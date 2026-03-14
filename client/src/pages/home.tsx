@@ -3570,7 +3570,7 @@ export default function Home() {
                         </motion.div>
                       )}
                     </div>
-                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
+                    <div onClick={() => navigate("/project/slate")} className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
                       <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
                         {isEditing && (
                           <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
@@ -3632,7 +3632,7 @@ export default function Home() {
                         </motion.div>
                       )}
                     </div>
-                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
+                    <div onClick={() => navigate("/project/antimetal")} className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
                       <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
                         {isEditing && (
                           <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
