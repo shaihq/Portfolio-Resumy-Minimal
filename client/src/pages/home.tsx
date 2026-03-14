@@ -3209,7 +3209,7 @@ export default function Home() {
                   </div>
                 )}
                 <div className="w-16 h-16 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 relative transition-transform duration-300 group-hover/avatar:scale-105">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="space-y-2 relative group/text">
@@ -3250,7 +3250,7 @@ export default function Home() {
                   </div>
                 )}
                 <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
@@ -3293,7 +3293,7 @@ export default function Home() {
                   </div>
                 )}
                 <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                 </div>
                 <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
                   My skills are logos, visual identities and marketing collateral
@@ -3313,12 +3313,12 @@ export default function Home() {
                   </div>
                 )}
                 <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
                 </div>
                 <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5">
                   <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">This is my toolbox:</p>
                   <div className="flex flex-wrap gap-2">
-                    <div className="w-8 h-8 rounded bg-white dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
                       {isEditing && (
                         <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
                           <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
@@ -3326,9 +3326,9 @@ export default function Home() {
                           </button>
                         </div>
                       )}
-                      <img src="https://cdn.worldvectorlogo.com/logos/framer-1.svg" className="w-5 h-5" alt="Framer" />
+                      <img src="/tools/image 4.png" className="w-6 h-6 object-contain" alt="Figma" />
                     </div>
-                    <div className="w-8 h-8 rounded bg-white dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
                       {isEditing && (
                         <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
                           <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
@@ -3336,9 +3336,9 @@ export default function Home() {
                           </button>
                         </div>
                       )}
-                      <img src="https://cdn.worldvectorlogo.com/logos/notion-logo-1.svg" className="w-5 h-5 dark:invert" alt="Notion" />
+                      <img src="/tools/image 5.png" className="w-6 h-6 object-contain" alt="Notion" />
                     </div>
-                    <div className="w-8 h-8 rounded bg-white dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
                       {isEditing && (
                         <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
                           <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
@@ -3346,11 +3346,21 @@ export default function Home() {
                           </button>
                         </div>
                       )}
-                      <img src="https://cdn.worldvectorlogo.com/logos/figma-1.svg" className="w-5 h-5" alt="Figma" />
+                      <img src="/tools/image 7.png" className="w-6 h-6 object-contain" alt="Framer" />
+                    </div>
+                    <div className="w-10 h-10 rounded-2xl bg-[#E5E2DB] dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                      {isEditing && (
+                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                            <X size={10} />
+                          </button>
+                        </div>
+                      )}
+                      <img src="/tools/image 6.png" className="w-6 h-6 object-contain" alt="Raycast" />
                     </div>
                     {isEditing && (
-                      <button className="w-8 h-8 rounded bg-white/50 dark:bg-[#35302A]/50 border border-dashed border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                        <Plus className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                      <button className="w-10 h-10 rounded-2xl bg-white/50 dark:bg-[#35302A]/50 border border-dashed border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                        <Plus className="w-5 h-5 text-[#7A736C] dark:text-[#9E9893]" />
                       </button>
                     )}
                   </div>
