@@ -221,7 +221,7 @@ export default function Navbar() {
                   <div className="space-y-4 pt-2">
                     <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
-                      {["Minimal", "Professional", "Creative", "Developer", "Designer"].map((template) => {
+                      {["Minimal", "Professional", "Creative", "Chatfolio", "Designer"].map((template) => {
                         const isSelected = activeTemplate === template;
                         return (
                           <div key={template} className="flex flex-col gap-3 items-center">
