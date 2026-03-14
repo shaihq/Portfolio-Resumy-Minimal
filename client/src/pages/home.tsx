@@ -1202,14 +1202,27 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">No projects yet</h3>
-              <p className="text-[13px] text-[#7A736C] dark:text-[#9E9893] max-w-[250px] mb-4">Add some projects to showcase your work and experience.</p>
+              <p className="text-[13px] text-[#7A736C] dark:text-[#9E9893] max-w-[250px] mb-5">Add some projects to showcase your work and experience.</p>
               {isEditing && (
-                <Button 
-                  onClick={() => setIsProjectsAddDropdownOpen(true)}
-                  className="h-9 px-4 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm"
-                >
-                  Add Project
-                </Button>
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <Button 
+                    onClick={() => setIsProjectsPanelOpen(true)}
+                    className="h-9 px-5 rounded-full text-[13px] font-medium bg-[#1A1A1A] dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/90 transition-colors shadow-sm flex items-center gap-2"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                    Write from Scratch
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    onClick={() => setIsProjectsPanelOpen(true)}
+                    className="h-9 px-5 rounded-full text-[13px] font-medium bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors flex items-center gap-2 text-[#1A1A1A] dark:text-[#F0EDE7]"
+                  >
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    Write using AI
+                  </Button>
+                </div>
               )}
             </div>
           ) : (
