@@ -612,6 +612,9 @@ export default function Home() {
       const timer10 = setTimeout(() => setChatRevealStep(10), 9500); // Message 8 - You: Experience
       const timer11 = setTimeout(() => setChatRevealStep(11), 10500); // Message 9 - Typing
       const timer12 = setTimeout(() => setChatRevealStep(12), 11500); // Message 10 - Experience details
+      const timer13 = setTimeout(() => setChatRevealStep(13), 12500); // Message 11 - Typing
+      const timer14 = setTimeout(() => setChatRevealStep(14), 13500); // Message 12 - Testimonial intro
+      const timer15 = setTimeout(() => setChatRevealStep(15), 14500); // Message 13 - Testimonial card
 
       return () => {
         clearTimeout(timer1);
@@ -626,6 +629,9 @@ export default function Home() {
         clearTimeout(timer10);
         clearTimeout(timer11);
         clearTimeout(timer12);
+        clearTimeout(timer13);
+        clearTimeout(timer14);
+        clearTimeout(timer15);
       };
     }
   }, [activeTemplate]);
@@ -3779,6 +3785,82 @@ export default function Home() {
                               </AccordionItem>
                             ))}
                           </Accordion>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+                {chatRevealStep >= 13 && (
+                  <motion.div
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="flex justify-end"
+                  >
+                    <div className="max-w-[80%] rounded-[20px] bg-[#1A8CFF] dark:bg-[#0073E6] text-white p-4">
+                      <p className="text-[15px] leading-relaxed">
+                        Any testimonials from people you've worked with?
+                      </p>
+                      <span className="text-[11px] text-white/70 mt-2 block text-right font-medium">
+                        You
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+
+                {chatRevealStep >= 14 && (
+                  <motion.div
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="flex"
+                  >
+                    <div className="max-w-[80%] rounded-[20px] bg-[#E5E2DB] dark:bg-[#2A2520] text-[#1A1A1A] dark:text-[#F0EDE7] p-4">
+                      {chatRevealStep === 14 ? (
+                        <div className="flex gap-1 py-2">
+                          <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                            className="w-2 h-2 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full"
+                          />
+                          <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                            className="w-2 h-2 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full"
+                          />
+                          <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                            className="w-2 h-2 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full"
+                          />
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <p className="text-[15px] leading-relaxed">
+                            Here's what a few clients have said after working with me:
+                          </p>
+                          <div className="space-y-4">
+                            {recommendations.map((rec) => (
+                              <div key={rec.id} className="bg-white/50 dark:bg-black/20 p-4 rounded-xl space-y-3">
+                                <p className="text-[14px] text-[#4A4540] dark:text-[#D5CFC5] italic">
+                                  "{rec.content}"
+                                </p>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                                    <img src={rec.image} alt={rec.name} className="w-full h-full object-cover" />
+                                  </div>
+                                  <div>
+                                    <p className="text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">
+                                      {rec.name}
+                                    </p>
+                                    <p className="text-[12px] text-[#7A736C] dark:text-[#B5AFA5]">
+                                      {rec.role}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
