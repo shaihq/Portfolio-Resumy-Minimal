@@ -3986,18 +3986,16 @@ export default function Home() {
                             <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
                           </div>
                         ) : (
-                          <div className="relative h-24 sm:h-28 w-[140px] sm:w-[160px] flex items-center justify-center my-0.5 mx-1">
+                          <div className="flex gap-2 my-1 mx-1">
                             <motion.div 
-                              initial={{ rotate: -6, x: -20, y: 0 }}
-                              whileHover={{ rotate: -2, scale: 1.05, zIndex: 50 }}
-                              className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-md z-0"
+                              whileHover={{ scale: 1.05, zIndex: 10 }}
+                              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5"
                             >
                               <img src={storyImages[0]} alt="My workspace" className="w-full h-full object-cover" />
                             </motion.div>
                             <motion.div 
-                              initial={{ rotate: 6, x: 20, y: 5 }}
-                              whileHover={{ rotate: 2, scale: 1.05, zIndex: 50 }}
-                              className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-md z-10"
+                              whileHover={{ scale: 1.05, zIndex: 10 }}
+                              className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5"
                             >
                               <img src={storyImages[1]} alt="Designing" className="w-full h-full object-cover" />
                             </motion.div>
