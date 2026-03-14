@@ -3307,7 +3307,7 @@ export default function Home() {
                 <div className="w-full border-t border-dashed border-black/10 dark:border-white/10"></div>
               </div>
               <span className="relative bg-[#EFECE6] dark:bg-[#1A1A1A] px-4 text-xs font-medium text-[#7A736C] dark:text-[#B5AFA5] transition-colors duration-700">
-                9 Mon, 2:31:57 AM
+                {format(currentTime, "d EEE, h:mm:ss a")}
               </span>
             </motion.div>
 
