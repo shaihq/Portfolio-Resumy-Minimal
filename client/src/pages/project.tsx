@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
 import { useTemplate } from "@/hooks/use-template";
+import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 import project3 from "@/assets/images/project3.png";
@@ -100,6 +101,128 @@ export default function Project() {
   };
 
   const { activeTemplate } = useTemplate();
+
+  if (activeTemplate === "Chatfolio") {
+    return (
+      <div className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A8CFF] selection:text-white transition-colors duration-700">
+        <div className="w-full max-w-2xl bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col min-h-screen relative pt-8 pb-24 px-4 sm:px-6">
+          
+          {/* Header */}
+          <motion.div variants={itemVariants} className="flex items-center gap-3 mb-8 sticky top-4 z-50 bg-[#F0EDE7]/90 dark:bg-[#1A1A1A]/90 backdrop-blur-md py-3 px-4 rounded-2xl border border-black/5 dark:border-white/10 shadow-sm">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-[#2A2520] border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors"
+            >
+              <ChevronLeft size={20} className="text-[#1A1A1A] dark:text-[#F0EDE7]" />
+            </button>
+            <div className="flex flex-col">
+              <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Project Details</span>
+              <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5]">{project.title}</span>
+            </div>
+          </motion.div>
+
+          <div className="space-y-6">
+            {/* Title Message */}
+            <motion.div variants={itemVariants} className="flex flex-col items-center text-center py-6">
+              <h1 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">{project.title}</h1>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed max-w-md">
+                {project.subtitle}
+              </p>
+            </motion.div>
+
+            {/* Main Image */}
+            <motion.div variants={itemVariants} className="relative group/msg">
+              <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-2 rounded-3xl rounded-tl-sm text-[#1A1A1A] dark:text-[#F0EDE7] transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
+                <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-[#F5F5F5] dark:bg-[#1A1A1A] relative">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* You Message */}
+            <motion.div variants={itemVariants} className="flex justify-end">
+              <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                  Can you share more details about this project?
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Details Message */}
+            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                 <div className="w-full h-full bg-[#1A1A1A] dark:bg-white flex items-center justify-center text-white dark:text-[#1A1A1A] font-bold text-xs">M</div>
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-5 py-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
+                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-4">Sure! Here are the core details:</p>
+                  
+                  <div className="grid grid-cols-2 gap-y-4 gap-x-6">
+                    {Object.entries(project.details).map(([key, value]) => (
+                      <div key={key} className="flex flex-col gap-1">
+                        <span className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wide">{key}</span>
+                        <span className="text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{value as string}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* You Message */}
+            <motion.div variants={itemVariants} className="flex justify-end">
+              <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                  What was the process like?
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Overview Message */}
+            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                 <div className="w-full h-full bg-[#1A1A1A] dark:bg-white flex items-center justify-center text-white dark:text-[#1A1A1A] font-bold text-xs">M</div>
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-5 py-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full space-y-4">
+                  {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
+                    <p key={idx} className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Additional Image Message */}
+            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0"></div>
+              <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-2 rounded-3xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
+                <div className="rounded-2xl overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
+                  <img 
+                    src={contentImage} 
+                    alt="Project context"
+                    className="w-full mix-blend-multiply dark:mix-blend-normal opacity-90"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Call to action */}
+            <motion.div variants={itemVariants} className="flex justify-center mt-12 mb-8">
+              <Button onClick={() => navigate("/")} className="rounded-full bg-[#1A1A1A] text-white hover:bg-[#333] dark:bg-white dark:text-[#1A1A1A] dark:hover:bg-gray-200 h-12 px-8 shadow-sm">
+                Back to Projects
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (activeTemplate === "Professional") {
     return (
