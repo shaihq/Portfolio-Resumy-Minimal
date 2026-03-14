@@ -3198,8 +3198,8 @@ export default function Home() {
             </motion.div>
           </div>
         ) : activeTemplate === "Chatfolio" ? (
-          <div className="flex-1 flex flex-col pt-12 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8">
-            <div className="flex flex-col items-center text-center space-y-4 pt-12">
+          <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8">
+            <div className="flex flex-col items-center text-center space-y-4 pt-2">
               <div className="relative group/avatar cursor-pointer">
                 {isEditing && (
                   <div className="absolute -inset-2 z-40 transition-opacity flex items-center justify-center opacity-0 group-hover/avatar:opacity-100">
