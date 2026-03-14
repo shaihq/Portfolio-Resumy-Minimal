@@ -3711,34 +3711,38 @@ export default function Home() {
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">Here's a quick overview of my experience:</p>
-                          <Accordion type="single" collapsible className="w-full">
-                            {experiences.map((exp, index) => (
-                              <AccordionItem key={index} value={`item-${index}`} className="relative group/exp border-b border-black/5 dark:border-white/5 last:border-0">
-                                {isEditing && (
-                                  <div className="absolute -left-10 top-2 z-40 opacity-0 group-hover/exp:opacity-100 transition-opacity">
-                                    <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                                      <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                                    </Button>
-                                  </div>
-                                )}
-                                <AccordionTrigger className="hover:no-underline py-3 px-1">
-                                  <div className="flex flex-col w-full pr-4 text-left">
-                                    <div className="flex justify-between items-baseline w-full">
-                                      <h4 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">{exp.role}</h4>
-                                      <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{exp.year}</span>
-                                    </div>
-                                    <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] mt-0.5">{exp.company}</span>
-                                  </div>
-                                </AccordionTrigger>
-                                <AccordionContent className="pb-3 px-1">
-                                  <div className="flex flex-col">
-                                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed mt-1">{exp.description}</p>
-                                  </div>
-                                </AccordionContent>
-                              </AccordionItem>
-                            ))}
-                          </Accordion>
+                          <motion.p variants={itemVariants} initial="hidden" animate="visible" className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">Here's a quick overview of my experience:</motion.p>
+                          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full">
+                            <Accordion type="single" collapsible className="w-full">
+                              {experiences.map((exp, index) => (
+                                <motion.div key={index} variants={itemVariants}>
+                                  <AccordionItem value={`item-${index}`} className="relative group/exp border-b border-black/5 dark:border-white/5 last:border-0">
+                                    {isEditing && (
+                                      <div className="absolute -left-10 top-2 z-40 opacity-0 group-hover/exp:opacity-100 transition-opacity">
+                                        <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                                          <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                        </Button>
+                                      </div>
+                                    )}
+                                    <AccordionTrigger className="hover:no-underline py-3 px-1">
+                                      <div className="flex flex-col w-full pr-4 text-left">
+                                        <div className="flex justify-between items-baseline w-full">
+                                          <h4 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">{exp.role}</h4>
+                                          <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">{exp.year}</span>
+                                        </div>
+                                        <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] mt-0.5">{exp.company}</span>
+                                      </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pb-3 px-1">
+                                      <div className="flex flex-col">
+                                        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed mt-1">{exp.description}</p>
+                                      </div>
+                                    </AccordionContent>
+                                  </AccordionItem>
+                                </motion.div>
+                              ))}
+                            </Accordion>
+                          </motion.div>
                         </div>
                       )}
                     </div>
