@@ -3197,27 +3197,168 @@ export default function Home() {
               </motion.div>
             </motion.div>
           </div>
-        ) : (
-          <div className="flex-1 flex flex-col items-center justify-center min-h-screen">
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center space-y-4 px-6 mt-[-10vh]"
-            >
-              <div className="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-black/10 dark:border-white/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#7A736C] dark:text-[#9E9893]">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
+        ) : activeTemplate === "Chatfolio" ? (
+          <div className="flex-1 flex flex-col pt-12 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8">
+            <div className="flex flex-col items-center text-center space-y-4 pt-12">
+              <div className="relative group/avatar cursor-pointer">
+                {isEditing && (
+                  <div className="absolute -inset-2 z-40 transition-opacity flex items-center justify-center opacity-0 group-hover/avatar:opacity-100">
+                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-16 h-16 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 relative transition-transform duration-300 group-hover/avatar:scale-105">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                </div>
               </div>
-              <h2 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">
-                {activeTemplate} Template
-              </h2>
-              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base max-w-[280px] mx-auto">
-                Coming soon. This template is currently under construction.
-              </p>
-            </motion.div>
+              <div className="space-y-2 relative group/text">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity opacity-0 group-hover/text:opacity-100">
+                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <h1 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
+                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed max-w-md">
+                  With 8+ years of experience designing SaaS platforms, I've led CRM design at Freshworks and SenseHQ.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative py-4 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-dashed border-black/10 dark:border-white/10"></div>
+              </div>
+              <span className="relative bg-[#EFECE6] dark:bg-[#1A1A1A] px-4 text-xs font-medium text-[#7A736C] dark:text-[#B5AFA5] transition-colors duration-700">
+                9 Mon, 2:31:57 AM
+              </span>
+            </div>
+
+            <div className="space-y-6">
+              {/* Message 1 */}
+              <div className="flex gap-3 max-w-[85%] relative group/msg">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
+                  <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
+                    Hey! I'm Alexa, a Product Designer based in Manchester. How can I help?
+                  </div>
+                </div>
+              </div>
+
+              {/* Message 2 (You) */}
+              <div className="flex justify-end relative group/msg">
+                {isEditing && (
+                  <div className="absolute -right-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                  <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                  <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                    Can I see your work?
+                  </div>
+                </div>
+              </div>
+
+              {/* Message 3 */}
+              <div className="flex gap-3 max-w-[85%] relative group/msg">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                </div>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
+                  My skills are logos, visual identities and marketing collateral
+                </div>
+              </div>
+
+              {/* Message 4 - Tools */}
+              <div className="flex gap-3 max-w-[85%] relative group/msg">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Matt" className="w-full h-full object-cover" />
+                </div>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5">
+                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-3">This is my toolbox:</p>
+                  <div className="flex flex-wrap gap-2">
+                    <div className="w-8 h-8 rounded bg-white dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                      {isEditing && (
+                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                            <X size={10} />
+                          </button>
+                        </div>
+                      )}
+                      <img src="https://cdn.worldvectorlogo.com/logos/framer-1.svg" className="w-5 h-5" alt="Framer" />
+                    </div>
+                    <div className="w-8 h-8 rounded bg-white dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                      {isEditing && (
+                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                            <X size={10} />
+                          </button>
+                        </div>
+                      )}
+                      <img src="https://cdn.worldvectorlogo.com/logos/notion-logo-1.svg" className="w-5 h-5 dark:invert" alt="Notion" />
+                    </div>
+                    <div className="w-8 h-8 rounded bg-white dark:bg-[#35302A] shadow-sm flex items-center justify-center border border-black/5 dark:border-white/5 relative group/tool">
+                      {isEditing && (
+                        <div className="absolute -top-2 -right-2 z-40 opacity-0 group-hover/tool:opacity-100 transition-opacity">
+                          <button className="w-4 h-4 bg-red-500 rounded-full text-white flex items-center justify-center hover:bg-red-600">
+                            <X size={10} />
+                          </button>
+                        </div>
+                      )}
+                      <img src="https://cdn.worldvectorlogo.com/logos/figma-1.svg" className="w-5 h-5" alt="Figma" />
+                    </div>
+                    {isEditing && (
+                      <button className="w-8 h-8 rounded bg-white/50 dark:bg-[#35302A]/50 border border-dashed border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                        <Plus className="w-4 h-4 text-[#7A736C] dark:text-[#9E9893]" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        ) : null}
       </div>
       </motion.div>
     </>
