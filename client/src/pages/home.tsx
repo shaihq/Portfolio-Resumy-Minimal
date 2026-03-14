@@ -3986,27 +3986,35 @@ export default function Home() {
                             <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
                           </div>
                         ) : (
-                          <div className="flex relative">
-                            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm transform -rotate-[8deg] z-10 relative bg-gray-200 dark:bg-gray-800">
-                              {isEditing && (
-                                <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/msg:opacity-100 transition-opacity">
-                                   <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                                     <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                                   </Button>
-                                </div>
-                              )}
-                              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="About me 1" className="w-full h-full object-cover" />
-                            </div>
-                            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm transform rotate-[6deg] -ml-8 mt-2 bg-gray-200 dark:bg-gray-800 relative z-0">
-                              {isEditing && (
-                                <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/msg:opacity-100 transition-opacity">
-                                   <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
-                                     <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
-                                   </Button>
-                                </div>
-                              )}
-                              <img src="https://images.unsplash.com/photo-1499996860827-19a293f28357?w=400&q=80" alt="About me 2" className="w-full h-full object-cover" />
-                            </div>
+                          <div className="relative h-40 sm:h-48 w-[260px] sm:w-[320px] flex items-center justify-center my-1 mx-2">
+                            <motion.div 
+                              initial={{ rotate: -8, x: -60, y: 0 }}
+                              whileHover={{ rotate: -2, scale: 1.1, zIndex: 50 }}
+                              className="absolute w-24 h-32 sm:w-28 sm:h-36 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-0"
+                            >
+                              <img src={storyImages[0]} alt="My workspace" className="w-full h-full object-cover" />
+                            </motion.div>
+                            <motion.div 
+                              initial={{ rotate: 12, x: -20, y: 10 }}
+                              whileHover={{ rotate: 5, scale: 1.1, zIndex: 50 }}
+                              className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-10"
+                            >
+                              <img src={storyImages[1]} alt="Designing" className="w-full h-full object-cover" />
+                            </motion.div>
+                            <motion.div 
+                              initial={{ rotate: -5, x: 20, y: -5 }}
+                              whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
+                              className="absolute w-24 h-32 sm:w-28 sm:h-36 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-20"
+                            >
+                              <img src={storyImages[2]} alt="Coffee and notes" className="w-full h-full object-cover" />
+                            </motion.div>
+                            <motion.div 
+                              initial={{ rotate: 8, x: 60, y: 15 }}
+                              whileHover={{ rotate: 3, scale: 1.1, zIndex: 50 }}
+                              className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border-[4px] border-[#E5E2DB] dark:border-[#2A2520] shadow-sm z-30"
+                            >
+                              <img src={storyImages[3]} alt="Creative studio" className="w-full h-full object-cover" />
+                            </motion.div>
                           </div>
                         )}
                       </div>
