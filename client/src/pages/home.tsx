@@ -3366,6 +3366,124 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
+              {/* Message 5 - Recent work prompt */}
+              <div className="flex gap-3 max-w-[85%] relative group/msg">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                </div>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5">
+                  And here's some recent work
+                </div>
+              </div>
+
+              {/* Message 6 - Project 1 */}
+              <div className="flex gap-3 max-w-[85%] relative group/msg">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                </div>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
+                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
+                    {isEditing && (
+                      <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
+                         <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                           <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                         </Button>
+                      </div>
+                    )}
+                    <img src={project1} alt="Slate" className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px] mb-1 px-1 relative group/title">
+                    {isEditing && (
+                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/title:opacity-100 transition-opacity">
+                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                         </Button>
+                      </div>
+                    )}
+                    Slate
+                  </h3>
+                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed px-1 relative group/desc line-clamp-2">
+                    {isEditing && (
+                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/desc:opacity-100 transition-opacity">
+                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                         </Button>
+                      </div>
+                    )}
+                    A sleek and responsive landing page designed for modern startups to showcase their product.
+                  </p>
+                </div>
+              </div>
+
+              {/* Message 7 - Project 2 */}
+              <div className="flex gap-3 max-w-[85%] relative group/msg">
+                {isEditing && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                      <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                      <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                    </Button>
+                  </div>
+                )}
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0">
+                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                </div>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-3 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full cursor-pointer hover:shadow-md hover:scale-[1.01] transform group/proj">
+                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 relative bg-[#D5D0C6] dark:bg-[#1A1A1A]">
+                    {isEditing && (
+                      <div className="absolute top-2 right-2 z-40 opacity-0 group-hover/proj:opacity-100 transition-opacity">
+                         <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                           <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                         </Button>
+                      </div>
+                    )}
+                    <img src={project2} alt="Antimetal" className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px] mb-1 px-1 relative group/title">
+                    {isEditing && (
+                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/title:opacity-100 transition-opacity">
+                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                         </Button>
+                      </div>
+                    )}
+                    Antimetal
+                  </h3>
+                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed px-1 relative group/desc line-clamp-2">
+                    {isEditing && (
+                      <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-40 opacity-0 group-hover/desc:opacity-100 transition-opacity">
+                         <Button variant="outline" size="sm" className="h-6 w-6 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                           <Pencil className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                         </Button>
+                      </div>
+                    )}
+                    A dynamic, animation-focused landing page highlighting creative transitions.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         ) : null}
