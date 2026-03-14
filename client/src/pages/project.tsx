@@ -108,17 +108,14 @@ export default function Project() {
         <div className="w-full max-w-2xl bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col min-h-screen relative pt-8 pb-24 px-4 sm:px-6">
           
           {/* Header */}
-          <motion.div variants={itemVariants} className="flex items-center gap-3 mb-8 sticky top-4 z-50 bg-[#F0EDE7]/90 dark:bg-[#1A1A1A]/90 backdrop-blur-md py-3 px-4 rounded-2xl border border-black/5 dark:border-white/10 shadow-sm">
+          <motion.div variants={itemVariants} className="mb-6 pt-2">
             <button
               onClick={() => navigate("/")}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-[#2A2520] border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors"
+              className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
             >
-              <ChevronLeft size={20} className="text-[#1A1A1A] dark:text-[#F0EDE7]" />
+              <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-1" />
+              Back to Projects
             </button>
-            <div className="flex flex-col">
-              <span className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Project Details</span>
-              <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5]">{project.title}</span>
-            </div>
           </motion.div>
 
           <div className="space-y-6">
