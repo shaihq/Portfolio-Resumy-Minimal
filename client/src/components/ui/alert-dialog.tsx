@@ -16,9 +16,11 @@ const AlertDialogOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 pointer-events-auto",
       className
     )}
+    onClick={(e) => e.stopPropagation()}
+    onPointerDown={(e) => e.stopPropagation()}
     {...props}
     ref={ref}
   />
@@ -34,9 +36,11 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-0 z-50 m-auto grid w-full max-w-lg h-fit gap-4 border bg-background p-6 shadow-lg duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-8 data-[state=open]:slide-in-from-top-8 sm:rounded-lg",
+        "fixed inset-0 z-[100] m-auto grid w-full max-w-lg h-fit gap-4 border bg-background p-6 shadow-lg duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-8 data-[state=open]:slide-in-from-top-8 sm:rounded-lg pointer-events-auto",
         className
       )}
+      onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       {...props}
     />
   </AlertDialogPortal>
