@@ -119,19 +119,23 @@ export default function Project() {
           </motion.div>
 
           <div className="space-y-6">
-            {/* Title Message */}
-            <motion.div variants={itemVariants} className="flex flex-col items-center text-center py-6">
-              <h1 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">{project.title}</h1>
-              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed max-w-md">
-                {project.subtitle}
-              </p>
-            </motion.div>
-
-            {/* Main Image */}
-            <motion.div variants={itemVariants} className="relative group/msg">
-              <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-2 rounded-3xl rounded-tl-sm text-[#1A1A1A] dark:text-[#F0EDE7] transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
-                <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-[#F5F5F5] dark:bg-[#1A1A1A] relative">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+            {/* Main Project Intro & Image Message */}
+            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%] pt-4">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                 <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full flex flex-col gap-4">
+                  <div className="flex flex-col text-left px-1">
+                    <h1 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">{project.title}</h1>
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed max-w-md">
+                      {project.subtitle}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-[#F5F5F5] dark:bg-[#1A1A1A] relative border border-black/5 dark:border-white/5">
+                    <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                  </div>
                 </div>
               </div>
             </motion.div>
