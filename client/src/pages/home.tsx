@@ -8,7 +8,6 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import CinematicThemeSwitcher from "@/components/ui/cinematic-theme-switcher";
 import { Switch as SwitchButton } from "@/components/ui/switch-button";
 import { Switch } from "@/components/ui/switch";
-import { ChatScroll } from "@/components/chat-scroll";
 import {
   Accordion,
   AccordionContent,
@@ -613,9 +612,6 @@ export default function Home() {
       const timer10 = setTimeout(() => setChatRevealStep(10), 9500); // Message 8 - You: Experience
       const timer11 = setTimeout(() => setChatRevealStep(11), 10500); // Message 9 - Typing
       const timer12 = setTimeout(() => setChatRevealStep(12), 11500); // Message 10 - Experience details
-      const timer13 = setTimeout(() => setChatRevealStep(13), 12500); // Message 11 - You: Testimonials
-      const timer14 = setTimeout(() => setChatRevealStep(14), 13500); // Message 12 - Typing
-      const timer15 = setTimeout(() => setChatRevealStep(15), 14500); // Message 13 - Testimonials details
 
       return () => {
         clearTimeout(timer1);
@@ -630,9 +626,6 @@ export default function Home() {
         clearTimeout(timer10);
         clearTimeout(timer11);
         clearTimeout(timer12);
-        clearTimeout(timer13);
-        clearTimeout(timer14);
-        clearTimeout(timer15);
       };
     }
   }, [activeTemplate]);
@@ -3791,75 +3784,7 @@ export default function Home() {
                     </div>
                   </motion.div>
                 )}
-                {chatRevealStep >= 13 && (
-                  <motion.div
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="show"
-                    className="flex justify-end"
-                  >
-                    <div className="flex flex-col gap-1 max-w-[85%] items-end">
-                      <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
-                      <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
-                        Any testimonials from people you've worked with?
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {chatRevealStep >= 14 && (
-                  <motion.div
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="show"
-                    className="flex gap-3 max-w-[85%] relative group/msg"
-                  >
-                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
-                      <motion.div layoutId="matt-avatar-sequence-testimonials" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
-                        <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
-                      </motion.div>
-                    </div>
-                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
-                      {chatRevealStep === 14 ? (
-                        <div className="flex space-x-1.5 items-center px-1 min-h-[22px]">
-                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
-                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
-                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px]">
-                            Here's what a few clients have said after working with me:
-                          </p>
-                          <div className="space-y-4">
-                            {recommendations.map((rec) => (
-                              <div key={rec.id} className="bg-white/50 dark:bg-[#1A1A1A]/50 p-4 rounded-xl space-y-3">
-                                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed italic">
-                                  "{rec.content}"
-                                </p>
-                                <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-black/5 dark:border-white/5">
-                                    <img src={rec.image} alt={rec.name} className="w-full h-full object-cover" />
-                                  </div>
-                                  <div>
-                                    <p className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[14px]">
-                                      {rec.name}
-                                    </p>
-                                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[12px]">
-                                      {rec.role}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
               </AnimatePresence>
-              <ChatScroll step={chatRevealStep} />
             </div>
           </div>
         ) : null}
