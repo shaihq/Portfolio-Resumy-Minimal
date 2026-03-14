@@ -152,7 +152,7 @@ export default function Project() {
             {/* Details Message */}
             <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
               <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                 <div className="w-full h-full bg-[#1A1A1A] dark:bg-white flex items-center justify-center text-white dark:text-[#1A1A1A] font-bold text-xs">M</div>
+                 <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col gap-1 w-full">
                 <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
@@ -184,30 +184,26 @@ export default function Project() {
             {/* Overview Message */}
             <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
               <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
-                 <div className="w-full h-full bg-[#1A1A1A] dark:bg-white flex items-center justify-center text-white dark:text-[#1A1A1A] font-bold text-xs">M</div>
+                 <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col gap-1 w-full">
                 <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
-                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-5 py-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full space-y-4">
-                  {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
-                    <p key={idx} className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Additional Image Message */}
-            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
-              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5 opacity-0"></div>
-              <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-2 rounded-3xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
-                <div className="rounded-2xl overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
-                  <img 
-                    src={contentImage} 
-                    alt="Project context"
-                    className="w-full mix-blend-multiply dark:mix-blend-normal opacity-90"
-                  />
+                <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full flex flex-col gap-5">
+                  <div className="px-1 space-y-4">
+                    {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
+                      <p key={idx} className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                  
+                  <div className="w-full rounded-xl overflow-hidden bg-[#E7E3D9] dark:bg-[#1A1A1A] border border-black/5 dark:border-white/5">
+                    <img 
+                      src={contentImage} 
+                      alt="Project context"
+                      className="w-full h-auto mix-blend-multiply dark:mix-blend-normal opacity-90"
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>
