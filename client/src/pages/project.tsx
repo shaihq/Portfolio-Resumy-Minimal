@@ -104,12 +104,7 @@ export default function Project() {
 
   if (activeTemplate === "Chatfolio") {
     return (
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A8CFF] selection:text-white transition-colors duration-700"
-      >
+      <div className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A8CFF] selection:text-white transition-colors duration-700">
         <div className="w-full max-w-2xl bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col min-h-screen relative pt-8 pb-24 px-4 sm:px-6">
           
           {/* Header */}
@@ -124,14 +119,13 @@ export default function Project() {
           </motion.div>
 
           <div className="space-y-6">
+            {/* Main Project Intro & Image Message */}
             <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%] pt-4">
               <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
                  <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
               </div>
-              <div className="flex flex-col gap-2 w-full">
+              <div className="flex flex-col gap-1 w-full">
                 <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
-                
-                {/* Intro Bubble */}
                 <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full flex flex-col gap-4">
                   <div className="flex flex-col text-left px-1">
                     <h1 className="text-2xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">{project.title}</h1>
@@ -143,10 +137,29 @@ export default function Project() {
                     <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
                   </div>
                 </div>
+              </div>
+            </motion.div>
 
-                {/* Details Bubble */}
+            {/* You Message */}
+            <motion.div variants={itemVariants} className="flex justify-end">
+              <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                  Can you share more details about this project?
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Details Message */}
+            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                 <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
                 <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-5 py-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
-                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-4">Core details:</p>
+                  <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] mb-4">Sure! Here are the core details:</p>
+                  
                   <div className="grid grid-cols-2 gap-y-4 gap-x-6">
                     {Object.entries(project.details).map(([key, value]) => (
                       <div key={key} className="flex flex-col gap-1">
@@ -156,8 +169,26 @@ export default function Project() {
                     ))}
                   </div>
                 </div>
+              </div>
+            </motion.div>
 
-                {/* Overview Bubble */}
+            {/* You Message */}
+            <motion.div variants={itemVariants} className="flex justify-end">
+              <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                  What was the process like?
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Overview Message */}
+            <motion.div variants={itemVariants} className="flex gap-3 max-w-[95%]">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 mt-auto border border-black/5 dark:border-white/5">
+                 <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] ml-1 font-medium">Matt</span>
                 <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-4 rounded-2xl rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full flex flex-col gap-5">
                   <div className="px-1 space-y-4">
                     {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
@@ -186,7 +217,7 @@ export default function Project() {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
     );
   }
 
