@@ -612,6 +612,9 @@ export default function Home() {
       const timer10 = setTimeout(() => setChatRevealStep(10), 9500); // Message 8 - You: Experience
       const timer11 = setTimeout(() => setChatRevealStep(11), 10500); // Message 9 - Typing
       const timer12 = setTimeout(() => setChatRevealStep(12), 11500); // Message 10 - Experience details
+      const timer13 = setTimeout(() => setChatRevealStep(13), 12500); // Message 11 - You: Testimonials prompt
+      const timer14 = setTimeout(() => setChatRevealStep(14), 13500); // Message 12 - Testimonials intro
+      const timer15 = setTimeout(() => setChatRevealStep(15), 14500); // Message 13 - Testimonial card
 
       return () => {
         clearTimeout(timer1);
@@ -626,6 +629,9 @@ export default function Home() {
         clearTimeout(timer10);
         clearTimeout(timer11);
         clearTimeout(timer12);
+        clearTimeout(timer13);
+        clearTimeout(timer14);
+        clearTimeout(timer15);
       };
     }
   }, [activeTemplate]);
@@ -3781,6 +3787,123 @@ export default function Home() {
                           </Accordion>
                         </div>
                       )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 10 - You: Testimonials prompt */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 13 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex justify-end relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                      <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] mr-1 font-medium">You</span>
+                      <div className="bg-[#1A8CFF] dark:bg-[#0073E6] text-white px-4 py-3 rounded-2xl rounded-br-sm text-[15px] leading-relaxed shadow-sm">
+                        What do clients say about your work?
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 11 - Testimonials Intro */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 14 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && chatRevealStep >= 15 && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      {chatRevealStep < 15 && (
+                        <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                          <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                        </motion.div>
+                      )}
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] px-4 py-3 rounded-2xl rounded-tl-sm rounded-bl-sm text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed transition-colors duration-700 border border-black/5 dark:border-white/5 min-h-[46px] flex items-center">
+                      {chatRevealStep === 14 ? (
+                        <div className="flex space-x-1.5 items-center px-1">
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                          <motion.div className="w-1.5 h-1.5 bg-[#7A736C] dark:bg-[#B5AFA5] rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                        </div>
+                      ) : (
+                        "Here's what a few clients have said after working with me"
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Message 12 - Testimonial Card */}
+              <AnimatePresence mode="popLayout">
+                {chatRevealStep >= 15 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 max-w-[85%] relative group/msg"
+                  >
+                    {isEditing && (
+                      <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-40 transition-opacity flex gap-1.5 opacity-0 group-hover/msg:opacity-100">
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
+                          <Pencil className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-400" onClick={(e) => { e.stopPropagation(); }}>
+                          <Trash2 className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                        </Button>
+                      </div>
+                    )}
+                    <div className="w-8 h-8 shrink-0 mt-auto flex items-end">
+                      <motion.div layoutId="matt-avatar-sequence" className="w-8 h-8 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
+                        <img src={profileImg} alt="Matt" className="w-full h-full object-cover" />
+                      </motion.div>
+                    </div>
+                    <div className="bg-[#E5E2DB] dark:bg-[#2A2520] p-4 rounded-2xl rounded-tl-sm rounded-bl-sm transition-colors duration-700 border border-black/5 dark:border-white/5 w-full">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden shrink-0">
+                          <img src="/testimonials/jonathan.jpg" alt="Jonathan Carter" className="w-full h-full object-cover bg-gray-200 dark:bg-gray-800" onError={(e) => { e.currentTarget.src = "https://i.pravatar.cc/150?u=a042581f4e29026704d" }} />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[15px]">Jonathan Carter</span>
+                          <div className="flex items-center gap-1.5">
+                            <svg className="w-3.5 h-3.5 text-[#0077b5]" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                            <span className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px]">TechStarter CTO</span>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[14px] leading-relaxed italic">
+                        "Alex's ability to combine creativity with strategic thinking has transformed the way our team approaches challenges, He is good in his domain."
+                      </p>
                     </div>
                   </motion.div>
                 )}
