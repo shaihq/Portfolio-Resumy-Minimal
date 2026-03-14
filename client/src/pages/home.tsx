@@ -3231,12 +3231,8 @@ export default function Home() {
           <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8 overflow-hidden">
             {/* Header */}
             <motion.div 
-              initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
-              animate={{ 
-                filter: chatRevealStep >= 1 ? "blur(0px)" : "blur(10px)", 
-                opacity: chatRevealStep >= 1 ? 1 : 0,
-                y: chatRevealStep >= 1 ? 0 : 20
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: chatRevealStep >= 1 ? 1 : 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="flex flex-col items-center text-center space-y-4 pt-2"
             >
