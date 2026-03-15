@@ -70,7 +70,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 font-medium text-[#463B34]"
+              className="text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] font-semibold"
             >
               Fastest way to build<br />your portfolio site
             </motion.h1>
