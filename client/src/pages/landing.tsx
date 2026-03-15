@@ -81,11 +81,24 @@ export default function Landing() {
               <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center h-9 pr-4 bg-[#FFFEF2]">
                 <span className="mr-1.5">/</span>
                 <motion.span
-                  initial={{ clipPath: "inset(0 100% 0 0)" }}
-                  animate={{ clipPath: "inset(0 0% 0 0)" }}
-                  transition={{ duration: 0.6, delay: 0.4, ease: "linear" }}
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.05, delayChildren: 0.4 } }
+                  }}
+                  className="flex"
                 >
-                  Designfolio
+                  {"Designfolio".split("").map((char, i) => (
+                    <motion.span
+                      key={i}
+                      variants={{
+                        hidden: { opacity: 0, display: "none" },
+                        visible: { opacity: 1, display: "block" }
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
                 </motion.span>
               </div>
               
