@@ -18,6 +18,9 @@ export default function Landing() {
     const wasDark = document.documentElement.classList.contains('dark');
     if (wasDark) document.documentElement.classList.remove('dark');
     
+    document.documentElement.style.setProperty('overflow', 'hidden');
+    document.body.style.setProperty('overflow', 'hidden');
+    
     // Also update theme-color meta tag for mobile/Safari
     let metaThemeColor = document.querySelector('meta[name="theme-color"]');
     let originalThemeColor = '';
@@ -49,54 +52,56 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
+    <div className="h-screen w-full overflow-hidden bg-[#FFFEF2] text-[#1D1B1A] antialiased relative" style={{ fontFamily: '"Manrope", sans-serif' }}>
       
-      <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4] relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
-        
-        {/* Left Floating Nav */}
-        <div className="hidden lg:block absolute right-full top-0 bottom-0 z-40">
-          <div className="sticky top-[120px] flex flex-col items-start pr-12 w-max">
-            <div className="flex flex-col gap-1 mb-8">
-              <div className="w-9 h-9 rounded-full bg-[#E54D2E] flex items-center justify-center text-white mb-2 shadow-sm">
-                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A]">/ Designfolio</div>
+      {/* Left Floating Nav - Positioned absolute relative to the viewport so it doesn't move on pull-down */}
+      <div className="hidden lg:block absolute top-[120px] right-[calc(50%+320px)] pr-12 w-max z-40">
+        <div className="flex flex-col items-start">
+          <div className="flex flex-col gap-1 mb-8">
+            <div className="w-9 h-9 rounded-full bg-[#E54D2E] flex items-center justify-center text-white mb-2 shadow-sm">
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" strokeLinecap="round"/>
+              </svg>
             </div>
-            
-            <div className="flex items-center gap-2 mb-8 text-[#1D1B1A]/40">
-              <Sun className="w-4 h-4 text-[#1D1B1A]" />
-              <div className="w-9 h-[22px] bg-[#EAE9E4] rounded-full relative shadow-inner border border-black/5 cursor-pointer">
-                <div className="absolute left-[3px] top-[3px] w-4 h-4 bg-white rounded-full shadow-sm"></div>
-              </div>
-              <Moon className="w-4 h-4" />
-            </div>
-            
-            <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50">
-              <a href="#" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
-              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Stories</a>
-              <a href="#" className="hover:text-[#1D1B1A] transition-colors">How?</a>
-              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Why?</a>
-            </nav>
+            <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A]">/ Designfolio</div>
           </div>
+          
+          <div className="flex items-center gap-2 mb-8 text-[#1D1B1A]/40">
+            <Sun className="w-4 h-4 text-[#1D1B1A]" />
+            <div className="w-9 h-[22px] bg-[#EAE9E4] rounded-full relative shadow-inner border border-black/5 cursor-pointer">
+              <div className="absolute left-[3px] top-[3px] w-4 h-4 bg-white rounded-full shadow-sm"></div>
+            </div>
+            <Moon className="w-4 h-4" />
+          </div>
+          
+          <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50">
+            <a href="#" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
+            <a href="#" className="hover:text-[#1D1B1A] transition-colors">Stories</a>
+            <a href="#" className="hover:text-[#1D1B1A] transition-colors">How?</a>
+            <a href="#" className="hover:text-[#1D1B1A] transition-colors">Why?</a>
+          </nav>
         </div>
+      </div>
 
-        {/* Header */}
-        <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
-          <div className="px-6 h-16 flex items-center justify-between">
-            <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase" style={{ fontFamily: '"Geist Mono", monospace' }}>
-              25000+ USERS
-            </div>
-            <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 hover:bg-black/5 bg-transparent text-[#1D1B1A]">
-              Login
-            </Button>
+      {/* Header - Positioned absolute relative to the viewport */}
+      <header className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[640px] bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
+        <div className="px-6 h-16 flex items-center justify-between">
+          <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase" style={{ fontFamily: '"Geist Mono", monospace' }}>
+            25000+ USERS
           </div>
-        </header>
+          <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 hover:bg-black/5 bg-transparent text-[#1D1B1A]">
+            Login
+          </Button>
+        </div>
+      </header>
 
-        <main className="flex flex-col items-center">
-          {/* Hero Section */}
-          <section className="w-full px-6 pt-12 pb-12 flex flex-col items-center text-center">
+      {/* Scrollable Container */}
+      <div className="h-full w-full overflow-y-auto overflow-x-hidden flex justify-center pb-20">
+        <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-max border-x border-[#EAE9E4] relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
+          
+          <main className="flex flex-col items-center pt-16">
+            {/* Hero Section */}
+            <section className="w-full px-6 pt-12 pb-12 flex flex-col items-center text-center">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -193,6 +198,7 @@ export default function Landing() {
           </section>
         </main>
       </div>
+    </div>
     </div>
   );
 }
