@@ -55,8 +55,13 @@ export default function Landing() {
         
         {/* Left Floating Nav */}
         <div className="hidden lg:block absolute right-full top-0 bottom-0 z-40">
-          <div className="sticky top-[120px] flex flex-col items-start pr-12 w-max">
-            <div className="relative mb-8 h-[68px] w-full">
+          <motion.div 
+            className="sticky top-[120px] flex flex-col items-start pr-12 w-max"
+            initial={{ y: -44 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="relative mb-8 h-[36px] w-full">
               <motion.div 
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -67,12 +72,8 @@ export default function Landing() {
                   <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" strokeLinecap="round"/>
                 </svg>
               </motion.div>
-              <motion.div 
-                initial={{ y: 0 }}
-                animate={{ y: 44 }}
-                transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute left-0 top-[6px] font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center bg-[#FFFEF2] z-10 pr-2 pb-1"
-              >
+              
+              <div className="absolute left-0 top-[6px] font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center bg-[#FFFEF2] z-10 pr-2 pb-1">
                 <span className="mr-1">/</span>
                 {"Designfolio".split("").map((char, index) => (
                   <motion.span
@@ -88,7 +89,7 @@ export default function Landing() {
                     {char}
                   </motion.span>
                 ))}
-              </motion.div>
+              </div>
             </div>
             
             <div className="flex items-center gap-2 mb-8 text-[#1D1B1A]/40">
@@ -105,7 +106,7 @@ export default function Landing() {
               <a href="#" className="hover:text-[#1D1B1A] transition-colors">How?</a>
               <a href="#" className="hover:text-[#1D1B1A] transition-colors">Why?</a>
             </nav>
-          </div>
+          </motion.div>
         </div>
 
         {/* Header */}
