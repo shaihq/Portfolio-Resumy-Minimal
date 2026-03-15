@@ -62,7 +62,23 @@ export default function Landing() {
                   <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" strokeLinecap="round"/>
                 </svg>
               </div>
-              <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A]">/ Designfolio</div>
+              <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center">
+                <span className="mr-1">/</span>
+                {"Designfolio".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    initial={{ filter: "blur(8px)", opacity: 0 }}
+                    animate={{ filter: "blur(0px)", opacity: 1 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: index * 0.05,
+                      ease: "easeOut",
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </div>
             </div>
             
             <div className="flex items-center gap-2 mb-8 text-[#1D1B1A]/40">
