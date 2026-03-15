@@ -56,13 +56,23 @@ export default function Landing() {
         {/* Left Floating Nav */}
         <div className="hidden lg:block absolute right-full top-0 bottom-0 z-40">
           <div className="sticky top-[120px] flex flex-col items-start pr-12 w-max">
-            <div className="flex flex-col gap-1 mb-8">
-              <div className="w-9 h-9 rounded-full bg-[#E54D2E] flex items-center justify-center text-white mb-2 shadow-sm">
+            <div className="relative mb-8 h-[68px] w-full">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-0 left-0 w-9 h-9 rounded-full bg-[#E54D2E] flex items-center justify-center text-white shadow-sm z-0"
+              >
                 <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" strokeLinecap="round"/>
                 </svg>
-              </div>
-              <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center">
+              </motion.div>
+              <motion.div 
+                initial={{ y: 0 }}
+                animate={{ y: 44 }}
+                transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute left-0 top-[6px] font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center bg-[#FFFEF2] z-10 pr-2 pb-1"
+              >
                 <span className="mr-1">/</span>
                 {"Designfolio".split("").map((char, index) => (
                   <motion.span
@@ -71,14 +81,14 @@ export default function Landing() {
                     animate={{ opacity: 1 }}
                     transition={{
                       duration: 0.2,
-                      delay: 0.5 + index * 0.06,
+                      delay: 0.3 + index * 0.05,
                       ease: "easeOut",
                     }}
                   >
                     {char}
                   </motion.span>
                 ))}
-              </div>
+              </motion.div>
             </div>
             
             <div className="flex items-center gap-2 mb-8 text-[#1D1B1A]/40">
