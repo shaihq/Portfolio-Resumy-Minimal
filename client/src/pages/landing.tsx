@@ -92,8 +92,8 @@ export default function Landing() {
                     <motion.span
                       key={i}
                       variants={{
-                        hidden: { opacity: 0, display: "none" },
-                        visible: { opacity: 1, display: "block" }
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1 }
                       }}
                     >
                       {char}
