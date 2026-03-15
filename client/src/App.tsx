@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Link, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,14 +11,37 @@ import { useEffect } from "react";
 
 import Landing from "@/pages/landing";
 
+// Temporary dev navigation to easily switch pages in the Replit preview
+function DevNav() {
+  const [location] = useLocation();
+  
+  return (
+    <div className="fixed bottom-6 right-6 z-[100] flex gap-2 bg-[#1A1A1A] p-1.5 rounded-[100px] shadow-xl border border-white/10 backdrop-blur-md">
+      <Link href="/">
+        <a className={`px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+          Home
+        </a>
+      </Link>
+      <Link href="/landing">
+        <a className={`px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/landing' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+          Landing
+        </a>
+      </Link>
+    </div>
+  );
+}
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home}/>
-      <Route path="/landing" component={Landing}/>
-      <Route path="/project/:id" component={Project}/>
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      <Switch>
+        <Route path="/" component={Home}/>
+        <Route path="/landing" component={Landing}/>
+        <Route path="/project/:id" component={Project}/>
+        <Route component={NotFound} />
+      </Switch>
+      <DevNav />
+    </>
   );
 }
 
