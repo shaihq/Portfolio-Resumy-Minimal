@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sun, Moon } from "lucide-react";
 import { SiGoogle, SiApple } from "react-icons/si";
 import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -50,7 +50,35 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] antialiased overflow-x-hidden flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
-      <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4]">
+      
+      {/* Left Navigation Sidebar */}
+      <div className="hidden xl:flex fixed left-0 top-0 bottom-0 w-[240px] flex-col py-10 px-8 z-40">
+        <div className="flex flex-col gap-1.5 mb-8">
+          <div className="w-10 h-10 rounded-full bg-[#E54D2E] flex items-center justify-center text-white mb-2 shadow-sm">
+            <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div className="font-semibold text-[17px] tracking-tight text-[#1D1B1A]">/ Designfolio</div>
+        </div>
+        
+        <div className="flex items-center gap-3 mb-10 text-[#1D1B1A]/40">
+          <Sun className="w-4 h-4 text-[#1D1B1A]" />
+          <div className="w-10 h-5 bg-[#EAE9E4] rounded-full relative shadow-inner border border-black/5">
+            <div className="absolute left-[3px] top-[2px] w-4 h-4 bg-white rounded-full shadow-sm"></div>
+          </div>
+          <Moon className="w-4 h-4" />
+        </div>
+        
+        <nav className="flex flex-col gap-4 text-[16px] font-medium text-[#1D1B1A]/60">
+          <a href="#" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
+          <a href="#" className="hover:text-[#1D1B1A] transition-colors">Stories</a>
+          <a href="#" className="hover:text-[#1D1B1A] transition-colors">How?</a>
+          <a href="#" className="hover:text-[#1D1B1A] transition-colors">Why?</a>
+        </nav>
+      </div>
+
+      <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4] relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
         {/* Header */}
         <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
           <div className="px-6 h-16 flex items-center justify-between">
