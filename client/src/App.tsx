@@ -17,15 +17,11 @@ function DevNav() {
   
   return (
     <div className="fixed bottom-6 right-6 z-[100] flex gap-2 bg-[#1A1A1A] p-1.5 rounded-[100px] shadow-xl border border-white/10 backdrop-blur-md">
-      <Link href="/">
-        <a className={`px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-          Home
-        </a>
+      <Link href="/" className={`cursor-pointer px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+        Home
       </Link>
-      <Link href="/landing">
-        <a className={`px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/landing' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-          Landing
-        </a>
+      <Link href="/landing" className={`cursor-pointer px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/landing' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+        Landing
       </Link>
     </div>
   );

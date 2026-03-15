@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
@@ -6,6 +7,47 @@ import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
 
 export default function Landing() {
+  useEffect(() => {
+    // Force background color on html, body, and root for Mac/iOS overscroll
+    document.documentElement.style.setProperty('background-color', '#FFFEF2', 'important');
+    document.body.style.setProperty('background-color', '#FFFEF2', 'important');
+    const root = document.getElementById('root');
+    if (root) root.style.setProperty('background-color', '#FFFEF2', 'important');
+    
+    // Also remove the dark class to ensure no dark mode styles bleed through
+    const wasDark = document.documentElement.classList.contains('dark');
+    if (wasDark) document.documentElement.classList.remove('dark');
+    
+    // Also update theme-color meta tag for mobile/Safari
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    let originalThemeColor = '';
+    if (metaThemeColor) {
+      originalThemeColor = metaThemeColor.getAttribute('content') || '';
+      metaThemeColor.setAttribute('content', '#FFFEF2');
+    } else {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.setAttribute('name', 'theme-color');
+      metaThemeColor.setAttribute('content', '#FFFEF2');
+      document.head.appendChild(metaThemeColor);
+    }
+    
+    return () => {
+      // Reset when unmounting
+      document.documentElement.style.removeProperty('background-color');
+      document.body.style.removeProperty('background-color');
+      if (root) root.style.removeProperty('background-color');
+      if (wasDark) document.documentElement.classList.add('dark');
+      
+      if (metaThemeColor) {
+        if (originalThemeColor) {
+          metaThemeColor.setAttribute('content', originalThemeColor);
+        } else {
+          metaThemeColor.remove();
+        }
+      }
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] font-sans antialiased overflow-x-hidden flex justify-center">
       <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4]">

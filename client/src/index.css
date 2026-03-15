@@ -82,6 +82,10 @@
     @apply font-sans antialiased bg-background text-foreground;
     overflow-x: hidden;
   }
+  
+  html, body {
+    background-color: var(--page-bg, hsl(var(--background)));
+  }
 }
 
 :root {
@@ -104,7 +108,7 @@ body {
   box-sizing: border-box;
   min-height: 100vh;
   position: relative;
-  background-color: hsl(var(--background));
+  background-color: var(--page-bg, hsl(var(--background)));
 }
 
 @media (min-width: 1024px) {
