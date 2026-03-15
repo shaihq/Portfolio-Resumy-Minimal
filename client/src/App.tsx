@@ -9,10 +9,13 @@ import Home from "@/pages/home";
 import Project from "@/pages/project";
 import { useEffect } from "react";
 
+import Landing from "@/pages/landing";
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home}/>
+      <Route path="/landing" component={Landing}/>
       <Route path="/project/:id" component={Project}/>
       <Route component={NotFound} />
     </Switch>
