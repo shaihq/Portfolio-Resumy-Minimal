@@ -52,7 +52,7 @@ export default function Landing() {
     <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] font-sans antialiased overflow-x-hidden flex justify-center">
       <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4]">
         {/* Header */}
-        <header className="sticky top-0 z-50 w-full border-b border-[#EAE9E4] bg-[#FFFEF2]/95 backdrop-blur">
+        <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
           <div className="px-6 h-16 flex items-center justify-between">
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase">
               25000+ USERS
