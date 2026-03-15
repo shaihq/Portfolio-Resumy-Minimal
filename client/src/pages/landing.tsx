@@ -54,7 +54,7 @@ export default function Landing() {
         {/* Header */}
         <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
           <div className="px-6 h-16 flex items-center justify-between">
-            <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase">
+            <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase" style={{ fontFamily: '"Geist Mono", monospace' }}>
               25000+ USERS
             </div>
             <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 hover:bg-black/5 bg-transparent text-[#1D1B1A]">
