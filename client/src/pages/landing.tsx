@@ -49,7 +49,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] antialiased overflow-x-hidden flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
+    <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
       
       <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4] relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
         
