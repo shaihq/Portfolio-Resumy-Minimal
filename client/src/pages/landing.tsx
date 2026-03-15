@@ -82,7 +82,7 @@ export default function Landing() {
                 / Designfolio
               </div>
               
-              <div className="flex items-center gap-2 mt-8 mb-8 text-[#1D1B1A]/40 bg-[#FFFEF2]">
+              <div className="flex items-center gap-2 mt-4 mb-4 text-[#1D1B1A]/40 bg-[#FFFEF2]">
                 <Sun className="w-4 h-4 text-[#1D1B1A]" />
                 <div className="w-9 h-[22px] bg-[#EAE9E4] rounded-full relative shadow-inner border border-black/5 cursor-pointer">
                   <div className="absolute left-[3px] top-[3px] w-4 h-4 bg-white rounded-full shadow-sm"></div>
