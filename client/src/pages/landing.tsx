@@ -7,7 +7,7 @@ import mockupImg from "@assets/image_1773592620611.png";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-white text-[#1D1B1A] font-sans antialiased overflow-x-hidden flex justify-center">
+    <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] font-sans antialiased overflow-x-hidden flex justify-center">
       <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4]">
         {/* Header */}
         <header className="sticky top-0 z-50 w-full border-b border-[#EAE9E4] bg-[#FFFEF2]/95 backdrop-blur">
@@ -69,9 +69,9 @@ export default function Landing() {
             >
               <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                 <img 
-                  src={mockupImg} 
+                  src="/heroimage.png" 
                   alt="Product Interface Mockup" 
-                  className="absolute inset-0 w-full h-full object-cover scale-[1.3] origin-center -translate-y-[5%]" 
+                  className="absolute inset-0 w-full h-full object-cover origin-center" 
                 />
               </div>
             </motion.div>
