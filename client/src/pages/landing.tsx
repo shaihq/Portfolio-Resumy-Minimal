@@ -65,12 +65,12 @@ export default function Landing() {
 
         <main className="flex flex-col items-center">
           {/* Hero Section */}
-          <section className="w-full px-6 pt-20 pb-12 flex flex-col items-center text-center">
+          <section className="w-full px-6 pt-12 pb-12 flex flex-col items-center text-center">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-[36px] md:text-[44px] leading-[1.1] font-semibold tracking-[-0.02em] text-[#1D1B1A] max-w-[480px] mb-5"
+              className="text-[40px] leading-[1.1] font-[550] tracking-[-0.02em] text-[#1D1B1A] max-w-[480px] mb-5"
             >
               Fastest way to build<br />your portfolio site
             </motion.h1>
