@@ -159,9 +159,12 @@ export default function Landing() {
               className="relative rounded-[20px] overflow-hidden shadow-xl border border-black/5 bg-[#141414]"
             >
               <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
-                <img 
-                  src="/heroimage.png" 
-                  alt="Product Interface Mockup" 
+                <video 
+                  src="/opthero.mp4" 
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="absolute inset-0 w-full h-full object-cover origin-center" 
                 />
               </div>
