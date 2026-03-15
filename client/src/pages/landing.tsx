@@ -67,11 +67,11 @@ export default function Landing() {
                 {"Designfolio".split("").map((char, index) => (
                   <motion.span
                     key={index}
-                    initial={{ filter: "blur(8px)", opacity: 0 }}
-                    animate={{ filter: "blur(0px)", opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{
-                      duration: 0.4,
-                      delay: index * 0.05,
+                      duration: 0.2,
+                      delay: 0.5 + index * 0.06,
                       ease: "easeOut",
                     }}
                   >
