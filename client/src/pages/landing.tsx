@@ -79,7 +79,14 @@ export default function Landing() {
               className="flex flex-col relative z-10 bg-[#FFFEF2] w-full"
             >
               <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center h-9 pr-4 bg-[#FFFEF2]">
-                / Designfolio
+                <span className="mr-1.5">/</span>
+                <motion.span
+                  initial={{ clipPath: "inset(0 100% 0 0)" }}
+                  animate={{ clipPath: "inset(0 0% 0 0)" }}
+                  transition={{ duration: 0.6, delay: 0.4, ease: "linear" }}
+                >
+                  Designfolio
+                </motion.span>
               </div>
               
               <div className="flex items-center gap-2 mt-4 mb-4 text-[#1D1B1A]/40 bg-[#FFFEF2]">
