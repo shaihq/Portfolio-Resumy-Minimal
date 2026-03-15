@@ -75,7 +75,7 @@ export default function Landing() {
             <motion.div 
               initial={{ y: 0 }}
               animate={{ y: 52 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col relative z-10 bg-[#FFFEF2] w-full"
             >
               <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center h-9 pr-4 bg-[#FFFEF2]">
