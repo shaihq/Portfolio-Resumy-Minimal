@@ -60,9 +60,9 @@ export default function Landing() {
             {/* Logo that gets revealed */}
             <div className="absolute top-0 left-0 w-9 h-9 z-0">
               <motion.div 
-                initial={{ opacity: 0, scale: 0 }}
+                initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full h-full rounded-full bg-[#E54D2E] flex items-center justify-center text-white shadow-sm"
               >
                 <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -74,59 +74,28 @@ export default function Landing() {
             {/* Sliding Container */}
             <motion.div 
               initial={{ y: 0 }}
-              animate={{ y: 64 }}
-              transition={{ duration: 0.7, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ y: 52 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col relative z-10 bg-[#FFFEF2] w-full"
             >
               <div className="font-bold text-[15px] tracking-tight text-[#1D1B1A] flex items-center h-9 pr-4 bg-[#FFFEF2]">
-                <motion.span 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                  className="mr-1"
-                >
-                  /
-                </motion.span>
-                {"Designfolio".split("").map((char, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: 0.15,
-                      delay: 0.1 + index * 0.04,
-                      ease: "easeOut",
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
+                / Designfolio
               </div>
               
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 1.1 }}
-                className="flex items-center gap-2 mt-8 mb-8 text-[#1D1B1A]/40 bg-[#FFFEF2]"
-              >
+              <div className="flex items-center gap-2 mt-8 mb-8 text-[#1D1B1A]/40 bg-[#FFFEF2]">
                 <Sun className="w-4 h-4 text-[#1D1B1A]" />
                 <div className="w-9 h-[22px] bg-[#EAE9E4] rounded-full relative shadow-inner border border-black/5 cursor-pointer">
                   <div className="absolute left-[3px] top-[3px] w-4 h-4 bg-white rounded-full shadow-sm"></div>
                 </div>
                 <Moon className="w-4 h-4" />
-              </motion.div>
+              </div>
               
-              <motion.nav 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 1.2 }}
-                className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 pb-4 bg-[#FFFEF2]"
-              >
+              <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 pb-4 bg-[#FFFEF2]">
                 <a href="#" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
                 <a href="#" className="hover:text-[#1D1B1A] transition-colors">Stories</a>
                 <a href="#" className="hover:text-[#1D1B1A] transition-colors">How?</a>
                 <a href="#" className="hover:text-[#1D1B1A] transition-colors">Why?</a>
-              </motion.nav>
+              </nav>
             </motion.div>
           </div>
         </div>
