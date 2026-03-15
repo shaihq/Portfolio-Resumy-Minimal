@@ -79,7 +79,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              className="text-[16px] text-[#1D1B1A]/70 mb-8 max-w-[400px] font-medium leading-relaxed"
+              className="text-[16px] mb-8 max-w-[400px] leading-relaxed font-semibold text-[#1d1b1ab3]"
             >
               Skip the busywork with Designfolio —<br />publish in hours, not weeks.
             </motion.p>
