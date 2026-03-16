@@ -192,11 +192,11 @@ export default function Landing() {
           </section>
 
           {/* Trusted By Section */}
-          <section className="w-full px-6 mb-20 flex flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-10">
-            <div className="text-[14px] text-[#1D1B1A]/60 font-medium leading-tight max-w-[100px] text-center md:text-left mt-1">
+          <section className="w-full px-6 mb-20 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+            <div className="text-[14px] text-[#1D1B1A]/60 font-medium leading-tight whitespace-nowrap text-center md:text-left">
               Trusted by folks working at
             </div>
-            <div className="flex items-center justify-center flex-wrap gap-x-8 gap-y-4 text-[#1D1B1A]/40 max-w-[350px]">
+            <div className="flex items-center justify-between flex-wrap gap-x-4 gap-y-4 text-[#1D1B1A]/40 flex-1 w-full">
               <SiGoogle className="w-auto h-[22px] hover:text-[#1D1B1A]/60 transition-colors" />
               <FaMicrosoft className="w-auto h-[20px] hover:text-[#1D1B1A]/60 transition-colors" />
               <SiApple className="w-auto h-[24px] hover:text-[#1D1B1A]/60 transition-colors pb-0.5" />
