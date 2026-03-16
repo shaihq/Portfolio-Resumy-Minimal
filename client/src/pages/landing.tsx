@@ -56,7 +56,7 @@ function ShimmerInView({ text }: { text: string }) {
       <motion.span
         initial={{ backgroundPosition: '100% center' }}
         whileInView={{ backgroundPosition: '0% center' }}
-        viewport={{ margin: "-40% 0px -40% 0px", once: false }}
+        viewport={{ once: true, margin: "0px 0px -20% 0px" }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
         className="text-transparent bg-clip-text inline-block"
         style={{ 
