@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon } from "lucide-react";
@@ -6,6 +6,9 @@ import { SiGoogle, SiApple } from "react-icons/si";
 import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
+import { flushSync } from "react-dom";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
 
 function BlurHoverText({ defaultText, hoverText }: { defaultText: string, hoverText: string }) {
   const hoverWords = hoverText.split(" ");
@@ -74,6 +77,75 @@ function ShimmerInView({ text }: { text: string }) {
 
 export default function Landing() {
   const { theme, setTheme } = useTheme();
+  const isDark = theme === 'dark';
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const playHeartbeat = useCallback(() => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const now = audioContext.currentTime
+
+      const osc1 = audioContext.createOscillator()
+      const gain1 = audioContext.createGain()
+      osc1.connect(gain1)
+      gain1.connect(audioContext.destination)
+      osc1.frequency.setValueAtTime(150, now)
+      gain1.gain.setValueAtTime(0.3, now)
+      gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.1)
+      osc1.start(now)
+      osc1.stop(now + 0.1)
+
+      const osc2 = audioContext.createOscillator()
+      const gain2 = audioContext.createGain()
+      osc2.connect(gain2)
+      gain2.connect(audioContext.destination)
+      osc2.frequency.setValueAtTime(180, now + 0.12)
+      gain2.gain.setValueAtTime(0.2, now + 0.12)
+      gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.22)
+      osc2.start(now + 0.12)
+      osc2.stop(now + 0.22)
+    } catch (e) {
+    }
+  }, [])
+
+  const handleCheckedChange = async (checked: boolean) => {
+    playHeartbeat();
+
+    if (!document.startViewTransition) {
+      setTheme(checked ? "dark" : "light");
+      return;
+    }
+
+    await document.startViewTransition(() => {
+      flushSync(() => {
+        setTheme(checked ? "dark" : "light");
+      });
+    }).ready;
+
+    if (containerRef.current) {
+      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
+      const maxDistance = Math.hypot(
+        Math.max(centerX, window.innerWidth - centerX),
+        Math.max(centerY, window.innerHeight - centerY)
+      );
+
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${centerX}px ${centerY}px)`,
+            `circle(${maxDistance}px at ${centerX}px ${centerY}px)`,
+          ],
+        },
+        {
+          duration: 700,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    }
+  };
 
   useEffect(() => {
     // Force background color on html, body, and root for Mac/iOS overscroll
@@ -167,15 +239,35 @@ export default function Landing() {
                 </motion.span>
               </div>
               
-              <div className="flex items-center gap-2 mt-4 mb-4 text-[#1D1B1A]/40 dark:text-foreground/40 bg-[#FFFEF2] dark:bg-background">
-                <Sun className="w-4 h-4 text-[#1D1B1A] dark:text-foreground/40" />
-                <div 
-                  className="w-9 h-[22px] bg-[#EAE9E4] dark:bg-[#1D1B1A] rounded-full relative shadow-inner border border-[#E2E1DA] dark:border-[#333] cursor-pointer"
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                >
-                  <div className={`absolute top-[2px] w-4 h-4 bg-white dark:bg-[#A3A3A3] rounded-full shadow-sm transition-all duration-300 ${theme === 'dark' ? 'left-[17px]' : 'left-[3px]'}`}></div>
+              <div className="flex items-center justify-between p-4 mt-4 mb-4 border border-black/10 dark:border-white/10 rounded-[16px] bg-black/[0.02] dark:bg-white/[0.02] w-full">
+                <div className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Appearance</div>
+                <div ref={containerRef} className="group inline-flex items-center gap-2">
+                  <span
+                    className={cn(
+                      "cursor-pointer text-left text-sm font-medium transition-colors",
+                      isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
+                    )}
+                    onClick={() => handleCheckedChange(false)}
+                  >
+                    <Sun className="size-4" aria-hidden="true" />
+                  </span>
+
+                  <Switch
+                    checked={isDark}
+                    onCheckedChange={handleCheckedChange}
+                    aria-label="Toggle between dark and light mode"
+                  />
+
+                  <span
+                    className={cn(
+                      "cursor-pointer text-right text-sm font-medium transition-colors",
+                      !isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
+                    )}
+                    onClick={() => handleCheckedChange(true)}
+                  >
+                    <Moon className="size-4" aria-hidden="true" />
+                  </span>
                 </div>
-                <Moon className="w-4 h-4 text-[#1D1B1A]/40 dark:text-foreground" />
               </div>
               
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
