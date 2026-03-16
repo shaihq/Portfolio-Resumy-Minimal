@@ -50,7 +50,6 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-[#FFFEF2] text-[#1D1B1A] antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
-      
       <div className="w-full max-w-[640px] bg-[#FFFEF2] min-h-screen border-x border-[#EAE9E4] relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
         
         {/* Left Floating Nav */}
@@ -193,7 +192,7 @@ export default function Landing() {
 
           {/* Trusted By Section */}
           <section className="w-full px-6 mb-20 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-            <div className="text-[14px] text-[#1D1B1A]/60 font-medium leading-tight whitespace-nowrap text-center md:text-left shrink-0">
+            <div className="text-[14px] text-[#1D1B1A]/60 leading-tight whitespace-nowrap text-center md:text-left shrink-0 font-bold">
               Trusted by folks<br className="hidden md:block" /> working at
             </div>
             <div className="flex-1 w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
