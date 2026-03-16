@@ -199,10 +199,10 @@ export default function Landing() {
               <motion.div 
                 className="flex items-center text-[#1D1B1A]/40 w-max"
                 animate={{ x: ["0%", "-50%"] }}
-                transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+                transition={{ ease: "linear", duration: 40, repeat: Infinity }}
               >
                 {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-x-12 pr-12">
+                  <div key={i} className="flex items-center gap-x-8 pr-8">
                     {[1, 2, 3, 4, 5, 6, 7].map((num) => (
                       <img 
                         key={num}
