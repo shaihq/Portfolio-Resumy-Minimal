@@ -218,7 +218,7 @@ export default function Landing() {
           </section>
 
           {/* Testimonial Section */}
-          <section className="w-full bg-[#F5F4EC] border-y border-[#EAE9E4] py-12 px-6">
+          <section className="w-full border-y border-[#EAE9E4] py-12 px-6 bg-[#F4F3E5]">
             <div className="max-w-[500px] mx-auto">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border border-black/5 shadow-sm">
