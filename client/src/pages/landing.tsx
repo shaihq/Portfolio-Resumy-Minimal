@@ -192,7 +192,7 @@ export default function Landing() {
 
           {/* Trusted By Section */}
           <section className="w-full px-6 mb-20 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-            <div className="text-[14px] text-[#1D1B1A]/60 leading-tight whitespace-nowrap text-center md:text-left shrink-0 font-bold">
+            <div className="text-[14px] text-[#1D1B1A]/60 leading-tight whitespace-nowrap text-center md:text-left shrink-0 font-semibold">
               Trusted by folks<br className="hidden md:block" /> working at
             </div>
             <div className="flex-1 w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
