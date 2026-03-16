@@ -234,7 +234,7 @@ export default function Landing() {
                 </div>
               </div>
               
-              <p className="text-[17px] leading-[1.6] text-[#1D1B1A]/80 font-medium">
+              <p className="text-[#1D1B1A]/80 font-medium text-[16px]">
                 I was procrastinating on building my portfolio for a year, but Designfolio
                 completely changed that — it helped me go from Word/Figma case studies to
                 a live website in just 20 minutes.
