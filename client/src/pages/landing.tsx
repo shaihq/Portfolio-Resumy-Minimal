@@ -103,7 +103,7 @@ export default function Landing() {
               
               <div className="flex items-center gap-2 mt-4 mb-4 text-[#1D1B1A]/40 bg-[#FFFEF2]">
                 <Sun className="w-4 h-4 text-[#1D1B1A]" />
-                <div className="w-9 h-[22px] bg-[#EAE9E4] rounded-full relative shadow-inner border border-black/5 cursor-pointer">
+                <div className="w-9 h-[22px] bg-[#EAE9E4] rounded-full relative shadow-inner border border-[#E2E1DA] cursor-pointer">
                   <div className="absolute left-[3px] top-[3px] w-4 h-4 bg-white rounded-full shadow-sm"></div>
                 </div>
                 <Moon className="w-4 h-4" />
@@ -175,7 +175,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-              className="relative rounded-[20px] overflow-hidden shadow-xl border border-black/5 bg-[#141414]"
+              className="relative rounded-[20px] overflow-hidden shadow-xl border border-[#E2E1DA] bg-[#141414]"
             >
               <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                 <video 
@@ -221,7 +221,7 @@ export default function Landing() {
           <section className="w-full border-y border-[#EAE9E4] py-8 px-6 bg-[#F4F3E5]">
             <div className="max-w-[500px] mx-auto">
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-11 h-11 rounded-[14px] overflow-hidden shrink-0 border border-black/5 shadow-sm">
+                <div className="w-11 h-11 rounded-[14px] overflow-hidden shrink-0 border border-[#E2E1DA] shadow-sm">
                   <img 
                     src="/testimonial images/ishita.png" 
                     alt="Ishita Chaudhary" 
@@ -255,7 +255,7 @@ export default function Landing() {
                   <h3 className="text-[18px] font-bold text-[#1D1B1A]">
                     {item.step} {item.title}
                   </h3>
-                  <div className="w-full rounded-[12px] overflow-hidden border border-black/5 shadow-sm bg-[#141414]">
+                  <div className="w-full rounded-[12px] overflow-hidden border border-[#E2E1DA] shadow-sm bg-[#141414]">
                     <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                       <video 
                         src="/opthero.mp4" 
