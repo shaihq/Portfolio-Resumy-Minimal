@@ -141,7 +141,7 @@ export default function Landing() {
               className="text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] font-semibold"
             >
               <div className="relative inline-block">
-                <span className="relative z-10 text-transparent bg-clip-text animate-[shimmer-text_1.5s_ease-in-out_forwards_0.3s]" style={{ backgroundImage: 'linear-gradient(to right, #463B34 0%, #463B34 40%, #764A62 50%, #D85642 60%, #E9A150 70%, #463B34 80%, #463B34 100%)', backgroundSize: '300% auto', backgroundPosition: '100% center' }}>Fastest</span>
+                <span className="relative z-10 text-transparent bg-clip-text animate-[shimmer-text_2.5s_ease-in-out_forwards_0.3s]" style={{ backgroundImage: 'linear-gradient(to right, #463B34 0%, #463B34 30%, #5D3560 40%, #E54D2E 50%, #F5A623 60%, #463B34 70%, #463B34 100%)', backgroundSize: '300% auto', backgroundPosition: '100% center' }}>Fastest</span>
               </div> way to build<br />your portfolio site
             </motion.h1>
             
