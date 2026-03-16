@@ -144,3 +144,13 @@ body {
   from { transform: translateX(0); }
   to { transform: translateX(100%); }
 }
+
+@keyframes shimmer-text {
+  0% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
