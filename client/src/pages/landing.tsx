@@ -204,14 +204,14 @@ export default function Landing() {
               >
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center gap-x-12 pr-12">
-                    <SiGoogle className="w-auto h-[22px] hover:text-[#1D1B1A]/60 transition-colors" />
-                    <FaMicrosoft className="w-auto h-[20px] hover:text-[#1D1B1A]/60 transition-colors" />
-                    <SiApple className="w-auto h-[24px] hover:text-[#1D1B1A]/60 transition-colors pb-0.5" />
-                    <FaAmazon className="w-auto h-[24px] hover:text-[#1D1B1A]/60 transition-colors mt-1" />
-                    <div className="flex items-center gap-1.5 hover:text-[#1D1B1A]/60 transition-colors font-bold text-[17px] tracking-tight">
-                       <svg className="w-[18px] h-[18px] mb-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                       Swiggy
-                    </div>
+                    {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                      <img 
+                        key={num}
+                        src={`/companylogo/companienames0${num}.svg`} 
+                        alt={`Company logo ${num}`}
+                        className="h-[26px] w-auto opacity-50 hover:opacity-80 transition-opacity"
+                      />
+                    ))}
                   </div>
                 ))}
               </motion.div>
