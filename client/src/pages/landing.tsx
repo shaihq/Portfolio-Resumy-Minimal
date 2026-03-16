@@ -241,6 +241,34 @@ export default function Landing() {
               </p>
             </div>
           </section>
+
+          {/* Steps Section */}
+          <section className="w-full px-6 py-20 bg-[#FFFEF2]">
+            <div className="max-w-[500px] mx-auto flex flex-col gap-16">
+              {[
+                { step: "1/", title: "Choose a template.", img: "/tools/image 4.png" },
+                { step: "2/", title: "Use AI as a co-pilot", img: "/tools/image 5.png" },
+                { step: "3/", title: "Write a little-story about yourself.", img: "/tools/image 6.png" },
+                { step: "4/", title: "And other AI tools", img: "/tools/image 7.png" }
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col gap-5">
+                  <h3 className="text-[18px] font-bold text-[#1D1B1A]">
+                    {item.step} {item.title}
+                  </h3>
+                  <div className="w-full rounded-[12px] overflow-hidden border border-black/5 shadow-sm bg-[#141414]">
+                    <img 
+                      src={item.img} 
+                      alt={item.title} 
+                      className="w-full h-auto object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = mockupImg;
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </main>
       </div>
     </div>
