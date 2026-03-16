@@ -1,10 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon } from "lucide-react";
 import { SiGoogle, SiApple } from "react-icons/si";
 import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
+
+const CHARS = "!<>-_\\/[]{}—=+*^?#________";
+
+function ScrambleText({ text }: { text: string }) {
+  const [displayText, setDisplayText] = useState(text);
+  
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    let timeout: ReturnType<typeof setTimeout>;
+    
+    const scramble = () => {
+      let iteration = 0;
+      clearInterval(interval);
+      
+      interval = setInterval(() => {
+        setDisplayText(text.split("").map((char, index) => {
+          if (index < iteration) return text[index];
+          if (char === " ") return " ";
+          return CHARS[Math.floor(Math.random() * CHARS.length)];
+        }).join(""));
+        
+        if (iteration >= text.length) {
+          clearInterval(interval);
+          timeout = setTimeout(scramble, 4000);
+        }
+        iteration += 1 / 2;
+      }, 30);
+    };
+
+    timeout = setTimeout(scramble, 500);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [text]);
+
+  return <span>{displayText}</span>;
+}
 
 export default function Landing() {
   useEffect(() => {
@@ -123,7 +162,7 @@ export default function Landing() {
         <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
           <div className="px-6 h-16 flex items-center justify-between">
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase" style={{ fontFamily: '"Geist Mono", monospace' }}>
-              25000+ USERS
+              <ScrambleText text="5000+ PORTFOLIOS LAUNCHED" />
             </div>
             <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 hover:bg-black/5 bg-transparent text-[#1D1B1A]">
               Login
