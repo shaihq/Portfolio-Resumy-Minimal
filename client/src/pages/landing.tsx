@@ -239,35 +239,32 @@ export default function Landing() {
                 </motion.span>
               </div>
               
-              <div className="flex items-center justify-between p-4 mt-4 mb-4 border border-black/10 dark:border-white/10 rounded-[16px] bg-black/[0.02] dark:bg-white/[0.02] w-full">
-                <div className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Appearance</div>
-                <div ref={containerRef} className="group inline-flex items-center gap-2">
-                  <span
-                    className={cn(
-                      "cursor-pointer text-left text-sm font-medium transition-colors",
-                      isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
-                    )}
-                    onClick={() => handleCheckedChange(false)}
-                  >
-                    <Sun className="size-4" aria-hidden="true" />
-                  </span>
+              <div ref={containerRef} className="group inline-flex items-center gap-2 mt-4 mb-4">
+                <span
+                  className={cn(
+                    "cursor-pointer text-left text-sm font-medium transition-colors",
+                    isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
+                  )}
+                  onClick={() => handleCheckedChange(false)}
+                >
+                  <Sun className="size-4" aria-hidden="true" />
+                </span>
 
-                  <Switch
-                    checked={isDark}
-                    onCheckedChange={handleCheckedChange}
-                    aria-label="Toggle between dark and light mode"
-                  />
+                <Switch
+                  checked={isDark}
+                  onCheckedChange={handleCheckedChange}
+                  aria-label="Toggle between dark and light mode"
+                />
 
-                  <span
-                    className={cn(
-                      "cursor-pointer text-right text-sm font-medium transition-colors",
-                      !isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
-                    )}
-                    onClick={() => handleCheckedChange(true)}
-                  >
-                    <Moon className="size-4" aria-hidden="true" />
-                  </span>
-                </div>
+                <span
+                  className={cn(
+                    "cursor-pointer text-right text-sm font-medium transition-colors",
+                    !isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
+                  )}
+                  onClick={() => handleCheckedChange(true)}
+                >
+                  <Moon className="size-4" aria-hidden="true" />
+                </span>
               </div>
               
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
