@@ -221,9 +221,9 @@ export default function Landing() {
           <section className="w-full border-y border-[#EAE9E4] py-8 px-6 bg-[#F4F3E5]">
             <div className="max-w-[500px] mx-auto">
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border border-black/5 shadow-sm">
+                <div className="w-11 h-11 rounded-[14px] overflow-hidden shrink-0 border border-black/5 shadow-sm">
                   <img 
-                    src="https://i.pravatar.cc/150?u=ishita" 
+                    src="/testimonial images/ishita.png" 
                     alt="Ishita Chaudhary" 
                     className="w-full h-full object-cover"
                   />
