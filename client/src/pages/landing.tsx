@@ -314,7 +314,7 @@ export default function Landing() {
             <div className="w-full flex flex-col gap-12">
               {[
                 { step: "1/", title: 'Choose a "template".', video: "/landingvideo/templateshero.mp4" },
-                { step: "2/", title: 'Use AI as a "co-pilot".', video: "/opthero.mp4" },
+                { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
                 { step: "3/", title: 'Write a little-"story" about yourself.', video: "/opthero.mp4" },
                 { step: "4/", title: 'And other "AI tools".', video: "/opthero.mp4" }
               ].map((item, i) => (
