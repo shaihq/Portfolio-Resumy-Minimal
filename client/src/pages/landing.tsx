@@ -256,14 +256,16 @@ export default function Landing() {
                     {item.step} {item.title}
                   </h3>
                   <div className="w-full rounded-[12px] overflow-hidden border border-black/5 shadow-sm bg-[#141414]">
-                    <img 
-                      src={item.img} 
-                      alt={item.title} 
-                      className="w-full h-auto object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = mockupImg;
-                      }}
-                    />
+                    <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
+                      <video 
+                        src="/opthero.mp4" 
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover origin-center" 
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
