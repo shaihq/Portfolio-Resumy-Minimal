@@ -230,9 +230,9 @@ export default function Landing() {
             >
               <div className="relative group inline-block">
                 <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                <Button className="relative bg-[#1D1B1A] dark:bg-foreground text-[#FDFCF8] dark:text-background hover:bg-[#1D1B1A]/90 dark:bg-foreground/90 rounded-full px-6 h-[48px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10 dark:border-border/10">
+                <Button className="relative bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] hover:bg-[#1D1B1A]/90 dark:hover:bg-white/90 rounded-full px-6 h-[48px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10 dark:border-white/10">
                   Get started for Free
-                  <div className="bg-[#FDFCF8] text-[#1D1B1A] dark:text-foreground rounded-full p-[3px] ml-1 flex items-center justify-center">
+                  <div className="bg-[#FDFCF8] dark:bg-[#1D1B1A] text-[#1D1B1A] dark:text-white rounded-full p-[3px] ml-1 flex items-center justify-center">
                     <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={3} />
                   </div>
                 </Button>
@@ -385,9 +385,9 @@ export default function Landing() {
 
               <div className="relative group inline-block mt-4 mb-6">
                 <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                <Button className="relative bg-[#1D1B1A] dark:bg-foreground text-[#FDFCF8] dark:text-background hover:bg-[#1D1B1A]/90 dark:bg-foreground/90 rounded-full px-6 h-[44px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10 dark:border-border/10">
+                <Button className="relative bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] hover:bg-[#1D1B1A]/90 dark:hover:bg-white/90 rounded-full px-6 h-[44px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10 dark:border-white/10">
                   Get started for Free
-                  <div className="bg-[#FDFCF8] text-[#1D1B1A] dark:text-foreground rounded-full p-[3px] ml-1 flex items-center justify-center">
+                  <div className="bg-[#FDFCF8] dark:bg-[#1D1B1A] text-[#1D1B1A] dark:text-white rounded-full p-[3px] ml-1 flex items-center justify-center">
                     <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={3} />
                   </div>
                 </Button>
