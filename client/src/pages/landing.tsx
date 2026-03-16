@@ -8,41 +8,45 @@ import mockupImg from "@assets/image_1773592620611.png";
 
 const CHARS = "!<>-_\\/[]{}—=+*^?#________";
 
-function ScrambleText({ text }: { text: string }) {
-  const [displayText, setDisplayText] = useState(text);
+function ScrambleHoverText({ defaultText, hoverText }: { defaultText: string, hoverText: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [displayText, setDisplayText] = useState(defaultText);
   
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-    let timeout: ReturnType<typeof setTimeout>;
+    const targetText = isHovered ? hoverText : defaultText;
     
-    const scramble = () => {
-      let iteration = 0;
-      clearInterval(interval);
-      
-      interval = setInterval(() => {
-        setDisplayText(text.split("").map((char, index) => {
-          if (index < iteration) return text[index];
+    let iteration = 0;
+    
+    clearInterval(interval);
+    
+    interval = setInterval(() => {
+      setDisplayText(prev => {
+        return targetText.split("").map((char, index) => {
+          if (index < iteration) return targetText[index];
           if (char === " ") return " ";
           return CHARS[Math.floor(Math.random() * CHARS.length)];
-        }).join(""));
-        
-        if (iteration >= text.length) {
-          clearInterval(interval);
-          timeout = setTimeout(scramble, 4000);
-        }
-        iteration += 1 / 2;
-      }, 30);
-    };
+        }).join("");
+      });
+      
+      if (iteration >= targetText.length) {
+        clearInterval(interval);
+      }
+      iteration += 1 / 2;
+    }, 30);
 
-    timeout = setTimeout(scramble, 500);
+    return () => clearInterval(interval);
+  }, [isHovered, defaultText, hoverText]);
 
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  }, [text]);
-
-  return <span>{displayText}</span>;
+  return (
+    <span 
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => setIsHovered(false)}
+      className="cursor-default transition-colors duration-300 inline-block min-w-[220px]"
+    >
+      {displayText}
+    </span>
+  );
 }
 
 export default function Landing() {
@@ -162,7 +166,7 @@ export default function Landing() {
         <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4]">
           <div className="px-6 h-16 flex items-center justify-between">
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 uppercase" style={{ fontFamily: '"Geist Mono", monospace' }}>
-              <ScrambleText text="5000+ PORTFOLIOS LAUNCHED" />
+              <ScrambleHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
             </div>
             <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 hover:bg-black/5 bg-transparent text-[#1D1B1A]">
               Login
