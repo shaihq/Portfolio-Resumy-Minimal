@@ -229,7 +229,7 @@ export default function Landing() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <div className="font-semibold text-[#1D1B1A] text-[14px]">Ishita Chaudhary</div>
+                  <div className="text-[#1D1B1A] text-[16px] font-bold">Ishita Chaudhary</div>
                   <div className="text-[13px] font-medium text-[#1D1B1A]/60">Product & Business @ Cisco</div>
                 </div>
               </div>
