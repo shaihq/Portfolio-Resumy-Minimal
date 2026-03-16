@@ -243,8 +243,8 @@ export default function Landing() {
           </section>
 
           {/* Steps Section */}
-          <section className="w-full px-6 py-20 bg-[#FFFEF2]">
-            <div className="max-w-[500px] mx-auto flex flex-col gap-16">
+          <section className="w-full px-6 mb-16">
+            <div className="w-full flex flex-col gap-12">
               {[
                 { step: "1/", title: "Choose a template.", img: "/tools/image 4.png" },
                 { step: "2/", title: "Use AI as a co-pilot", img: "/tools/image 5.png" },
