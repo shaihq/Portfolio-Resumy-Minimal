@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Project from "@/pages/project";
 import { useEffect } from "react";
+import { ThemeProvider } from "next-themes";
 
 import Landing from "@/pages/landing";
 
@@ -42,27 +43,17 @@ function Router() {
 }
 
 function App() {
-  useEffect(() => {
-    // Initialize theme from localStorage on app load
-    const savedTheme = localStorage.getItem("theme");
-    const isDarkMode = savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <TemplateProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </TemplateProvider>
-    </QueryClientProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <QueryClientProvider client={queryClient}>
+        <TemplateProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </TemplateProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
