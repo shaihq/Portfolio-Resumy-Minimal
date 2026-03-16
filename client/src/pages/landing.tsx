@@ -271,6 +271,72 @@ export default function Landing() {
               ))}
             </div>
           </section>
+
+          {/* About Maker Section */}
+          <section className="w-full border-t border-[#EAE9E4] pt-16 pb-12 px-6">
+            <div className="max-w-[500px] mx-auto">
+              <h2 className="text-[24px] font-bold text-[#1D1B1A] mb-6 tracking-tight">
+                I'm Shai. Maker of Designfolio.
+              </h2>
+              
+              <div className="flex flex-col gap-6 text-[15px] leading-[1.6] text-[#1D1B1A]/80 font-medium">
+                <p>
+                  I had nearly 10 years as a Product Designer, had worked on AI products, and had unicorn startups on my resume.
+                </p>
+                <p>
+                  But when I started looking for the role I truly wanted, I realized something surprising — it was much harder than I expected.
+                </p>
+                <p>
+                  So I went back to the basics. I spent days studying portfolios from designers at companies like Meta and Google, trying to understand how they structured their case studies and told compelling product stories.
+                </p>
+                <p>
+                  Eventually, I rebuilt my own portfolio from scratch. And while doing it, one thought kept coming back to me — why is this process so hard for everyone?
+                </p>
+                <p>
+                  That question is what led me to build Designfolio — a tool with the templates and frameworks that helped me tell my story better.
+                </p>
+                <p>
+                  And it worked. I received offers from PhonePe, Freshworks, and Zeta, and now I'm joining ServiceNow as a Staff Product Designer.
+                </p>
+                <p>
+                  Sometimes the best products come from solving your own problem.
+                </p>
+              </div>
+
+              <div className="mt-8 mb-6">
+                <div className="font-['Caveat'] text-[32px] text-[#1D1B1A] mb-2 leading-none">
+                  Shai
+                </div>
+                <div className="text-[14px] font-medium text-[#1D1B1A]/70">
+                  Say hi - shai@designfolio.me
+                </div>
+              </div>
+
+              <div className="relative group inline-block mt-4 mb-6">
+                <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                <Button className="relative bg-[#1D1B1A] text-[#FDFCF8] hover:bg-[#1D1B1A]/90 rounded-full px-6 h-[44px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10">
+                  Get started for Free
+                  <div className="bg-[#FDFCF8] text-[#1D1B1A] rounded-full p-[3px] ml-1 flex items-center justify-center">
+                    <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={3} />
+                  </div>
+                </Button>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="w-full border-t border-[#EAE9E4]">
+            <div className="px-6 py-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[13px] font-medium text-[#1D1B1A]/50 bg-[#F4F3E5]">
+              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Terms & Conditions</a>
+              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Refund Policy</a>
+              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Pricing</a>
+              <a href="#" className="hover:text-[#1D1B1A] transition-colors">Contact / Support</a>
+            </div>
+            <div className="border-t border-[#EAE9E4] px-6 py-4 text-center text-[12px] font-medium text-[#1D1B1A]/40 bg-[#F4F3E5]">
+              © 2025 Designfolio Labs LLP. All rights reserved.
+            </div>
+          </footer>
         </main>
       </div>
     </div>
