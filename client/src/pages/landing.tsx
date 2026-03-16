@@ -313,10 +313,10 @@ export default function Landing() {
           <section className="w-full px-6 mb-16 mt-[48px]">
             <div className="w-full flex flex-col gap-12">
               {[
-                { step: "1/", title: 'Choose a "template".', img: "/tools/image 4.png" },
-                { step: "2/", title: 'Use AI as a "co-pilot".', img: "/tools/image 5.png" },
-                { step: "3/", title: 'Write a little-"story" about yourself.', img: "/tools/image 6.png" },
-                { step: "4/", title: 'And other "AI tools".', img: "/tools/image 7.png" }
+                { step: "1/", title: 'Choose a "template".', video: "/landingvideo/templateshero.mp4" },
+                { step: "2/", title: 'Use AI as a "co-pilot".', video: "/opthero.mp4" },
+                { step: "3/", title: 'Write a little-"story" about yourself.', video: "/opthero.mp4" },
+                { step: "4/", title: 'And other "AI tools".', video: "/opthero.mp4" }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
                   <h3 className="text-[18px] font-bold text-[#1D1B1A]">
@@ -325,7 +325,7 @@ export default function Landing() {
                   <div className="w-full rounded-[12px] overflow-hidden border border-[#E2E1DA] shadow-sm bg-[#141414]">
                     <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                       <video 
-                        src="/opthero.mp4" 
+                        src={item.video} 
                         autoPlay
                         loop
                         muted
