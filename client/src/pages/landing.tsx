@@ -200,7 +200,7 @@ export default function Landing() {
               <motion.div 
                 className="flex items-center text-[#1D1B1A]/40 w-max"
                 animate={{ x: ["0%", "-50%"] }}
-                transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+                transition={{ ease: "linear", duration: 25, repeat: Infinity }}
               >
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center gap-x-12 pr-12">
@@ -209,7 +209,7 @@ export default function Landing() {
                         key={num}
                         src={`/companylogo/companienames0${num}.svg`} 
                         alt={`Company logo ${num}`}
-                        className="h-[26px] w-auto opacity-50 hover:opacity-80 transition-opacity"
+                        className="h-[32px] w-auto opacity-50 hover:opacity-80 transition-opacity"
                       />
                     ))}
                   </div>
