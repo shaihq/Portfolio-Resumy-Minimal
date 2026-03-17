@@ -361,17 +361,17 @@ export default function Landing() {
               </div>
               
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
-                <a href="#" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
-                <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Stories</a>
-                <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">How?</a>
-                <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Why?</a>
+                <a href="#overview" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
+                <a href="#stories" className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Stories</a>
+                <a href="#how" className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">How?</a>
+                <a href="#why" className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Why?</a>
               </nav>
             </motion.div>
           </div>
         </div>
 
         {/* Header */}
-        <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 dark:bg-background/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4] dark:before:bg-border">
+        <header id="overview" className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 dark:bg-background/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4] dark:before:bg-border">
           <div className="px-6 h-16 flex items-center justify-between">
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] flex items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
               <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
@@ -471,12 +471,12 @@ export default function Landing() {
           </section>
 
           {/* Testimonial Section */}
-          <section className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card overflow-hidden">
+          <section id="stories" className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card overflow-hidden">
             <TestimonialCarousel />
           </section>
 
           {/* Steps Section */}
-          <section className="w-full px-6 mb-16 mt-[48px]">
+          <section id="how" className="w-full px-6 mb-16 mt-[48px]">
             <div className="w-full flex flex-col gap-12">
               {[
                 { step: "1/", title: 'Choose a "template".', video: "/landingvideo/templateshero.mp4" },
@@ -506,7 +506,7 @@ export default function Landing() {
           </section>
 
           {/* About Maker Section */}
-          <section className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6">
+          <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6">
             <div className="max-w-[500px] mx-auto">
               <h2 className="text-[24px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">
                 I'm Shai. Maker of Designfolio.
