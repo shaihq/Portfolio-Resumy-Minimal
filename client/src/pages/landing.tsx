@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon } from "lucide-react";
 import { SiGoogle, SiApple } from "react-icons/si";
@@ -72,6 +72,97 @@ function ShimmerInView({ text }: { text: string }) {
       </motion.span>
       {parts[2]}
     </>
+  );
+}
+
+const testimonials = [
+  {
+    name: "Ishita Chaudhary",
+    role: "Product & Business @ Cisco",
+    content: "I was procrastinating on building my portfolio for a year, but Designfolio completely changed that — it helped me go from Word/Figma case studies to a live website in just 20 minutes.",
+    image: "/testimonial images/ishita.png"
+  },
+  {
+    name: "Alex Rivera",
+    role: "UX Designer @ Microsoft",
+    content: "The templates are exactly what hiring managers are looking for. I didn't have to guess what to include. Landed three interviews within a week of publishing.",
+    image: "/testimonial images/mock2.jpg"
+  },
+  {
+    name: "Sarah Chen",
+    role: "Senior Product Designer",
+    content: "Finally, a tool that understands how designers actually think. The AI copilot helped me articulate my design decisions so much better than I could on my own.",
+    image: "/testimonial images/mock3.jpg"
+  },
+  {
+    name: "David Kim",
+    role: "Product Designer @ Spotify",
+    content: "I've tried Framer, Webflow, and Notion. Designfolio is the only one that didn't feel like I was fighting the tool to tell my story. Unbelievably fast.",
+    image: "/testimonial images/mock4.jpg"
+  }
+];
+
+function TestimonialCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const duration = 5000;
+    const interval = 50;
+    const step = (interval / duration) * 100;
+    
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          setCurrentIndex((current) => (current + 1) % testimonials.length);
+          return 0;
+        }
+        return prev + step;
+      });
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="w-full max-w-[500px] mx-auto relative h-[220px]">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="absolute inset-0 flex flex-col"
+        >
+          <div className="flex items-center gap-4 mb-5">
+            <div className="w-11 h-11 rounded-[14px] overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
+              <img 
+                src={testimonials[currentIndex].image} 
+                alt={testimonials[currentIndex].name} 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col">
+              <div className="text-[#1D1B1A] dark:text-foreground text-[16px] font-bold">{testimonials[currentIndex].name}</div>
+              <div className="text-[13px] font-medium text-[#1D1B1A]/60 dark:text-foreground/60">{testimonials[currentIndex].role}</div>
+            </div>
+          </div>
+          
+          <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[16px]">
+            {testimonials[currentIndex].content}
+          </p>
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#EAE9E4] dark:bg-border/50 rounded-full overflow-hidden">
+        <motion.div 
+          className="h-full bg-[#E54D2E]"
+          style={{ width: `${progress}%` }}
+          transition={{ ease: "linear", duration: 0.05 }}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -378,28 +469,8 @@ export default function Landing() {
           </section>
 
           {/* Testimonial Section */}
-          <section className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card">
-            <div className="max-w-[500px] mx-auto">
-              <div className="flex items-center gap-4 mb-5">
-                <div className="w-11 h-11 rounded-[14px] overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
-                  <img 
-                    src="/testimonial images/ishita.png" 
-                    alt="Ishita Chaudhary" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-[#1D1B1A] dark:text-foreground text-[16px] font-bold">Ishita Chaudhary</div>
-                  <div className="text-[13px] font-medium text-[#1D1B1A]/60 dark:text-foreground/60">Product & Business @ Cisco</div>
-                </div>
-              </div>
-              
-              <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[16px]">
-                I was procrastinating on building my portfolio for a year, but Designfolio
-                completely changed that — it helped me go from Word/Figma case studies to
-                a live website in just 20 minutes.
-              </p>
-            </div>
+          <section className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card overflow-hidden">
+            <TestimonialCarousel />
           </section>
 
           {/* Steps Section */}
