@@ -279,7 +279,7 @@ export default function Landing() {
   }, [theme]);
 
   return (
-    <div className="min-h-screen bg-[#FFFEF2] dark:bg-background text-[#1D1B1A] dark:text-foreground antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
+    <div id="overview" className="min-h-screen bg-[#FFFEF2] dark:bg-background text-[#1D1B1A] dark:text-foreground antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
       <div className="w-full max-w-[640px] bg-[#FFFEF2] dark:bg-background min-h-screen border-x border-[#EAE9E4] dark:border-border relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
         
         {/* Left Floating Nav */}
@@ -371,7 +371,7 @@ export default function Landing() {
         </div>
 
         {/* Header */}
-        <header id="overview" className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 dark:bg-background/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4] dark:before:bg-border">
+        <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 dark:bg-background/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4] dark:before:bg-border">
           <div className="px-6 h-16 flex items-center justify-between">
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] flex items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
               <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
@@ -471,12 +471,12 @@ export default function Landing() {
           </section>
 
           {/* Testimonial Section */}
-          <section id="stories" className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card overflow-hidden">
+          <section id="stories" className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card overflow-hidden scroll-mt-[30vh]">
             <TestimonialCarousel />
           </section>
 
           {/* Steps Section */}
-          <section id="how" className="w-full px-6 mb-16 mt-[48px]">
+          <section id="how" className="w-full px-6 mb-16 mt-[48px] scroll-mt-24">
             <div className="w-full flex flex-col gap-12">
               {[
                 { step: "1/", title: 'Choose a "template".', video: "/landingvideo/templateshero.mp4" },
@@ -506,7 +506,7 @@ export default function Landing() {
           </section>
 
           {/* About Maker Section */}
-          <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6">
+          <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6 scroll-mt-24">
             <div className="max-w-[500px] mx-auto">
               <h2 className="text-[24px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">
                 I'm Shai. Maker of Designfolio.
