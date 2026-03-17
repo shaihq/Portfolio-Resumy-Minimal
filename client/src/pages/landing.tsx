@@ -172,6 +172,28 @@ export default function Landing() {
   const { theme, setTheme } = useTheme();
   const isDark = theme === 'dark';
   const containerRef = useRef<HTMLDivElement>(null);
+  const [activeSection, setActiveSection] = useState('overview');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px' }
+    );
+
+    const sections = ['overview', 'stories', 'how', 'why'];
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const playHeartbeat = useCallback(() => {
     try {
@@ -372,10 +394,10 @@ export default function Landing() {
               </div>
               
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
-                <a href="#overview" onClick={(e) => { e.preventDefault(); scrollToSection('overview'); }} className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
-                <a href="#stories" onClick={(e) => { e.preventDefault(); scrollToSection('stories', 'center'); }} className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Stories</a>
-                <a href="#how" onClick={(e) => { e.preventDefault(); scrollToSection('how', 'start'); }} className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">How?</a>
-                <a href="#why" onClick={(e) => { e.preventDefault(); scrollToSection('why', 'start'); }} className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Why?</a>
+                <a href="#overview" onClick={(e) => { e.preventDefault(); scrollToSection('overview'); }} className={cn("transition-colors", activeSection === 'overview' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Overview</a>
+                <a href="#stories" onClick={(e) => { e.preventDefault(); scrollToSection('stories', 'center'); }} className={cn("transition-colors", activeSection === 'stories' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Stories</a>
+                <a href="#how" onClick={(e) => { e.preventDefault(); scrollToSection('how', 'start'); }} className={cn("transition-colors", activeSection === 'how' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>How?</a>
+                <a href="#why" onClick={(e) => { e.preventDefault(); scrollToSection('why', 'start'); }} className={cn("transition-colors", activeSection === 'why' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Why?</a>
               </nav>
             </motion.div>
           </div>
