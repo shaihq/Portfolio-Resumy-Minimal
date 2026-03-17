@@ -177,13 +177,22 @@ export default function Landing() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+        // Find the currently intersecting entry
+        const intersectingEntry = entries.find(entry => entry.isIntersecting);
+        if (intersectingEntry) {
+          setActiveSection(intersectingEntry.target.id);
+        } else {
+          // If none are intersecting (e.g. scrolling up past 'stories' before 'overview' triggers),
+          // check if we are at the top of the page
+          if (window.scrollY < 100) {
+            setActiveSection('overview');
           }
-        });
+        }
       },
-      { rootMargin: '-20% 0px -60% 0px' }
+      { 
+        // Adjust the root margin to trigger earlier when scrolling up
+        rootMargin: '-10% 0px -70% 0px' 
+      }
     );
 
     const sections = ['overview', 'stories', 'how', 'why'];
@@ -192,7 +201,18 @@ export default function Landing() {
       if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
+    // Also listen to scroll events specifically for the top of the page
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveSection('overview');
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const playHeartbeat = useCallback(() => {
