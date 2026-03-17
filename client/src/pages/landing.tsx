@@ -278,6 +278,17 @@ export default function Landing() {
     };
   }, [theme]);
 
+  const scrollToSection = (id: string, block: ScrollLogicalPosition = 'start') => {
+    if (id === 'overview') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block });
+    }
+  };
+
   return (
     <div id="overview" className="min-h-screen bg-[#FFFEF2] dark:bg-background text-[#1D1B1A] dark:text-foreground antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
       <div className="w-full max-w-[640px] bg-[#FFFEF2] dark:bg-background min-h-screen border-x border-[#EAE9E4] dark:border-border relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
@@ -361,10 +372,10 @@ export default function Landing() {
               </div>
               
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
-                <a href="#overview" className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
-                <a href="#stories" className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Stories</a>
-                <a href="#how" className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">How?</a>
-                <a href="#why" className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Why?</a>
+                <a href="#overview" onClick={(e) => { e.preventDefault(); scrollToSection('overview'); }} className="text-[#E54D2E] font-semibold transition-colors">Overview</a>
+                <a href="#stories" onClick={(e) => { e.preventDefault(); scrollToSection('stories', 'center'); }} className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Stories</a>
+                <a href="#how" onClick={(e) => { e.preventDefault(); scrollToSection('how', 'start'); }} className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">How?</a>
+                <a href="#why" onClick={(e) => { e.preventDefault(); scrollToSection('why', 'start'); }} className="hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors">Why?</a>
               </nav>
             </motion.div>
           </div>
