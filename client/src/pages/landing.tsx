@@ -125,39 +125,41 @@ function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full max-w-[500px] mx-auto relative h-[220px]">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="absolute inset-0 flex flex-col"
-        >
-          <div className="flex items-center gap-4 mb-5">
-            <div className="w-11 h-11 rounded-[14px] overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
-              <img 
-                src={testimonials[currentIndex].image} 
-                alt={testimonials[currentIndex].name} 
-                className="w-full h-full object-cover"
-              />
+    <div className="w-full max-w-[500px] mx-auto flex flex-col items-center">
+      <div className="w-full relative h-[130px] sm:h-[120px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, filter: "blur(4px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(4px)" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="flex flex-col w-full absolute top-0 left-0"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
+                <img 
+                  src={testimonials[currentIndex].image} 
+                  alt={testimonials[currentIndex].name} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="text-[#1D1B1A] dark:text-foreground text-[14px] font-bold leading-tight">{testimonials[currentIndex].name}</div>
+                <div className="text-[12px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <div className="text-[#1D1B1A] dark:text-foreground text-[16px] font-bold">{testimonials[currentIndex].name}</div>
-              <div className="text-[13px] font-medium text-[#1D1B1A]/60 dark:text-foreground/60">{testimonials[currentIndex].role}</div>
-            </div>
-          </div>
-          
-          <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[16px]">
-            {testimonials[currentIndex].content}
-          </p>
-        </motion.div>
-      </AnimatePresence>
+            
+            <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[15px] leading-[1.5]">
+              {testimonials[currentIndex].content}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#EAE9E4] dark:bg-border/50 rounded-full overflow-hidden">
+      <div className="w-[60px] h-[3px] bg-black/5 dark:bg-white/5 rounded-full overflow-hidden mt-6">
         <motion.div 
-          className="h-full bg-[#E54D2E]"
+          className="h-full bg-black/20 dark:bg-white/20 rounded-full"
           style={{ width: `${progress}%` }}
           transition={{ ease: "linear", duration: 0.05 }}
         />
