@@ -3236,12 +3236,12 @@ export default function Home() {
                           </Button>
                         </div>
                       )}
-                      <p className="font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] leading-relaxed mb-6 italic relative z-10">
+                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-6 relative z-10">
                         "{creativeTestimonials[currentTestimonialIndex].text}"
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
+                          <div className="w-10 h-10 rounded-xl bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
                             <img src={creativeTestimonials[currentTestimonialIndex].image} alt={creativeTestimonials[currentTestimonialIndex].name} className="w-full h-full object-cover" />
                           </div>
                           <div>
