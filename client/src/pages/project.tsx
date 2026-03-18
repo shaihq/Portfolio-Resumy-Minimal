@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRoute, useLocation } from "wouter";
 import { ChevronLeft, Phone } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTemplate } from "@/hooks/use-template";
 import profileImg from "@/assets/images/profile.png";
 import project1 from "@/assets/images/project1.png";
@@ -58,6 +62,8 @@ const projectsData: Record<string, any> = {
 export default function Project() {
   const [match, params] = useRoute("/project/:id");
   const [, navigate] = useLocation();
+  const { activeTemplate } = useTemplate();
+  const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
 
   const projectId = (params?.id as string)?.toLowerCase();
 
@@ -99,8 +105,6 @@ export default function Project() {
       },
     },
   };
-
-  const { activeTemplate } = useTemplate();
 
   if (activeTemplate === "Chatfolio") {
     return (
@@ -341,11 +345,50 @@ export default function Project() {
             <div className="flex items-center gap-4">
               <div className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] opacity-50 hidden sm:block">PROJECT / {project.id}</div>
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full text-[#7A736C] dark:text-[#B5AFA5] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-black/5 dark:hover:bg-white/5" title="Lock Case Study">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                </Button>
-                <Button variant="outline" size="sm" className="h-7 text-[12px] rounded-full border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] flex items-center gap-1.5 px-3">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon" className="h-7 w-7 rounded-full border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] transition-all focus-visible:ring-0 focus-visible:ring-offset-0" title="Lock Case Study">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" sideOffset={8} className="w-[320px] p-4 bg-white/95 dark:bg-[#2A2520]/95 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl shadow-xl z-50">
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-1">
+                          <Label className="text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] cursor-pointer">Protect Project</Label>
+                          <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893] leading-snug">Require a password to view this project (e.g., for NDAs).</p>
+                        </div>
+                        <Switch 
+                          checked={isProjectPasswordEnabled} 
+                          onCheckedChange={setIsProjectPasswordEnabled} 
+                          className="mt-0.5 data-[state=checked]:bg-[#1A1A1A] dark:data-[state=checked]:bg-[#F0EDE7]"
+                        />
+                      </div>
+                      <AnimatePresence>
+                        {isProjectPasswordEnabled && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                            animate={{ opacity: 1, height: "auto", marginTop: 8 }}
+                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                          >
+                            <div>
+                              <Input 
+                                id="proj-password" 
+                                type="password"
+                                placeholder="Enter password" 
+                                className="h-10 bg-black/[0.03] dark:bg-white/[0.03] border-transparent rounded-xl text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] focus-visible:bg-transparent focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/10 focus-visible:border-black/20 dark:focus-visible:border-white/20 transition-all px-3.5 shadow-none placeholder:text-black/30 dark:placeholder:text-white/30" 
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <Button variant="outline" size="sm" className="h-7 text-[12px] rounded-full border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] flex items-center gap-1.5 px-3 transition-all focus-visible:ring-0 focus-visible:ring-offset-0">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                   Analyze with AI
                 </Button>
               </div>
