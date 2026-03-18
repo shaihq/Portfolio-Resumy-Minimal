@@ -395,16 +395,14 @@ export default function Project() {
             </div>
           </motion.div>
 
-          {/* Project Header Card */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
-            <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight mb-4">{project.title}</h1>
-            <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[600px]">
-              {project.subtitle}
-            </p>
-          </motion.div>
-
-          {/* Featured Image */}
+          {/* Project Header & Featured Image */}
           <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-2 md:p-3 w-full">
+            <div className="p-4 md:p-5 pb-6 md:pb-8">
+              <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight mb-4">{project.title}</h1>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[600px]">
+                {project.subtitle}
+              </p>
+            </div>
             <div className="w-full rounded-[24px] overflow-hidden bg-[#F5F5F5] dark:bg-[#1A1A1A]">
               <img 
                 src={project.image} 
