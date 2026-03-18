@@ -55,6 +55,7 @@ export default function Home() {
   const dribbbleRef = useRef<DribbbleIconHandle>(null);
   const twitterRef = useRef<TwitterIconHandle>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [expandedCareer, setExpandedCareer] = useState<Record<number, boolean>>({});
   const [playingTestimonial, setPlayingTestimonial] = useState<number | null>(null);
   const careerLadderRef = useRef<HTMLDivElement>(null);
   const ladderContainerRef = useRef<HTMLDivElement>(null);
@@ -2785,23 +2786,48 @@ export default function Home() {
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-4">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
-                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>AI agents for recruiters</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>Simplifying complex AI workflows</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>Scaling interaction patterns for enterprise hiring tools</span>
-                      </li>
-                    </ul>
+                    <motion.div
+                      initial={false}
+                      animate={{ height: expandedCareer[0] ? "auto" : 0, opacity: expandedCareer[0] ? 1 : 0 }}
+                      className="overflow-hidden"
+                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                    >
+                      <div className="pt-4">
+                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>AI agents for recruiters</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>Simplifying complex AI workflows</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>Scaling interaction patterns for enterprise hiring tools</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </motion.div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedCareer(prev => ({ ...prev, [0]: !prev[0] }));
+                      }}
+                      className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+                    >
+                      {expandedCareer[0] ? 'View less' : 'View more'}
+                      <motion.svg 
+                        animate={{ rotate: expandedCareer[0] ? 180 : 0 }}
+                        transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                        width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"/>
+                      </motion.svg>
+                    </button>
                   </div>
 
                   {/* Experience 2 */}
@@ -2822,24 +2848,49 @@ export default function Home() {
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-4">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
-                    <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
-                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>AI agents for recruiters</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>Simplifying complex AI workflows</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>Scaling interaction patterns for enterprise hiring tools</span>
-                      </li>
-                    </ul>
+                    <motion.div
+                      initial={false}
+                      animate={{ height: expandedCareer[1] ? "auto" : 0, opacity: expandedCareer[1] ? 1 : 0 }}
+                      className="overflow-hidden"
+                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                    >
+                      <div className="pt-4">
+                        <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
+                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>AI agents for recruiters</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>Simplifying complex AI workflows</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>Scaling interaction patterns for enterprise hiring tools</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </motion.div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedCareer(prev => ({ ...prev, [1]: !prev[1] }));
+                      }}
+                      className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+                    >
+                      {expandedCareer[1] ? 'View less' : 'View more'}
+                      <motion.svg 
+                        animate={{ rotate: expandedCareer[1] ? 180 : 0 }}
+                        transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                        width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"/>
+                      </motion.svg>
+                    </button>
                   </div>
 
                   {/* Experience 3 */}
@@ -2860,24 +2911,49 @@ export default function Home() {
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-4">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
-                    <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
-                    <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>AI agents for recruiters</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>Simplifying complex AI workflows</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
-                        <span>Scaling interaction patterns for enterprise hiring tools</span>
-                      </li>
-                    </ul>
+                    <motion.div
+                      initial={false}
+                      animate={{ height: expandedCareer[2] ? "auto" : 0, opacity: expandedCareer[2] ? 1 : 0 }}
+                      className="overflow-hidden"
+                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                    >
+                      <div className="pt-4">
+                        <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
+                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>AI agents for recruiters</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>Simplifying complex AI workflows</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
+                            <span>Scaling interaction patterns for enterprise hiring tools</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </motion.div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedCareer(prev => ({ ...prev, [2]: !prev[2] }));
+                      }}
+                      className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+                    >
+                      {expandedCareer[2] ? 'View less' : 'View more'}
+                      <motion.svg 
+                        animate={{ rotate: expandedCareer[2] ? 180 : 0 }}
+                        transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                        width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"/>
+                      </motion.svg>
+                    </button>
                   </div>
                 </div>
               </div>
