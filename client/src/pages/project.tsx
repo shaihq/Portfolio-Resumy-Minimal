@@ -338,7 +338,18 @@ export default function Project() {
               <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-1" />
               Back to Projects
             </button>
-            <div className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] opacity-50">PROJECT / {project.id}</div>
+            <div className="flex items-center gap-4">
+              <div className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] opacity-50 hidden sm:block">PROJECT / {project.id}</div>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full text-[#7A736C] dark:text-[#B5AFA5] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-black/5 dark:hover:bg-white/5" title="Lock Case Study">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </Button>
+                <Button variant="outline" size="sm" className="h-7 text-[12px] rounded-full border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 hover:bg-black/5 dark:hover:bg-white/5 text-[#1A1A1A] dark:text-[#F0EDE7] flex items-center gap-1.5 px-3">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  Analyze with AI
+                </Button>
+              </div>
+            </div>
           </motion.div>
 
           {/* Project Header Card */}
