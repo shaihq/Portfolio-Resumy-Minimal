@@ -416,12 +416,24 @@ export default function Project() {
           <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
             <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECT DETAILS</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {Object.entries(project.details).map(([key, value]) => (
-                <div key={key} className="flex flex-col gap-1">
-                  <span className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wide">{key}</span>
-                  <span className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{value as string}</span>
-                </div>
-              ))}
+              {Object.entries(project.details).map(([key, value]) => {
+                const isEditable = key === 'industry' || key === 'platform';
+                return (
+                  <div key={key} className="flex flex-col gap-1">
+                    <span className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wide">{key}</span>
+                    {isEditable ? (
+                      <input 
+                        type="text" 
+                        placeholder="Type here..." 
+                        defaultValue="" 
+                        className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] bg-transparent border-none p-0 focus:ring-0 placeholder:text-black/20 dark:placeholder:text-white/20 placeholder:italic w-full outline-none"
+                      />
+                    ) : (
+                      <span className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{value as string}</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
 
