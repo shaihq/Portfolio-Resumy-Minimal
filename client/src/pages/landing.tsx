@@ -600,7 +600,7 @@ export default function Landing() {
               {[
                 { step: "1/", title: 'Choose a "template".', video: "/landing-video/template-section.mp4" },
                 { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
-                { step: "3/", title: 'And other "AI tools".', video: "/opthero.mp4" }
+                { step: "3/", title: 'And other "AI tools".', video: "/landing-video/other-ai-tools.mp4" }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
                   <h3 className="text-[18px] font-bold text-[#1D1B1A] dark:text-foreground">
