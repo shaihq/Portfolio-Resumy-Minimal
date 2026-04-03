@@ -440,7 +440,7 @@ export default function Landing() {
                   checked={isDark}
                   onCheckedChange={handleCheckedChange}
                   aria-label="Toggle between dark and light mode"
-                  className="dark:data-[state=checked]:bg-[#B8AFA6]"
+                  className="dark:data-[state=checked]:bg-[#D4C9BC]"
                 />
 
                 <span
