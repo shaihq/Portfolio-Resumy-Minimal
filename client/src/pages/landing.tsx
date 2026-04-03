@@ -91,7 +91,7 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
               <img
                 src={t.avatar}
                 alt={t.name}
-                className="h-8 w-8 rounded-full object-cover flex-shrink-0"
+                className="h-8 w-8 rounded-[28%] object-cover flex-shrink-0"
               />
               <div className="flex flex-col gap-0.5">
                 <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none">{t.name}</span>
@@ -197,7 +197,7 @@ function TestimonialCarousel() {
           >
             <div className="flex items-center justify-between gap-3 mb-3">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
+                <div className="w-9 h-9 rounded-[28%] overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
                   <img 
                     src={testimonials[currentIndex].image} 
                     alt={testimonials[currentIndex].name} 
