@@ -777,22 +777,11 @@ export default function Landing() {
               
               <div className="flex flex-col gap-6 text-[15px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium">
                 <p>
-                  For the last decade, I've been designing products.
+                  For the last decade, I've been designing products.<br />
                   And honestly, the hardest problem was never design itself — it was the portfolio.
                 </p>
                 <p>
-                  Keeping it updated.<br />
-                  Packaging your work right.<br />
-                  Being ready when the right opportunity shows up.
-                </p>
-                <p>
-                  So I went back to basics.
-                </p>
-                <p>
-                  I spent days studying portfolios from designers at places like Meta and Google — breaking down how they structure case studies and tell product stories that actually land.
-                </p>
-                <p>
-                  Then I rebuilt my own portfolio from scratch.
+                  Keeping it updated, packaging your work right, being ready when the right opportunity shows up — it's a lot.
                 </p>
                 <p>
                   And somewhere in that process, one thought kept coming back:<br />
