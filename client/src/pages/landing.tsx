@@ -77,6 +77,7 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
       }}
     >
       <motion.ul
+        key={duration}
         animate={{ translateY: "-50%" }}
         transition={{ duration, repeat: Infinity, ease: "linear", repeatType: "loop" }}
         className="flex flex-col gap-3 list-none m-0 p-0"
