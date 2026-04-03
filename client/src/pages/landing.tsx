@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon } from "lucide-react";
@@ -226,6 +227,7 @@ export default function Landing() {
   const { theme, setTheme } = useTheme();
   const isDark = theme === 'dark';
   const containerRef = useRef<HTMLDivElement>(null);
+  const fabRef = useRef<HTMLDivElement>(null);
   const videoSectionRef = useRef<HTMLElement>(null);
   const [activeSection, setActiveSection] = useState('overview');
   const [showNavCTA, setShowNavCTA] = useState(false);
@@ -366,8 +368,9 @@ export default function Landing() {
       });
     }).ready;
 
-    if (containerRef.current) {
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+    const originEl = window.innerWidth < 1024 ? fabRef.current : containerRef.current;
+    if (originEl) {
+      const { left, top, width, height } = originEl.getBoundingClientRect();
       const centerX = left + width / 2;
       const centerY = top + height / 2;
       const maxDistance = Math.hypot(
@@ -512,7 +515,33 @@ export default function Landing() {
                 </motion.span>
               </div>
               
-              
+              <div ref={containerRef} className="group inline-flex items-center gap-2 mt-4 mb-4">
+                <span
+                  className={cn(
+                    "cursor-pointer text-left text-sm font-medium transition-colors",
+                    isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
+                  )}
+                  onClick={() => handleCheckedChange(false)}
+                >
+                  <Sun className="size-4" aria-hidden="true" />
+                </span>
+                <Switch
+                  checked={isDark}
+                  onCheckedChange={handleCheckedChange}
+                  aria-label="Toggle between dark and light mode"
+                  className="dark:data-[state=checked]:bg-[#DDD1C4]"
+                />
+                <span
+                  className={cn(
+                    "cursor-pointer text-right text-sm font-medium transition-colors",
+                    !isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
+                  )}
+                  onClick={() => handleCheckedChange(true)}
+                >
+                  <Moon className="size-4" aria-hidden="true" />
+                </span>
+              </div>
+
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
                 <a href="#overview" onClick={(e) => { e.preventDefault(); scrollToSection('overview'); }} className={cn("transition-colors", activeSection === 'overview' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Overview</a>
                 <a href="#stories" onClick={(e) => { e.preventDefault(); scrollToSection('stories', 'center'); }} className={cn("transition-colors", activeSection === 'stories' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Stories</a>
@@ -811,13 +840,13 @@ export default function Landing() {
       <AnimatePresence>
         {fabVisible && (
           <motion.div
-            ref={containerRef}
+            ref={fabRef}
             key="theme-fab"
             initial={{ opacity: 0, scale: 0.7, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.7, y: 16 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-6 right-6 z-[9999]"
+            className="fixed bottom-6 right-6 z-[9999] lg:hidden"
           >
             <button
               onClick={() => handleCheckedChange(!isDark)}
