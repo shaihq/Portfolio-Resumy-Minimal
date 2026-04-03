@@ -171,23 +171,12 @@ const testimonials = [
 function TestimonialCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const navigate = (dir: 1 | -1) => {
     setCurrentIndex((prev) => (prev + dir + testimonials.length) % testimonials.length);
     setProgress(0);
-    setPaused(true);
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-    pauseTimerRef.current = setTimeout(() => setPaused(false), 3000);
   };
 
   useEffect(() => {
-    return () => { if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current); };
-  }, []);
-
-  useEffect(() => {
-    if (paused) return;
     const duration = 5000;
     const interval = 50;
     const step = (interval / duration) * 100;
@@ -203,7 +192,7 @@ function TestimonialCarousel() {
     }, interval);
 
     return () => clearInterval(timer);
-  }, [paused]);
+  }, []);
 
   return (
     <div className="w-full max-w-[500px] mx-auto flex flex-col items-center">
