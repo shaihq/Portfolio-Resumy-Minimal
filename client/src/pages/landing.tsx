@@ -502,7 +502,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] dark:text-foreground font-semibold"
+              className="text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] dark:text-foreground font-bold"
             >
               <div className="relative inline-block">
                 <span className="relative z-10 text-transparent bg-clip-text animate-[shimmer-text_2.5s_ease-in-out_forwards_0.3s]" style={{ backgroundImage: 'linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 30%, #5D3560 40%, #E54D2E 50%, #F5A623 60%, hsl(var(--foreground)) 70%, hsl(var(--foreground)) 100%)', backgroundSize: '300% auto', backgroundPosition: '100% center' }}>Fastest</span>
