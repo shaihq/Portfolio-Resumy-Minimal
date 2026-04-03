@@ -159,11 +159,12 @@ const testimonials = [
     logoRaw: true,
   },
   {
-    name: "David Kim",
-    role: "Product Designer @ Spotify",
-    content: "I've tried Framer, Webflow, and Notion. Designfolio is the only one that didn't feel like I was fighting the tool to tell my story. Unbelievably fast.",
-    image: "/testimonial images/mock4.jpg",
-    logoSrc: null,
+    name: "Aditya Krishna",
+    role: "Associate Design Director @ JP Morgan",
+    content: "Designfolio has been a fantastic way to showcase my work in a clean, customizable format that reflects my personal style while keeping everything polished and professional.",
+    image: "/testimonial/aditya.png",
+    logoSrc: "/testimonial/company/jpmorgan.png",
+    logoRaw: true,
   }
 ];
 
