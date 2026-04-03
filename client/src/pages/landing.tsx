@@ -147,7 +147,8 @@ const testimonials = [
     role: "Design Evangelist @ Apple",
     content: "The customisations are awesome and incredibly helpful in bringing out the true flavour of my design projects! Totally worth spending time on — such a GOATed portfolio builder!",
     image: "/testimonial/ashuthosh.png",
-    logoSrc: "/testimonial/company/cisco.png",
+    logoSrc: "/testimonial/company/apple.png",
+    logoRaw: true,
   },
   {
     name: "Suvigya Nijhawan",
@@ -155,6 +156,7 @@ const testimonials = [
     content: "Designfolio is the ideal launchpad for designers and product managers to showcase their skills with an extremely efficient portfolio builder that covers every section recruiters care about.",
     image: "/testimonial/companysuvigya.png",
     logoSrc: "/testimonial/company/google.png",
+    logoRaw: true,
   },
   {
     name: "David Kim",
