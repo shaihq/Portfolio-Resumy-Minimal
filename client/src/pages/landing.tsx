@@ -230,7 +230,7 @@ export default function Landing() {
   const videoSectionRef = useRef<HTMLElement>(null);
   const [activeSection, setActiveSection] = useState('overview');
   const [showNavCTA, setShowNavCTA] = useState(false);
-  const [speedLevel, setSpeedLevel] = useState(3);
+  const [speedLevel, setSpeedLevel] = useState(4);
   const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
   const speedDurations = [52, 38, 28, 18, 11];
   const scrollDuration = speedDurations[speedLevel - 1];
