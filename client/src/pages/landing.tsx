@@ -3,8 +3,6 @@ import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight } from "lucide-react";
-import { SiGoogle, SiApple, SiSpotify, SiCisco, SiNotion } from "react-icons/si";
-import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
@@ -54,19 +52,9 @@ function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: 
   );
 }
 
-const verticalTestimonials = [
-  { text: "Got my first design job offer within 2 weeks of publishing. The templates made my work look 10x more polished.", name: "Priya Nair", role: "Junior UX Designer @ Google", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: SiGoogle },
-  { text: "I spent 6 months trying to build my portfolio in Framer. Designfolio did it in one afternoon.", name: "Marcus Webb", role: "Product Designer @ Notion", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: SiNotion },
-  { text: "The AI helped me rewrite my case studies in a way that actually sounds like a designer who gets product.", name: "Tanisha Roy", role: "Sr. Product Designer @ Apple", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: SiApple },
-  { text: "Hiring managers kept telling me my portfolio stood out. I never had that feedback before Designfolio.", name: "Leo Fernandez", role: "UX Designer @ Amazon", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: FaAmazon },
-  { text: "It's the first portfolio tool that doesn't make me fight the interface. It just gets out of the way.", name: "Anika Sharma", role: "Product Designer @ Spotify", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: SiSpotify },
-  { text: "Went from unemployed to 3 offers in 5 weeks. The structure Designfolio gives you is exactly what recruiters want.", name: "James Okafor", role: "UX Lead @ Cisco", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: SiCisco },
-  { text: "I was embarrassed by my old portfolio. Now I send the link in every application with zero hesitation.", name: "Riya Mehta", role: "Design @ Microsoft", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: FaMicrosoft },
-  { text: "Worth every rupee. The AI tools alone saved me days of writing and second-guessing.", name: "Siddharth Rao", role: "Product Designer @ Airbnb", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&h=80&q=80", LogoIcon: null },
-];
 
 function VerticalTestimonialsScroller({ duration }: { duration: number }) {
-  const doubled = [...verticalTestimonials, ...verticalTestimonials];
+  const doubled = [...testimonials, ...testimonials];
   return (
     <div
       className="relative overflow-hidden"
@@ -85,12 +73,12 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
         {doubled.map((t, i) => (
           <li key={i} className="px-5 py-5 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
             <p className="text-[14px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium mb-4">
-              "{t.text}"
+              "{t.content}"
             </p>
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0">
                 <img
-                  src={t.avatar}
+                  src={t.image}
                   alt={t.name}
                   className="h-8 w-8 rounded-[28%] object-cover flex-shrink-0"
                 />
@@ -99,7 +87,15 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
                   <span className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{t.role}</span>
                 </div>
               </div>
-              {(() => { const Logo = t.LogoIcon; return Logo ? <Logo className="shrink-0 text-[#1D1B1A]/20 dark:text-foreground/20" style={{ width: 20, height: 20 }} /> : null; })()}
+              {t.logoSrc && (
+                <img
+                  src={t.logoSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className={cn("shrink-0", !t.logoRaw && "opacity-20 dark:invert")}
+                  style={{ width: 20, height: 20, objectFit: "contain" }}
+                />
+              )}
             </div>
           </li>
         ))}
