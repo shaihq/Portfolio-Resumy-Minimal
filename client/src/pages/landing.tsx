@@ -172,7 +172,9 @@ export default function Landing() {
   const { theme, setTheme } = useTheme();
   const isDark = theme === 'dark';
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoSectionRef = useRef<HTMLElement>(null);
   const [activeSection, setActiveSection] = useState('overview');
+  const [showNavCTA, setShowNavCTA] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -213,6 +215,18 @@ export default function Landing() {
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    const handleNavCTAScroll = () => {
+      if (!videoSectionRef.current) return;
+      const rect = videoSectionRef.current.getBoundingClientRect();
+      const sectionTop = rect.top + window.scrollY;
+      const halfwayPoint = sectionTop + rect.height * 0.5;
+      setShowNavCTA(window.scrollY > halfwayPoint);
+    };
+    window.addEventListener('scroll', handleNavCTAScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleNavCTAScroll);
   }, []);
 
   const playHeartbeat = useCallback(() => {
@@ -447,9 +461,32 @@ export default function Landing() {
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] flex items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
               <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
             </div>
-            <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
-              Login
-            </Button>
+            <div className="flex items-center gap-2">
+              <AnimatePresence>
+                {showNavCTA && (
+                  <motion.div
+                    key="nav-cta"
+                    initial={{ opacity: 0, x: 16, scale: 0.92 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 16, scale: 0.92 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
+                      <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-4 py-[6px] text-[13px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                        Get Started
+                      </span>
+                      <div className="relative h-[32px] w-[32px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                        <ArrowUpRight className="absolute top-1/2 left-1/2 h-[14px] w-[14px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-6 group-hover:-translate-y-6" strokeWidth={2.5} />
+                        <ArrowUpRight className="absolute top-1/2 left-1/2 h-[14px] w-[14px] -translate-x-7 translate-y-7 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
+                Login
+              </Button>
+            </div>
           </div>
         </header>
 
@@ -494,7 +531,7 @@ export default function Landing() {
           </section>
 
           {/* Browser Mockup Section */}
-          <section className="w-full px-6 mb-16">
+          <section ref={videoSectionRef} className="w-full px-6 mb-16">
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
