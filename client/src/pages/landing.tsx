@@ -777,25 +777,36 @@ export default function Landing() {
               
               <div className="flex flex-col gap-6 text-[15px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium">
                 <p>
-                  I had nearly 10 years as a Product Designer, had worked on AI products, and had unicorn startups on my resume.
+                  For the last decade, I've been designing products.
+                  And honestly, the hardest problem was never design itself — it was the portfolio.
                 </p>
                 <p>
-                  But when I started looking for the role I truly wanted, I realized something surprising — it was much harder than I expected.
+                  Keeping it updated.<br />
+                  Packaging your work right.<br />
+                  Being ready when the right opportunity shows up.
                 </p>
                 <p>
-                  So I went back to the basics. I spent days studying portfolios from designers at companies like Meta and Google, trying to understand how they structured their case studies and told compelling product stories.
+                  So I went back to basics.
                 </p>
                 <p>
-                  Eventually, I rebuilt my own portfolio from scratch. And while doing it, one thought kept coming back to me — why is this process so hard for everyone?
+                  I spent days studying portfolios from designers at places like Meta and Google — breaking down how they structure case studies and tell product stories that actually land.
                 </p>
                 <p>
-                  That question is what led me to build Designfolio — a tool with the templates and frameworks that helped me tell my story better.
+                  Then I rebuilt my own portfolio from scratch.
                 </p>
                 <p>
-                  And it worked. I received offers from PhonePe, Freshworks, and Zeta, and now I'm joining ServiceNow as a Staff Product Designer.
+                  And somewhere in that process, one thought kept coming back:<br />
+                  why is this so hard for everyone?
                 </p>
                 <p>
-                  Sometimes the best products come from solving your own problem.
+                  That question turned into Designfolio.
+                </p>
+                <p>
+                  Hey, I'm Shai — a Staff Product Designer at ServiceNow.<br />
+                  I built Designfolio to make this whole thing easier.
+                </p>
+                <p>
+                  Give it a shot.
                 </p>
               </div>
 
