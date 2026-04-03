@@ -219,7 +219,7 @@ function TestimonialCarousel() {
                   alt=""
                   aria-hidden="true"
                   className={cn("shrink-0", !testimonials[currentIndex].logoRaw && "opacity-20 dark:invert")}
-                  style={{ width: 22, height: 22, objectFit: "contain" }}
+                  style={{ width: 36, height: 36, objectFit: "contain" }}
                 />
               )}
             </div>
