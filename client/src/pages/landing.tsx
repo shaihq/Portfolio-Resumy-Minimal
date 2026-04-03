@@ -53,8 +53,28 @@ function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: 
 }
 
 
+const scrollerExtraTestimonials = [
+  {
+    content: "As someone who talks to designers every day, the biggest portfolio killer is friction—and Designfolio removes it. It's quick to start, easy to use, and the AI case study analysis actually helps. If you've been delaying your portfolio or want to ship faster, go check out Designfolio—you'll thank yourself later.",
+    name: "Vidhunnan Murugan",
+    role: "Lead Product Designer @ Keka HR",
+    image: "/testimonial/vidhunan.png",
+    logoSrc: "/testimonial/company/keka.png",
+    logoRaw: true,
+  },
+  {
+    content: "Designfolio is the ultimate shortcut for designers who prioritize landing a job over pixel-perfecting a custom site.",
+    name: "Arpit Chandak",
+    role: "Sr. Product Experience Design @ Mastercard",
+    image: "/testimonial/arpit.png",
+    logoSrc: "/testimonial/company/mastercard.png",
+    logoRaw: true,
+  },
+];
+
 function VerticalTestimonialsScroller({ duration }: { duration: number }) {
-  const doubled = [...testimonials, ...testimonials];
+  const all = [...testimonials, ...scrollerExtraTestimonials];
+  const doubled = [...all, ...all];
   return (
     <div
       className="relative overflow-hidden"
