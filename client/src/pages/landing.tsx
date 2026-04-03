@@ -235,25 +235,20 @@ export default function Landing() {
   const speedDurations = [52, 38, 28, 18, 11];
   const scrollDuration = speedDurations[speedLevel - 1];
 
-  const audioCtxRef = useRef<AudioContext | null>(null);
-
   const playSliderTick = useCallback((level: number) => {
     try {
-      if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
-        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      }
-      const ctx = audioCtxRef.current;
-      if (ctx.state === 'suspended') ctx.resume();
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.type = "sine";
       osc.frequency.setValueAtTime(300 + level * 60, ctx.currentTime);
-      gain.gain.setValueAtTime(0.07, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
       osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.1);
+      osc.stop(ctx.currentTime + 0.08);
+      osc.onended = () => ctx.close();
     } catch {}
   }, []);
 
