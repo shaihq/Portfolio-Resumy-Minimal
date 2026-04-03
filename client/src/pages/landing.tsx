@@ -154,7 +154,7 @@ const testimonials = [
     name: "Suvigya Nijhawan",
     role: "Product Manager @ Google",
     content: "Designfolio is the ideal launchpad for designers and product managers to showcase their skills with an extremely efficient portfolio builder that covers every section recruiters care about.",
-    image: "/testimonial/companysuvigya.png",
+    image: "/testimonial/suvigya.png",
     logoSrc: "/testimonial/company/google.png",
     logoRaw: true,
   },
