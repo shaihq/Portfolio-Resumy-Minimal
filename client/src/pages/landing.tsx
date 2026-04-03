@@ -140,6 +140,7 @@ const testimonials = [
     content: "I was procrastinating on building my portfolio for a year, but Designfolio completely changed that — it helped me go from Word/Figma case studies to a live website in just 20 minutes.",
     image: "/testimonial images/ishita.png",
     logoSrc: "/testimonial/company/cisco.png",
+    logoRaw: true,
   },
   {
     name: "Ashutosh Vashishtha",
@@ -213,7 +214,13 @@ function TestimonialCarousel() {
                 </div>
               </div>
               {testimonials[currentIndex].logoSrc && (
-                <img src={testimonials[currentIndex].logoSrc} alt="" aria-hidden="true" className="shrink-0 opacity-20 dark:opacity-20 dark:invert" style={{ width: 22, height: 22, objectFit: "contain" }} />
+                <img
+                  src={testimonials[currentIndex].logoSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className={cn("shrink-0", !testimonials[currentIndex].logoRaw && "opacity-20 dark:invert")}
+                  style={{ width: 22, height: 22, objectFit: "contain" }}
+                />
               )}
             </div>
             
