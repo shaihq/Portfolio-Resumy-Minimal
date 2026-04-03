@@ -70,6 +70,22 @@ const scrollerExtraTestimonials = [
     logoSrc: "/testimonial/company/mastercard.png",
     logoRaw: true,
   },
+  {
+    content: "Has to be the easiest way anyone can get their portfolio up and running in no time. And of course, man behind the platform, Shai, never stops innovating.",
+    name: "Alok Bhusanur",
+    role: "Product Designer @ Cleartax",
+    image: "/testimonial/alok.png",
+    logoSrc: "/testimonial/company/clear.png",
+    logoRaw: true,
+  },
+  {
+    content: "Honestly designfolio just makes putting your work out there feel effortless. Everything feels clean and intuitive, and it actually lets the work speak for itself. I'm really excited to keep using it and see how it grows.",
+    name: "Sivachidambaram",
+    role: "Staff Product Designer @ Freshworks",
+    image: "/testimonial/siva.png",
+    logoSrc: "/testimonial/company/freshworks.png",
+    logoRaw: true,
+  },
 ];
 
 function VerticalTestimonialsScroller({ duration }: { duration: number }) {
