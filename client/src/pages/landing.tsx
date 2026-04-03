@@ -86,6 +86,14 @@ const scrollerExtraTestimonials = [
     logoSrc: "/testimonial/company/freshworks.png",
     logoRaw: true,
   },
+  {
+    content: "Designfolio made setting up my portfolio ridiculously fast—I was up and running in under 5 minutes. It's easy to use and showcases my work in a clean, polished way. The new editor is a game changer, making case studies feel effortless instead of overwhelming. It removes the friction so you can focus on what actually matters: your work.",
+    name: "Chirag Chhajer",
+    role: "Product Designer @ SenseHQ",
+    image: "/testimonial/chirag.png",
+    logoSrc: "/testimonial/company/sense.png",
+    logoRaw: true,
+  },
 ];
 
 function VerticalTestimonialsScroller({ duration }: { duration: number }) {
