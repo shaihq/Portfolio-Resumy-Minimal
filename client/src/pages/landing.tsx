@@ -113,7 +113,7 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
                   alt=""
                   aria-hidden="true"
                   className={cn("shrink-0", !t.logoRaw && "opacity-20 dark:invert")}
-                  style={{ width: 20, height: 20, objectFit: "contain" }}
+                  style={{ width: 32, height: 32, objectFit: "contain" }}
                 />
               )}
             </div>
