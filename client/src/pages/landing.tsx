@@ -55,14 +55,14 @@ function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: 
 }
 
 const verticalTestimonials = [
-  { text: "Got my first design job offer within 2 weeks of publishing. The templates made my work look 10x more polished.", name: "Priya Nair", role: "Junior UX Designer" },
-  { text: "I spent 6 months trying to build my portfolio in Framer. Designfolio did it in one afternoon.", name: "Marcus Webb", role: "Product Designer @ Notion" },
-  { text: "The AI helped me rewrite my case studies in a way that actually sounds like a designer who gets product.", name: "Tanisha Roy", role: "Senior Product Designer" },
-  { text: "Hiring managers kept telling me my portfolio stood out. I never had that feedback before Designfolio.", name: "Leo Fernandez", role: "UX Designer @ Razorpay" },
-  { text: "It's the first portfolio tool that doesn't make me fight the interface. It just gets out of the way.", name: "Anika Sharma", role: "Product Designer, Fintech" },
-  { text: "Went from unemployed to 3 offers in 5 weeks. The structure Designfolio gives you is exactly what recruiters want.", name: "James Okafor", role: "UX Lead @ Swiggy" },
-  { text: "I was embarrassed by my old portfolio. Now I send the link in every application with zero hesitation.", name: "Riya Mehta", role: "Design @ Zomato" },
-  { text: "Worth every rupee. The AI tools alone saved me days of writing and second-guessing.", name: "Siddharth Rao", role: "Product Designer" },
+  { text: "Got my first design job offer within 2 weeks of publishing. The templates made my work look 10x more polished.", name: "Priya Nair", role: "Junior UX Designer", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "I spent 6 months trying to build my portfolio in Framer. Designfolio did it in one afternoon.", name: "Marcus Webb", role: "Product Designer @ Notion", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "The AI helped me rewrite my case studies in a way that actually sounds like a designer who gets product.", name: "Tanisha Roy", role: "Senior Product Designer", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "Hiring managers kept telling me my portfolio stood out. I never had that feedback before Designfolio.", name: "Leo Fernandez", role: "UX Designer @ Razorpay", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "It's the first portfolio tool that doesn't make me fight the interface. It just gets out of the way.", name: "Anika Sharma", role: "Product Designer, Fintech", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "Went from unemployed to 3 offers in 5 weeks. The structure Designfolio gives you is exactly what recruiters want.", name: "James Okafor", role: "UX Lead @ Swiggy", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "I was embarrassed by my old portfolio. Now I send the link in every application with zero hesitation.", name: "Riya Mehta", role: "Design @ Zomato", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&h=80&q=80" },
+  { text: "Worth every rupee. The AI tools alone saved me days of writing and second-guessing.", name: "Siddharth Rao", role: "Product Designer", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&h=80&q=80" },
 ];
 
 function VerticalTestimonialsScroller() {
@@ -82,13 +82,20 @@ function VerticalTestimonialsScroller() {
         className="flex flex-col gap-3 list-none m-0 p-0"
       >
         {doubled.map((t, i) => (
-          <li key={i} className="px-6 py-5 rounded-xl border border-[#E8E7E0] dark:border-border bg-[#F4F3E5] dark:bg-card">
+          <li key={i} className="px-5 py-5 rounded-xl border border-[#E8E7E0] dark:border-border bg-[#F4F3E5] dark:bg-card">
             <p className="text-[14px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium mb-4">
               "{t.text}"
             </p>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground">{t.name}</span>
-              <span className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{t.role}</span>
+            <div className="flex items-center gap-3">
+              <img
+                src={t.avatar}
+                alt={t.name}
+                className="h-8 w-8 rounded-full object-cover flex-shrink-0"
+              />
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none">{t.name}</span>
+                <span className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{t.role}</span>
+              </div>
             </div>
           </li>
         ))}
