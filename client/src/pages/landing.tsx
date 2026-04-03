@@ -481,9 +481,8 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             >
-              <div className="relative group/glow inline-block">
-                <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover/glow:opacity-100 transition duration-500"></div>
-                <div className="group/btn relative inline-flex cursor-pointer items-center gap-0 rounded-full">
+              <div className="p-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full inline-block">
+                <div className="group/btn inline-flex cursor-pointer items-center gap-0 rounded-full">
                   <span className="rounded-full bg-[#1D1B1A] dark:bg-[#DFD3C7] px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover/btn:bg-[#FF553E] dark:group-hover/btn:bg-[#FF553E] group-hover/btn:text-white dark:group-hover/btn:text-white">
                     Get started for Free
                   </span>
@@ -619,9 +618,8 @@ export default function Landing() {
                 </div>
               </div>
 
-              <div className="relative group/glow inline-block mt-4 mb-6">
-                <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover/glow:opacity-100 transition duration-500"></div>
-                <div className="group/btn relative inline-flex cursor-pointer items-center gap-0 rounded-full">
+              <div className="p-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full inline-block mt-4 mb-6">
+                <div className="group/btn inline-flex cursor-pointer items-center gap-0 rounded-full">
                   <span className="rounded-full bg-[#1D1B1A] dark:bg-[#DFD3C7] px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover/btn:bg-[#FF553E] dark:group-hover/btn:bg-[#FF553E] group-hover/btn:text-white dark:group-hover/btn:text-white">
                     Get started for Free
                   </span>
