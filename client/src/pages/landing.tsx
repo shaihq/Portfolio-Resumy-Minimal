@@ -139,28 +139,28 @@ const testimonials = [
     role: "Product & Business @ Cisco",
     content: "I was procrastinating on building my portfolio for a year, but Designfolio completely changed that — it helped me go from Word/Figma case studies to a live website in just 20 minutes.",
     image: "/testimonial images/ishita.png",
-    LogoIcon: SiCisco,
+    logoSrc: "/testimonial/company/cisco.png",
   },
   {
-    name: "Alex Rivera",
-    role: "UX Designer @ Microsoft",
-    content: "The templates are exactly what hiring managers are looking for. I didn't have to guess what to include. Landed three interviews within a week of publishing.",
-    image: "/testimonial images/mock2.jpg",
-    LogoIcon: FaMicrosoft,
+    name: "Ashutosh Vashishtha",
+    role: "Design Evangelist @ Apple",
+    content: "The customisations are awesome and incredibly helpful in bringing out the true flavour of my design projects! Totally worth spending time on — such a GOATed portfolio builder!",
+    image: "/testimonial/ashuthosh.png",
+    logoSrc: "/testimonial/company/cisco.png",
   },
   {
-    name: "Sarah Chen",
-    role: "Senior Product Designer",
-    content: "Finally, a tool that understands how designers actually think. The AI copilot helped me articulate my design decisions so much better than I could on my own.",
-    image: "/testimonial images/mock3.jpg",
-    LogoIcon: SiNotion,
+    name: "Suvigya Nijhawan",
+    role: "Product Manager @ Google",
+    content: "Designfolio is the ideal launchpad for designers and product managers to showcase their skills with an extremely efficient portfolio builder that covers every section recruiters care about.",
+    image: "/testimonial/companysuvigya.png",
+    logoSrc: "/testimonial/company/google.png",
   },
   {
     name: "David Kim",
     role: "Product Designer @ Spotify",
     content: "I've tried Framer, Webflow, and Notion. Designfolio is the only one that didn't feel like I was fighting the tool to tell my story. Unbelievably fast.",
     image: "/testimonial images/mock4.jpg",
-    LogoIcon: SiSpotify,
+    logoSrc: null,
   }
 ];
 
@@ -212,7 +212,9 @@ function TestimonialCarousel() {
                   <div className="text-[12px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
                 </div>
               </div>
-              {(() => { const Logo = testimonials[currentIndex].LogoIcon; return Logo ? <Logo className="shrink-0 text-[#1D1B1A]/20 dark:text-foreground/20" style={{ width: 22, height: 22 }} /> : null; })()}
+              {testimonials[currentIndex].logoSrc && (
+                <img src={testimonials[currentIndex].logoSrc} alt="" aria-hidden="true" className="shrink-0 opacity-20 dark:opacity-20 dark:invert" style={{ width: 22, height: 22, objectFit: "contain" }} />
+              )}
             </div>
             
             <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[15px] leading-[1.5]">
