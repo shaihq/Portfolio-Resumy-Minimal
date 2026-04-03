@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon } from "lucide-react";
-import { SiGoogle, SiApple } from "react-icons/si";
+import { SiGoogle, SiApple, SiSpotify, SiCisco, SiNotion } from "react-icons/si";
 import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
@@ -135,25 +135,29 @@ const testimonials = [
     name: "Ishita Chaudhary",
     role: "Product & Business @ Cisco",
     content: "I was procrastinating on building my portfolio for a year, but Designfolio completely changed that — it helped me go from Word/Figma case studies to a live website in just 20 minutes.",
-    image: "/testimonial images/ishita.png"
+    image: "/testimonial images/ishita.png",
+    LogoIcon: SiCisco,
   },
   {
     name: "Alex Rivera",
     role: "UX Designer @ Microsoft",
     content: "The templates are exactly what hiring managers are looking for. I didn't have to guess what to include. Landed three interviews within a week of publishing.",
-    image: "/testimonial images/mock2.jpg"
+    image: "/testimonial images/mock2.jpg",
+    LogoIcon: FaMicrosoft,
   },
   {
     name: "Sarah Chen",
     role: "Senior Product Designer",
     content: "Finally, a tool that understands how designers actually think. The AI copilot helped me articulate my design decisions so much better than I could on my own.",
-    image: "/testimonial images/mock3.jpg"
+    image: "/testimonial images/mock3.jpg",
+    LogoIcon: SiNotion,
   },
   {
     name: "David Kim",
     role: "Product Designer @ Spotify",
     content: "I've tried Framer, Webflow, and Notion. Designfolio is the only one that didn't feel like I was fighting the tool to tell my story. Unbelievably fast.",
-    image: "/testimonial images/mock4.jpg"
+    image: "/testimonial images/mock4.jpg",
+    LogoIcon: SiSpotify,
   }
 ];
 
@@ -191,18 +195,21 @@ function TestimonialCarousel() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="flex flex-col w-full absolute top-0 left-0"
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
-                <img 
-                  src={testimonials[currentIndex].image} 
-                  alt={testimonials[currentIndex].name} 
-                  className="w-full h-full object-cover"
-                />
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
+                  <img 
+                    src={testimonials[currentIndex].image} 
+                    alt={testimonials[currentIndex].name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <div className="text-[#1D1B1A] dark:text-foreground text-[14px] font-bold leading-tight">{testimonials[currentIndex].name}</div>
+                  <div className="text-[12px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <div className="text-[#1D1B1A] dark:text-foreground text-[14px] font-bold leading-tight">{testimonials[currentIndex].name}</div>
-                <div className="text-[12px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
-              </div>
+              {(() => { const Logo = testimonials[currentIndex].LogoIcon; return Logo ? <Logo className="shrink-0 text-[#1D1B1A]/20 dark:text-foreground/20" style={{ width: 22, height: 22 }} /> : null; })()}
             </div>
             
             <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[15px] leading-[1.5]">
