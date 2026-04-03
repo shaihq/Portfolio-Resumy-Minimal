@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight } from "lucide-react";
 import { SiGoogle, SiApple, SiSpotify, SiCisco, SiNotion } from "react-icons/si";
 import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -171,8 +171,23 @@ const testimonials = [
 function TestimonialCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const navigate = (dir: 1 | -1) => {
+    setCurrentIndex((prev) => (prev + dir + testimonials.length) % testimonials.length);
+    setProgress(0);
+    setPaused(true);
+    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+    pauseTimerRef.current = setTimeout(() => setPaused(false), 3000);
+  };
 
   useEffect(() => {
+    return () => { if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current); };
+  }, []);
+
+  useEffect(() => {
+    if (paused) return;
     const duration = 5000;
     const interval = 50;
     const step = (interval / duration) * 100;
@@ -188,7 +203,7 @@ function TestimonialCarousel() {
     }, interval);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [paused]);
 
   return (
     <div className="w-full max-w-[500px] mx-auto flex flex-col items-center">
@@ -234,12 +249,30 @@ function TestimonialCarousel() {
         </AnimatePresence>
       </div>
 
-      <div className="w-[60px] h-[3px] bg-black/5 dark:bg-white/5 rounded-full overflow-hidden mt-6">
-        <motion.div 
-          className="h-full bg-black/20 dark:bg-white/20 rounded-full"
-          style={{ width: `${progress}%` }}
-          transition={{ ease: "linear", duration: 0.05 }}
-        />
+      <div className="flex items-center gap-3 mt-6 w-full">
+        <button
+          onClick={() => navigate(-1)}
+          aria-label="Previous testimonial"
+          className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[#1D1B1A]/30 dark:text-foreground/30 border border-[#1D1B1A]/10 dark:border-white/10 transition-colors hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60 hover:border-[#1D1B1A]/20 dark:hover:border-white/20"
+        >
+          <ChevronLeft className="size-3.5" />
+        </button>
+
+        <div className="flex-1 h-[3px] bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
+          <motion.div 
+            className="h-full bg-black/20 dark:bg-white/20 rounded-full"
+            style={{ width: `${progress}%` }}
+            transition={{ ease: "linear", duration: 0.05 }}
+          />
+        </div>
+
+        <button
+          onClick={() => navigate(1)}
+          aria-label="Next testimonial"
+          className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[#1D1B1A]/30 dark:text-foreground/30 border border-[#1D1B1A]/10 dark:border-white/10 transition-colors hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60 hover:border-[#1D1B1A]/20 dark:hover:border-white/20"
+        >
+          <ChevronRight className="size-3.5" />
+        </button>
       </div>
     </div>
   );
