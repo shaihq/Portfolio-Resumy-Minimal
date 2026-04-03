@@ -539,7 +539,35 @@ export default function Landing() {
         {/* Header */}
         <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 dark:bg-background/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4] dark:before:bg-border">
           <div className="px-6 h-16 flex items-center justify-between">
-            <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] flex items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
+            {/* Mobile: logo + /designfolio */}
+            <div className="flex md:hidden items-center gap-2">
+              <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0 shadow-sm">
+                <svg width="125" height="125" viewBox="0 0 125 125" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <g filter="url(#nav-logo-filter)">
+                    <rect width="124.5" height="124.5" rx="62.25" fill="url(#nav-logo-gradient)"/>
+                    <path d="M67.437 15.5625H57.062V49.7263L32.9046 25.5688L25.5683 32.9051L49.7258 57.0625H15.562V67.4375H49.7258L25.5684 91.5949L32.9046 98.9311L57.062 74.7737V108.937H67.437V74.7737L91.5944 98.9312L98.9307 91.5949L74.7732 67.4375H108.937V57.0625H74.7732L98.9307 32.9051L91.5944 25.5688L67.437 49.7263V15.5625Z" fill="white"/>
+                  </g>
+                  <defs>
+                    <filter id="nav-logo-filter" x="0" y="0" width="124.5" height="124.5" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                      <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                      <feOffset/><feGaussianBlur stdDeviation="6.72973"/>
+                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                      <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.333333 0 0 0 0 0.243137 0 0 0 1 0"/>
+                      <feBlend mode="normal" in2="shape" result="effect1_innerShadow_nav"/>
+                    </filter>
+                    <linearGradient id="nav-logo-gradient" x1="62.25" y1="0" x2="62.25" y2="124.5" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#FFDCD7"/>
+                      <stop offset="0.788462" stopColor="#FF553E"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <span className="text-[14px] font-bold tracking-tight text-[#1D1B1A] dark:text-foreground">/designfolio</span>
+            </div>
+            {/* Desktop: stats */}
+            <div className="hidden md:flex text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
               <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" scrollActive={showNavCTA} />
             </div>
             <div className="flex items-center">
