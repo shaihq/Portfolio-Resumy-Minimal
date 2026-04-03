@@ -10,43 +10,35 @@ import { flushSync } from "react-dom";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
-function BlurHoverText({ defaultText, hoverText }: { defaultText: string, hoverText: string }) {
-  const hoverWords = hoverText.split(" ");
-  
+function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: string, hoverText: string, scrollActive?: boolean }) {
+  const [isHovered, setIsHovered] = useState(false);
+  // Show hoverText when: (hovered and not scrolled) OR (scrolled and not hovered)
+  const showHoverText = isHovered !== !!scrollActive;
+
   return (
-    <motion.div 
-      initial="initial"
-      whileHover="hover"
+    <div
       className="relative cursor-default inline-flex h-full items-center"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        variants={{
-          initial: { opacity: 1, filter: "blur(0px)" },
-          hover: { opacity: 0, filter: "blur(4px)", transition: { duration: 0.2 } }
-        }}
+        animate={{ opacity: showHoverText ? 0 : 1, filter: showHoverText ? "blur(4px)" : "blur(0px)" }}
+        transition={{ duration: 0.25 }}
         className="flex items-center whitespace-nowrap"
       >
         {defaultText}
       </motion.div>
-      
-      <motion.div className="absolute left-0 flex gap-[0.3em] whitespace-nowrap pointer-events-none">
-        {hoverWords.map((word, i) => (
-          <motion.span
-            key={i}
-            variants={{
-              initial: { opacity: 0, filter: "blur(4px)" },
-              hover: { 
-                opacity: 1, 
-                filter: "blur(0px)",
-                transition: { duration: 0.3, delay: i * 0.08 }
-              }
-            }}
-          >
-            {word}
-          </motion.span>
+
+      <motion.div
+        animate={{ opacity: showHoverText ? 1 : 0, filter: showHoverText ? "blur(0px)" : "blur(4px)" }}
+        transition={{ duration: 0.25 }}
+        className="absolute left-0 flex gap-[0.3em] whitespace-nowrap pointer-events-none"
+      >
+        {hoverText.split(" ").map((word, i) => (
+          <span key={i}>{word}</span>
         ))}
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -463,7 +455,7 @@ export default function Landing() {
         <header className="sticky top-0 z-50 w-full bg-[#FFFEF2]/95 dark:bg-background/95 backdrop-blur before:absolute before:content-[''] before:inset-x-[-100vw] before:bottom-0 before:h-px before:bg-[#EAE9E4] dark:before:bg-border">
           <div className="px-6 h-16 flex items-center justify-between">
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] flex items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
-              <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
+              <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" scrollActive={showNavCTA} />
             </div>
             <div className="flex items-center">
               <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
