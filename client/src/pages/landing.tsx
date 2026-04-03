@@ -481,14 +481,14 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             >
-              <div className="relative group inline-block">
-                <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                <Button className="relative bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] hover:bg-[#1D1B1A]/90 dark:hover:bg-white/90 rounded-full px-6 h-[48px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10 dark:border-white/10">
+              <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
+                <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
                   Get started for Free
-                  <div className="bg-[#FDFCF8] dark:bg-[#1D1B1A] text-[#1D1B1A] dark:text-white rounded-full p-[3px] ml-1 flex items-center justify-center">
-                    <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={3} />
-                  </div>
-                </Button>
+                </span>
+                <div className="relative h-[46px] w-[46px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                  <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-8 group-hover:-translate-y-8" strokeWidth={2.5} />
+                  <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-10 translate-y-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
+                </div>
               </div>
             </motion.div>
           </section>
@@ -616,14 +616,14 @@ export default function Landing() {
                 </div>
               </div>
 
-              <div className="relative group inline-block mt-4 mb-6">
-                <div className="absolute -inset-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-full blur-[6px] opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                <Button className="relative bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] hover:bg-[#1D1B1A]/90 dark:hover:bg-white/90 rounded-full px-6 h-[44px] text-[15px] font-medium shadow-xl flex items-center gap-2 border border-black/10 dark:border-white/10">
+              <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full mt-4 mb-6">
+                <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
                   Get started for Free
-                  <div className="bg-[#FDFCF8] dark:bg-[#1D1B1A] text-[#1D1B1A] dark:text-white rounded-full p-[3px] ml-1 flex items-center justify-center">
-                    <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={3} />
-                  </div>
-                </Button>
+                </span>
+                <div className="relative h-[46px] w-[46px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                  <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-8 group-hover:-translate-y-8" strokeWidth={2.5} />
+                  <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-10 translate-y-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
+                </div>
               </div>
             </div>
           </section>
