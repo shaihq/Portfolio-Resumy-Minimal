@@ -29,15 +29,20 @@ function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: 
         {defaultText}
       </motion.div>
 
-      <motion.div
-        animate={{ opacity: showHoverText ? 1 : 0, filter: showHoverText ? "blur(0px)" : "blur(4px)" }}
-        transition={{ duration: 0.25 }}
-        className="absolute left-0 flex gap-[0.3em] whitespace-nowrap pointer-events-none"
-      >
+      <div className="absolute left-0 flex gap-[0.3em] whitespace-nowrap pointer-events-none">
         {hoverText.split(" ").map((word, i) => (
-          <span key={i}>{word}</span>
+          <motion.span
+            key={i}
+            animate={{
+              opacity: showHoverText ? 1 : 0,
+              filter: showHoverText ? "blur(0px)" : "blur(4px)",
+            }}
+            transition={{ duration: 0.3, delay: showHoverText ? i * 0.08 : 0 }}
+          >
+            {word}
+          </motion.span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
