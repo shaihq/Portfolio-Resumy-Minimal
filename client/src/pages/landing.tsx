@@ -220,10 +220,14 @@ export default function Landing() {
   useEffect(() => {
     const handleNavCTAScroll = () => {
       if (!videoSectionRef.current) return;
-      const rect = videoSectionRef.current.getBoundingClientRect();
-      const sectionTop = rect.top + window.scrollY;
-      const halfwayPoint = sectionTop + rect.height * 0.5;
-      setShowNavCTA(window.scrollY > halfwayPoint);
+      const videoRect = videoSectionRef.current.getBoundingClientRect();
+      const videoTop = videoRect.top + window.scrollY;
+      const halfwayPoint = videoTop + videoRect.height * 0.5;
+
+      const whySection = document.getElementById('why');
+      const whyTop = whySection ? whySection.getBoundingClientRect().top + window.scrollY : Infinity;
+
+      setShowNavCTA(window.scrollY > halfwayPoint && window.scrollY < whyTop);
     };
     window.addEventListener('scroll', handleNavCTAScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleNavCTAScroll);
