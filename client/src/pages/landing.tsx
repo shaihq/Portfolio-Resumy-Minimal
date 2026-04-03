@@ -235,6 +235,23 @@ export default function Landing() {
   const speedDurations = [52, 38, 28, 18, 11];
   const scrollDuration = speedDurations[speedLevel - 1];
 
+  const playSliderTick = useCallback((level: number) => {
+    try {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(300 + level * 60, ctx.currentTime);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.08);
+      osc.onended = () => ctx.close();
+    } catch {}
+  }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -693,7 +710,7 @@ export default function Landing() {
                   max={5}
                   step={1}
                   value={speedLevel}
-                  onChange={(e) => setSpeedLevel(Number(e.target.value))}
+                  onChange={(e) => { const v = Number(e.target.value); setSpeedLevel(v); playSliderTick(v); }}
                   className="speed-slider w-24 h-1 appearance-none cursor-pointer rounded-full outline-none"
                   style={{
                     background: isDark
