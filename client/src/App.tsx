@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { ThemeProvider } from "next-themes";
 
 import Landing from "@/pages/landing";
+import PrivacyPolicy from "@/pages/privacy-policy";
 
 // Temporary dev navigation to easily switch pages in the Replit preview
 function DevNav() {
@@ -34,6 +35,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home}/>
         <Route path="/landing" component={Landing}/>
+        <Route path="/privacy-policy" component={PrivacyPolicy}/>
         <Route path="/project/:id" component={Project}/>
         <Route component={NotFound} />
       </Switch>

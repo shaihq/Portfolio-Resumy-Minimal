@@ -823,7 +823,7 @@ export default function Landing() {
           {/* Footer */}
           <footer className="w-full border-t border-[#EAE9E4] dark:border-border">
             <div className="px-6 py-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 bg-[#F4F3E5] dark:bg-card">
-              <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Privacy Policy</a>
+              <a href="/privacy-policy" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Terms & Conditions</a>
               <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Refund Policy</a>
               <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Pricing</a>
