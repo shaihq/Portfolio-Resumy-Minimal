@@ -7,7 +7,6 @@ import { FaAmazon, FaMicrosoft } from "react-icons/fa";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
-import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: string, hoverText: string, scrollActive?: boolean }) {
@@ -230,6 +229,7 @@ export default function Landing() {
   const videoSectionRef = useRef<HTMLElement>(null);
   const [activeSection, setActiveSection] = useState('overview');
   const [showNavCTA, setShowNavCTA] = useState(false);
+  const [fabVisible, setFabVisible] = useState(true);
   const [speedLevel, setSpeedLevel] = useState(4);
   const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
   const speedDurations = [52, 38, 28, 18, 11];
@@ -307,6 +307,21 @@ export default function Landing() {
     };
     window.addEventListener('scroll', handleNavCTAScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleNavCTAScroll);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const handleFabScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY < lastY || currentY < 80) {
+        setFabVisible(true);
+      } else if (currentY > lastY + 4) {
+        setFabVisible(false);
+      }
+      lastY = currentY;
+    };
+    window.addEventListener('scroll', handleFabScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleFabScroll);
   }, []);
 
   const playHeartbeat = useCallback(() => {
@@ -497,34 +512,6 @@ export default function Landing() {
                 </motion.span>
               </div>
               
-              <div ref={containerRef} className="group inline-flex items-center gap-2 mt-4 mb-4">
-                <span
-                  className={cn(
-                    "cursor-pointer text-left text-sm font-medium transition-colors",
-                    isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
-                  )}
-                  onClick={() => handleCheckedChange(false)}
-                >
-                  <Sun className="size-4" aria-hidden="true" />
-                </span>
-
-                <Switch
-                  checked={isDark}
-                  onCheckedChange={handleCheckedChange}
-                  aria-label="Toggle between dark and light mode"
-                  className="dark:data-[state=checked]:bg-[#DDD1C4]"
-                />
-
-                <span
-                  className={cn(
-                    "cursor-pointer text-right text-sm font-medium transition-colors",
-                    !isDark ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#1A1A1A] dark:text-[#F0EDE7]",
-                  )}
-                  onClick={() => handleCheckedChange(true)}
-                >
-                  <Moon className="size-4" aria-hidden="true" />
-                </span>
-              </div>
               
               <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 pb-4 bg-[#FFFEF2] dark:bg-background">
                 <a href="#overview" onClick={(e) => { e.preventDefault(); scrollToSection('overview'); }} className={cn("transition-colors", activeSection === 'overview' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Overview</a>
@@ -819,6 +806,58 @@ export default function Landing() {
           </footer>
         </main>
       </div>
+
+      {/* Floating Theme FAB */}
+      <AnimatePresence>
+        {fabVisible && (
+          <motion.div
+            ref={containerRef}
+            key="theme-fab"
+            initial={{ opacity: 0, scale: 0.7, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.7, y: 16 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-6 right-6 z-[9999]"
+          >
+            <button
+              onClick={() => handleCheckedChange(!isDark)}
+              aria-label="Toggle theme"
+              className={cn(
+                "w-12 h-12 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-colors duration-300",
+                isDark
+                  ? "bg-[#2A2825] text-[#F0EDE7] border border-white/10 hover:bg-[#343230]"
+                  : "bg-white text-[#1D1B1A] border border-black/8 hover:bg-[#F5F4EE]"
+              )}
+            >
+              <AnimatePresence mode="wait">
+                {isDark ? (
+                  <motion.span
+                    key="moon-icon"
+                    initial={{ rotate: -40, opacity: 0, scale: 0.6 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: 40, opacity: 0, scale: 0.6 }}
+                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    className="flex items-center justify-center"
+                  >
+                    <Moon className="size-[18px]" />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="sun-icon"
+                    initial={{ rotate: 40, opacity: 0, scale: 0.6 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: -40, opacity: 0, scale: 0.6 }}
+                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    className="flex items-center justify-center"
+                  >
+                    <Sun className="size-[18px]" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
