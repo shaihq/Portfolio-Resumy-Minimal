@@ -465,7 +465,7 @@ export default function Landing() {
             <div className="text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] flex items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
               <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
               <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
                 Login
               </Button>
@@ -473,9 +473,9 @@ export default function Landing() {
                 {showNavCTA && (
                   <motion.div
                     key="nav-cta"
-                    initial={{ opacity: 0, maxWidth: 0 }}
-                    animate={{ opacity: 1, maxWidth: 180 }}
-                    exit={{ opacity: 0, maxWidth: 0 }}
+                    initial={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
+                    animate={{ opacity: 1, maxWidth: 180, marginLeft: 8 }}
+                    exit={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden flex-shrink-0 flex"
                   >
