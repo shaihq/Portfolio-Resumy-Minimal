@@ -82,7 +82,7 @@ function VerticalTestimonialsScroller() {
         className="flex flex-col gap-3 list-none m-0 p-0"
       >
         {doubled.map((t, i) => (
-          <li key={i} className="px-5 py-5 rounded-xl border border-[#E8E7E0] dark:border-border bg-[#F4F3E5] dark:bg-card">
+          <li key={i} className="px-5 py-5 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
             <p className="text-[14px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium mb-4">
               "{t.text}"
             </p>
@@ -675,7 +675,7 @@ export default function Landing() {
           </section>
 
           {/* Vertical Testimonials Section */}
-          <section className="w-full border-t border-[#EAE9E4] dark:border-border px-6 pt-12 pb-4">
+          <section className="w-full border-y border-[#EAE9E4] dark:border-border px-6 pt-12 pb-4 bg-[#F4F3E5] dark:bg-card">
             <p className="text-[12px] font-semibold tracking-widest uppercase text-[#1D1B1A]/40 dark:text-foreground/40 mb-6">
               What designers are saying
             </p>
