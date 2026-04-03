@@ -581,7 +581,7 @@ export default function Landing() {
                         key={num}
                         src={`/companylogo/companienames0${num}.svg`} 
                         alt={`Company logo ${num}`}
-                        className="h-[32px] w-auto opacity-50 hover:opacity-80 transition-opacity dark:invert dark:opacity-60 dark:hover:opacity-90"
+                        className="h-[32px] w-auto opacity-50 hover:opacity-80 transition-opacity dark:invert dark:opacity-75 dark:hover:opacity-100"
                       />
                     ))}
                   </div>
