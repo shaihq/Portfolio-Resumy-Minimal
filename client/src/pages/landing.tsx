@@ -462,6 +462,9 @@ export default function Landing() {
               <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" />
             </div>
             <div className="flex items-center gap-2">
+              <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
+                Login
+              </Button>
               <AnimatePresence>
                 {showNavCTA && (
                   <motion.div
@@ -483,9 +486,6 @@ export default function Landing() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
-                Login
-              </Button>
             </div>
           </div>
         </header>
