@@ -154,3 +154,37 @@ body {
   }
 }
 
+
+/* Speed slider thumb styling */
+input[type="range"].speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1D1B1A;
+  cursor: pointer;
+  border: 2px solid #F4F3E5;
+  box-shadow: 0 0 0 1px #1D1B1A33;
+  transition: transform 0.15s ease;
+}
+input[type="range"].speed-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+input[type="range"].speed-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1D1B1A;
+  cursor: pointer;
+  border: 2px solid #F4F3E5;
+  box-shadow: 0 0 0 1px #1D1B1A33;
+}
+.dark input[type="range"].speed-slider::-webkit-slider-thumb {
+  background: hsl(var(--foreground));
+  border-color: hsl(var(--card));
+}
+.dark input[type="range"].speed-slider::-moz-range-thumb {
+  background: hsl(var(--foreground));
+  border-color: hsl(var(--card));
+}
