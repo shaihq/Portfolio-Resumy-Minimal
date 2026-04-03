@@ -667,6 +667,14 @@ export default function Landing() {
             </div>
           </section>
 
+          {/* Vertical Testimonials Section */}
+          <section className="w-full border-t border-[#EAE9E4] dark:border-border px-6 pt-12 pb-4">
+            <p className="text-[12px] font-semibold tracking-widest uppercase text-[#1D1B1A]/40 dark:text-foreground/40 mb-6">
+              What designers are saying
+            </p>
+            <VerticalTestimonialsScroller />
+          </section>
+
           {/* About Maker Section */}
           <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6 scroll-mt-24">
             <div className="max-w-[500px] mx-auto">
@@ -717,14 +725,6 @@ export default function Landing() {
                 </div>
               </div>
             </div>
-          </section>
-
-          {/* Vertical Testimonials Section */}
-          <section className="w-full border-t border-[#EAE9E4] dark:border-border px-6 pt-12 pb-4">
-            <p className="text-[12px] font-semibold tracking-widest uppercase text-[#1D1B1A]/40 dark:text-foreground/40 mb-6">
-              What designers are saying
-            </p>
-            <VerticalTestimonialsScroller />
           </section>
 
           {/* Footer */}
