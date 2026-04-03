@@ -550,7 +550,8 @@ export default function Landing() {
             >
               <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                 <video 
-                  src="/opthero.mp4" 
+                  key={isDark ? "dark" : "light"}
+                  src={isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4"}
                   autoPlay
                   loop
                   muted
