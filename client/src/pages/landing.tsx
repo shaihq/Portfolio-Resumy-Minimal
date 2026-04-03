@@ -473,13 +473,14 @@ export default function Landing() {
                 {showNavCTA && (
                   <motion.div
                     key="nav-cta"
-                    initial={{ opacity: 0, x: 16, scale: 0.92 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, transition: { duration: 0 } }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ opacity: 0, maxWidth: 0 }}
+                    animate={{ opacity: 1, maxWidth: 180 }}
+                    exit={{ opacity: 0, maxWidth: 0 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden flex-shrink-0 flex"
                   >
                     <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
-                      <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-4 py-[6px] text-[13px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                      <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-4 py-[6px] text-[13px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white whitespace-nowrap">
                         Get Started
                       </span>
                       <div className="relative h-[32px] w-[32px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
