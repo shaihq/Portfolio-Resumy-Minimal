@@ -54,6 +54,49 @@ function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: 
   );
 }
 
+const verticalTestimonials = [
+  { text: "Got my first design job offer within 2 weeks of publishing. The templates made my work look 10x more polished.", name: "Priya Nair", role: "Junior UX Designer" },
+  { text: "I spent 6 months trying to build my portfolio in Framer. Designfolio did it in one afternoon.", name: "Marcus Webb", role: "Product Designer @ Notion" },
+  { text: "The AI helped me rewrite my case studies in a way that actually sounds like a designer who gets product.", name: "Tanisha Roy", role: "Senior Product Designer" },
+  { text: "Hiring managers kept telling me my portfolio stood out. I never had that feedback before Designfolio.", name: "Leo Fernandez", role: "UX Designer @ Razorpay" },
+  { text: "It's the first portfolio tool that doesn't make me fight the interface. It just gets out of the way.", name: "Anika Sharma", role: "Product Designer, Fintech" },
+  { text: "Went from unemployed to 3 offers in 5 weeks. The structure Designfolio gives you is exactly what recruiters want.", name: "James Okafor", role: "UX Lead @ Swiggy" },
+  { text: "I was embarrassed by my old portfolio. Now I send the link in every application with zero hesitation.", name: "Riya Mehta", role: "Design @ Zomato" },
+  { text: "Worth every rupee. The AI tools alone saved me days of writing and second-guessing.", name: "Siddharth Rao", role: "Product Designer" },
+];
+
+function VerticalTestimonialsScroller() {
+  const doubled = [...verticalTestimonials, ...verticalTestimonials];
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        height: 420,
+        maskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)',
+      }}
+    >
+      <motion.ul
+        animate={{ translateY: "-50%" }}
+        transition={{ duration: 28, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+        className="flex flex-col gap-3 list-none m-0 p-0"
+      >
+        {doubled.map((t, i) => (
+          <li key={i} className="px-6 py-5 rounded-xl border border-[#E8E7E0] dark:border-border bg-[#F4F3E5] dark:bg-card">
+            <p className="text-[14px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium mb-4">
+              "{t.text}"
+            </p>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground">{t.name}</span>
+              <span className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{t.role}</span>
+            </div>
+          </li>
+        ))}
+      </motion.ul>
+    </div>
+  );
+}
+
 function ShimmerInView({ text }: { text: string }) {
   if (!text.includes('"')) return <>{text}</>;
   const parts = text.split('"');
@@ -674,6 +717,14 @@ export default function Landing() {
                 </div>
               </div>
             </div>
+          </section>
+
+          {/* Vertical Testimonials Section */}
+          <section className="w-full border-t border-[#EAE9E4] dark:border-border px-6 pt-12 pb-4">
+            <p className="text-[12px] font-semibold tracking-widest uppercase text-[#1D1B1A]/40 dark:text-foreground/40 mb-6">
+              What designers are saying
+            </p>
+            <VerticalTestimonialsScroller />
           </section>
 
           {/* Footer */}
