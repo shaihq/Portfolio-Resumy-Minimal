@@ -802,12 +802,12 @@ export default function Landing() {
                 { step: "1/", title: 'Choose a "template".', video: "/landing-video/template-section.mp4" },
                 { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
                 { step: "3/", title: 'And other "AI tools".', video: "/landing-video/other-ai-tools.mp4", features: [
-                  { label: "Fix your resume",       icon: FileText,  color: "#3B82F6" },
-                  { label: "Salary Negotiation",    icon: TrendingUp, color: "#22C55E" },
-                  { label: "Case study generator",  icon: BookOpen,  color: "#8B5CF6" },
-                  { label: "AI mock interview",     icon: Mic,       color: "#F97316" },
-                  { label: "AI email generator",    icon: Mail,      color: "#14B8A6" },
-                  { label: "Analyze Case study",    icon: BarChart2, color: "#FF553E" },
+                  { label: "Fix your resume",       icon: FileText,  color: "#2563EB", lightBg: "#DBEAFE", midBg: "#BFDBFE" },
+                  { label: "Salary Negotiation",    icon: TrendingUp, color: "#16A34A", lightBg: "#DCFCE7", midBg: "#BBF7D0" },
+                  { label: "Case study generator",  icon: BookOpen,  color: "#7C3AED", lightBg: "#EDE9FE", midBg: "#DDD6FE" },
+                  { label: "AI mock interview",     icon: Mic,       color: "#C2410C", lightBg: "#FFEDD5", midBg: "#FED7AA" },
+                  { label: "AI email generator",    icon: Mail,      color: "#0D9488", lightBg: "#CCFBF1", midBg: "#99F6E4" },
+                  { label: "Analyze Case study",    icon: BarChart2, color: "#DC2626", lightBg: "#FFE4E1", midBg: "#FECACA" },
                 ] }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
@@ -830,22 +830,29 @@ export default function Landing() {
                     <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
                       {item.features.map((f, fi) => {
                         const Icon = f.icon;
-                        const c = (f as any).color as string | undefined;
+                        const feat = f as any;
+                        const c = feat.color as string | undefined;
+                        const lightBg = feat.lightBg as string | undefined;
+                        const midBg = feat.midBg as string | undefined;
+                        const pillStyle = lightBg && midBg ? {
+                          background: `radial-gradient(circle at 38% 32%, ${lightBg}, ${midBg})`,
+                          boxShadow: `inset 0 1.5px 2px rgba(255,255,255,0.75), inset 0 -1px 2px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08)`,
+                        } : undefined;
                         return (
                           <div
                             key={fi}
                             className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F4F3E5] dark:hover:bg-white/[0.03] transition-colors duration-150"
                           >
                             <div className="flex items-center gap-3">
-                              <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.10] dark:bg-white/[0.12]">
-                                {/* Ripple fill — always on mobile, hover-only on sm+ */}
+                              <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.08] dark:bg-white/[0.10]">
+                                {/* 3D colour fill — always on mobile, ripples in on sm+ hover */}
                                 <span
                                   className="absolute inset-0 rounded-full scale-100 sm:scale-0 sm:group-hover:scale-100 transition-transform duration-300 ease-out origin-center"
-                                  style={c ? { background: `${c}22`, boxShadow: `inset 0 1px 2px ${c}44` } : undefined}
+                                  style={pillStyle}
                                 />
-                                {/* Grey icon — hidden on mobile, fades out on hover on sm+ */}
-                                <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/35 dark:text-foreground/35 opacity-0 sm:opacity-100 transition-opacity duration-200 sm:group-hover:opacity-0" strokeWidth={1.75} />
-                                {/* Coloured icon — always on mobile, fades in on hover on sm+ */}
+                                {/* Grey icon — hidden on mobile, fades out on sm+ hover */}
+                                <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/30 dark:text-foreground/30 opacity-0 sm:opacity-100 transition-opacity duration-200 sm:group-hover:opacity-0" strokeWidth={1.75} />
+                                {/* Coloured icon — always on mobile, fades in on sm+ hover */}
                                 <Icon className="absolute h-3.5 w-3.5 opacity-100 sm:opacity-0 transition-opacity duration-200 sm:group-hover:opacity-100" style={c ? { color: c } : undefined} strokeWidth={1.75} />
                               </div>
                               <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
