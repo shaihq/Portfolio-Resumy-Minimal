@@ -841,7 +841,7 @@ export default function Landing() {
                         return (
                           <div
                             key={fi}
-                            className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F4F3E5] dark:hover:bg-white/[0.03] transition-colors duration-150"
+                            className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F8F7EE] dark:hover:bg-white/[0.03] transition-colors duration-150"
                           >
                             <div className="flex items-center gap-3">
                               <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.08] dark:bg-white/[0.10]">
