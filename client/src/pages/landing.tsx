@@ -827,7 +827,7 @@ export default function Landing() {
                     </div>
                   </div>
                   {item.features && (
-                    <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
+                    <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden shadow-sm">
                       {item.features.map((f, fi) => {
                         const Icon = f.icon;
                         const c = (f as any).color as string | undefined;
@@ -837,7 +837,7 @@ export default function Landing() {
                             className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F4F3E5] dark:hover:bg-white/[0.03] transition-colors duration-150"
                           >
                             <div className="flex items-center gap-3">
-                              <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08]">
+                              <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.10] dark:bg-white/[0.12]">
                                 {/* Ripple fill */}
                                 <span
                                   className="absolute inset-0 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 ease-out origin-center"
