@@ -857,25 +857,33 @@ export default function Landing() {
                     const hidden = item.features.slice(3);
                     return (
                       <div className="flex flex-col gap-2">
-                        <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
+                        <motion.div
+                          layout
+                          transition={{ layout: { type: "spring", stiffness: 500, damping: 42 } }}
+                          className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden"
+                        >
                           {visible.map((f, fi) => {
                             const isLast = !showAllFeatures && fi === visible.length - 1;
                             return <div key={fi}>{renderRow(f, fi, isLast)}</div>;
                           })}
-                          <AnimatePresence>
+                          <AnimatePresence initial={false}>
                             {showAllFeatures && hidden.map((f, fi) => (
                               <motion.div
                                 key={`hidden-${fi}`}
-                                initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                                initial={{ opacity: 0, y: -8, scale: 0.97 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                                transition={{ type: "spring", stiffness: 380, damping: 22, delay: fi * 0.07 }}
+                                exit={{ opacity: 0, scale: 0.97 }}
+                                transition={
+                                  fi === 0
+                                    ? { type: "spring", stiffness: 420, damping: 26 }
+                                    : { type: "spring", stiffness: 420, damping: 26, delay: fi * 0.06 }
+                                }
                               >
                                 {renderRow(f, fi + 3, fi === hidden.length - 1)}
                               </motion.div>
                             ))}
                           </AnimatePresence>
-                        </div>
+                        </motion.div>
                         <button
                           onClick={() => setShowAllFeatures(v => !v)}
                           className="self-start flex items-center gap-1.5 px-1 py-1 text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors duration-150"
