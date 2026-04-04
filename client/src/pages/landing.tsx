@@ -840,7 +840,7 @@ export default function Landing() {
                               <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
                             </div>
                             <ArrowUpRight
-                              className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 opacity-0 -translate-x-1 blur-[3px] transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-hover:blur-0 flex-shrink-0"
+                              className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 flex-shrink-0"
                               strokeWidth={2}
                             />
                           </div>
