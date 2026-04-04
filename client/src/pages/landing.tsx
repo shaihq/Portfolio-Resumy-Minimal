@@ -833,14 +833,14 @@ export default function Landing() {
                         return (
                           <div
                             key={fi}
-                            className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#ECEAE0] dark:hover:bg-white/[0.05] transition-colors duration-150"
+                            className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F4F3E5] dark:hover:bg-white/[0.03] transition-colors duration-150"
                           >
                             <div className="flex items-center gap-3">
                               <Icon className="h-4 w-4 text-[#1D1B1A]/40 dark:text-foreground/40 flex-shrink-0" strokeWidth={1.75} />
                               <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
                             </div>
                             <ArrowUpRight
-                              className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 invisible -translate-x-1 blur-sm transition-all duration-200 ease-out group-hover:visible group-hover:translate-x-0 group-hover:blur-0 flex-shrink-0"
+                              className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 opacity-0 -translate-x-1 blur-[3px] transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-hover:blur-0 flex-shrink-0"
                               strokeWidth={2}
                             />
                           </div>
