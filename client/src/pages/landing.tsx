@@ -801,7 +801,7 @@ export default function Landing() {
               {[
                 { step: "1/", title: 'Choose a "template".', video: "/landing-video/template-section.mp4" },
                 { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
-                { step: "3/", title: 'And other "AI tools".', video: "/landing-video/other-ai-tools.mp4" }
+                { step: "3/", title: 'And other "AI tools".', video: "/landing-video/other-ai-tools.mp4", features: ["Fix your resume", "Salary Negotiation", "Case study generator", "AI mock interview", "AI email generator", "Analyze Case study"] }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
                   <h3 className="text-[18px] font-bold text-[#1D1B1A] dark:text-foreground">
@@ -819,6 +819,22 @@ export default function Landing() {
                       />
                     </div>
                   </div>
+                  {item.features && (
+                    <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
+                      {item.features.map((f, fi) => (
+                        <div
+                          key={fi}
+                          className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer hover-elevate"
+                        >
+                          <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f}</span>
+                          <ArrowUpRight
+                            className="h-[15px] w-[15px] text-[#1D1B1A]/35 dark:text-foreground/35 opacity-0 -translate-x-1 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 flex-shrink-0"
+                            strokeWidth={2}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
