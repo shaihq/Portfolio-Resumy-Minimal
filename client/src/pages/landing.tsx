@@ -828,7 +828,7 @@ export default function Landing() {
                     </div>
                   </div>
                   {item.features && (() => {
-                    const renderRow = (f: any, fi: number) => {
+                    const renderRow = (f: any, fi: number, isLast: boolean) => {
                       const Icon = f.icon;
                       const c = f.color as string | undefined;
                       const lightBg = f.lightBg as string | undefined;
@@ -839,7 +839,7 @@ export default function Landing() {
                       } : undefined;
                       return (
                         <div
-                          className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F8F7EE] dark:hover:bg-white/[0.03] transition-colors duration-150"
+                          className={cn("group flex items-center justify-between px-4 py-3.5 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F8F7EE] dark:hover:bg-white/[0.03] transition-colors duration-150", !isLast && "border-b border-[#E2E1DA] dark:border-border")}
                         >
                           <div className="flex items-center gap-3">
                             <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.08] dark:bg-white/[0.10]">
@@ -858,7 +858,10 @@ export default function Landing() {
                     return (
                       <div className="flex flex-col gap-2">
                         <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
-                          {visible.map((f, fi) => <div key={fi}>{renderRow(f, fi)}</div>)}
+                          {visible.map((f, fi) => {
+                            const isLast = !showAllFeatures && fi === visible.length - 1;
+                            return <div key={fi}>{renderRow(f, fi, isLast)}</div>;
+                          })}
                           <AnimatePresence>
                             {showAllFeatures && hidden.map((f, fi) => (
                               <motion.div
@@ -868,7 +871,7 @@ export default function Landing() {
                                 exit={{ opacity: 0, y: -6, scale: 0.98 }}
                                 transition={{ type: "spring", stiffness: 380, damping: 22, delay: fi * 0.07 }}
                               >
-                                {renderRow(f, fi + 3)}
+                                {renderRow(f, fi + 3, fi === hidden.length - 1)}
                               </motion.div>
                             ))}
                           </AnimatePresence>
