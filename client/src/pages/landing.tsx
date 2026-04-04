@@ -802,12 +802,12 @@ export default function Landing() {
                 { step: "1/", title: 'Choose a "template".', video: "/landing-video/template-section.mp4" },
                 { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
                 { step: "3/", title: 'And other "AI tools".', video: "/landing-video/other-ai-tools.mp4", features: [
-                  { label: "Fix your resume", icon: FileText },
-                  { label: "Salary Negotiation", icon: TrendingUp },
-                  { label: "Case study generator", icon: BookOpen },
-                  { label: "AI mock interview", icon: Mic },
-                  { label: "AI email generator", icon: Mail },
-                  { label: "Analyze Case study", icon: BarChart2 },
+                  { label: "Fix your resume",       icon: FileText,  color: "#3B82F6" },
+                  { label: "Salary Negotiation",    icon: TrendingUp, color: "#22C55E" },
+                  { label: "Case study generator",  icon: BookOpen,  color: "#8B5CF6" },
+                  { label: "AI mock interview",     icon: Mic,       color: "#F97316" },
+                  { label: "AI email generator",    icon: Mail,      color: "#14B8A6" },
+                  { label: "Analyze Case study",    icon: BarChart2, color: "#FF553E" },
                 ] }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
@@ -830,13 +830,22 @@ export default function Landing() {
                     <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
                       {item.features.map((f, fi) => {
                         const Icon = f.icon;
+                        const c = (f as any).color as string | undefined;
                         return (
                           <div
                             key={fi}
                             className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F4F3E5] dark:hover:bg-white/[0.03] transition-colors duration-150"
                           >
                             <div className="flex items-center gap-3">
-                              <Icon className="h-4 w-4 text-[#1D1B1A]/40 dark:text-foreground/40 flex-shrink-0" strokeWidth={1.75} />
+                              <div
+                                className="h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0"
+                                style={c ? {
+                                  background: `${c}1a`,
+                                  boxShadow: `inset 0 1px 1px ${c}33, 0 0 0 1px ${c}18`,
+                                } : undefined}
+                              >
+                                <Icon className="h-3.5 w-3.5 flex-shrink-0" style={c ? { color: c } : undefined} strokeWidth={1.75} />
+                              </div>
                               <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
                             </div>
                             <ArrowUpRight
