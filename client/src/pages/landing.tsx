@@ -827,7 +827,7 @@ export default function Landing() {
                     </div>
                   </div>
                   {item.features && (
-                    <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden shadow-sm">
+                    <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
                       {item.features.map((f, fi) => {
                         const Icon = f.icon;
                         const c = (f as any).color as string | undefined;
@@ -838,15 +838,15 @@ export default function Landing() {
                           >
                             <div className="flex items-center gap-3">
                               <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.10] dark:bg-white/[0.12]">
-                                {/* Ripple fill */}
+                                {/* Ripple fill — always on mobile, hover-only on sm+ */}
                                 <span
-                                  className="absolute inset-0 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 ease-out origin-center"
+                                  className="absolute inset-0 rounded-full scale-100 sm:scale-0 sm:group-hover:scale-100 transition-transform duration-300 ease-out origin-center"
                                   style={c ? { background: `${c}22`, boxShadow: `inset 0 1px 2px ${c}44` } : undefined}
                                 />
-                                {/* Grey icon — fades out on hover */}
-                                <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/35 dark:text-foreground/35 transition-opacity duration-200 group-hover:opacity-0" strokeWidth={1.75} />
-                                {/* Coloured icon — fades in on hover */}
-                                <Icon className="absolute h-3.5 w-3.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100" style={c ? { color: c } : undefined} strokeWidth={1.75} />
+                                {/* Grey icon — hidden on mobile, fades out on hover on sm+ */}
+                                <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/35 dark:text-foreground/35 opacity-0 sm:opacity-100 transition-opacity duration-200 sm:group-hover:opacity-0" strokeWidth={1.75} />
+                                {/* Coloured icon — always on mobile, fades in on hover on sm+ */}
+                                <Icon className="absolute h-3.5 w-3.5 opacity-100 sm:opacity-0 transition-opacity duration-200 sm:group-hover:opacity-100" style={c ? { color: c } : undefined} strokeWidth={1.75} />
                               </div>
                               <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
                             </div>
