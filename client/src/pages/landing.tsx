@@ -317,6 +317,7 @@ export default function Landing() {
   const [showNavCTA, setShowNavCTA] = useState(false);
   const [fabVisible, setFabVisible] = useState(true);
   const [speedLevel, setSpeedLevel] = useState(4);
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
   const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
   const speedDurations = [52, 38, 28, 18, 11];
   const scrollDuration = speedDurations[speedLevel - 1];
@@ -826,46 +827,62 @@ export default function Landing() {
                       />
                     </div>
                   </div>
-                  {item.features && (
-                    <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
-                      {item.features.map((f, fi) => {
-                        const Icon = f.icon;
-                        const feat = f as any;
-                        const c = feat.color as string | undefined;
-                        const lightBg = feat.lightBg as string | undefined;
-                        const midBg = feat.midBg as string | undefined;
-                        const pillStyle = lightBg && midBg ? {
-                          background: `radial-gradient(circle at 38% 32%, ${lightBg}, ${midBg})`,
-                          boxShadow: `inset 0 1.5px 2px rgba(255,255,255,0.75), inset 0 -1px 2px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08)`,
-                        } : undefined;
-                        return (
-                          <div
-                            key={fi}
-                            className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F8F7EE] dark:hover:bg-white/[0.03] transition-colors duration-150"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.08] dark:bg-white/[0.10]">
-                                {/* 3D colour fill — always on mobile, ripples in on sm+ hover */}
-                                <span
-                                  className="absolute inset-0 rounded-full scale-100 sm:scale-0 sm:group-hover:scale-100 transition-transform duration-300 ease-out origin-center"
-                                  style={pillStyle}
-                                />
-                                {/* Grey icon — hidden on mobile, fades out on sm+ hover */}
-                                <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/30 dark:text-foreground/30 opacity-0 sm:opacity-100 transition-opacity duration-200 sm:group-hover:opacity-0" strokeWidth={1.75} />
-                                {/* Coloured icon — always on mobile, fades in on sm+ hover */}
-                                <Icon className="absolute h-3.5 w-3.5 opacity-100 sm:opacity-0 transition-opacity duration-200 sm:group-hover:opacity-100" style={c ? { color: c } : undefined} strokeWidth={1.75} />
-                              </div>
-                              <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
+                  {item.features && (() => {
+                    const renderRow = (f: any, fi: number) => {
+                      const Icon = f.icon;
+                      const c = f.color as string | undefined;
+                      const lightBg = f.lightBg as string | undefined;
+                      const midBg = f.midBg as string | undefined;
+                      const pillStyle = lightBg && midBg ? {
+                        background: `radial-gradient(circle at 38% 32%, ${lightBg}, ${midBg})`,
+                        boxShadow: `inset 0 1.5px 2px rgba(255,255,255,0.75), inset 0 -1px 2px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08)`,
+                      } : undefined;
+                      return (
+                        <div
+                          className="group flex items-center justify-between px-4 py-3.5 border-b border-[#E2E1DA] dark:border-border last:border-b-0 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F8F7EE] dark:hover:bg-white/[0.03] transition-colors duration-150"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.08] dark:bg-white/[0.10]">
+                              <span className="absolute inset-0 rounded-full scale-100 sm:scale-0 sm:group-hover:scale-100 transition-transform duration-300 ease-out origin-center" style={pillStyle} />
+                              <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/30 dark:text-foreground/30 opacity-0 sm:opacity-100 transition-opacity duration-200 sm:group-hover:opacity-0" strokeWidth={1.75} />
+                              <Icon className="absolute h-3.5 w-3.5 opacity-100 sm:opacity-0 transition-opacity duration-200 sm:group-hover:opacity-100" style={c ? { color: c } : undefined} strokeWidth={1.75} />
                             </div>
-                            <ArrowUpRight
-                              className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 flex-shrink-0"
-                              strokeWidth={2}
-                            />
+                            <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
                           </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                          <ArrowUpRight className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 flex-shrink-0" strokeWidth={2} />
+                        </div>
+                      );
+                    };
+                    const visible = item.features.slice(0, 3);
+                    const hidden = item.features.slice(3);
+                    return (
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
+                          {visible.map((f, fi) => <div key={fi}>{renderRow(f, fi)}</div>)}
+                          <AnimatePresence>
+                            {showAllFeatures && hidden.map((f, fi) => (
+                              <motion.div
+                                key={`hidden-${fi}`}
+                                initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                                transition={{ type: "spring", stiffness: 380, damping: 22, delay: fi * 0.07 }}
+                              >
+                                {renderRow(f, fi + 3)}
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+                        <button
+                          onClick={() => setShowAllFeatures(v => !v)}
+                          className="self-start flex items-center gap-1.5 px-1 py-1 text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors duration-150"
+                        >
+                          <span>{showAllFeatures ? "Show less" : `+${hidden.length} more tools`}</span>
+                          <ChevronRight className={cn("h-3.5 w-3.5 transition-transform duration-300", showAllFeatures && "rotate-90")} />
+                        </button>
+                      </div>
+                    );
+                  })()}
                 </div>
               ))}
             </div>
