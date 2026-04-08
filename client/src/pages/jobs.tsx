@@ -6,6 +6,7 @@ import {
   Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
   KanbanItem, KanbanItemHandle, KanbanOverlay,
 } from "@/components/ui/kanban";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 type Phase = "transition" | "voice" | "type" | "done" | "dashboard";
 
@@ -477,8 +478,11 @@ function Dashboard() {
       {/* Top filter bar — single row */}
       <div className="flex items-center gap-2 flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
         {/* Prompt pill — left-anchored with avatar */}
-        <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-2 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
-          <img src={profileImg} alt="avatar" className="w-5 h-5 rounded-full object-cover flex-shrink-0" />
+        <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-1.5 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
+          <Avatar className="w-6 h-6 flex-shrink-0 border border-black/10 dark:border-white/10">
+            <AvatarImage src={profileImg} alt="Profile" />
+            <AvatarFallback className="text-[10px]">MB</AvatarFallback>
+          </Avatar>
           <span className="truncate">Software engineers · remote-first · senior-level</span>
         </div>
 
@@ -489,6 +493,7 @@ function Dashboard() {
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
           Filters
+          <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">4</span>
         </button>
 
         {/* Criteria button */}
@@ -498,6 +503,7 @@ function Dashboard() {
         >
           <Sparkles className="w-3.5 h-3.5" />
           Criteria
+          <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
         </button>
       </div>
 
