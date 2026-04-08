@@ -468,7 +468,7 @@ function PipelineCol({
               height:    isLeaving ? { duration: 0.28, ease: [0.4, 0, 1, 1] }    : { duration: 0 },
               marginTop: isLeaving ? { duration: 0.28, ease: [0.4, 0, 1, 1] }    : { duration: 0 },
             }}
-            style={{ overflow: "hidden", pointerEvents: isLeaving ? "none" : undefined }}
+            style={{ overflow: isLeaving ? "hidden" : "visible", pointerEvents: isLeaving ? "none" : undefined }}
             onAnimationComplete={() => { if (isLeaving) onDepartComplete(job.id); }}
           >
             <KanbanItem value={job.id} className="rounded-lg">
