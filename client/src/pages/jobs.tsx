@@ -422,39 +422,37 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
         {/* Header lives in the gradient strip */}
         <div className="flex items-center justify-between px-1 pb-2 pt-0.5 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-semibold text-[#5C3328]/80">{COL_LABELS[colId]}</span>
+            <span className="text-[13px] font-semibold text-[#6B2D20]">{COL_LABELS[colId]}</span>
             {jobs.length > 0 && (
-              <span className="text-[10px] text-[#5C3328]/60 bg-black/10 rounded-full px-1.5 py-0.5 leading-none">
+              <span className="text-[10px] text-[#6B2D20] bg-black/10 rounded-full px-1.5 py-0.5 leading-none">
                 {jobs.length}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1 opacity-60">
+          <div className="flex items-center gap-1">
             <LinkedInLogo size={13} />
             <IndeedLogo size={13} />
           </div>
         </div>
-        {/* Inner column — no header */}
-        <div className="flex-1 flex flex-col rounded-[11px] overflow-hidden">
-          <KanbanColumn value={colId} className="flex flex-col flex-1 min-w-0 rounded-[11px] bg-[#E5E1DA] dark:bg-card">
-            <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
-              {jobs.length === 0 && (
-                <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
-                  <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
-                    Drag a role here<br />to track it
-                  </p>
-                </div>
-              )}
-              {jobs.map((job) => (
-                <KanbanItem key={job.id} value={job.id} className="rounded-lg">
-                  <KanbanItemHandle className="w-full rounded-lg">
-                    <JobCard job={job} isPicks={true} />
-                  </KanbanItemHandle>
-                </KanbanItem>
-              ))}
-            </KanbanColumnContent>
-          </KanbanColumn>
-        </div>
+        {/* Cards directly on gradient — no inner container */}
+        <KanbanColumn value={colId} className="flex flex-col flex-1 min-w-0 rounded-[11px] bg-transparent">
+          <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-0 pb-0 min-h-[60px]">
+            {jobs.length === 0 && (
+              <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/15 mx-0.5">
+                <p className="text-[11px] text-[#6B2D20]/50 text-center leading-relaxed">
+                  Drag a role here<br />to track it
+                </p>
+              </div>
+            )}
+            {jobs.map((job) => (
+              <KanbanItem key={job.id} value={job.id} className="rounded-lg mb-2">
+                <KanbanItemHandle className="w-full rounded-lg">
+                  <JobCard job={job} isPicks={true} />
+                </KanbanItemHandle>
+              </KanbanItem>
+            ))}
+          </KanbanColumnContent>
+        </KanbanColumn>
       </div>
     );
   }
