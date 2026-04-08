@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, Pencil } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import {
   Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
   KanbanItem, KanbanItemHandle, KanbanOverlay,
@@ -457,8 +457,12 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 }
 
 // ── Dashboard ──────────────────────────────────────────────────────────────
+const DEFAULT_FILTERS = ["Remote", "Full-time", "Senior", "No agencies"];
+
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<string[]>(DEFAULT_FILTERS);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
@@ -473,15 +477,65 @@ function Dashboard() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Top criteria bar */}
-      <div className="flex-shrink-0 h-11 border-b border-black/[0.07] dark:border-border flex items-center gap-3 pl-[84px] pr-4">
-        <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground flex-1 min-w-0">
-          <span className="font-medium text-foreground/60">Ranked by:</span>
-          <span className="truncate">remote-preferred · ownership-hungry · stability-seeking</span>
+      {/* Top filter bar */}
+      <div className="flex-shrink-0 border-b border-black/[0.07] dark:border-border">
+        {/* Row 1: prompt + buttons */}
+        <div className="flex items-center gap-2 pl-[84px] pr-3 py-2">
+          {/* Prompt pill */}
+          <div className="flex-1 min-w-0 flex items-center gap-2 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full px-4 h-9 text-[13px] text-foreground/60 truncate select-none">
+            <span className="truncate">Software engineers · remote-first · senior-level · no agencies</span>
+          </div>
+          {/* Filters button */}
+          <button
+            data-testid="button-filters"
+            onClick={() => setFiltersOpen((v) => !v)}
+            className={`flex-shrink-0 flex items-center gap-1.5 h-9 px-3.5 rounded-full border text-[13px] font-medium transition-colors ${
+              filtersOpen
+                ? "bg-foreground text-background border-foreground"
+                : "bg-white dark:bg-card border-black/8 dark:border-border text-foreground/70 hover:text-foreground"
+            }`}
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5" />
+            Filters
+            {activeFilters.length > 0 && (
+              <span className={`flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-semibold ${filtersOpen ? "bg-background/20 text-background" : "bg-foreground text-background"}`}>
+                {activeFilters.length}
+              </span>
+            )}
+          </button>
+          {/* Criteria button */}
+          <button
+            data-testid="button-criteria"
+            className="flex-shrink-0 flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-[13px] font-medium text-foreground/70 hover:text-foreground transition-colors"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            Criteria
+            <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
+          </button>
         </div>
-        <button data-testid="button-edit-criteria" className="flex-shrink-0 flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors">
-          <Pencil className="w-3 h-3" />Edit
-        </button>
+        {/* Row 2: active filter chips */}
+        {activeFilters.length > 0 && (
+          <div className="flex items-center gap-1.5 pl-[84px] pr-3 pb-2 flex-wrap">
+            {activeFilters.map((f) => (
+              <button
+                key={f}
+                data-testid={`chip-filter-${f.toLowerCase().replace(/\s+/g, "-")}`}
+                onClick={() => setActiveFilters((prev) => prev.filter((x) => x !== f))}
+                className="flex items-center gap-1 h-6 px-2.5 rounded-full bg-foreground/8 dark:bg-foreground/10 border border-black/8 dark:border-border text-[11px] font-medium text-foreground/70 hover:text-foreground transition-colors"
+              >
+                {f}
+                <X className="w-2.5 h-2.5 opacity-50" />
+              </button>
+            ))}
+            <button
+              data-testid="button-clear-filters"
+              onClick={() => setActiveFilters([])}
+              className="h-6 px-2.5 text-[11px] text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Flat kanban board */}
