@@ -458,14 +458,14 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col bg-background pl-[76px]"
+      className="fixed inset-0 flex flex-col bg-background"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Top criteria bar */}
-      <div className="flex-shrink-0 h-11 border-b border-border flex items-center px-4 gap-3">
+      <div className="flex-shrink-0 h-11 border-b border-border flex items-center gap-3 pl-[84px] pr-4">
         <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground flex-1 min-w-0">
           <span className="font-medium text-foreground/60">Ranked by:</span>
           <span className="truncate">remote-preferred · ownership-hungry · stability-seeking</span>
@@ -478,7 +478,7 @@ function Dashboard() {
       {/* Flat kanban board */}
       <div className="flex-1 overflow-x-auto overflow-y-hidden">
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id}>
-          <KanbanBoard className="flex gap-3 h-full p-4 min-w-max">
+          <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[76px] min-w-max">
             {COL_ORDER.map((colId) => (
               <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} />
             ))}
