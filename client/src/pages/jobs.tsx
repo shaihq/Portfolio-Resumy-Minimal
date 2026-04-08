@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, Pencil, GripVertical } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, Pencil } from "lucide-react";
+import {
+  Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
+  KanbanItem, KanbanItemHandle, KanbanOverlay,
+} from "@/components/ui/kanban";
 
 type Phase = "transition" | "voice" | "type" | "done" | "dashboard";
 
 // ── Data model ─────────────────────────────────────────────────────────────
-type KanbanCol = "picks" | "not_applied" | "applied" | "interview" | "offer";
-
 interface Job {
   id: string;
   company: string;
@@ -16,24 +18,33 @@ interface Job {
   logoColor: string;
   logoLetter: string;
   source: "linkedin" | "indeed";
-  column: KanbanCol;
 }
 
-const INITIAL_JOBS: Job[] = [
-  { id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope", logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin", column: "picks" },
-  { id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async", logoColor: "#171717", logoLetter: "V", source: "linkedin", column: "picks" },
-  { id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap", logoColor: "#191919", logoLetter: "N", source: "indeed", column: "picks" },
-  { id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact", logoColor: "#F24E1E", logoLetter: "F", source: "linkedin", column: "picks" },
-  { id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product", logoColor: "#625DF5", logoLetter: "L", source: "indeed", column: "picks" },
-  { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", source: "linkedin", column: "picks" },
+const BASE_JOBS: Job[] = [
+  { id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope", logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin" },
+  { id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async", logoColor: "#171717", logoLetter: "V", source: "linkedin" },
+  { id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap", logoColor: "#191919", logoLetter: "N", source: "indeed" },
+  { id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact", logoColor: "#F24E1E", logoLetter: "F", source: "linkedin" },
+  { id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product", logoColor: "#625DF5", logoLetter: "L", source: "indeed" },
+  { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", source: "linkedin" },
 ];
 
-const KANBAN_COLS: { id: KanbanCol; label: string }[] = [
-  { id: "not_applied", label: "Not Applied" },
-  { id: "applied", label: "Applied" },
-  { id: "interview", label: "Interview" },
-  { id: "offer", label: "Offer" },
-];
+const COL_ORDER = ["picks", "not_applied", "applied", "interview", "offer"];
+const COL_LABELS: Record<string, string> = {
+  picks: "AI Picks",
+  not_applied: "Not Applied",
+  applied: "Applied",
+  interview: "Interview",
+  offer: "Offer",
+};
+
+const INITIAL_COLUMNS: Record<string, Job[]> = {
+  picks: BASE_JOBS,
+  not_applied: [],
+  applied: [],
+  interview: [],
+  offer: [],
+};
 
 // ── Shared sub-components ──────────────────────────────────────────────────
 const questions = [
@@ -350,123 +361,96 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
   );
 }
 
-// ── Job card (AI Picks) ────────────────────────────────────────────────────
-function AiJobCard({ job, index, onDragStart }: { job: Job; index: number; onDragStart: (id: string) => void }) {
-  const isTop = index === 0;
+// ── Job card (shared) ──────────────────────────────────────────────────────
+function JobCard({ job, isPicks }: { job: Job; isPicks?: boolean }) {
   return (
-    <motion.div
-      draggable
-      onDragStart={() => onDragStart(job.id)}
+    <div
       data-testid={`card-job-${job.id}`}
-      className={`group relative flex flex-col gap-2 p-3 rounded-xl border cursor-grab active:cursor-grabbing select-none transition-shadow ${
-        isTop
-          ? "border-border bg-card shadow-sm ring-1 ring-foreground/5"
-          : "border-border bg-card hover:shadow-sm"
-      }`}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.3 }}
-      layout
+      className="flex flex-col gap-2 p-3 rounded-lg border border-border bg-background select-none"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          {/* Company logo letter */}
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold" style={{ backgroundColor: job.logoColor }}>
+          <div
+            className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold"
+            style={{ backgroundColor: job.logoColor }}
+          >
             {job.logoLetter}
           </div>
           <div className="min-w-0">
-            <div className="text-[12px] font-medium text-foreground truncate">{job.role}</div>
+            <div className="text-[12px] font-medium text-foreground leading-tight truncate">{job.role}</div>
             <div className="text-[11px] text-muted-foreground truncate">{job.company}</div>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
-          <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">{job.match}%</span>
-          <GripVertical className="w-3 h-3 text-muted-foreground/30 opacity-0 group-hover:opacity-100 transition-opacity" />
-        </div>
+        <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex-shrink-0 pt-0.5">
+          {job.match}%
+        </span>
       </div>
-      <p className="text-[11px] text-muted-foreground/70 leading-relaxed pl-9">{job.reason}</p>
-      {/* Source badge */}
-      <div className="pl-9">
-        {job.source === "linkedin"
-          ? <span className="inline-flex items-center gap-1 text-[10px] text-[#0A66C2] font-medium"><LinkedInLogo size={10} /> LinkedIn</span>
-          : <span className="inline-flex items-center gap-1 text-[10px] text-[#003A9B] font-medium"><IndeedLogo size={10} /> Indeed</span>
-        }
-      </div>
-    </motion.div>
-  );
-}
-
-// ── Kanban card ────────────────────────────────────────────────────────────
-function KanbanCard({ job, onDragStart }: { job: Job; onDragStart: (id: string) => void }) {
-  return (
-    <div
-      draggable
-      onDragStart={() => onDragStart(job.id)}
-      data-testid={`card-kanban-${job.id}`}
-      className="flex flex-col gap-1.5 p-3 rounded-xl border border-border bg-card cursor-grab active:cursor-grabbing select-none hover:shadow-sm transition-shadow"
-    >
-      <div className="flex items-center gap-2">
-        <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[9px] font-bold" style={{ backgroundColor: job.logoColor }}>
-          {job.logoLetter}
-        </div>
-        <div className="min-w-0">
-          <div className="text-[11px] font-medium text-foreground truncate">{job.role}</div>
-          <div className="text-[10px] text-muted-foreground truncate">{job.company}</div>
-        </div>
-        <span className="ml-auto text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 flex-shrink-0">{job.match}%</span>
-      </div>
+      {isPicks && (
+        <>
+          <p className="text-[11px] text-muted-foreground/70 leading-relaxed pl-9 truncate">{job.reason}</p>
+          <div className="pl-9">
+            {job.source === "linkedin"
+              ? <span className="inline-flex items-center gap-1 text-[10px] text-[#0A66C2] font-medium"><LinkedInLogo size={10} /> LinkedIn</span>
+              : <span className="inline-flex items-center gap-1 text-[10px] text-[#003A9B] font-medium"><IndeedLogo size={10} /> Indeed</span>
+            }
+          </div>
+        </>
+      )}
     </div>
   );
 }
 
-// ── Kanban column ──────────────────────────────────────────────────────────
-function KanbanColumn({ col, jobs, onDragOver, onDrop }: { col: { id: KanbanCol; label: string }; jobs: Job[]; onDragOver: (e: React.DragEvent) => void; onDrop: (colId: KanbanCol) => void; }) {
-  const [isDragOver, setIsDragOver] = useState(false);
-  const [draggingId, setDraggingId] = useState<string | null>(null);
-
+// ── Pipeline column card ───────────────────────────────────────────────────
+function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
+  const isPicks = colId === "picks";
   return (
-    <div
-      className={`flex flex-col gap-2 min-w-0 flex-1 h-full`}
-      onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); onDragOver(e); }}
-      onDragLeave={() => setIsDragOver(false)}
-      onDrop={() => { setIsDragOver(false); onDrop(col.id); }}
+    <KanbanColumn
+      value={colId}
+      className="rounded-xl border border-border bg-card flex flex-col min-w-[220px] flex-1"
     >
       {/* Column header */}
-      <div className="flex items-center justify-between px-1 flex-shrink-0">
-        <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">{col.label}</span>
-        {jobs.length > 0 && (
-          <span className="text-[10px] text-muted-foreground/50 bg-muted rounded-full px-1.5 py-0.5">{jobs.length}</span>
+      <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
+          {jobs.length > 0 && (
+            <span className="text-[10px] text-muted-foreground bg-muted rounded-full px-1.5 py-0.5 leading-none">
+              {jobs.length}
+            </span>
+          )}
+        </div>
+        {isPicks && (
+          <div className="flex items-center gap-1">
+            <LinkedInLogo size={13} />
+            <IndeedLogo size={13} />
+          </div>
         )}
       </div>
 
-      {/* Drop zone */}
-      <div className={`flex-1 flex flex-col gap-2 rounded-xl border-2 border-dashed p-2 min-h-[120px] transition-colors ${isDragOver ? "border-[#FF553E]/40 bg-[#FF553E]/3" : "border-border/50 bg-muted/10"}`}>
+      {/* Items */}
+      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[80px]">
         {jobs.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-[11px] text-muted-foreground/40 text-center px-2">Drag a role here<br />to start tracking</p>
+          <div className="flex items-center justify-center py-10">
+            <p className="text-[11px] text-muted-foreground/35 text-center leading-relaxed">
+              Drag a role here<br />to track it
+            </p>
           </div>
         ) : (
           jobs.map((job) => (
-            <KanbanCard key={job.id} job={job} onDragStart={setDraggingId} />
+            <KanbanItem key={job.id} value={job.id} asChild>
+              <KanbanItemHandle>
+                <JobCard job={job} isPicks={isPicks} />
+              </KanbanItemHandle>
+            </KanbanItem>
           ))
         )}
-      </div>
-    </div>
+      </KanbanColumnContent>
+    </KanbanColumn>
   );
 }
 
 // ── Dashboard ──────────────────────────────────────────────────────────────
 function Dashboard() {
-  const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
-  const [draggingId, setDraggingId] = useState<string | null>(null);
-
-  const moveJob = (colId: KanbanCol) => {
-    if (!draggingId) return;
-    setJobs((prev) => prev.map((j) => j.id === draggingId ? { ...j, column: colId } : j));
-    setDraggingId(null);
-  };
-
-  const picks = jobs.filter((j) => j.column === "picks");
+  const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
 
   return (
     <motion.div
@@ -476,10 +460,10 @@ function Dashboard() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Left gradient mask — fades content in from the nav edge */}
+      {/* Left gradient mask */}
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-background to-transparent z-10" />
 
-      {/* Top bar */}
+      {/* Top criteria bar */}
       <div className="flex-shrink-0 h-11 border-b border-border flex items-center px-4 gap-3">
         <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground flex-1 min-w-0">
           <span className="font-medium text-foreground/60">Ranked by:</span>
@@ -490,57 +474,18 @@ function Dashboard() {
         </button>
       </div>
 
-      {/* Main split */}
-      <div className="flex flex-1 min-h-0">
-
-        {/* Left — AI Picks */}
-        <div className="w-72 flex-shrink-0 flex flex-col border-r border-border">
-          <div className="flex items-center justify-between px-4 py-3 flex-shrink-0 border-b border-border/50">
-            <div className="flex items-center gap-2">
-              <span className="text-[13px] font-semibold text-foreground">AI Picks</span>
-              <span className="text-[10px] text-muted-foreground bg-muted rounded-full px-2 py-0.5">{picks.length}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <LinkedInLogo size={12} />
-              <IndeedLogo size={12} />
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2">
-            <AnimatePresence>
-              {picks.length === 0 ? (
-                <div className="flex-1 flex items-center justify-center py-12">
-                  <p className="text-[12px] text-muted-foreground/40 text-center">All roles moved to pipeline</p>
-                </div>
-              ) : (
-                picks.map((job, i) => (
-                  <AiJobCard key={job.id} job={job} index={i} onDragStart={setDraggingId} />
-                ))
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Right — Pipeline / Kanban */}
-        <div className="flex-1 flex flex-col min-w-0">
-          <div className="flex items-center px-4 py-3 flex-shrink-0 border-b border-border/50">
-            <span className="text-[13px] font-semibold text-foreground">Pipeline</span>
-          </div>
-
-          <div className="flex-1 overflow-x-auto overflow-y-hidden px-4 py-3">
-            <div className="flex gap-3 h-full min-w-[640px]">
-              {KANBAN_COLS.map((col) => (
-                <KanbanColumn
-                  key={col.id}
-                  col={col}
-                  jobs={jobs.filter((j) => j.column === col.id)}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={moveJob}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+      {/* Flat kanban board */}
+      <div className="flex-1 overflow-x-auto overflow-y-hidden">
+        <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id}>
+          <KanbanBoard className="flex gap-3 h-full p-4 min-w-max">
+            {COL_ORDER.map((colId) => (
+              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} />
+            ))}
+          </KanbanBoard>
+          <KanbanOverlay>
+            <div className="rounded-lg bg-muted/50 border border-border w-full h-full" />
+          </KanbanOverlay>
+        </Kanban>
       </div>
     </motion.div>
   );
