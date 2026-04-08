@@ -427,22 +427,21 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
       </div>
 
       {/* Items */}
-      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[80px]">
-        {jobs.length === 0 ? (
-          <div className="flex items-center justify-center py-10">
-            <p className="text-[11px] text-muted-foreground/35 text-center leading-relaxed">
+      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[60px]">
+        {jobs.length === 0 && (
+          <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-border/50 mx-0.5">
+            <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
               Drag a role here<br />to track it
             </p>
           </div>
-        ) : (
-          jobs.map((job) => (
-            <KanbanItem key={job.id} value={job.id} asChild>
-              <KanbanItemHandle>
-                <JobCard job={job} isPicks={isPicks} />
-              </KanbanItemHandle>
-            </KanbanItem>
-          ))
         )}
+        {jobs.map((job) => (
+          <KanbanItem key={job.id} value={job.id} className="rounded-lg">
+            <KanbanItemHandle className="w-full rounded-lg">
+              <JobCard job={job} isPicks={isPicks} />
+            </KanbanItemHandle>
+          </KanbanItem>
+        ))}
       </KanbanColumnContent>
     </KanbanColumn>
   );
@@ -451,6 +450,11 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 // ── Dashboard ──────────────────────────────────────────────────────────────
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
+
+  const allJobs = Object.values(columns).flat();
+  const findJob = (id: string) => allJobs.find((j) => j.id === id);
+  const findColForJob = (id: string) =>
+    Object.entries(columns).find(([, jobs]) => jobs.some((j) => j.id === id))?.[0];
 
   return (
     <motion.div
@@ -482,8 +486,23 @@ function Dashboard() {
               <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} />
             ))}
           </KanbanBoard>
+
+          {/* Drag overlay — renders real card clone following the cursor */}
           <KanbanOverlay>
-            <div className="rounded-lg bg-muted/50 border border-border w-full h-full" />
+            {({ value, variant }) => {
+              if (variant === "item") {
+                const job = findJob(value as string);
+                const colId = findColForJob(value as string);
+                if (job) {
+                  return (
+                    <div className="rounded-lg shadow-xl ring-1 ring-foreground/10 opacity-95 rotate-1 scale-[1.02]">
+                      <JobCard job={job} isPicks={colId === "picks"} />
+                    </div>
+                  );
+                }
+              }
+              return <div className="rounded-xl bg-muted/60 border border-border w-full h-full" />;
+            }}
           </KanbanOverlay>
         </Kanban>
       </div>
