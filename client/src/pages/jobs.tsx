@@ -384,32 +384,32 @@ function JobCard({ job, onShortlist }: { job: Job; onShortlist?: () => void }) {
       className="flex flex-col gap-3 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
       {/* Row 1: Title */}
-      <p className="text-[13px] font-bold text-foreground leading-snug">{job.role}</p>
+      <p className="text-[15px] font-semibold text-foreground leading-snug">{job.role}</p>
 
       {/* Row 2: Pills */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="text-[10px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.type}</span>
-        <span className="text-[10px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.workMode}</span>
+        <span className="text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.type}</span>
+        <span className="text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.workMode}</span>
       </div>
 
       {/* Row 3: Company + gauge */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div
-            className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[10px] font-bold"
+            className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold"
             style={{ backgroundColor: job.logoColor }}
           >
             {job.logoLetter}
           </div>
           <div className="min-w-0">
-            <div className="text-[11px] font-medium text-foreground/70 truncate">{job.company}</div>
-            <div className="text-[10px] text-foreground/40 truncate">{job.location}</div>
+            <div className="text-[13px] font-medium text-foreground/70 truncate">{job.company}</div>
+            <div className="text-[12px] text-foreground/40 truncate">{job.location}</div>
           </div>
         </div>
         <div className="flex-shrink-0 flex flex-col items-center">
           <Gauge
             value={job.match}
-            size={38}
+            size={42}
             strokeWidth={8}
             gapPercent={3}
             primary="success"
@@ -427,9 +427,9 @@ function JobCard({ job, onShortlist }: { job: Job; onShortlist?: () => void }) {
         <button
           data-testid={`button-shortlist-${job.id}`}
           onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-          className="flex items-center justify-center gap-1.5 w-full text-[10px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-1.5 transition-colors"
+          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
         >
-          <Bookmark className="w-3 h-3" />
+          <Bookmark className="w-3.5 h-3.5" />
           Shortlist
         </button>
       )}
@@ -466,9 +466,9 @@ function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[];
     return (
       <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#EDE9E3] dark:bg-card border border-[#D5CFC7] dark:border-border overflow-hidden">
         <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
-          <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
+          <span className="text-[13px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
-            <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
+            <span className="text-[11px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
           )}
         </div>
         <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
@@ -481,9 +481,9 @@ function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[];
   return (
     <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E5E1DA] dark:bg-card border border-[#D5CFC7] dark:border-border overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
-        <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
+        <span className="text-[13px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
-          <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
+          <span className="text-[11px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
         )}
       </div>
       <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
