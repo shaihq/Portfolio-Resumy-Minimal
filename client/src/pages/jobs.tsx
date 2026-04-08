@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/kanban";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 type Phase = "transition" | "voice" | "type" | "done" | "dashboard";
 
@@ -409,6 +410,139 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
   );
 }
 
+// ── Mock interview dialog ──────────────────────────────────────────────────
+type PermState = "idle" | "granted" | "denied";
+
+function PermissionCard({
+  icon: Icon,
+  label,
+  description,
+  state,
+  onRequest,
+}: {
+  icon: React.ElementType;
+  label: string;
+  description: string;
+  state: PermState;
+  onRequest: () => void;
+}) {
+  return (
+    <div className="flex items-start gap-4 p-4 rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-black/[0.02] dark:bg-white/[0.02]">
+      <div className="flex-shrink-0 w-9 h-9 rounded-full bg-black/[0.05] dark:bg-white/[0.05] flex items-center justify-center mt-0.5">
+        <Icon className="w-4 h-4 text-foreground/60" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-[14px] font-semibold text-foreground mb-0.5">{label}</div>
+        <div className="text-[13px] text-foreground/50 leading-[1.5]">{description}</div>
+      </div>
+      <div className="flex-shrink-0 mt-0.5">
+        {state === "granted" ? (
+          <div className="flex items-center gap-1.5 text-[13px] font-medium text-emerald-600 dark:text-emerald-400">
+            <CheckCircle2 className="w-4 h-4" />
+            Allowed
+          </div>
+        ) : state === "denied" ? (
+          <div className="flex items-center gap-1.5 text-[13px] font-medium text-red-500">
+            <XCircle className="w-4 h-4" />
+            Denied
+          </div>
+        ) : (
+          <button
+            onClick={onRequest}
+            className="h-8 px-3.5 rounded-full border border-black/10 dark:border-white/10 text-[13px] font-medium text-foreground/70 hover:text-foreground hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
+          >
+            Request
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MockInterviewDialog({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
+  const [camPerm, setCamPerm] = useState<PermState>("idle");
+  const [micPerm, setMicPerm] = useState<PermState>("idle");
+
+  const requestPerm = async (kind: "camera" | "mic") => {
+    try {
+      const constraints = kind === "camera" ? { video: true } : { audio: true };
+      await navigator.mediaDevices.getUserMedia(constraints);
+      kind === "camera" ? setCamPerm("granted") : setMicPerm("granted");
+    } catch {
+      kind === "camera" ? setCamPerm("denied") : setMicPerm("denied");
+    }
+  };
+
+  // Reset on open
+  useEffect(() => {
+    if (open) { setCamPerm("idle"); setMicPerm("idle"); }
+  }, [open]);
+
+  if (!job) return null;
+  const bothGranted = camPerm === "granted" && micPerm === "granted";
+
+  return (
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="bg-white dark:bg-[#2A2520] border border-black/[0.08] dark:border-white/[0.08] p-0 gap-0 max-w-[440px] rounded-2xl overflow-hidden">
+        {/* Header */}
+        <DialogHeader className="px-6 pt-6 pb-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+          <div className="flex items-center gap-3 mb-3">
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-[12px] font-bold"
+              style={{ backgroundColor: job.logoColor }}
+            >
+              {job.logoLetter}
+            </div>
+            <div>
+              <div className="text-[13px] font-medium text-foreground/60">{job.company}</div>
+              <div className="text-[15px] font-semibold text-foreground leading-tight">{job.role}</div>
+            </div>
+          </div>
+          <DialogTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[18px] font-semibold leading-snug m-0">
+            Ready to practise?
+          </DialogTitle>
+          <p className="text-[14px] text-foreground/50 leading-[1.6] mt-1">
+            You're about to start a mock interview for <span className="text-foreground/70 font-medium">{job.role}</span> at <span className="text-foreground/70 font-medium">{job.company}</span>. Grant access below so the session can run smoothly.
+          </p>
+        </DialogHeader>
+
+        {/* Permissions */}
+        <div className="px-6 py-5 space-y-3">
+          <p className="text-[12px] font-semibold text-foreground/40 uppercase tracking-widest mb-4">Permissions required</p>
+          <PermissionCard
+            icon={Video}
+            label="Camera"
+            description="Used to record your expressions and body language during the interview."
+            state={camPerm}
+            onRequest={() => requestPerm("camera")}
+          />
+          <PermissionCard
+            icon={Mic}
+            label="Microphone"
+            description="Used to capture your answers and generate real-time interview feedback."
+            state={micPerm}
+            onRequest={() => requestPerm("mic")}
+          />
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 pb-6">
+          <button
+            disabled={!bothGranted}
+            className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[14px] font-medium transition-opacity disabled:opacity-30"
+          >
+            <Clapperboard className="w-4 h-4" />
+            Start mock interview
+          </button>
+          {!bothGranted && (
+            <p className="text-center text-[12px] text-foreground/35 mt-2.5">Allow both permissions to continue</p>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ── Job detail sheet ───────────────────────────────────────────────────────
 function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
   const lastJobRef = useRef<Job | null>(null);
@@ -521,7 +655,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
 }
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
-function JobCard({ job, onShortlist, onOpen }: { job: Job; onShortlist?: () => void; onOpen?: () => void }) {
+function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onShortlist?: () => void; onOpen?: () => void; onMockInterview?: () => void }) {
   return (
     <div
       data-testid={`card-job-${job.id}`}
@@ -582,13 +716,26 @@ function JobCard({ job, onShortlist, onOpen }: { job: Job; onShortlist?: () => v
           Shortlist
         </button>
       )}
+
+      {/* Mock interview button — only shown in Interview column */}
+      {onMockInterview && (
+        <button
+          data-testid={`button-mock-interview-${job.id}`}
+          onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
+          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/60 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
+        >
+          <Clapperboard className="w-3.5 h-3.5" />
+          Take mock interview
+        </button>
+      )}
     </div>
   );
 }
 
 // ── Pipeline column ────────────────────────────────────────────────────────
-function PipelineCol({ colId, jobs, onShortlist, onOpenJob }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void }) {
+function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void }) {
   const isPicks = colId === "picks";
+  const isInterview = colId === "interview";
 
   const cardList = (
     <>
@@ -596,7 +743,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob }: { colId: string; j
         <motion.div key={job.id} layout transition={{ layout: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] } }}>
           <KanbanItem value={job.id} className="rounded-lg">
             <KanbanItemHandle className="w-full rounded-lg">
-              <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} onOpen={() => onOpenJob(job.id)} />
+              <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} onOpen={() => onOpenJob(job.id)} onMockInterview={isInterview ? () => onMockInterview(job.id) : undefined} />
             </KanbanItemHandle>
           </KanbanItem>
         </motion.div>
@@ -646,6 +793,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob }: { colId: string; j
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
@@ -653,6 +801,7 @@ function Dashboard() {
     Object.entries(columns).find(([, jobs]) => jobs.some((j) => j.id === id))?.[0];
 
   const selectedJob = selectedJobId ? allJobs.find((j) => j.id === selectedJobId) ?? null : null;
+  const interviewJob = interviewJobId ? allJobs.find((j) => j.id === interviewJobId) ?? null : null;
 
   const handleShortlist = useCallback((id: string) => {
     setColumns(prev => {
@@ -712,7 +861,7 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
             {COL_ORDER.map((colId) => (
-              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} onOpenJob={setSelectedJobId} />
+              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} onOpenJob={setSelectedJobId} onMockInterview={setInterviewJobId} />
             ))}
           </KanbanBoard>
 
@@ -737,6 +886,7 @@ function Dashboard() {
       </div>
 
       <JobDetailSheet job={selectedJob} open={!!selectedJobId} onClose={() => setSelectedJobId(null)} />
+      <MockInterviewDialog job={interviewJob} open={!!interviewJobId} onClose={() => setInterviewJobId(null)} />
     </motion.div>
   );
 }
