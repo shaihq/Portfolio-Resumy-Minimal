@@ -40,11 +40,11 @@ const COL_LABELS: Record<string, string> = {
 
 // Light-mode column colors — all stages share the same neutral card shade
 const COL_BG: Record<string, string> = {
-  picks:       "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
-  not_applied: "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
-  applied:     "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
-  interview:   "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
-  offer:       "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
+  picks:       "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
+  not_applied: "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
+  applied:     "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
+  interview:   "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
+  offer:       "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
 };
 
 const INITIAL_COLUMNS: Record<string, Job[]> = {
