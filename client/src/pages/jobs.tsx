@@ -456,13 +456,20 @@ function PipelineCol({
         return (
           <motion.div
             key={job.id}
-            animate={isLeaving ? { opacity: 0, scale: 0.85, y: -6 } : { opacity: 1, scale: 1, y: 0 }}
-            transition={isLeaving
-              ? { duration: 0.28, ease: [0.4, 0, 1, 1] }
-              : { duration: 0 }
+            layout
+            animate={isLeaving
+              ? { opacity: 0, scale: 0.9, height: 0, marginTop: -8 }
+              : { opacity: 1, scale: 1, height: "auto", marginTop: 0 }
             }
+            transition={{
+              layout:    { duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] },
+              opacity:   isLeaving ? { duration: 0.18, ease: "easeIn" }           : { duration: 0 },
+              scale:     isLeaving ? { duration: 0.18, ease: "easeIn" }           : { duration: 0 },
+              height:    isLeaving ? { duration: 0.28, ease: [0.4, 0, 1, 1] }    : { duration: 0 },
+              marginTop: isLeaving ? { duration: 0.28, ease: [0.4, 0, 1, 1] }    : { duration: 0 },
+            }}
+            style={{ overflow: "hidden", pointerEvents: isLeaving ? "none" : undefined }}
             onAnimationComplete={() => { if (isLeaving) onDepartComplete(job.id); }}
-            style={{ pointerEvents: isLeaving ? "none" : undefined }}
           >
             <KanbanItem value={job.id} className="rounded-lg">
               <KanbanItemHandle className="w-full rounded-lg">
