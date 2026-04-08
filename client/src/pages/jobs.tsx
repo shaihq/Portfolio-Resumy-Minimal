@@ -553,8 +553,8 @@ function Dashboard() {
       </div>
 
       {/* Flat kanban board */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden">
-        <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id}>
+      <div className="flex-1 overflow-x-auto overflow-y-hidden min-h-0">
+        <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
             {COL_ORDER.map((colId) => (
               <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} />
