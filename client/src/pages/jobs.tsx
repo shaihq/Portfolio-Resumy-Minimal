@@ -460,17 +460,16 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 
   if (isPicks) {
     return (
-      <div className="flex flex-col min-w-[220px] flex-1 relative pt-[26px]">
-        {/* Gradient badge — sits at top center, above the column */}
-        <div className="absolute top-0 left-0 right-0 flex justify-center z-10">
-          <span className="text-[9px] font-bold tracking-[0.12em] uppercase px-3 py-[5px] rounded-full text-white"
-            style={{ background: "linear-gradient(90deg, #a78bfa, #f472b6, #fb923c)" }}>
+      <div className="flex flex-col min-w-[220px] flex-1 rounded-2xl p-2.5 pt-2"
+        style={{ background: "linear-gradient(160deg, #c4b5fd 0%, #f9a8d4 50%, #fdba74 100%)" }}>
+        {/* Label lives inside the gradient area */}
+        <div className="flex justify-center items-center pb-2 pt-0.5">
+          <span className="text-[9px] font-bold tracking-[0.12em] uppercase text-white/90 select-none">
             Best Matches
           </span>
         </div>
-        {/* Gradient border shell */}
-        <div className="flex-1 flex flex-col rounded-xl p-[1.5px]"
-          style={{ background: "linear-gradient(160deg, #c4b5fd 0%, #f9a8d4 50%, #fdba74 100%)" }}>
+        {/* Inner white-ish column */}
+        <div className="flex-1 flex flex-col rounded-[11px] overflow-hidden">
           {columnInner}
         </div>
       </div>
