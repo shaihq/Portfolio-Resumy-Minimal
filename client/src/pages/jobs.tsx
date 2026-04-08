@@ -383,17 +383,8 @@ function JobCard({ job }: { job: Job }) {
       data-testid={`card-job-${job.id}`}
       className="flex flex-col gap-3 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
-      {/* Row 1: Title + Shortlist */}
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-[13px] font-bold text-foreground leading-snug">{job.role}</p>
-        <button
-          data-testid={`button-shortlist-${job.id}`}
-          className="flex-shrink-0 flex items-center gap-1 text-[10px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-1 transition-colors"
-        >
-          <Bookmark className="w-3 h-3" />
-          Shortlist
-        </button>
-      </div>
+      {/* Row 1: Title */}
+      <p className="text-[13px] font-bold text-foreground leading-snug">{job.role}</p>
 
       {/* Row 2: Pills */}
       <div className="flex items-center gap-1.5 flex-wrap">
@@ -430,6 +421,15 @@ function JobCard({ job }: { job: Job }) {
           />
         </div>
       </div>
+
+      {/* Row 4: Shortlist button */}
+      <button
+        data-testid={`button-shortlist-${job.id}`}
+        className="flex items-center justify-center gap-1.5 w-full text-[10px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-1.5 transition-colors"
+      >
+        <Bookmark className="w-3 h-3" />
+        Shortlist
+      </button>
     </div>
   );
 }
@@ -452,7 +452,7 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
             )}
           </div>
         </div>
-        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
+        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
           {jobs.length === 0 && (
             <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
               <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
@@ -483,7 +483,7 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
           </span>
         )}
       </div>
-      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
+      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
         {jobs.length === 0 && (
           <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
             <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">

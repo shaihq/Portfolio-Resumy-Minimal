@@ -188,3 +188,11 @@ input[type="range"].speed-slider::-moz-range-thumb {
   background: hsl(var(--foreground));
   border-color: hsl(var(--card));
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
