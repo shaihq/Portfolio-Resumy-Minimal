@@ -38,6 +38,15 @@ const COL_LABELS: Record<string, string> = {
   offer: "Offer",
 };
 
+// Light-mode pastel column colors (dark mode falls back to card token)
+const COL_BG: Record<string, string> = {
+  picks:       "bg-[#D9EEE6] dark:bg-card",
+  not_applied: "bg-[#E8E4F4] dark:bg-card",
+  applied:     "bg-[#E8F3DA] dark:bg-card",
+  interview:   "bg-[#FBEEDD] dark:bg-card",
+  offer:       "bg-[#DAE9F5] dark:bg-card",
+};
+
 const INITIAL_COLUMNS: Record<string, Job[]> = {
   picks: BASE_JOBS,
   not_applied: [],
@@ -366,7 +375,7 @@ function JobCard({ job, isPicks }: { job: Job; isPicks?: boolean }) {
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-2 p-3 rounded-lg border border-border bg-background select-none"
+      className="flex flex-col gap-2 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
@@ -406,7 +415,7 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
   return (
     <KanbanColumn
       value={colId}
-      className="rounded-xl border border-border bg-card flex flex-col min-w-[220px] flex-1"
+      className={`rounded-xl flex flex-col min-w-[220px] flex-1 ${COL_BG[colId]}`}
     >
       {/* Column header */}
       <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
@@ -429,7 +438,7 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
       {/* Items */}
       <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[60px]">
         {jobs.length === 0 && (
-          <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-border/50 mx-0.5">
+          <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
             <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
               Drag a role here<br />to track it
             </p>
@@ -458,14 +467,14 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col bg-background"
+      className="fixed inset-0 flex flex-col bg-[#F5F3EE] dark:bg-background"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Top criteria bar */}
-      <div className="flex-shrink-0 h-11 border-b border-border flex items-center gap-3 pl-[84px] pr-4">
+      <div className="flex-shrink-0 h-11 border-b border-black/[0.07] dark:border-border flex items-center gap-3 pl-[84px] pr-4">
         <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground flex-1 min-w-0">
           <span className="font-medium text-foreground/60">Ranked by:</span>
           <span className="truncate">remote-preferred · ownership-hungry · stability-seeking</span>
