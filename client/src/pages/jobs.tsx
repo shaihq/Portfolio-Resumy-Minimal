@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, X, MapPin, Briefcase, Building2, ExternalLink } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -420,14 +420,8 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
         onInteractOutside={(e) => e.preventDefault()}
       >
         {/* Header */}
-        <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center justify-between m-0 space-y-0 h-[65px]">
-          <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0 truncate pr-4">{job.role}</SheetTitle>
-          <button
-            onClick={onClose}
-            className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-foreground/40 hover:text-foreground hover:bg-black/[0.05] transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
+        <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+          <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0 truncate pr-10">{job.role}</SheetTitle>
         </SheetHeader>
 
         {/* Scrollable body */}
