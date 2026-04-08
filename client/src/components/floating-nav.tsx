@@ -57,7 +57,7 @@ export function FloatingNav() {
                   className={`flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                     isActive
                       ? "bg-foreground text-background"
-                      : "text-muted-foreground hover-elevate"
+                      : "text-muted-foreground hover:bg-black/[0.07] dark:hover:bg-white/10"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
