@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, X } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles } from "lucide-react";
+import profileImg from "@/assets/images/profile.png";
 import {
   Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
   KanbanItem, KanbanItemHandle, KanbanOverlay,
@@ -457,12 +458,8 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 }
 
 // ── Dashboard ──────────────────────────────────────────────────────────────
-const DEFAULT_FILTERS = ["Remote", "Full-time", "Senior", "No agencies"];
-
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<string[]>(DEFAULT_FILTERS);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
@@ -477,26 +474,23 @@ function Dashboard() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Top filter bar — single row, vertically aligned with floating nav top */}
+      {/* Top filter bar — single row */}
       <div className="flex items-center gap-2 flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
+        {/* Prompt pill — left-anchored with avatar */}
+        <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-2 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
+          <img src={profileImg} alt="avatar" className="w-5 h-5 rounded-full object-cover flex-shrink-0" />
+          <span className="truncate">Software engineers · remote-first · senior-level</span>
+        </div>
+
         {/* Filters button */}
         <button
           data-testid="button-filters"
-          onClick={() => setFiltersOpen((v) => !v)}
-          className={`flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border text-sm font-medium transition-colors ${
-            filtersOpen
-              ? "bg-foreground text-background border-foreground"
-              : "bg-white dark:bg-card border-black/8 dark:border-border text-foreground/70 hover:text-foreground"
-          }`}
+          className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
           Filters
-          {activeFilters.length > 0 && (
-            <span className={`flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-semibold ${filtersOpen ? "bg-background/20 text-background" : "bg-foreground text-background"}`}>
-              {activeFilters.length}
-            </span>
-          )}
         </button>
+
         {/* Criteria button */}
         <button
           data-testid="button-criteria"
@@ -504,41 +498,7 @@ function Dashboard() {
         >
           <Sparkles className="w-3.5 h-3.5" />
           Criteria
-          <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
         </button>
-
-        {/* Divider */}
-        {activeFilters.length > 0 && <div className="w-px h-5 bg-black/10 dark:bg-border flex-shrink-0" />}
-
-        {/* Active filter chips inline */}
-        {activeFilters.map((f) => (
-          <button
-            key={f}
-            data-testid={`chip-filter-${f.toLowerCase().replace(/\s+/g, "-")}`}
-            onClick={() => setActiveFilters((prev) => prev.filter((x) => x !== f))}
-            className="flex-shrink-0 flex items-center gap-1 h-7 px-3 rounded-full bg-foreground/[0.07] dark:bg-foreground/10 border border-black/8 dark:border-border text-[12px] font-medium text-foreground/65 hover:text-foreground transition-colors"
-          >
-            {f}
-            <X className="w-3 h-3 opacity-40" />
-          </button>
-        ))}
-        {activeFilters.length > 0 && (
-          <button
-            data-testid="button-clear-filters"
-            onClick={() => setActiveFilters([])}
-            className="flex-shrink-0 text-[12px] text-muted-foreground/50 hover:text-muted-foreground transition-colors"
-          >
-            Clear
-          </button>
-        )}
-
-        {/* Spacer */}
-        <div className="flex-1" />
-
-        {/* Prompt pill — compact, right-anchored */}
-        <div className="flex-shrink-0 flex items-center bg-white dark:bg-card border border-black/8 dark:border-border rounded-full px-4 h-9 text-sm text-foreground/50 max-w-[280px] min-w-0 select-none">
-          <span className="truncate">Software engineers · remote-first · senior-level</span>
-        </div>
       </div>
 
       {/* Flat kanban board */}
