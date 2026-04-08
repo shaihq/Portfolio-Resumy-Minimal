@@ -141,7 +141,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
 }
 
 // ── Voice onboarding room ──────────────────────────────────────────────────
-function VoiceRoom({ onDone }: { onDone: () => void }) {
+function VoiceRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void }) {
   const [current, setCurrent] = useState(0);
   const [listening, setListening] = useState(false);
   const [answered, setAnswered] = useState<string[]>([]);
@@ -238,16 +238,23 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
         </p>
       </div>
 
-      {/* Dot trail */}
-      <div className="relative z-10">
+      {/* Dot trail + escape */}
+      <div className="relative z-10 flex flex-col items-center gap-4">
         <DotTrail current={current} total={questions.length} />
+        <button
+          data-testid="button-do-later-voice"
+          onClick={onReset}
+          className="text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors"
+        >
+          I'll do it later
+        </button>
       </div>
     </motion.div>
   );
 }
 
 // ── Text onboarding room ───────────────────────────────────────────────────
-function TypeRoom({ onDone }: { onDone: () => void }) {
+function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void }) {
   const [current, setCurrent] = useState(0);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -323,9 +330,16 @@ function TypeRoom({ onDone }: { onDone: () => void }) {
         </div>
       </div>
 
-      {/* Dot trail */}
-      <div className="relative z-10">
+      {/* Dot trail + escape */}
+      <div className="relative z-10 flex flex-col items-center gap-4">
         <DotTrail current={current} total={questions.length} />
+        <button
+          data-testid="button-do-later-type"
+          onClick={onReset}
+          className="text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors"
+        >
+          I'll do it later
+        </button>
       </div>
     </motion.div>
   );
@@ -613,10 +627,10 @@ export default function Jobs() {
         />
       )}
       {phase === "voice" && (
-        <VoiceRoom key="voice" onDone={() => setPhase("done")} />
+        <VoiceRoom key="voice" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
       )}
       {phase === "type" && (
-        <TypeRoom key="type" onDone={() => setPhase("done")} />
+        <TypeRoom key="type" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
       )}
       {phase === "done" && <DoneScreen key="done" />}
     </AnimatePresence>
