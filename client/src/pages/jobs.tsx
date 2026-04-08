@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, X, MapPin, Briefcase, Building2, ExternalLink } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -8,6 +8,7 @@ import {
   KanbanItem, KanbanItemHandle, KanbanOverlay,
 } from "@/components/ui/kanban";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 type Phase = "transition" | "voice" | "type" | "done" | "dashboard";
 
@@ -24,15 +25,47 @@ interface Job {
   type: string;
   workMode: string;
   location: string;
+  description: string;
+  requirements: string[];
 }
 
 const BASE_JOBS: Job[] = [
-  { id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope", logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin", type: "Full-Time", workMode: "Remote", location: "San Francisco, CA" },
-  { id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async", logoColor: "#171717", logoLetter: "V", source: "linkedin", type: "Full-Time", workMode: "Remote", location: "New York, NY" },
-  { id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap", logoColor: "#191919", logoLetter: "N", source: "indeed", type: "Full-Time", workMode: "Hybrid", location: "San Francisco, CA" },
-  { id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact", logoColor: "#F24E1E", logoLetter: "F", source: "linkedin", type: "Full-Time", workMode: "On-site", location: "San Francisco, CA" },
-  { id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product", logoColor: "#625DF5", logoLetter: "L", source: "indeed", type: "Full-Time", workMode: "Remote", location: "Austin, TX" },
-  { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", source: "linkedin", type: "Full-Time", workMode: "Hybrid", location: "Seattle, WA" },
+  {
+    id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope",
+    logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin", type: "Full-Time", workMode: "Remote", location: "San Francisco, CA",
+    description: "We're looking for a Senior Product Designer to help shape the future of software project management. At Linear, design is a core part of how we build — you'll work directly with engineers and product leads to craft experiences that millions of developers and teams rely on daily.\n\nYou'll own end-to-end design for key product areas, from early exploration to final polish. We care deeply about craft, clarity, and shipping work that actually moves the needle.",
+    requirements: ["5+ years of product design experience at a B2B or developer-focused company", "Strong systems thinking — you've built or significantly contributed to a design system", "Fluency in interaction design, information architecture, and visual polish", "Comfortable working directly with engineers and reviewing implementation", "A portfolio that shows both breadth of thinking and depth of execution"],
+  },
+  {
+    id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async",
+    logoColor: "#171717", logoLetter: "V", source: "linkedin", type: "Full-Time", workMode: "Remote", location: "New York, NY",
+    description: "Vercel is where the world's best frontend teams deploy their work. As a Product Designer, you'll sit at the intersection of developer tooling and consumer-grade UX — helping make complex infrastructure feel simple and powerful at once.\n\nYou'll collaborate with engineering and product management to define, design, and ship features across our dashboard, CLI, and onboarding flows. We move fast, write clearly, and care about the details.",
+    requirements: ["3+ years designing developer tools, SaaS dashboards, or technical products", "Experience translating complex technical concepts into clear, intuitive UI", "Solid grasp of frontend fundamentals — HTML, CSS, component thinking", "Async-first work style with strong written communication", "Figma proficiency and experience collaborating closely with eng"],
+  },
+  {
+    id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap",
+    logoColor: "#191919", logoLetter: "N", source: "indeed", type: "Full-Time", workMode: "Hybrid", location: "San Francisco, CA",
+    description: "Notion's mission is to make it possible for everyone to shape the tools that shape their work. As a Product Designer, you'll help design the blocks, templates, and collaborative surfaces that millions of knowledge workers use every day.\n\nYou'll partner with cross-functional teams across our core editor, AI features, and enterprise product lines. The role is highly collaborative — we work in small teams and ship continuously.",
+    requirements: ["4+ years of product design with a focus on consumer or prosumer software", "Strong portfolio demonstrating a mastery of interaction and visual design", "Experience designing for complex, state-heavy UI (editors, databases, or similar)", "Collaborative mindset — you run great critique and give useful feedback", "Bonus: experience designing AI-powered features or workflows"],
+  },
+  {
+    id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact",
+    logoColor: "#F24E1E", logoLetter: "F", source: "linkedin", type: "Full-Time", workMode: "On-site", location: "San Francisco, CA",
+    description: "At Figma, we build the tools that designers use to build everything else. As a UX Designer, you'll work on the core product — including the canvas, multiplayer features, plugins, and components — alongside some of the sharpest design minds in the industry.\n\nThis is a role for someone who loves thinking about interaction models at a deep level and can articulate design decisions clearly across a large, cross-functional org.",
+    requirements: ["3+ years of UX design experience with a strong portfolio", "Deep experience with complex, interaction-heavy applications", "Comfortable with design systems, component libraries, and design tokens", "Strong visual design sensibility and attention to typographic detail", "Ability to present work clearly and incorporate feedback constructively"],
+  },
+  {
+    id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product",
+    logoColor: "#625DF5", logoLetter: "L", source: "indeed", type: "Full-Time", workMode: "Remote", location: "Austin, TX",
+    description: "Loom helps teams communicate more clearly through video. As a Senior UX Designer, you'll own the experience across our record, watch, and share flows — making async video feel as effortless as sending a message.\n\nYou'll work in a nimble team, move quickly, and have real influence over product direction. We're growing fast and this role will shape how millions of remote workers communicate.",
+    requirements: ["5+ years of UX design experience, ideally at a startup or high-growth company", "Experience with video, media, or communication products is a strong plus", "Able to run your own research — user interviews, usability tests, synthesis", "Strong visual design chops — you don't hand off wireframes, you ship polished work", "Remote-first mindset, comfortable with async collaboration across time zones"],
+  },
+  {
+    id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand",
+    logoColor: "#6772E5", logoLetter: "S", source: "linkedin", type: "Full-Time", workMode: "Hybrid", location: "Seattle, WA",
+    description: "Stripe builds the economic infrastructure of the internet. As a Product Designer, you'll design mission-critical surfaces used by millions of businesses to accept payments, manage revenue, and run their finances.\n\nOur design bar is exceptionally high. You'll be expected to think in systems, write clearly, and obsess over the small details that make complex workflows feel manageable for a global developer audience.",
+    requirements: ["4+ years of product design experience, ideally in fintech or developer tools", "Proven ability to design complex, multi-step workflows with clarity and precision", "Experience working with and contributing to large-scale design systems", "Strong written communication — Stripe is a writing-first culture", "Ability to navigate a large, collaborative org while maintaining design quality"],
+  },
 ];
 
 const COL_ORDER = ["picks", "not_applied", "applied", "interview", "offer"];
@@ -376,15 +409,134 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
   );
 }
 
+// ── Job detail sheet ───────────────────────────────────────────────────────
+function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
+  if (!job) return null;
+  return (
+    <Sheet open={open} onOpenChange={(v) => !v && onClose()} modal={false}>
+      <SheetContent
+        className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col w-[420px] sm:max-w-[420px]"
+        hasOverlay={false}
+        onInteractOutside={(e) => e.preventDefault()}
+      >
+        {/* Header */}
+        <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center justify-between m-0 space-y-0 h-[65px]">
+          <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0 truncate pr-4">{job.role}</SheetTitle>
+          <button
+            onClick={onClose}
+            className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-foreground/40 hover:text-foreground hover:bg-black/[0.05] transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </SheetHeader>
+
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Company hero */}
+          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-[13px] font-bold"
+                  style={{ backgroundColor: job.logoColor }}
+                >
+                  {job.logoLetter}
+                </div>
+                <div>
+                  <div className="text-[15px] font-semibold text-foreground">{job.company}</div>
+                  <div className="flex items-center gap-1 mt-0.5 text-[13px] text-foreground/50">
+                    <MapPin className="w-3.5 h-3.5" />
+                    {job.location}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col items-center flex-shrink-0">
+                <Gauge
+                  value={job.match}
+                  size={48}
+                  strokeWidth={8}
+                  gapPercent={3}
+                  primary="success"
+                  secondary="rgba(0,0,0,0.06)"
+                  showValue={true}
+                  showPercentage={false}
+                  className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
+                />
+                <span className="text-[11px] text-foreground/40 mt-0.5">match</span>
+              </div>
+            </div>
+
+            {/* Pills */}
+            <div className="flex items-center gap-2 mt-4 flex-wrap">
+              <span className="flex items-center gap-1.5 text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2.5 py-1">
+                <Briefcase className="w-3 h-3" />{job.type}
+              </span>
+              <span className="flex items-center gap-1.5 text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2.5 py-1">
+                <Building2 className="w-3 h-3" />{job.workMode}
+              </span>
+            </div>
+
+            {/* AI reason */}
+            <div className="mt-4 px-3 py-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-100 dark:border-emerald-800/40">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Why it's a match</span>
+              </div>
+              <p className="text-[13px] text-emerald-800 dark:text-emerald-300 leading-relaxed">{job.reason}</p>
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+            <h3 className="text-[12px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
+            {job.description.split("\n\n").map((para, i) => (
+              <p key={i} className="text-[14px] text-foreground/80 leading-[1.7] mb-3 last:mb-0">{para}</p>
+            ))}
+          </div>
+
+          {/* Requirements */}
+          <div className="px-5 py-5 pb-8">
+            <h3 className="text-[12px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
+            <ul className="space-y-2.5">
+              {job.requirements.map((req, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-[14px] text-foreground/80 leading-[1.6]">
+                  <span className="mt-[5px] w-1.5 h-1.5 rounded-full bg-foreground/25 flex-shrink-0" />
+                  {req}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Footer CTA */}
+        <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex-shrink-0">
+          <button
+            data-testid={`button-apply-${job.id}`}
+            className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[14px] font-medium hover:opacity-80 transition-opacity"
+          >
+            Apply on {job.source === "linkedin" ? "LinkedIn" : "Indeed"}
+            <ExternalLink className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 // ── Job card (shared) ──────────────────────────────────────────────────────
-function JobCard({ job, onShortlist }: { job: Job; onShortlist?: () => void }) {
+function JobCard({ job, onShortlist, onOpen }: { job: Job; onShortlist?: () => void; onOpen?: () => void }) {
   return (
     <div
       data-testid={`card-job-${job.id}`}
       className="flex flex-col gap-3 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
       {/* Row 1: Title */}
-      <p className="text-[15px] font-semibold text-foreground leading-snug">{job.role}</p>
+      <button
+        onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
+        className="text-[15px] font-semibold text-foreground leading-snug text-left hover:text-foreground/60 transition-colors cursor-pointer"
+      >
+        {job.role}
+      </button>
 
       {/* Row 2: Pills */}
       <div className="flex items-center gap-1.5 flex-wrap">
@@ -438,7 +590,7 @@ function JobCard({ job, onShortlist }: { job: Job; onShortlist?: () => void }) {
 }
 
 // ── Pipeline column ────────────────────────────────────────────────────────
-function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void }) {
+function PipelineCol({ colId, jobs, onShortlist, onOpenJob }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void }) {
   const isPicks = colId === "picks";
 
   const cardList = (
@@ -447,7 +599,7 @@ function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[];
         <motion.div key={job.id} layout transition={{ layout: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] } }}>
           <KanbanItem value={job.id} className="rounded-lg">
             <KanbanItemHandle className="w-full rounded-lg">
-              <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} />
+              <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} onOpen={() => onOpenJob(job.id)} />
             </KanbanItemHandle>
           </KanbanItem>
         </motion.div>
@@ -496,11 +648,14 @@ function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[];
 // ── Dashboard ──────────────────────────────────────────────────────────────
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
   const findColForJob = (id: string) =>
     Object.entries(columns).find(([, jobs]) => jobs.some((j) => j.id === id))?.[0];
+
+  const selectedJob = selectedJobId ? allJobs.find((j) => j.id === selectedJobId) ?? null : null;
 
   const handleShortlist = useCallback((id: string) => {
     setColumns(prev => {
@@ -560,7 +715,7 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
             {COL_ORDER.map((colId) => (
-              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} />
+              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} onOpenJob={setSelectedJobId} />
             ))}
           </KanbanBoard>
 
@@ -583,6 +738,8 @@ function Dashboard() {
           </KanbanOverlay>
         </Kanban>
       </div>
+
+      <JobDetailSheet job={selectedJob} open={!!selectedJobId} onClose={() => setSelectedJobId(null)} />
     </motion.div>
   );
 }
