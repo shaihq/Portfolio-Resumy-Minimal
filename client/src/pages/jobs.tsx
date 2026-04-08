@@ -478,9 +478,9 @@ function Dashboard() {
       transition={{ duration: 0.5 }}
     >
       {/* Top filter bar */}
-      <div className="flex-shrink-0 border-b border-black/[0.07] dark:border-border">
+      <div className="flex-shrink-0">
         {/* Row 1: prompt + buttons */}
-        <div className="flex items-center gap-2 pl-[84px] pr-3 py-2">
+        <div className="flex items-center gap-2 pl-[108px] pr-4 py-3">
           {/* Prompt pill */}
           <div className="flex-1 min-w-0 flex items-center gap-2 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full px-4 h-9 text-[13px] text-foreground/60 truncate select-none">
             <span className="truncate">Software engineers · remote-first · senior-level · no agencies</span>
@@ -515,7 +515,7 @@ function Dashboard() {
         </div>
         {/* Row 2: active filter chips */}
         {activeFilters.length > 0 && (
-          <div className="flex items-center gap-1.5 pl-[84px] pr-3 pb-2 flex-wrap">
+          <div className="flex items-center gap-1.5 pl-[108px] pr-4 pb-2 flex-wrap">
             {activeFilters.map((f) => (
               <button
                 key={f}
