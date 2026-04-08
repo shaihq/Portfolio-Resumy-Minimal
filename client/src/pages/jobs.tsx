@@ -464,7 +464,7 @@ function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[];
 
   if (isPicks) {
     return (
-      <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl overflow-hidden">
+      <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#EAE6DF] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
         <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
           <span className="text-[13px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
@@ -479,7 +479,7 @@ function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[];
   }
 
   return (
-    <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl overflow-hidden">
+    <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E8E4DD] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
         <span className="text-[13px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
