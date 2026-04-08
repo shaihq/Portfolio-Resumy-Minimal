@@ -7,11 +7,13 @@ import { TemplateProvider } from "@/hooks/use-template";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Project from "@/pages/project";
+import Jobs from "@/pages/jobs";
 import { useEffect } from "react";
 import { ThemeProvider } from "next-themes";
 
 import Landing from "@/pages/landing";
 import PrivacyPolicy from "@/pages/privacy-policy";
+import { FloatingNav } from "@/components/floating-nav";
 
 // Temporary dev navigation to easily switch pages in the Replit preview
 function DevNav() {
@@ -30,15 +32,20 @@ function DevNav() {
 }
 
 function Router() {
+  const [location] = useLocation();
+  const showFloatingNav = location === "/" || location.startsWith("/jobs");
+
   return (
     <>
       <Switch>
         <Route path="/" component={Home}/>
+        <Route path="/jobs" component={Jobs}/>
         <Route path="/landing" component={Landing}/>
         <Route path="/privacy-policy" component={PrivacyPolicy}/>
         <Route path="/project/:id" component={Project}/>
         <Route component={NotFound} />
       </Switch>
+      {showFloatingNav && <FloatingNav />}
       <DevNav />
     </>
   );
