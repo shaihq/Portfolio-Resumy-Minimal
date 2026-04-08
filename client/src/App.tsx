@@ -10,6 +10,7 @@ import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
 import { useEffect } from "react";
 import { ThemeProvider } from "next-themes";
+import { Home as HomeIcon, MonitorPlay } from "lucide-react";
 
 import Landing from "@/pages/landing";
 import PrivacyPolicy from "@/pages/privacy-policy";
@@ -18,16 +19,15 @@ import { FloatingNav } from "@/components/floating-nav";
 // Temporary dev navigation to easily switch pages in the Replit preview
 function DevNav() {
   const [location] = useLocation();
-  
+  const isHome = location === "/";
+
   return (
-    <div className="fixed bottom-6 left-6 z-[100] flex gap-2 bg-[#1A1A1A] p-1.5 rounded-[100px] shadow-xl border border-white/10 backdrop-blur-md">
-      <Link href="/" className={`cursor-pointer px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-        Home
-      </Link>
-      <Link href="/landing" className={`cursor-pointer px-4 py-2 text-xs font-medium rounded-full transition-colors ${location === '/landing' ? 'bg-white text-black' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-        Landing
-      </Link>
-    </div>
+    <Link
+      href={isHome ? "/landing" : "/"}
+      className="fixed bottom-6 left-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-white/70 hover:text-white transition-colors"
+    >
+      {isHome ? <MonitorPlay className="w-4 h-4" /> : <HomeIcon className="w-4 h-4" />}
+    </Link>
   );
 }
 
