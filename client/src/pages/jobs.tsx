@@ -486,23 +486,22 @@ function MockInterviewDialog({ job, open, onClose }: { job: Job | null; open: bo
       <DialogContent className="bg-white dark:bg-[#2A2520] border border-black/[0.08] dark:border-white/[0.08] p-0 gap-0 max-w-[440px] rounded-2xl overflow-hidden">
         {/* Header */}
         <DialogHeader className="px-6 pt-6 pb-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3">
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-[12px] font-bold"
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-[13px] font-bold"
               style={{ backgroundColor: job.logoColor }}
             >
               {job.logoLetter}
             </div>
-            <div>
-              <div className="text-[13px] font-medium text-foreground/60">{job.company}</div>
-              <div className="text-[15px] font-semibold text-foreground leading-tight">{job.role}</div>
+            <div className="min-w-0">
+              <DialogTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[17px] font-semibold leading-tight m-0 truncate">
+                Ready to practise?
+              </DialogTitle>
+              <p className="text-[13px] text-foreground/50 mt-0.5 truncate">{job.role} · {job.company}</p>
             </div>
           </div>
-          <DialogTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[18px] font-semibold leading-snug m-0">
-            Ready to practise?
-          </DialogTitle>
-          <p className="text-[14px] text-foreground/50 leading-[1.6] mt-1">
-            You're about to start a mock interview for <span className="text-foreground/70 font-medium">{job.role}</span> at <span className="text-foreground/70 font-medium">{job.company}</span>. Grant access below so the session can run smoothly.
+          <p className="text-[14px] text-foreground/50 leading-[1.6] mt-4">
+            Grant camera and microphone access below so your mock interview session can run smoothly.
           </p>
         </DialogHeader>
 
