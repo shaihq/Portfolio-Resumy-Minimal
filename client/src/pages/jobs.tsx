@@ -417,50 +417,46 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 
   if (isPicks) {
     return (
-      <div className="flex flex-col min-w-[220px] flex-1 rounded-2xl p-2.5"
-        style={{ background: "linear-gradient(160deg, #FFD9C4 0%, #F5BEB8 55%, #EEB5C8 100%)" }}>
-        {/* Header lives in the gradient strip */}
-        <div className="flex items-center justify-between px-1 pb-2 pt-0.5 flex-shrink-0">
+      <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-white dark:bg-card border border-black/10 dark:border-border overflow-hidden">
+        {/* Header band */}
+        <div className="flex items-center justify-between px-3 py-2.5 bg-[#F5F5F5] dark:bg-muted/40 border-b border-black/8 dark:border-border flex-shrink-0 select-none">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-semibold text-[#6B2D20]">{COL_LABELS[colId]}</span>
+            <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
             {jobs.length > 0 && (
-              <span className="text-[10px] text-[#6B2D20] bg-black/10 rounded-full px-1.5 py-0.5 leading-none">
+              <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">
                 {jobs.length}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 opacity-50">
             <LinkedInLogo size={13} />
             <IndeedLogo size={13} />
           </div>
         </div>
-        {/* Cards directly on gradient — no inner container */}
-        <KanbanColumn value={colId} className="flex flex-col flex-1 min-w-0 rounded-[11px] bg-transparent">
-          <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-0 pb-0 min-h-[60px]">
-            {jobs.length === 0 && (
-              <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/15 mx-0.5">
-                <p className="text-[11px] text-[#6B2D20]/50 text-center leading-relaxed">
-                  Drag a role here<br />to track it
-                </p>
-              </div>
-            )}
-            {jobs.map((job) => (
-              <KanbanItem key={job.id} value={job.id} className="rounded-lg mb-2">
-                <KanbanItemHandle className="w-full rounded-lg">
-                  <JobCard job={job} isPicks={true} />
-                </KanbanItemHandle>
-              </KanbanItem>
-            ))}
-          </KanbanColumnContent>
-        </KanbanColumn>
-      </div>
+        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
+          {jobs.length === 0 && (
+            <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
+              <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
+                Drag a role here<br />to track it
+              </p>
+            </div>
+          )}
+          {jobs.map((job) => (
+            <KanbanItem key={job.id} value={job.id} className="rounded-lg">
+              <KanbanItemHandle className="w-full rounded-lg">
+                <JobCard job={job} isPicks={true} />
+              </KanbanItemHandle>
+            </KanbanItem>
+          ))}
+        </KanbanColumnContent>
+      </KanbanColumn>
     );
   }
 
   return (
-    <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E5E1DA] dark:bg-card border border-[#D5CFC7] dark:border-border overflow-hidden">
-      {/* Folder header zone — slightly darker, acts as the label band */}
-      <div className="flex items-center gap-2 px-3 py-2.5 bg-[#DDD8D0] dark:bg-muted/40 border-b border-[#D5CFC7] dark:border-border flex-shrink-0 select-none">
+    <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E8E8E8] dark:bg-card border border-black/8 dark:border-border overflow-hidden">
+      {/* Folder header zone */}
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-[#E0E0E0] dark:bg-muted/40 border-b border-black/8 dark:border-border flex-shrink-0 select-none">
         <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
           <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">
@@ -499,7 +495,7 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col bg-[#F0EDE7] dark:bg-background"
+      className="fixed inset-0 flex flex-col bg-[#EEEEEE] dark:bg-background"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
