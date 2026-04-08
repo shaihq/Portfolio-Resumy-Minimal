@@ -123,7 +123,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         </motion.div>
         <div className="space-y-3">
           <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">Let's find a job that actually fits you.</h1>
-          <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Your portfolio's already here. I just need 5 minutes.</p>
+          <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Your portfolio and resume are already here.<br />I just need 5 minutes with you.</p>
         </div>
         <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
           <button data-testid="button-lets-talk" onClick={onVoice} className="flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-6 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]">
