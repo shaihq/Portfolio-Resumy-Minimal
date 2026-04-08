@@ -38,13 +38,13 @@ const COL_LABELS: Record<string, string> = {
   offer: "Offer",
 };
 
-// Light-mode pastel column colors (dark mode falls back to card token)
+// Light-mode column colors — all stages share the same neutral card shade
 const COL_BG: Record<string, string> = {
-  picks:       "bg-[#D9EEE6] dark:bg-card",
-  not_applied: "bg-[#E8E4F4] dark:bg-card",
-  applied:     "bg-[#E8F3DA] dark:bg-card",
-  interview:   "bg-[#FBEEDD] dark:bg-card",
-  offer:       "bg-[#DAE9F5] dark:bg-card",
+  picks:       "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
+  not_applied: "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
+  applied:     "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
+  interview:   "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
+  offer:       "bg-[#EEEEEE] border border-[#CCC4B9] dark:bg-card dark:border-border",
 };
 
 const INITIAL_COLUMNS: Record<string, Job[]> = {
@@ -467,7 +467,7 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col bg-[#F5F3EE] dark:bg-background"
+      className="fixed inset-0 flex flex-col bg-[#F0EDE7] dark:bg-background"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
