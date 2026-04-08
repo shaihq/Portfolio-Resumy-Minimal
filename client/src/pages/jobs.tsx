@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -459,7 +459,7 @@ function PermissionCard({
   );
 }
 
-function MockInterviewDialog({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
+function MockInterviewDialog({ job, open, onClose, onStart }: { job: Job | null; open: boolean; onClose: () => void; onStart: () => void }) {
   const [camPerm, setCamPerm] = useState<PermState>("idle");
   const [micPerm, setMicPerm] = useState<PermState>("idle");
 
@@ -483,7 +483,7 @@ function MockInterviewDialog({ job, open, onClose }: { job: Job | null; open: bo
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="bg-white dark:bg-[#2A2520] border border-black/[0.08] dark:border-white/[0.08] p-0 gap-0 max-w-[440px] rounded-2xl overflow-hidden">
+      <DialogContent aria-describedby={undefined} className="bg-white dark:bg-[#2A2520] border border-black/[0.08] dark:border-white/[0.08] p-0 gap-0 max-w-[440px] rounded-2xl overflow-hidden">
         {/* Header */}
         <DialogHeader className="px-6 pt-6 pb-5 border-b border-black/[0.06] dark:border-white/[0.06]">
           <div className="flex items-center gap-3">
@@ -528,6 +528,7 @@ function MockInterviewDialog({ job, open, onClose }: { job: Job | null; open: bo
         <div className="px-6 pb-6">
           <button
             disabled={!bothGranted}
+            onClick={() => { onClose(); onStart(); }}
             className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[14px] font-medium transition-opacity disabled:opacity-30"
           >
             <Clapperboard className="w-4 h-4" />
@@ -539,6 +540,192 @@ function MockInterviewDialog({ job, open, onClose }: { job: Job | null; open: bo
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+// ── Mock interview room ────────────────────────────────────────────────────
+const TRANSCRIPT_SCRIPT: Array<{ speaker: "ai" | "user"; text: string; delay: number }> = [
+  { speaker: "ai",   delay: 800,  text: "Thanks for joining. I'm Alex, your AI interviewer. Let's dive right in — can you walk me through your background as a product designer and what's drawn you to this role?" },
+  { speaker: "user", delay: 5000, text: "Sure! I've spent the last six years in product design, mostly at B2B SaaS companies. I started out doing a lot of visual work, but over time I've gravitated towards systems thinking and design infrastructure." },
+  { speaker: "ai",   delay: 11000, text: "That's a great foundation. Can you tell me about a specific project where you had to balance strong craft with tight engineering constraints? What tradeoffs did you make?" },
+  { speaker: "user", delay: 17000, text: "Absolutely — we were redesigning our core dashboard under a two-sprint deadline. I had to ruthlessly cut scope, prioritising the highest-frequency flows and deferring a lot of the edge cases. We shipped on time, then iterated." },
+  { speaker: "ai",   delay: 23000, text: "Solid approach. How did you handle stakeholder alignment when you were cutting that scope? Did anyone push back?" },
+];
+
+function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const transcriptRef = useRef<HTMLDivElement>(null);
+  const [muted, setMuted] = useState(false);
+  const [transcript, setTranscript] = useState<Array<{ speaker: "ai" | "user"; text: string }>>([]);
+  const [aiSpeaking, setAiSpeaking] = useState(false);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  // Attach camera
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+      streamRef.current = stream;
+      if (videoRef.current) { videoRef.current.srcObject = stream; }
+    }).catch(() => {});
+    return () => { streamRef.current?.getTracks().forEach((t) => t.stop()); };
+  }, []);
+
+  // Progressive transcript + AI speaking state
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    TRANSCRIPT_SCRIPT.forEach((entry) => {
+      timers.push(setTimeout(() => {
+        if (entry.speaker === "ai") setAiSpeaking(true);
+        setTranscript((prev) => [...prev, { speaker: entry.speaker, text: entry.text }]);
+        // AI stops "speaking" after ~3s
+        if (entry.speaker === "ai") {
+          timers.push(setTimeout(() => setAiSpeaking(false), 3200));
+        }
+      }, entry.delay));
+    });
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  // Auto-scroll transcript
+  useEffect(() => {
+    if (transcriptRef.current) {
+      transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
+    }
+  }, [transcript]);
+
+  // Mute toggle
+  useEffect(() => {
+    streamRef.current?.getAudioTracks().forEach((t) => { t.enabled = !muted; });
+  }, [muted]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 bg-[#111111] flex flex-col z-[400]"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+    >
+      {/* Video panels */}
+      <div className="flex-1 flex gap-3 p-4 min-h-0">
+        {/* AI Interviewer */}
+        <div className="flex-1 bg-[#1C1C1E] rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
+          {/* Ambient glow when speaking */}
+          <AnimatePresence>
+            {aiSpeaking && (
+              <motion.div
+                className="absolute inset-0 rounded-2xl"
+                style={{ boxShadow: "inset 0 0 60px 10px rgba(99,102,241,0.18)" }}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Avatar with speaking pulse */}
+          <div className="relative flex items-center justify-center mb-4">
+            {aiSpeaking && (
+              <>
+                <motion.div className="absolute w-32 h-32 rounded-full bg-indigo-500/15" animate={{ scale: [1, 1.18, 1] }} transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }} />
+                <motion.div className="absolute w-24 h-24 rounded-full bg-indigo-500/20" animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.15 }} />
+              </>
+            )}
+            <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-2xl font-semibold shadow-xl z-10">
+              AI
+            </div>
+          </div>
+
+          <p className="text-white/80 text-[14px] font-medium">Alex</p>
+          <p className="text-white/40 text-[12px] mt-0.5">AI Interviewer</p>
+
+          {/* Speaking waveform bars */}
+          <div className="flex items-center gap-[3px] h-6 mt-3">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="w-[3px] rounded-full bg-indigo-400/70"
+                animate={aiSpeaking
+                  ? { height: [`${6 + Math.random() * 4}px`, `${14 + Math.random() * 14}px`, `${6 + Math.random() * 4}px`], opacity: [0.5, 1, 0.5] }
+                  : { height: "4px", opacity: 0.2 }
+                }
+                transition={aiSpeaking
+                  ? { duration: 0.5 + Math.random() * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.05 }
+                  : { duration: 0.3 }
+                }
+              />
+            ))}
+          </div>
+
+          {/* Role label */}
+          <div className="absolute bottom-3 left-4 px-2.5 py-1 rounded-full bg-white/8 text-white/50 text-[11px]">
+            {job.role} · {job.company}
+          </div>
+        </div>
+
+        {/* User camera */}
+        <div className="flex-1 bg-[#1C1C1E] rounded-2xl relative overflow-hidden">
+          <video ref={videoRef} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" />
+          {/* Gradient overlay for label */}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl" />
+          <div className="absolute bottom-3 left-4 text-white/70 text-[13px] font-medium">You</div>
+          {muted && (
+            <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-red-500/90 flex items-center justify-center">
+              <MicOff className="w-3.5 h-3.5 text-white" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Transcript */}
+      <div ref={transcriptRef} className="h-[160px] overflow-y-auto scrollbar-hide px-4 py-3 space-y-2.5 border-t border-white/[0.06]">
+        {transcript.length === 0 && (
+          <p className="text-white/25 text-[13px] text-center pt-6">Transcript will appear here…</p>
+        )}
+        {transcript.map((entry, i) => (
+          <div key={i} className={`flex gap-2.5 items-start ${entry.speaker === "user" ? "flex-row-reverse" : ""}`}>
+            <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${entry.speaker === "ai" ? "bg-indigo-600" : "bg-white/20"}`}>
+              {entry.speaker === "ai" ? "AI" : "Y"}
+            </div>
+            <p className={`text-[13px] leading-[1.55] max-w-[70%] ${entry.speaker === "ai" ? "text-white/80" : "text-white/60"}`}>
+              {entry.text}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom navbar — matches reference */}
+      <div className="h-[56px] bg-[#1C1C1E] border-t border-white/[0.08] flex items-center justify-between px-4 flex-shrink-0">
+        <button
+          onClick={onEnd}
+          className="flex items-center gap-1.5 text-white/50 hover:text-white/80 transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="text-[14px]">Interview Room</span>
+        </button>
+
+        <div className="flex items-center gap-3">
+          {/* User avatar pill */}
+          <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-[11px] font-bold select-none">
+            MB
+          </div>
+
+          {/* Mic toggle */}
+          <button
+            onClick={() => setMuted((m) => !m)}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${muted ? "bg-red-500/20 text-red-400" : "text-white/50 hover:text-white/80"}`}
+          >
+            {muted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          </button>
+
+          {/* End button */}
+          <button
+            onClick={onEnd}
+            className="flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-red-500 hover:bg-red-600 text-white text-[13px] font-medium transition-colors"
+          >
+            <Phone className="w-3.5 h-3.5" />
+            End
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -793,6 +980,7 @@ function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
   const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
+  const [roomJobId, setRoomJobId] = useState<string | null>(null);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
@@ -801,6 +989,7 @@ function Dashboard() {
 
   const selectedJob = selectedJobId ? allJobs.find((j) => j.id === selectedJobId) ?? null : null;
   const interviewJob = interviewJobId ? allJobs.find((j) => j.id === interviewJobId) ?? null : null;
+  const roomJob = roomJobId ? allJobs.find((j) => j.id === roomJobId) ?? null : null;
 
   const handleShortlist = useCallback((id: string) => {
     setColumns(prev => {
@@ -885,7 +1074,18 @@ function Dashboard() {
       </div>
 
       <JobDetailSheet job={selectedJob} open={!!selectedJobId} onClose={() => setSelectedJobId(null)} />
-      <MockInterviewDialog job={interviewJob} open={!!interviewJobId} onClose={() => setInterviewJobId(null)} />
+      <MockInterviewDialog
+        job={interviewJob}
+        open={!!interviewJobId}
+        onClose={() => setInterviewJobId(null)}
+        onStart={() => { setRoomJobId(interviewJobId); setInterviewJobId(null); }}
+      />
+
+      <AnimatePresence>
+        {roomJob && (
+          <MockInterviewRoom key={roomJob.id} job={roomJob} onEnd={() => setRoomJobId(null)} />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
