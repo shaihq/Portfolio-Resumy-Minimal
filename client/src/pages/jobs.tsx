@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
@@ -1081,11 +1082,14 @@ function Dashboard() {
         onStart={() => { setRoomJobId(interviewJobId); setInterviewJobId(null); }}
       />
 
-      <AnimatePresence>
-        {roomJob && (
-          <MockInterviewRoom key={roomJob.id} job={roomJob} onEnd={() => setRoomJobId(null)} />
-        )}
-      </AnimatePresence>
+      {createPortal(
+        <AnimatePresence>
+          {roomJob && (
+            <MockInterviewRoom key={roomJob.id} job={roomJob} onEnd={() => setRoomJobId(null)} />
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </motion.div>
   );
 }
