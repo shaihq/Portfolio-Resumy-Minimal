@@ -12,7 +12,7 @@ const questions = [
   "Anything you'd want to avoid in your next job?",
 ];
 
-// Waveform bars animation
+// ── Waveform bars animation ────────────────────────────────────────────────
 function Waveform({ listening }: { listening: boolean }) {
   const bars = Array.from({ length: 28 });
   return (
@@ -20,7 +20,7 @@ function Waveform({ listening }: { listening: boolean }) {
       {bars.map((_, i) => (
         <motion.div
           key={i}
-          className="w-[3px] rounded-full bg-white/60"
+          className="w-[3px] rounded-full bg-foreground/60"
           animate={
             listening
               ? {
@@ -49,17 +49,17 @@ function Waveform({ listening }: { listening: boolean }) {
   );
 }
 
-// Dot trail progress
+// ── Dot trail progress ─────────────────────────────────────────────────────
 function DotTrail({ current, total }: { current: number; total: number }) {
   return (
     <div className="flex items-center gap-2">
       {Array.from({ length: total }).map((_, i) => (
         <motion.div
           key={i}
-          className="rounded-full bg-white"
+          className="rounded-full bg-foreground"
           animate={{
             width: i === current ? 20 : 6,
-            opacity: i < current ? 0.3 : i === current ? 1 : 0.15,
+            opacity: i < current ? 0.25 : i === current ? 1 : 0.12,
           }}
           transition={{ duration: 0.35, ease: "easeInOut" }}
           style={{ height: 6 }}
@@ -73,7 +73,7 @@ function DotTrail({ current, total }: { current: number; total: number }) {
 function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: () => void }) {
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-[#0E0D0C] px-6"
+      className="fixed inset-0 flex flex-col items-center justify-center bg-background px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -104,10 +104,10 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         </motion.div>
 
         <div className="space-y-3">
-          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-white">
+          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">
             Your portfolio's ready.<br />Your resume's in.
           </h1>
-          <p className="text-[16px] text-white/50 leading-relaxed font-light">
+          <p className="text-[16px] text-muted-foreground leading-relaxed font-light">
             Now let's find work that actually fits.
           </p>
         </div>
@@ -121,7 +121,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
           <button
             data-testid="button-lets-talk"
             onClick={onVoice}
-            className="flex items-center gap-2 bg-white text-[#0E0D0C] font-medium text-[14px] px-6 py-3 rounded-full hover:bg-white/90 transition-all active:scale-[0.97]"
+            className="flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-6 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]"
           >
             <Mic className="w-4 h-4" />
             Let's talk
@@ -129,7 +129,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
           <button
             data-testid="button-type-instead"
             onClick={onType}
-            className="flex items-center gap-2 text-white/50 font-medium text-[14px] px-6 py-3 rounded-full border border-white/10 hover:border-white/25 hover:text-white/80 transition-all active:scale-[0.97]"
+            className="flex items-center gap-2 text-muted-foreground font-medium text-[14px] px-6 py-3 rounded-full border border-border hover:border-foreground/30 hover:text-foreground/80 transition-all active:scale-[0.97]"
           >
             I'll type instead
             <ChevronRight className="w-4 h-4" />
@@ -151,7 +151,6 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
     if (listening) {
       setListening(false);
       if (timerRef.current) clearTimeout(timerRef.current);
-      // Simulate recording an answer and moving forward
       setTimeout(() => {
         const next = current + 1;
         setAnswered((prev) => [...prev, "..."]);
@@ -163,7 +162,6 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
       }, 400);
     } else {
       setListening(true);
-      // Auto-stop after 8 seconds
       timerRef.current = setTimeout(() => {
         setListening(false);
         const next = current + 1;
@@ -181,7 +179,7 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-between bg-[#0E0D0C] px-6 py-12"
+      className="fixed inset-0 flex flex-col items-center justify-between bg-background px-6 py-12"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -198,7 +196,6 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
         />
       </div>
 
-      {/* Top spacer */}
       <div />
 
       {/* Question */}
@@ -206,7 +203,7 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
         <AnimatePresence mode="wait">
           <motion.p
             key={current}
-            className="text-white text-[22px] font-medium leading-snug tracking-tight"
+            className="text-foreground text-[22px] font-medium leading-snug tracking-tight"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
@@ -216,7 +213,6 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
           </motion.p>
         </AnimatePresence>
 
-        {/* Waveform */}
         <Waveform listening={listening} />
 
         {/* Mic button */}
@@ -225,19 +221,19 @@ function VoiceRoom({ onDone }: { onDone: () => void }) {
           onClick={handleMic}
           className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
             listening
-              ? "bg-[#FF553E] shadow-[0_0_40px_rgba(255,85,62,0.5)]"
-              : "bg-white/10 border border-white/15 hover:bg-white/15"
+              ? "bg-[#FF553E] shadow-[0_0_40px_rgba(255,85,62,0.4)]"
+              : "bg-foreground/10 border border-border hover:bg-foreground/15"
           }`}
           whileTap={{ scale: 0.93 }}
         >
           {listening ? (
             <MicOff className="w-5 h-5 text-white" />
           ) : (
-            <Mic className="w-5 h-5 text-white/70" />
+            <Mic className="w-5 h-5 text-muted-foreground" />
           )}
         </motion.button>
 
-        <p className="text-white/30 text-[12px]">
+        <p className="text-muted-foreground/60 text-[12px]">
           {listening ? "Tap to stop" : "Tap to speak"}
         </p>
       </div>
@@ -277,7 +273,7 @@ function TypeRoom({ onDone }: { onDone: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-between bg-[#0E0D0C] px-6 py-12"
+      className="fixed inset-0 flex flex-col items-center justify-between bg-background px-6 py-12"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -288,7 +284,6 @@ function TypeRoom({ onDone }: { onDone: () => void }) {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-[#FF553E]/6 blur-[120px]" />
       </div>
 
-      {/* Top spacer */}
       <div />
 
       {/* Question + input */}
@@ -296,7 +291,7 @@ function TypeRoom({ onDone }: { onDone: () => void }) {
         <AnimatePresence mode="wait">
           <motion.p
             key={current}
-            className="text-white text-[22px] font-medium leading-snug tracking-tight"
+            className="text-foreground text-[22px] font-medium leading-snug tracking-tight"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
@@ -314,16 +309,16 @@ function TypeRoom({ onDone }: { onDone: () => void }) {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKey}
             placeholder="Type your answer…"
-            className="flex-1 bg-white/6 border border-white/10 rounded-2xl px-5 py-4 text-white text-[15px] placeholder:text-white/25 outline-none focus:border-white/25 transition-colors"
+            className="flex-1 bg-foreground/5 border border-border rounded-2xl px-5 py-4 text-foreground text-[15px] placeholder:text-muted-foreground/50 outline-none focus:border-foreground/25 transition-colors"
           />
           <motion.button
             data-testid="button-next"
             onClick={advance}
             disabled={!input.trim()}
-            className="w-12 h-12 rounded-full bg-white flex items-center justify-center disabled:opacity-25 transition-opacity flex-shrink-0"
+            className="w-12 h-12 rounded-full bg-foreground flex items-center justify-center disabled:opacity-25 transition-opacity flex-shrink-0"
             whileTap={{ scale: 0.92 }}
           >
-            <ArrowRight className="w-4 h-4 text-[#0E0D0C]" />
+            <ArrowRight className="w-4 h-4 text-background" />
           </motion.button>
         </div>
       </div>
@@ -370,12 +365,14 @@ function IndeedLogo({ size = 18 }: { size?: number }) {
 function ThoughtLine({ text, delay, dim }: { text: string; delay: number; dim?: boolean }) {
   return (
     <motion.div
-      className={`flex items-start gap-2 text-[13px] leading-relaxed font-mono ${dim ? "text-white/25" : "text-white/60"}`}
+      className={`flex items-start gap-2 text-[13px] leading-relaxed font-mono ${
+        dim ? "text-muted-foreground/40" : "text-muted-foreground"
+      }`}
       initial={{ opacity: 0, x: -6 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay, duration: 0.35, ease: "easeOut" }}
     >
-      <span className="text-white/20 mt-0.5 flex-shrink-0">›</span>
+      <span className="text-foreground/20 mt-0.5 flex-shrink-0">›</span>
       <span>{text}</span>
     </motion.div>
   );
@@ -399,19 +396,19 @@ function PlatformCard({
 }) {
   return (
     <motion.div
-      className="flex-1 min-w-0 border border-white/8 rounded-2xl p-4 flex flex-col gap-3 bg-white/3"
+      className="flex-1 min-w-0 border border-border rounded-2xl p-4 flex flex-col gap-3 bg-muted/30"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
     >
       <div className="flex items-center gap-2">
         {logo}
-        <span className="text-white/70 text-[13px] font-medium">{name}</span>
+        <span className="text-foreground/70 text-[13px] font-medium">{name}</span>
       </div>
 
       <div className="flex items-center gap-2">
         {status === "waiting" && (
-          <span className="text-white/25 text-[12px]">Queued</span>
+          <span className="text-muted-foreground/50 text-[12px]">Queued</span>
         )}
         {status === "scraping" && (
           <div className="flex items-center gap-1.5">
@@ -435,11 +432,11 @@ function PlatformCard({
             animate={{ opacity: 1 }}
           >
             <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+              className="w-1.5 h-1.5 rounded-full bg-emerald-500"
               animate={{ scale: [1, 1.4, 1] }}
               transition={{ duration: 0.4 }}
             />
-            <span className="text-emerald-400 text-[12px]">{count} roles found</span>
+            <span className="text-emerald-500 text-[12px]">{count} roles found</span>
           </motion.div>
         )}
       </div>
@@ -475,7 +472,7 @@ function DoneScreen() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-[#0E0D0C] px-6"
+      className="fixed inset-0 flex flex-col items-center justify-center bg-background px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -503,14 +500,14 @@ function DoneScreen() {
               />
             ))}
           </div>
-          <h2 className="text-white text-[17px] font-semibold tracking-tight">
+          <h2 className="text-foreground text-[17px] font-semibold tracking-tight">
             Got it. We're on it.
           </h2>
         </motion.div>
 
         {/* Thinking panel */}
         <motion.div
-          className="border border-white/8 rounded-2xl overflow-hidden bg-white/2"
+          className="border border-border rounded-2xl overflow-hidden bg-muted/20"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.4 }}
@@ -518,7 +515,7 @@ function DoneScreen() {
           {/* Panel header */}
           <button
             onClick={() => setIsExpanded((v) => !v)}
-            className="w-full flex items-center justify-between px-4 py-3 border-b border-white/6 hover:bg-white/3 transition-colors"
+            className="w-full flex items-center justify-between px-4 py-3 border-b border-border hover:bg-muted/30 transition-colors"
             data-testid="button-thinking-toggle"
           >
             <div className="flex items-center gap-2">
@@ -527,14 +524,14 @@ function DoneScreen() {
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 1.4, repeat: Infinity }}
               />
-              <span className="text-white/50 text-[12px] font-medium tracking-wide uppercase">
+              <span className="text-muted-foreground text-[12px] font-medium tracking-wide uppercase">
                 Thinking
               </span>
             </div>
             <motion.div
               animate={{ rotate: isExpanded ? 0 : -90 }}
               transition={{ duration: 0.25 }}
-              className="text-white/20"
+              className="text-foreground/20"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -590,7 +587,7 @@ function DoneScreen() {
 
         {/* Sub-label */}
         <motion.p
-          className="text-white/25 text-[12px] text-center"
+          className="text-muted-foreground/50 text-[12px] text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.6 }}
