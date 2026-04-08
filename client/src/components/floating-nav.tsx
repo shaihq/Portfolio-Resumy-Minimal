@@ -28,7 +28,7 @@ export function FloatingNav() {
   const [location] = useLocation();
 
   return (
-    <div className="fixed top-6 left-6 z-[200] flex flex-col items-center gap-2 bg-background/80 backdrop-blur-md border border-border px-2 py-3 rounded-full shadow-lg">
+    <div className="fixed top-6 left-6 z-[200] flex flex-col items-center gap-2 bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/10 px-2 py-3 rounded-full shadow-sm">
       {/* Logo at top */}
       <Tooltip delayDuration={200}>
         <TooltipTrigger asChild>
