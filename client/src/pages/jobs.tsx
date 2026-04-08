@@ -414,13 +414,14 @@ function JobCard({ job, isPicks }: { job: Job; isPicks?: boolean }) {
 // ── Pipeline column card ───────────────────────────────────────────────────
 function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
   const isPicks = colId === "picks";
-  return (
+
+  const columnInner = (
     <KanbanColumn
       value={colId}
-      className={`rounded-xl flex flex-col min-w-[220px] flex-1 ${COL_BG[colId]}`}
+      className={`flex flex-col flex-1 min-w-0 ${isPicks ? "rounded-[11px] bg-[#E5E1DA] dark:bg-card" : `rounded-xl ${COL_BG[colId]}`}`}
     >
       {/* Column header */}
-      <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
+      <div className={`flex items-center justify-between px-3 pb-2 flex-shrink-0 ${isPicks ? "pt-2" : "pt-3"}`}>
         <div className="flex items-center gap-2">
           <span className="text-[13px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
@@ -455,6 +456,31 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
         ))}
       </KanbanColumnContent>
     </KanbanColumn>
+  );
+
+  if (isPicks) {
+    return (
+      <div className="flex flex-col min-w-[220px] flex-1 relative pt-[26px]">
+        {/* Gradient badge — sits at top center, above the column */}
+        <div className="absolute top-0 left-0 right-0 flex justify-center z-10">
+          <span className="text-[9px] font-bold tracking-[0.12em] uppercase px-3 py-[5px] rounded-full text-white"
+            style={{ background: "linear-gradient(90deg, #a78bfa, #f472b6, #fb923c)" }}>
+            Best Matches
+          </span>
+        </div>
+        {/* Gradient border shell */}
+        <div className="flex-1 flex flex-col rounded-xl p-[1.5px]"
+          style={{ background: "linear-gradient(160deg, #c4b5fd 0%, #f9a8d4 50%, #fdba74 100%)" }}>
+          {columnInner}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col min-w-[220px] flex-1">
+      {columnInner}
+    </div>
   );
 }
 
