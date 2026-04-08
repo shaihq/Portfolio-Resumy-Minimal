@@ -11,6 +11,8 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { unsafe_createClientWithApiKey, AnamEvent } from "@anam-ai/js-sdk";
+import type { AnamClient, Message } from "@anam-ai/js-sdk";
 
 type Phase = "transition" | "voice" | "type" | "done" | "dashboard";
 
@@ -545,58 +547,77 @@ function MockInterviewDialog({ job, open, onClose, onStart }: { job: Job | null;
 }
 
 // ── Mock interview room ────────────────────────────────────────────────────
-const TRANSCRIPT_SCRIPT: Array<{ speaker: "ai" | "user"; text: string; delay: number }> = [
-  { speaker: "ai",   delay: 800,  text: "Thanks for joining. I'm Alex, your AI interviewer. Let's dive right in — can you walk me through your background as a product designer and what's drawn you to this role?" },
-  { speaker: "user", delay: 5000, text: "Sure! I've spent the last six years in product design, mostly at B2B SaaS companies. I started out doing a lot of visual work, but over time I've gravitated towards systems thinking and design infrastructure." },
-  { speaker: "ai",   delay: 11000, text: "That's a great foundation. Can you tell me about a specific project where you had to balance strong craft with tight engineering constraints? What tradeoffs did you make?" },
-  { speaker: "user", delay: 17000, text: "Absolutely — we were redesigning our core dashboard under a two-sprint deadline. I had to ruthlessly cut scope, prioritising the highest-frequency flows and deferring a lot of the edge cases. We shipped on time, then iterated." },
-  { speaker: "ai",   delay: 23000, text: "Solid approach. How did you handle stakeholder alignment when you were cutting that scope? Did anyone push back?" },
-];
+const ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9";
 
 function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const userVideoRef = useRef<HTMLVideoElement>(null);
   const transcriptRef = useRef<HTMLDivElement>(null);
+  const anamClientRef = useRef<AnamClient | null>(null);
+  const userStreamRef = useRef<MediaStream | null>(null);
+
   const [muted, setMuted] = useState(false);
-  const [transcript, setTranscript] = useState<Array<{ speaker: "ai" | "user"; text: string }>>([]);
-  const [aiSpeaking, setAiSpeaking] = useState(false);
-  const streamRef = useRef<MediaStream | null>(null);
+  const [status, setStatus] = useState<"connecting" | "ready" | "error">("connecting");
+  const [transcript, setTranscript] = useState<Message[]>([]);
 
-  // Attach camera
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-      streamRef.current = stream;
-      if (videoRef.current) { videoRef.current.srcObject = stream; }
-    }).catch(() => {});
-    return () => { streamRef.current?.getTracks().forEach((t) => t.stop()); };
+    let mounted = true;
+
+    const start = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        userStreamRef.current = stream;
+        if (userVideoRef.current) userVideoRef.current.srcObject = stream;
+        if (!mounted) return;
+
+        const client = unsafe_createClientWithApiKey(ANAM_API_KEY, {
+          personaId: "cedce154-128d-4814-ba32-3d79c6a8fedd",
+          name: "Kevin",
+          avatarId: "ccf00c0e-7302-455b-ace2-057e0cf58127",
+          voiceId: "13ba97ac-88e3-454f-8a49-6f9479dd4586",
+          systemPrompt: `You are Kevin, a professional and warm interviewer conducting a job interview for the role of ${job.role} at ${job.company}. Ask thoughtful, role-relevant questions one at a time. Be concise and conversational. Start by briefly introducing yourself, then ask your first question. Wait for the candidate's response before moving on.`,
+        });
+        anamClientRef.current = client;
+
+        client.addListener(AnamEvent.MESSAGE_HISTORY_UPDATED, (messages: Message[]) => {
+          if (mounted) setTranscript([...messages]);
+        });
+
+        client.addListener(AnamEvent.VIDEO_PLAY_STARTED, () => {
+          if (mounted) setStatus("ready");
+        });
+
+        client.addListener(AnamEvent.CONNECTION_CLOSED, () => {
+          if (mounted) setStatus("error");
+        });
+
+        await client.streamToVideoElement("anam-avatar-video", stream);
+      } catch {
+        if (mounted) setStatus("error");
+      }
+    };
+
+    start();
+    return () => {
+      mounted = false;
+      anamClientRef.current?.stopStreaming();
+      userStreamRef.current?.getTracks().forEach((t) => t.stop());
+    };
   }, []);
 
-  // Progressive transcript + AI speaking state
-  useEffect(() => {
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    TRANSCRIPT_SCRIPT.forEach((entry) => {
-      timers.push(setTimeout(() => {
-        if (entry.speaker === "ai") setAiSpeaking(true);
-        setTranscript((prev) => [...prev, { speaker: entry.speaker, text: entry.text }]);
-        // AI stops "speaking" after ~3s
-        if (entry.speaker === "ai") {
-          timers.push(setTimeout(() => setAiSpeaking(false), 3200));
-        }
-      }, entry.delay));
-    });
-    return () => timers.forEach(clearTimeout);
-  }, []);
+  const toggleMute = () => {
+    if (muted) {
+      anamClientRef.current?.unmuteInputAudio();
+    } else {
+      anamClientRef.current?.muteInputAudio();
+    }
+    setMuted((m) => !m);
+  };
 
-  // Auto-scroll transcript
   useEffect(() => {
     if (transcriptRef.current) {
       transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
     }
   }, [transcript]);
-
-  // Mute toggle
-  useEffect(() => {
-    streamRef.current?.getAudioTracks().forEach((t) => { t.enabled = !muted; });
-  }, [muted]);
 
   return (
     <motion.div
@@ -608,63 +629,32 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
     >
       {/* Video panels */}
       <div className="flex-1 flex gap-3 p-4 min-h-0">
-        {/* AI Interviewer */}
-        <div className="flex-1 bg-[#1C1C1E] rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
-          {/* Ambient glow when speaking */}
-          <AnimatePresence>
-            {aiSpeaking && (
-              <motion.div
-                className="absolute inset-0 rounded-2xl"
-                style={{ boxShadow: "inset 0 0 60px 10px rgba(99,102,241,0.18)" }}
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              />
-            )}
-          </AnimatePresence>
-
-          {/* Avatar with speaking pulse */}
-          <div className="relative flex items-center justify-center mb-4">
-            {aiSpeaking && (
-              <>
-                <motion.div className="absolute w-32 h-32 rounded-full bg-indigo-500/15" animate={{ scale: [1, 1.18, 1] }} transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }} />
-                <motion.div className="absolute w-24 h-24 rounded-full bg-indigo-500/20" animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.15 }} />
-              </>
-            )}
-            <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-2xl font-semibold shadow-xl z-10">
-              AI
+        {/* AI avatar — anam streams into this video element */}
+        <div className="flex-1 bg-[#1C1C1E] rounded-2xl relative overflow-hidden">
+          {status === "connecting" && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+              <div className="w-10 h-10 rounded-full border-2 border-white/10 border-t-white/50 animate-spin" />
+              <p className="text-white/35 text-[13px] mt-3">Connecting to Kevin…</p>
             </div>
-          </div>
-
-          <p className="text-white/80 text-[14px] font-medium">Alex</p>
-          <p className="text-white/40 text-[12px] mt-0.5">AI Interviewer</p>
-
-          {/* Speaking waveform bars */}
-          <div className="flex items-center gap-[3px] h-6 mt-3">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="w-[3px] rounded-full bg-indigo-400/70"
-                animate={aiSpeaking
-                  ? { height: [`${6 + Math.random() * 4}px`, `${14 + Math.random() * 14}px`, `${6 + Math.random() * 4}px`], opacity: [0.5, 1, 0.5] }
-                  : { height: "4px", opacity: 0.2 }
-                }
-                transition={aiSpeaking
-                  ? { duration: 0.5 + Math.random() * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.05 }
-                  : { duration: 0.3 }
-                }
-              />
-            ))}
-          </div>
-
-          {/* Role label */}
-          <div className="absolute bottom-3 left-4 px-2.5 py-1 rounded-full bg-white/8 text-white/50 text-[11px]">
-            {job.role} · {job.company}
-          </div>
+          )}
+          {status === "error" && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+              <p className="text-red-400/80 text-[13px]">Connection failed. Please try again.</p>
+            </div>
+          )}
+          <video
+            id="anam-avatar-video"
+            autoPlay
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl" />
+          <div className="absolute bottom-3 left-4 text-white/70 text-[13px] font-medium">Kevin · AI Interviewer</div>
         </div>
 
         {/* User camera */}
         <div className="flex-1 bg-[#1C1C1E] rounded-2xl relative overflow-hidden">
-          <video ref={videoRef} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" />
-          {/* Gradient overlay for label */}
+          <video ref={userVideoRef} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" />
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl" />
           <div className="absolute bottom-3 left-4 text-white/70 text-[13px] font-medium">You</div>
           {muted && (
@@ -680,19 +670,22 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
         {transcript.length === 0 && (
           <p className="text-white/25 text-[13px] text-center pt-6">Transcript will appear here…</p>
         )}
-        {transcript.map((entry, i) => (
-          <div key={i} className={`flex gap-2.5 items-start ${entry.speaker === "user" ? "flex-row-reverse" : ""}`}>
-            <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${entry.speaker === "ai" ? "bg-indigo-600" : "bg-white/20"}`}>
-              {entry.speaker === "ai" ? "AI" : "Y"}
+        {transcript.map((msg) => {
+          const isPersona = msg.role === "persona";
+          return (
+            <div key={msg.id} className={`flex gap-2.5 items-start ${!isPersona ? "flex-row-reverse" : ""}`}>
+              <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${isPersona ? "bg-indigo-600" : "bg-white/20"}`}>
+                {isPersona ? "K" : "Y"}
+              </div>
+              <p className={`text-[13px] leading-[1.55] max-w-[70%] ${isPersona ? "text-white/80" : "text-white/60"}`}>
+                {msg.content}
+              </p>
             </div>
-            <p className={`text-[13px] leading-[1.55] max-w-[70%] ${entry.speaker === "ai" ? "text-white/80" : "text-white/60"}`}>
-              {entry.text}
-            </p>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Bottom navbar — matches reference */}
+      {/* Bottom navbar */}
       <div className="h-[56px] bg-[#1C1C1E] border-t border-white/[0.08] flex items-center justify-between px-4 flex-shrink-0">
         <button
           onClick={onEnd}
@@ -703,20 +696,17 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
         </button>
 
         <div className="flex items-center gap-3">
-          {/* User avatar pill */}
           <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-[11px] font-bold select-none">
             MB
           </div>
 
-          {/* Mic toggle */}
           <button
-            onClick={() => setMuted((m) => !m)}
+            onClick={toggleMute}
             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${muted ? "bg-red-500/20 text-red-400" : "text-white/50 hover:text-white/80"}`}
           >
             {muted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
           </button>
 
-          {/* End button */}
           <button
             onClick={onEnd}
             className="flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-red-500 hover:bg-red-600 text-white text-[13px] font-medium transition-colors"
