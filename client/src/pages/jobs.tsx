@@ -438,47 +438,20 @@ function JobCard({ job, onShortlist }: { job: Job; onShortlist?: () => void }) {
 }
 
 // ── Pipeline column ────────────────────────────────────────────────────────
-function PipelineCol({
-  colId, jobs, departingId, onShortlist, onDepartComplete,
-}: {
-  colId: string;
-  jobs: Job[];
-  departingId: string | null;
-  onShortlist: (id: string) => void;
-  onDepartComplete: (id: string) => void;
-}) {
+function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void }) {
   const isPicks = colId === "picks";
 
   const cardList = (
     <>
-      {jobs.map((job) => {
-        const isLeaving = job.id === departingId;
-        return (
-          <motion.div
-            key={job.id}
-            layout
-            animate={isLeaving
-              ? { opacity: 0, scale: 0.9, height: 0, marginTop: -8 }
-              : { opacity: 1, scale: 1, height: "auto", marginTop: 0 }
-            }
-            transition={{
-              layout:    { duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] },
-              opacity:   isLeaving ? { duration: 0.18, ease: "easeIn" }           : { duration: 0 },
-              scale:     isLeaving ? { duration: 0.18, ease: "easeIn" }           : { duration: 0 },
-              height:    isLeaving ? { duration: 0.28, ease: [0.4, 0, 1, 1] }    : { duration: 0 },
-              marginTop: isLeaving ? { duration: 0.28, ease: [0.4, 0, 1, 1] }    : { duration: 0 },
-            }}
-            style={{ overflow: isLeaving ? "hidden" : "visible", pointerEvents: isLeaving ? "none" : undefined }}
-            onAnimationComplete={() => { if (isLeaving) onDepartComplete(job.id); }}
-          >
-            <KanbanItem value={job.id} className="rounded-lg">
-              <KanbanItemHandle className="w-full rounded-lg">
-                <JobCard job={job} onShortlist={isPicks && !departingId ? () => onShortlist(job.id) : undefined} />
-              </KanbanItemHandle>
-            </KanbanItem>
-          </motion.div>
-        );
-      })}
+      {jobs.map((job) => (
+        <motion.div key={job.id} layout transition={{ layout: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] } }}>
+          <KanbanItem value={job.id} className="rounded-lg">
+            <KanbanItemHandle className="w-full rounded-lg">
+              <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} />
+            </KanbanItemHandle>
+          </KanbanItem>
+        </motion.div>
+      ))}
       {jobs.length === 0 && (
         <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
           <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
@@ -529,13 +502,7 @@ function Dashboard() {
   const findColForJob = (id: string) =>
     Object.entries(columns).find(([, jobs]) => jobs.some((j) => j.id === id))?.[0];
 
-  const [departingId, setDepartingId] = useState<string | null>(null);
-
   const handleShortlist = useCallback((id: string) => {
-    setDepartingId(id);
-  }, []);
-
-  const commitShortlist = useCallback((id: string) => {
     setColumns(prev => {
       const fromCol = Object.keys(prev).find(col => prev[col].some(j => j.id === id));
       if (!fromCol) return prev;
@@ -546,7 +513,6 @@ function Dashboard() {
         not_applied: [...prev.not_applied, job],
       };
     });
-    setDepartingId(null);
   }, []);
 
   return (
@@ -594,14 +560,7 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
             {COL_ORDER.map((colId) => (
-              <PipelineCol
-                key={colId}
-                colId={colId}
-                jobs={columns[colId] ?? []}
-                departingId={departingId}
-                onShortlist={handleShortlist}
-                onDepartComplete={commitShortlist}
-              />
+              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} />
             ))}
           </KanbanBoard>
 
