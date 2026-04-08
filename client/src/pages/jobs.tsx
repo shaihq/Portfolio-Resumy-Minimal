@@ -415,62 +415,45 @@ function JobCard({ job, isPicks }: { job: Job; isPicks?: boolean }) {
 function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
   const isPicks = colId === "picks";
 
-  const columnInner = (
-    <KanbanColumn
-      value={colId}
-      className={`flex flex-col flex-1 min-w-0 ${isPicks ? "rounded-[11px] bg-[#E5E1DA] dark:bg-card" : `rounded-xl ${COL_BG[colId]}`}`}
-    >
-      {/* Column header */}
-      <div className={`flex items-center justify-between px-3 pb-2 flex-shrink-0 ${isPicks ? "pt-2" : "pt-3"}`}>
-        <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
-          {jobs.length > 0 && (
-            <span className="text-[10px] text-muted-foreground bg-muted rounded-full px-1.5 py-0.5 leading-none">
-              {jobs.length}
-            </span>
-          )}
-        </div>
-        {isPicks && (
-          <div className="flex items-center gap-1">
+  if (isPicks) {
+    return (
+      <div className="flex flex-col min-w-[220px] flex-1 rounded-2xl p-2.5"
+        style={{ background: "linear-gradient(160deg, #ddd6fe 0%, #fbcfe8 55%, #fed7aa 100%)" }}>
+        {/* Header lives in the gradient strip */}
+        <div className="flex items-center justify-between px-1 pb-2 pt-0.5 flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[13px] font-semibold text-white/90">{COL_LABELS[colId]}</span>
+            {jobs.length > 0 && (
+              <span className="text-[10px] text-white/70 bg-white/20 rounded-full px-1.5 py-0.5 leading-none">
+                {jobs.length}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-1 opacity-80">
             <LinkedInLogo size={13} />
             <IndeedLogo size={13} />
           </div>
-        )}
-      </div>
-
-      {/* Items */}
-      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[60px]">
-        {jobs.length === 0 && (
-          <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
-            <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
-              Drag a role here<br />to track it
-            </p>
-          </div>
-        )}
-        {jobs.map((job) => (
-          <KanbanItem key={job.id} value={job.id} className="rounded-lg">
-            <KanbanItemHandle className="w-full rounded-lg">
-              <JobCard job={job} isPicks={isPicks} />
-            </KanbanItemHandle>
-          </KanbanItem>
-        ))}
-      </KanbanColumnContent>
-    </KanbanColumn>
-  );
-
-  if (isPicks) {
-    return (
-      <div className="flex flex-col min-w-[220px] flex-1 rounded-2xl p-2.5 pt-2"
-        style={{ background: "linear-gradient(160deg, #c4b5fd 0%, #f9a8d4 50%, #fdba74 100%)" }}>
-        {/* Label lives inside the gradient area */}
-        <div className="flex justify-center items-center pb-2 pt-0.5">
-          <span className="text-[9px] font-bold tracking-[0.12em] uppercase text-white/90 select-none">
-            Best Matches
-          </span>
         </div>
-        {/* Inner white-ish column */}
+        {/* Inner column — no header */}
         <div className="flex-1 flex flex-col rounded-[11px] overflow-hidden">
-          {columnInner}
+          <KanbanColumn value={colId} className="flex flex-col flex-1 min-w-0 rounded-[11px] bg-[#E5E1DA] dark:bg-card">
+            <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
+              {jobs.length === 0 && (
+                <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
+                  <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
+                    Drag a role here<br />to track it
+                  </p>
+                </div>
+              )}
+              {jobs.map((job) => (
+                <KanbanItem key={job.id} value={job.id} className="rounded-lg">
+                  <KanbanItemHandle className="w-full rounded-lg">
+                    <JobCard job={job} isPicks={true} />
+                  </KanbanItemHandle>
+                </KanbanItem>
+              ))}
+            </KanbanColumnContent>
+          </KanbanColumn>
         </div>
       </div>
     );
@@ -478,7 +461,34 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 
   return (
     <div className="flex flex-col min-w-[220px] flex-1">
-      {columnInner}
+      <KanbanColumn value={colId} className={`rounded-xl flex flex-col flex-1 min-w-0 ${COL_BG[colId]}`}>
+        <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[13px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
+            {jobs.length > 0 && (
+              <span className="text-[10px] text-muted-foreground bg-muted rounded-full px-1.5 py-0.5 leading-none">
+                {jobs.length}
+              </span>
+            )}
+          </div>
+        </div>
+        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[60px]">
+          {jobs.length === 0 && (
+            <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
+              <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
+                Drag a role here<br />to track it
+              </p>
+            </div>
+          )}
+          {jobs.map((job) => (
+            <KanbanItem key={job.id} value={job.id} className="rounded-lg">
+              <KanbanItemHandle className="w-full rounded-lg">
+                <JobCard job={job} isPicks={false} />
+              </KanbanItemHandle>
+            </KanbanItem>
+          ))}
+        </KanbanColumnContent>
+      </KanbanColumn>
     </div>
   );
 }
