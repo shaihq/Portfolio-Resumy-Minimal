@@ -459,18 +459,18 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 
   return (
     <div className="flex flex-col min-w-[220px] flex-1">
-      <KanbanColumn value={colId} className={`rounded-xl flex flex-col flex-1 min-w-0 ${COL_BG[colId]}`}>
-        <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
-            {jobs.length > 0 && (
-              <span className="text-[10px] text-muted-foreground bg-muted rounded-full px-1.5 py-0.5 leading-none">
-                {jobs.length}
-              </span>
-            )}
-          </div>
-        </div>
-        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pb-3 min-h-[60px]">
+      {/* Folder tab — sits above the column body, anchored top-left */}
+      <div className="self-start ml-3 flex items-center gap-2 px-3 py-1.5 bg-[#E5E1DA] dark:bg-card border border-b-0 border-[#D5CFC7] dark:border-border rounded-t-lg select-none">
+        <span className="text-[12px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
+        {jobs.length > 0 && (
+          <span className="text-[10px] text-muted-foreground bg-[#D5CFC7] dark:bg-muted rounded-full px-1.5 py-0.5 leading-none">
+            {jobs.length}
+          </span>
+        )}
+      </div>
+      {/* Column body — top-left corner flat where tab connects */}
+      <KanbanColumn value={colId} className="flex flex-col flex-1 min-w-0 rounded-xl rounded-tl-none bg-[#E5E1DA] dark:bg-card border border-[#D5CFC7] dark:border-border">
+        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
           {jobs.length === 0 && (
             <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
               <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
