@@ -430,14 +430,6 @@ function JobCard({ job }: { job: Job }) {
           />
         </div>
       </div>
-
-      {/* Row 4: Source */}
-      <div className="border-t border-black/[0.05] pt-2">
-        {job.source === "linkedin"
-          ? <span className="inline-flex items-center gap-1 text-[10px] text-[#0A66C2] font-medium"><LinkedInLogo size={10} /> LinkedIn</span>
-          : <span className="inline-flex items-center gap-1 text-[10px] text-[#003A9B] font-medium"><IndeedLogo size={10} /> Indeed</span>
-        }
-      </div>
     </div>
   );
 }
@@ -458,10 +450,6 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
                 {jobs.length}
               </span>
             )}
-          </div>
-          <div className="flex items-center gap-1 opacity-50">
-            <LinkedInLogo size={13} />
-            <IndeedLogo size={13} />
           </div>
         </div>
         <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
