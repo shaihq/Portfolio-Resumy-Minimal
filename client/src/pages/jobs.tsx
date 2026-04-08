@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark } from "lucide-react";
+import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
   Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
@@ -20,15 +21,18 @@ interface Job {
   logoColor: string;
   logoLetter: string;
   source: "linkedin" | "indeed";
+  type: string;
+  workMode: string;
+  location: string;
 }
 
 const BASE_JOBS: Job[] = [
-  { id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope", logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin" },
-  { id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async", logoColor: "#171717", logoLetter: "V", source: "linkedin" },
-  { id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap", logoColor: "#191919", logoLetter: "N", source: "indeed" },
-  { id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact", logoColor: "#F24E1E", logoLetter: "F", source: "linkedin" },
-  { id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product", logoColor: "#625DF5", logoLetter: "L", source: "indeed" },
-  { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", source: "linkedin" },
+  { id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope", logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin", type: "Full-Time", workMode: "Remote", location: "San Francisco, CA" },
+  { id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async", logoColor: "#171717", logoLetter: "V", source: "linkedin", type: "Full-Time", workMode: "Remote", location: "New York, NY" },
+  { id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap", logoColor: "#191919", logoLetter: "N", source: "indeed", type: "Full-Time", workMode: "Hybrid", location: "San Francisco, CA" },
+  { id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact", logoColor: "#F24E1E", logoLetter: "F", source: "linkedin", type: "Full-Time", workMode: "On-site", location: "San Francisco, CA" },
+  { id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product", logoColor: "#625DF5", logoLetter: "L", source: "indeed", type: "Full-Time", workMode: "Remote", location: "Austin, TX" },
+  { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", source: "linkedin", type: "Full-Time", workMode: "Hybrid", location: "Seattle, WA" },
 ];
 
 const COL_ORDER = ["picks", "not_applied", "applied", "interview", "offer"];
@@ -373,40 +377,67 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
 }
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
-function JobCard({ job, isPicks }: { job: Job; isPicks?: boolean }) {
+function JobCard({ job }: { job: Job }) {
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-2 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
+      className="flex flex-col gap-3 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
+      {/* Row 1: Title + Shortlist */}
       <div className="flex items-start justify-between gap-2">
+        <p className="text-[13px] font-bold text-foreground leading-snug">{job.role}</p>
+        <button
+          data-testid={`button-shortlist-${job.id}`}
+          className="flex-shrink-0 flex items-center gap-1 text-[10px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-1 transition-colors"
+        >
+          <Bookmark className="w-3 h-3" />
+          Shortlist
+        </button>
+      </div>
+
+      {/* Row 2: Pills */}
+      <div className="flex items-center gap-1.5 flex-wrap">
+        <span className="text-[10px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.type}</span>
+        <span className="text-[10px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.workMode}</span>
+      </div>
+
+      {/* Row 3: Company + gauge */}
+      <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div
-            className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold"
+            className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[10px] font-bold"
             style={{ backgroundColor: job.logoColor }}
           >
             {job.logoLetter}
           </div>
           <div className="min-w-0">
-            <div className="text-[12px] font-medium text-foreground leading-tight truncate">{job.role}</div>
-            <div className="text-[11px] text-muted-foreground truncate">{job.company}</div>
+            <div className="text-[11px] font-medium text-foreground/70 truncate">{job.company}</div>
+            <div className="text-[10px] text-foreground/40 truncate">{job.location}</div>
           </div>
         </div>
-        <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex-shrink-0 pt-0.5">
-          {job.match}%
-        </span>
+        <div className="flex-shrink-0 flex flex-col items-center">
+          <Gauge
+            value={job.match}
+            size={38}
+            strokeWidth={8}
+            gapPercent={3}
+            primary="success"
+            secondary="rgba(0,0,0,0.06)"
+            showValue={true}
+            showPercentage={false}
+            transition={{ delay: 200 }}
+            className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
+          />
+        </div>
       </div>
-      {isPicks && (
-        <>
-          <p className="text-[11px] text-muted-foreground/70 leading-relaxed pl-9 truncate">{job.reason}</p>
-          <div className="pl-9">
-            {job.source === "linkedin"
-              ? <span className="inline-flex items-center gap-1 text-[10px] text-[#0A66C2] font-medium"><LinkedInLogo size={10} /> LinkedIn</span>
-              : <span className="inline-flex items-center gap-1 text-[10px] text-[#003A9B] font-medium"><IndeedLogo size={10} /> Indeed</span>
-            }
-          </div>
-        </>
-      )}
+
+      {/* Row 4: Source */}
+      <div className="border-t border-black/[0.05] pt-2">
+        {job.source === "linkedin"
+          ? <span className="inline-flex items-center gap-1 text-[10px] text-[#0A66C2] font-medium"><LinkedInLogo size={10} /> LinkedIn</span>
+          : <span className="inline-flex items-center gap-1 text-[10px] text-[#003A9B] font-medium"><IndeedLogo size={10} /> Indeed</span>
+        }
+      </div>
     </div>
   );
 }
@@ -444,7 +475,7 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
           {jobs.map((job) => (
             <KanbanItem key={job.id} value={job.id} className="rounded-lg">
               <KanbanItemHandle className="w-full rounded-lg">
-                <JobCard job={job} isPicks={true} />
+                <JobCard job={job} />
               </KanbanItemHandle>
             </KanbanItem>
           ))}
@@ -475,7 +506,7 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
         {jobs.map((job) => (
           <KanbanItem key={job.id} value={job.id} className="rounded-lg">
             <KanbanItemHandle className="w-full rounded-lg">
-              <JobCard job={job} isPicks={false} />
+              <JobCard job={job} />
             </KanbanItemHandle>
           </KanbanItem>
         ))}
@@ -551,7 +582,7 @@ function Dashboard() {
                 if (job) {
                   return (
                     <div className="rounded-lg shadow-xl ring-1 ring-foreground/10 opacity-95 rotate-1 scale-[1.02]">
-                      <JobCard job={job} isPicks={colId === "picks"} />
+                      <JobCard job={job} />
                     </div>
                   );
                 }
