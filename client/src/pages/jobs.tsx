@@ -270,7 +270,7 @@ type PlatformStatus = "waiting" | "scraping" | "done";
 
 function PlatformCard({ logo, name, status, count, delay }: { logo: React.ReactNode; name: string; status: PlatformStatus; count?: number; delay: number }) {
   return (
-    <motion.div className="flex-1 min-w-0 border border-border rounded-2xl p-4 flex flex-col gap-3 bg-muted/30" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.4 }}>
+    <motion.div className="flex-1 min-w-0 border border-black/8 dark:border-border rounded-2xl p-4 flex flex-col gap-3 bg-white dark:bg-muted/30" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.4 }}>
       <div className="flex items-center gap-2">
         {logo}
         <span className="text-foreground/70 text-[13px] font-medium">{name}</span>
@@ -340,8 +340,8 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
           <h2 className="text-foreground text-[17px] font-semibold tracking-tight">Got it. We're on it.</h2>
         </motion.div>
 
-        <motion.div className="border border-border rounded-2xl overflow-hidden bg-muted/20" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.4 }}>
-          <button onClick={() => setIsExpanded((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 border-b border-border hover:bg-muted/30 transition-colors" data-testid="button-thinking-toggle">
+        <motion.div className="border border-black/8 dark:border-border rounded-2xl overflow-hidden bg-white dark:bg-muted/20" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.4 }}>
+          <button onClick={() => setIsExpanded((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 border-b border-black/8 dark:border-border hover:bg-black/[0.03] dark:hover:bg-muted/30 transition-colors" data-testid="button-thinking-toggle">
             <div className="flex items-center gap-2">
               <motion.div className="w-1.5 h-1.5 rounded-full bg-amber-400" animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1.4, repeat: Infinity }} />
               <span className="text-muted-foreground text-[12px] font-medium tracking-wide uppercase">Thinking</span>
