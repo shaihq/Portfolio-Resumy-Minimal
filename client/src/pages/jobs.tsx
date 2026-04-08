@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
@@ -38,7 +38,7 @@ const BASE_JOBS: Job[] = [
 const COL_ORDER = ["picks", "not_applied", "applied", "interview", "offer"];
 const COL_LABELS: Record<string, string> = {
   picks: "AI Picks",
-  not_applied: "Not Applied",
+  not_applied: "Shortlisted",
   applied: "Applied",
   interview: "Interview",
   offer: "Offer",
@@ -377,7 +377,7 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
 }
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
-function JobCard({ job }: { job: Job }) {
+function JobCard({ job, onShortlist }: { job: Job; onShortlist?: () => void }) {
   return (
     <div
       data-testid={`card-job-${job.id}`}
@@ -422,51 +422,65 @@ function JobCard({ job }: { job: Job }) {
         </div>
       </div>
 
-      {/* Row 4: Shortlist button */}
-      <button
-        data-testid={`button-shortlist-${job.id}`}
-        className="flex items-center justify-center gap-1.5 w-full text-[10px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-1.5 transition-colors"
-      >
-        <Bookmark className="w-3 h-3" />
-        Shortlist
-      </button>
+      {/* Row 4: Shortlist button — only shown in AI Picks */}
+      {onShortlist && (
+        <button
+          data-testid={`button-shortlist-${job.id}`}
+          onClick={(e) => { e.stopPropagation(); onShortlist(); }}
+          className="flex items-center justify-center gap-1.5 w-full text-[10px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-1.5 transition-colors"
+        >
+          <Bookmark className="w-3 h-3" />
+          Shortlist
+        </button>
+      )}
     </div>
   );
 }
 
+const cardVariants = {
+  initial: { opacity: 0, scale: 0.95, y: -6 },
+  animate: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] } },
+  exit:    { opacity: 0, scale: 0.88, x: -16, transition: { duration: 0.22, ease: [0.55, 0, 1, 0.45] } },
+};
+
 // ── Pipeline column card ───────────────────────────────────────────────────
-function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
+function PipelineCol({ colId, jobs, onShortlist }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void }) {
   const isPicks = colId === "picks";
+
+  const cardList = (
+    <>
+      <AnimatePresence initial={false}>
+        {jobs.map((job) => (
+          <motion.div key={job.id} variants={cardVariants} initial="initial" animate="animate" exit="exit">
+            <KanbanItem value={job.id} className="rounded-lg">
+              <KanbanItemHandle className="w-full rounded-lg">
+                <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} />
+              </KanbanItemHandle>
+            </KanbanItem>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+      {jobs.length === 0 && (
+        <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
+          <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
+            Drag a role here<br />to track it
+          </p>
+        </div>
+      )}
+    </>
+  );
 
   if (isPicks) {
     return (
       <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#EDE9E3] dark:bg-card border border-[#D5CFC7] dark:border-border overflow-hidden">
-        {/* Header band */}
-        <div className="flex items-center justify-between px-3 py-2.5 bg-[#E5E1DA] dark:bg-muted/40 border-b border-[#D5CFC7] dark:border-border flex-shrink-0 select-none">
-          <div className="flex items-center gap-2">
-            <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
-            {jobs.length > 0 && (
-              <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">
-                {jobs.length}
-              </span>
-            )}
-          </div>
+        <div className="flex items-center gap-2 px-3 py-2.5 bg-[#E5E1DA] dark:bg-muted/40 border-b border-[#D5CFC7] dark:border-border flex-shrink-0 select-none">
+          <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
+          {jobs.length > 0 && (
+            <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
+          )}
         </div>
         <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
-          {jobs.length === 0 && (
-            <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
-              <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
-                Drag a role here<br />to track it
-              </p>
-            </div>
-          )}
-          {jobs.map((job) => (
-            <KanbanItem key={job.id} value={job.id} className="rounded-lg">
-              <KanbanItemHandle className="w-full rounded-lg">
-                <JobCard job={job} />
-              </KanbanItemHandle>
-            </KanbanItem>
-          ))}
+          {cardList}
         </KanbanColumnContent>
       </KanbanColumn>
     );
@@ -474,30 +488,14 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
 
   return (
     <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E5E1DA] dark:bg-card border border-[#D5CFC7] dark:border-border overflow-hidden">
-      {/* Folder header zone */}
       <div className="flex items-center gap-2 px-3 py-2.5 bg-[#DDD8D0] dark:bg-muted/40 border-b border-[#D5CFC7] dark:border-border flex-shrink-0 select-none">
         <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
-          <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">
-            {jobs.length}
-          </span>
+          <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
         )}
       </div>
       <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
-        {jobs.length === 0 && (
-          <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
-            <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
-              Drag a role here<br />to track it
-            </p>
-          </div>
-        )}
-        {jobs.map((job) => (
-          <KanbanItem key={job.id} value={job.id} className="rounded-lg">
-            <KanbanItemHandle className="w-full rounded-lg">
-              <JobCard job={job} />
-            </KanbanItemHandle>
-          </KanbanItem>
-        ))}
+        {cardList}
       </KanbanColumnContent>
     </KanbanColumn>
   );
@@ -511,6 +509,19 @@ function Dashboard() {
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
   const findColForJob = (id: string) =>
     Object.entries(columns).find(([, jobs]) => jobs.some((j) => j.id === id))?.[0];
+
+  const handleShortlist = useCallback((id: string) => {
+    setColumns(prev => {
+      const fromCol = Object.keys(prev).find(col => prev[col].some(j => j.id === id));
+      if (!fromCol) return prev;
+      const job = prev[fromCol].find(j => j.id === id)!;
+      return {
+        ...prev,
+        [fromCol]: prev[fromCol].filter(j => j.id !== id),
+        not_applied: [...prev.not_applied, job],
+      };
+    });
+  }, []);
 
   return (
     <motion.div
@@ -557,7 +568,7 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
             {COL_ORDER.map((colId) => (
-              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} />
+              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} />
             ))}
           </KanbanBoard>
 
