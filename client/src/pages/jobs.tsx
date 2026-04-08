@@ -418,18 +418,18 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
   if (isPicks) {
     return (
       <div className="flex flex-col min-w-[220px] flex-1 rounded-2xl p-2.5"
-        style={{ background: "linear-gradient(160deg, #ddd6fe 0%, #fbcfe8 55%, #fed7aa 100%)" }}>
+        style={{ background: "linear-gradient(160deg, #FFD9C4 0%, #F5BEB8 55%, #EEB5C8 100%)" }}>
         {/* Header lives in the gradient strip */}
         <div className="flex items-center justify-between px-1 pb-2 pt-0.5 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-semibold text-white/90">{COL_LABELS[colId]}</span>
+            <span className="text-[13px] font-semibold text-[#5C3328]/80">{COL_LABELS[colId]}</span>
             {jobs.length > 0 && (
-              <span className="text-[10px] text-white/70 bg-white/20 rounded-full px-1.5 py-0.5 leading-none">
+              <span className="text-[10px] text-[#5C3328]/60 bg-black/10 rounded-full px-1.5 py-0.5 leading-none">
                 {jobs.length}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1 opacity-80">
+          <div className="flex items-center gap-1 opacity-60">
             <LinkedInLogo size={13} />
             <IndeedLogo size={13} />
           </div>
