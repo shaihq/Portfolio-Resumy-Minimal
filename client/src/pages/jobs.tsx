@@ -458,36 +458,33 @@ function PipelineCol({ colId, jobs }: { colId: string; jobs: Job[] }) {
   }
 
   return (
-    <div className="flex flex-col min-w-[220px] flex-1">
-      {/* Folder tab — sits above the column body, anchored top-left */}
-      <div className="self-start ml-3 flex items-center gap-2 px-3 py-1.5 bg-[#E5E1DA] dark:bg-card border border-b-0 border-[#D5CFC7] dark:border-border rounded-t-lg select-none">
-        <span className="text-[12px] font-semibold text-foreground">{COL_LABELS[colId]}</span>
+    <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E5E1DA] dark:bg-card border border-[#D5CFC7] dark:border-border overflow-hidden">
+      {/* Folder header zone — slightly darker, acts as the label band */}
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-[#DDD8D0] dark:bg-muted/40 border-b border-[#D5CFC7] dark:border-border flex-shrink-0 select-none">
+        <span className="text-[12px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
-          <span className="text-[10px] text-muted-foreground bg-[#D5CFC7] dark:bg-muted rounded-full px-1.5 py-0.5 leading-none">
+          <span className="text-[10px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">
             {jobs.length}
           </span>
         )}
       </div>
-      {/* Column body — top-left corner flat where tab connects */}
-      <KanbanColumn value={colId} className="flex flex-col flex-1 min-w-0 rounded-xl rounded-tl-none bg-[#E5E1DA] dark:bg-card border border-[#D5CFC7] dark:border-border">
-        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
-          {jobs.length === 0 && (
-            <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
-              <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
-                Drag a role here<br />to track it
-              </p>
-            </div>
-          )}
-          {jobs.map((job) => (
-            <KanbanItem key={job.id} value={job.id} className="rounded-lg">
-              <KanbanItemHandle className="w-full rounded-lg">
-                <JobCard job={job} isPicks={false} />
-              </KanbanItemHandle>
-            </KanbanItem>
-          ))}
-        </KanbanColumnContent>
-      </KanbanColumn>
-    </div>
+      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto px-2 pt-2 pb-3 min-h-[60px]">
+        {jobs.length === 0 && (
+          <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
+            <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
+              Drag a role here<br />to track it
+            </p>
+          </div>
+        )}
+        {jobs.map((job) => (
+          <KanbanItem key={job.id} value={job.id} className="rounded-lg">
+            <KanbanItemHandle className="w-full rounded-lg">
+              <JobCard job={job} isPicks={false} />
+            </KanbanItemHandle>
+          </KanbanItem>
+        ))}
+      </KanbanColumnContent>
+    </KanbanColumn>
   );
 }
 
