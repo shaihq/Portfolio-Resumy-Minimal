@@ -336,30 +336,268 @@ function TypeRoom({ onDone }: { onDone: () => void }) {
   );
 }
 
-// ── Done screen ────────────────────────────────────────────────────────────
-function DoneScreen() {
+// ── LinkedIn logo ──────────────────────────────────────────────────────────
+function LinkedInLogo({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#0A66C2" />
+      <path
+        d="M7.2 9.6H4.8V19.2H7.2V9.6ZM6 8.4C6.79 8.4 7.44 7.75 7.44 6.96C7.44 6.17 6.79 5.52 6 5.52C5.21 5.52 4.56 6.17 4.56 6.96C4.56 7.75 5.21 8.4 6 8.4ZM19.2 19.2H16.8V14.52C16.8 13.38 16.78 11.91 15.21 11.91C13.62 11.91 13.38 13.16 13.38 14.44V19.2H10.98V9.6H13.28V10.92H13.32C13.65 10.28 14.47 9.6 15.69 9.6C18.12 9.6 19.2 11.22 19.2 13.44V19.2Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
+// ── Indeed logo ────────────────────────────────────────────────────────────
+function IndeedLogo({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="4" fill="#003A9B" />
+      <path
+        d="M12 5C10.34 5 9 6.34 9 8C9 9.66 10.34 11 12 11C13.66 11 15 9.66 15 8C15 6.34 13.66 5 12 5Z"
+        fill="white"
+      />
+      <path
+        d="M8 13H16V19H14.5V15H13V19H11V15H9.5V19H8V13Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
+// ── Thinking line component ─────────────────────────────────────────────────
+function ThoughtLine({ text, delay, dim }: { text: string; delay: number; dim?: boolean }) {
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-[#0E0D0C] px-6 text-center gap-4"
+      className={`flex items-start gap-2 text-[13px] leading-relaxed font-mono ${dim ? "text-white/25" : "text-white/60"}`}
+      initial={{ opacity: 0, x: -6 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay, duration: 0.35, ease: "easeOut" }}
+    >
+      <span className="text-white/20 mt-0.5 flex-shrink-0">›</span>
+      <span>{text}</span>
+    </motion.div>
+  );
+}
+
+// ── Platform status card ────────────────────────────────────────────────────
+type PlatformStatus = "waiting" | "scraping" | "done";
+
+function PlatformCard({
+  logo,
+  name,
+  status,
+  count,
+  delay,
+}: {
+  logo: React.ReactNode;
+  name: string;
+  status: PlatformStatus;
+  count?: number;
+  delay: number;
+}) {
+  return (
+    <motion.div
+      className="flex-1 min-w-0 border border-white/8 rounded-2xl p-4 flex flex-col gap-3 bg-white/3"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.4 }}
+    >
+      <div className="flex items-center gap-2">
+        {logo}
+        <span className="text-white/70 text-[13px] font-medium">{name}</span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        {status === "waiting" && (
+          <span className="text-white/25 text-[12px]">Queued</span>
+        )}
+        {status === "scraping" && (
+          <div className="flex items-center gap-1.5">
+            <div className="flex gap-[3px]">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-1 h-1 rounded-full bg-[#FF553E]"
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.2 }}
+                />
+              ))}
+            </div>
+            <span className="text-[#FF553E] text-[12px]">Scraping…</span>
+          </div>
+        )}
+        {status === "done" && (
+          <motion.div
+            className="flex items-center gap-1.5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ duration: 0.4 }}
+            />
+            <span className="text-emerald-400 text-[12px]">{count} roles found</span>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Done / Thinking screen ─────────────────────────────────────────────────
+function DoneScreen() {
+  const thoughts = [
+    { text: "Reading your answers…", delay: 0.3 },
+    { text: "Remote-first preference detected.", delay: 0.85 },
+    { text: "Filtering for full-time, senior-level roles.", delay: 1.4 },
+    { text: "Excluding agency & contract-only listings.", delay: 1.95 },
+    { text: "Weighting for culture fit over title match.", delay: 2.5 },
+    { text: "Cross-referencing with your portfolio strengths.", delay: 3.1 },
+    { text: "Ranking by alignment score…", delay: 3.7 },
+  ];
+
+  const [liStatus, setLiStatus] = useState<PlatformStatus>("waiting");
+  const [liCount, setLiCount] = useState<number | undefined>();
+  const [indeedStatus, setIndeedStatus] = useState<PlatformStatus>("waiting");
+  const [indeedCount, setIndeedCount] = useState<number | undefined>();
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setLiStatus("scraping"), 1800);
+    const t2 = setTimeout(() => { setLiStatus("done"); setLiCount(214); }, 4200);
+    const t3 = setTimeout(() => setIndeedStatus("scraping"), 3000);
+    const t4 = setTimeout(() => { setIndeedStatus("done"); setIndeedCount(178); }, 5400);
+    return () => [t1, t2, t3, t4].forEach(clearTimeout);
+  }, []);
+
+  return (
+    <motion.div
+      className="fixed inset-0 flex flex-col items-center justify-center bg-[#0E0D0C] px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.5 }}
     >
+      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[350px] rounded-full bg-[#FF553E]/10 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-[#FF553E]/7 blur-[130px]" />
       </div>
-      <motion.div
-        initial={{ scale: 0.85, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-        className="relative z-10 space-y-4"
-      >
-        <div className="text-[44px]">✦</div>
-        <h2 className="text-white text-[24px] font-semibold">Got it. We're on it.</h2>
-        <p className="text-white/40 text-[15px] max-w-sm">
-          We'll surface roles that actually match what you're looking for.
-        </p>
-      </motion.div>
+
+      <div className="relative z-10 w-full max-w-md flex flex-col gap-5">
+        {/* Header */}
+        <motion.div
+          className="flex items-center gap-3"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="flex gap-[5px] items-center">
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                className="w-1.5 h-1.5 rounded-full bg-[#FF553E]"
+                animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.2, 0.9] }}
+                transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.25 }}
+              />
+            ))}
+          </div>
+          <h2 className="text-white text-[17px] font-semibold tracking-tight">
+            Got it. We're on it.
+          </h2>
+        </motion.div>
+
+        {/* Thinking panel */}
+        <motion.div
+          className="border border-white/8 rounded-2xl overflow-hidden bg-white/2"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.4 }}
+        >
+          {/* Panel header */}
+          <button
+            onClick={() => setIsExpanded((v) => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 border-b border-white/6 hover:bg-white/3 transition-colors"
+            data-testid="button-thinking-toggle"
+          >
+            <div className="flex items-center gap-2">
+              <motion.div
+                className="w-1.5 h-1.5 rounded-full bg-amber-400"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1.4, repeat: Infinity }}
+              />
+              <span className="text-white/50 text-[12px] font-medium tracking-wide uppercase">
+                Thinking
+              </span>
+            </div>
+            <motion.div
+              animate={{ rotate: isExpanded ? 0 : -90 }}
+              transition={{ duration: 0.25 }}
+              className="text-white/20"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.div>
+          </button>
+
+          {/* Thought stream */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                className="px-4 py-3 flex flex-col gap-2"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {thoughts.map((t, i) => (
+                  <ThoughtLine
+                    key={i}
+                    text={t.text}
+                    delay={t.delay}
+                    dim={i < thoughts.length - 2}
+                  />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Platform cards */}
+        <motion.div
+          className="flex gap-3"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+        >
+          <PlatformCard
+            logo={<LinkedInLogo size={22} />}
+            name="LinkedIn"
+            status={liStatus}
+            count={liCount}
+            delay={0.4}
+          />
+          <PlatformCard
+            logo={<IndeedLogo size={22} />}
+            name="Indeed"
+            status={indeedStatus}
+            count={indeedCount}
+            delay={0.55}
+          />
+        </motion.div>
+
+        {/* Sub-label */}
+        <motion.p
+          className="text-white/25 text-[12px] text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+        >
+          Matching roles to your portfolio and preferences
+        </motion.p>
+      </div>
     </motion.div>
   );
 }
