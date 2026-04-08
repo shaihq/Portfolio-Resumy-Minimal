@@ -470,12 +470,15 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col bg-background"
+      className="fixed inset-0 flex flex-col bg-background pl-[76px]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
+      {/* Left gradient mask — fades content in from the nav edge */}
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-background to-transparent z-10" />
+
       {/* Top bar */}
       <div className="flex-shrink-0 h-11 border-b border-border flex items-center px-4 gap-3">
         <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground flex-1 min-w-0">
