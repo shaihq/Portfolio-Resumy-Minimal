@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { unsafe_createClientWithApiKey, AnamEvent } from "@anam-ai/js-sdk";
 import type { AnamClient, Message } from "@anam-ai/js-sdk";
 
-type Phase = "transition" | "voice" | "type" | "done" | "dashboard";
+type Phase = "transition" | "voice" | "type" | "done" | "aha" | "dashboard";
 
 // ── Data model ─────────────────────────────────────────────────────────────
 interface Job {
@@ -1412,27 +1412,176 @@ function Dashboard() {
   );
 }
 
-// ── Main Jobs page ─────────────────────────────────────────────────────────
+// ── Aha moment modal ────────────────────────────────────────────────────────
+function AhaMomentModal({ onConfirm }: { onConfirm: () => void }) {
+  const [count, setCount] = useState(0);
+  const target = 392;
+
+  useEffect(() => {
+    let frame: number;
+    const start = performance.now();
+    const duration = 1200;
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      setCount(Math.round(ease(progress) * target));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    const delay = setTimeout(() => { frame = requestAnimationFrame(tick); }, 420);
+    return () => { clearTimeout(delay); cancelAnimationFrame(frame); };
+  }, []);
+
+  const prefs = [
+    { label: "Type", value: "Full-time" },
+    { label: "Location", value: "Remote · US" },
+    { label: "Level", value: "Senior" },
+    { label: "Ranked by", value: "Portfolio match" },
+  ];
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center p-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+    >
+      {/* Blurred dark scrim — you see the kanban ghosted behind */}
+      <motion.div
+        className="absolute inset-0 bg-black/55 backdrop-blur-[6px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.45 }}
+      />
+
+      {/* Card */}
+      <motion.div
+        className="relative z-10 w-full max-w-[420px] bg-[#F5F2ED] rounded-[28px] shadow-[0_32px_80px_rgba(0,0,0,0.28)] overflow-hidden"
+        initial={{ scale: 0.88, y: 24, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.94, y: 12, opacity: 0 }}
+        transition={{ delay: 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Top glow band */}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-emerald-400/[0.13] to-transparent pointer-events-none" />
+
+        {/* Icon */}
+        <div className="flex justify-center pt-9 pb-5">
+          <motion.div
+            className="relative"
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.22, duration: 0.5, type: "spring", bounce: 0.45 }}
+          >
+            <div className="w-[60px] h-[60px] rounded-[18px] bg-emerald-500/[0.12] border border-emerald-500/[0.18] flex items-center justify-center">
+              <Sparkles className="w-7 h-7 fill-emerald-500 text-emerald-500" />
+            </div>
+            <motion.div
+              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.55, duration: 0.35, type: "spring", bounce: 0.6 }}
+            >
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Hero text */}
+        <motion.div
+          className="text-center px-8 pb-6"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+        >
+          <h2 className="text-[26px] font-bold text-foreground leading-tight tracking-tight">
+            We found{" "}
+            <motion.span
+              className="text-emerald-600"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.2 }}
+            >
+              {count.toLocaleString()}
+            </motion.span>{" "}
+            roles<br />that actually fit you.
+          </h2>
+          <p className="text-[13px] text-foreground/45 mt-2 leading-relaxed">
+            Each one ranked by how well it matches your background.
+          </p>
+        </motion.div>
+
+        {/* Preferences summary */}
+        <motion.div
+          className="mx-5 mb-5 rounded-2xl border border-black/[0.07] bg-white/70 overflow-hidden"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.42, duration: 0.4 }}
+        >
+          <div className="px-4 py-2.5 border-b border-black/[0.05]">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-foreground/30">Filtered for you</span>
+          </div>
+          {prefs.map((p, i) => (
+            <div key={p.label} className={`flex items-center justify-between px-4 py-2.5 ${i < prefs.length - 1 ? "border-b border-black/[0.04]" : ""}`}>
+              <span className="text-[13px] text-foreground/45">{p.label}</span>
+              <span className="text-[13px] font-medium text-foreground/80">{p.value}</span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          className="px-5 pb-7"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.56, duration: 0.4 }}
+        >
+          <motion.button
+            onClick={onConfirm}
+            className="w-full h-[50px] rounded-full bg-[#1A1A1A] text-white text-[15px] font-semibold hover:bg-black transition-colors flex items-center justify-center gap-2 shadow-lg shadow-black/20"
+            whileTap={{ scale: 0.97 }}
+          >
+            Confirm & See Jobs
+            <ArrowRight className="w-4 h-4" />
+          </motion.button>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Jobs() {
   const [phase, setPhase] = useState<Phase>("transition");
 
   return (
-    <AnimatePresence mode="wait">
-      {phase === "transition" && (
-        <TransitionScreen key="transition" onVoice={() => setPhase("voice")} onType={() => setPhase("type")} />
-      )}
-      {phase === "voice" && (
-        <VoiceRoom key="voice" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
-      )}
-      {phase === "type" && (
-        <TypeRoom key="type" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
-      )}
-      {phase === "done" && (
-        <ThinkingScreen key="done" onComplete={() => setPhase("dashboard")} />
-      )}
-      {phase === "dashboard" && (
-        <Dashboard key="dashboard" />
-      )}
-    </AnimatePresence>
+    <>
+      <AnimatePresence mode="wait">
+        {phase === "transition" && (
+          <TransitionScreen key="transition" onVoice={() => setPhase("voice")} onType={() => setPhase("type")} />
+        )}
+        {phase === "voice" && (
+          <VoiceRoom key="voice" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
+        )}
+        {phase === "type" && (
+          <TypeRoom key="type" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
+        )}
+        {phase === "done" && (
+          <ThinkingScreen key="done" onComplete={() => setPhase("aha")} />
+        )}
+      </AnimatePresence>
+
+      {/* Dashboard lives behind the aha modal — you see it blurred through the scrim */}
+      {(phase === "aha" || phase === "dashboard") && <Dashboard />}
+
+      {/* Aha moment overlay */}
+      <AnimatePresence>
+        {phase === "aha" && (
+          <AhaMomentModal onConfirm={() => setPhase("dashboard")} />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
