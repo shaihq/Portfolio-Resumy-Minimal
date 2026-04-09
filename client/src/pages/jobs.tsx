@@ -5,6 +5,7 @@ import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Boo
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { MatchGlowCard } from "@/components/ui/glowing-card";
+import { ColorOrb } from "@/components/ui/color-orb";
 import profileImg from "@/assets/images/profile.png";
 import {
   Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
@@ -1109,7 +1110,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
           onClick={(e) => { e.stopPropagation(); onAskScout(); }}
           className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/70 bg-black/[0.04] hover:bg-black/[0.08] rounded-full px-3 py-1.5 transition-colors"
         >
-          <Sparkles className="w-3 h-3" />
+          <ColorOrb dimension="14px" spinDuration={8} />
           Ask Scout
         </button>
       )}
