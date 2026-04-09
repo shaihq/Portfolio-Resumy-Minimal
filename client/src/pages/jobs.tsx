@@ -1323,6 +1323,21 @@ function Dashboard() {
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
+  const filterBarRef = useRef<HTMLDivElement>(null);
+
+  // Computed margin-left to visually center the 520px AI Picks column within the content area.
+  // Using explicit px (not "auto") so it can be CSS-transitioned smoothly.
+  const [centerMargin, setCenterMargin] = useState(0);
+  useEffect(() => {
+    const compute = () => {
+      // KanbanBoard has pl-[108px] (108px) + pr-4 (16px); available width = viewport - 124
+      const available = window.innerWidth - 108 - 16;
+      setCenterMargin(Math.max(0, Math.floor((available - 520) / 2)));
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
@@ -1345,34 +1360,44 @@ function Dashboard() {
     });
     if (phase !== "list") return;
 
-    // Phase 1: measure current width and CSS-transition shrink (no squish, pure reflow)
+    // Phase 1: animate width 520→350 AND marginLeft centerMargin→0 simultaneously
     const el = picksRef.current;
+    const filterEl = filterBarRef.current;
+    const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
+    const dur = "0.6s";
+
     if (el) {
       const currentWidth = el.getBoundingClientRect().width;
       el.style.transition = "none";
       el.style.flex = "none";
       el.style.width = `${currentWidth}px`;
+      el.style.marginLeft = `${centerMargin}px`;
       void el.offsetWidth; // force reflow
-      el.style.transition = "width 0.58s cubic-bezier(0.22, 1, 0.36, 1)";
+      el.style.transition = `width ${dur} ${ease}, margin-left ${dur} ${ease}`;
       el.style.width = "350px";
+      el.style.marginLeft = "0px";
+    }
+    if (filterEl) {
+      filterEl.style.transition = "none";
+      filterEl.style.marginLeft = `${centerMargin}px`;
+      void filterEl.offsetWidth;
+      filterEl.style.transition = `margin-left ${dur} ${ease}`;
+      filterEl.style.marginLeft = "0px";
     }
     setPhase("shrinking");
 
-    // Phase 2: shrink done → snap to left (columns still hidden)
+    // Phase 2: animation done → clear imperative styles, snap into flex layout
     setTimeout(() => {
-      if (el) {
-        el.style.transition = "";
-        el.style.width = "";
-        el.style.flex = "";
-      }
+      if (el) { el.style.transition = ""; el.style.width = ""; el.style.flex = ""; el.style.marginLeft = ""; }
+      if (filterEl) { filterEl.style.transition = ""; filterEl.style.marginLeft = ""; }
       setPhase("settled");
-    }, 640);
+    }, 660);
 
-    // Phase 3: after a brief pause, stagger-reveal pipeline columns
+    // Phase 3: brief pause then stagger-reveal pipeline columns
     setTimeout(() => {
       setPhase("split");
-    }, 900);
-  }, [phase]);
+    }, 920);
+  }, [phase, centerMargin]);
 
   return (
     <motion.div
@@ -1384,7 +1409,11 @@ function Dashboard() {
     >
       {/* Top filter bar — centered in list mode, left-aligned in split */}
       <div className="flex flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
-        <div className={`flex items-center gap-2 ${(phase === "list" || phase === "shrinking") ? "w-[520px] mx-auto" : "w-full"}`}>
+        <div
+          ref={filterBarRef}
+          className="flex items-center gap-2"
+          style={{ marginLeft: (phase === "list" || phase === "shrinking") ? centerMargin : 0 }}
+        >
           {/* Prompt pill */}
           <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-1.5 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
             <Avatar className="w-6 h-6 flex-shrink-0 border border-black/10 dark:border-white/10">
@@ -1427,7 +1456,7 @@ function Dashboard() {
               style={{
                 flex: (phase === "split" || phase === "settled") ? "0 0 350px" : "none",
                 width: (phase === "split" || phase === "settled") ? undefined : "520px",
-                margin: (phase === "split" || phase === "settled") ? "0" : "0 auto",
+                marginLeft: (phase === "split" || phase === "settled") ? 0 : centerMargin,
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
