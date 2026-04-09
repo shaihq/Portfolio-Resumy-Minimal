@@ -1377,36 +1377,38 @@ function Dashboard() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Top filter bar — single row */}
-      <div className="flex items-center gap-2 flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
-        {/* Prompt pill — left-anchored with avatar */}
-        <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-1.5 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
-          <Avatar className="w-6 h-6 flex-shrink-0 border border-black/10 dark:border-white/10">
-            <AvatarImage src={profileImg} alt="Profile" />
-            <AvatarFallback className="text-[10px]">MB</AvatarFallback>
-          </Avatar>
-          <span className="truncate">Software engineers · remote-first · senior-level</span>
+      {/* Top filter bar — centered in list mode, left-aligned in split */}
+      <div className="flex flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
+        <div className={`flex items-center gap-2 ${phase === "list" ? "w-[520px] mx-auto" : "w-full"}`}>
+          {/* Prompt pill */}
+          <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-1.5 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
+            <Avatar className="w-6 h-6 flex-shrink-0 border border-black/10 dark:border-white/10">
+              <AvatarImage src={profileImg} alt="Profile" />
+              <AvatarFallback className="text-[10px]">MB</AvatarFallback>
+            </Avatar>
+            <span className="truncate">Software engineers · remote-first · senior-level</span>
+          </div>
+
+          {/* Filters button */}
+          <button
+            data-testid="button-filters"
+            className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5" />
+            Filters
+            <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">4</span>
+          </button>
+
+          {/* Criteria button */}
+          <button
+            data-testid="button-criteria"
+            className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            Criteria
+            <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
+          </button>
         </div>
-
-        {/* Filters button */}
-        <button
-          data-testid="button-filters"
-          className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
-        >
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-          Filters
-          <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">4</span>
-        </button>
-
-        {/* Criteria button */}
-        <button
-          data-testid="button-criteria"
-          className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          Criteria
-          <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
-        </button>
       </div>
 
       {/* Single always-mounted kanban board — AI Picks stays, others reveal */}
@@ -1414,12 +1416,13 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
-            {/* AI Picks — constrained width in list mode, shrinks to 350px on shortlist */}
+            {/* AI Picks — centered at 520px in list mode, shrinks & snaps left on shortlist */}
             <div
               ref={picksRef}
               style={{
                 flex: phase === "split" ? "0 0 350px" : "none",
                 width: phase === "split" ? undefined : "520px",
+                margin: phase === "split" ? "0" : "0 auto",
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
