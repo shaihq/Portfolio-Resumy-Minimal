@@ -938,7 +938,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
           <button
             data-testid={`button-shortlist-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/55 bg-black/[0.04] hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400 rounded-md px-2 py-2 transition-colors"
+            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] dark:hover:bg-white/[0.08] rounded-md px-2 py-2 transition-colors"
           >
             <Bookmark className="w-3.5 h-3.5" />
             Shortlist
