@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { MatchGlowCard } from "@/components/ui/glowing-card";
@@ -831,6 +831,52 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                 <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.yearsExp}</span>
               </div>
 
+              {/* AI Agent */}
+              <div className="pt-1">
+                <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.07] overflow-hidden bg-gradient-to-b from-black/[0.02] to-transparent dark:from-white/[0.03] dark:to-transparent">
+                  {/* Header */}
+                  <div className="flex items-center gap-2 px-4 pt-3.5 pb-3">
+                    <div className="w-5 h-5 rounded-md bg-foreground/[0.08] flex items-center justify-center">
+                      <Sparkles className="w-3 h-3 fill-foreground/50 text-foreground/50" />
+                    </div>
+                    <span className="text-[12px] font-semibold text-foreground/65 tracking-tight">AI Agent</span>
+                    <span className="ml-auto text-[10px] font-medium text-foreground/30 bg-foreground/[0.05] rounded-full px-2 py-0.5">3 actions</span>
+                  </div>
+
+                  {/* Featured action */}
+                  <div className="h-px bg-black/[0.05] dark:bg-white/[0.05]" />
+                  <button className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors group text-left">
+                    <div className="w-9 h-9 rounded-xl bg-foreground/[0.08] group-hover:bg-foreground/[0.11] transition-colors flex items-center justify-center flex-shrink-0">
+                      <FileText className="w-4 h-4 text-foreground/55" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[13px] font-semibold text-foreground/80 leading-none">Customize Your Resume</div>
+                      <div className="text-[11px] text-foreground/40 mt-1 leading-snug">AI rewrites your CV to match this role's exact requirements</div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                  </button>
+
+                  {/* Two secondary actions */}
+                  <div className="h-px bg-black/[0.05] dark:bg-white/[0.05]" />
+                  <div className="grid grid-cols-2 divide-x divide-black/[0.05] dark:divide-white/[0.05]">
+                    <button className="flex items-start gap-2.5 px-4 py-3.5 hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors group text-left">
+                      <PenLine className="w-3.5 h-3.5 text-foreground/35 flex-shrink-0 mt-0.5 group-hover:text-foreground/55 transition-colors" />
+                      <div>
+                        <div className="text-[12px] font-semibold text-foreground/70 leading-none">Cover Letter</div>
+                        <div className="text-[10px] text-foreground/35 mt-1 leading-snug">Drafted in seconds</div>
+                      </div>
+                    </button>
+                    <button className="flex items-start gap-2.5 px-4 py-3.5 hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors group text-left">
+                      <ThumbsUp className="w-3.5 h-3.5 text-foreground/35 flex-shrink-0 mt-0.5 group-hover:text-foreground/55 transition-colors" />
+                      <div>
+                        <div className="text-[12px] font-semibold text-foreground/70 leading-none">Fit Analysis</div>
+                        <div className="text-[10px] text-foreground/35 mt-1 leading-snug">Strengths & gaps</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {/* Connections — full-width, no card stacking */}
               <div className="pt-1">
                 {/* Section label + tip */}
@@ -897,7 +943,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
           </div>
 
           {/* Requirements */}
-          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+          <div className="px-5 py-5 pb-8">
             <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
             <ul className="space-y-2.5">
               {displayJob.requirements.map((req, i) => (
@@ -907,50 +953,6 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* AI Tools */}
-          <div className="px-5 py-5 pb-8">
-            <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-4">AI Tools</h3>
-            <div>
-              {[
-                {
-                  icon: <Sparkles className="w-4 h-4 fill-foreground/60 text-foreground/60" />,
-                  iconBg: "bg-foreground/[0.07]",
-                  label: "Customize Your Resume",
-                  desc: "Tailor it to this role for a stronger match",
-                  featured: true,
-                },
-                {
-                  icon: <FileText className="w-4 h-4 text-foreground/50" />,
-                  iconBg: "bg-foreground/[0.04]",
-                  label: "Build Cover Letter",
-                  desc: "Make your application stand out",
-                  featured: false,
-                },
-                {
-                  icon: <ThumbsUp className="w-4 h-4 text-foreground/50" />,
-                  iconBg: "bg-foreground/[0.04]",
-                  label: "Analyze Your Fit",
-                  desc: "Understand your strengths & gaps",
-                  featured: false,
-                },
-              ].map((tool, i, arr) => (
-                <div key={tool.label}>
-                  <button className="w-full flex items-center gap-3 py-3 group text-left">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${tool.iconBg} group-hover:bg-foreground/[0.09]`}>
-                      {tool.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[13px] font-semibold text-foreground/80 leading-none mb-0.5">{tool.label}</div>
-                      <div className="text-[11px] text-foreground/40">{tool.desc}</div>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-foreground/25 flex-shrink-0 group-hover:text-foreground/50 transition-colors" />
-                  </button>
-                  {i < arr.length - 1 && <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
