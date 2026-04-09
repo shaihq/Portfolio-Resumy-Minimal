@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -870,10 +870,19 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
       </button>
 
       {/* Row 2: Pills */}
-      <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.type}</span>
-        <span className="text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.workMode}</span>
-        <span className="text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2 py-0.5">{job.yearsExp}</span>
+      <div className="flex items-center gap-1 flex-wrap">
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+          <Briefcase className="w-2.5 h-2.5 flex-shrink-0" />
+          {job.type}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+          <Monitor className="w-2.5 h-2.5 flex-shrink-0" />
+          {job.workMode}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+          <Clock className="w-2.5 h-2.5 flex-shrink-0" />
+          {job.yearsExp}
+        </span>
       </div>
 
       {/* Row 3: Company + gauge */}
