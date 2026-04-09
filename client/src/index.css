@@ -336,12 +336,18 @@ input[type="range"].speed-slider::-moz-range-thumb {
   transition: opacity 0.5s ease;
 }
 
-/* Orb container: subtle scale on hover */
+/* Button stays put — only let the orb overflow freely */
+.orb-activates-on-hover {
+  overflow: visible;
+}
+
+/* Orb scales in place, doesn't affect button layout */
 .orb-activates-on-hover .color-orb {
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 .orb-activates-on-hover:hover .color-orb {
-  transform: scale(1.55);
+  transform: scale(1.6);
 }
 
 /* On hover: color layer fades in, dot grid fades out */
