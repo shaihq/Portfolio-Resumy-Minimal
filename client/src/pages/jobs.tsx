@@ -1270,7 +1270,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
 
   if (isPicks) {
     return (
-      <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#EAE6DF] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
+      <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#EAE6DF] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
         <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
           <span className="text-[13px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
@@ -1285,7 +1285,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   }
 
   return (
-    <KanbanColumn value={colId} className="flex flex-col min-w-[220px] flex-1 rounded-xl bg-[#E8E4DD] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
+    <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#E8E4DD] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
         <span className="text-[13px] font-semibold text-foreground/80">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
@@ -1376,7 +1376,7 @@ function Dashboard() {
           <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
             {/* AI Picks — always visible, fills width until other columns appear */}
-            <div className="flex-1 min-w-[220px] h-full">
+            <div className="flex-1 min-w-[350px] h-full">
               <PipelineCol
                 colId="picks"
                 colIndex={0}
@@ -1395,7 +1395,7 @@ function Dashboard() {
                 className="overflow-hidden flex-shrink-0 h-full"
                 initial={{ maxWidth: 0, opacity: 0 }}
                 animate={{
-                  maxWidth: viewMode === "split" ? 248 : 0,
+                  maxWidth: viewMode === "split" ? 362 : 0,
                   opacity: viewMode === "split" ? 1 : 0,
                 }}
                 transition={{
@@ -1404,7 +1404,7 @@ function Dashboard() {
                 }}
               >
                 {/* inner div at fixed width so content never squishes */}
-                <div className="w-[220px] ml-3 h-full">
+                <div className="w-[350px] ml-3 h-full">
                   <PipelineCol
                     colId={colId}
                     colIndex={i + 1}
