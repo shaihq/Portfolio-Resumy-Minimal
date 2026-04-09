@@ -1398,7 +1398,7 @@ function Dashboard() {
       {/* Single always-mounted kanban board — AI Picks stays, others reveal */}
       <div className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden">
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
-          <KanbanBoard className="flex h-full pt-4 pr-10 pb-4 pl-[108px]">
+          <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
             {/* AI Picks — full-width in list mode, CSS-reflow-shrinks to 350px before pipeline reveals */}
             <div
@@ -1451,6 +1451,9 @@ function Dashboard() {
                 </div>
               </motion.div>
             ))}
+
+            {/* Trailing spacer — flex right-padding workaround for overflow-x-auto */}
+            <div className="flex-shrink-0 w-10 h-full" />
 
           </KanbanBoard>
 
