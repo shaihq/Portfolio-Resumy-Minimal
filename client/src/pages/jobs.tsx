@@ -858,18 +858,18 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
 
           {/* Description */}
           <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-            <h3 className="text-[12px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
+            <h3 className="text-[11px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
             {displayJob.description.split("\n\n").map((para, i) => (
-              <p key={i} className="text-[14px] text-foreground/80 leading-[1.7] mb-3 last:mb-0">{para}</p>
+              <p key={i} className="text-[13px] text-foreground/75 leading-[1.7] mb-3 last:mb-0">{para}</p>
             ))}
           </div>
 
           {/* Requirements */}
           <div className="px-5 py-5 pb-8">
-            <h3 className="text-[12px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
+            <h3 className="text-[11px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
             <ul className="space-y-2.5">
               {displayJob.requirements.map((req, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-[14px] text-foreground/80 leading-[1.6]">
+                <li key={i} className="flex items-start gap-2.5 text-[13px] text-foreground/75 leading-[1.6]">
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full bg-foreground/25 flex-shrink-0" />
                   {req}
                 </li>
