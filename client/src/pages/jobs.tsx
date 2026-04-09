@@ -830,56 +830,56 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                 <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.yearsExp}</span>
               </div>
 
-              {/* Connections */}
-              <div className="flex items-start gap-3">
-                <div className="flex items-center gap-2 w-[124px] flex-shrink-0 pt-2.5">
-                  <Users className="w-4 h-4 text-foreground/30" />
-                  <span className="text-sm text-foreground/40">Connections</span>
+              {/* Connections — full-width, no card stacking */}
+              <div className="pt-1">
+                {/* Section label + tip */}
+                <div className="flex items-baseline justify-between gap-2 mb-1">
+                  <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">Insider connections</span>
+                  <span className="text-[11px] text-foreground/35">Email gets <span className="font-medium text-foreground/50">3× more replies</span></span>
                 </div>
-                <div className="flex flex-col gap-2 flex-1 min-w-0">
-                  {/* Context header */}
-                  <div className="rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-black/[0.02] dark:bg-white/[0.02] px-3 py-3">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Users className="w-3.5 h-3.5 text-foreground/50 flex-shrink-0" />
-                      <span className="text-[13px] font-semibold text-foreground/80">Insider connections @ {displayJob.company}</span>
-                    </div>
-                    <p className="text-[12px] text-foreground/50 leading-relaxed">
-                      People at {displayJob.company} who can offer insights or a referral.{" "}
-                      <span className="font-medium text-foreground/65">Email gets 3× more replies than LinkedIn.</span>
-                    </p>
-                  </div>
-                  {/* Contact rows */}
-                  {(displayJob.contacts ?? []).map((c) => (
-                    <div key={c.name} className="flex items-center justify-between gap-3 rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-black/[0.02] dark:bg-white/[0.02] px-3 py-2.5">
+                {/* Hairline */}
+                <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-0" />
+                {/* Contact list — separator between items */}
+                {(displayJob.contacts ?? []).map((c, i) => (
+                  <div key={c.name}>
+                    <div className="flex items-center justify-between gap-3 py-3">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-7 h-7 rounded-full bg-foreground/10 flex items-center justify-center text-[10px] font-semibold text-foreground/60 flex-shrink-0 ring-1 ring-black/[0.06] dark:ring-white/[0.08]">
+                        <div className="w-7 h-7 rounded-full bg-foreground/[0.08] flex items-center justify-center text-[10px] font-semibold text-foreground/50 flex-shrink-0">
                           {c.initials}
                         </div>
-                        <span className="text-sm font-medium text-foreground/75 truncate">{c.name}</span>
+                        <div className="min-w-0">
+                          <div className="text-[13px] font-medium text-foreground/80 leading-none">{c.name}</div>
+                          <div className="text-[11px] text-foreground/35 mt-0.5">{displayJob.company}</div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <div className="flex items-center gap-1 flex-shrink-0">
                         <a
                           href={`mailto:${c.name.toLowerCase().replace(" ", ".")}@${displayJob.company.toLowerCase()}.com`}
                           onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-center w-7 h-7 rounded-lg border border-black/[0.08] dark:border-white/[0.08] text-foreground/35 hover:text-foreground/70 hover:border-black/[0.15] dark:hover:border-white/[0.15] hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-all"
+                          className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md text-[11px] font-medium text-foreground/50 hover:text-foreground/80 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all"
                           title={`Email ${c.name}`}
                         >
-                          <Mail className="w-3.5 h-3.5" />
+                          <Mail className="w-3 h-3" />
+                          Email
                         </a>
                         <a
                           href={`https://linkedin.com/in/${c.name.toLowerCase().replace(" ", "-")}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-center w-7 h-7 rounded-lg border border-black/[0.08] dark:border-white/[0.08] text-foreground/35 hover:text-[#0077B5] hover:border-[#0077B5]/30 hover:bg-[#0077B5]/[0.06] transition-all"
+                          className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md text-[11px] font-medium text-foreground/50 hover:text-[#0077B5] hover:bg-[#0077B5]/[0.07] transition-all"
                           title={`${c.name} on LinkedIn`}
                         >
-                          <FaLinkedin className="w-3.5 h-3.5" />
+                          <FaLinkedin className="w-3 h-3" />
+                          LinkedIn
                         </a>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    {i < (displayJob.contacts ?? []).length - 1 && (
+                      <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
 
