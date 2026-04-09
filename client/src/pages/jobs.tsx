@@ -1236,14 +1236,19 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
 }
 
 // ── Pipeline column ────────────────────────────────────────────────────────
-function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onAskScout }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void; onAskScout: (id: string) => void }) {
+function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onAskScout, useLayoutId = false }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void; onAskScout: (id: string) => void; useLayoutId?: boolean }) {
   const isPicks = colId === "picks";
   const isInterview = colId === "interview";
 
   const cardList = (
     <>
       {jobs.map((job) => (
-        <motion.div key={job.id} layout transition={{ layout: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] } }}>
+        <motion.div
+          key={job.id}
+          layoutId={useLayoutId ? `card-${job.id}` : undefined}
+          layout
+          transition={{ layout: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] } }}
+        >
           <KanbanItem value={job.id} className="rounded-lg">
             <KanbanItemHandle className="w-full rounded-lg">
               <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} onOpen={() => onOpenJob(job.id)} onMockInterview={isInterview ? () => onMockInterview(job.id) : undefined} onAskScout={() => onAskScout(job.id)} />
@@ -1299,11 +1304,11 @@ function Dashboard() {
   const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
   const [roomJobId, setRoomJobId] = useState<string | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "split">("list");
+  const [shortlistingId, setShortlistingId] = useState<string | null>(null);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
-  const findColForJob = (id: string) =>
-    Object.entries(columns).find(([, jobs]) => jobs.some((j) => j.id === id))?.[0];
 
   const selectedJob = selectedJobId ? allJobs.find((j) => j.id === selectedJobId) ?? null : null;
   const interviewJob = interviewJobId ? allJobs.find((j) => j.id === interviewJobId) ?? null : null;
@@ -1311,17 +1316,39 @@ function Dashboard() {
   const scoutJob = scoutJobId ? allJobs.find((j) => j.id === scoutJobId) ?? null : null;
 
   const handleShortlist = useCallback((id: string) => {
-    setColumns(prev => {
-      const fromCol = Object.keys(prev).find(col => prev[col].some(j => j.id === id));
-      if (!fromCol) return prev;
-      const job = prev[fromCol].find(j => j.id === id)!;
-      return {
-        ...prev,
-        [fromCol]: prev[fromCol].filter(j => j.id !== id),
-        not_applied: [...prev.not_applied, job],
-      };
-    });
-  }, []);
+    if (viewMode === "list") {
+      // First shortlist: animate card toward right, then morph into kanban
+      setShortlistingId(id);
+      setTimeout(() => {
+        setColumns(prev => {
+          const fromCol = Object.keys(prev).find(col => prev[col].some(j => j.id === id));
+          if (!fromCol) return prev;
+          const job = prev[fromCol].find(j => j.id === id)!;
+          return {
+            ...prev,
+            [fromCol]: prev[fromCol].filter(j => j.id !== id),
+            not_applied: [...prev.not_applied, job],
+          };
+        });
+        setViewMode("split");
+        setShortlistingId(null);
+      }, 380);
+    } else {
+      // Already in split view: directly animate card into shortlisted column
+      setColumns(prev => {
+        const fromCol = Object.keys(prev).find(col => prev[col].some(j => j.id === id));
+        if (!fromCol) return prev;
+        const job = prev[fromCol].find(j => j.id === id)!;
+        return {
+          ...prev,
+          [fromCol]: prev[fromCol].filter(j => j.id !== id),
+          not_applied: [...prev.not_applied, job],
+        };
+      });
+    }
+  }, [viewMode]);
+
+  const KANBAN_COLS = COL_ORDER.filter(c => c !== "picks");
 
   return (
     <motion.div
@@ -1363,33 +1390,102 @@ function Dashboard() {
         </button>
       </div>
 
-      {/* Flat kanban board */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden min-h-0">
-        <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
-          <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
-            {COL_ORDER.map((colId) => (
-              <PipelineCol key={colId} colId={colId} jobs={columns[colId] ?? []} onShortlist={handleShortlist} onOpenJob={setSelectedJobId} onMockInterview={setInterviewJobId} onAskScout={setScoutJobId} />
-            ))}
-          </KanbanBoard>
+      {/* Main content area */}
+      <div className="flex-1 min-h-0 flex overflow-hidden">
 
-          {/* Drag overlay — renders real card clone following the cursor */}
-          <KanbanOverlay>
-            {({ value, variant }) => {
-              if (variant === "item") {
-                const job = findJob(value as string);
-                const colId = findColForJob(value as string);
-                if (job) {
-                  return (
-                    <div className="rounded-lg shadow-xl ring-1 ring-foreground/10 opacity-95 rotate-1 scale-[1.02]">
-                      <JobCard job={job} />
-                    </div>
-                  );
+        {/* ── Left panel: full-width job list ── */}
+        <div
+          className="flex flex-col min-h-0 overflow-y-auto"
+          style={{
+            width: viewMode === "list" ? "100%" : "50%",
+            transition: "width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            paddingLeft: "108px",
+            paddingRight: "16px",
+            paddingTop: "16px",
+            paddingBottom: "16px",
+          }}
+        >
+          <div className="flex flex-col gap-4">
+            {columns.picks.map((job) => (
+              <motion.div
+                key={job.id}
+                layoutId={`card-${job.id}`}
+                animate={
+                  shortlistingId === job.id
+                    ? { scale: 0.98, x: 48, boxShadow: "0 16px 48px rgba(0,0,0,0.20)" }
+                    : { scale: 1, x: 0, boxShadow: "0 0px 0px rgba(0,0,0,0)" }
                 }
-              }
-              return <div className="rounded-xl bg-muted/60 border border-border w-full h-full" />;
-            }}
-          </KanbanOverlay>
-        </Kanban>
+                transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="rounded-lg"
+              >
+                <JobCard
+                  job={job}
+                  onShortlist={() => handleShortlist(job.id)}
+                  onOpen={() => setSelectedJobId(job.id)}
+                  onAskScout={() => setScoutJobId(job.id)}
+                />
+              </motion.div>
+            ))}
+            {columns.picks.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-center py-16"
+              >
+                <p className="text-[13px] text-muted-foreground/40">All roles reviewed</p>
+              </motion.div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Right panel: kanban — slides in from right ── */}
+        <AnimatePresence>
+          {viewMode === "split" && (
+            <motion.div
+              key="kanban-panel"
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="flex-shrink-0 min-h-0 overflow-x-auto overflow-y-hidden border-l border-black/[0.06] dark:border-border"
+              style={{ width: "50%" }}
+            >
+              <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
+                <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-4 min-w-max">
+                  {KANBAN_COLS.map((colId) => (
+                    <PipelineCol
+                      key={colId}
+                      colId={colId}
+                      jobs={columns[colId] ?? []}
+                      onShortlist={handleShortlist}
+                      onOpenJob={setSelectedJobId}
+                      onMockInterview={setInterviewJobId}
+                      onAskScout={setScoutJobId}
+                      useLayoutId
+                    />
+                  ))}
+                </KanbanBoard>
+
+                {/* Drag overlay */}
+                <KanbanOverlay>
+                  {({ value, variant }) => {
+                    if (variant === "item") {
+                      const job = findJob(value as string);
+                      if (job) {
+                        return (
+                          <div className="rounded-lg shadow-xl ring-1 ring-foreground/10 opacity-95 rotate-1 scale-[1.02]">
+                            <JobCard job={job} />
+                          </div>
+                        );
+                      }
+                    }
+                    return <div className="rounded-xl bg-muted/60 border border-border w-full h-full" />;
+                  }}
+                </KanbanOverlay>
+              </Kanban>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <JobDetailSheet job={selectedJob} open={!!selectedJobId} onClose={() => setSelectedJobId(null)} />
