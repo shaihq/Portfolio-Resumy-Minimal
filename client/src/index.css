@@ -324,20 +324,33 @@ input[type="range"].speed-slider::-moz-range-thumb {
   animation: orb-spin var(--orb-spin-duration) linear infinite;
   animation-play-state: paused;
   opacity: 0;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.5s ease;
 }
 
-/* Dot grid overlay — always visible, gives the static "textured" look */
+/* Dot grid — visible at rest, fades out on hover */
 .color-orb::after {
-  background-image: radial-gradient(circle at center, oklch(55% 0.01 80 / 0.5) 1px, transparent 1px);
+  background-image: radial-gradient(circle at center, oklch(48% 0.01 80 / 0.45) 1px, transparent 1px);
   background-size: 3px 3px;
   mix-blend-mode: normal;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
 
-/* On hover of any ancestor marked with .orb-activates-on-hover */
+/* Orb container: subtle scale on hover */
+.orb-activates-on-hover .color-orb {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.orb-activates-on-hover:hover .color-orb {
+  transform: scale(1.25);
+}
+
+/* On hover: color layer fades in, dot grid fades out */
 .orb-activates-on-hover:hover .color-orb::before {
   animation-play-state: running;
   opacity: 1;
+}
+.orb-activates-on-hover:hover .color-orb::after {
+  opacity: 0;
 }
 
 @keyframes orb-spin {
