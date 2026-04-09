@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -32,6 +32,8 @@ interface Job {
   location: string;
   description: string;
   requirements: string[];
+  postedDate: string;
+  contacts: { name: string; initials: string }[];
 }
 
 const BASE_JOBS: Job[] = [
@@ -40,36 +42,42 @@ const BASE_JOBS: Job[] = [
     logoColor: "#5E6AD2", logoLetter: "L", source: "linkedin", type: "Full-Time", workMode: "Remote", yearsExp: "5+ yrs", location: "San Francisco, CA",
     description: "We're looking for a Senior Product Designer to help shape the future of software project management. At Linear, design is a core part of how we build — you'll work directly with engineers and product leads to craft experiences that millions of developers and teams rely on daily.\n\nYou'll own end-to-end design for key product areas, from early exploration to final polish. We care deeply about craft, clarity, and shipping work that actually moves the needle.",
     requirements: ["5+ years of product design experience at a B2B or developer-focused company", "Strong systems thinking — you've built or significantly contributed to a design system", "Fluency in interaction design, information architecture, and visual polish", "Comfortable working directly with engineers and reviewing implementation", "A portfolio that shows both breadth of thinking and depth of execution"],
+    postedDate: "3 days ago", contacts: [{ name: "Sarah Chen", initials: "SC" }, { name: "Alex Park", initials: "AP" }],
   },
   {
     id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async",
     logoColor: "#171717", logoLetter: "V", source: "linkedin", type: "Full-Time", workMode: "Remote", yearsExp: "3+ yrs", location: "New York, NY",
     description: "Vercel is where the world's best frontend teams deploy their work. As a Product Designer, you'll sit at the intersection of developer tooling and consumer-grade UX — helping make complex infrastructure feel simple and powerful at once.\n\nYou'll collaborate with engineering and product management to define, design, and ship features across our dashboard, CLI, and onboarding flows. We move fast, write clearly, and care about the details.",
     requirements: ["3+ years designing developer tools, SaaS dashboards, or technical products", "Experience translating complex technical concepts into clear, intuitive UI", "Solid grasp of frontend fundamentals — HTML, CSS, component thinking", "Async-first work style with strong written communication", "Figma proficiency and experience collaborating closely with eng"],
+    postedDate: "1 week ago", contacts: [{ name: "James Wu", initials: "JW" }, { name: "Priya Nair", initials: "PN" }],
   },
   {
     id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap",
     logoColor: "#191919", logoLetter: "N", source: "indeed", type: "Full-Time", workMode: "Hybrid", yearsExp: "4+ yrs", location: "San Francisco, CA",
     description: "Notion's mission is to make it possible for everyone to shape the tools that shape their work. As a Product Designer, you'll help design the blocks, templates, and collaborative surfaces that millions of knowledge workers use every day.\n\nYou'll partner with cross-functional teams across our core editor, AI features, and enterprise product lines. The role is highly collaborative — we work in small teams and ship continuously.",
     requirements: ["4+ years of product design with a focus on consumer or prosumer software", "Strong portfolio demonstrating a mastery of interaction and visual design", "Experience designing for complex, state-heavy UI (editors, databases, or similar)", "Collaborative mindset — you run great critique and give useful feedback", "Bonus: experience designing AI-powered features or workflows"],
+    postedDate: "2 weeks ago", contacts: [{ name: "Tom Baker", initials: "TB" }, { name: "Elena Costa", initials: "EC" }],
   },
   {
     id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact",
     logoColor: "#F24E1E", logoLetter: "F", source: "linkedin", type: "Full-Time", workMode: "On-site", yearsExp: "3+ yrs", location: "San Francisco, CA",
     description: "At Figma, we build the tools that designers use to build everything else. As a UX Designer, you'll work on the core product — including the canvas, multiplayer features, plugins, and components — alongside some of the sharpest design minds in the industry.\n\nThis is a role for someone who loves thinking about interaction models at a deep level and can articulate design decisions clearly across a large, cross-functional org.",
     requirements: ["3+ years of UX design experience with a strong portfolio", "Deep experience with complex, interaction-heavy applications", "Comfortable with design systems, component libraries, and design tokens", "Strong visual design sensibility and attention to typographic detail", "Ability to present work clearly and incorporate feedback constructively"],
+    postedDate: "5 days ago", contacts: [{ name: "Chris Moon", initials: "CM" }, { name: "Dana Fox", initials: "DF" }],
   },
   {
     id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product",
     logoColor: "#625DF5", logoLetter: "L", source: "indeed", type: "Full-Time", workMode: "Remote", yearsExp: "5+ yrs", location: "Austin, TX",
     description: "Loom helps teams communicate more clearly through video. As a Senior UX Designer, you'll own the experience across our record, watch, and share flows — making async video feel as effortless as sending a message.\n\nYou'll work in a nimble team, move quickly, and have real influence over product direction. We're growing fast and this role will shape how millions of remote workers communicate.",
     requirements: ["5+ years of UX design experience, ideally at a startup or high-growth company", "Experience with video, media, or communication products is a strong plus", "Able to run your own research — user interviews, usability tests, synthesis", "Strong visual design chops — you don't hand off wireframes, you ship polished work", "Remote-first mindset, comfortable with async collaboration across time zones"],
+    postedDate: "1 week ago", contacts: [{ name: "Ryan Patel", initials: "RP" }],
   },
   {
     id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand",
     logoColor: "#6772E5", logoLetter: "S", source: "linkedin", type: "Full-Time", workMode: "Hybrid", yearsExp: "4+ yrs", location: "Seattle, WA",
     description: "Stripe builds the economic infrastructure of the internet. As a Product Designer, you'll design mission-critical surfaces used by millions of businesses to accept payments, manage revenue, and run their finances.\n\nOur design bar is exceptionally high. You'll be expected to think in systems, write clearly, and obsess over the small details that make complex workflows feel manageable for a global developer audience.",
     requirements: ["4+ years of product design experience, ideally in fintech or developer tools", "Proven ability to design complex, multi-step workflows with clarity and precision", "Experience working with and contributing to large-scale design systems", "Strong written communication — Stripe is a writing-first culture", "Ability to navigate a large, collaborative org while maintaining design quality"],
+    postedDate: "3 weeks ago", contacts: [{ name: "Marcus Webb", initials: "MW" }, { name: "Anya Singh", initials: "AS" }],
   },
 ];
 
@@ -783,14 +791,59 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
               </div>
             </div>
 
-            {/* Pills */}
-            <div className="flex items-center gap-2 mt-4 flex-wrap">
-              <span className="flex items-center gap-1.5 text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2.5 py-1">
-                <Briefcase className="w-3 h-3" />{displayJob.type}
-              </span>
-              <span className="flex items-center gap-1.5 text-[12px] font-medium text-foreground/60 bg-black/[0.05] rounded-md px-2.5 py-1">
-                <Building2 className="w-3 h-3" />{displayJob.workMode}
-              </span>
+            {/* Property rows */}
+            <div className="mt-5 space-y-3.5">
+              {/* Posted */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
+                  <Calendar className="w-3.5 h-3.5 text-foreground/30" />
+                  <span className="text-[12px] text-foreground/40">Posted</span>
+                </div>
+                <span className="text-[13px] text-foreground/70">{displayJob.postedDate}</span>
+              </div>
+
+              {/* Type */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
+                  <Briefcase className="w-3.5 h-3.5 text-foreground/30" />
+                  <span className="text-[12px] text-foreground/40">Type</span>
+                </div>
+                <span className="inline-flex items-center text-[12px] font-medium text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">{displayJob.type}</span>
+              </div>
+
+              {/* Work mode */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
+                  <Monitor className="w-3.5 h-3.5 text-foreground/30" />
+                  <span className="text-[12px] text-foreground/40">Work mode</span>
+                </div>
+                <span className="inline-flex items-center text-[12px] font-medium text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">{displayJob.workMode}</span>
+              </div>
+
+              {/* Experience */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
+                  <Clock className="w-3.5 h-3.5 text-foreground/30" />
+                  <span className="text-[12px] text-foreground/40">Experience</span>
+                </div>
+                <span className="inline-flex items-center text-[12px] font-medium text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">{displayJob.yearsExp}</span>
+              </div>
+
+              {/* Connections */}
+              <div className="flex items-start gap-3">
+                <div className="flex items-center gap-2 w-[116px] flex-shrink-0 pt-0.5">
+                  <Users className="w-3.5 h-3.5 text-foreground/30" />
+                  <span className="text-[12px] text-foreground/40">Connections</span>
+                </div>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {(displayJob.contacts ?? []).map((c) => (
+                    <span key={c.name} className="inline-flex items-center gap-1.5 text-[12px] text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">
+                      <span className="w-4 h-4 rounded-full bg-foreground/10 flex items-center justify-center text-[9px] font-semibold text-foreground/50 flex-shrink-0">{c.initials}</span>
+                      {c.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* AI reason */}
