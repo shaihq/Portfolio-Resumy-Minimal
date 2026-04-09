@@ -341,7 +341,7 @@ input[type="range"].speed-slider::-moz-range-thumb {
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .orb-activates-on-hover:hover .color-orb {
-  transform: scale(1.25);
+  transform: scale(1.55);
 }
 
 /* On hover: color layer fades in, dot grid fades out */

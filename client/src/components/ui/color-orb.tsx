@@ -19,10 +19,10 @@ export function ColorOrb({
   spinDuration = 12,
 }: OrbProps) {
   const palette = {
-    base: "oklch(92% 0.015 80)",
-    accent1: "oklch(45% 0.18 320)",
-    accent2: "oklch(58% 0.22 30)",
-    accent3: "oklch(72% 0.2 75)",
+    base: "oklch(94% 0.01 80)",
+    accent1: "oklch(62% 0.28 318)",
+    accent2: "oklch(66% 0.27 22)",
+    accent3: "oklch(82% 0.22 72)",
     ...tones,
   };
 
