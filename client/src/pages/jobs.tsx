@@ -1247,7 +1247,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
           key={job.id}
           layoutId={useLayoutId ? `card-${job.id}` : undefined}
           layout
-          transition={{ layout: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] } }}
+          transition={{ layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
         >
           <KanbanItem value={job.id} className="rounded-lg">
             <KanbanItemHandle className="w-full rounded-lg">
@@ -1388,18 +1388,19 @@ function Dashboard() {
         </button>
       </div>
 
-      {/* Main content area */}
+      {/* Main content area — single AnimatePresence so layoutId morphs between views */}
       <div className="flex-1 min-h-0 overflow-hidden relative">
+        <AnimatePresence mode="popLayout">
 
-        {/* ── List view: full-width stacked cards ── */}
-        <AnimatePresence>
+          {/* ── List view ── */}
           {viewMode === "list" && (
             <motion.div
               key="list-view"
               className="absolute inset-0 overflow-y-auto"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
               style={{ paddingLeft: "108px", paddingRight: "16px", paddingTop: "16px", paddingBottom: "16px" }}
             >
               <div className="flex flex-col gap-4">
@@ -1407,12 +1408,13 @@ function Dashboard() {
                   <motion.div
                     key={job.id}
                     layoutId={`card-${job.id}`}
+                    layout
                     animate={
                       shortlistingId === job.id
                         ? { scale: 0.98, x: 48, boxShadow: "0 16px 48px rgba(0,0,0,0.20)" }
                         : { scale: 1, x: 0, boxShadow: "0 0px 0px rgba(0,0,0,0)" }
                     }
-                    transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94], layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
                     className="rounded-lg"
                   >
                     <JobCard
@@ -1426,18 +1428,16 @@ function Dashboard() {
               </div>
             </motion.div>
           )}
-        </AnimatePresence>
 
-        {/* ── Kanban view: exact same board as before, slides in from right ── */}
-        <AnimatePresence>
+          {/* ── Kanban view — cards morph from list positions via layoutId ── */}
           {viewMode === "split" && (
             <motion.div
               key="kanban-view"
               className="absolute inset-0 overflow-x-auto overflow-y-hidden"
-              initial={{ x: "100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
             >
               <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
                 <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-[108px] min-w-max">
@@ -1450,7 +1450,7 @@ function Dashboard() {
                       onOpenJob={setSelectedJobId}
                       onMockInterview={setInterviewJobId}
                       onAskScout={setScoutJobId}
-                      useLayoutId={colId === "not_applied"}
+                      useLayoutId
                     />
                   ))}
                 </KanbanBoard>
@@ -1473,6 +1473,7 @@ function Dashboard() {
               </Kanban>
             </motion.div>
           )}
+
         </AnimatePresence>
       </div>
 
