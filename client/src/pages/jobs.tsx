@@ -752,7 +752,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
       >
         {/* Header */}
         <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
-          <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0 truncate pr-10">{displayJob.role}</SheetTitle>
+          <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-base font-semibold m-0 truncate pr-10">{displayJob.role}</SheetTitle>
         </SheetHeader>
 
         {/* Scrollable body */}
@@ -762,14 +762,14 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-[13px] font-bold"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-sm font-bold"
                   style={{ backgroundColor: displayJob.logoColor }}
                 >
                   {displayJob.logoLetter}
                 </div>
                 <div>
-                  <div className="text-[15px] font-semibold text-foreground">{displayJob.company}</div>
-                  <div className="flex items-center gap-1 mt-0.5 text-[13px] text-foreground/50">
+                  <div className="text-base font-semibold text-foreground">{displayJob.company}</div>
+                  <div className="flex items-center gap-1 mt-0.5 text-sm text-foreground/50">
                     <MapPin className="w-3.5 h-3.5" />
                     {displayJob.location}
                   </div>
@@ -787,7 +787,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                   showPercentage={false}
                   className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
                 />
-                <span className="text-[11px] text-foreground/40 mt-0.5">match</span>
+                <span className="text-sm text-foreground/40 mt-0.5">match</span>
               </div>
             </div>
 
@@ -795,49 +795,49 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
             <div className="mt-5 space-y-3.5">
               {/* Posted */}
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
-                  <Calendar className="w-3.5 h-3.5 text-foreground/30" />
-                  <span className="text-[12px] text-foreground/40">Posted</span>
+                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                  <Calendar className="w-4 h-4 text-foreground/30" />
+                  <span className="text-sm text-foreground/40">Posted</span>
                 </div>
-                <span className="text-[13px] text-foreground/70">{displayJob.postedDate}</span>
+                <span className="text-sm text-foreground/70">{displayJob.postedDate}</span>
               </div>
 
               {/* Type */}
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
-                  <Briefcase className="w-3.5 h-3.5 text-foreground/30" />
-                  <span className="text-[12px] text-foreground/40">Type</span>
+                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                  <Briefcase className="w-4 h-4 text-foreground/30" />
+                  <span className="text-sm text-foreground/40">Type</span>
                 </div>
-                <span className="inline-flex items-center text-[12px] font-medium text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">{displayJob.type}</span>
+                <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.type}</span>
               </div>
 
               {/* Work mode */}
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
-                  <Monitor className="w-3.5 h-3.5 text-foreground/30" />
-                  <span className="text-[12px] text-foreground/40">Work mode</span>
+                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                  <Monitor className="w-4 h-4 text-foreground/30" />
+                  <span className="text-sm text-foreground/40">Work mode</span>
                 </div>
-                <span className="inline-flex items-center text-[12px] font-medium text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">{displayJob.workMode}</span>
+                <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.workMode}</span>
               </div>
 
               {/* Experience */}
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[116px] flex-shrink-0">
-                  <Clock className="w-3.5 h-3.5 text-foreground/30" />
-                  <span className="text-[12px] text-foreground/40">Experience</span>
+                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                  <Clock className="w-4 h-4 text-foreground/30" />
+                  <span className="text-sm text-foreground/40">Experience</span>
                 </div>
-                <span className="inline-flex items-center text-[12px] font-medium text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">{displayJob.yearsExp}</span>
+                <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.yearsExp}</span>
               </div>
 
               {/* Connections */}
               <div className="flex items-start gap-3">
-                <div className="flex items-center gap-2 w-[116px] flex-shrink-0 pt-0.5">
-                  <Users className="w-3.5 h-3.5 text-foreground/30" />
-                  <span className="text-[12px] text-foreground/40">Connections</span>
+                <div className="flex items-center gap-2 w-[124px] flex-shrink-0 pt-0.5">
+                  <Users className="w-4 h-4 text-foreground/30" />
+                  <span className="text-sm text-foreground/40">Connections</span>
                 </div>
                 <div className="flex items-center gap-1.5 flex-wrap">
                   {(displayJob.contacts ?? []).map((c) => (
-                    <span key={c.name} className="inline-flex items-center gap-1.5 text-[12px] text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2 py-0.5">
+                    <span key={c.name} className="inline-flex items-center gap-1.5 text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">
                       <span className="w-4 h-4 rounded-full bg-foreground/10 flex items-center justify-center text-[9px] font-semibold text-foreground/50 flex-shrink-0">{c.initials}</span>
                       {c.name}
                     </span>
@@ -849,27 +849,27 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
             {/* AI reason */}
             <div className="mt-4 px-3 py-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-100 dark:border-emerald-800/40">
               <div className="flex items-center gap-1.5 mb-1">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Why it's a match</span>
+                <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Why it's a match</span>
               </div>
-              <p className="text-[13px] text-emerald-800 dark:text-emerald-300 leading-relaxed">{displayJob.reason}</p>
+              <p className="text-sm text-emerald-800 dark:text-emerald-300 leading-relaxed">{displayJob.reason}</p>
             </div>
           </div>
 
           {/* Description */}
           <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-            <h3 className="text-[11px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
+            <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
             {displayJob.description.split("\n\n").map((para, i) => (
-              <p key={i} className="text-[13px] text-foreground/75 leading-[1.7] mb-3 last:mb-0">{para}</p>
+              <p key={i} className="text-sm text-foreground/75 leading-[1.7] mb-3 last:mb-0">{para}</p>
             ))}
           </div>
 
           {/* Requirements */}
           <div className="px-5 py-5 pb-8">
-            <h3 className="text-[11px] font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
+            <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
             <ul className="space-y-2.5">
               {displayJob.requirements.map((req, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-[13px] text-foreground/75 leading-[1.6]">
+                <li key={i} className="flex items-start gap-2.5 text-sm text-foreground/75 leading-[1.6]">
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full bg-foreground/25 flex-shrink-0" />
                   {req}
                 </li>
@@ -882,7 +882,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
         <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex-shrink-0">
           <button
             data-testid={`button-apply-${displayJob.id}`}
-            className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[14px] font-medium hover:opacity-80 transition-opacity"
+            className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-sm font-medium hover:opacity-80 transition-opacity"
           >
             Apply on {displayJob.source === "linkedin" ? "LinkedIn" : "Indeed"}
             <ExternalLink className="w-3.5 h-3.5" />
