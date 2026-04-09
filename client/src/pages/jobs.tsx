@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, StopCircle, CheckCheck } from "lucide-react";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -912,33 +912,35 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
             <button
               data-testid={`button-dismiss-${job.id}`}
               onClick={(e) => { e.stopPropagation(); setDismissOpen(v => !v); }}
-              className="flex items-center justify-center w-8 h-8 text-foreground/40 bg-black/[0.04] hover:bg-red-50 hover:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 rounded-md transition-colors"
+              className="flex items-center justify-center w-[30px] h-[30px] bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40 hover:text-[#1A1A1A]/70 dark:hover:text-[#F0EDE7]/70 rounded-md cursor-pointer transition-colors"
             >
               <XCircle className="w-3.5 h-3.5" />
             </button>
             {dismissOpen && (
-              <div className="absolute bottom-full left-0 mb-1.5 bg-white dark:bg-card rounded-lg shadow-lg border border-black/[0.08] dark:border-border py-1 min-w-[148px] z-50">
+              <div className="absolute bottom-full left-0 mb-1.5 bg-white dark:bg-[#2A2520] rounded-lg shadow-lg border border-black/[0.08] dark:border-white/10 py-1 min-w-[152px] z-50">
                 <button
                   onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
-                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
+                  className="w-full flex items-center gap-2 text-left px-3 py-2 text-[12px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-black/[0.04] dark:hover:bg-white/[0.04] cursor-pointer transition-colors"
                 >
+                  <CheckCheck className="w-3.5 h-3.5 text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40" />
                   Already applied
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
-                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
+                  className="w-full flex items-center gap-2 text-left px-3 py-2 text-[12px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-black/[0.04] dark:hover:bg-white/[0.04] cursor-pointer transition-colors"
                 >
+                  <StopCircle className="w-3.5 h-3.5 text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40" />
                   Not Interested
                 </button>
               </div>
             )}
           </div>
 
-          {/* Shortlist button — improved hover */}
+          {/* Shortlist button — primary action */}
           <button
             data-testid={`button-shortlist-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/55 bg-black/[0.04] hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400 rounded-md px-2 py-2 transition-colors"
+            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 rounded-md px-2 py-1.5 cursor-pointer transition-colors"
           >
             <Bookmark className="w-3.5 h-3.5" />
             Shortlist
@@ -951,7 +953,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
         <button
           data-testid={`button-mock-interview-${job.id}`}
           onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
-          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/60 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
+          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 rounded-md px-2 py-1.5 cursor-pointer transition-colors"
         >
           <Clapperboard className="w-3.5 h-3.5" />
           Take mock interview
