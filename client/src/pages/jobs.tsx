@@ -15,6 +15,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { unsafe_createClientWithApiKey, AnamEvent } from "@anam-ai/js-sdk";
 import type { AnamClient, Message } from "@anam-ai/js-sdk";
+import Lottie from "lottie-react";
+import aiAssistantAnimation from "@/assets/AI-Assistant.json";
 
 type Phase = "transition" | "voice" | "type" | "done" | "aha" | "dashboard";
 
@@ -1440,7 +1442,7 @@ function AhaMomentModal({ onConfirm }: { onConfirm: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-6"
+      className="fixed inset-0 z-[300] flex items-center justify-center p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -1463,30 +1465,18 @@ function AhaMomentModal({ onConfirm }: { onConfirm: () => void }) {
         exit={{ scale: 0.94, y: 12, opacity: 0 }}
         transition={{ delay: 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Top glow band */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-emerald-400/[0.13] to-transparent pointer-events-none" />
+        {/* Top warm beige band */}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#D4C5A9]/30 to-transparent pointer-events-none" />
 
-        {/* Icon */}
-        <div className="flex justify-center pt-9 pb-5">
+        {/* Lottie animation */}
+        <div className="flex justify-center pt-8 pb-3">
           <motion.div
-            className="relative"
-            initial={{ scale: 0.6, opacity: 0 }}
+            initial={{ scale: 0.7, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.22, duration: 0.5, type: "spring", bounce: 0.45 }}
+            transition={{ delay: 0.18, duration: 0.5, type: "spring", bounce: 0.4 }}
+            className="w-[88px] h-[88px]"
           >
-            <div className="w-[60px] h-[60px] rounded-[18px] bg-emerald-500/[0.12] border border-emerald-500/[0.18] flex items-center justify-center">
-              <Sparkles className="w-7 h-7 fill-emerald-500 text-emerald-500" />
-            </div>
-            <motion.div
-              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.55, duration: 0.35, type: "spring", bounce: 0.6 }}
-            >
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </motion.div>
+            <Lottie animationData={aiAssistantAnimation} loop={true} />
           </motion.div>
         </div>
 
