@@ -1375,8 +1375,8 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
-            {/* AI Picks — always visible, fills width until other columns appear */}
-            <div className="flex-1 min-w-[350px] h-full">
+            {/* AI Picks — always exactly 350px, never changes width */}
+            <div className="w-[350px] flex-shrink-0 h-full">
               <PipelineCol
                 colId="picks"
                 colIndex={0}
