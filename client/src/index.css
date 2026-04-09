@@ -196,3 +196,101 @@ input[type="range"].speed-slider::-moz-range-thumb {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ── Match glow card ─────────────────────────────────────────── */
+@keyframes moveDot {
+  0%,
+  100% {
+    top: 10%;
+    right: 10%;
+  }
+  25% {
+    top: 10%;
+    right: calc(100% - 35px);
+  }
+  50% {
+    top: calc(100% - 30px);
+    right: calc(100% - 35px);
+  }
+  75% {
+    top: calc(100% - 30px);
+    right: 10%;
+  }
+}
+
+@keyframes scanLine {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.7; }
+}
+
+.match-glow-outer {
+  position: relative;
+  width: 100%;
+}
+
+.match-glow-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.5) 50%, transparent 100%);
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  z-index: 3;
+  animation: moveDot 7s ease-in-out infinite;
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.match-glow-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(140deg, rgba(236, 253, 245, 0.95) 0%, rgba(209, 250, 229, 0.7) 100%);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.dark .match-glow-card {
+  background: linear-gradient(140deg, rgba(6, 78, 59, 0.35) 0%, rgba(2, 44, 34, 0.55) 100%);
+  border: 1px solid rgba(52, 211, 153, 0.13);
+}
+
+.match-glow-ray {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 120px;
+  background: radial-gradient(ellipse, rgba(52, 211, 153, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.match-glow-line {
+  position: absolute;
+  animation: scanLine 4s ease-in-out infinite;
+}
+
+.match-glow-line.topl {
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(52, 211, 153, 0.6) 50%, transparent 100%);
+  animation-delay: 0s;
+}
+
+.match-glow-line.bottoml {
+  bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(52, 211, 153, 0.6) 50%, transparent 100%);
+  animation-delay: 2s;
+}
+
+.match-glow-line.leftl {
+  top: 0; bottom: 0; left: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(52, 211, 153, 0.6) 50%, transparent 100%);
+  animation-delay: 1s;
+}
+
+.match-glow-line.rightl {
+  top: 0; bottom: 0; right: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(52, 211, 153, 0.6) 50%, transparent 100%);
+  animation-delay: 3s;
+}

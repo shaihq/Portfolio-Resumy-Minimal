@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
+import { MatchGlowCard } from "@/components/ui/glowing-card";
 import profileImg from "@/assets/images/profile.png";
 import {
   Kanban, KanbanBoard, KanbanColumn, KanbanColumnContent,
@@ -884,13 +885,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
             </div>
 
             {/* AI reason */}
-            <div className="mt-4 px-3 py-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-100 dark:border-emerald-800/40">
-              <div className="flex items-center gap-1.5 mb-1">
-                <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Why it's a match</span>
-              </div>
-              <p className="text-sm text-emerald-800 dark:text-emerald-300 leading-relaxed">{displayJob.reason}</p>
-            </div>
+            <MatchGlowCard reason={displayJob.reason} className="mt-4" />
           </div>
 
           {/* Description */}
