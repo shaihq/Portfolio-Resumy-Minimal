@@ -856,125 +856,105 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
     return () => document.removeEventListener("mousedown", handler);
   }, [dismissOpen]);
 
+  const btnClass = "flex items-center justify-center gap-1.5 flex-1 h-7 text-[12px] font-medium text-foreground/60 border border-black/[0.08] dark:border-border rounded-full px-3 hover:text-foreground/90 hover:border-black/[0.18] dark:hover:border-border/80 transition-colors whitespace-nowrap";
+
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-3 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
+      className="flex flex-col gap-2.5 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
-      {/* Row 1: Title */}
-      <button
-        onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
-        className="text-[15px] font-semibold text-foreground leading-snug text-left hover:text-foreground/60 transition-colors cursor-pointer"
-      >
-        {job.role}
-      </button>
-
-      {/* Row 2: Pills */}
-      <div className="flex items-center gap-1 flex-wrap">
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
-          <Briefcase className="w-2.5 h-2.5 flex-shrink-0" />
-          {job.type}
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
-          <Monitor className="w-2.5 h-2.5 flex-shrink-0" />
-          {job.workMode}
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
-          <Clock className="w-2.5 h-2.5 flex-shrink-0" />
-          {job.yearsExp}
-        </span>
-      </div>
-
-      {/* Row 3: Company + gauge */}
+      {/* Row 1: Company + match score */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div
-            className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold"
+            className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[10px] font-bold"
             style={{ backgroundColor: job.logoColor }}
           >
             {job.logoLetter}
           </div>
           <div className="min-w-0">
-            <div className="text-[13px] font-medium text-foreground/70 truncate">{job.company}</div>
-            <div className="text-[12px] text-foreground/40 truncate">{job.location}</div>
+            <div className="text-[12px] font-medium text-foreground/65 truncate">{job.company}</div>
+            <div className="text-[11px] text-foreground/35 truncate leading-tight">{job.location}</div>
           </div>
         </div>
-        <div className="flex-shrink-0 flex flex-col items-center">
-          <Gauge
-            value={job.match}
-            size={42}
-            strokeWidth={8}
-            gapPercent={3}
-            primary="success"
-            secondary="rgba(0,0,0,0.06)"
-            showValue={true}
-            showPercentage={false}
-            transition={{ delay: 200 }}
-            className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
-          />
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <span className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400">{job.match}%</span>
         </div>
       </div>
 
-      {/* Row 4: Dismiss + Shortlist buttons — only shown in AI Picks */}
+      {/* Row 2: Role title */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
+        className="text-[14px] font-semibold text-foreground leading-snug text-left hover:text-foreground/55 transition-colors cursor-pointer"
+      >
+        {job.role}
+      </button>
+
+      {/* Row 3: Tags */}
+      <div className="flex items-center gap-1 flex-wrap">
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/50 bg-black/[0.04] dark:bg-white/[0.05] rounded-full px-2 py-0.5 whitespace-nowrap">
+          <Briefcase className="w-2.5 h-2.5 flex-shrink-0" />{job.type}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/50 bg-black/[0.04] dark:bg-white/[0.05] rounded-full px-2 py-0.5 whitespace-nowrap">
+          <Monitor className="w-2.5 h-2.5 flex-shrink-0" />{job.workMode}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/50 bg-black/[0.04] dark:bg-white/[0.05] rounded-full px-2 py-0.5 whitespace-nowrap">
+          <Clock className="w-2.5 h-2.5 flex-shrink-0" />{job.yearsExp}
+        </span>
+      </div>
+
+      {/* Row 4: Dismiss + Shortlist — AI Picks only */}
       {onShortlist && (
         <div className="flex items-center gap-1.5">
-          {/* Dismiss button with dropdown */}
           <div className="relative flex-shrink-0" ref={dismissRef}>
             <button
               data-testid={`button-dismiss-${job.id}`}
               onClick={(e) => { e.stopPropagation(); setDismissOpen(v => !v); }}
-              className="flex items-center justify-center w-8 h-8 text-foreground/40 bg-black/[0.04] hover:bg-red-50 hover:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 rounded-md transition-colors"
+              className="flex items-center justify-center w-7 h-7 rounded-full border border-black/[0.08] dark:border-border text-foreground/35 hover:text-red-400 hover:border-red-200 dark:hover:border-red-800/50 transition-colors"
             >
               <XCircle className="w-3.5 h-3.5" />
             </button>
             {dismissOpen && (
               <div className="absolute bottom-full left-0 mb-1.5 bg-white dark:bg-card rounded-lg shadow-lg border border-black/[0.08] dark:border-border py-1 min-w-[148px] z-50">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
-                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
-                >
+                <button onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }} className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors">
                   Already applied
                 </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
-                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
-                >
+                <button onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }} className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors">
                   Not Interested
                 </button>
               </div>
             )}
           </div>
-
-          {/* Shortlist button — improved hover */}
           <button
             data-testid={`button-shortlist-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] dark:hover:bg-white/[0.08] rounded-md px-2 py-2 transition-colors"
+            className={btnClass}
           >
-            <Bookmark className="w-3.5 h-3.5" />
+            <Bookmark className="w-3 h-3" />
             Shortlist
           </button>
         </div>
       )}
 
-      {/* Mock interview button — only shown in Interview column */}
+      {/* Mock interview — Interview column only */}
       {onMockInterview && (
         <button
           data-testid={`button-mock-interview-${job.id}`}
           onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
-          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/60 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
+          className={btnClass + " w-full"}
         >
-          <Clapperboard className="w-3.5 h-3.5" />
-          Take mock interview
+          <Clapperboard className="w-3 h-3" />
+          Mock interview
         </button>
       )}
 
-      {/* Ask Scout button — always visible */}
+      {/* Ask Scout — always shown */}
       {onAskScout && (
         <button
           data-testid={`button-ask-scout-${job.id}`}
           onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/70 bg-black/[0.04] hover:bg-black/[0.08] rounded-full px-3 py-1.5 transition-colors"
+          className={btnClass + " w-full"}
         >
           <Sparkles className="w-3 h-3" />
           Ask Scout
