@@ -1486,13 +1486,13 @@ function AhaMomentModal({ onConfirm }: { onConfirm: () => void }) {
             <motion.span
               className="text-transparent bg-clip-text inline-block"
               style={{
-                backgroundImage: "linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 20%, #5D3560 35%, #E54D2E 50%, #F5A623 65%, hsl(var(--foreground)) 80%, hsl(var(--foreground)) 100%)",
-                backgroundSize: "300% auto",
-                backgroundPosition: "50% center",
+                backgroundImage: "linear-gradient(to right, #5D3560 0%, #C04A38 40%, #E8882A 70%, #F5A623 100%)",
+                backgroundSize: "200% auto",
+                backgroundPosition: "0% center",
               }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.3 }}
+              initial={{ opacity: 0, backgroundPosition: "100% center" }}
+              animate={{ opacity: 1, backgroundPosition: "0% center" }}
+              transition={{ delay: 0.4, duration: 1.4, ease: "easeOut" }}
             >
               {count.toLocaleString()}
             </motion.span>{" "}
@@ -1503,12 +1503,35 @@ function AhaMomentModal({ onConfirm }: { onConfirm: () => void }) {
           </p>
         </motion.div>
 
+        {/* Preferences summary */}
+        <motion.div
+          className="mx-5 mb-5 rounded-2xl border border-black/[0.07] bg-white/70 overflow-hidden"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.42, duration: 0.4 }}
+        >
+          <div className="px-4 py-2.5 border-b border-black/[0.05]">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-foreground/30">Filtered for you</span>
+          </div>
+          {[
+            { label: "Type", value: "Full-time" },
+            { label: "Location", value: "Remote · US" },
+            { label: "Level", value: "Senior" },
+            { label: "Ranked by", value: "Portfolio match" },
+          ].map((p, i, arr) => (
+            <div key={p.label} className={`flex items-center justify-between px-4 py-2.5 ${i < arr.length - 1 ? "border-b border-black/[0.04]" : ""}`}>
+              <span className="text-[13px] text-foreground/45">{p.label}</span>
+              <span className="text-[13px] font-medium text-foreground/80">{p.value}</span>
+            </div>
+          ))}
+        </motion.div>
+
         {/* CTA */}
         <motion.div
           className="px-5 pb-7"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.42, duration: 0.4 }}
+          transition={{ delay: 0.56, duration: 0.4 }}
         >
           <motion.button
             onClick={onConfirm}
