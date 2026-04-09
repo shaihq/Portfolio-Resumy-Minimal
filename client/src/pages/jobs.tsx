@@ -1108,7 +1108,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
         <button
           data-testid={`button-ask-scout-${job.id}`}
           onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-          className="orb-activates-on-hover flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/70 bg-black/[0.04] hover:bg-black/[0.08] rounded-full px-3 py-1.5 transition-colors"
+          className="orb-activates-on-hover flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] hover:bg-black/[0.08] rounded-full px-3 py-1.5"
         >
           <ColorOrb dimension="14px" spinDuration={8} />
           Ask Scout

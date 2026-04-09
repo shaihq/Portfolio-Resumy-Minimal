@@ -336,15 +336,10 @@ input[type="range"].speed-slider::-moz-range-thumb {
   transition: opacity 0.5s ease;
 }
 
-/* Button gets a lift — orb can overflow freely */
+/* Button stays completely still — feedback comes from color + orb only */
 .orb-activates-on-hover {
   overflow: visible;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.35s ease;
-}
-.orb-activates-on-hover:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 0 4px 14px -3px oklch(0% 0 0 / 0.12);
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Orb scales in place, doesn't affect button layout */
