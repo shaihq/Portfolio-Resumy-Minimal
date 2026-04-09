@@ -841,6 +841,20 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
 function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onShortlist?: () => void; onOpen?: () => void; onMockInterview?: () => void }) {
+  const [dismissOpen, setDismissOpen] = useState(false);
+  const dismissRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!dismissOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (dismissRef.current && !dismissRef.current.contains(e.target as Node)) {
+        setDismissOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [dismissOpen]);
+
   return (
     <div
       data-testid={`card-job-${job.id}`}
@@ -890,16 +904,46 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
         </div>
       </div>
 
-      {/* Row 4: Shortlist button — only shown in AI Picks */}
+      {/* Row 4: Dismiss + Shortlist buttons — only shown in AI Picks */}
       {onShortlist && (
-        <button
-          data-testid={`button-shortlist-${job.id}`}
-          onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
-        >
-          <Bookmark className="w-3.5 h-3.5" />
-          Shortlist
-        </button>
+        <div className="flex items-center gap-1.5">
+          {/* Dismiss button with dropdown */}
+          <div className="relative flex-shrink-0" ref={dismissRef}>
+            <button
+              data-testid={`button-dismiss-${job.id}`}
+              onClick={(e) => { e.stopPropagation(); setDismissOpen(v => !v); }}
+              className="flex items-center justify-center w-8 h-8 text-foreground/40 bg-black/[0.04] hover:bg-red-50 hover:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 rounded-md transition-colors"
+            >
+              <XCircle className="w-3.5 h-3.5" />
+            </button>
+            {dismissOpen && (
+              <div className="absolute bottom-full left-0 mb-1.5 bg-white dark:bg-card rounded-lg shadow-lg border border-black/[0.08] dark:border-border py-1 min-w-[148px] z-50">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
+                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
+                >
+                  Already applied
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
+                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
+                >
+                  Not Interested
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Shortlist button — improved hover */}
+          <button
+            data-testid={`button-shortlist-${job.id}`}
+            onClick={(e) => { e.stopPropagation(); onShortlist(); }}
+            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/55 bg-black/[0.04] hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400 rounded-md px-2 py-2 transition-colors"
+          >
+            <Bookmark className="w-3.5 h-3.5" />
+            Shortlist
+          </button>
+        </div>
       )}
 
       {/* Mock interview button — only shown in Interview column */}
