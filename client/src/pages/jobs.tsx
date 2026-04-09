@@ -1407,6 +1407,8 @@ function Dashboard() {
                 flex: phase === "split" ? "0 0 350px" : "1 1 auto",
                 minWidth: 350,
                 height: "100%",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               <PipelineCol
@@ -1436,7 +1438,7 @@ function Dashboard() {
                 }}
               >
                 {/* inner div at fixed width so content never squishes */}
-                <div className="w-[350px] ml-3 h-full">
+                <div className="flex flex-col w-[350px] ml-3 h-full">
                   <PipelineCol
                     colId={colId}
                     colIndex={i + 1}
