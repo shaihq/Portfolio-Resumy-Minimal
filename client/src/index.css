@@ -296,6 +296,7 @@ input[type="range"].speed-slider::-moz-range-thumb {
   position: relative;
   transform: scale(1.1);
   flex-shrink: 0;
+  background: oklch(78% 0.01 80 / 0.55);
 }
 
 .color-orb::before,
@@ -309,6 +310,7 @@ input[type="range"].speed-slider::-moz-range-thumb {
   transform: translateZ(0);
 }
 
+/* Colorful spinning layer — paused + invisible by default */
 .color-orb::before {
   background:
     conic-gradient(from calc(var(--orb-angle) * 2) at 25% 70%, var(--orb-accent3), transparent 20% 80%, var(--orb-accent3)),
@@ -320,14 +322,22 @@ input[type="range"].speed-slider::-moz-range-thumb {
   box-shadow: inset var(--orb-base) 0 0 var(--orb-shadow) calc(var(--orb-shadow) * 0.2);
   filter: blur(var(--orb-blur)) contrast(var(--orb-contrast));
   animation: orb-spin var(--orb-spin-duration) linear infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.45s ease;
 }
 
+/* Dot grid overlay — always visible, gives the static "textured" look */
 .color-orb::after {
-  background-image: radial-gradient(circle at center, var(--orb-base) var(--orb-dot), transparent var(--orb-dot));
-  background-size: calc(var(--orb-dot) * 2) calc(var(--orb-dot) * 2);
-  backdrop-filter: blur(calc(var(--orb-blur) * 2)) contrast(calc(var(--orb-contrast) * 2));
-  mix-blend-mode: overlay;
-  mask-image: radial-gradient(black var(--orb-mask), transparent 75%);
+  background-image: radial-gradient(circle at center, oklch(55% 0.01 80 / 0.5) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: normal;
+}
+
+/* On hover of any ancestor marked with .orb-activates-on-hover */
+.orb-activates-on-hover:hover .color-orb::before {
+  animation-play-state: running;
+  opacity: 1;
 }
 
 @keyframes orb-spin {
@@ -335,5 +345,5 @@ input[type="range"].speed-slider::-moz-range-thumb {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .color-orb::before { animation: none; }
+  .color-orb::before { animation: none !important; opacity: 0 !important; }
 }
