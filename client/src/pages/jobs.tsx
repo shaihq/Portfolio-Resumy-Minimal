@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import profileImg from "@/assets/images/profile.png";
 import {
@@ -831,16 +832,40 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
 
               {/* Connections */}
               <div className="flex items-start gap-3">
-                <div className="flex items-center gap-2 w-[124px] flex-shrink-0 pt-0.5">
+                <div className="flex items-center gap-2 w-[124px] flex-shrink-0 pt-2.5">
                   <Users className="w-4 h-4 text-foreground/30" />
                   <span className="text-sm text-foreground/40">Connections</span>
                 </div>
-                <div className="flex items-center gap-1.5 flex-wrap">
+                <div className="flex flex-col gap-2 flex-1 min-w-0">
                   {(displayJob.contacts ?? []).map((c) => (
-                    <span key={c.name} className="inline-flex items-center gap-1.5 text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">
-                      <span className="w-4 h-4 rounded-full bg-foreground/10 flex items-center justify-center text-[9px] font-semibold text-foreground/50 flex-shrink-0">{c.initials}</span>
-                      {c.name}
-                    </span>
+                    <div key={c.name} className="flex items-center justify-between gap-3 rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-black/[0.02] dark:bg-white/[0.02] px-3 py-2.5">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="w-7 h-7 rounded-full bg-foreground/10 flex items-center justify-center text-[10px] font-semibold text-foreground/60 flex-shrink-0 ring-1 ring-black/[0.06] dark:ring-white/[0.08]">
+                          {c.initials}
+                        </div>
+                        <span className="text-sm font-medium text-foreground/75 truncate">{c.name}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        <a
+                          href={`mailto:${c.name.toLowerCase().replace(" ", ".")}@${displayJob.company.toLowerCase()}.com`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center justify-center w-7 h-7 rounded-lg border border-black/[0.08] dark:border-white/[0.08] text-foreground/35 hover:text-foreground/70 hover:border-black/[0.15] dark:hover:border-white/[0.15] hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-all"
+                          title={`Email ${c.name}`}
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                        </a>
+                        <a
+                          href={`https://linkedin.com/in/${c.name.toLowerCase().replace(" ", "-")}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center justify-center w-7 h-7 rounded-lg border border-black/[0.08] dark:border-white/[0.08] text-foreground/35 hover:text-[#0077B5] hover:border-[#0077B5]/30 hover:bg-[#0077B5]/[0.06] transition-all"
+                          title={`${c.name} on LinkedIn`}
+                        >
+                          <FaLinkedin className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
