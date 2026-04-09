@@ -1320,8 +1320,8 @@ function Dashboard() {
   const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
   const [roomJobId, setRoomJobId] = useState<string | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
-  // 3-phase: list → shrinking (AI Picks CSS-transitions) → split (columns reveal)
-  const [phase, setPhase] = useState<"list" | "shrinking" | "split">("list");
+  // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
+  const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
 
   const allJobs = Object.values(columns).flat();
@@ -1358,15 +1358,20 @@ function Dashboard() {
     }
     setPhase("shrinking");
 
-    // Phase 2: after shrink done, reveal columns
+    // Phase 2: shrink done → snap to left (columns still hidden)
     setTimeout(() => {
       if (el) {
         el.style.transition = "";
         el.style.width = "";
         el.style.flex = "";
       }
+      setPhase("settled");
+    }, 640);
+
+    // Phase 3: after a brief pause, stagger-reveal pipeline columns
+    setTimeout(() => {
       setPhase("split");
-    }, 620);
+    }, 900);
   }, [phase]);
 
   return (
@@ -1379,7 +1384,7 @@ function Dashboard() {
     >
       {/* Top filter bar — centered in list mode, left-aligned in split */}
       <div className="flex flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
-        <div className={`flex items-center gap-2 ${phase === "list" ? "w-[520px] mx-auto" : "w-full"}`}>
+        <div className={`flex items-center gap-2 ${(phase === "list" || phase === "shrinking") ? "w-[520px] mx-auto" : "w-full"}`}>
           {/* Prompt pill */}
           <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-1.5 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
             <Avatar className="w-6 h-6 flex-shrink-0 border border-black/10 dark:border-white/10">
@@ -1420,9 +1425,9 @@ function Dashboard() {
             <div
               ref={picksRef}
               style={{
-                flex: phase === "split" ? "0 0 350px" : "none",
-                width: phase === "split" ? undefined : "520px",
-                margin: phase === "split" ? "0" : "0 auto",
+                flex: (phase === "split" || phase === "settled") ? "0 0 350px" : "none",
+                width: (phase === "split" || phase === "settled") ? undefined : "520px",
+                margin: (phase === "split" || phase === "settled") ? "0" : "0 auto",
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
