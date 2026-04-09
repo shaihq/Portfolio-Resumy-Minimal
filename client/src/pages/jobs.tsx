@@ -1393,50 +1393,96 @@ function Dashboard() {
       {/* Main content area */}
       <div className="flex-1 min-h-0 flex overflow-hidden">
 
-        {/* ── Left panel: full-width job list ── */}
-        <div
-          className="flex flex-col min-h-0 overflow-y-auto"
+        {/* ── Left panel: AI Picks list — full width in list mode, column width in split mode ── */}
+        <motion.div
+          layout
+          className="flex flex-col min-h-0 flex-shrink-0"
           style={{
-            width: viewMode === "list" ? "100%" : "50%",
+            width: viewMode === "list" ? "100%" : "248px",
             transition: "width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            paddingLeft: "108px",
-            paddingRight: "16px",
-            paddingTop: "16px",
-            paddingBottom: "16px",
           }}
         >
-          <div className="flex flex-col gap-4">
-            {columns.picks.map((job) => (
-              <motion.div
-                key={job.id}
-                layoutId={`card-${job.id}`}
-                animate={
-                  shortlistingId === job.id
-                    ? { scale: 0.98, x: 48, boxShadow: "0 16px 48px rgba(0,0,0,0.20)" }
-                    : { scale: 1, x: 0, boxShadow: "0 0px 0px rgba(0,0,0,0)" }
-                }
-                transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="rounded-lg"
-              >
-                <JobCard
-                  job={job}
-                  onShortlist={() => handleShortlist(job.id)}
-                  onOpen={() => setSelectedJobId(job.id)}
-                  onAskScout={() => setScoutJobId(job.id)}
-                />
-              </motion.div>
-            ))}
-            {columns.picks.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center justify-center py-16"
-              >
-                <p className="text-[13px] text-muted-foreground/40">All roles reviewed</p>
-              </motion.div>
-            )}
-          </div>
-        </div>
+          {/* In list mode: scroll with full padding; in split mode: match kanban column style */}
+          {viewMode === "list" ? (
+            <div
+              className="flex flex-col min-h-0 overflow-y-auto flex-1"
+              style={{ paddingLeft: "108px", paddingRight: "16px", paddingTop: "16px", paddingBottom: "16px" }}
+            >
+              <div className="flex flex-col gap-4">
+                {columns.picks.map((job) => (
+                  <motion.div
+                    key={job.id}
+                    layoutId={`card-${job.id}`}
+                    animate={
+                      shortlistingId === job.id
+                        ? { scale: 0.98, x: 48, boxShadow: "0 16px 48px rgba(0,0,0,0.20)" }
+                        : { scale: 1, x: 0, boxShadow: "0 0px 0px rgba(0,0,0,0)" }
+                    }
+                    transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="rounded-lg"
+                  >
+                    <JobCard
+                      job={job}
+                      onShortlist={() => handleShortlist(job.id)}
+                      onOpen={() => setSelectedJobId(job.id)}
+                      onAskScout={() => setScoutJobId(job.id)}
+                    />
+                  </motion.div>
+                ))}
+                {columns.picks.length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex items-center justify-center py-16"
+                  >
+                    <p className="text-[13px] text-muted-foreground/40">All roles reviewed</p>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          ) : (
+            /* Split mode: looks like a kanban column */
+            <div className="flex flex-col flex-1 min-h-0 mx-3 mt-4 mb-4 rounded-xl bg-[#EAE6DF] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
+              {/* Column header */}
+              <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
+                <span className="text-[13px] font-semibold text-foreground/80">AI Picks</span>
+                {columns.picks.length > 0 && (
+                  <span className="text-[11px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{columns.picks.length}</span>
+                )}
+              </div>
+              {/* Cards — scrollable */}
+              <div className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-0 flex flex-col gap-2">
+                {columns.picks.map((job) => (
+                  <motion.div
+                    key={job.id}
+                    layoutId={`card-${job.id}`}
+                    animate={
+                      shortlistingId === job.id
+                        ? { scale: 0.97, x: 16, boxShadow: "0 12px 36px rgba(0,0,0,0.18)" }
+                        : { scale: 1, x: 0, boxShadow: "0 0px 0px rgba(0,0,0,0)" }
+                    }
+                    transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="rounded-lg"
+                  >
+                    <JobCard
+                      job={job}
+                      onShortlist={() => handleShortlist(job.id)}
+                      onOpen={() => setSelectedJobId(job.id)}
+                      onAskScout={() => setScoutJobId(job.id)}
+                    />
+                  </motion.div>
+                ))}
+                {columns.picks.length === 0 && (
+                  <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
+                    <p className="text-[11px] text-muted-foreground/40 text-center leading-relaxed">
+                      All roles reviewed
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </motion.div>
 
         {/* ── Right panel: kanban — slides in from right ── */}
         <AnimatePresence>
@@ -1447,8 +1493,7 @@ function Dashboard() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="flex-shrink-0 min-h-0 overflow-x-auto overflow-y-hidden border-l border-black/[0.06] dark:border-border"
-              style={{ width: "50%" }}
+              className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden border-l border-black/[0.06] dark:border-border"
             >
               <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
                 <KanbanBoard className="flex gap-3 h-full pt-4 pr-4 pb-4 pl-4 min-w-max">
