@@ -995,35 +995,11 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
       data-testid={`card-job-${job.id}`}
       className="flex flex-col gap-3 p-3 rounded-lg border border-black/[0.06] bg-white dark:bg-background dark:border-border select-none"
     >
-      {/* Row 1: Title */}
-      <button
-        onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
-        className="text-[15px] font-semibold text-foreground leading-snug text-left hover:text-foreground/60 transition-colors cursor-pointer"
-      >
-        {job.role}
-      </button>
-
-      {/* Row 2: Pills */}
-      <div className="flex items-center gap-1 flex-wrap">
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
-          <Briefcase className="w-2.5 h-2.5 flex-shrink-0" />
-          {job.type}
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
-          <Monitor className="w-2.5 h-2.5 flex-shrink-0" />
-          {job.workMode}
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
-          <Clock className="w-2.5 h-2.5 flex-shrink-0" />
-          {job.yearsExp}
-        </span>
-      </div>
-
-      {/* Row 3: Company + gauge */}
+      {/* Row 1: Company logo + name/location + gauge — now at top */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
           <div
-            className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold"
+            className="w-[42px] h-[42px] rounded-lg flex items-center justify-center flex-shrink-0 text-white text-[15px] font-bold"
             style={{ backgroundColor: job.logoColor }}
           >
             {job.logoLetter}
@@ -1047,6 +1023,30 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
           />
         </div>
+      </div>
+
+      {/* Row 2: Title */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
+        className="text-[15px] font-semibold text-foreground leading-snug text-left hover:text-foreground/60 transition-colors cursor-pointer"
+      >
+        {job.role}
+      </button>
+
+      {/* Row 3: Pills */}
+      <div className="flex items-center gap-1 flex-wrap">
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+          <Briefcase className="w-2.5 h-2.5 flex-shrink-0" />
+          {job.type}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+          <Monitor className="w-2.5 h-2.5 flex-shrink-0" />
+          {job.workMode}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/55 bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+          <Clock className="w-2.5 h-2.5 flex-shrink-0" />
+          {job.yearsExp}
+        </span>
       </div>
 
       {/* Row 4: Dismiss + Shortlist buttons — only shown in AI Picks */}
