@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { MatchGlowCard } from "@/components/ui/glowing-card";
@@ -897,7 +897,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
           </div>
 
           {/* Requirements */}
-          <div className="px-5 py-5 pb-8">
+          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
             <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
             <ul className="space-y-2.5">
               {displayJob.requirements.map((req, i) => (
@@ -907,6 +907,50 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* AI Tools */}
+          <div className="px-5 py-5 pb-8">
+            <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-4">AI Tools</h3>
+            <div>
+              {[
+                {
+                  icon: <Sparkles className="w-4 h-4 fill-foreground/60 text-foreground/60" />,
+                  iconBg: "bg-foreground/[0.07]",
+                  label: "Customize Your Resume",
+                  desc: "Tailor it to this role for a stronger match",
+                  featured: true,
+                },
+                {
+                  icon: <FileText className="w-4 h-4 text-foreground/50" />,
+                  iconBg: "bg-foreground/[0.04]",
+                  label: "Build Cover Letter",
+                  desc: "Make your application stand out",
+                  featured: false,
+                },
+                {
+                  icon: <ThumbsUp className="w-4 h-4 text-foreground/50" />,
+                  iconBg: "bg-foreground/[0.04]",
+                  label: "Analyze Your Fit",
+                  desc: "Understand your strengths & gaps",
+                  featured: false,
+                },
+              ].map((tool, i, arr) => (
+                <div key={tool.label}>
+                  <button className="w-full flex items-center gap-3 py-3 group text-left">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${tool.iconBg} group-hover:bg-foreground/[0.09]`}>
+                      {tool.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[13px] font-semibold text-foreground/80 leading-none mb-0.5">{tool.label}</div>
+                      <div className="text-[11px] text-foreground/40">{tool.desc}</div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-foreground/25 flex-shrink-0 group-hover:text-foreground/50 transition-colors" />
+                  </button>
+                  {i < arr.length - 1 && <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
