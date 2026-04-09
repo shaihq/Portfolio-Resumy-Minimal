@@ -9,6 +9,7 @@ import {
   KanbanItem, KanbanItemHandle, KanbanOverlay,
 } from "@/components/ui/kanban";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { unsafe_createClientWithApiKey, AnamEvent } from "@anam-ai/js-sdk";
@@ -909,13 +910,15 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
         <div className="flex items-center gap-1.5">
           {/* Dismiss button with dropdown */}
           <div className="relative flex-shrink-0" ref={dismissRef}>
-            <button
+            <Button
               data-testid={`button-dismiss-${job.id}`}
+              variant="outline"
+              size="sm"
               onClick={(e) => { e.stopPropagation(); setDismissOpen(v => !v); }}
-              className="flex items-center justify-center w-[30px] h-[30px] bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40 hover:text-[#1A1A1A]/70 dark:hover:text-[#F0EDE7]/70 rounded-md cursor-pointer transition-colors"
+              className="!p-0 w-8 h-8 cursor-pointer rounded-md"
             >
               <XCircle className="w-3.5 h-3.5" />
-            </button>
+            </Button>
             {dismissOpen && (
               <div className="absolute bottom-full left-0 mb-1.5 bg-white dark:bg-[#2A2520] rounded-lg shadow-lg border border-black/[0.08] dark:border-white/10 py-1 min-w-[152px] z-50">
                 <button
@@ -937,27 +940,31 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview }: { job: Job; onSh
           </div>
 
           {/* Shortlist button — primary action */}
-          <button
+          <Button
             data-testid={`button-shortlist-${job.id}`}
+            variant="default"
+            size="sm"
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 rounded-md px-2 py-1.5 cursor-pointer transition-colors"
+            className="flex-1 gap-1.5 text-[12px] cursor-pointer rounded-md"
           >
             <Bookmark className="w-3.5 h-3.5" />
             Shortlist
-          </button>
+          </Button>
         </div>
       )}
 
       {/* Mock interview button — only shown in Interview column */}
       {onMockInterview && (
-        <button
+        <Button
           data-testid={`button-mock-interview-${job.id}`}
+          variant="outline"
+          size="sm"
           onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
-          className="flex items-center justify-center gap-1.5 w-full text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] bg-[#F5F5F5] hover:bg-[#E8E8E8] dark:bg-[#3A3531] dark:hover:bg-[#4A4540] border border-black/10 dark:border-white/10 rounded-md px-2 py-1.5 cursor-pointer transition-colors"
+          className="w-full gap-1.5 text-[12px] cursor-pointer rounded-md"
         >
           <Clapperboard className="w-3.5 h-3.5" />
           Take mock interview
-        </button>
+        </Button>
       )}
     </div>
   );
