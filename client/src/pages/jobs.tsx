@@ -837,6 +837,18 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                   <span className="text-sm text-foreground/40">Connections</span>
                 </div>
                 <div className="flex flex-col gap-2 flex-1 min-w-0">
+                  {/* Context header */}
+                  <div className="rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-black/[0.02] dark:bg-white/[0.02] px-3 py-3">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <Users className="w-3.5 h-3.5 text-foreground/50 flex-shrink-0" />
+                      <span className="text-[13px] font-semibold text-foreground/80">Insider connections @ {displayJob.company}</span>
+                    </div>
+                    <p className="text-[12px] text-foreground/50 leading-relaxed">
+                      People at {displayJob.company} who can offer insights or a referral.{" "}
+                      <span className="font-medium text-foreground/65">Email gets 3× more replies than LinkedIn.</span>
+                    </p>
+                  </div>
+                  {/* Contact rows */}
                   {(displayJob.contacts ?? []).map((c) => (
                     <div key={c.name} className="flex items-center justify-between gap-3 rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-black/[0.02] dark:bg-white/[0.02] px-3 py-2.5">
                       <div className="flex items-center gap-2.5 min-w-0">
