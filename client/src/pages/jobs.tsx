@@ -1360,43 +1360,48 @@ function Dashboard() {
     });
     if (phase !== "list") return;
 
-    // Phase 1: animate width 520→350 AND marginLeft centerMargin→0 simultaneously
-    const el = picksRef.current;
-    const filterEl = filterBarRef.current;
+    // Wait for the card exit animation to finish (~450ms) before starting column motion
+    const CARD_EXIT_MS = 480;
     const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
-    const dur = "0.6s";
+    const dur = "0.65s";
 
-    if (el) {
-      const currentWidth = el.getBoundingClientRect().width;
-      el.style.transition = "none";
-      el.style.flex = "none";
-      el.style.width = `${currentWidth}px`;
-      el.style.marginLeft = `${centerMargin}px`;
-      void el.offsetWidth; // force reflow
-      el.style.transition = `width ${dur} ${ease}, margin-left ${dur} ${ease}`;
-      el.style.width = "350px";
-      el.style.marginLeft = "0px";
-    }
-    if (filterEl) {
-      filterEl.style.transition = "none";
-      filterEl.style.marginLeft = `${centerMargin}px`;
-      void filterEl.offsetWidth;
-      filterEl.style.transition = `margin-left ${dur} ${ease}`;
-      filterEl.style.marginLeft = "0px";
-    }
-    setPhase("shrinking");
-
-    // Phase 2: animation done → clear imperative styles, snap into flex layout
     setTimeout(() => {
-      if (el) { el.style.transition = ""; el.style.width = ""; el.style.flex = ""; el.style.marginLeft = ""; }
-      if (filterEl) { filterEl.style.transition = ""; filterEl.style.marginLeft = ""; }
-      setPhase("settled");
-    }, 660);
+      const el = picksRef.current;
+      const filterEl = filterBarRef.current;
 
-    // Phase 3: brief pause then stagger-reveal pipeline columns
-    setTimeout(() => {
-      setPhase("split");
-    }, 920);
+      // Phase 1: animate width 520→350 AND marginLeft centerMargin→0 simultaneously
+      if (el) {
+        const currentWidth = el.getBoundingClientRect().width;
+        el.style.transition = "none";
+        el.style.flex = "none";
+        el.style.width = `${currentWidth}px`;
+        el.style.marginLeft = `${centerMargin}px`;
+        void el.offsetWidth; // force reflow
+        el.style.transition = `width ${dur} ${ease}, margin-left ${dur} ${ease}`;
+        el.style.width = "350px";
+        el.style.marginLeft = "0px";
+      }
+      if (filterEl) {
+        filterEl.style.transition = "none";
+        filterEl.style.marginLeft = `${centerMargin}px`;
+        void filterEl.offsetWidth;
+        filterEl.style.transition = `margin-left ${dur} ${ease}`;
+        filterEl.style.marginLeft = "0px";
+      }
+      setPhase("shrinking");
+
+      // Phase 2: slide done → clear imperative styles, lock into flex layout
+      setTimeout(() => {
+        if (el) { el.style.transition = ""; el.style.width = ""; el.style.flex = ""; el.style.marginLeft = ""; }
+        if (filterEl) { filterEl.style.transition = ""; filterEl.style.marginLeft = ""; }
+        setPhase("settled");
+      }, 700);
+
+      // Phase 3: brief breath then stagger-reveal pipeline columns
+      setTimeout(() => {
+        setPhase("split");
+      }, 960);
+    }, CARD_EXIT_MS);
   }, [phase, centerMargin]);
 
   return (
