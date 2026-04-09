@@ -1306,7 +1306,9 @@ function Dashboard() {
   const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
   const [roomJobId, setRoomJobId] = useState<string | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<"list" | "split">("list");
+  // 3-phase: list → shrinking (AI Picks CSS-transitions) → split (columns reveal)
+  const [phase, setPhase] = useState<"list" | "shrinking" | "split">("list");
+  const picksRef = useRef<HTMLDivElement>(null);
 
   const allJobs = Object.values(columns).flat();
   const findJob = (id: string) => allJobs.find((j) => j.id === id);
@@ -1327,8 +1329,31 @@ function Dashboard() {
         not_applied: [{ ...job }, ...prev.not_applied],
       };
     });
-    if (viewMode === "list") setViewMode("split");
-  }, [viewMode]);
+    if (phase !== "list") return;
+
+    // Phase 1: measure current width and CSS-transition shrink (no squish, pure reflow)
+    const el = picksRef.current;
+    if (el) {
+      const currentWidth = el.getBoundingClientRect().width;
+      el.style.transition = "none";
+      el.style.flex = "none";
+      el.style.width = `${currentWidth}px`;
+      void el.offsetWidth; // force reflow
+      el.style.transition = "width 0.58s cubic-bezier(0.22, 1, 0.36, 1)";
+      el.style.width = "350px";
+    }
+    setPhase("shrinking");
+
+    // Phase 2: after shrink done, reveal columns
+    setTimeout(() => {
+      if (el) {
+        el.style.transition = "";
+        el.style.width = "";
+        el.style.flex = "";
+      }
+      setPhase("split");
+    }, 620);
+  }, [phase]);
 
   return (
     <motion.div
@@ -1375,12 +1400,11 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
-            {/* AI Picks — full-width in list mode, shrinks to 350px as pipeline reveals */}
-            <motion.div
-              layout
-              transition={{ layout: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }}
+            {/* AI Picks — full-width in list mode, CSS-reflow-shrinks to 350px before pipeline reveals */}
+            <div
+              ref={picksRef}
               style={{
-                flex: viewMode === "split" ? "0 0 350px" : "1 1 auto",
+                flex: phase === "split" ? "0 0 350px" : "1 1 auto",
                 minWidth: 350,
                 height: "100%",
               }}
@@ -1394,21 +1418,21 @@ function Dashboard() {
                 onMockInterview={setInterviewJobId}
                 onAskScout={setScoutJobId}
               />
-            </motion.div>
+            </div>
 
-            {/* Other pipeline columns — clip-reveal from right, staggered */}
+            {/* Other pipeline columns — clip-reveal after shrink completes, staggered */}
             {COL_ORDER.filter(c => c !== "picks").map((colId, i) => (
               <motion.div
                 key={colId}
                 className="overflow-hidden flex-shrink-0 h-full"
                 initial={{ maxWidth: 0, opacity: 0 }}
                 animate={{
-                  maxWidth: viewMode === "split" ? 362 : 0,
-                  opacity: viewMode === "split" ? 1 : 0,
+                  maxWidth: phase === "split" ? 362 : 0,
+                  opacity: phase === "split" ? 1 : 0,
                 }}
                 transition={{
-                  maxWidth: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: viewMode === "split" ? i * 0.12 : 0 },
-                  opacity:  { duration: 0.45, ease: "easeOut",          delay: viewMode === "split" ? i * 0.12 + 0.12 : 0 },
+                  maxWidth: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: phase === "split" ? i * 0.12 : 0 },
+                  opacity:  { duration: 0.4,  ease: "easeOut",           delay: phase === "split" ? i * 0.12 + 0.1 : 0 },
                 }}
               >
                 {/* inner div at fixed width so content never squishes */}
