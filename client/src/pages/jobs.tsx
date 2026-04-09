@@ -738,7 +738,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()} modal={false}>
       <SheetContent
-        className="border-l border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-0 flex flex-col w-[420px] sm:max-w-[420px]"
+        className="inset-y-3 right-3 h-[calc(100vh-24px)] rounded-2xl shadow-2xl !border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] p-0 flex flex-col w-[460px] sm:max-w-[460px] overflow-hidden"
         hasOverlay={false}
         onInteractOutside={(e) => e.preventDefault()}
       >
