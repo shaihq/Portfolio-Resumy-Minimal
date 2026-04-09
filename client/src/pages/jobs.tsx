@@ -1375,8 +1375,12 @@ function Dashboard() {
         <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
           <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
-            {/* AI Picks — always visible, fills width until other columns appear */}
-            <div className="flex-1 min-w-[220px] h-full">
+            {/* AI Picks — fills width in list mode, shrinks to column width in split mode */}
+            <motion.div
+              className="flex-1 min-w-[220px] h-full"
+              animate={{ maxWidth: viewMode === "split" ? 220 : 10000 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: viewMode === "split" ? 0.15 : 0 }}
+            >
               <PipelineCol
                 colId="picks"
                 colIndex={0}
@@ -1386,7 +1390,7 @@ function Dashboard() {
                 onMockInterview={setInterviewJobId}
                 onAskScout={setScoutJobId}
               />
-            </div>
+            </motion.div>
 
             {/* Other pipeline columns — clip-reveal from right, staggered */}
             {COL_ORDER.filter(c => c !== "picks").map((colId, i) => (
