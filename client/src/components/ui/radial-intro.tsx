@@ -29,6 +29,8 @@ const spinConfig = {
   repeat: Infinity,
 };
 
+const revealEase = [0.22, 1, 0.36, 1] as const; // ease-out-quint
+
 const qsa = (root: Element, sel: string) => Array.from(root.querySelectorAll(sel));
 const angleOf = (el: Element) => Number((el as HTMLElement).dataset.angle || 0);
 const armOfImg = (img: Element) =>
@@ -50,22 +52,33 @@ export function RadialIntro({
     const imgs = qsa(root, "[data-arm-img]");
     const stops: Array<() => void> = [];
 
-    // lift images from center to top of each arm
-    setTimeout(() => animate(imgs, { top: 0 }, spring), 250);
-
-    // fan arms out to their orbit angles, counter-rotate images to stay upright
+    // Fan arms to their orbit angles; counter-rotate images to stay upright.
+    // Images stay invisible (opacity 0) during this phase.
     const seq = [
       ...arms.map((el) => [el, { rotate: angleOf(el) }, { ...spring, at: 0 }]),
       ...imgs.map((img) => [
         img,
-        { rotate: -angleOf(armOfImg(img)!), opacity: 1 },
+        { rotate: -angleOf(armOfImg(img)!) },
         { ...spring, at: 0 },
       ]),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ] as any;
-    setTimeout(() => animate(seq), 700);
+    setTimeout(() => animate(seq), 200);
 
-    // begin continuous slow rotation
+    // Staggered blur-in + slide-up reveal after arms have settled
+    setTimeout(() => {
+      imgs.forEach((img, idx) => {
+        setTimeout(() => {
+          animate(
+            img,
+            { opacity: 1, filter: "blur(0px)", y: 0 },
+            { duration: 0.55, ease: revealEase },
+          );
+        }, idx * 70);
+      });
+    }, 700);
+
+    // Begin continuous slow rotation
     setTimeout(() => {
       arms.forEach((el) => {
         const a = angleOf(el);
@@ -78,7 +91,7 @@ export function RadialIntro({
         const ctrl = animate(img, { rotate: [-a, -a - 360] }, spinConfig);
         stops.push(() => ctrl.cancel());
       });
-    }, 1300);
+    }, 1100);
 
     return () => stops.forEach((s) => s());
   }, []);
@@ -105,11 +118,14 @@ export function RadialIntro({
               src={item.src}
               alt={item.name}
               draggable={false}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 rounded-full"
+              className="absolute left-1/2 -translate-x-1/2 rounded-full"
               style={{
+                top: 0,
                 width: imageSize,
                 height: imageSize,
-                opacity: i === 0 ? 1 : 0,
+                opacity: 0,
+                filter: "blur(8px)",
+                y: 8,
               }}
               layoutId={`arm-img-${item.id}`}
             />
