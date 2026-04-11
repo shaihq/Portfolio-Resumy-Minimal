@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, type RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { Eye, EyeOff, ArrowRight, Sun, Moon } from "lucide-react";
@@ -8,85 +8,98 @@ import profileImg from "@assets/image_1772896095217.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
 
-function CreativePortfolioPreview() {
+function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivElement> }) {
   const [tick, setTick] = useState(new Date());
   const [expandedCareer, setExpandedCareer] = useState<Record<number, boolean>>({});
+  const [characterPosition, setCharacterPosition] = useState(0);
+  const careerLadderRef = useRef<HTMLDivElement>(null);
+  const ladderContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const id = setInterval(() => setTick(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  const tags = [
-    "Interaction Design", "3D Design", "User Research", "UI/UX Design",
-    "Motion Design", "Product Strategy", "Design Systems", "Prototyping",
-  ];
+  useEffect(() => {
+    const scroller = scrollRef.current;
+    if (!scroller) return;
+    const handleScroll = () => {
+      if (!careerLadderRef.current || !ladderContainerRef.current) return;
+      const ladderRect = careerLadderRef.current.getBoundingClientRect();
+      const scrollerRect = scroller.getBoundingClientRect();
+      const containerHeight = ladderContainerRef.current.offsetHeight;
+      const viewportRelativeTop = ladderRect.top - scrollerRect.top;
+      const viewportRelativeBottom = ladderRect.bottom - scrollerRect.top;
+      const scrollerHeight = scroller.clientHeight;
+      if (viewportRelativeBottom < 0 || viewportRelativeTop > scrollerHeight) return;
+      const progress = Math.min(1, Math.max(0, -viewportRelativeTop / (ladderRect.height - scrollerHeight * 0.5)));
+      const maxPosition = containerHeight - 54;
+      setCharacterPosition(Math.min(maxPosition, Math.max(0, progress * maxPosition)));
+    };
+    scroller.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scroller.removeEventListener("scroll", handleScroll);
+  }, [scrollRef]);
 
   return (
-    <div className="flex flex-col gap-3 w-full max-w-[520px] mx-auto px-2">
+    <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-4 md:px-0 max-w-[640px] mx-auto">
       {/* Date/time bar */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.1 }}
-        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center"
+        transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0 }}
+        className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full"
       >
         <div className="flex items-center gap-2">
-          <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[13px]">
+          <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">
             {tick.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" })}
           </span>
-          <div className="w-1.5 h-1.5 bg-[#E37941] rotate-45" />
-          <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[13px]">
+          <div className="w-2 h-2 bg-[#E37941] rotate-45" />
+          <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">
             {tick.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
           </span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-[#E37941] opacity-80" />
-          <span className="text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5]">Live</span>
         </div>
       </motion.div>
 
       {/* Profile card */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.2 }}
-        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[28px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-row gap-4 items-center"
+        transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.15 }}
+        className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col md:flex-row gap-6 items-start md:items-center w-full"
       >
-        <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 bg-[#A1C2D8]">
+        <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
           <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
         </div>
-        <div className="flex flex-col gap-1.5">
-          <h1 className="text-[20px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">
-            Hey I'm Matt.
-          </h1>
-          <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[13px] leading-relaxed">
-            Design Engineer crafting meaningful digital experiences where design meets code.
+        <div className="flex flex-col gap-2">
+          <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
+          <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[480px]">
+            I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code.
           </p>
         </div>
       </motion.div>
 
-      {/* Marquee */}
+      {/* Marquee Tags */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.3 }}
-        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 py-2.5 overflow-hidden relative"
+        transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.3 }}
+        className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full"
       >
-        <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-white/85 dark:from-[#2A2520]/85 to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-white/85 dark:from-[#2A2520]/85 to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10" />
         <motion.div
           className="flex gap-4 whitespace-nowrap"
           animate={{ x: [0, "-50%"] }}
-          transition={{ ease: "linear", duration: 18, repeat: Infinity }}
+          transition={{ ease: "linear", duration: 20, repeat: Infinity }}
         >
-          {[0, 1].map((i) => (
+          {[...Array(2)].map((_, i) => (
             <div key={i} className="flex gap-4 items-center">
-              {tags.map((tag, j) => (
+              {["Interaction Design","3D Design","User Research","UI/UX Design","Motion Design","Design Systems"].map((tag, j) => (
                 <span key={j} className="flex items-center gap-4">
-                  <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[11px] uppercase tracking-wider">{tag}</span>
-                  <svg className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-[#F0EDE7] shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z" />
-                  </svg>
+                  <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">{tag}</span>
+                  <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
+                  </div>
                 </span>
               ))}
             </div>
@@ -96,36 +109,36 @@ function CreativePortfolioPreview() {
 
       {/* Projects */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.4 }}
-        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[28px] border border-[#E5D7C4] dark:border-white/10 p-4"
+        transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.45 }}
+        className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full"
       >
-        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[11px] font-mono uppercase tracking-wider mb-3">Projects</p>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-2 group/card cursor-pointer">
-            <div className="rounded-xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10">
-              <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105" />
+        <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-3" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECTS</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-4 group/card cursor-pointer">
+            <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+              <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
             </div>
             <div>
-              <h3 className="text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug line-clamp-2">
-                Redesigning Quote Builder at Freshworks
+              <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
+                Redesigning Quote Builder at Freshworks for 1,900+ Enterprise Users
               </h3>
-              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[11px] mt-0.5 line-clamp-1">
-                Enterprise UX · 1,900+ users
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm leading-relaxed line-clamp-2">
+                A sleek and responsive landing page designed for modern startups to showcase their product.
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-2 group/card cursor-pointer">
-            <div className="rounded-xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10">
-              <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105" />
+          <div className="flex flex-col gap-4 group/card cursor-pointer">
+            <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+              <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
             </div>
             <div>
-              <h3 className="text-[12px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug line-clamp-2">
-                Designfolio: No-Code Portfolio Builder
+              <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
+                Designfolio: No-Code Portfolio Builder for 9,000+ Users
               </h3>
-              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[11px] mt-0.5 line-clamp-1">
-                9,000+ users worldwide
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm leading-relaxed line-clamp-2">
+                Helping Product folks build bragworthy portfolio websites.
               </p>
             </div>
           </div>
@@ -134,18 +147,23 @@ function CreativePortfolioPreview() {
 
       {/* Career Ladder — exact replica from Creative template */}
       <motion.div
+        ref={careerLadderRef}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.5 }}
-        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[28px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full relative"
+        transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.6 }}
+        className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full relative"
       >
         <h2 className="text-[#7A736C] dark:text-[#B5AFA5] mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
 
-        <div className="relative flex">
+        <div className="relative flex" ref={ladderContainerRef}>
           {/* Climbing character */}
-          <div className="absolute left-[1px] z-20 w-[40px] h-[54px]" style={{ top: 0, willChange: 'transform' }}>
+          <motion.div
+            className="absolute left-[1px] z-20 w-[40px] h-[54px]"
+            style={{ top: characterPosition, willChange: 'transform' }}
+            transition={{ type: "spring", stiffness: 60, damping: 20 }}
+          >
             <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
-          </div>
+          </motion.div>
           {/* Ladder rungs */}
           <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#F0EDE7] dark:border-[#3A352E] py-1 bg-transparent">
             {[...Array(38)].map((_, i) => (
@@ -283,6 +301,7 @@ export default function Signup() {
   const isDark = theme === "dark";
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const previewScrollRef = useRef<HTMLDivElement>(null);
 
   return (
     <motion.div
@@ -447,8 +466,8 @@ export default function Signup() {
         className="hidden md:flex flex-col flex-1 h-full bg-[#EFECE6] dark:bg-[#141414] overflow-hidden relative"
       >
         {/* Scrollable portfolio */}
-        <div className="flex-1 overflow-y-auto pt-6 pb-8 px-6">
-          <CreativePortfolioPreview />
+        <div ref={previewScrollRef} className="flex-1 overflow-y-auto pt-6 pb-8 px-6">
+          <CreativePortfolioPreview scrollRef={previewScrollRef} />
         </div>
 
         {/* Bottom fade */}
