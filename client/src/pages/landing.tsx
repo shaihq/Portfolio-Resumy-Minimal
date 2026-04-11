@@ -1112,11 +1112,11 @@ export default function Landing() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="fixed inset-0 z-[80] pointer-events-none"
         style={{
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
           background: isDark
-            ? `radial-gradient(ellipse 300px 76px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(8,7,6,0.80) 58%)`
-            : `radial-gradient(ellipse 300px 76px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(250,248,238,0.86) 58%)`,
+            ? `radial-gradient(ellipse 300px 76px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(8,7,6,0.65) 58%)`
+            : `radial-gradient(ellipse 300px 76px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(250,248,238,0.72) 58%)`,
           maskImage: `radial-gradient(ellipse 300px 76px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, black 58%)`,
           WebkitMaskImage: `radial-gradient(ellipse 300px 76px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, black 58%)`,
         }}
