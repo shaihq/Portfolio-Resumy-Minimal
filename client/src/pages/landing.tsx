@@ -711,9 +711,7 @@ export default function Landing() {
               className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] dark:text-foreground"
               style={{ fontWeight: 650 }}
             >
-              <div className="relative inline-block">
-                <span className="relative z-10 text-transparent bg-clip-text animate-[shimmer-text_2.5s_ease-in-out_forwards_0.3s]" style={{ backgroundImage: 'linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 30%, #5D3560 40%, #E54D2E 50%, #F5A623 60%, hsl(var(--foreground)) 70%, hsl(var(--foreground)) 100%)', backgroundSize: '300% auto', backgroundPosition: '100% center' }}>Fastest</span>
-              </div> way to build<br />your portfolio site
+              While you sleep,<br />we're finding your<br />next job.
             </motion.h1>
             
             <motion.p 
@@ -722,7 +720,7 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="text-[16px] mb-8 max-w-[400px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
-              Skip the busywork with Designfolio —<br />publish in hours, not weeks.
+              Build your portfolio once. Let AI do the searching, scoring, and shortlisting.
             </motion.p>
             
             <motion.div
