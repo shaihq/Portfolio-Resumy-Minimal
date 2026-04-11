@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { Eye, EyeOff, ArrowRight, Sun, Moon, Briefcase, Monitor, Clock, Sparkles } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
+import { Gauge } from "@/components/ui/gauge-1";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import profileImg from "@assets/image_1772896095217.png";
@@ -520,8 +521,19 @@ export default function Signup() {
                         <p className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] truncate">{job.location}</p>
                       </div>
                     </div>
-                    <div className="shrink-0 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/40 rounded-full px-2.5 py-1">
-                      <span className="text-[13px] font-semibold text-emerald-600 dark:text-emerald-400">{job.match}%</span>
+                    <div className="shrink-0">
+                      <Gauge
+                        value={job.match}
+                        size={42}
+                        strokeWidth={8}
+                        gapPercent={3}
+                        primary="success"
+                        secondary="rgba(0,0,0,0.06)"
+                        showValue={true}
+                        showPercentage={false}
+                        transition={{ delay: 200 }}
+                        className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
+                      />
                     </div>
                   </div>
 
