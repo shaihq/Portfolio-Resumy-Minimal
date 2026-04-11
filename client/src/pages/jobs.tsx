@@ -132,6 +132,12 @@ const questions = [
   "What level are you targeting?",
 ];
 
+const questionOptions: string[][] = [
+  ["Engineering", "Product", "Design", "Data & Analytics", "Marketing", "Sales", "Operations"],
+  ["Remote only", "Hybrid", "On-site", "Open to anything"],
+  ["Entry-level", "Mid-level", "Senior", "Lead / Staff", "Director+"],
+];
+
 function Waveform({ listening }: { listening: boolean }) {
   const bars = Array.from({ length: 28 });
   return (
@@ -337,15 +343,15 @@ function VoiceRoom({ onDone, onReset }: { onDone: () => void; onReset: () => voi
 // ── Type room ──────────────────────────────────────────────────────────────
 function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void }) {
   const [current, setCurrent] = useState(0);
-  const [input, setInput] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
-  useEffect(() => { inputRef.current?.focus(); setInput(""); }, [current]);
-
-  const advance = () => {
-    if (!input.trim()) return;
-    const next = current + 1;
-    next >= questions.length ? onDone() : setCurrent(next);
+  const handleSelect = (option: string) => {
+    setSelected(option);
+    setTimeout(() => {
+      const next = current + 1;
+      setSelected(null);
+      next >= questions.length ? onDone() : setCurrent(next);
+    }, 320);
   };
 
   return (
@@ -360,12 +366,29 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
             {questions[current]}
           </motion.p>
         </AnimatePresence>
-        <div className="w-full flex items-center gap-3">
-          <input ref={inputRef} data-testid="input-answer" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && advance()} placeholder="Type your answer…" className="flex-1 bg-foreground/5 border border-border rounded-2xl px-5 py-4 text-foreground text-[15px] placeholder:text-muted-foreground/50 outline-none focus:border-foreground/25 transition-colors" />
-          <motion.button data-testid="button-next" onClick={advance} disabled={!input.trim()} className="w-12 h-12 rounded-full bg-foreground flex items-center justify-center disabled:opacity-25 transition-opacity flex-shrink-0" whileTap={{ scale: 0.92 }}>
-            <ArrowRight className="w-4 h-4 text-background" />
-          </motion.button>
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div key={current} className="flex flex-wrap justify-center gap-3 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: "easeOut" }}>
+            {questionOptions[current].map((option) => {
+              const isSelected = selected === option;
+              return (
+                <motion.button
+                  key={option}
+                  data-testid={`option-${option.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                  onClick={() => handleSelect(option)}
+                  disabled={selected !== null}
+                  whileTap={{ scale: 0.96 }}
+                  className={`px-5 py-3 rounded-full border text-[14px] font-medium transition-all duration-200 ${
+                    isSelected
+                      ? "bg-foreground text-background border-foreground"
+                      : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/40 hover:bg-foreground/8"
+                  }`}
+                >
+                  {option}
+                </motion.button>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
       <div className="relative z-10 flex flex-col items-center gap-4">
         <DotTrail current={current} total={questions.length} />
