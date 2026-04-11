@@ -806,10 +806,11 @@ export default function Landing() {
                   <motion.div
                     key="processing"
                     initial={{ opacity: 0, scale: 0.97 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    animate={{ opacity: 1, scale: 1.06 }}
                     exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     className="orb-always-active inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/15 dark:border-white/15 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-[10px]"
+                    style={{ boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3)' : '0 8px 32px rgba(29,27,26,0.14), 0 2px 8px rgba(29,27,26,0.08)' }}
                   >
                     <ColorOrb dimension="14px" spinDuration={5} />
                     <AnimatePresence mode="wait">
