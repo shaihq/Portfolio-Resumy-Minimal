@@ -296,7 +296,7 @@ export default function Signup() {
         initial={{ opacity: 0, x: -32 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative flex flex-col justify-center w-full md:w-[420px] lg:w-[460px] shrink-0 h-full bg-[#FDFCF8] dark:bg-[#1A1A1A] px-8 md:px-12 z-10"
+        className="relative flex flex-col justify-center w-full md:w-[560px] lg:w-[620px] shrink-0 h-full bg-[#FDFCF8] dark:bg-[#1A1A1A] px-10 md:px-16 z-10"
       >
         {/* Top bar */}
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-8 md:px-12 py-5">
@@ -315,7 +315,7 @@ export default function Signup() {
         </div>
 
         {/* Form content */}
-        <div className="flex flex-col gap-6 w-full max-w-[340px]">
+        <div className="flex flex-col gap-6 w-full max-w-[420px]">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
