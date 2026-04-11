@@ -175,7 +175,7 @@ function DotTrail({ current, total }: { current: number; total: number }) {
 }
 
 // ── Animated job count ────────────────────────────────────────────────────
-function AnimatedJobCount() {
+function AnimatedJobCount({ onDone }: { onDone?: () => void }) {
   const [count, setCount] = useState(0);
   const [showGradient, setShowGradient] = useState(false);
   const rafRef = useRef<number | null>(null);
@@ -195,7 +195,10 @@ function AnimatedJobCount() {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         setCount(target);
-        setTimeout(() => setShowGradient(true), 80);
+        setTimeout(() => {
+          setShowGradient(true);
+          onDone?.();
+        }, 80);
       }
     };
 
@@ -227,6 +230,8 @@ function AnimatedJobCount() {
 
 // ── Transition screen ──────────────────────────────────────────────────────
 function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: () => void }) {
+  const [orbitVisible, setOrbitVisible] = useState(false);
+
   return (
     <motion.div
       className="fixed inset-0 flex flex-col items-center justify-center bg-[#F0EDE7] dark:bg-background px-6"
@@ -237,20 +242,25 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full dark:bg-[#FF553E]/8 blur-[120px]" />
       </div>
 
-      {/* Radial orbit — absolutely centered around the text block */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 1.2 }}
-      >
-        <RadialIntro orbitItems={ORBIT_COMPANIES} stageSize={640} imageSize={52} />
-      </motion.div>
+      {/* Radial orbit — mounts only after count reaches 1,200+ */}
+      <AnimatePresence>
+        {orbitVisible && (
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9 }}
+          >
+            <RadialIntro orbitItems={ORBIT_COMPANIES} stageSize={640} imageSize={52} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div className="relative z-10 max-w-md text-center space-y-6" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}>
         <div className="space-y-3">
           <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">
-            We found <AnimatedJobCount /><br />
+            We found <AnimatedJobCount onDone={() => setOrbitVisible(true)} /><br />
             jobs that match your profile.
           </h1>
           <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
