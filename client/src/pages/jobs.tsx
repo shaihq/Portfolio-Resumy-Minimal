@@ -179,7 +179,22 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
           </svg>
         </motion.div>
         <div className="space-y-3">
-          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">We found 1,200+ jobs that match your profile.</h1>
+          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">
+            We found{" "}
+            <motion.span
+              initial={{ backgroundPosition: "100% center" }}
+              animate={{ backgroundPosition: "0% center" }}
+              transition={{ duration: 1.6, ease: "easeInOut", delay: 0.5 }}
+              className="text-transparent bg-clip-text inline-block"
+              style={{
+                backgroundImage: "linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 20%, #5D3560 35%, #E54D2E 50%, #F5A623 65%, hsl(var(--foreground)) 80%, hsl(var(--foreground)) 100%)",
+                backgroundSize: "300% auto",
+              }}
+            >
+              1,200+
+            </motion.span>{" "}
+            jobs that match your profile.
+          </h1>
           <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
         </div>
         <motion.div className="flex items-center justify-center pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
