@@ -420,7 +420,16 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
       <div />
 
       {/* Question + answer area */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-lg gap-8 w-full">
+      <div className="relative z-10 flex flex-col items-center text-center max-w-lg gap-6 w-full">
+        <motion.div
+          initial={{ scale: 0.75, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, type: "spring", bounce: 0.35 }}
+          className="w-16 h-16"
+        >
+          <Lottie animationData={aiAssistantAnimation} loop={true} />
+        </motion.div>
+
         <BlurredStagger
           key={current}
           text={questions[current]}
