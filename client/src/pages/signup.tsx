@@ -536,8 +536,11 @@ export default function Signup() {
         transition={{ duration: 0.6, delay: 0.15 }}
         className="hidden md:flex flex-col flex-1 h-full bg-[#EFECE6] dark:bg-[#141414] overflow-hidden relative"
       >
-        {/* Tab toggle */}
-        <div className="shrink-0 pt-5 pb-2 flex justify-center z-10">
+        {/* Floating tab toggle with smudge fade */}
+        <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none">
+          <div className="h-24 bg-gradient-to-b from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/85 dark:via-[#141414]/85 to-transparent" />
+        </div>
+        <div className="absolute top-4 left-0 right-0 z-30 flex justify-center pointer-events-auto">
           <AnimatedTabs
             tabs={[{ label: "My Portfolio" }, { label: "My Jobs" }]}
             onChange={setActiveView}
@@ -546,12 +549,12 @@ export default function Signup() {
 
         {/* Scrollable portfolio */}
         {activeView === "My Portfolio" ? (
-          <div ref={previewScrollRef} className="flex-1 overflow-y-auto pt-4 pb-8 px-6">
+          <div ref={previewScrollRef} className="flex-1 overflow-y-auto pt-20 pb-8 px-6">
             <CreativePortfolioPreview scrollRef={previewScrollRef} />
           </div>
         ) : (
           <div className="flex-1 relative overflow-hidden">
-            <div className="h-full overflow-y-auto pt-4 pb-8 px-6">
+            <div className="h-full overflow-y-auto pt-20 pb-8 px-6">
             <div className="w-full max-w-[640px] mx-auto flex flex-col gap-3">
               {/* Header */}
               <div className="flex items-center gap-2 mb-1">
