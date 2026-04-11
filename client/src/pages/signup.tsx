@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
-import { Eye, EyeOff, ArrowRight, Sun, Moon } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Sun, Moon, BriefcaseIcon } from "lucide-react";
+import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import profileImg from "@assets/image_1772896095217.png";
@@ -302,6 +303,7 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const previewScrollRef = useRef<HTMLDivElement>(null);
+  const [activeView, setActiveView] = useState("My Portfolio");
 
   return (
     <motion.div
@@ -465,10 +467,30 @@ export default function Signup() {
         transition={{ duration: 0.6, delay: 0.15 }}
         className="hidden md:flex flex-col flex-1 h-full bg-[#EFECE6] dark:bg-[#141414] overflow-hidden relative"
       >
-        {/* Scrollable portfolio */}
-        <div ref={previewScrollRef} className="flex-1 overflow-y-auto pt-6 pb-8 px-6">
-          <CreativePortfolioPreview scrollRef={previewScrollRef} />
+        {/* Tab toggle */}
+        <div className="shrink-0 pt-5 pb-2 flex justify-center z-10">
+          <AnimatedTabs
+            tabs={[{ label: "My Portfolio" }, { label: "My Jobs" }]}
+            onChange={setActiveView}
+          />
         </div>
+
+        {/* Scrollable portfolio */}
+        {activeView === "My Portfolio" ? (
+          <div ref={previewScrollRef} className="flex-1 overflow-y-auto pt-4 pb-8 px-6">
+            <CreativePortfolioPreview scrollRef={previewScrollRef} />
+          </div>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 pb-16 px-6">
+            <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center">
+              <BriefcaseIcon className="w-6 h-6 text-[#7A736C] dark:text-[#B5AFA5]" />
+            </div>
+            <div className="text-center">
+              <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">Jobs matched overnight</p>
+              <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] max-w-[220px] leading-relaxed">Claim your portfolio and we'll start shortlisting roles that fit.</p>
+            </div>
+          </div>
+        )}
 
         {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] to-transparent pointer-events-none" />
