@@ -374,9 +374,7 @@ export default function Signup() {
             transition={{ delay: 0.15, duration: 0.4 }}
             className="flex flex-col gap-2"
           >
-            <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">
-              Claim it and go live.
-            </h1>
+            <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">Claim it. Jobs are waiting.</h1>
             <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">
               We built your portfolio from your resume. Create an account to publish it and start getting shortlisted.
             </p>
@@ -537,7 +535,6 @@ export default function Signup() {
           </motion.p>
         </div>
       </motion.div>
-
       {/* ── Leave confirmation modal ──────────────────────── */}
       <AnimatePresence>
         {showLeaveConfirm && (
@@ -595,10 +592,8 @@ export default function Signup() {
           </motion.div>
         )}
       </AnimatePresence>
-
       {/* ── Divider ───────────────────────────────────────── */}
       <div className="hidden md:block w-px bg-[#1D1B1A]/08 dark:bg-white/08 shrink-0" />
-
       {/* ── Right: Portfolio Preview ───────────────────────── */}
       <motion.div
         initial={{ opacity: 0 }}
