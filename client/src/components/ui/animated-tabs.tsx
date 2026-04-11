@@ -40,7 +40,7 @@ export function AnimatedTabs({ tabs, onChange }: AnimatedTabsProps) {
         ref={containerRef}
         className="absolute z-10 w-full overflow-hidden [clip-path:inset(0px_75%_0px_0%_round_17px)] [transition:clip-path_0.25s_ease]"
       >
-        <div className="relative flex w-full justify-center bg-[#F5F0E8] dark:bg-white/22">
+        <div className="relative flex w-full justify-center bg-[#F5F0E8] dark:bg-[#2A2520]">
           {tabs.map((tab, index) => (
             <button
               key={index}
