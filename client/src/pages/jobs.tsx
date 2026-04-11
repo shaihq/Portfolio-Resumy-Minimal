@@ -244,7 +244,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 1.2 }}
       >
-        <RadialIntro orbitItems={ORBIT_COMPANIES} stageSize={520} imageSize={52} />
+        <RadialIntro orbitItems={ORBIT_COMPANIES} stageSize={640} imageSize={52} />
       </motion.div>
 
       <motion.div className="relative z-10 max-w-md text-center space-y-6" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}>
