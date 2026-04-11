@@ -1,16 +1,11 @@
 import * as React from "react";
-import {
-  LayoutGroup,
-  motion,
-  useAnimate,
-} from "motion/react";
+import { LayoutGroup, motion, useAnimate } from "motion/react";
 import type { Transition } from "motion/react";
 
-interface OrbitItem {
+export interface OrbitItem {
   id: number;
   name: string;
-  color: string;
-  letter: string;
+  src: string;
 }
 
 interface RadialIntroProps {
@@ -19,7 +14,7 @@ interface RadialIntroProps {
   imageSize?: number;
 }
 
-const transition: Transition = {
+const spring: Transition = {
   delay: 0,
   stiffness: 300,
   damping: 35,
@@ -34,18 +29,15 @@ const spinConfig = {
   repeat: Infinity,
 };
 
-const qsa = (root: Element, sel: string) =>
-  Array.from(root.querySelectorAll(sel));
-
+const qsa = (root: Element, sel: string) => Array.from(root.querySelectorAll(sel));
 const angleOf = (el: Element) => Number((el as HTMLElement).dataset.angle || 0);
-
-const armOfLogo = (logo: Element) =>
-  (logo as HTMLElement).closest("[data-arm]") as HTMLElement | null;
+const armOfImg = (img: Element) =>
+  (img as HTMLElement).closest("[data-arm]") as HTMLElement | null;
 
 export function RadialIntro({
   orbitItems,
-  stageSize = 380,
-  imageSize = 44,
+  stageSize = 500,
+  imageSize = 48,
 }: RadialIntroProps) {
   const step = 360 / orbitItems.length;
   const [scope, animate] = useAnimate();
@@ -55,43 +47,47 @@ export function RadialIntro({
     if (!root) return;
 
     const arms = qsa(root, "[data-arm]");
-    const logos = qsa(root, "[data-arm-logo]");
+    const imgs = qsa(root, "[data-arm-img]");
     const stops: Array<() => void> = [];
 
-    // lift logos up from center to top of arm
-    setTimeout(() => animate(logos, { top: 0 }, transition), 250);
+    // lift images from center to top of each arm
+    setTimeout(() => animate(imgs, { top: 0 }, spring), 250);
 
-    // place arms at their orbit angles, counter-rotate logos to stay upright
-    const placementSequence = [
-      ...arms.map((el) => [el, { rotate: angleOf(el) }, { ...transition, at: 0 }]),
-      ...logos.map((logo) => [logo, { rotate: -angleOf(armOfLogo(logo)!), opacity: 1 }, { ...transition, at: 0 }]),
+    // fan arms out to their orbit angles, counter-rotate images to stay upright
+    const seq = [
+      ...arms.map((el) => [el, { rotate: angleOf(el) }, { ...spring, at: 0 }]),
+      ...imgs.map((img) => [
+        img,
+        { rotate: -angleOf(armOfImg(img)!), opacity: 1 },
+        { ...spring, at: 0 },
+      ]),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ] as any;
-    setTimeout(() => animate(placementSequence), 700);
+    setTimeout(() => animate(seq), 700);
 
-    // continuous spin
+    // begin continuous slow rotation
     setTimeout(() => {
       arms.forEach((el) => {
-        const angle = angleOf(el);
-        const ctrl = animate(el, { rotate: [angle, angle + 360] }, spinConfig);
+        const a = angleOf(el);
+        const ctrl = animate(el, { rotate: [a, a + 360] }, spinConfig);
         stops.push(() => ctrl.cancel());
       });
-      logos.forEach((logo) => {
-        const arm = armOfLogo(logo);
-        const angle = arm ? angleOf(arm) : 0;
-        const ctrl = animate(logo, { rotate: [-angle, -angle - 360] }, spinConfig);
+      imgs.forEach((img) => {
+        const arm = armOfImg(img);
+        const a = arm ? angleOf(arm) : 0;
+        const ctrl = animate(img, { rotate: [-a, -a - 360] }, spinConfig);
         stops.push(() => ctrl.cancel());
       });
     }, 1300);
 
-    return () => stops.forEach((stop) => stop());
+    return () => stops.forEach((s) => s());
   }, []);
 
   return (
     <LayoutGroup>
       <motion.div
         ref={scope}
-        className="relative overflow-visible pointer-events-none"
+        className="relative overflow-visible pointer-events-none select-none"
         style={{ width: stageSize, height: stageSize }}
         initial={false}
       >
@@ -104,20 +100,19 @@ export function RadialIntro({
             data-angle={i * step}
             layoutId={`arm-${item.id}`}
           >
-            <motion.div
-              data-arm-logo
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 rounded-full flex items-center justify-center text-white font-bold shadow-md"
+            <motion.img
+              data-arm-img
+              src={item.src}
+              alt={item.name}
+              draggable={false}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 rounded-full"
               style={{
                 width: imageSize,
                 height: imageSize,
-                fontSize: imageSize * 0.36,
-                backgroundColor: item.color,
                 opacity: i === 0 ? 1 : 0,
               }}
-              layoutId={`arm-logo-${item.id}`}
-            >
-              {item.letter}
-            </motion.div>
+              layoutId={`arm-img-${item.id}`}
+            />
           </motion.div>
         ))}
       </motion.div>

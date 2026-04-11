@@ -115,15 +115,14 @@ const INITIAL_COLUMNS: Record<string, Job[]> = {
 
 // ── Orbit company logos (TransitionScreen background) ──────────────────────
 const ORBIT_COMPANIES = [
-  { id: 1,  name: "Linear",   color: "#5E6AD2", letter: "L" },
-  { id: 2,  name: "Vercel",   color: "#1C1C1C", letter: "V" },
-  { id: 3,  name: "Notion",   color: "#3D3D3D", letter: "N" },
-  { id: 4,  name: "Figma",    color: "#F24E1E", letter: "F" },
-  { id: 5,  name: "Stripe",   color: "#6772E5", letter: "S" },
-  { id: 6,  name: "Loom",     color: "#625DF5", letter: "L" },
-  { id: 7,  name: "Airbnb",   color: "#FF5A5F", letter: "A" },
-  { id: 8,  name: "GitHub",   color: "#24292E", letter: "G" },
-  { id: 9,  name: "Shopify",  color: "#96BF48", letter: "S" },
+  { id: 1, name: "Company 1", src: "/companylogo-new/companyradial01.svg" },
+  { id: 2, name: "Company 2", src: "/companylogo-new/companyradial02.svg" },
+  { id: 3, name: "Company 3", src: "/companylogo-new/companyradial03.svg" },
+  { id: 4, name: "Company 4", src: "/companylogo-new/companyradial04.svg" },
+  { id: 5, name: "Company 5", src: "/companylogo-new/companyradial05.svg" },
+  { id: 6, name: "Company 6", src: "/companylogo-new/companyradial06.svg" },
+  { id: 7, name: "Company 7", src: "/companylogo-new/companyradial07.svg" },
+  { id: 8, name: "Company 8", src: "/companylogo-new/companyradial08.svg" },
 ];
 
 // ── Shared sub-components ──────────────────────────────────────────────────
@@ -238,16 +237,15 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full dark:bg-[#FF553E]/8 blur-[120px]" />
       </div>
 
-      {/* Radial orbit — absolutely centered, sits between glow and text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1.2 }}
-        >
-          <RadialIntro orbitItems={ORBIT_COMPANIES} stageSize={400} imageSize={44} />
-        </motion.div>
-      </div>
+      {/* Radial orbit — absolutely centered around the text block */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 1.2 }}
+      >
+        <RadialIntro orbitItems={ORBIT_COMPANIES} stageSize={520} imageSize={52} />
+      </motion.div>
 
       <motion.div className="relative z-10 max-w-md text-center space-y-6" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}>
         <motion.div className="flex justify-center mb-8" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, duration: 0.5 }}>
