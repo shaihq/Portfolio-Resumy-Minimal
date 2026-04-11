@@ -364,11 +364,19 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
   const [locationChoice, setLocationChoice] = useState<string | null>(null);
   const [cityInput, setCityInput] = useState("");
   const [levelChoice, setLevelChoice] = useState<string | null>(null);
+  const [inputsVisible, setInputsVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (current === 0) setTimeout(() => inputRef.current?.focus(), 50);
+    setInputsVisible(false);
+    const textLen = questions[current].length;
+    const revealDelay = (textLen - 1) * 0.015 + 0.2;
+    const t = setTimeout(() => {
+      setInputsVisible(true);
+      if (current === 0) setTimeout(() => inputRef.current?.focus(), 60);
+    }, revealDelay * 1000);
+    return () => clearTimeout(t);
   }, [current]);
 
   useEffect(() => {
@@ -429,8 +437,8 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
 
         <AnimatePresence mode="wait">
           {/* Q1 — Role */}
-          {current === 0 && (
-            <motion.div key="role-input" className="flex flex-col items-center gap-4 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.32 }}>
+          {current === 0 && inputsVisible && (
+            <motion.div key="role-input" className="flex flex-col items-center gap-4 w-full" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: "easeOut" }}>
               <input
                 ref={inputRef}
                 data-testid="input-role"
@@ -451,8 +459,8 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
           )}
 
           {/* Q2 — Location */}
-          {current === 1 && (
-            <motion.div key="location" className="flex flex-col items-center gap-5 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.32 }}>
+          {current === 1 && inputsVisible && (
+            <motion.div key="location" className="flex flex-col items-center gap-5 w-full" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: "easeOut" }}>
               <div className="flex flex-wrap justify-center gap-3 w-full">
                 {questionOptions[1].map((option) => (
                   <motion.button
@@ -491,8 +499,8 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
           )}
 
           {/* Q3 — Level */}
-          {current === 2 && (
-            <motion.div key="level" className="flex flex-col gap-3 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.32 }}>
+          {current === 2 && inputsVisible && (
+            <motion.div key="level" className="flex flex-col gap-3 w-full" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: "easeOut" }}>
               {levelOptions.map((opt) => {
                 const isChosen = levelChoice === opt.title;
                 return (
@@ -523,7 +531,15 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
       </div>
 
       {/* Bottom nav */}
-      <div className="relative z-10 flex flex-col items-center gap-5 w-full max-w-lg">
+      <AnimatePresence>
+      {inputsVisible && (
+      <motion.div
+        className="relative z-10 flex flex-col items-center gap-5 w-full max-w-lg"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      >
         <div className="flex items-center justify-between w-full gap-3">
           {/* Back */}
           <motion.button
@@ -557,7 +573,9 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
         <button data-testid="button-do-later-type" onClick={onReset} className="cursor-pointer text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors">
           I'll do it later
         </button>
-      </div>
+      </motion.div>
+      )}
+      </AnimatePresence>
     </motion.div>
   );
 }
