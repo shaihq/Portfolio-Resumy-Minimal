@@ -179,15 +179,12 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
           </svg>
         </motion.div>
         <div className="space-y-3">
-          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">Let's find a job that actually fits you.</h1>
-          <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Your portfolio and resume are already here.<br />I just need 5 minutes with you.</p>
+          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">We found 1,200+ jobs that match your profile.</h1>
+          <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
         </div>
-        <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
-          <button data-testid="button-lets-talk" onClick={onVoice} className="flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-6 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]">
-            <Mic className="w-4 h-4" />Let's talk
-          </button>
-          <button data-testid="button-type-instead" onClick={onType} className="flex items-center gap-2 text-muted-foreground font-medium text-[14px] px-6 py-3 rounded-full border border-border hover:border-foreground/30 hover:text-foreground/80 transition-all active:scale-[0.97]">
-            I'll type instead<ChevronRight className="w-4 h-4" />
+        <motion.div className="flex items-center justify-center pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
+          <button data-testid="button-lets-do-it" onClick={onType} className="flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-7 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]">
+            Let's do it <ArrowRight className="w-4 h-4" />
           </button>
         </motion.div>
       </motion.div>
