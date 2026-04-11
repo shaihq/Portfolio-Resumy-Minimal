@@ -52,7 +52,7 @@ function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivE
   }, [scrollRef]);
 
   return (
-    <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-4 md:px-0 max-w-[640px] mx-auto">
+    <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-0 max-w-[640px] mx-auto">
       {/* Date/time bar */}
       <motion.div
         initial={{ opacity: 0, y: -40 }}
@@ -748,7 +748,7 @@ export default function Signup() {
 
               {/* Scrollable content */}
               {mobileSheetView === "My Portfolio" ? (
-                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[72px] pb-28 px-4">
+                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[72px] pb-28">
                   <CreativePortfolioPreview scrollRef={mobileSheetScrollRef} />
                 </div>
               ) : (
