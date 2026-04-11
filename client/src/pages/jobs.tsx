@@ -340,10 +340,25 @@ function VoiceRoom({ onDone, onReset }: { onDone: () => void; onReset: () => voi
   );
 }
 
+const roleSuggestions = [
+  "Product Designer",
+  "UX Designer",
+  "UI Designer",
+  "UX Researcher",
+  "Design Lead",
+  "Interaction Designer",
+];
+
 // ── Type room ──────────────────────────────────────────────────────────────
 function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void }) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
+  const [roleInput, setRoleInput] = useState("Senior Product Designer");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (current === 0) inputRef.current?.focus();
+  }, [current]);
 
   const handleSelect = (option: string) => {
     setSelected(option);
@@ -352,6 +367,12 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
       setSelected(null);
       next >= questions.length ? onDone() : setCurrent(next);
     }, 320);
+  };
+
+  const advanceRole = () => {
+    if (!roleInput.trim()) return;
+    const next = current + 1;
+    next >= questions.length ? onDone() : setCurrent(next);
   };
 
   return (
@@ -366,28 +387,65 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
             {questions[current]}
           </motion.p>
         </AnimatePresence>
+
         <AnimatePresence mode="wait">
-          <motion.div key={current} className="flex flex-wrap justify-center gap-3 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: "easeOut" }}>
-            {questionOptions[current].map((option) => {
-              const isSelected = selected === option;
-              return (
+          {current === 0 ? (
+            <motion.div key="role-input" className="flex flex-col items-center gap-4 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: "easeOut" }}>
+              <div className="w-full flex items-center gap-3">
+                <input
+                  ref={inputRef}
+                  data-testid="input-role"
+                  value={roleInput}
+                  onChange={(e) => setRoleInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && advanceRole()}
+                  className="flex-1 bg-background/70 dark:bg-foreground/5 border border-border rounded-2xl px-5 py-4 text-foreground text-[15px] outline-none focus:border-foreground/30 transition-colors"
+                />
                 <motion.button
-                  key={option}
-                  data-testid={`option-${option.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
-                  onClick={() => handleSelect(option)}
-                  disabled={selected !== null}
-                  whileTap={{ scale: 0.96 }}
-                  className={`px-5 py-3 rounded-full border text-[14px] font-medium transition-all duration-200 ${
-                    isSelected
-                      ? "bg-foreground text-background border-foreground"
-                      : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/40 hover:bg-foreground/8"
-                  }`}
+                  data-testid="button-next-role"
+                  onClick={advanceRole}
+                  disabled={!roleInput.trim()}
+                  whileTap={{ scale: 0.92 }}
+                  className="w-12 h-12 rounded-full bg-foreground flex items-center justify-center disabled:opacity-25 transition-opacity flex-shrink-0"
                 >
-                  {option}
+                  <ArrowRight className="w-4 h-4 text-background" />
                 </motion.button>
-              );
-            })}
-          </motion.div>
+              </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                {roleSuggestions.map((s) => (
+                  <button
+                    key={s}
+                    data-testid={`suggestion-${s.toLowerCase().replace(/\s+/g, "-")}`}
+                    onClick={() => setRoleInput(s)}
+                    className="px-4 py-2 rounded-full border border-border text-[13px] text-muted-foreground bg-background/50 dark:bg-foreground/5 hover:border-foreground/30 hover:text-foreground transition-all duration-200"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key={current} className="flex flex-wrap justify-center gap-3 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: "easeOut" }}>
+              {questionOptions[current].map((option) => {
+                const isSelected = selected === option;
+                return (
+                  <motion.button
+                    key={option}
+                    data-testid={`option-${option.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                    onClick={() => handleSelect(option)}
+                    disabled={selected !== null}
+                    whileTap={{ scale: 0.96 }}
+                    className={`px-5 py-3 rounded-full border text-[14px] font-medium transition-all duration-200 ${
+                      isSelected
+                        ? "bg-foreground text-background border-foreground"
+                        : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/40 hover:bg-foreground/8"
+                    }`}
+                  >
+                    {option}
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
       <div className="relative z-10 flex flex-col items-center gap-4">
