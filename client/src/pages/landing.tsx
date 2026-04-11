@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -309,6 +310,7 @@ function TestimonialCarousel() {
 }
 
 export default function Landing() {
+  const [, navigate] = useLocation();
   const { theme, setTheme } = useTheme();
   const isDark = theme === 'dark';
   const containerRef = useRef<HTMLDivElement>(null);
@@ -340,6 +342,12 @@ export default function Landing() {
     }, 2200);
     return () => clearInterval(interval);
   }, [isProcessing]);
+
+  useEffect(() => {
+    if (!isProcessing) return;
+    const timer = setTimeout(() => navigate("/signup"), 3600);
+    return () => clearTimeout(timer);
+  }, [isProcessing, navigate]);
 
   const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
   const speedDurations = [52, 38, 28, 18, 11];

@@ -13,6 +13,7 @@ import { ThemeProvider } from "next-themes";
 import { Home as HomeIcon, MonitorPlay } from "lucide-react";
 
 import Landing from "@/pages/landing";
+import Signup from "@/pages/signup";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import { FloatingNav } from "@/components/floating-nav";
 
@@ -41,6 +42,7 @@ function Router() {
         <Route path="/" component={Home}/>
         <Route path="/jobs" component={Jobs}/>
         <Route path="/landing" component={Landing}/>
+        <Route path="/signup" component={Signup}/>
         <Route path="/privacy-policy" component={PrivacyPolicy}/>
         <Route path="/project/:id" component={Project}/>
         <Route component={NotFound} />
