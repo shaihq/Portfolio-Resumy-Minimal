@@ -1,13 +1,22 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
-import { Eye, EyeOff, ArrowRight, Sun, Moon, BriefcaseIcon } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Sun, Moon, Briefcase, Monitor, Clock, Sparkles } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import profileImg from "@assets/image_1772896095217.png";
 import project1 from "@/assets/images/project1.png";
 import project2 from "@/assets/images/project2.png";
+
+const AI_PICKS = [
+  { id: "1", company: "Linear", role: "Senior Product Designer", match: 96, reason: "Remote-first, full ownership, design system scope", logoColor: "#5E6AD2", logoLetter: "L", type: "Full-Time", workMode: "Remote", yearsExp: "5+ yrs", location: "San Francisco, CA" },
+  { id: "2", company: "Vercel", role: "Product Designer", match: 91, reason: "Developer-led culture, design-code bridge, async", logoColor: "#171717", logoLetter: "V", type: "Full-Time", workMode: "Remote", yearsExp: "3+ yrs", location: "New York, NY" },
+  { id: "3", company: "Notion", role: "Product Designer", match: 88, reason: "Content-first, collaborative, B2B/consumer overlap", logoColor: "#191919", logoLetter: "N", type: "Full-Time", workMode: "Hybrid", yearsExp: "4+ yrs", location: "San Francisco, CA" },
+  { id: "4", company: "Figma", role: "UX Designer", match: 85, reason: "Design community influence, tool ecosystem impact", logoColor: "#F24E1E", logoLetter: "F", type: "Full-Time", workMode: "On-site", yearsExp: "3+ yrs", location: "San Francisco, CA" },
+  { id: "5", company: "Loom", role: "Senior UX Designer", match: 82, reason: "Async-first, startup momentum, video-native product", logoColor: "#625DF5", logoLetter: "L", type: "Full-Time", workMode: "Remote", yearsExp: "5+ yrs", location: "Austin, TX" },
+  { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", type: "Full-Time", workMode: "Hybrid", yearsExp: "4+ yrs", location: "Seattle, WA" },
+];
 
 function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivElement> }) {
   const [tick, setTick] = useState(new Date());
@@ -481,13 +490,64 @@ export default function Signup() {
             <CreativePortfolioPreview scrollRef={previewScrollRef} />
           </div>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center gap-4 pb-16 px-6">
-            <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center">
-              <BriefcaseIcon className="w-6 h-6 text-[#7A736C] dark:text-[#B5AFA5]" />
-            </div>
-            <div className="text-center">
-              <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">Jobs matched overnight</p>
-              <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] max-w-[220px] leading-relaxed">Claim your portfolio and we'll start shortlisting roles that fit.</p>
+          <div className="flex-1 overflow-y-auto pt-4 pb-8 px-6">
+            <div className="w-full max-w-[640px] mx-auto flex flex-col gap-3">
+              {/* Header */}
+              <div className="flex items-center gap-2 mb-1">
+                <Sparkles className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#B5AFA5]" />
+                <span className="text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>AI PICKS · {AI_PICKS.length} MATCHES</span>
+              </div>
+
+              {AI_PICKS.map((job, i) => (
+                <motion.div
+                  key={job.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.07 }}
+                  className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col gap-3"
+                >
+                  {/* Top row: logo + company/location + match */}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white text-[14px] font-bold"
+                        style={{ backgroundColor: job.logoColor }}
+                      >
+                        {job.logoLetter}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">{job.company}</p>
+                        <p className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] truncate">{job.location}</p>
+                      </div>
+                    </div>
+                    <div className="shrink-0 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/40 rounded-full px-2.5 py-1">
+                      <span className="text-[13px] font-semibold text-emerald-600 dark:text-emerald-400">{job.match}%</span>
+                    </div>
+                  </div>
+
+                  {/* Role */}
+                  <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">{job.role}</p>
+
+                  {/* Reason */}
+                  <p className="text-[12px] text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed italic">"{job.reason}"</p>
+
+                  {/* Pills */}
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5] bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-2 py-0.5">
+                      <Briefcase className="w-2.5 h-2.5 shrink-0" />
+                      {job.type}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5] bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-2 py-0.5">
+                      <Monitor className="w-2.5 h-2.5 shrink-0" />
+                      {job.workMode}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5] bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-2 py-0.5">
+                      <Clock className="w-2.5 h-2.5 shrink-0" />
+                      {job.yearsExp}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         )}
