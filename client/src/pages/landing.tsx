@@ -3,6 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, Upload, CheckCircle2 } from "lucide-react";
+import { ColorOrb } from "@/components/ui/color-orb";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
@@ -769,33 +770,22 @@ export default function Landing() {
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.25 }}
-                    className="inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.06] px-5 py-3"
+                    transition={{ duration: 0.3 }}
+                    className="inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/15 dark:border-white/15 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-[10px]"
                   >
-                    <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-[#FF553E]" strokeWidth={2} />
-                    <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground truncate max-w-[160px]">{resumeFile.name}</span>
-                    <span className="text-[#1D1B1A]/30 dark:text-foreground/30 text-[13px]">·</span>
+                    <ColorOrb dimension="20px" spinDuration={5} />
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={aiStatusIndex}
-                        initial={{ opacity: 0, y: 4 }}
+                        initial={{ opacity: 0, y: 5 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -4 }}
-                        transition={{ duration: 0.3 }}
-                        className="text-[13px] text-[#1D1B1A]/55 dark:text-foreground/55 whitespace-nowrap"
+                        exit={{ opacity: 0, y: -5 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        className="text-[14px] font-medium text-[#1D1B1A]/70 dark:text-foreground/70 whitespace-nowrap"
                       >
                         {aiStatuses[aiStatusIndex]}
                       </motion.span>
                     </AnimatePresence>
-                    <span className="flex gap-[3px] items-center ml-1">
-                      {[0, 1, 2].map((i) => (
-                        <span
-                          key={i}
-                          className="block h-[5px] w-[5px] rounded-full bg-[#1D1B1A]/30 dark:bg-white/30 animate-bounce"
-                          style={{ animationDelay: `${i * 0.15}s`, animationDuration: "0.9s" }}
-                        />
-                      ))}
-                    </span>
                   </motion.div>
                 ) : (
                   <motion.div
