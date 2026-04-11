@@ -127,11 +127,9 @@ const ORBIT_COMPANIES = [
 
 // ── Shared sub-components ──────────────────────────────────────────────────
 const questions = [
-  "What kind of work are you looking for — full-time, freelance, or something in between?",
-  "Where would you want to be based? Remote, hybrid, or a specific city?",
-  "Which industry excites you most right now?",
-  "What's the one thing a role must have for you to say yes?",
-  "Anything you'd want to avoid in your next job?",
+  "What role are you looking for next?",
+  "Where are you open to working?",
+  "What level are you targeting?",
 ];
 
 function Waveform({ listening }: { listening: boolean }) {
