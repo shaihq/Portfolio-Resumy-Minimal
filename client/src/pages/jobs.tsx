@@ -166,22 +166,23 @@ function AnimatedJobCount() {
   const [count, setCount] = useState(0);
   const [showGradient, setShowGradient] = useState(false);
   const rafRef = useRef<number | null>(null);
+  const startRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const duration = 1000;
+    const duration = 1800; // natural pacing
     const target = 1200;
-    const startTime = performance.now();
 
     const tick = (now: number) => {
-      const elapsed = now - startTime;
+      if (!startRef.current) startRef.current = now;
+      const elapsed = now - startRef.current;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * target));
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         setCount(target);
-        setTimeout(() => setShowGradient(true), 60);
+        setTimeout(() => setShowGradient(true), 80);
       }
     };
 
@@ -193,12 +194,18 @@ function AnimatedJobCount() {
 
   return (
     <span
-      className={showGradient ? "text-transparent bg-clip-text inline-block" : "inline-block"}
+      key={showGradient ? "g" : "n"}
       style={showGradient ? {
-        backgroundImage: "linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 20%, #5D3560 35%, #E54D2E 50%, #F5A623 65%, hsl(var(--foreground)) 80%, hsl(var(--foreground)) 100%)",
-        backgroundSize: "300% auto",
-        animation: "shimmer-text 2.5s ease-in-out forwards",
-      } : undefined}
+        display: "inline-block",
+        whiteSpace: "nowrap",
+        paddingRight: "0.08em",
+        color: "transparent",
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        backgroundImage: "linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 38%, #5D3560 52%, #E54D2E 62%, #F5A623 72%, hsl(var(--foreground)) 86%, hsl(var(--foreground)) 100%)",
+        backgroundSize: "300% 100%",
+        animation: "shimmer-text 3s ease-in-out forwards",
+      } : { display: "inline-block", whiteSpace: "nowrap" }}
     >
       {display}
     </span>
@@ -224,7 +231,8 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         </motion.div>
         <div className="space-y-3">
           <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">
-            We found <AnimatedJobCount /> jobs that match your profile.
+            We found <AnimatedJobCount /><br />
+            jobs that match your profile.
           </h1>
           <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
         </div>
