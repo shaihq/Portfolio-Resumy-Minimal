@@ -161,6 +161,50 @@ function DotTrail({ current, total }: { current: number; total: number }) {
   );
 }
 
+// ── Animated job count ────────────────────────────────────────────────────
+function AnimatedJobCount() {
+  const [count, setCount] = useState(0);
+  const [showGradient, setShowGradient] = useState(false);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const duration = 1000;
+    const target = 1200;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCount(Math.floor(eased * target));
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        setCount(target);
+        setTimeout(() => setShowGradient(true), 60);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, []);
+
+  const display = count >= 1200 ? "1,200+" : count.toLocaleString();
+
+  return (
+    <span
+      className={showGradient ? "text-transparent bg-clip-text inline-block" : "inline-block"}
+      style={showGradient ? {
+        backgroundImage: "linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 20%, #5D3560 35%, #E54D2E 50%, #F5A623 65%, hsl(var(--foreground)) 80%, hsl(var(--foreground)) 100%)",
+        backgroundSize: "300% auto",
+        animation: "shimmer-text 2.5s ease-in-out forwards",
+      } : undefined}
+    >
+      {display}
+    </span>
+  );
+}
+
 // ── Transition screen ──────────────────────────────────────────────────────
 function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: () => void }) {
   return (
@@ -180,20 +224,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
         </motion.div>
         <div className="space-y-3">
           <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground">
-            We found{" "}
-            <motion.span
-              initial={{ backgroundPosition: "100% center" }}
-              animate={{ backgroundPosition: "0% center" }}
-              transition={{ duration: 1.6, ease: "easeInOut", delay: 0.5 }}
-              className="text-transparent bg-clip-text inline-block"
-              style={{
-                backgroundImage: "linear-gradient(to right, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 20%, #5D3560 35%, #E54D2E 50%, #F5A623 65%, hsl(var(--foreground)) 80%, hsl(var(--foreground)) 100%)",
-                backgroundSize: "300% auto",
-              }}
-            >
-              1,200+
-            </motion.span>{" "}
-            jobs that match your profile.
+            We found <AnimatedJobCount /> jobs that match your profile.
           </h1>
           <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
         </div>
