@@ -735,9 +735,9 @@ export default function Signup() {
                 <div className="w-9 h-1 rounded-full bg-[#1D1B1A]/15 dark:bg-white/15" />
               </div>
 
-              {/* Floating tab with smudge */}
+              {/* Floating tab with smudge + blur */}
               <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none">
-                <div className="h-28 bg-gradient-to-b from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/85 dark:via-[#141414]/85 to-transparent" />
+                <div className="h-28 bg-gradient-to-b from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/85 dark:via-[#141414]/85 to-transparent backdrop-blur-md [mask-image:linear-gradient(to_bottom,black_40%,transparent)]" />
               </div>
               <div className="absolute top-[28px] left-0 right-0 z-30 flex justify-center pointer-events-auto">
                 <AnimatedTabs
