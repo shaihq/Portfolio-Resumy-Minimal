@@ -283,7 +283,7 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
           <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
         </div>
         <motion.div className="flex items-center justify-center pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
-          <button data-testid="button-lets-do-it" onClick={onType} className="flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-7 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]">
+          <button data-testid="button-lets-do-it" onClick={onType} className="cursor-pointer flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-7 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]">
             Let's do it <ArrowRight className="w-4 h-4" />
           </button>
         </motion.div>
@@ -334,14 +334,14 @@ function VoiceRoom({ onDone, onReset }: { onDone: () => void; onReset: () => voi
           </motion.p>
         </AnimatePresence>
         <Waveform listening={listening} />
-        <motion.button data-testid="button-mic" onClick={handleMic} className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${listening ? "bg-[#FF553E] shadow-[0_0_40px_rgba(255,85,62,0.4)]" : "bg-foreground/10 border border-border hover:bg-foreground/15"}`} whileTap={{ scale: 0.93 }}>
+        <motion.button data-testid="button-mic" onClick={handleMic} className={`cursor-pointer w-16 h-16 rounded-full flex items-center justify-center transition-all ${listening ? "bg-[#FF553E] shadow-[0_0_40px_rgba(255,85,62,0.4)]" : "bg-foreground/10 border border-border hover:bg-foreground/15"}`} whileTap={{ scale: 0.93 }}>
           {listening ? <MicOff className="w-5 h-5 text-white" /> : <Mic className="w-5 h-5 text-muted-foreground" />}
         </motion.button>
         <p className="text-muted-foreground/60 text-[12px]">{listening ? "Tap to stop" : "Tap to speak"}</p>
       </div>
       <div className="relative z-10 flex flex-col items-center gap-4">
         <DotTrail current={current} total={questions.length} />
-        <button data-testid="button-do-later-voice" onClick={onReset} className="text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors">I'll do it later</button>
+        <button data-testid="button-do-later-voice" onClick={onReset} className="cursor-pointer text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors">I'll do it later</button>
       </div>
     </motion.div>
   );
@@ -441,7 +441,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
               <div className="flex flex-wrap justify-center gap-2">
                 {roleSuggestions.map((s) => (
                   <button key={s} data-testid={`suggestion-${s.toLowerCase().replace(/\s+/g, "-")}`} onClick={() => setRoleInput(s)}
-                    className={`px-4 py-2 rounded-full border text-[13px] transition-all duration-200 ${roleInput === s ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground bg-background/50 dark:bg-foreground/5 hover:border-foreground/30 hover:text-foreground"}`}>
+                    className={`cursor-pointer px-4 py-2 rounded-full border text-[13px] transition-all duration-200 ${roleInput === s ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground bg-background/50 dark:bg-foreground/5 hover:border-foreground/30 hover:text-foreground"}`}>
                     {s}
                   </button>
                 ))}
@@ -459,7 +459,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
                     data-testid={`option-${option.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
                     onClick={() => handleLocationOption(option)}
                     whileTap={{ scale: 0.96 }}
-                    className={`px-5 py-3 rounded-full border text-[14px] font-medium transition-all duration-200 ${
+                    className={`cursor-pointer px-5 py-3 rounded-full border text-[14px] font-medium transition-all duration-200 ${
                       locationChoice === option
                         ? "bg-foreground text-background border-foreground"
                         : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/40"
@@ -500,7 +500,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
                     data-testid={`option-${opt.title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
                     onClick={() => setLevelChoice(opt.title)}
                     whileTap={{ scale: 0.985 }}
-                    className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl border text-left transition-all duration-200 ${
+                    className={`cursor-pointer w-full flex items-center justify-between px-5 py-4 rounded-2xl border text-left transition-all duration-200 ${
                       isChosen
                         ? "bg-foreground text-background border-foreground"
                         : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/30"
@@ -529,7 +529,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
             data-testid="button-back"
             onClick={goBack}
             whileTap={{ scale: 0.94 }}
-            className={`flex items-center gap-1.5 px-5 py-3 rounded-full border border-border text-[14px] font-medium text-muted-foreground transition-all duration-200 hover:text-foreground hover:border-foreground/30 ${current === 0 ? "invisible" : ""}`}
+            className={`cursor-pointer flex items-center gap-1.5 px-5 py-3 rounded-full border border-border text-[14px] font-medium text-muted-foreground transition-all duration-200 hover:text-foreground hover:border-foreground/30 ${current === 0 ? "invisible" : ""}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back
@@ -543,11 +543,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
             onClick={handleNext}
             disabled={!canNext()}
             whileTap={{ scale: 0.94 }}
-            className={`flex items-center gap-2 px-5 py-3 rounded-full text-[14px] font-medium transition-all duration-200 disabled:opacity-30 ${
-              isLastStep
-                ? "bg-foreground text-background"
-                : "bg-foreground text-background"
-            }`}
+            className={`cursor-pointer flex items-center gap-2 px-5 py-3 rounded-full text-[14px] font-medium transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed bg-foreground text-background`}
           >
             {isLastStep ? (
               <>Scan Jobs <Search className="w-4 h-4" /></>
@@ -557,7 +553,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
           </motion.button>
         </div>
 
-        <button data-testid="button-do-later-type" onClick={onReset} className="text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors">
+        <button data-testid="button-do-later-type" onClick={onReset} className="cursor-pointer text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors">
           I'll do it later
         </button>
       </div>
