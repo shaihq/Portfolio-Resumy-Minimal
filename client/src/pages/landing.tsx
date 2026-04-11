@@ -445,17 +445,29 @@ export default function Landing() {
   }, []);
 
   useEffect(() => {
-    const measure = () => {
+    if (isProcessing) {
       if (processingRef.current) {
         const rect = processingRef.current.getBoundingClientRect();
         setCutoutY(rect.top + rect.height / 2);
       }
-    };
-    if (isProcessing) {
-      measure();
-      window.addEventListener('scroll', measure, { passive: true });
+      // Lock scroll
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scroll
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
-    return () => window.removeEventListener('scroll', measure);
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
   }, [isProcessing]);
 
   const playHeartbeat = useCallback(() => {
@@ -1093,117 +1105,83 @@ export default function Landing() {
           </footer>
         </main>
       </div>
-      {/* AI Focus Overlay - spotlight cutout during processing */}
-      {/* Blurred vignette with cutout */}
+      {/* AI Focus Overlay - tight spotlight on the processing button */}
+      {/* Blurred vignette with cutout — cutout matches the button pill */}
       <motion.div
         animate={{ opacity: isProcessing && resumeFile ? 1 : 0 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="fixed inset-0 z-[80] pointer-events-none"
         style={{
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
           background: isDark
-            ? `radial-gradient(ellipse 440px 190px at 50% ${cutoutY}px, transparent 0%, rgba(8,7,6,0.85) 68%)`
-            : `radial-gradient(ellipse 440px 190px at 50% ${cutoutY}px, transparent 0%, rgba(255,254,242,0.88) 68%)`,
-          maskImage: `radial-gradient(ellipse 440px 190px at 50% ${cutoutY}px, transparent 0%, black 68%)`,
-          WebkitMaskImage: `radial-gradient(ellipse 440px 190px at 50% ${cutoutY}px, transparent 0%, black 68%)`,
-        }}
-      />
-      {/* Outer ring */}
-      <motion.div
-        animate={{
-          opacity: isProcessing && resumeFile ? 0.35 : 0,
-          scale: isProcessing && resumeFile ? 1 : 0.88,
-        }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed z-[81] pointer-events-none rounded-[50%]"
-        style={{
-          left: '50%',
-          top: cutoutY,
-          transform: 'translate(-50%, -50%)',
-          width: 480, height: 210,
-          border: '1px solid rgba(255,85,62,0.5)',
-          boxShadow: '0 0 60px rgba(255,85,62,0.10), inset 0 0 60px rgba(255,85,62,0.06)',
-        }}
-      />
-      {/* Inner ring — pulses when active */}
-      <motion.div
-        animate={isProcessing && resumeFile
-          ? { opacity: [0.25, 0.55, 0.25], scale: [0.97, 1.02, 0.97] }
-          : { opacity: 0, scale: 0.9 }}
-        transition={isProcessing && resumeFile
-          ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
-          : { duration: 0.4 }}
-        className="fixed z-[81] pointer-events-none rounded-[50%]"
-        style={{
-          left: '50%',
-          top: cutoutY,
-          transform: 'translate(-50%, -50%)',
-          width: 380, height: 155,
-          border: '1px solid rgba(255,85,62,0.25)',
+            ? `radial-gradient(ellipse 260px 64px at 50% ${cutoutY}px, transparent 0%, rgba(8,7,6,0.92) 52%)`
+            : `radial-gradient(ellipse 260px 64px at 50% ${cutoutY}px, transparent 0%, rgba(255,254,242,0.94) 52%)`,
+          maskImage: `radial-gradient(ellipse 260px 64px at 50% ${cutoutY}px, transparent 0%, black 52%)`,
+          WebkitMaskImage: `radial-gradient(ellipse 260px 64px at 50% ${cutoutY}px, transparent 0%, black 52%)`,
         }}
       />
       {/* Corner bracket — top-left */}
       <motion.div
-        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : 8, y: isProcessing && resumeFile ? 0 : 8 }}
-        transition={{ duration: 0.45, delay: isProcessing && resumeFile ? 0.2 : 0 }}
+        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : 6, y: isProcessing && resumeFile ? 0 : 6 }}
+        transition={{ duration: 0.4, delay: isProcessing && resumeFile ? 0.18 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: 'calc(50% - 228px)', top: `${cutoutY - 95}px`,
-          width: 18, height: 18,
-          borderTop: '1.5px solid rgba(255,85,62,0.8)',
-          borderLeft: '1.5px solid rgba(255,85,62,0.8)',
+          left: 'calc(50% - 144px)', top: `${cutoutY - 38}px`,
+          width: 14, height: 14,
+          borderTop: '1.5px solid rgba(255,85,62,0.85)',
+          borderLeft: '1.5px solid rgba(255,85,62,0.85)',
         }}
       />
       {/* Corner bracket — top-right */}
       <motion.div
-        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : -8, y: isProcessing && resumeFile ? 0 : 8 }}
-        transition={{ duration: 0.45, delay: isProcessing && resumeFile ? 0.2 : 0 }}
+        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : -6, y: isProcessing && resumeFile ? 0 : 6 }}
+        transition={{ duration: 0.4, delay: isProcessing && resumeFile ? 0.18 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: 'calc(50% + 210px)', top: `${cutoutY - 95}px`,
-          width: 18, height: 18,
-          borderTop: '1.5px solid rgba(255,85,62,0.8)',
-          borderRight: '1.5px solid rgba(255,85,62,0.8)',
+          left: 'calc(50% + 130px)', top: `${cutoutY - 38}px`,
+          width: 14, height: 14,
+          borderTop: '1.5px solid rgba(255,85,62,0.85)',
+          borderRight: '1.5px solid rgba(255,85,62,0.85)',
         }}
       />
       {/* Corner bracket — bottom-left */}
       <motion.div
-        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : 8, y: isProcessing && resumeFile ? 0 : -8 }}
-        transition={{ duration: 0.45, delay: isProcessing && resumeFile ? 0.2 : 0 }}
+        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : 6, y: isProcessing && resumeFile ? 0 : -6 }}
+        transition={{ duration: 0.4, delay: isProcessing && resumeFile ? 0.18 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: 'calc(50% - 228px)', top: `${cutoutY + 77}px`,
-          width: 18, height: 18,
-          borderBottom: '1.5px solid rgba(255,85,62,0.8)',
-          borderLeft: '1.5px solid rgba(255,85,62,0.8)',
+          left: 'calc(50% - 144px)', top: `${cutoutY + 24}px`,
+          width: 14, height: 14,
+          borderBottom: '1.5px solid rgba(255,85,62,0.85)',
+          borderLeft: '1.5px solid rgba(255,85,62,0.85)',
         }}
       />
       {/* Corner bracket — bottom-right */}
       <motion.div
-        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : -8, y: isProcessing && resumeFile ? 0 : -8 }}
-        transition={{ duration: 0.45, delay: isProcessing && resumeFile ? 0.2 : 0 }}
+        animate={{ opacity: isProcessing && resumeFile ? 0.75 : 0, x: isProcessing && resumeFile ? 0 : -6, y: isProcessing && resumeFile ? 0 : -6 }}
+        transition={{ duration: 0.4, delay: isProcessing && resumeFile ? 0.18 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: 'calc(50% + 210px)', top: `${cutoutY + 77}px`,
-          width: 18, height: 18,
-          borderBottom: '1.5px solid rgba(255,85,62,0.8)',
-          borderRight: '1.5px solid rgba(255,85,62,0.8)',
+          left: 'calc(50% + 130px)', top: `${cutoutY + 24}px`,
+          width: 14, height: 14,
+          borderBottom: '1.5px solid rgba(255,85,62,0.85)',
+          borderRight: '1.5px solid rgba(255,85,62,0.85)',
         }}
       />
       {/* Scanning line */}
       <motion.div
         animate={isProcessing && resumeFile ? {
-          top: [`${cutoutY - 68}px`, `${cutoutY + 68}px`, `${cutoutY - 68}px`],
-          opacity: [0, 0.55, 0.55, 0],
+          top: [`${cutoutY - 22}px`, `${cutoutY + 22}px`, `${cutoutY - 22}px`],
+          opacity: [0, 0.5, 0.5, 0],
         } : { opacity: 0 }}
         transition={isProcessing && resumeFile
-          ? { duration: 2.8, repeat: Infinity, ease: "easeInOut", times: [0, 0.45, 0.9, 1] }
+          ? { duration: 2.4, repeat: Infinity, ease: "easeInOut", times: [0, 0.45, 0.9, 1] }
           : { duration: 0.3 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: 'calc(50% - 188px)', width: 376, height: 1,
-          background: 'linear-gradient(to right, transparent, rgba(255,85,62,0.55) 18%, rgba(255,85,62,0.55) 82%, transparent)',
+          left: 'calc(50% - 130px)', width: 260, height: 1,
+          background: 'linear-gradient(to right, transparent, rgba(255,85,62,0.6) 20%, rgba(255,85,62,0.6) 80%, transparent)',
         }}
       />
 
