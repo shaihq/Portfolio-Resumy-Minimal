@@ -1116,10 +1116,10 @@ export default function Landing() {
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
           background: isDark
-            ? `radial-gradient(ellipse 340px 96px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(8,7,6,0.65) 62%)`
-            : `radial-gradient(ellipse 340px 96px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(250,248,238,0.72) 62%)`,
-          maskImage: `radial-gradient(ellipse 340px 96px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, black 62%)`,
-          WebkitMaskImage: `radial-gradient(ellipse 340px 96px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, black 62%)`,
+            ? `radial-gradient(ellipse 400px 120px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(8,7,6,0.65) 62%)`
+            : `radial-gradient(ellipse 400px 120px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, rgba(250,248,238,0.72) 62%)`,
+          maskImage: `radial-gradient(ellipse 400px 120px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, black 62%)`,
+          WebkitMaskImage: `radial-gradient(ellipse 400px 120px at ${cutoutPos.x}px ${cutoutPos.y}px, transparent 0%, black 62%)`,
         }}
       />
       {/* Corner bracket — top-left */}
@@ -1128,7 +1128,7 @@ export default function Landing() {
         transition={{ duration: 0.35, delay: isProcessing && resumeFile ? 0.15 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: cutoutPos.x - 182, top: cutoutPos.y - 54,
+          left: cutoutPos.x - 212, top: cutoutPos.y - 66,
           width: 14, height: 14,
           borderTop: '1.5px solid rgba(255,85,62,0.9)',
           borderLeft: '1.5px solid rgba(255,85,62,0.9)',
@@ -1140,7 +1140,7 @@ export default function Landing() {
         transition={{ duration: 0.35, delay: isProcessing && resumeFile ? 0.15 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: cutoutPos.x + 168, top: cutoutPos.y - 54,
+          left: cutoutPos.x + 198, top: cutoutPos.y - 66,
           width: 14, height: 14,
           borderTop: '1.5px solid rgba(255,85,62,0.9)',
           borderRight: '1.5px solid rgba(255,85,62,0.9)',
@@ -1152,7 +1152,7 @@ export default function Landing() {
         transition={{ duration: 0.35, delay: isProcessing && resumeFile ? 0.15 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: cutoutPos.x - 182, top: cutoutPos.y + 40,
+          left: cutoutPos.x - 212, top: cutoutPos.y + 52,
           width: 14, height: 14,
           borderBottom: '1.5px solid rgba(255,85,62,0.9)',
           borderLeft: '1.5px solid rgba(255,85,62,0.9)',
@@ -1164,7 +1164,7 @@ export default function Landing() {
         transition={{ duration: 0.35, delay: isProcessing && resumeFile ? 0.15 : 0 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: cutoutPos.x + 168, top: cutoutPos.y + 40,
+          left: cutoutPos.x + 198, top: cutoutPos.y + 52,
           width: 14, height: 14,
           borderBottom: '1.5px solid rgba(255,85,62,0.9)',
           borderRight: '1.5px solid rgba(255,85,62,0.9)',
@@ -1173,14 +1173,14 @@ export default function Landing() {
       {/* Scanning line — sweeps inside the spotlight */}
       <motion.div
         animate={isProcessing && resumeFile
-          ? { top: [`${cutoutPos.y - 25}px`, `${cutoutPos.y + 25}px`, `${cutoutPos.y - 25}px`], opacity: [0, 0.5, 0.5, 0] }
+          ? { top: [`${cutoutPos.y - 35}px`, `${cutoutPos.y + 35}px`, `${cutoutPos.y - 35}px`], opacity: [0, 0.5, 0.5, 0] }
           : { opacity: 0 }}
         transition={isProcessing && resumeFile
           ? { duration: 2.2, repeat: Infinity, ease: "easeInOut", times: [0, 0.45, 0.9, 1] }
           : { duration: 0.25 }}
         className="fixed z-[82] pointer-events-none"
         style={{
-          left: cutoutPos.x - 160, width: 320, height: 1,
+          left: cutoutPos.x - 190, width: 380, height: 1,
           background: 'linear-gradient(to right, transparent, rgba(255,85,62,0.65) 20%, rgba(255,85,62,0.65) 80%, transparent)',
         }}
       />
