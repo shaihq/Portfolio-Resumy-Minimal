@@ -9,13 +9,14 @@ export function ShiningText({
 }) {
   return (
     <motion.span
-      className={`bg-[linear-gradient(110deg,#404040,35%,#fff,50%,#404040,75%,#404040)] bg-[length:200%_100%] bg-clip-text text-transparent dark:bg-[linear-gradient(110deg,#888,35%,#fff,50%,#888,75%,#888)] ${className ?? ""}`}
+      className={`bg-[linear-gradient(110deg,#555_20%,#999_38%,#fff_50%,#999_62%,#555_80%)] dark:bg-[linear-gradient(110deg,#777_20%,#aaa_38%,#fff_50%,#aaa_62%,#777_80%)] bg-[length:300%_100%] bg-clip-text text-transparent ${className ?? ""}`}
       initial={{ backgroundPosition: "200% 0" }}
-      animate={{ backgroundPosition: "-200% 0" }}
+      animate={{ backgroundPosition: "-100% 0" }}
       transition={{
         repeat: Infinity,
-        duration: 2,
+        duration: 4,
         ease: "linear",
+        repeatDelay: 1.5,
       }}
     >
       {text}
