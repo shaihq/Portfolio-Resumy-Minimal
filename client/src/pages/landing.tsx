@@ -732,9 +732,6 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
               className="w-full max-w-[400px]"
             >
-              <p className="text-[13px] font-semibold text-[#1D1B1A]/50 dark:text-foreground/50 mb-3 uppercase tracking-wider">
-                Drop your resume. We'll handle the rest.
-              </p>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -758,41 +755,35 @@ export default function Landing() {
                   if (file && file.type === "application/pdf") setResumeFile(file);
                 }}
                 className={cn(
-                  "cursor-pointer rounded-xl border-2 border-dashed px-6 py-6 transition-all duration-200",
+                  "cursor-pointer inline-flex items-center gap-3 rounded-full border border-dashed px-5 py-3 transition-all duration-200",
                   isDragging
                     ? "border-[#FF553E] bg-[#FF553E]/5"
                     : resumeFile
-                    ? "border-[#1D1B1A]/30 dark:border-white/20 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04]"
-                    : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.02] dark:bg-white/[0.03] hover:border-[#1D1B1A]/40 dark:hover:border-white/40"
+                    ? "border-[#1D1B1A]/30 dark:border-white/25 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.06]"
+                    : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/45"
                 )}
               >
                 {resumeFile ? (
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-[#FF553E]" strokeWidth={2} />
-                    <div className="min-w-0">
-                      <p className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground truncate">{resumeFile.name}</p>
-                      <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{(resumeFile.size / 1024 / 1024).toFixed(1)} MB · PDF</p>
-                    </div>
+                  <>
+                    <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-[#FF553E]" strokeWidth={2} />
+                    <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground truncate max-w-[180px]">{resumeFile.name}</span>
+                    <span className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45 shrink-0">{(resumeFile.size / 1024 / 1024).toFixed(1)} MB</span>
                     <button
                       data-testid="button-remove-resume"
                       onClick={(e) => { e.stopPropagation(); setResumeFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
-                      className="ml-auto text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 hover:text-[#FF553E] dark:hover:text-[#FF553E] transition-colors shrink-0"
+                      className="text-[12px] text-[#1D1B1A]/35 dark:text-foreground/35 hover:text-[#FF553E] dark:hover:text-[#FF553E] transition-colors shrink-0 ml-1"
                     >
-                      Remove
+                      ✕
                     </button>
-                  </div>
+                  </>
                 ) : (
-                  <div className="flex flex-col items-center gap-2 text-center">
-                    <div className={cn("flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200", isDragging ? "bg-[#FF553E]/10" : "bg-[#1D1B1A]/06 dark:bg-white/08")}>
-                      <Upload className={cn("h-4 w-4 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/50 dark:text-foreground/50")} strokeWidth={2} />
-                    </div>
-                    <div>
-                      <p className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground">
-                        {isDragging ? "Drop it here" : "Upload your resume"}
-                      </p>
-                      <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50 mt-0.5">PDF · max 5MB</p>
-                    </div>
-                  </div>
+                  <>
+                    <Upload className={cn("h-[18px] w-[18px] shrink-0 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/60 dark:text-foreground/60")} strokeWidth={2} />
+                    <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground">
+                      {isDragging ? "Drop it here" : "Upload your resume"}
+                    </span>
+                    <span className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45">PDF · max 5MB</span>
+                  </>
                 )}
               </div>
               {resumeFile && (
