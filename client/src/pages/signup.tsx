@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
-import { Eye, EyeOff, ArrowRight, Sun, Moon, Briefcase, Monitor, Clock, Sparkles } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Sun, Moon, Briefcase, Monitor, Clock, Sparkles, Lock } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Gauge } from "@/components/ui/gauge-1";
 import { cn } from "@/lib/utils";
@@ -633,9 +633,13 @@ export default function Signup() {
                   transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.07 }}
                   className={cn(
                     "bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col gap-3 relative",
-                    i >= 5 && "select-none"
+                    i >= 2 && "select-none"
                   )}
-                  style={i >= 5 ? { filter: "blur(4px)", opacity: 0.5, pointerEvents: "none" } : undefined}
+                  style={i >= 2 ? {
+                    filter: `blur(${Math.min(1.5 + (i - 2) * 1.2, 5)}px)`,
+                    opacity: Math.max(0.72 - (i - 2) * 0.1, 0.3),
+                    pointerEvents: "none",
+                  } : undefined}
                 >
                   {/* Top row: logo + company/location + match */}
                   <div className="flex items-center justify-between gap-3">
@@ -692,8 +696,14 @@ export default function Signup() {
               ))}
             </div>
             </div>
-            {/* Fade gate — absolutely pinned to bottom of the panel */}
-            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none" />
+            {/* Fade gate + lock CTA — absolutely pinned to bottom of the panel */}
+            <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none flex flex-col items-center justify-end pb-6">
+              <div className="pointer-events-auto flex items-center gap-2 bg-[#1D1B1A] dark:bg-white/95 text-[#FDFCF8] dark:text-[#1A1A1A] rounded-full px-4 py-2.5 shadow-lg">
+                <Lock className="w-3 h-3 shrink-0" strokeWidth={2.5} />
+                <span className="text-[12px] font-semibold whitespace-nowrap">Sign up to unlock all {AI_PICKS.length} matches & apply</span>
+                <ArrowRight className="w-3 h-3 shrink-0" strokeWidth={2.5} />
+              </div>
+            </div>
           </div>
         )}
 
@@ -760,9 +770,13 @@ export default function Signup() {
                           transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.06 }}
                           className={cn(
                             "bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col gap-3",
-                            i >= 5 && "select-none"
+                            i >= 2 && "select-none"
                           )}
-                          style={i >= 5 ? { filter: "blur(4px)", opacity: 0.5, pointerEvents: "none" } : undefined}
+                          style={i >= 2 ? {
+                            filter: `blur(${Math.min(1.5 + (i - 2) * 1.2, 5)}px)`,
+                            opacity: Math.max(0.72 - (i - 2) * 0.1, 0.3),
+                            pointerEvents: "none",
+                          } : undefined}
                         >
                           <div className="flex items-center justify-between gap-3">
                             <div className="flex items-center gap-3 min-w-0">
@@ -809,7 +823,13 @@ export default function Signup() {
                       ))}
                     </div>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none flex flex-col items-center justify-end pb-4">
+                    <div className="pointer-events-auto flex items-center gap-2 bg-[#1D1B1A] dark:bg-white/95 text-[#FDFCF8] dark:text-[#1A1A1A] rounded-full px-4 py-2.5 shadow-lg">
+                      <Lock className="w-3 h-3 shrink-0" strokeWidth={2.5} />
+                      <span className="text-[12px] font-semibold whitespace-nowrap">Sign up to unlock all {AI_PICKS.length} matches & apply</span>
+                      <ArrowRight className="w-3 h-3 shrink-0" strokeWidth={2.5} />
+                    </div>
+                  </div>
                 </div>
               )}
 
