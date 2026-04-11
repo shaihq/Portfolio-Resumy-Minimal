@@ -5,6 +5,7 @@ import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizo
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
+import { ShiningText } from "@/components/ui/shining-text";
 import { MatchGlowCard } from "@/components/ui/glowing-card";
 import { ColorOrb } from "@/components/ui/color-orb";
 import profileImg from "@/assets/images/profile.png";
@@ -672,7 +673,9 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
               <motion.div key={i} className="w-1.5 h-1.5 rounded-full bg-[#FF553E]" animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.2, 0.9] }} transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.25 }} />
             ))}
           </div>
-          <h2 className="text-foreground text-[17px] font-semibold tracking-tight">Got it. We're on it.</h2>
+          <h2 className="text-[17px] font-semibold tracking-tight">
+            <ShiningText text="Got it. We're on it." />
+          </h2>
         </motion.div>
 
         <motion.div className="border border-black/8 dark:border-border rounded-2xl overflow-hidden bg-white dark:bg-muted/20" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.4 }}>
