@@ -180,6 +180,7 @@ function AnimatedJobCount({ onDone }: { onDone?: () => void }) {
   const [showGradient, setShowGradient] = useState(false);
   const rafRef = useRef<number | null>(null);
   const startRef = useRef<number | null>(null);
+  const doneFiredRef = useRef(false);
 
   useEffect(() => {
     const duration = 1800; // natural pacing
@@ -190,12 +191,19 @@ function AnimatedJobCount({ onDone }: { onDone?: () => void }) {
       const elapsed = now - startRef.current;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
+      const current = Math.floor(eased * target);
+      setCount(current);
+
+      // fire at halfway
+      if (!doneFiredRef.current && current >= target / 2) {
+        doneFiredRef.current = true;
+        onDone?.();
+      }
+
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         setCount(target);
-        onDone?.();
         setTimeout(() => setShowGradient(true), 80);
       }
     };
