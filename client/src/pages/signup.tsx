@@ -435,7 +435,7 @@ export default function Signup() {
               data-testid="button-claim-portfolio"
               className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#1D1B1A] dark:bg-white px-6 py-3.5 text-[15px] font-semibold text-[#FDFCF8] dark:text-[#1A1A1A] transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
             >
-              Claim my portfolio
+              Claim my portfolio & jobs
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
             </button>
           </motion.div>
