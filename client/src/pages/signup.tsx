@@ -314,6 +314,7 @@ export default function Signup() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const previewScrollRef = useRef<HTMLDivElement>(null);
   const [activeView, setActiveView] = useState("My Portfolio");
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
 
   return (
     <motion.div
@@ -332,7 +333,7 @@ export default function Signup() {
         {/* Top bar */}
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-8 md:px-12 py-5">
           <button
-            onClick={() => navigate("/landing")}
+            onClick={() => setShowLeaveConfirm(true)}
             className="text-[13px] font-semibold text-[#1A1A1A]/50 dark:text-foreground/50 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors"
           >
             ← Back
@@ -466,6 +467,64 @@ export default function Signup() {
           </motion.p>
         </div>
       </motion.div>
+
+      {/* ── Leave confirmation modal ──────────────────────── */}
+      <AnimatePresence>
+        {showLeaveConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-6"
+            onClick={() => setShowLeaveConfirm(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 12 }}
+              transition={{ type: "spring", stiffness: 320, damping: 28 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#FDFCF8] dark:bg-[#1E1C1A] rounded-[24px] border border-[#1D1B1A]/10 dark:border-white/10 p-7 w-full max-w-[360px] flex flex-col gap-5 shadow-2xl"
+            >
+              {/* Icon */}
+              <div className="w-11 h-11 rounded-2xl bg-[#FF553E]/10 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF553E" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+
+              {/* Text */}
+              <div className="flex flex-col gap-1.5">
+                <h2 className="text-[17px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">
+                  Leave and lose your portfolio?
+                </h2>
+                <p className="text-[13px] text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed">
+                  Your resume was just processed and your portfolio is ready. If you go back, you'll have to start over.
+                </p>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col gap-2.5">
+                <button
+                  onClick={() => setShowLeaveConfirm(false)}
+                  className="w-full py-3 rounded-xl bg-[#1D1B1A] dark:bg-white text-[14px] font-semibold text-[#FDFCF8] dark:text-[#1A1A1A] transition-opacity hover:opacity-80"
+                >
+                  Stay and claim it
+                </button>
+                <button
+                  onClick={() => navigate("/landing")}
+                  className="w-full py-3 rounded-xl text-[14px] font-medium text-[#1A1A1A]/50 dark:text-foreground/40 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors"
+                >
+                  Leave anyway
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Divider ───────────────────────────────────────── */}
       <div className="hidden md:block w-px bg-[#1D1B1A]/08 dark:bg-white/08 shrink-0" />
