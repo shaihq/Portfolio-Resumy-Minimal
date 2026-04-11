@@ -696,14 +696,8 @@ export default function Signup() {
               ))}
             </div>
             </div>
-            {/* Fade gate + lock CTA — absolutely pinned to bottom of the panel */}
-            <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none flex flex-col items-center justify-end pb-6">
-              <div className="pointer-events-auto flex items-center gap-2 bg-[#1D1B1A] dark:bg-white/95 text-[#FDFCF8] dark:text-[#1A1A1A] rounded-full px-4 py-2.5 shadow-lg">
-                <Lock className="w-3 h-3 shrink-0" strokeWidth={2.5} />
-                <span className="text-[12px] font-semibold whitespace-nowrap">Sign up to unlock all {AI_PICKS.length} matches & apply</span>
-                <ArrowRight className="w-3 h-3 shrink-0" strokeWidth={2.5} />
-              </div>
-            </div>
+            {/* Fade gate — absolutely pinned to bottom of the panel */}
+            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none" />
           </div>
         )}
 
