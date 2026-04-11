@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, Plane, Globe, Zap, Sprout, Star, Gem } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { MatchGlowCard } from "@/components/ui/glowing-card";
@@ -124,6 +124,21 @@ const ORBIT_COMPANIES = [
   { id: 7, name: "Company 7", src: "/companylogo-new/companyradial07.svg" },
   { id: 8, name: "Company 8", src: "/companylogo-new/companyradial08.svg" },
 ];
+
+// ── Quiz step data ─────────────────────────────────────────────────────────
+const LOCATION_OPTIONS = [
+  { id: "city",    Icon: MapPin,   label: "My city only",                sub: "Show me local jobs. I'm not looking to move."                },
+  { id: "reloc",   Icon: Plane,    label: "Open to relocating",          sub: "I'll consider other cities if the role is right."            },
+  { id: "remote",  Icon: Globe,    label: "Remote only",                 sub: "I want to work from anywhere. Location doesn't matter."      },
+  { id: "hybrid",  Icon: Zap,      label: "Remote-first, open to hybrid", sub: "Prefer remote but okay with occasional office days."       },
+] as const;
+
+const SENIORITY_OPTIONS = [
+  { id: "mid",    Icon: Sprout,    label: "Mid-level",          sub: "2–4 years. Growing into ownership."            },
+  { id: "senior", Icon: Star,      label: "Senior",             sub: "5–8 years. Leading work independently."        },
+  { id: "lead",   Icon: Gem,       label: "Lead / Staff",       sub: "8+ years. Setting direction for a team."       },
+  { id: "mgr",    Icon: Building2, label: "Manager / Director", sub: "People management + strategy."                 },
+] as const;
 
 // ── Shared sub-components ──────────────────────────────────────────────────
 const questions = [
@@ -328,42 +343,213 @@ function VoiceRoom({ onDone, onReset }: { onDone: () => void; onReset: () => voi
   );
 }
 
-// ── Type room ──────────────────────────────────────────────────────────────
+// ── Quiz flow (3-step card selection) ──────────────────────────────────────
 function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void }) {
-  const [current, setCurrent] = useState(0);
-  const [input, setInput] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [step, setStep] = useState(0);
+  const [dir, setDir] = useState(1);
 
-  useEffect(() => { inputRef.current?.focus(); setInput(""); }, [current]);
+  // Step 0 — role
+  const [useDetected, setUseDetected] = useState(true);
+  const [customRole, setCustomRole] = useState("");
+
+  // Step 1 — location
+  const [location, setLocation] = useState<string | null>(null);
+
+  // Step 2 — seniority
+  const [seniority, setSeniority] = useState<string | null>(null);
+
+  const canContinue =
+    step === 0 ? (useDetected || customRole.trim().length > 0) :
+    step === 1 ? location !== null :
+    seniority !== null;
 
   const advance = () => {
-    if (!input.trim()) return;
-    const next = current + 1;
-    next >= questions.length ? onDone() : setCurrent(next);
+    if (!canContinue) return;
+    setDir(1);
+    if (step < 2) setStep(s => s + 1);
+    else onDone();
+  };
+
+  const back = () => {
+    setDir(-1);
+    if (step > 0) setStep(s => s - 1);
+    else onReset();
+  };
+
+  const slideVariants = {
+    enter: (d: number) => ({ x: d * 30, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: -d * 30, opacity: 0 }),
   };
 
   return (
-    <motion.div className="fixed inset-0 flex flex-col items-center justify-between bg-[#F0EDE7] dark:bg-background px-6 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full dark:bg-[#FF553E]/6 blur-[120px]" />
-      </div>
-      <div />
-      <div className="relative z-10 flex flex-col items-center text-center max-w-lg gap-10 w-full">
-        <AnimatePresence mode="wait">
-          <motion.p key={current} className="text-foreground text-[22px] font-medium leading-snug tracking-tight" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.45, ease: "easeOut" }}>
-            {questions[current]}
-          </motion.p>
+    <motion.div
+      className="fixed inset-0 bg-[#F0EDE7] dark:bg-background flex flex-col"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto">
+        <AnimatePresence mode="wait" custom={dir}>
+          <motion.div
+            key={step}
+            custom={dir}
+            variants={slideVariants}
+            initial="enter" animate="center" exit="exit"
+            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+            className="px-5 pt-12 pb-6 max-w-lg mx-auto w-full"
+          >
+            {/* Step label */}
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground/30 mb-4">
+              Step {step + 1} of 3
+            </p>
+
+            {/* ── Step 0: Role ── */}
+            {step === 0 && (
+              <>
+                <h2 className="text-[26px] font-bold text-foreground leading-tight tracking-tight mb-2">
+                  What role are you looking for next?
+                </h2>
+                <p className="text-[14px] text-muted-foreground mb-7 leading-relaxed">
+                  We picked this up from your resume. Change it if you're switching directions.
+                </p>
+
+                {/* Detected badge */}
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-emerald-600 dark:text-emerald-400">
+                    Pulled from your resume
+                  </span>
+                </div>
+
+                {/* Detected role card */}
+                <button
+                  data-testid="option-role-detected"
+                  onClick={() => { setUseDetected(true); setCustomRole(""); }}
+                  className={`w-full flex items-center justify-between px-4 py-4 rounded-xl border transition-all text-left mb-6 ${
+                    useDetected
+                      ? "bg-white dark:bg-foreground/[0.08] border-black/[0.15] dark:border-foreground/20 shadow-sm"
+                      : "bg-white/50 dark:bg-foreground/[0.03] border-black/[0.08] dark:border-border"
+                  }`}
+                >
+                  <span className="text-[15px] font-semibold text-foreground">Senior Product Designer</span>
+                  <span className="text-[11px] font-semibold text-emerald-500 tracking-wide">detected</span>
+                </button>
+
+                {/* Custom role input */}
+                <p className="text-[13px] text-muted-foreground mb-2">Looking for something different?</p>
+                <input
+                  data-testid="input-custom-role"
+                  value={customRole}
+                  onChange={e => {
+                    setCustomRole(e.target.value);
+                    setUseDetected(e.target.value.trim().length === 0);
+                  }}
+                  placeholder="e.g. Product Manager, Design Lead…"
+                  onKeyDown={e => e.key === "Enter" && advance()}
+                  className="w-full bg-white/50 dark:bg-foreground/[0.03] border border-black/[0.08] dark:border-border rounded-xl px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/35 outline-none focus:border-foreground/20 transition-colors"
+                />
+              </>
+            )}
+
+            {/* ── Step 1: Location ── */}
+            {step === 1 && (
+              <>
+                <h2 className="text-[26px] font-bold text-foreground leading-tight tracking-tight mb-2">
+                  Where are you open to working?
+                </h2>
+                <p className="text-[14px] text-muted-foreground mb-7 leading-relaxed">
+                  This decides which jobs we pull from the market.
+                </p>
+                <div className="flex flex-col gap-2.5">
+                  {LOCATION_OPTIONS.map(({ id, Icon, label, sub }) => (
+                    <button
+                      key={id}
+                      data-testid={`option-location-${id}`}
+                      onClick={() => setLocation(id)}
+                      className={`flex items-center gap-4 px-4 py-3.5 rounded-xl border text-left transition-all ${
+                        location === id
+                          ? "bg-white dark:bg-foreground/[0.08] border-black/[0.15] dark:border-foreground/20 shadow-sm"
+                          : "bg-white/50 dark:bg-foreground/[0.03] border-black/[0.08] dark:border-border hover:bg-white/80 dark:hover:bg-foreground/[0.05]"
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                        location === id ? "bg-foreground/[0.09]" : "bg-foreground/[0.05]"
+                      }`}>
+                        <Icon className="w-[18px] h-[18px] text-foreground/65" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[14px] font-semibold text-foreground leading-snug">{label}</p>
+                        <p className="text-[12px] text-muted-foreground mt-0.5 leading-snug">{sub}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* ── Step 2: Seniority ── */}
+            {step === 2 && (
+              <>
+                <h2 className="text-[26px] font-bold text-foreground leading-tight tracking-tight mb-2">
+                  What seniority level are you targeting?
+                </h2>
+                <p className="text-[14px] text-muted-foreground mb-7 leading-relaxed">
+                  We estimated this from your experience. Adjust if you're aiming higher or stepping back.
+                </p>
+                <div className="flex flex-col gap-2.5">
+                  {SENIORITY_OPTIONS.map(({ id, Icon, label, sub }) => (
+                    <button
+                      key={id}
+                      data-testid={`option-seniority-${id}`}
+                      onClick={() => setSeniority(id)}
+                      className={`flex items-center gap-4 px-4 py-3.5 rounded-xl border text-left transition-all ${
+                        seniority === id
+                          ? "bg-white dark:bg-foreground/[0.08] border-black/[0.15] dark:border-foreground/20 shadow-sm"
+                          : "bg-white/50 dark:bg-foreground/[0.03] border-black/[0.08] dark:border-border hover:bg-white/80 dark:hover:bg-foreground/[0.05]"
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                        seniority === id ? "bg-foreground/[0.09]" : "bg-foreground/[0.05]"
+                      }`}>
+                        <Icon className="w-[18px] h-[18px] text-foreground/65" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[14px] font-semibold text-foreground leading-snug">{label}</p>
+                        <p className="text-[12px] text-muted-foreground mt-0.5 leading-snug">{sub}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </motion.div>
         </AnimatePresence>
-        <div className="w-full flex items-center gap-3">
-          <input ref={inputRef} data-testid="input-answer" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && advance()} placeholder="Type your answer…" className="flex-1 bg-foreground/5 border border-border rounded-2xl px-5 py-4 text-foreground text-[15px] placeholder:text-muted-foreground/50 outline-none focus:border-foreground/25 transition-colors" />
-          <motion.button data-testid="button-next" onClick={advance} disabled={!input.trim()} className="w-12 h-12 rounded-full bg-foreground flex items-center justify-center disabled:opacity-25 transition-opacity flex-shrink-0" whileTap={{ scale: 0.92 }}>
-            <ArrowRight className="w-4 h-4 text-background" />
-          </motion.button>
-        </div>
       </div>
-      <div className="relative z-10 flex flex-col items-center gap-4">
-        <DotTrail current={current} total={questions.length} />
-        <button data-testid="button-do-later-type" onClick={onReset} className="text-muted-foreground/50 text-[12px] hover:text-muted-foreground transition-colors">I'll do it later</button>
+
+      {/* Bottom navigation */}
+      <div className="flex items-center justify-between px-5 py-5 border-t border-black/[0.06] dark:border-border">
+        <button
+          data-testid="button-back"
+          onClick={back}
+          className="flex items-center gap-1 text-[14px] font-medium text-foreground/45 hover:text-foreground transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Back
+        </button>
+
+        <DotTrail current={step} total={3} />
+
+        <motion.button
+          data-testid="button-continue"
+          onClick={advance}
+          disabled={!canContinue}
+          className="flex items-center gap-1 text-[14px] font-semibold text-foreground disabled:opacity-25 transition-opacity"
+          whileTap={canContinue ? { scale: 0.95 } : undefined}
+        >
+          {step === 2 ? "Show my jobs" : "Continue"}
+          <ChevronRight className="w-4 h-4" />
+        </motion.button>
       </div>
     </motion.div>
   );
