@@ -17,8 +17,9 @@ export function AnimatedTabs({ tabs, onChange }: AnimatedTabsProps) {
       const activeTabElement = activeTabRef.current;
       if (activeTabElement) {
         const { offsetLeft, offsetWidth } = activeTabElement;
-        const clipLeft = offsetLeft + 16;
-        const clipRight = offsetLeft + offsetWidth + 16;
+        const px = container.parentElement ? parseInt(getComputedStyle(container.parentElement).paddingLeft) || 0 : 0;
+        const clipLeft = offsetLeft + px;
+        const clipRight = offsetLeft + offsetWidth + px;
         container.style.clipPath = `inset(0 ${Number(
           100 - (clipRight / container.offsetWidth) * 100,
         ).toFixed()}% 0 ${Number(
