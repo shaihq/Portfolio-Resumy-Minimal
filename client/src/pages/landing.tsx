@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2 } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, Upload, CheckCircle2 } from "lucide-react";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
@@ -318,6 +318,9 @@ export default function Landing() {
   const [fabVisible, setFabVisible] = useState(true);
   const [speedLevel, setSpeedLevel] = useState(4);
   const [showAllFeatures, setShowAllFeatures] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
   const speedDurations = [52, 38, 28, 18, 11];
   const scrollDuration = speedDurations[speedLevel - 1];
@@ -727,16 +730,89 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+              className="w-full max-w-[400px]"
             >
-              <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
-                <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
-                  Get started for Free
-                </span>
-                <div className="relative h-[46px] w-[46px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
-                  <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-8 group-hover:-translate-y-8" strokeWidth={2.5} />
-                  <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-10 translate-y-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
-                </div>
+              <p className="text-[13px] font-semibold text-[#1D1B1A]/50 dark:text-foreground/50 mb-3 uppercase tracking-wider">
+                Drop your resume. We'll handle the rest.
+              </p>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf"
+                className="hidden"
+                data-testid="input-resume-upload"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setResumeFile(file);
+                }}
+              />
+              <div
+                data-testid="dropzone-resume"
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDragging(false);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file && file.type === "application/pdf") setResumeFile(file);
+                }}
+                className={cn(
+                  "cursor-pointer rounded-xl border-2 border-dashed px-6 py-6 transition-all duration-200",
+                  isDragging
+                    ? "border-[#FF553E] bg-[#FF553E]/5"
+                    : resumeFile
+                    ? "border-[#1D1B1A]/30 dark:border-white/20 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04]"
+                    : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.02] dark:bg-white/[0.03] hover:border-[#1D1B1A]/40 dark:hover:border-white/40"
+                )}
+              >
+                {resumeFile ? (
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-[#FF553E]" strokeWidth={2} />
+                    <div className="min-w-0">
+                      <p className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground truncate">{resumeFile.name}</p>
+                      <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{(resumeFile.size / 1024 / 1024).toFixed(1)} MB · PDF</p>
+                    </div>
+                    <button
+                      data-testid="button-remove-resume"
+                      onClick={(e) => { e.stopPropagation(); setResumeFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+                      className="ml-auto text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 hover:text-[#FF553E] dark:hover:text-[#FF553E] transition-colors shrink-0"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <div className={cn("flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200", isDragging ? "bg-[#FF553E]/10" : "bg-[#1D1B1A]/06 dark:bg-white/08")}>
+                      <Upload className={cn("h-4 w-4 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/50 dark:text-foreground/50")} strokeWidth={2} />
+                    </div>
+                    <div>
+                      <p className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground">
+                        {isDragging ? "Drop it here" : "Upload your resume"}
+                      </p>
+                      <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50 mt-0.5">PDF · max 5MB</p>
+                    </div>
+                  </div>
+                )}
               </div>
+              {resumeFile && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mt-3"
+                >
+                  <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
+                    <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                      Get started for free
+                    </span>
+                    <div className="relative h-[46px] w-[46px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
+                      <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-8 group-hover:-translate-y-8" strokeWidth={2.5} />
+                      <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-10 translate-y-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </section>
 
