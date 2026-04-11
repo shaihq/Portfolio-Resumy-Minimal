@@ -505,7 +505,11 @@ export default function Signup() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.07 }}
-                  className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col gap-3"
+                  className={cn(
+                    "bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col gap-3 relative",
+                    i >= 5 && "select-none"
+                  )}
+                  style={i >= 5 ? { filter: "blur(4px)", opacity: 0.5, pointerEvents: "none" } : undefined}
                 >
                   {/* Top row: logo + company/location + match */}
                   <div className="flex items-center justify-between gap-3">
@@ -560,6 +564,8 @@ export default function Signup() {
                   </div>
                 </motion.div>
               ))}
+              {/* Fade gate over last card */}
+              <div className="sticky bottom-0 -mt-28 h-36 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/80 dark:via-[#141414]/80 to-transparent pointer-events-none" />
             </div>
           </div>
         )}
