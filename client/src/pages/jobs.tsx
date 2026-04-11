@@ -195,10 +195,8 @@ function AnimatedJobCount({ onDone }: { onDone?: () => void }) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         setCount(target);
-        setTimeout(() => {
-          setShowGradient(true);
-          onDone?.();
-        }, 80);
+        onDone?.();
+        setTimeout(() => setShowGradient(true), 80);
       }
     };
 
