@@ -315,19 +315,19 @@ export default function Signup() {
         initial={{ opacity: 0, x: -32 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative flex flex-col justify-center w-full md:w-[560px] lg:w-[620px] shrink-0 h-full bg-[#FDFCF8] dark:bg-[#1A1A1A] px-10 md:px-16 z-10"
+        className="relative flex flex-col justify-center w-full md:w-[560px] lg:w-[620px] shrink-0 h-full bg-[#F0EDE7] dark:bg-[#1A1A1A] px-10 md:px-16 z-10"
       >
         {/* Top bar */}
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-8 md:px-12 py-5">
           <button
             onClick={() => navigate("/landing")}
-            className="text-[13px] font-semibold text-[#1A1A1A]/50 dark:text-foreground/50 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors"
+            className="text-[13px] font-semibold text-[#1A1A1A]/50 dark:text-[#F0EDE7]/50 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors"
           >
             ← Back
           </button>
           <button
             onClick={() => setTheme(isDark ? "light" : "dark")}
-            className="flex items-center justify-center w-8 h-8 rounded-full border border-[#1D1B1A]/10 dark:border-white/10 text-[#1D1B1A]/50 dark:text-foreground/50 hover:text-[#1D1B1A] dark:hover:text-foreground hover:border-[#1D1B1A]/30 dark:hover:border-white/30 transition-all"
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-[#1A1A1A]/10 dark:border-[#F0EDE7]/10 text-[#1A1A1A]/50 dark:text-[#F0EDE7]/50 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:border-[#1A1A1A]/25 dark:hover:border-[#F0EDE7]/25 transition-all"
           >
             {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
           </button>
@@ -341,8 +341,8 @@ export default function Signup() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.4 }}
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF553E]/10 px-3 py-1 text-[12px] font-semibold text-[#FF553E]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF553E] animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1A1A1A]/08 dark:bg-[#F0EDE7]/08 border border-[#E5D7C4] dark:border-[#F0EDE7]/10 px-3 py-1 text-[12px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E37941] animate-pulse" />
               Your portfolio is ready
             </span>
           </motion.div>
@@ -354,10 +354,10 @@ export default function Signup() {
             transition={{ delay: 0.15, duration: 0.4 }}
             className="flex flex-col gap-2"
           >
-            <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">
+            <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-[1.15]">
               Claim it and go live.
             </h1>
-            <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">
+            <p className="text-[14px] text-[#1A1A1A]/55 dark:text-[#F0EDE7]/55 leading-relaxed">
               We built your portfolio from your resume. Create an account to publish it and start getting shortlisted.
             </p>
           </motion.div>
@@ -371,7 +371,7 @@ export default function Signup() {
           >
             {/* Name */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-[#F0EDE7]/60 uppercase tracking-wider">
                 Full name
               </label>
               <input
@@ -380,13 +380,13 @@ export default function Signup() {
                 placeholder="Matt Chen"
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
+                className="w-full rounded-xl border border-[#E5D7C4] dark:border-[#F0EDE7]/10 bg-white/70 dark:bg-[#2A2520]/70 px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] placeholder:text-[#1A1A1A]/30 dark:placeholder:text-[#F0EDE7]/30 outline-none focus:border-[#1A1A1A]/30 dark:focus:border-[#F0EDE7]/25 transition-colors"
               />
             </div>
 
             {/* Email */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-[#F0EDE7]/60 uppercase tracking-wider">
                 Email
               </label>
               <input
@@ -395,13 +395,13 @@ export default function Signup() {
                 placeholder="matt@gmail.com"
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
+                className="w-full rounded-xl border border-[#E5D7C4] dark:border-[#F0EDE7]/10 bg-white/70 dark:bg-[#2A2520]/70 px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] placeholder:text-[#1A1A1A]/30 dark:placeholder:text-[#F0EDE7]/30 outline-none focus:border-[#1A1A1A]/30 dark:focus:border-[#F0EDE7]/25 transition-colors"
               />
             </div>
 
             {/* Password */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-[#F0EDE7]/60 uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
@@ -411,13 +411,13 @@ export default function Signup() {
                   placeholder="Min. 8 characters"
                   value={form.password}
                   onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                  className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 pr-11 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
+                  className="w-full rounded-xl border border-[#E5D7C4] dark:border-[#F0EDE7]/10 bg-white/70 dark:bg-[#2A2520]/70 px-4 py-3 pr-11 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] placeholder:text-[#1A1A1A]/30 dark:placeholder:text-[#F0EDE7]/30 outline-none focus:border-[#1A1A1A]/30 dark:focus:border-[#F0EDE7]/25 transition-colors"
                 />
                 <button
                   data-testid="button-toggle-password"
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#1A1A1A]/35 dark:text-foreground/35 hover:text-[#1A1A1A]/70 dark:hover:text-foreground/70 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#1A1A1A]/35 dark:text-[#F0EDE7]/35 hover:text-[#1A1A1A]/70 dark:hover:text-[#F0EDE7]/70 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -433,7 +433,7 @@ export default function Signup() {
           >
             <button
               data-testid="button-claim-portfolio"
-              className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#1D1B1A] dark:bg-white px-6 py-3.5 text-[15px] font-semibold text-[#FDFCF8] dark:text-[#1A1A1A] transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+              className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#1A1A1A] dark:bg-[#F0EDE7] px-6 py-3.5 text-[15px] font-semibold text-[#F0EDE7] dark:text-[#1A1A1A] transition-colors duration-300 hover:bg-black dark:hover:bg-white"
             >
               Claim my portfolio
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
@@ -445,10 +445,10 @@ export default function Signup() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.4 }}
-            className="text-center text-[13px] text-[#1A1A1A]/40 dark:text-foreground/40"
+            className="text-center text-[13px] text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40"
           >
             Already have an account?{" "}
-            <button className="font-semibold text-[#1A1A1A]/70 dark:text-foreground/70 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors underline underline-offset-2">
+            <button className="font-semibold text-[#1A1A1A]/70 dark:text-[#F0EDE7]/70 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors underline underline-offset-2">
               Sign in
             </button>
           </motion.p>
@@ -456,7 +456,7 @@ export default function Signup() {
       </motion.div>
 
       {/* ── Divider ───────────────────────────────────────── */}
-      <div className="hidden md:block w-px bg-[#1D1B1A]/08 dark:bg-white/08 shrink-0" />
+      <div className="hidden md:block w-px bg-[#E5D7C4] dark:bg-[#F0EDE7]/08 shrink-0" />
 
       {/* ── Right: Portfolio Preview ───────────────────────── */}
       <motion.div
