@@ -374,6 +374,18 @@ input[type="range"].speed-slider::-moz-range-thumb {
   to { --orb-angle: 360deg; }
 }
 
+/* Orb always active — colorful spinning, no hover needed */
+.orb-always-active .color-orb {
+  transform: scale(1.6);
+}
+.orb-always-active .color-orb::before {
+  animation-play-state: running;
+  opacity: 1;
+}
+.orb-always-active .color-orb::after {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .color-orb::before { animation: none !important; opacity: 0 !important; }
 }

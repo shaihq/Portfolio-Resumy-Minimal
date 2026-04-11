@@ -771,7 +771,7 @@ export default function Landing() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.97 }}
                     transition={{ duration: 0.3 }}
-                    className="inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/15 dark:border-white/15 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-[10px]"
+                    className="orb-always-active inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/15 dark:border-white/15 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-[10px]"
                   >
                     <ColorOrb dimension="20px" spinDuration={5} />
                     <AnimatePresence mode="wait">
