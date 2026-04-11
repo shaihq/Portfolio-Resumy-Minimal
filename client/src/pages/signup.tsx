@@ -317,8 +317,11 @@ export default function Signup() {
     name.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
   const domainTouched = useRef(false);
   const previewScrollRef = useRef<HTMLDivElement>(null);
+  const mobileSheetScrollRef = useRef<HTMLDivElement>(null);
   const [activeView, setActiveView] = useState("My Portfolio");
+  const [mobileSheetView, setMobileSheetView] = useState("My Portfolio");
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+  const [showPreviewSheet, setShowPreviewSheet] = useState(false);
 
   return (
     <motion.div
@@ -377,6 +380,26 @@ export default function Signup() {
             <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">
               We built your portfolio from your resume. Create an account to publish it and start getting shortlisted.
             </p>
+          </motion.div>
+
+          {/* Mobile: view preview button */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.4 }}
+            className="md:hidden"
+          >
+            <button
+              data-testid="button-view-preview"
+              onClick={() => setShowPreviewSheet(true)}
+              className="inline-flex items-center gap-2 rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-2.5 text-[13px] font-medium text-[#1A1A1A]/70 dark:text-foreground/70 hover:border-[#1D1B1A]/25 dark:hover:border-white/20 transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 opacity-70">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              View your portfolio &amp; job matches
+            </button>
           </motion.div>
 
           {/* Fields */}
@@ -684,6 +707,140 @@ export default function Signup() {
         {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] to-transparent pointer-events-none" />
       </motion.div>
+      {/* ── Mobile Preview Bottom Sheet ───────────────────── */}
+      <AnimatePresence>
+        {showPreviewSheet && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+              onClick={() => setShowPreviewSheet(false)}
+            />
+
+            {/* Sheet */}
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", stiffness: 340, damping: 36, mass: 0.9 }}
+              className="fixed bottom-0 left-0 right-0 z-50 md:hidden flex flex-col bg-[#EFECE6] dark:bg-[#141414] rounded-t-[28px] overflow-hidden"
+              style={{ height: "90dvh" }}
+            >
+              {/* Handle + header */}
+              <div className="shrink-0 pt-3 pb-2 px-5 flex flex-col items-center gap-3">
+                <div className="w-9 h-1 rounded-full bg-[#1D1B1A]/15 dark:bg-white/15" />
+                <div className="w-full flex items-center justify-between">
+                  <p className="text-[13px] font-semibold text-[#1A1A1A]/50 dark:text-foreground/50 uppercase tracking-wider">
+                    Your preview
+                  </p>
+                  <button
+                    data-testid="button-close-preview-sheet"
+                    onClick={() => setShowPreviewSheet(false)}
+                    className="w-7 h-7 rounded-full bg-[#1D1B1A]/08 dark:bg-white/08 flex items-center justify-center text-[#1A1A1A]/50 dark:text-foreground/50 hover:bg-[#1D1B1A]/14 dark:hover:bg-white/14 transition-colors"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <line x1="18" y1="6" x2="6" y2="18"/>
+                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Floating tab with smudge */}
+              <div className="absolute top-[72px] left-0 right-0 z-20 pointer-events-none">
+                <div className="h-20 bg-gradient-to-b from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/80 dark:via-[#141414]/80 to-transparent" />
+              </div>
+              <div className="absolute top-[76px] left-0 right-0 z-30 flex justify-center pointer-events-auto">
+                <AnimatedTabs
+                  tabs={[{ label: "My Portfolio" }, { label: "My Jobs" }]}
+                  onChange={setMobileSheetView}
+                />
+              </div>
+
+              {/* Scrollable content */}
+              {mobileSheetView === "My Portfolio" ? (
+                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[88px] pb-10 px-4">
+                  <CreativePortfolioPreview scrollRef={mobileSheetScrollRef} />
+                </div>
+              ) : (
+                <div className="flex-1 relative overflow-hidden">
+                  <div className="h-full overflow-y-auto pt-[88px] pb-10 px-4">
+                    <div className="w-full max-w-[560px] mx-auto flex flex-col gap-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Sparkles className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#B5AFA5]" />
+                        <span className="text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontFamily: 'DM Mono, monospace', fontSize: '13px', fontWeight: '500' }}>AI PICKS · {AI_PICKS.length} MATCHES</span>
+                      </div>
+                      {AI_PICKS.map((job, i) => (
+                        <motion.div
+                          key={job.id}
+                          initial={{ opacity: 0, y: 16 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.06 }}
+                          className={cn(
+                            "bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col gap-3",
+                            i >= 5 && "select-none"
+                          )}
+                          style={i >= 5 ? { filter: "blur(4px)", opacity: 0.5, pointerEvents: "none" } : undefined}
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div
+                                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white text-[14px] font-bold"
+                                style={{ backgroundColor: job.logoColor }}
+                              >
+                                {job.logoLetter}
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] truncate">{job.company}</p>
+                                <p className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] truncate">{job.location}</p>
+                              </div>
+                            </div>
+                            <div className="shrink-0">
+                              <Gauge
+                                value={job.match}
+                                size={42}
+                                strokeWidth={8}
+                                gapPercent={3}
+                                primary="success"
+                                secondary="rgba(0,0,0,0.06)"
+                                showValue={true}
+                                showPercentage={false}
+                                transition={{ delay: 200 }}
+                                className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
+                              />
+                            </div>
+                          </div>
+                          <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">{job.role}</p>
+                          <p className="text-[12px] text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed italic">"{job.reason}"</p>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5] bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-2 py-0.5">
+                              <Briefcase className="w-2.5 h-2.5 shrink-0" />{job.type}
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5] bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-2 py-0.5">
+                              <Monitor className="w-2.5 h-2.5 shrink-0" />{job.workMode}
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#7A736C] dark:text-[#B5AFA5] bg-black/[0.05] dark:bg-white/[0.06] rounded-md px-2 py-0.5">
+                              <Clock className="w-2.5 h-2.5 shrink-0" />{job.yearsExp}
+                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none" />
+                </div>
+              )}
+
+              {/* Bottom fade */}
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] to-transparent pointer-events-none" />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
