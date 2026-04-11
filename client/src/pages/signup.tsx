@@ -354,7 +354,7 @@ export default function Signup() {
         </div>
 
         {/* Form content */}
-        <div className="flex flex-col gap-6 w-full max-w-[420px]">
+        <div className="flex flex-col gap-6 w-full max-w-[420px] mx-auto">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
