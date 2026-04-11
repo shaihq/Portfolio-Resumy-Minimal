@@ -748,7 +748,7 @@ export default function Signup() {
 
               {/* Scrollable content */}
               {mobileSheetView === "My Portfolio" ? (
-                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[72px] pb-28">
+                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[72px] pb-28 px-4">
                   <CreativePortfolioPreview scrollRef={mobileSheetScrollRef} />
                 </div>
               ) : (
