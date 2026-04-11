@@ -711,7 +711,7 @@ export default function Landing() {
               className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] dark:text-foreground"
               style={{ fontWeight: 650 }}
             >
-              The career tool that works the night shift.
+              The career tool that works while you sleep.
             </motion.h1>
             
             <motion.p 
@@ -720,7 +720,7 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="text-[16px] mb-8 max-w-[400px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
-              Build your portfolio once. AI scans, scores, and shortlists matched jobs overnight. You wake up and decide.
+              Build your portfolio once. AI scans, scores, and shortlists matched jobs overnight.<br />You wake up and decide.
             </motion.p>
             
             <motion.div
