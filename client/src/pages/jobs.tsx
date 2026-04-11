@@ -135,7 +135,14 @@ const questions = [
 const questionOptions: string[][] = [
   ["Engineering", "Product", "Design", "Data & Analytics", "Marketing", "Sales", "Operations"],
   ["My city only", "Open to relocating", "Remote only"],
-  ["Entry-level", "Mid-level", "Senior", "Lead / Staff", "Director+"],
+  ["Mid-level", "Senior", "Lead / Staff", "Manager / Director"],
+];
+
+const levelOptions = [
+  { title: "Mid-level", sub: "2–4 years", desc: "Growing into ownership." },
+  { title: "Senior", sub: "5–8 years", desc: "Leading work independently." },
+  { title: "Lead / Staff", sub: "8+ years", desc: "Setting direction for a team." },
+  { title: "Manager / Director", sub: "", desc: "People management and strategy." },
 ];
 
 function Waveform({ listening }: { listening: boolean }) {
@@ -483,23 +490,29 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
           )}
 
           {current === 2 && (
-            <motion.div key="level" className="flex flex-wrap justify-center gap-3 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: "easeOut" }}>
-              {questionOptions[2].map((option) => {
-                const isSelected = selected === option;
+            <motion.div key="level" className="flex flex-col gap-3 w-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: "easeOut" }}>
+              {levelOptions.map((opt) => {
+                const isSelected = selected === opt.title;
                 return (
                   <motion.button
-                    key={option}
-                    data-testid={`option-${option.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
-                    onClick={() => handleSelect(option)}
+                    key={opt.title}
+                    data-testid={`option-${opt.title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                    onClick={() => handleSelect(opt.title)}
                     disabled={selected !== null}
-                    whileTap={{ scale: 0.96 }}
-                    className={`px-5 py-3 rounded-full border text-[14px] font-medium transition-all duration-200 ${
+                    whileTap={{ scale: 0.985 }}
+                    className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl border text-left transition-all duration-200 ${
                       isSelected
                         ? "bg-foreground text-background border-foreground"
-                        : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/40 hover:bg-foreground/8"
+                        : "bg-background/60 dark:bg-foreground/5 border-border text-foreground hover:border-foreground/30"
                     }`}
                   >
-                    {option}
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[15px] font-semibold">{opt.title}</span>
+                      <span className={`text-[13px] ${isSelected ? "text-background/70" : "text-muted-foreground"}`}>{opt.desc}</span>
+                    </div>
+                    {opt.sub && (
+                      <span className={`text-[12px] font-medium flex-shrink-0 ml-4 ${isSelected ? "text-background/60" : "text-muted-foreground/60"}`}>{opt.sub}</span>
+                    )}
                   </motion.button>
                 );
               })}
