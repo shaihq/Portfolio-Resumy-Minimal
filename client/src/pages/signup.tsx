@@ -491,7 +491,8 @@ export default function Signup() {
             <CreativePortfolioPreview scrollRef={previewScrollRef} />
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto pt-4 pb-8 px-6">
+          <div className="flex-1 relative overflow-hidden">
+            <div className="h-full overflow-y-auto pt-4 pb-8 px-6">
             <div className="w-full max-w-[640px] mx-auto flex flex-col gap-3">
               {/* Header */}
               <div className="flex items-center gap-2 mb-1">
@@ -564,9 +565,10 @@ export default function Signup() {
                   </div>
                 </motion.div>
               ))}
-              {/* Fade gate over last card */}
-              <div className="sticky bottom-0 -mt-28 h-36 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/80 dark:via-[#141414]/80 to-transparent pointer-events-none" />
             </div>
+            </div>
+            {/* Fade gate — absolutely pinned to bottom of the panel */}
+            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none" />
           </div>
         )}
 
