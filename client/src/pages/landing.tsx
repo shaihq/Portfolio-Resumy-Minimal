@@ -320,7 +320,26 @@ export default function Landing() {
   const [showAllFeatures, setShowAllFeatures] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [aiStatusIndex, setAiStatusIndex] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const aiStatuses = [
+    "Reading your resume...",
+    "Extracting skills & experience...",
+    "Building your portfolio...",
+    "Scanning matched jobs...",
+  ];
+
+  useEffect(() => {
+    if (!isProcessing) return;
+    setAiStatusIndex(0);
+    const interval = setInterval(() => {
+      setAiStatusIndex((i) => (i + 1) % aiStatuses.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [isProcessing]);
+
   const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
   const speedDurations = [52, 38, 28, 18, 11];
   const scrollDuration = speedDurations[speedLevel - 1];
@@ -740,70 +759,76 @@ export default function Landing() {
                 data-testid="input-resume-upload"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  if (file) setResumeFile(file);
+                  if (file) { setResumeFile(file); setIsProcessing(true); }
                 }}
               />
-              <div
-                data-testid="dropzone-resume"
-                onClick={() => fileInputRef.current?.click()}
-                onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                onDragLeave={() => setIsDragging(false)}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setIsDragging(false);
-                  const file = e.dataTransfer.files?.[0];
-                  if (file && file.type === "application/pdf") setResumeFile(file);
-                }}
-                className={cn(
-                  "cursor-pointer inline-flex items-center gap-3 rounded-full border border-dashed px-5 py-3 transition-all duration-200",
-                  isDragging
-                    ? "border-[#FF553E] bg-[#FF553E]/5"
-                    : resumeFile
-                    ? "border-[#1D1B1A]/30 dark:border-white/25 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.06]"
-                    : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/45"
-                )}
-              >
-                {resumeFile ? (
-                  <>
+              <AnimatePresence mode="wait">
+                {isProcessing && resumeFile ? (
+                  <motion.div
+                    key="processing"
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.25 }}
+                    className="inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.06] px-5 py-3"
+                  >
                     <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-[#FF553E]" strokeWidth={2} />
-                    <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground truncate max-w-[180px]">{resumeFile.name}</span>
-                    <span className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45 shrink-0">{(resumeFile.size / 1024 / 1024).toFixed(1)} MB</span>
-                    <button
-                      data-testid="button-remove-resume"
-                      onClick={(e) => { e.stopPropagation(); setResumeFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
-                      className="text-[12px] text-[#1D1B1A]/35 dark:text-foreground/35 hover:text-[#FF553E] dark:hover:text-[#FF553E] transition-colors shrink-0 ml-1"
-                    >
-                      ✕
-                    </button>
-                  </>
+                    <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground truncate max-w-[160px]">{resumeFile.name}</span>
+                    <span className="text-[#1D1B1A]/30 dark:text-foreground/30 text-[13px]">·</span>
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={aiStatusIndex}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-[13px] text-[#1D1B1A]/55 dark:text-foreground/55 whitespace-nowrap"
+                      >
+                        {aiStatuses[aiStatusIndex]}
+                      </motion.span>
+                    </AnimatePresence>
+                    <span className="flex gap-[3px] items-center ml-1">
+                      {[0, 1, 2].map((i) => (
+                        <span
+                          key={i}
+                          className="block h-[5px] w-[5px] rounded-full bg-[#1D1B1A]/30 dark:bg-white/30 animate-bounce"
+                          style={{ animationDelay: `${i * 0.15}s`, animationDuration: "0.9s" }}
+                        />
+                      ))}
+                    </span>
+                  </motion.div>
                 ) : (
-                  <>
+                  <motion.div
+                    key="idle"
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.25 }}
+                    data-testid="dropzone-resume"
+                    onClick={() => fileInputRef.current?.click()}
+                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                    onDragLeave={() => setIsDragging(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                      const file = e.dataTransfer.files?.[0];
+                      if (file && file.type === "application/pdf") { setResumeFile(file); setIsProcessing(true); }
+                    }}
+                    className={cn(
+                      "cursor-pointer inline-flex items-center gap-3 rounded-full border border-dashed px-5 py-3 transition-all duration-200",
+                      isDragging
+                        ? "border-[#FF553E] bg-[#FF553E]/5"
+                        : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/45"
+                    )}
+                  >
                     <Upload className={cn("h-[18px] w-[18px] shrink-0 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/60 dark:text-foreground/60")} strokeWidth={2} />
                     <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground">
                       {isDragging ? "Drop it here" : "Upload your resume"}
                     </span>
                     <span className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45">PDF · max 5MB</span>
-                  </>
+                  </motion.div>
                 )}
-              </div>
-              {resumeFile && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="mt-3"
-                >
-                  <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
-                    <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
-                      Get started for free
-                    </span>
-                    <div className="relative h-[46px] w-[46px] flex-shrink-0 overflow-hidden rounded-full bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
-                      <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-8 group-hover:-translate-y-8" strokeWidth={2.5} />
-                      <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-10 translate-y-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
+              </AnimatePresence>
             </motion.div>
           </section>
 
