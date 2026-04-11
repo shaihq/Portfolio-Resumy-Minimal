@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
+import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
 import { MatchGlowCard } from "@/components/ui/glowing-card";
 import { ColorOrb } from "@/components/ui/color-orb";
 import profileImg from "@/assets/images/profile.png";
@@ -420,11 +421,11 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
 
       {/* Question + answer area */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-lg gap-8 w-full">
-        <AnimatePresence mode="wait">
-          <motion.p key={current} className="text-foreground text-[22px] font-medium leading-snug tracking-tight" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.4, ease: "easeOut" }}>
-            {questions[current]}
-          </motion.p>
-        </AnimatePresence>
+        <BlurredStagger
+          key={current}
+          text={questions[current]}
+          className="text-foreground text-[22px] font-medium leading-snug tracking-tight"
+        />
 
         <AnimatePresence mode="wait">
           {/* Q1 — Role */}
