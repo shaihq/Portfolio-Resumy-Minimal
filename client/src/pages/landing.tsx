@@ -773,7 +773,7 @@ export default function Landing() {
                     transition={{ duration: 0.3 }}
                     className="orb-always-active inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/15 dark:border-white/15 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-[10px]"
                   >
-                    <ColorOrb dimension="20px" spinDuration={5} />
+                    <ColorOrb dimension="14px" spinDuration={5} />
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={aiStatusIndex}
