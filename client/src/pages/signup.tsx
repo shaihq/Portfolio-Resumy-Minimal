@@ -311,7 +311,11 @@ export default function Signup() {
   const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", domain: "" });
+
+  const toSlug = (name: string) =>
+    name.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  const domainTouched = useRef(false);
   const previewScrollRef = useRef<HTMLDivElement>(null);
   const [activeView, setActiveView] = useState("My Portfolio");
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
@@ -392,10 +396,53 @@ export default function Signup() {
                 type="text"
                 placeholder="Matt Chen"
                 value={form.name}
-                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                onChange={(e) => {
+                  const name = e.target.value;
+                  setForm((f) => ({
+                    ...f,
+                    name,
+                    domain: domainTouched.current ? f.domain : toSlug(name),
+                  }));
+                }}
                 className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
               />
             </div>
+
+            {/* Domain — revealed once name has input */}
+            <AnimatePresence>
+              {form.name.trim().length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: "auto", marginTop: 0 }}
+                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                  transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="overflow-hidden"
+                >
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+                      Your portfolio URL
+                    </label>
+                    <div className="flex items-center rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] overflow-hidden focus-within:border-[#1D1B1A]/30 dark:focus-within:border-white/25 transition-colors">
+                      <input
+                        data-testid="input-domain"
+                        type="text"
+                        placeholder="yourname"
+                        value={form.domain}
+                        onChange={(e) => {
+                          domainTouched.current = true;
+                          const slug = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+                          setForm((f) => ({ ...f, domain: slug }));
+                        }}
+                        className="flex-1 min-w-0 bg-transparent px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none"
+                      />
+                      <span className="shrink-0 pr-4 text-[14px] text-[#1A1A1A]/40 dark:text-foreground/40 font-medium select-none">
+                        .designfolio.me
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Email */}
             <div className="flex flex-col gap-1.5">
