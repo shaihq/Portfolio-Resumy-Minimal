@@ -35,7 +35,7 @@ export function AnimatedTabs({ tabs, onChange }: AnimatedTabsProps) {
   };
 
   return (
-    <div className="relative bg-black/8 dark:bg-white/8 border border-black/10 dark:border-white/10 mx-auto flex w-fit flex-col items-center rounded-full py-2 px-1.5">
+    <div className="relative bg-[#E2DDD6] dark:bg-[#252320] border border-black/10 dark:border-white/10 mx-auto flex w-fit flex-col items-center rounded-full py-2 px-1.5">
       <div
         ref={containerRef}
         className="absolute z-10 w-full overflow-hidden [clip-path:inset(0px_75%_0px_0%_round_17px)] [transition:clip-path_0.25s_ease]"
