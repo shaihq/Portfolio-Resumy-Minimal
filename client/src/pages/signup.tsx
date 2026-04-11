@@ -730,31 +730,16 @@ export default function Signup() {
               className="fixed bottom-0 left-0 right-0 z-50 md:hidden flex flex-col bg-[#EFECE6] dark:bg-[#141414] rounded-t-[28px] overflow-hidden"
               style={{ height: "90dvh" }}
             >
-              {/* Handle + header */}
-              <div className="shrink-0 pt-3 pb-2 px-5 flex flex-col items-center gap-3">
+              {/* Handle only */}
+              <div className="shrink-0 pt-3 pb-1 flex justify-center">
                 <div className="w-9 h-1 rounded-full bg-[#1D1B1A]/15 dark:bg-white/15" />
-                <div className="w-full flex items-center justify-between">
-                  <p className="text-[13px] font-semibold text-[#1A1A1A]/50 dark:text-foreground/50 uppercase tracking-wider">
-                    Your preview
-                  </p>
-                  <button
-                    data-testid="button-close-preview-sheet"
-                    onClick={() => setShowPreviewSheet(false)}
-                    className="w-7 h-7 rounded-full bg-[#1D1B1A]/08 dark:bg-white/08 flex items-center justify-center text-[#1A1A1A]/50 dark:text-foreground/50 hover:bg-[#1D1B1A]/14 dark:hover:bg-white/14 transition-colors"
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                      <line x1="18" y1="6" x2="6" y2="18"/>
-                      <line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                  </button>
-                </div>
               </div>
 
               {/* Floating tab with smudge */}
-              <div className="absolute top-[72px] left-0 right-0 z-20 pointer-events-none">
+              <div className="absolute top-[24px] left-0 right-0 z-20 pointer-events-none">
                 <div className="h-20 bg-gradient-to-b from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/80 dark:via-[#141414]/80 to-transparent" />
               </div>
-              <div className="absolute top-[76px] left-0 right-0 z-30 flex justify-center pointer-events-auto">
+              <div className="absolute top-[28px] left-0 right-0 z-30 flex justify-center pointer-events-auto">
                 <AnimatedTabs
                   tabs={[{ label: "My Portfolio" }, { label: "My Jobs" }]}
                   onChange={setMobileSheetView}
@@ -763,12 +748,12 @@ export default function Signup() {
 
               {/* Scrollable content */}
               {mobileSheetView === "My Portfolio" ? (
-                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[88px] pb-10 px-4">
+                <div ref={mobileSheetScrollRef} className="flex-1 overflow-y-auto pt-[72px] pb-28 px-4">
                   <CreativePortfolioPreview scrollRef={mobileSheetScrollRef} />
                 </div>
               ) : (
                 <div className="flex-1 relative overflow-hidden">
-                  <div className="h-full overflow-y-auto pt-[88px] pb-10 px-4">
+                  <div className="h-full overflow-y-auto pt-[72px] pb-28 px-4">
                     <div className="w-full max-w-[560px] mx-auto flex flex-col gap-3">
                       <div className="flex items-center gap-2 mb-1">
                         <Sparkles className="w-3.5 h-3.5 text-[#7A736C] dark:text-[#B5AFA5]" />
@@ -835,8 +820,20 @@ export default function Signup() {
                 </div>
               )}
 
-              {/* Bottom fade */}
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] to-transparent pointer-events-none" />
+              {/* Bottom fade + close button */}
+              <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#EFECE6] dark:from-[#141414] via-[#EFECE6]/90 dark:via-[#141414]/90 to-transparent pointer-events-none" />
+              <div className="absolute bottom-6 left-0 right-0 flex justify-center z-40 pointer-events-auto">
+                <button
+                  data-testid="button-close-preview-sheet"
+                  onClick={() => setShowPreviewSheet(false)}
+                  className="w-11 h-11 rounded-full bg-[#1D1B1A] dark:bg-white flex items-center justify-center text-[#FDFCF8] dark:text-[#1A1A1A] shadow-lg transition-opacity hover:opacity-80"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
             </motion.div>
           </>
         )}
