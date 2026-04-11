@@ -10,6 +10,7 @@ import project2 from "@/assets/images/project2.png";
 
 function CreativePortfolioPreview() {
   const [tick, setTick] = useState(new Date());
+  const [expandedCareer, setExpandedCareer] = useState<Record<number, boolean>>({});
   useEffect(() => {
     const id = setInterval(() => setTick(new Date()), 1000);
     return () => clearInterval(id);
@@ -131,28 +132,145 @@ function CreativePortfolioPreview() {
         </div>
       </motion.div>
 
-      {/* Experience teaser */}
+      {/* Career Ladder — exact replica from Creative template */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.5 }}
-        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[28px] border border-[#E5D7C4] dark:border-white/10 p-4"
+        className="bg-white/85 dark:bg-[#2A2520]/85 backdrop-blur-md rounded-[28px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full relative"
       >
-        <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[11px] font-mono uppercase tracking-wider mb-3">Career Ladder</p>
-        <div className="flex flex-col gap-3">
-          {[
-            { role: "Senior Design Engineer", company: "Vercel", period: "2023 – Now" },
-            { role: "Product Designer", company: "Freshworks", period: "2021 – 2023" },
-            { role: "UI Designer", company: "Razorpay", period: "2019 – 2021" },
-          ].map((exp, i) => (
-            <div key={i} className="flex items-center justify-between py-2 border-b border-[#E5D7C4]/60 dark:border-white/[0.06] last:border-0">
-              <div>
-                <p className="text-[12px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">{exp.role}</p>
-                <p className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5]">{exp.company}</p>
+        <h2 className="text-[#7A736C] dark:text-[#B5AFA5] mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
+
+        <div className="relative flex">
+          {/* Climbing character */}
+          <div className="absolute left-[1px] z-20 w-[40px] h-[54px]" style={{ top: 0, willChange: 'transform' }}>
+            <img src="/character-me.svg" alt="Character climbing" className="w-full h-full object-contain" />
+          </div>
+          {/* Ladder rungs */}
+          <div className="absolute left-0 top-3 bottom-0 w-[42px] flex flex-col justify-between items-start border-x-[5px] border-[#F0EDE7] dark:border-[#3A352E] py-1 bg-transparent">
+            {[...Array(38)].map((_, i) => (
+              <div key={i} className="w-full h-[5px] bg-[#F0EDE7] dark:bg-[#3A352E]" />
+            ))}
+          </div>
+
+          <div className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
+            {/* Entry 1 */}
+            <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-4 -mx-4 rounded-2xl transition-colors">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
+                <h3 className="text-[16px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Senior Design Engineer @ Vercel</h3>
+                <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                  2023 — Present
+                </div>
               </div>
-              <span className="text-[11px] text-[#7A736C] dark:text-[#B5AFA5] shrink-0 ml-4">{exp.period}</span>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">
+                Leading design systems and interaction design across Vercel's core platform, shaping experiences used by millions of developers.
+              </p>
+              <motion.div
+                initial={false}
+                animate={{ height: expandedCareer[0] ? "auto" : 0, opacity: expandedCareer[0] ? 1 : 0 }}
+                className="overflow-hidden"
+                transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+              >
+                <div className="pt-4">
+                  <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[14px]">
+                    {["Design system architecture", "Developer-facing tooling UX", "Cross-functional design leadership"].map((item, j) => (
+                      <li key={j} className="flex items-start gap-2">
+                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+              <button
+                onClick={(e) => { e.stopPropagation(); setExpandedCareer(prev => ({ ...prev, [0]: !prev[0] })); }}
+                className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+              >
+                {expandedCareer[0] ? 'View less' : 'View more'}
+                <motion.svg animate={{ rotate: expandedCareer[0] ? 180 : 0 }} transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </motion.svg>
+              </button>
             </div>
-          ))}
+
+            {/* Entry 2 */}
+            <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-4 -mx-4 rounded-2xl transition-colors">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
+                <h3 className="text-[16px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Freshworks</h3>
+                <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                  2021 — 2023
+                </div>
+              </div>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">
+                Redesigned the Quote Builder for 1,900+ enterprise users, reducing quote creation time by 40% through smarter interaction patterns.
+              </p>
+              <motion.div
+                initial={false}
+                animate={{ height: expandedCareer[1] ? "auto" : 0, opacity: expandedCareer[1] ? 1 : 0 }}
+                className="overflow-hidden"
+                transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+              >
+                <div className="pt-4">
+                  <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[14px]">
+                    {["Enterprise B2B product design", "User research & testing", "Component library ownership"].map((item, j) => (
+                      <li key={j} className="flex items-start gap-2">
+                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+              <button
+                onClick={(e) => { e.stopPropagation(); setExpandedCareer(prev => ({ ...prev, [1]: !prev[1] })); }}
+                className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+              >
+                {expandedCareer[1] ? 'View less' : 'View more'}
+                <motion.svg animate={{ rotate: expandedCareer[1] ? 180 : 0 }} transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </motion.svg>
+              </button>
+            </div>
+
+            {/* Entry 3 */}
+            <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-4 -mx-4 rounded-2xl transition-colors">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
+                <h3 className="text-[16px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">UI Designer @ Razorpay</h3>
+                <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                  2019 — 2021
+                </div>
+              </div>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[14px] leading-relaxed">
+                Designed core payment flows and merchant dashboards, improving conversion rates across Razorpay's checkout product.
+              </p>
+              <motion.div
+                initial={false}
+                animate={{ height: expandedCareer[2] ? "auto" : 0, opacity: expandedCareer[2] ? 1 : 0 }}
+                className="overflow-hidden"
+                transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+              >
+                <div className="pt-4">
+                  <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[14px]">
+                    {["Payment UX & checkout flows", "Merchant dashboard design", "Fintech accessibility standards"].map((item, j) => (
+                      <li key={j} className="flex items-start gap-2">
+                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+              <button
+                onClick={(e) => { e.stopPropagation(); setExpandedCareer(prev => ({ ...prev, [2]: !prev[2] })); }}
+                className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+              >
+                {expandedCareer[2] ? 'View less' : 'View more'}
+                <motion.svg animate={{ rotate: expandedCareer[2] ? 180 : 0 }} transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </motion.svg>
+              </button>
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>
