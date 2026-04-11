@@ -328,16 +328,8 @@ export default function Signup() {
         transition={{ duration: 0.6, delay: 0.15 }}
         className="hidden md:flex flex-col flex-1 h-full bg-[#EFECE6] dark:bg-[#141414] overflow-hidden relative"
       >
-        {/* Preview label */}
-        <div className="absolute top-5 left-1/2 -translate-x-1/2 z-20">
-          <div className="flex items-center gap-2 rounded-full bg-white/70 dark:bg-[#2A2520]/70 backdrop-blur-md border border-[#E5D7C4] dark:border-white/10 px-3 py-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E37941]" />
-            <span className="text-[11px] font-semibold text-[#7A736C] dark:text-[#B5AFA5] uppercase tracking-wider">Portfolio Preview · Creative</span>
-          </div>
-        </div>
-
         {/* Scrollable portfolio */}
-        <div className="flex-1 overflow-y-auto pt-14 pb-8 px-6">
+        <div className="flex-1 overflow-y-auto pt-6 pb-8 px-6">
           <CreativePortfolioPreview />
         </div>
 
