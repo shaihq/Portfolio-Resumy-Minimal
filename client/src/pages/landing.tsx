@@ -345,7 +345,7 @@ export default function Landing() {
 
   useEffect(() => {
     if (!isProcessing) return;
-    const timer = setTimeout(() => navigate("/signup"), 3600);
+    const timer = setTimeout(() => navigate("/signup"), 6200);
     return () => clearTimeout(timer);
   }, [isProcessing, navigate]);
 
