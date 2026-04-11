@@ -375,7 +375,7 @@ export default function Signup() {
             className="flex flex-col gap-2"
           >
             <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">Sign up. Let's get you hired.</h1>
-            <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">Sign up to access your portfolio and the roles we found for you.</p>
+            <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">Your portfolio and matched jobs are one click away.</p>
           </motion.div>
 
           {/* Mobile: view preview button */}
