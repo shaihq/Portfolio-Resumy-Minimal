@@ -8,22 +8,24 @@ interface FolderProps {
 export function Folder({ isDragging = false, className }: FolderProps) {
   return (
     <div
-      className={cn("relative shrink-0 select-none", className)}
+      className={cn("group/folder relative shrink-0 select-none cursor-pointer origin-bottom z-50", className)}
       style={{ width: 40, height: 28, perspective: "280px" }}
     >
       {/* work-5: folder back body + left tab */}
       <div
         className={cn(
-          "absolute inset-0 rounded-[4px] rounded-tl-none origin-top transition-all ease duration-300 group-hover:shadow-[0_4px_10px_rgba(0,0,0,0.22)]",
+          "absolute inset-0 rounded-[4px] rounded-tl-none origin-top transition-all ease duration-300 group-hover/folder:shadow-[0_4px_10px_rgba(0,0,0,0.22)]",
           isDragging ? "bg-[#FF553E]" : "bg-amber-600"
         )}
       >
+        {/* left tab */}
         <div
           className={cn(
             "absolute bottom-full left-0 h-[7px] w-[14px] rounded-t-[3px]",
             isDragging ? "bg-[#FF553E]" : "bg-amber-600"
           )}
         />
+        {/* left corner connector */}
         <div
           className={cn(
             "absolute h-[4px] w-[4px]",
@@ -38,11 +40,11 @@ export function Folder({ isDragging = false, className }: FolderProps) {
       </div>
 
       {/* work-4: paper back */}
-      <div className="absolute inset-[2px] bg-zinc-400 rounded-[3px] transition-all ease duration-300 origin-bottom select-none group-hover:[transform:rotateX(-20deg)]" />
+      <div className="absolute inset-[2px] bg-zinc-400 rounded-[3px] transition-all ease duration-300 origin-bottom select-none group-hover/folder:[transform:rotateX(-20deg)]" />
       {/* work-3: paper middle */}
-      <div className="absolute inset-[2px] bg-zinc-300 rounded-[3px] transition-all ease duration-300 origin-bottom group-hover:[transform:rotateX(-30deg)]" />
+      <div className="absolute inset-[2px] bg-zinc-300 rounded-[3px] transition-all ease duration-300 origin-bottom group-hover/folder:[transform:rotateX(-30deg)]" />
       {/* work-2: paper front */}
-      <div className="absolute inset-[2px] bg-zinc-200 rounded-[3px] transition-all ease duration-300 origin-bottom group-hover:[transform:rotateX(-38deg)]" />
+      <div className="absolute inset-[2px] bg-zinc-200 rounded-[3px] transition-all ease duration-300 origin-bottom group-hover/folder:[transform:rotateX(-38deg)]" />
 
       {/* work-1: folder front body + right tab */}
       <div
@@ -53,12 +55,14 @@ export function Folder({ isDragging = false, className }: FolderProps) {
             : "bg-gradient-to-t from-amber-500 to-amber-400"
         )}
       >
+        {/* right tab */}
         <div
           className={cn(
             "absolute bottom-full right-0 h-[7px] w-[24px] rounded-t-[3px]",
             isDragging ? "bg-[#FF553E]" : "bg-amber-400"
           )}
         />
+        {/* right corner connector */}
         <div
           className={cn(
             "absolute h-[4px] w-[4px]",
