@@ -807,25 +807,29 @@ export default function Landing() {
                   <motion.div
                     key="processing"
                     initial={{ opacity: 0, scale: 0.97 }}
-                    animate={{ opacity: 1, scale: 1.06 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="orb-always-active inline-flex items-center gap-3 rounded-full border border-[#1D1B1A]/15 dark:border-white/15 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-[10px]"
-                    style={{ boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3)' : '0 8px 32px rgba(29,27,26,0.14), 0 2px 8px rgba(29,27,26,0.08)' }}
+                    transition={{ duration: 0.25 }}
+                    className="orb-always-active inline-flex items-center gap-3.5 rounded-xl border border-dashed border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-3"
                   >
                     <ColorOrb dimension="14px" spinDuration={5} />
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={aiStatusIndex}
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="text-[14px] font-medium text-[#1D1B1A]/70 dark:text-foreground/70 whitespace-nowrap"
-                      >
-                        {aiStatuses[aiStatusIndex]}
-                      </motion.span>
-                    </AnimatePresence>
+                    <div className="flex flex-col items-start gap-0.5">
+                      <AnimatePresence mode="wait">
+                        <motion.span
+                          key={aiStatusIndex}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          className="text-[14px] font-semibold leading-none text-[#1D1B1A] dark:text-foreground whitespace-nowrap"
+                        >
+                          {aiStatuses[aiStatusIndex]}
+                        </motion.span>
+                      </AnimatePresence>
+                      <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
+                        This takes a few seconds…
+                      </span>
+                    </div>
                   </motion.div>
                 ) : (
                   <motion.div
