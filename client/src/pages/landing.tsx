@@ -1166,7 +1166,7 @@ export default function Landing() {
                 </div>
 
                 {/* Two-column body */}
-                <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+                <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8">
                   {/* Left: Features */}
                   <div className="flex flex-col gap-5 md:flex-1">
                     {[
