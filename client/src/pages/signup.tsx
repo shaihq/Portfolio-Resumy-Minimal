@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef, type RefObject } from "react";
+import { useState, useEffect, useRef, useCallback, type RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
-import { Eye, EyeOff, ArrowRight, Sun, Moon, Briefcase, Monitor, Clock, Sparkles, Lock } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Sun, Moon, Briefcase, Monitor, Clock, Sparkles, Lock, MailCheck } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Gauge } from "@/components/ui/gauge-1";
 import { cn } from "@/lib/utils";
@@ -322,6 +322,56 @@ export default function Signup() {
   const [mobileSheetView, setMobileSheetView] = useState("My Portfolio");
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showPreviewSheet, setShowPreviewSheet] = useState(false);
+  const [step, setStep] = useState<"signup" | "verify">("signup");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otpError, setOtpError] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const startResendCooldown = useCallback(() => {
+    setResendCooldown(30);
+    const id = setInterval(() => {
+      setResendCooldown((v) => {
+        if (v <= 1) { clearInterval(id); return 0; }
+        return v - 1;
+      });
+    }, 1000);
+  }, []);
+
+  const handleOtpChange = (index: number, value: string) => {
+    const digit = value.replace(/\D/g, "").slice(-1);
+    const next = [...otp];
+    next[index] = digit;
+    setOtp(next);
+    setOtpError(false);
+    if (digit && index < 5) {
+      otpRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleOtpPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    if (!pasted) return;
+    const next = [...otp];
+    pasted.split("").forEach((ch, i) => { next[i] = ch; });
+    setOtp(next);
+    setOtpError(false);
+    const focusIndex = Math.min(pasted.length, 5);
+    otpRefs.current[focusIndex]?.focus();
+  };
+
+  const handleVerify = () => {
+    const code = otp.join("");
+    if (code.length < 6) { setOtpError(true); return; }
+    navigate("/");
+  };
 
   return (
     <motion.div
@@ -353,185 +403,304 @@ export default function Signup() {
           </button>
         </div>
 
-        {/* Form content */}
-        <div className="flex flex-col gap-6 w-full max-w-[420px] mx-auto pt-24 pb-28 md:py-0 md:my-auto">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
-          >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF553E]/10 px-3 py-1 text-[12px] font-semibold text-[#FF553E]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF553E] animate-pulse" />
-              Your portfolio is ready
-            </span>
-          </motion.div>
-
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.4 }}
-            className="flex flex-col gap-2"
-          >
-            <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">Sign up. Let's get you hired.</h1>
-            <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">Your portfolio and matched jobs are one click away.</p>
-          </motion.div>
-
-          {/* Mobile: view preview button */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18, duration: 0.4 }}
-            className="md:hidden"
-          >
-            <button
-              data-testid="button-view-preview"
-              onClick={() => setShowPreviewSheet(true)}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-2.5 text-[13px] font-medium text-[#1A1A1A]/70 dark:text-foreground/70 hover:border-[#1D1B1A]/25 dark:hover:border-white/20 transition-colors"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 opacity-70">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-              View your portfolio &amp; job matches
-            </button>
-          </motion.div>
-
-          {/* Fields */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-            className="flex flex-col gap-3"
-          >
-            {/* Name */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
-                Full name
-              </label>
-              <input
-                data-testid="input-full-name"
-                type="text"
-                placeholder="Matt Chen"
-                value={form.name}
-                onChange={(e) => {
-                  const name = e.target.value;
-                  setForm((f) => ({
-                    ...f,
-                    name,
-                    domain: domainTouched.current ? f.domain : toSlug(name),
-                  }));
-                }}
-                className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
-              />
-            </div>
-
-            {/* Domain — revealed once name has input */}
-            <AnimatePresence>
-              {form.name.trim().length > 0 && (
+        {/* Form content — animated between signup and verify steps */}
+        <div className="relative flex-1 md:flex-none flex flex-col md:justify-center overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            {step === "signup" ? (
+              <motion.div
+                key="signup"
+                initial={{ opacity: 0, x: -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="flex flex-col gap-6 w-full max-w-[420px] mx-auto pt-24 pb-28 md:py-0 md:my-auto"
+              >
+                {/* Badge */}
                 <motion.div
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: "auto", marginTop: 0 }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="overflow-hidden"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05, duration: 0.4 }}
                 >
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF553E]/10 px-3 py-1 text-[12px] font-semibold text-[#FF553E]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF553E] animate-pulse" />
+                    Your portfolio is ready
+                  </span>
+                </motion.div>
+
+                {/* Heading */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 0.4 }}
+                  className="flex flex-col gap-2"
+                >
+                  <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">Sign up. Let's get you hired.</h1>
+                  <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">Your portfolio and matched jobs are one click away.</p>
+                </motion.div>
+
+                {/* Mobile: view preview button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.13, duration: 0.4 }}
+                  className="md:hidden"
+                >
+                  <button
+                    data-testid="button-view-preview"
+                    onClick={() => setShowPreviewSheet(true)}
+                    className="inline-flex items-center gap-2 rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-2.5 text-[13px] font-medium text-[#1A1A1A]/70 dark:text-foreground/70 hover:border-[#1D1B1A]/25 dark:hover:border-white/20 transition-colors"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 opacity-70">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View your portfolio &amp; job matches
+                  </button>
+                </motion.div>
+
+                {/* Fields */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.4 }}
+                  className="flex flex-col gap-3"
+                >
+                  {/* Name */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
-                      Your portfolio URL
+                      Full name
                     </label>
-                    <div className="flex items-center rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] overflow-hidden focus-within:border-[#1D1B1A]/30 dark:focus-within:border-white/25 transition-colors">
+                    <input
+                      data-testid="input-full-name"
+                      type="text"
+                      placeholder="Matt Chen"
+                      value={form.name}
+                      onChange={(e) => {
+                        const name = e.target.value;
+                        setForm((f) => ({
+                          ...f,
+                          name,
+                          domain: domainTouched.current ? f.domain : toSlug(name),
+                        }));
+                      }}
+                      className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
+                    />
+                  </div>
+
+                  {/* Domain — revealed once name has input */}
+                  <AnimatePresence>
+                    {form.name.trim().length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                        animate={{ opacity: 1, height: "auto", marginTop: 0 }}
+                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                        transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+                            Your portfolio URL
+                          </label>
+                          <div className="flex items-center rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] overflow-hidden focus-within:border-[#1D1B1A]/30 dark:focus-within:border-white/25 transition-colors">
+                            <input
+                              data-testid="input-domain"
+                              type="text"
+                              placeholder="yourname"
+                              value={form.domain}
+                              onChange={(e) => {
+                                domainTouched.current = true;
+                                const slug = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+                                setForm((f) => ({ ...f, domain: slug }));
+                              }}
+                              className="flex-1 min-w-0 bg-transparent px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none"
+                            />
+                            <span className="shrink-0 pr-4 text-[14px] text-[#1A1A1A]/40 dark:text-foreground/40 font-medium select-none">
+                              .designfolio.me
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Email */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+                      Email
+                    </label>
+                    <input
+                      data-testid="input-email"
+                      type="email"
+                      placeholder="matt@gmail.com"
+                      value={form.email}
+                      onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                      className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
+                    />
+                  </div>
+
+                  {/* Password */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+                      Password
+                    </label>
+                    <div className="relative">
                       <input
-                        data-testid="input-domain"
-                        type="text"
-                        placeholder="yourname"
-                        value={form.domain}
-                        onChange={(e) => {
-                          domainTouched.current = true;
-                          const slug = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "");
-                          setForm((f) => ({ ...f, domain: slug }));
-                        }}
-                        className="flex-1 min-w-0 bg-transparent px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none"
+                        data-testid="input-password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Min. 8 characters"
+                        value={form.password}
+                        onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+                        className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 pr-11 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
                       />
-                      <span className="shrink-0 pr-4 text-[14px] text-[#1A1A1A]/40 dark:text-foreground/40 font-medium select-none">
-                        .designfolio.me
-                      </span>
+                      <button
+                        data-testid="button-toggle-password"
+                        type="button"
+                        onClick={() => setShowPassword((v) => !v)}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#1A1A1A]/35 dark:text-foreground/35 hover:text-[#1A1A1A]/70 dark:hover:text-foreground/70 transition-colors"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
                     </div>
                   </div>
                 </motion.div>
-              )}
-            </AnimatePresence>
 
-            {/* Email */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
-                Email
-              </label>
-              <input
-                data-testid="input-email"
-                type="email"
-                placeholder="matt@gmail.com"
-                value={form.email}
-                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
-              />
-            </div>
-
-            {/* Password */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  data-testid="input-password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Min. 8 characters"
-                  value={form.password}
-                  onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                  className="w-full rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] px-4 py-3 pr-11 text-[14px] text-[#1A1A1A] dark:text-foreground placeholder:text-[#1A1A1A]/30 dark:placeholder:text-foreground/30 outline-none focus:border-[#1D1B1A]/30 dark:focus:border-white/25 transition-colors"
-                />
-                <button
-                  data-testid="button-toggle-password"
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#1A1A1A]/35 dark:text-foreground/35 hover:text-[#1A1A1A]/70 dark:hover:text-foreground/70 transition-colors"
+                {/* CTA */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  <button
+                    data-testid="button-claim-portfolio"
+                    onClick={() => { setStep("verify"); startResendCooldown(); }}
+                    className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#1D1B1A] dark:bg-white px-6 py-3.5 text-[15px] font-semibold text-[#FDFCF8] dark:text-[#1A1A1A] transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                  >
+                    Create my account
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
+                  </button>
+                </motion.div>
+
+                {/* Sign in link */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.25, duration: 0.4 }}
+                  className="text-center text-[13px] text-[#1A1A1A]/40 dark:text-foreground/40"
+                >
+                  Already have an account?{" "}
+                  <button className="font-semibold text-[#1A1A1A]/70 dark:text-foreground/70 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors underline underline-offset-2">
+                    Sign in
+                  </button>
+                </motion.p>
+              </motion.div>
+            ) : (
+              /* ── Verify email step ────────────────────────── */
+              <motion.div
+                key="verify"
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 24 }}
+                transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="flex flex-col gap-7 w-full max-w-[420px] mx-auto pt-24 pb-28 md:py-0 md:my-auto"
+              >
+                {/* Icon + heading */}
+                <div className="flex flex-col gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FF553E]/10 flex items-center justify-center">
+                    <MailCheck className="w-5 h-5 text-[#FF553E]" strokeWidth={2} />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h1 className="text-[28px] font-semibold text-[#1A1A1A] dark:text-foreground tracking-tight leading-[1.15]">
+                      Check your inbox
+                    </h1>
+                    <p className="text-[14px] text-[#1A1A1A]/55 dark:text-foreground/55 leading-relaxed">
+                      We sent a 6-digit code to{" "}
+                      <span className="font-semibold text-[#1A1A1A] dark:text-foreground">
+                        {form.email || "your email"}
+                      </span>
+                      . Enter it below to unlock your portfolio.
+                    </p>
+                  </div>
+                </div>
+
+                {/* OTP inputs */}
+                <div className="flex flex-col gap-3">
+                  <label className="text-[12px] font-semibold text-[#1A1A1A]/60 dark:text-foreground/60 uppercase tracking-wider">
+                    Verification code
+                  </label>
+                  <div className="flex gap-2.5">
+                    {otp.map((digit, i) => (
+                      <input
+                        key={i}
+                        ref={(el) => { otpRefs.current[i] = el; }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleOtpChange(i, e.target.value)}
+                        onKeyDown={(e) => handleOtpKeyDown(i, e)}
+                        onPaste={i === 0 ? handleOtpPaste : undefined}
+                        className={cn(
+                          "flex-1 min-w-0 h-14 rounded-xl border text-center text-[20px] font-semibold text-[#1A1A1A] dark:text-foreground bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] outline-none transition-all",
+                          otpError
+                            ? "border-[#FF553E] focus:border-[#FF553E]"
+                            : "border-[#1D1B1A]/12 dark:border-white/12 focus:border-[#1D1B1A]/40 dark:focus:border-white/30",
+                          digit && !otpError && "border-[#1D1B1A]/30 dark:border-white/25"
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <AnimatePresence>
+                    {otpError && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-[12px] text-[#FF553E] font-medium"
+                      >
+                        Enter all 6 digits to continue.
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Resend */}
+                <p className="text-[13px] text-[#1A1A1A]/45 dark:text-foreground/45">
+                  Didn't get it?{" "}
+                  {resendCooldown > 0 ? (
+                    <span className="text-[#1A1A1A]/35 dark:text-foreground/30">
+                      Resend in {resendCooldown}s
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => { setOtp(["", "", "", "", "", ""]); startResendCooldown(); otpRefs.current[0]?.focus(); }}
+                      className="font-semibold text-[#FF553E] hover:text-[#e04430] transition-colors"
+                    >
+                      Resend code
+                    </button>
+                  )}
+                </p>
+
+                {/* CTA */}
+                <button
+                  data-testid="button-verify-otp"
+                  onClick={handleVerify}
+                  className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#1D1B1A] dark:bg-white px-6 py-3.5 text-[15px] font-semibold text-[#FDFCF8] dark:text-[#1A1A1A] transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                >
+                  Unlock my portfolio
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
                 </button>
-              </div>
-            </div>
-          </motion.div>
 
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.4 }}
-          >
-            <button
-              data-testid="button-claim-portfolio"
-              onClick={() => navigate("/")}
-              className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#1D1B1A] dark:bg-white px-6 py-3.5 text-[15px] font-semibold text-[#FDFCF8] dark:text-[#1A1A1A] transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
-            >
-              Claim my portfolio & jobs
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
-            </button>
-          </motion.div>
-
-          {/* Sign in link */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            className="text-center text-[13px] text-[#1A1A1A]/40 dark:text-foreground/40"
-          >
-            Already have an account?{" "}
-            <button className="font-semibold text-[#1A1A1A]/70 dark:text-foreground/70 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors underline underline-offset-2">
-              Sign in
-            </button>
-          </motion.p>
+                {/* Back */}
+                <button
+                  onClick={() => { setStep("signup"); setOtp(["", "", "", "", "", ""]); setOtpError(false); }}
+                  className="text-center text-[13px] text-[#1A1A1A]/40 dark:text-foreground/40 hover:text-[#1A1A1A] dark:hover:text-foreground transition-colors"
+                >
+                  Wrong email? Go back and change it
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
       {/* ── Leave confirmation modal ──────────────────────── */}
