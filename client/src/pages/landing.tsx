@@ -844,17 +844,36 @@ export default function Landing() {
                       if (file && file.type === "application/pdf") { setResumeFile(file); setIsProcessing(true); }
                     }}
                     className={cn(
-                      "cursor-pointer inline-flex items-center gap-3 rounded-full border border-dashed px-5 py-3 transition-all duration-200",
+                      "relative cursor-pointer w-full flex flex-col items-center gap-3 rounded-2xl border border-dashed px-6 py-7 transition-all duration-200 overflow-hidden",
                       isDragging
                         ? "border-[#FF553E] bg-[#FF553E]/5"
-                        : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/45"
+                        : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] hover:border-[#1D1B1A]/40 dark:hover:border-white/35 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.07]"
                     )}
                   >
-                    <Upload className={cn("h-[18px] w-[18px] shrink-0 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/60 dark:text-foreground/60")} strokeWidth={2} />
-                    <span className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground">
-                      {isDragging ? "Drop it here" : "Upload your resume"}
-                    </span>
-                    <span className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45">PDF · max 5MB</span>
+                    {/* Pulsing ring — idle only */}
+                    {!isDragging && (
+                      <motion.span
+                        className="absolute inset-0 rounded-2xl border border-[#1D1B1A]/10 dark:border-white/10 pointer-events-none"
+                        animate={{ scale: [1, 1.03, 1], opacity: [0.6, 0, 0.6] }}
+                        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    )}
+                    {/* Icon */}
+                    <div className={cn(
+                      "w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200",
+                      isDragging ? "bg-[#FF553E]/10" : "bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08]"
+                    )}>
+                      <Upload className={cn("h-5 w-5 shrink-0 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/60 dark:text-foreground/55")} strokeWidth={2} />
+                    </div>
+                    {/* Text */}
+                    <div className="flex flex-col items-center gap-1">
+                      <span className={cn("text-[15px] font-semibold transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
+                        {isDragging ? "Drop it here" : "Upload your resume"}
+                      </span>
+                      <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40">
+                        PDF · max 5MB
+                      </span>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
