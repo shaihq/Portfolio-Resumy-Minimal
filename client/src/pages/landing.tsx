@@ -1165,7 +1165,7 @@ export default function Landing() {
                 {/* Two-column body */}
                 <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8">
                   {/* Left: Features */}
-                  <div className="flex flex-col gap-5 md:flex-1">
+                  <div className="flex flex-col gap-6 md:flex-1 justify-center">
                     {[
                       {
                         icon: Sparkles,
@@ -1187,8 +1187,8 @@ export default function Landing() {
                           <Icon className="w-4 h-4" style={{ color }} strokeWidth={1.75} />
                         </div>
                         <div>
-                          <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-0.5">{title}</p>
-                          <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
+                          <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-1">{title}</p>
+                          <p className="text-[13px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
                         </div>
                       </div>
                     ))}
