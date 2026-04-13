@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Sparkles } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -1181,13 +1181,6 @@ export default function Landing() {
                         title: 'Jobs matched to your skills',
                         desc: "Scout scans thousands of roles and shortlists the ones where you're a top applicant.",
                       },
-                      {
-                        icon: ShieldCheck,
-                        color: '#16A34A',
-                        bg: isDark ? 'rgba(22,163,74,0.12)' : 'rgba(22,163,74,0.08)',
-                        title: 'Your data stays yours',
-                        desc: 'AES-256 encrypted. Never sold. Delete anytime — no strings attached.',
-                      },
                     ].map(({ icon: Icon, color, bg, title, desc }) => (
                       <div key={title} className="flex items-start gap-3.5">
                         <div className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: bg }}>
@@ -1277,7 +1270,7 @@ export default function Landing() {
 
                           {/* Trust badges */}
                           <div className="flex items-center justify-center gap-3 flex-wrap">
-                            {['AES-256 Encrypted', 'Data never sold', 'Delete anytime'].map((label) => (
+                            {['Data never sold', 'Delete anytime'].map((label) => (
                               <span key={label} className="flex items-center gap-1 text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
                                 <CheckCircle2 className="w-3 h-3 shrink-0" strokeWidth={2} />
                                 {label}
