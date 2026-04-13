@@ -1162,40 +1162,11 @@ export default function Landing() {
                   </p>
                 </div>
 
-                {/* Two-column body */}
-                <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8">
-                  {/* Left: Features */}
-                  <div className="flex flex-col gap-6 md:flex-1 justify-center">
-                    {[
-                      {
-                        icon: Sparkles,
-                        color: '#FF553E',
-                        bg: isDark ? 'rgba(255,85,62,0.12)' : 'rgba(255,85,62,0.08)',
-                        title: 'Portfolio built in seconds',
-                        desc: 'AI reads your resume and generates a beautiful, ready-to-share portfolio automatically.',
-                      },
-                      {
-                        icon: TrendingUp,
-                        color: '#2563EB',
-                        bg: isDark ? 'rgba(37,99,235,0.12)' : 'rgba(37,99,235,0.08)',
-                        title: 'Jobs matched to your skills',
-                        desc: "Scout scans thousands of roles and shortlists the ones where you're a top applicant.",
-                      },
-                    ].map(({ icon: Icon, color, bg, title, desc }) => (
-                      <div key={title} className="flex items-start gap-3.5">
-                        <div className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: bg }}>
-                          <Icon className="w-4 h-4" style={{ color }} strokeWidth={1.75} />
-                        </div>
-                        <div>
-                          <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-1">{title}</p>
-                          <p className="text-[13px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                {/* Single-column body: upload first, features below */}
+                <div className="flex flex-col gap-5">
 
-                  {/* Right: Upload zone */}
-                  <div className="md:flex-1 flex flex-col items-center justify-center gap-4">
+                  {/* Upload zone */}
+                  <div className="flex flex-col items-center gap-4">
                     <AnimatePresence mode="wait">
                       {isProcessing && resumeFile ? (
                         <motion.div
@@ -1280,6 +1251,36 @@ export default function Landing() {
                         </motion.div>
                       )}
                     </AnimatePresence>
+                  </div>
+
+                  {/* Features */}
+                  <div className="flex flex-col gap-4">
+                    {[
+                      {
+                        icon: Sparkles,
+                        color: '#FF553E',
+                        bg: isDark ? 'rgba(255,85,62,0.12)' : 'rgba(255,85,62,0.08)',
+                        title: 'Portfolio built in seconds',
+                        desc: 'AI reads your resume and generates a beautiful, ready-to-share portfolio automatically.',
+                      },
+                      {
+                        icon: TrendingUp,
+                        color: '#2563EB',
+                        bg: isDark ? 'rgba(37,99,235,0.12)' : 'rgba(37,99,235,0.08)',
+                        title: 'Jobs matched to your skills',
+                        desc: "Scout scans thousands of roles and shortlists the ones where you're a top applicant.",
+                      },
+                    ].map(({ icon: Icon, color, bg, title, desc }) => (
+                      <div key={title} className="flex items-start gap-3.5">
+                        <div className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: bg }}>
+                          <Icon className="w-4 h-4" style={{ color }} strokeWidth={1.75} />
+                        </div>
+                        <div>
+                          <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-1">{title}</p>
+                          <p className="text-[13px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
