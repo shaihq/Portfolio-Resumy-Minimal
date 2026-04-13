@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Sparkles } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -1257,24 +1257,23 @@ export default function Landing() {
                   <div className="flex flex-col gap-4">
                     {[
                       {
-                        icon: Sparkles,
-                        color: '#FF553E',
-                        bg: isDark ? 'rgba(255,85,62,0.12)' : 'rgba(255,85,62,0.08)',
+                        img: '/previewproject/buildresume.png',
                         title: 'Portfolio built in seconds',
                         desc: 'AI reads your resume and generates a beautiful, ready-to-share portfolio automatically.',
                       },
                       {
-                        icon: TrendingUp,
-                        color: '#2563EB',
-                        bg: isDark ? 'rgba(37,99,235,0.12)' : 'rgba(37,99,235,0.08)',
+                        img: '/previewproject/jobs.png',
                         title: 'Jobs matched to your skills',
                         desc: "Scout scans thousands of roles and shortlists the ones where you're a top applicant.",
                       },
-                    ].map(({ icon: Icon, color, bg, title, desc }) => (
+                    ].map(({ img, title, desc }) => (
                       <div key={title} className="flex items-start gap-3.5">
-                        <div className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: bg }}>
-                          <Icon className="w-4 h-4" style={{ color }} strokeWidth={1.75} />
-                        </div>
+                        <img
+                          src={img}
+                          alt={title}
+                          className="shrink-0 w-9 h-9 object-cover"
+                          style={{ borderRadius: '22%' }}
+                        />
                         <div>
                           <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-1">{title}</p>
                           <p className="text-[13px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
