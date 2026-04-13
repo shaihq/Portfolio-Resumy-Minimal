@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, ShieldCheck, Sparkles } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -322,6 +322,7 @@ export default function Landing() {
   const [fabVisible, setFabVisible] = useState(true);
   const [speedLevel, setSpeedLevel] = useState(4);
   const [showAllFeatures, setShowAllFeatures] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -578,6 +579,10 @@ export default function Landing() {
     };
   }, [theme]);
 
+  useEffect(() => {
+    if (isProcessing && resumeFile) setShowUploadModal(false);
+  }, [isProcessing, resumeFile]);
+
   const scrollToSection = (id: string, block: ScrollLogicalPosition = 'start') => {
     if (id === 'overview') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -746,7 +751,7 @@ export default function Landing() {
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden flex-shrink-0 flex"
                   >
-                    <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full">
+                    <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full" onClick={() => setShowUploadModal(true)}>
                       <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-4 py-[6px] text-[13px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white whitespace-nowrap">
                         Get Started
                       </span>
@@ -1094,7 +1099,7 @@ export default function Landing() {
                 </div>
               </div>
 
-              <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full mt-4 mb-6">
+              <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full mt-4 mb-6" onClick={() => setShowUploadModal(true)}>
                 <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
                   Get started for Free
                 </span>
@@ -1119,6 +1124,139 @@ export default function Landing() {
           </footer>
         </main>
       </div>
+      {/* Upload Modal */}
+      <AnimatePresence>
+        {showUploadModal && (
+          <motion.div
+            key="upload-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center px-4"
+            style={{ backgroundColor: isDark ? 'rgba(10,9,8,0.75)' : 'rgba(29,27,26,0.45)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+            onClick={() => setShowUploadModal(false)}
+          >
+            <motion.div
+              key="upload-modal-card"
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-[640px] rounded-3xl border border-[#E2E1DA] dark:border-white/10 bg-[#FDFCF8] dark:bg-[#1C1A19] shadow-2xl overflow-hidden"
+            >
+              {/* Close */}
+              <button
+                onClick={() => setShowUploadModal(false)}
+                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08] text-[#1D1B1A]/50 dark:text-foreground/50 hover:bg-[#1D1B1A]/[0.12] dark:hover:bg-white/[0.14] hover:text-[#1D1B1A] dark:hover:text-foreground transition-all duration-150"
+              >
+                <X className="w-3.5 h-3.5" strokeWidth={2.5} />
+              </button>
+
+              <div className="p-7 md:p-9">
+                {/* Header */}
+                <div className="mb-7">
+                  <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight mb-1.5">
+                    Everything starts with your Resume
+                  </h2>
+                  <p className="text-[14px] text-[#1D1B1A]/55 dark:text-foreground/55 leading-relaxed">
+                    Upload once. AI builds your portfolio, matches jobs, and sets you up for your next role.
+                  </p>
+                </div>
+
+                {/* Two-column body */}
+                <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+                  {/* Left: Features */}
+                  <div className="flex flex-col gap-5 md:flex-1">
+                    {[
+                      {
+                        icon: Sparkles,
+                        color: '#FF553E',
+                        bg: isDark ? 'rgba(255,85,62,0.12)' : 'rgba(255,85,62,0.08)',
+                        title: 'Portfolio built in seconds',
+                        desc: 'AI reads your resume and generates a beautiful, ready-to-share portfolio automatically.',
+                      },
+                      {
+                        icon: TrendingUp,
+                        color: '#2563EB',
+                        bg: isDark ? 'rgba(37,99,235,0.12)' : 'rgba(37,99,235,0.08)',
+                        title: 'Jobs matched to your skills',
+                        desc: "Scout scans thousands of roles and shortlists the ones where you're a top applicant.",
+                      },
+                      {
+                        icon: ShieldCheck,
+                        color: '#16A34A',
+                        bg: isDark ? 'rgba(22,163,74,0.12)' : 'rgba(22,163,74,0.08)',
+                        title: 'Your data stays yours',
+                        desc: 'AES-256 encrypted. Never sold. Delete anytime — no strings attached.',
+                      },
+                    ].map(({ icon: Icon, color, bg, title, desc }) => (
+                      <div key={title} className="flex items-start gap-3.5">
+                        <div className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: bg }}>
+                          <Icon className="w-4 h-4" style={{ color }} strokeWidth={1.75} />
+                        </div>
+                        <div>
+                          <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-0.5">{title}</p>
+                          <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Right: Upload zone */}
+                  <div className="md:flex-1 flex flex-col items-center justify-center gap-4">
+                    <div
+                      className={cn(
+                        "group/dropzone w-full cursor-pointer flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-6 py-10 transition-all duration-200",
+                        isDragging
+                          ? "border-[#FF553E] bg-[#FF553E]/5"
+                          : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.025] dark:bg-white/[0.04] hover:border-[#1D1B1A]/40 dark:hover:border-white/35 hover:bg-[#1D1B1A]/[0.04] dark:hover:bg-white/[0.06]"
+                      )}
+                      onClick={() => fileInputRef.current?.click()}
+                      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                      onDragLeave={() => setIsDragging(false)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setIsDragging(false);
+                        const file = e.dataTransfer.files?.[0];
+                        if (file && file.type === 'application/pdf') { setResumeFile(file); setIsProcessing(true); }
+                      }}
+                    >
+                      <Folder isDragging={false} />
+                      <div className="text-center">
+                        <p className={cn("text-[14px] font-semibold leading-none mb-1 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
+                          {isDragging ? "Drop it here" : "Click to upload Resume"}
+                        </p>
+                        <p className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40">PDF format only · Max 5MB</p>
+                      </div>
+                    </div>
+
+                    {/* CTA */}
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                    >
+                      Upload Resume
+                    </button>
+
+                    {/* Trust badges */}
+                    <div className="flex items-center justify-center gap-3 flex-wrap">
+                      {['AES-256 Encrypted', 'Data never sold', 'Delete anytime'].map((label) => (
+                        <span key={label} className="flex items-center gap-1 text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
+                          <CheckCircle2 className="w-3 h-3 shrink-0" strokeWidth={2} />
+                          {label}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* AI Focus Overlay — spotlight locked to the upload button's exact position */}
       <motion.div
         animate={{ opacity: isProcessing && resumeFile ? 1 : 0 }}
