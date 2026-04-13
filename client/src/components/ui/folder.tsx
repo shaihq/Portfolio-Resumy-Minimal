@@ -8,13 +8,13 @@ interface FolderProps {
 export function Folder({ isDragging = false, className }: FolderProps) {
   return (
     <div
-      className={cn("group/folder relative shrink-0 select-none cursor-pointer origin-bottom z-50", className)}
-      style={{ width: 40, height: 28, perspective: "280px" }}
+      className={cn("group/folder relative shrink-0 select-none cursor-pointer z-50", className)}
+      style={{ width: 40, height: 36, perspective: "120px" }}
     >
       {/* work-5: folder back body + left tab */}
       <div
         className={cn(
-          "absolute inset-0 rounded-[4px] rounded-tl-none origin-top transition-all ease duration-300 group-hover/folder:shadow-[0_4px_10px_rgba(0,0,0,0.22)]",
+          "absolute bottom-0 left-0 right-0 h-[28px] rounded-[4px] rounded-tl-none origin-top transition-all ease duration-300 group-hover/folder:shadow-[0_4px_10px_rgba(0,0,0,0.22)]",
           isDragging ? "bg-[#FF553E]" : "bg-amber-600"
         )}
       >
@@ -27,32 +27,41 @@ export function Folder({ isDragging = false, className }: FolderProps) {
         />
         {/* left corner connector */}
         <div
-          className={cn(
-            "absolute h-[4px] w-[4px]",
-            isDragging ? "bg-[#FF553E]" : "bg-amber-600"
-          )}
-          style={{
-            bottom: "100%",
-            left: 13,
-            clipPath: "polygon(0 35%, 0% 100%, 50% 100%)",
-          }}
+          className={cn("absolute h-[4px] w-[4px]", isDragging ? "bg-[#FF553E]" : "bg-amber-600")}
+          style={{ bottom: "100%", left: 13, clipPath: "polygon(0 35%, 0% 100%, 50% 100%)" }}
         />
       </div>
 
-      {/* work-4: paper back */}
-      <div className="absolute inset-[2px] bg-zinc-400 rounded-[3px] transition-all ease duration-300 origin-bottom select-none group-hover/folder:[transform:rotateX(-20deg)]" />
+      {/* work-4: paper back — rises most */}
+      <div
+        className={cn(
+          "absolute left-[3px] right-[3px] h-[20px] rounded-[3px] transition-all ease duration-300 origin-bottom",
+          "bg-zinc-400",
+          "bottom-[4px] group-hover/folder:[transform:translateY(-10px)_rotateX(-18deg)]"
+        )}
+      />
       {/* work-3: paper middle */}
-      <div className="absolute inset-[2px] bg-zinc-300 rounded-[3px] transition-all ease duration-300 origin-bottom group-hover/folder:[transform:rotateX(-30deg)]" />
-      {/* work-2: paper front */}
-      <div className="absolute inset-[2px] bg-zinc-200 rounded-[3px] transition-all ease duration-300 origin-bottom group-hover/folder:[transform:rotateX(-38deg)]" />
+      <div
+        className={cn(
+          "absolute left-[3px] right-[3px] h-[20px] rounded-[3px] transition-all ease duration-300 origin-bottom",
+          "bg-zinc-300",
+          "bottom-[4px] group-hover/folder:[transform:translateY(-6px)_rotateX(-12deg)]"
+        )}
+      />
+      {/* work-2: paper front — rises least */}
+      <div
+        className={cn(
+          "absolute left-[3px] right-[3px] h-[20px] rounded-[3px] transition-all ease duration-300 origin-bottom",
+          "bg-zinc-200",
+          "bottom-[4px] group-hover/folder:[transform:translateY(-3px)_rotateX(-6deg)]"
+        )}
+      />
 
       {/* work-1: folder front body + right tab */}
       <div
         className={cn(
-          "absolute bottom-0 left-0 right-0 h-[25px] rounded-[4px] rounded-tr-none origin-bottom transition-all ease duration-300",
-          isDragging
-            ? "bg-[#FF553E]"
-            : "bg-gradient-to-t from-amber-500 to-amber-400"
+          "absolute bottom-0 left-0 right-0 h-[22px] rounded-[4px] rounded-tr-none transition-all ease duration-300",
+          isDragging ? "bg-[#FF553E]" : "bg-gradient-to-t from-amber-500 to-amber-400"
         )}
       >
         {/* right tab */}
@@ -64,15 +73,8 @@ export function Folder({ isDragging = false, className }: FolderProps) {
         />
         {/* right corner connector */}
         <div
-          className={cn(
-            "absolute h-[4px] w-[4px]",
-            isDragging ? "bg-[#FF553E]" : "bg-amber-400"
-          )}
-          style={{
-            bottom: "100%",
-            right: 23,
-            clipPath: "polygon(100% 14%, 50% 100%, 100% 100%)",
-          }}
+          className={cn("absolute h-[4px] w-[4px]", isDragging ? "bg-[#FF553E]" : "bg-amber-400")}
+          style={{ bottom: "100%", right: 23, clipPath: "polygon(100% 14%, 50% 100%, 100% 100%)" }}
         />
       </div>
     </div>
