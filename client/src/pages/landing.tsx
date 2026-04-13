@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2 } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
+import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
@@ -851,27 +852,7 @@ export default function Landing() {
                     )}
                   >
                     {/* Animated folder icon */}
-                    <div
-                      className="relative shrink-0 select-none"
-                      style={{ width: 26, height: 22, perspective: "180px" }}
-                    >
-                      {/* Folder body */}
-                      <div className={cn(
-                        "absolute bottom-0 left-0 right-0 h-[18px] rounded-[3px] transition-colors duration-200",
-                        isDragging ? "bg-[#FF553E]" : "bg-[#1D1B1A]/50 dark:bg-white/50"
-                      )} />
-                      {/* Folder tab */}
-                      <div className={cn(
-                        "absolute top-0 left-0 w-[10px] h-[5px] rounded-t-[2px] transition-colors duration-200",
-                        isDragging ? "bg-[#FF553E]" : "bg-[#1D1B1A]/50 dark:bg-white/50"
-                      )} />
-                      {/* Page 3 (back) */}
-                      <div className="absolute bottom-[4px] left-[3px] right-[3px] h-[11px] bg-[#1D1B1A]/15 dark:bg-white/20 rounded-[2px] origin-bottom transition-transform duration-300 ease-out group-hover:[transform:rotateX(-28deg)]" />
-                      {/* Page 2 */}
-                      <div className="absolute bottom-[4px] left-[3px] right-[3px] h-[11px] bg-[#1D1B1A]/10 dark:bg-white/30 rounded-[2px] origin-bottom transition-transform duration-300 ease-out group-hover:[transform:rotateX(-18deg)]" />
-                      {/* Page 1 (front) */}
-                      <div className="absolute bottom-[4px] left-[3px] right-[3px] h-[11px] bg-white/80 dark:bg-white/50 rounded-[2px] origin-bottom transition-transform duration-300 ease-out group-hover:[transform:rotateX(-8deg)]" />
-                    </div>
+                    <Folder isDragging={isDragging} />
 
                     {/* Text */}
                     <div className="flex flex-col items-start gap-0.5">
