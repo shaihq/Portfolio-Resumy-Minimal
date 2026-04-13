@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, Upload, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2 } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import mockupImg from "@assets/image_1773592620611.png";
 import { useTheme } from "next-themes";
@@ -844,33 +844,41 @@ export default function Landing() {
                       if (file && file.type === "application/pdf") { setResumeFile(file); setIsProcessing(true); }
                     }}
                     className={cn(
-                      "relative cursor-pointer w-full flex flex-col items-center gap-3 rounded-2xl border border-dashed px-6 py-7 transition-all duration-200 overflow-hidden",
+                      "group cursor-pointer inline-flex items-center gap-3.5 rounded-xl border border-dashed px-5 py-3 transition-all duration-200",
                       isDragging
                         ? "border-[#FF553E] bg-[#FF553E]/5"
-                        : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] hover:border-[#1D1B1A]/40 dark:hover:border-white/35 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.07]"
+                        : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/40 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.07]"
                     )}
                   >
-                    {/* Pulsing ring — idle only */}
-                    {!isDragging && (
-                      <motion.span
-                        className="absolute inset-0 rounded-2xl border border-[#1D1B1A]/10 dark:border-white/10 pointer-events-none"
-                        animate={{ scale: [1, 1.03, 1], opacity: [0.6, 0, 0.6] }}
-                        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                      />
-                    )}
-                    {/* Icon */}
-                    <div className={cn(
-                      "w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200",
-                      isDragging ? "bg-[#FF553E]/10" : "bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08]"
-                    )}>
-                      <Upload className={cn("h-5 w-5 shrink-0 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A]/60 dark:text-foreground/55")} strokeWidth={2} />
+                    {/* Animated folder icon */}
+                    <div
+                      className="relative shrink-0 select-none"
+                      style={{ width: 26, height: 22, perspective: "180px" }}
+                    >
+                      {/* Folder body */}
+                      <div className={cn(
+                        "absolute bottom-0 left-0 right-0 h-[18px] rounded-[3px] transition-colors duration-200",
+                        isDragging ? "bg-[#FF553E]" : "bg-[#1D1B1A]/50 dark:bg-white/50"
+                      )} />
+                      {/* Folder tab */}
+                      <div className={cn(
+                        "absolute top-0 left-0 w-[10px] h-[5px] rounded-t-[2px] transition-colors duration-200",
+                        isDragging ? "bg-[#FF553E]" : "bg-[#1D1B1A]/50 dark:bg-white/50"
+                      )} />
+                      {/* Page 3 (back) */}
+                      <div className="absolute bottom-[4px] left-[3px] right-[3px] h-[11px] bg-[#1D1B1A]/15 dark:bg-white/20 rounded-[2px] origin-bottom transition-transform duration-300 ease-out group-hover:[transform:rotateX(-28deg)]" />
+                      {/* Page 2 */}
+                      <div className="absolute bottom-[4px] left-[3px] right-[3px] h-[11px] bg-[#1D1B1A]/10 dark:bg-white/30 rounded-[2px] origin-bottom transition-transform duration-300 ease-out group-hover:[transform:rotateX(-18deg)]" />
+                      {/* Page 1 (front) */}
+                      <div className="absolute bottom-[4px] left-[3px] right-[3px] h-[11px] bg-white/80 dark:bg-white/50 rounded-[2px] origin-bottom transition-transform duration-300 ease-out group-hover:[transform:rotateX(-8deg)]" />
                     </div>
+
                     {/* Text */}
-                    <div className="flex flex-col items-center gap-1">
-                      <span className={cn("text-[15px] font-semibold transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
+                    <div className="flex flex-col items-start gap-0.5">
+                      <span className={cn("text-[14px] font-semibold leading-none transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
                         {isDragging ? "Drop it here" : "Upload your resume"}
                       </span>
-                      <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40">
+                      <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
                         PDF · max 5MB
                       </span>
                     </div>
