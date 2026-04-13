@@ -79,7 +79,7 @@ function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivE
         className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col md:flex-row gap-6 items-start md:items-center w-full"
       >
         <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
-          <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+          <img src="/previewproject/avatar.png" alt="Profile" className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col gap-2">
           <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
@@ -129,7 +129,7 @@ function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivE
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-4 group/card cursor-pointer">
             <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-              <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
+              <img src="/previewproject/Thumbnail1.png" alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
             </div>
             <div>
               <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
@@ -142,7 +142,7 @@ function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivE
           </div>
           <div className="flex flex-col gap-4 group/card cursor-pointer">
             <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-              <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
+              <img src="/previewproject/Thumbnail2.png" alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
             </div>
             <div>
               <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
