@@ -4,7 +4,7 @@ import { storage } from "./storage";
 
 const ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9";
 const ANAM_API_BASE = "https://api.anam.ai";
-const KEVIN_LLM_ID = "9d8900ee-257d-4401-8817-ba9c835e9d36";
+const KEVIN_LLM_ID = "0934d97d-0c3a-4f33-91b0-5e136a0ef466";
 
 function buildSystemPrompt(company: string, role: string, description: string): string {
   return `You are Kevin, Lead Product Designer at ${company}. You have been here for a few years and you are known internally for being direct but fair — you care deeply about craft and product thinking, and you have zero patience for surface-level answers.
@@ -55,6 +55,7 @@ export async function registerRoutes(
       }
 
       const systemPrompt = buildSystemPrompt(company, role, description);
+      console.log("SYSTEM PROMPT BEING SENT:", systemPrompt);
 
       const response = await fetch(`${ANAM_API_BASE}/v1/auth/session-token`, {
         method: "POST",
