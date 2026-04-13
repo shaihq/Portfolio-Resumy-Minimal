@@ -15,7 +15,7 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { unsafe_createClientWithApiKey, AnamEvent } from "@anam-ai/js-sdk";
+import { createClient, AnamEvent } from "@anam-ai/js-sdk";
 import type { AnamClient, Message } from "@anam-ai/js-sdk";
 import Lottie from "lottie-react";
 import aiAssistantAnimation from "@/assets/AI-Assistant.json";
@@ -841,7 +841,6 @@ function MockInterviewDialog({ job, open, onClose, onStart }: { job: Job | null;
 }
 
 // ── Mock interview room ────────────────────────────────────────────────────
-const ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9";
 
 function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
   const userVideoRef = useRef<HTMLVideoElement>(null);
@@ -863,29 +862,10 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
         if (userVideoRef.current) userVideoRef.current.srcObject = stream;
         if (!mounted) return;
 
-        const client = unsafe_createClientWithApiKey(ANAM_API_KEY, {
-          personaId: "cedce154-128d-4814-ba32-3d79c6a8fedd",
-          name: "Kevin",
-          avatarId: "ccf00c0e-7302-455b-ace2-057e0cf58127",
-          voiceId: "13ba97ac-88e3-454f-8a49-6f9479dd4586",
-          llmId: undefined,
-          systemPrompt: `You are Kevin, a Lead Product Designer with 10 years of experience across B2B SaaS and consumer products. You are conducting a UX mock interview to help the candidate practise. Your sole job is to ask thoughtful UX design interview questions — one at a time — and respond naturally to whatever the candidate shares before moving to the next question.
-
-Start by introducing yourself briefly and warmly, then kick off with an icebreaker like "Tell me a bit about yourself and how you got into UX design."
-
-From there, ask questions drawn from these areas — but keep it conversational, not a checklist:
-- Their design process and how they approach ambiguous problems
-- A specific project they are proud of: the problem, their role, the decisions they made, and the outcome
-- How they handle feedback, especially pushback from stakeholders or engineers
-- How they balance user needs with business constraints
-- Their approach to research: when they do it, what methods they favour, and how they turn findings into decisions
-- How they think about accessibility and inclusivity in their work
-- A time their design did not work as expected and what they learnt
-
-Listen carefully to each answer. Ask a natural follow-up before moving on. Keep your questions focused on UX craft and design thinking. Do not role-play as a company interviewer, do not give scores or evaluations mid-session, and do not offer advice unless the candidate explicitly asks for feedback.
-
-Keep all responses concise and spoken-word natural. Ask only one question at a time. Never list multiple questions at once.`,
-        });
+        const tokenRes = await fetch("/api/anam/session", { method: "POST" });
+        if (!tokenRes.ok) throw new Error("Failed to get interview session token");
+        const { sessionToken } = await tokenRes.json();
+        const client = createClient(sessionToken);
         anamClientRef.current = client;
 
         client.addListener(AnamEvent.MESSAGE_HISTORY_UPDATED, (messages: Message[]) => {
