@@ -1206,49 +1206,90 @@ export default function Landing() {
 
                   {/* Right: Upload zone */}
                   <div className="md:flex-1 flex flex-col items-center justify-center gap-4">
-                    <div
-                      className={cn(
-                        "group/dropzone w-full cursor-pointer flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-6 py-10 transition-all duration-200",
-                        isDragging
-                          ? "border-[#FF553E] bg-[#FF553E]/5"
-                          : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.025] dark:bg-white/[0.04] hover:border-[#1D1B1A]/40 dark:hover:border-white/35 hover:bg-[#1D1B1A]/[0.04] dark:hover:bg-white/[0.06]"
+                    <AnimatePresence mode="wait">
+                      {isProcessing && resumeFile ? (
+                        <motion.div
+                          key="modal-processing"
+                          initial={{ opacity: 0, scale: 0.97 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.97 }}
+                          transition={{ duration: 0.25 }}
+                          className="orb-always-active w-full flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-6 py-10"
+                        >
+                          <ColorOrb dimension="32px" spinDuration={5} />
+                          <div className="flex flex-col items-center gap-1">
+                            <AnimatePresence mode="wait">
+                              <motion.span
+                                key={aiStatusIndex}
+                                initial={{ opacity: 0, y: 4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -4 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className="text-[14px] font-semibold leading-none text-[#1D1B1A] dark:text-foreground text-center"
+                              >
+                                {aiStatuses[aiStatusIndex]}
+                              </motion.span>
+                            </AnimatePresence>
+                            <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
+                              This takes a few seconds…
+                            </span>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="modal-idle"
+                          initial={{ opacity: 0, scale: 0.97 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.97 }}
+                          transition={{ duration: 0.25 }}
+                          className="w-full flex flex-col items-center gap-4"
+                        >
+                          <div
+                            className={cn(
+                              "group/dropzone w-full cursor-pointer flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-6 py-10 transition-all duration-200",
+                              isDragging
+                                ? "border-[#FF553E] bg-[#FF553E]/5"
+                                : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.025] dark:bg-white/[0.04] hover:border-[#1D1B1A]/40 dark:hover:border-white/35 hover:bg-[#1D1B1A]/[0.04] dark:hover:bg-white/[0.06]"
+                            )}
+                            onClick={() => fileInputRef.current?.click()}
+                            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                            onDragLeave={() => setIsDragging(false)}
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              setIsDragging(false);
+                              const file = e.dataTransfer.files?.[0];
+                              if (file && file.type === 'application/pdf') { setResumeFile(file); setIsProcessing(true); }
+                            }}
+                          >
+                            <Folder isDragging={false} />
+                            <div className="text-center">
+                              <p className={cn("text-[14px] font-semibold leading-none mb-1 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
+                                {isDragging ? "Drop it here" : "Click to upload Resume"}
+                              </p>
+                              <p className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40">PDF format only · Max 5MB</p>
+                            </div>
+                          </div>
+
+                          {/* CTA */}
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                          >
+                            Upload Resume
+                          </button>
+
+                          {/* Trust badges */}
+                          <div className="flex items-center justify-center gap-3 flex-wrap">
+                            {['AES-256 Encrypted', 'Data never sold', 'Delete anytime'].map((label) => (
+                              <span key={label} className="flex items-center gap-1 text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
+                                <CheckCircle2 className="w-3 h-3 shrink-0" strokeWidth={2} />
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </motion.div>
                       )}
-                      onClick={() => fileInputRef.current?.click()}
-                      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                      onDragLeave={() => setIsDragging(false)}
-                      onDrop={(e) => {
-                        e.preventDefault();
-                        setIsDragging(false);
-                        const file = e.dataTransfer.files?.[0];
-                        if (file && file.type === 'application/pdf') { setResumeFile(file); setIsProcessing(true); }
-                      }}
-                    >
-                      <Folder isDragging={false} />
-                      <div className="text-center">
-                        <p className={cn("text-[14px] font-semibold leading-none mb-1 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
-                          {isDragging ? "Drop it here" : "Click to upload Resume"}
-                        </p>
-                        <p className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40">PDF format only · Max 5MB</p>
-                      </div>
-                    </div>
-
-                    {/* CTA */}
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
-                    >
-                      Upload Resume
-                    </button>
-
-                    {/* Trust badges */}
-                    <div className="flex items-center justify-center gap-3 flex-wrap">
-                      {['AES-256 Encrypted', 'Data never sold', 'Delete anytime'].map((label) => (
-                        <span key={label} className="flex items-center gap-1 text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
-                          <CheckCircle2 className="w-3 h-3 shrink-0" strokeWidth={2} />
-                          {label}
-                        </span>
-                      ))}
-                    </div>
+                    </AnimatePresence>
                   </div>
                 </div>
               </div>
