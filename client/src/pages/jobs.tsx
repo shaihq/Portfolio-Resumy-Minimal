@@ -868,6 +868,7 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
           name: "Kevin",
           avatarId: "ccf00c0e-7302-455b-ace2-057e0cf58127",
           voiceId: "13ba97ac-88e3-454f-8a49-6f9479dd4586",
+          llmId: undefined,
           systemPrompt: `You are Kevin, a Lead Product Designer with 10 years of experience across B2B SaaS and consumer products. You are conducting a UX mock interview to help the candidate practise. Your sole job is to ask thoughtful UX design interview questions — one at a time — and respond naturally to whatever the candidate shares before moving to the next question.
 
 Start by introducing yourself briefly and warmly, then kick off with an icebreaker like "Tell me a bit about yourself and how you got into UX design."
