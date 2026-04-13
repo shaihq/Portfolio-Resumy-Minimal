@@ -5,6 +5,7 @@ import { storage } from "./storage";
 const ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9";
 const ANAM_API_BASE = "https://api.anam.ai";
 const KEVIN_PERSONA_ID = "c8b32c49-b004-4887-86ee-2235f2c2c8e9";
+const KEVIN_LLM_ID = "85906141-db1c-4927-b74d-3c82ebe2436e";
 
 function buildSystemPrompt(company: string, role: string, description: string): string {
   return `You are Kevin, a hiring manager at ${company} interviewing a candidate for the ${role} position.
@@ -56,6 +57,7 @@ export async function registerRoutes(
         body: JSON.stringify({
           personaConfig: {
             personaId: KEVIN_PERSONA_ID,
+            llmId: KEVIN_LLM_ID,
             systemPrompt,
           },
         }),
