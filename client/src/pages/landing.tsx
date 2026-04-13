@@ -1154,10 +1154,10 @@ export default function Landing() {
               <div className="p-7 md:p-9">
                 {/* Header */}
                 <div className="mb-7">
-                  <h2 className="text-[16px] font-semibold text-[#1D1B1A] dark:text-foreground tracking-tight leading-snug mb-1">
+                  <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight mb-1.5">
                     Everything starts with your Resume
                   </h2>
-                  <p className="text-[14px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-[1.5]">
+                  <p className="text-[14px] text-[#1D1B1A]/55 dark:text-foreground/55 leading-relaxed">
                     Upload once. AI builds your portfolio, matches jobs, and sets you up for your next role.
                   </p>
                 </div>
@@ -1194,8 +1194,8 @@ export default function Landing() {
                           <Icon className="w-4 h-4" style={{ color }} strokeWidth={1.75} />
                         </div>
                         <div>
-                          <p className="text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-0.5">{title}</p>
-                          <p className="text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
+                          <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-0.5">{title}</p>
+                          <p className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">{desc}</p>
                         </div>
                       </div>
                     ))}
@@ -1270,7 +1270,7 @@ export default function Landing() {
                           {/* CTA */}
                           <button
                             onClick={() => fileInputRef.current?.click()}
-                            className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[14px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                            className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
                           >
                             Upload Resume
                           </button>
@@ -1278,7 +1278,7 @@ export default function Landing() {
                           {/* Trust badges */}
                           <div className="flex items-center justify-center gap-3 flex-wrap">
                             {['AES-256 Encrypted', 'Data never sold', 'Delete anytime'].map((label) => (
-                              <span key={label} className="flex items-center gap-1 text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 font-medium">
+                              <span key={label} className="flex items-center gap-1 text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
                                 <CheckCircle2 className="w-3 h-3 shrink-0" strokeWidth={2} />
                                 {label}
                               </span>
