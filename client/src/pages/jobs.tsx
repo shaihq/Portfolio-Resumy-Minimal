@@ -862,7 +862,15 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
         if (userVideoRef.current) userVideoRef.current.srcObject = stream;
         if (!mounted) return;
 
-        const tokenRes = await fetch("/api/anam/session", { method: "POST" });
+        const tokenRes = await fetch("/api/anam/session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            company: job.company,
+            role: job.role,
+            description: job.description,
+          }),
+        });
         if (!tokenRes.ok) throw new Error("Failed to get interview session token");
         const { sessionToken } = await tokenRes.json();
         const client = createClient(sessionToken);
