@@ -579,9 +579,6 @@ export default function Landing() {
     };
   }, [theme]);
 
-  useEffect(() => {
-    if (isProcessing && resumeFile) setShowUploadModal(false);
-  }, [isProcessing, resumeFile]);
 
   const scrollToSection = (id: string, block: ScrollLogicalPosition = 'start') => {
     if (id === 'overview') {
