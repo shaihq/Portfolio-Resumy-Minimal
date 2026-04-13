@@ -8,13 +8,13 @@ interface FolderProps {
 export function Folder({ isDragging = false, className }: FolderProps) {
   return (
     <div
-      className={cn("group/folder relative shrink-0 select-none cursor-pointer z-50", className)}
+      className={cn("relative shrink-0 select-none z-50", className)}
       style={{ width: 40, height: 36, perspective: "120px" }}
     >
       {/* work-5: folder back body + left tab */}
       <div
         className={cn(
-          "absolute bottom-0 left-0 right-0 h-[28px] rounded-[4px] rounded-tl-none origin-top transition-all ease duration-300 group-hover/folder:shadow-[0_4px_10px_rgba(0,0,0,0.22)]",
+          "absolute bottom-0 left-0 right-0 h-[28px] rounded-[4px] rounded-tl-none origin-top transition-all ease duration-300 group-hover/dropzone:shadow-[0_4px_10px_rgba(0,0,0,0.22)]",
           isDragging ? "bg-[#FF553E]" : "bg-amber-600"
         )}
       >
@@ -37,7 +37,7 @@ export function Folder({ isDragging = false, className }: FolderProps) {
         className={cn(
           "absolute left-[3px] right-[3px] h-[20px] rounded-[3px] transition-all ease duration-300 origin-bottom",
           "bg-zinc-400",
-          "bottom-[4px] group-hover/folder:[transform:translateY(-10px)_rotateX(-18deg)]"
+          "bottom-[4px] group-hover/dropzone:[transform:translateY(-10px)_rotateX(-18deg)]"
         )}
       />
       {/* work-3: paper middle */}
@@ -45,7 +45,7 @@ export function Folder({ isDragging = false, className }: FolderProps) {
         className={cn(
           "absolute left-[3px] right-[3px] h-[20px] rounded-[3px] transition-all ease duration-300 origin-bottom",
           "bg-zinc-300",
-          "bottom-[4px] group-hover/folder:[transform:translateY(-6px)_rotateX(-12deg)]"
+          "bottom-[4px] group-hover/dropzone:[transform:translateY(-6px)_rotateX(-12deg)]"
         )}
       />
       {/* work-2: paper front — rises least */}
@@ -53,7 +53,7 @@ export function Folder({ isDragging = false, className }: FolderProps) {
         className={cn(
           "absolute left-[3px] right-[3px] h-[20px] rounded-[3px] transition-all ease duration-300 origin-bottom",
           "bg-zinc-200",
-          "bottom-[4px] group-hover/folder:[transform:translateY(-3px)_rotateX(-6deg)]"
+          "bottom-[4px] group-hover/dropzone:[transform:translateY(-3px)_rotateX(-6deg)]"
         )}
       />
 

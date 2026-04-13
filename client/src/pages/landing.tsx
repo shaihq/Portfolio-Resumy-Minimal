@@ -845,7 +845,7 @@ export default function Landing() {
                       if (file && file.type === "application/pdf") { setResumeFile(file); setIsProcessing(true); }
                     }}
                     className={cn(
-                      "group cursor-pointer inline-flex items-center gap-3.5 rounded-xl border border-dashed px-5 py-3 transition-all duration-200",
+                      "group/dropzone cursor-pointer inline-flex items-center gap-3.5 rounded-xl border border-dashed px-5 py-3 transition-all duration-200",
                       isDragging
                         ? "border-[#FF553E] bg-[#FF553E]/5"
                         : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/40 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.07]"
