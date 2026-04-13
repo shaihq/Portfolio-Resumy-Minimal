@@ -1337,7 +1337,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             <button
               data-testid={`button-dismiss-${job.id}`}
               onClick={(e) => { e.stopPropagation(); setDismissOpen(v => !v); }}
-              className="flex items-center justify-center w-8 h-8 text-foreground/40 bg-black/[0.04] hover:bg-red-50 hover:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 rounded-md transition-colors"
+              className="flex items-center justify-center w-8 h-8 text-foreground/40 bg-black/[0.04] dark:bg-white/[0.08] hover:bg-red-50 hover:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 rounded-md transition-colors"
             >
               <XCircle className="w-3.5 h-3.5" />
             </button>
@@ -1363,7 +1363,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
           <button
             data-testid={`button-shortlist-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/50 bg-black/[0.04] hover:bg-black/[0.08] dark:hover:bg-white/[0.08] rounded-md px-2 py-2 transition-colors"
+            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/50 bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-md px-2 py-2 transition-colors"
           >
             <Bookmark className="w-3.5 h-3.5" />
             Shortlist
@@ -1374,7 +1374,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             <button
               data-testid={`button-ask-scout-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-              className="orb-activates-on-hover flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
+              className="orb-activates-on-hover flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-md px-2 py-2 transition-colors"
             >
               <ColorOrb dimension="14px" spinDuration={8} />
               Ask Scout
@@ -1388,7 +1388,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             <button
               data-testid={`button-mock-interview-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
-              className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/60 bg-black/[0.04] hover:bg-black/[0.08] rounded-md px-2 py-2 transition-colors"
+              className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/60 bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-md px-2 py-2 transition-colors"
             >
               <Clapperboard className="w-3.5 h-3.5" />
               Take mock interview
@@ -1400,7 +1400,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             <button
               data-testid={`button-ask-scout-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-              className="orb-activates-on-hover flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] hover:bg-black/[0.08] rounded-full py-1.5 transition-colors"
+              className="orb-activates-on-hover flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-full py-1.5 transition-colors"
             >
               <ColorOrb dimension="14px" spinDuration={8} />
               Ask Scout
