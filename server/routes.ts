@@ -4,7 +4,7 @@ import { storage } from "./storage";
 
 const ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9";
 const ANAM_API_BASE = "https://api.anam.ai";
-const KEVIN_LLM_ID = "85906141-db1c-4927-b74d-3c82ebe2436e";
+const KEVIN_LLM_ID = "9d8900ee-257d-4401-8817-ba9c835e9d36";
 
 function buildSystemPrompt(company: string, role: string, description: string): string {
   return `You are Kevin, Lead Product Designer at ${company}. You have been here for a few years and you are known internally for being direct but fair — you care deeply about craft and product thinking, and you have zero patience for surface-level answers.
