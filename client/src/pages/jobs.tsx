@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -1018,6 +1018,240 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
   );
 }
 
+// ── Interview report ────────────────────────────────────────────────────────
+
+interface InterviewReportData {
+  communicationScore: number;
+  clarity: number;
+  confidence: number;
+  pacing: number;
+  strongestAnswer: { question: string; highlight: string };
+  watchOutFor: string[];
+  roleSpecificGaps: string[];
+}
+
+const MOCK_REPORTS: Record<string, InterviewReportData> = {
+  "1": {
+    communicationScore: 78,
+    clarity: 82,
+    confidence: 71,
+    pacing: 80,
+    strongestAnswer: {
+      question: "Walk me through a design system you've owned end-to-end.",
+      highlight: "Your answer showed clear ownership, measurable impact (30% faster prototyping), and a strong rationale for the decisions you made. Lead with this in the real interview.",
+    },
+    watchOutFor: [
+      'You hedged twice with \u201cI think maybe\u2026\u201d when describing your process. Own your decisions \u2014 Linear values directness.',
+      "Your answer on cross-functional collaboration ran long. Tighten it to two concrete examples and stop.",
+    ],
+    roleSpecificGaps: [
+      "You didn't connect your work to developer experience — a core value at Linear. Prepare a story that bridges design decisions to engineering velocity.",
+      "When asked about metrics, you stayed qualitative. Bring at least one data point on adoption or error reduction from your design system work.",
+    ],
+  },
+  "2": {
+    communicationScore: 83,
+    clarity: 88,
+    confidence: 79,
+    pacing: 82,
+    strongestAnswer: {
+      question: "How do you make complex technical concepts feel simple in UI?",
+      highlight: "Concrete examples from real projects, clear before/after framing, and you named the mental model you used. This is a strong answer for a Vercel role — use it early.",
+    },
+    watchOutFor: [
+      "You rushed through the onboarding flow example. Slow down — that story has more signal in it than you gave it time for.",
+      'Avoid saying \u201cit depends\u201d without immediately following it with a framework. It reads as evasive without structure.',
+    ],
+    roleSpecificGaps: [
+      "Vercel cares about async-first communication. Your answers were strong verbally but you didn't demonstrate how you document or write for async teams. Prepare a brief example.",
+      "You didn't mention any frontend fundamentals. Even a brief reference to CSS, component thinking, or dev handoff would close this gap.",
+    ],
+  },
+};
+
+const FALLBACK_REPORT: InterviewReportData = {
+  communicationScore: 75,
+  clarity: 78,
+  confidence: 70,
+  pacing: 77,
+  strongestAnswer: {
+    question: "Tell me about a project you're most proud of.",
+    highlight: "You structured the answer well and showed clear ownership of outcomes. This is your strongest signal — make sure it opens your real interview.",
+  },
+  watchOutFor: [
+    'You used filler phrases (\u201clike\u201d, \u201cyou know\u201d) more frequently under pressure. Record yourself and listen back \u2014 it\u2019s an easy fix with practice.',
+    "One answer went over three minutes. The real interview will move faster; aim for 90 seconds per response.",
+  ],
+  roleSpecificGaps: [
+    "Your answers didn't reference this company's specific product or customer. Research their recent launches and weave in one specific reference.",
+    "You didn't mention your approach to feedback or iteration cycles — both came up implicitly in questions. Prepare a short answer for each.",
+  ],
+};
+
+function getMockReport(jobId: string): InterviewReportData {
+  return MOCK_REPORTS[jobId] ?? FALLBACK_REPORT;
+}
+
+function ScoreBar({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-20 text-[12px] text-foreground/50 flex-shrink-0">{label}</span>
+      <div className="flex-1 h-1.5 bg-black/[0.06] dark:bg-white/[0.08] rounded-full overflow-hidden">
+        <motion.div
+          className="h-full rounded-full bg-emerald-500 dark:bg-emerald-400"
+          initial={{ width: 0 }}
+          animate={{ width: `${value}%` }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        />
+      </div>
+      <span className="w-8 text-right text-[12px] font-semibold text-foreground/70">{value}</span>
+    </div>
+  );
+}
+
+function InterviewReport({ job, onClose }: { job: Job; onClose: () => void }) {
+  const report = getMockReport(job.id);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[400] bg-[#F0EDE7] dark:bg-background flex flex-col overflow-hidden"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 16 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Header */}
+      <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.06] bg-white/60 dark:bg-card/60 backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold"
+            style={{ backgroundColor: job.logoColor }}
+          >
+            {job.logoLetter}
+          </div>
+          <div className="min-w-0">
+            <div className="text-[13px] font-semibold text-foreground leading-tight truncate">{job.role}</div>
+            <div className="text-[12px] text-foreground/45 truncate">{job.company}</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[12px] text-foreground/40 font-medium">Interview Report</span>
+          <button
+            data-testid="button-close-report"
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-md text-foreground/40 hover:text-foreground/70 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-[680px] mx-auto px-6 py-8 space-y-5">
+
+          {/* Communication Score card */}
+          <motion.div
+            className="bg-white dark:bg-card rounded-xl border border-black/[0.06] dark:border-border p-5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <MessageSquare className="w-4 h-4 text-foreground/40" />
+              <span className="text-[13px] font-semibold text-foreground/70">Communication score</span>
+            </div>
+            <div className="flex items-end gap-4 mb-5">
+              <span className="text-[48px] font-bold text-foreground leading-none">{report.communicationScore}</span>
+              <span className="text-[16px] text-foreground/35 mb-1.5">/&nbsp;100</span>
+            </div>
+            <div className="space-y-3">
+              <ScoreBar value={report.clarity} label="Clarity" />
+              <ScoreBar value={report.confidence} label="Confidence" />
+              <ScoreBar value={report.pacing} label="Pacing" />
+            </div>
+          </motion.div>
+
+          {/* Strongest Answer */}
+          <motion.div
+            className="bg-white dark:bg-card rounded-xl border border-black/[0.06] dark:border-border p-5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.12 }}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <Star className="w-4 h-4 text-amber-500" />
+              <span className="text-[13px] font-semibold text-foreground/70">Strongest answer</span>
+            </div>
+            <p className="text-[13px] font-medium text-foreground/60 mb-2 italic">"{report.strongestAnswer.question}"</p>
+            <p className="text-[14px] text-foreground/80 leading-[1.65]">{report.strongestAnswer.highlight}</p>
+          </motion.div>
+
+          {/* Watch out for */}
+          <motion.div
+            className="bg-white dark:bg-card rounded-xl border border-black/[0.06] dark:border-border p-5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.19 }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <AlertTriangle className="w-4 h-4 text-orange-400" />
+              <span className="text-[13px] font-semibold text-foreground/70">Watch out for</span>
+            </div>
+            <div className="space-y-3">
+              {report.watchOutFor.map((item, i) => (
+                <div key={i} className="flex gap-3">
+                  <div className="flex-shrink-0 mt-[3px] w-5 h-5 rounded-full bg-orange-50 dark:bg-orange-950/30 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-orange-400">{i + 1}</span>
+                  </div>
+                  <p className="text-[14px] text-foreground/75 leading-[1.65]">{item}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Role-specific gaps */}
+          <motion.div
+            className="bg-white dark:bg-card rounded-xl border border-black/[0.06] dark:border-border p-5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.26 }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <Crosshair className="w-4 h-4 text-foreground/40" />
+              <span className="text-[13px] font-semibold text-foreground/70">Role-specific gaps</span>
+              <span className="text-[11px] text-foreground/35 ml-1">{job.company}</span>
+            </div>
+            <div className="space-y-3">
+              {report.roleSpecificGaps.map((item, i) => (
+                <div key={i} className="flex gap-3">
+                  <div className="flex-shrink-0 mt-[3px] w-1 rounded-full bg-foreground/15 self-stretch min-h-[20px]" />
+                  <p className="text-[14px] text-foreground/75 leading-[1.65]">{item}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Bottom spacing */}
+          <div className="h-4" />
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-t border-black/[0.06] dark:border-white/[0.06] bg-white/60 dark:bg-card/60 backdrop-blur-sm">
+        <p className="text-[12px] text-foreground/35">Generated after your mock session · {job.company}</p>
+        <button
+          data-testid="button-done-report"
+          onClick={onClose}
+          className="flex items-center gap-1.5 h-9 px-5 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[13px] font-medium transition-opacity hover:opacity-80"
+        >
+          Done
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
 // ── Job detail sheet ───────────────────────────────────────────────────────
 function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
   const lastJobRef = useRef<Job | null>(null);
@@ -1595,6 +1829,7 @@ function Dashboard() {
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
   const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
   const [roomJobId, setRoomJobId] = useState<string | null>(null);
+  const [reportJobId, setReportJobId] = useState<string | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
@@ -1621,6 +1856,7 @@ function Dashboard() {
   const selectedJob = selectedJobId ? allJobs.find((j) => j.id === selectedJobId) ?? null : null;
   const interviewJob = interviewJobId ? allJobs.find((j) => j.id === interviewJobId) ?? null : null;
   const roomJob = roomJobId ? allJobs.find((j) => j.id === roomJobId) ?? null : null;
+  const reportJob = reportJobId ? allJobs.find((j) => j.id === reportJobId) ?? null : null;
   const scoutJob = scoutJobId ? allJobs.find((j) => j.id === scoutJobId) ?? null : null;
 
   const handleShortlist = useCallback((id: string) => {
@@ -1818,7 +2054,18 @@ function Dashboard() {
       {createPortal(
         <AnimatePresence>
           {roomJob && (
-            <MockInterviewRoom key={roomJob.id} job={roomJob} onEnd={() => setRoomJobId(null)} />
+            <MockInterviewRoom
+              key={roomJob.id}
+              job={roomJob}
+              onEnd={() => {
+                const finishedId = roomJobId;
+                setRoomJobId(null);
+                if (finishedId) setReportJobId(finishedId);
+              }}
+            />
+          )}
+          {reportJob && (
+            <InterviewReport key={`report-${reportJob.id}`} job={reportJob} onClose={() => setReportJobId(null)} />
           )}
           {scoutJob && (
             <ScoutChat key={scoutJob.id} job={scoutJob} onClose={() => setScoutJobId(null)} />
