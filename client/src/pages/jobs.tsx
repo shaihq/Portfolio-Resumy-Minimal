@@ -2235,12 +2235,12 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
               <div className="absolute inset-x-0 top-0 h-10 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 100% at 50% 0%, rgba(192,74,56,0.18) 0%, rgba(245,166,35,0.10) 40%, transparent 100%)" }} />
               <div className="px-3.5 pt-4 pb-3.5">
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-[36px] h-[36px] flex-shrink-0">
+                  <div className="w-[44px] h-[44px] flex-shrink-0">
                     <Lottie animationData={aiAssistantAnimation} loop={true} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[12.5px] font-semibold text-foreground/85 leading-tight">Two offers. Big decision.</p>
-                    <p className="text-[11px] text-foreground/40 mt-0.5 leading-snug">Let Scout help you think it through.</p>
+                    <p className="text-[14px] font-semibold text-foreground/85 leading-tight">Two offers. Big decision.</p>
+                    <p className="text-[12px] font-normal text-foreground/45 mt-0.5 leading-snug">Let Scout help you think it through.</p>
                   </div>
                 </div>
                 <button
