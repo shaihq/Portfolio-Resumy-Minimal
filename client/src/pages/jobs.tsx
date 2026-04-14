@@ -107,11 +107,11 @@ const COL_BG: Record<string, string> = {
 };
 
 const INITIAL_COLUMNS: Record<string, Job[]> = {
-  picks: BASE_JOBS.slice(2),
+  picks: BASE_JOBS,
   not_applied: [],
   applied: [],
   interview: [],
-  offer: [BASE_JOBS[0], BASE_JOBS[1]],
+  offer: [],
 };
 
 // ── Orbit company logos (TransitionScreen background) ──────────────────────
