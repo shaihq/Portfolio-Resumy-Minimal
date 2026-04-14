@@ -386,6 +386,15 @@ input[type="range"].speed-slider::-moz-range-thumb {
   opacity: 0;
 }
 
+/* Orb always spinning but without forced scale — for inline/avatar use */
+.orb-spinning .color-orb::before {
+  animation-play-state: running;
+  opacity: 1;
+}
+.orb-spinning .color-orb::after {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .color-orb::before { animation: none !important; opacity: 0 !important; }
 }

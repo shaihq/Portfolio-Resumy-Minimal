@@ -1816,7 +1816,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
         {/* Header */}
         <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-black/[0.06] dark:border-white/[0.06]">
           <div className="flex items-center gap-2 min-w-0">
-            <ColorOrb dimension="14px" spinDuration={6} />
+            <span className="orb-spinning"><ColorOrb dimension="14px" spinDuration={6} /></span>
             <span className="text-[13px] font-semibold text-foreground/65">Scout</span>
             <span className="text-[12px] text-foreground/30 truncate">· {job.role} at {job.company}</span>
           </div>
@@ -1856,6 +1856,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                     initial={{ scale: 0.75, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="orb-always-active"
                   >
                     <ColorOrb dimension={expanded ? "80px" : "56px"} spinDuration={5} />
                   </motion.div>
@@ -1914,7 +1915,9 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                         {msg.role === "ai" && (
                           <div className="flex-shrink-0 mb-0.5 w-5 h-5 flex items-center justify-center">
                             {isLastAi ? (
-                              <ColorOrb dimension="20px" spinDuration={6} />
+                              <span className="orb-spinning">
+                                <ColorOrb dimension="20px" spinDuration={6} />
+                              </span>
                             ) : (
                               <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-dashed border-foreground/20" />
                             )}
