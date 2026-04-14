@@ -2298,6 +2298,8 @@ function Dashboard() {
   const reportJob = reportJobId ? allJobs.find((j) => j.id === reportJobId) ?? null : null;
   const scoutJob = scoutJobId ? allJobs.find((j) => j.id === scoutJobId) ?? null : null;
 
+  const getJobId = useCallback((job: Job) => job.id, []);
+
   const handleShortlist = useCallback((id: string) => {
     setColumns(prev => {
       const fromCol = Object.keys(prev).find(col => prev[col].some(j => j.id === id));
@@ -2403,7 +2405,7 @@ function Dashboard() {
 
       {/* Single always-mounted kanban board — AI Picks stays, others reveal */}
       <div className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden">
-        <Kanban value={columns} onValueChange={setColumns} getItemValue={(job: Job) => job.id} className="h-full">
+        <Kanban value={columns} onValueChange={setColumns} getItemValue={getJobId} className="h-full">
           <KanbanBoard className="flex h-full pt-4 pr-4 pb-4 pl-[108px]">
 
             {/* AI Picks — centered at 520px in list mode, shrinks & snaps left on shortlist */}
