@@ -2162,6 +2162,14 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   const isPicks = colId === "picks";
   const isInterview = colId === "interview";
 
+  const offerThreshold = colId === "offer" && jobs.length >= 2 && !!onDecide;
+  const [bannerReady, setBannerReady] = useState(false);
+  useEffect(() => {
+    if (!offerThreshold) { setBannerReady(false); return; }
+    const t = setTimeout(() => setBannerReady(true), 2500);
+    return () => clearTimeout(t);
+  }, [offerThreshold]);
+
   const cardList = (
     <AnimatePresence initial={false}>
       {jobs.map((job) => (
@@ -2204,8 +2212,6 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
     );
   }
 
-  const showDecideBanner = colId === "offer" && jobs.length >= 2 && !!onDecide;
-
   return (
     <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#E8E4DD] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
@@ -2215,13 +2221,13 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
         )}
       </div>
 
-      {showDecideBanner && (
+      {bannerReady && (
         <AnimatePresence>
           <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="mx-2 mb-1.5 flex-shrink-0"
           >
             <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-black/[0.06] dark:border-border shadow-sm">
