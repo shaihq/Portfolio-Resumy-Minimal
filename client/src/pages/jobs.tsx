@@ -1809,7 +1809,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
         transition={{ layout: { type: "spring", bounce: 0.18, duration: 0.5 }, opacity: { duration: 0.22 }, y: { duration: 0.22 }, scale: { duration: 0.22 } }}
         className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-white dark:bg-[#141414] border border-black/[0.1] dark:border-white/[0.12] shadow-2xl rounded-2xl ${
           expanded
-            ? "inset-[10%]"
+            ? "inset-y-[6%] inset-x-0 mx-auto w-full max-w-[620px]"
             : "bottom-4 right-4 w-[360px] h-[500px]"
         }`}
       >
@@ -2050,7 +2050,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
         initial={{ opacity: 0, y: 16, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ layout: { type: "spring", bounce: 0.18, duration: 0.5 }, opacity: { duration: 0.22 }, y: { duration: 0.22 }, scale: { duration: 0.22 } }}
-        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-white dark:bg-[#141414] border border-black/[0.1] dark:border-white/[0.12] shadow-2xl rounded-2xl ${expanded ? "inset-[10%]" : "bottom-4 right-4 w-[390px] h-[530px]"}`}
+        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-white dark:bg-[#141414] border border-black/[0.1] dark:border-white/[0.12] shadow-2xl rounded-2xl ${expanded ? "inset-y-[6%] inset-x-0 mx-auto w-full max-w-[620px]" : "bottom-4 right-4 w-[390px] h-[530px]"}`}
       >
         {/* Header */}
         <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/[0.08] dark:border-white/[0.1]">
