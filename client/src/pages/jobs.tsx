@@ -2231,13 +2231,11 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
             className="mx-2 mb-1.5 flex-shrink-0"
           >
             <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-black/[0.06] dark:border-border shadow-sm">
-              {/* Gradient accent top stripe */}
-              <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-[#5D3560] via-[#C04A38] to-[#F5A623]" />
               <div className="px-3.5 pt-4 pb-3.5">
                 <div className="flex items-center gap-2.5 mb-3">
-                  <span className="orb-spinning flex-shrink-0">
-                    <ColorOrb dimension="22px" spinDuration={4} />
-                  </span>
+                  <div className="w-[28px] h-[28px] flex-shrink-0">
+                    <Lottie animationData={aiAssistantAnimation} loop={true} />
+                  </div>
                   <div className="min-w-0">
                     <p className="text-[12.5px] font-semibold text-foreground/85 leading-tight">Two offers. Big decision.</p>
                     <p className="text-[11px] text-foreground/40 mt-0.5 leading-snug">Let Scout help you think it through.</p>
