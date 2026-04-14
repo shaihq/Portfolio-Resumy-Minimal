@@ -1020,6 +1020,11 @@ function MockInterviewRoom({ job, onEnd }: { job: Job; onEnd: () => void }) {
 
 // ── Interview report ────────────────────────────────────────────────────────
 
+interface CompletedReport {
+  date: string;
+  report: InterviewReportData;
+}
+
 interface InterviewReportData {
   communicationScore: number;
   clarity: number;
@@ -1109,8 +1114,8 @@ function ScoreBar({ value, label }: { value: number; label: string }) {
   );
 }
 
-function InterviewReport({ job, onClose }: { job: Job; onClose: () => void }) {
-  const report = getMockReport(job.id);
+function InterviewReport({ job, report: reportProp, onClose }: { job: Job; report?: InterviewReportData; onClose: () => void }) {
+  const report = reportProp ?? getMockReport(job.id);
 
   return (
     <motion.div
@@ -1253,7 +1258,7 @@ function InterviewReport({ job, onClose }: { job: Job; onClose: () => void }) {
 }
 
 // ── Job detail sheet ───────────────────────────────────────────────────────
-function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
+function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job: Job | null; open: boolean; onClose: () => void; pastReports?: CompletedReport[]; onViewReport?: (report: CompletedReport) => void }) {
   const lastJobRef = useRef<Job | null>(null);
   if (job) lastJobRef.current = job;
   const displayJob = job ?? lastJobRef.current;
@@ -1456,7 +1461,7 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
           </div>
 
           {/* Requirements */}
-          <div className="px-5 py-5 pb-8">
+          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
             <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
             <ul className="space-y-2.5">
               {displayJob.requirements.map((req, i) => (
@@ -1466,6 +1471,63 @@ function JobDetailSheet({ job, open, onClose }: { job: Job | null; open: boolean
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Past mock interviews */}
+          <div className="px-5 py-5 pb-8">
+            <div className="flex items-baseline justify-between gap-2 mb-1">
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">Mock interviews</span>
+              {(pastReports ?? []).length > 0 && (
+                <span className="text-[11px] text-foreground/35">{(pastReports ?? []).length} session{(pastReports ?? []).length !== 1 ? "s" : ""}</span>
+              )}
+            </div>
+            <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-0" />
+
+            {(pastReports ?? []).length === 0 ? (
+              <div className="flex items-center gap-3 py-4">
+                <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center flex-shrink-0">
+                  <Clapperboard className="w-3.5 h-3.5 text-foreground/25" />
+                </div>
+                <p className="text-[13px] text-foreground/35 leading-snug">No mock sessions yet. Take one to get an actionable debrief.</p>
+              </div>
+            ) : (
+              <div>
+                {(pastReports ?? []).map((entry, i) => {
+                  const d = new Date(entry.date);
+                  const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                  const timeStr = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+                  const score = entry.report.communicationScore;
+                  const scoreColor = score >= 80 ? "text-emerald-600 dark:text-emerald-400" : score >= 65 ? "text-amber-600 dark:text-amber-400" : "text-red-500 dark:text-red-400";
+                  return (
+                    <div key={i}>
+                      <button
+                        data-testid={`button-view-report-${displayJob.id}-${i}`}
+                        onClick={() => onViewReport?.(entry)}
+                        className="w-full flex items-center justify-between gap-3 py-3 group text-left"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] group-hover:bg-foreground/[0.07] transition-colors flex items-center justify-center flex-shrink-0">
+                            <Clapperboard className="w-3.5 h-3.5 text-foreground/35" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-[13px] font-medium text-foreground/75 leading-none">Session {(pastReports ?? []).length - i}</div>
+                            <div className="text-[11px] text-foreground/35 mt-0.5">{dateStr} · {timeStr}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <span className={`text-[15px] font-bold ${scoreColor}`}>{score}</span>
+                          <span className="text-[11px] text-foreground/30">/100</span>
+                          <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors" />
+                        </div>
+                      </button>
+                      {i < (pastReports ?? []).length - 1 && (
+                        <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 
@@ -1830,6 +1892,8 @@ function Dashboard() {
   const [interviewJobId, setInterviewJobId] = useState<string | null>(null);
   const [roomJobId, setRoomJobId] = useState<string | null>(null);
   const [reportJobId, setReportJobId] = useState<string | null>(null);
+  const [completedReports, setCompletedReports] = useState<Record<string, CompletedReport[]>>({});
+  const [viewingReport, setViewingReport] = useState<{ job: Job; entry: CompletedReport } | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
@@ -2043,7 +2107,15 @@ function Dashboard() {
         </Kanban>
       </div>
 
-      <JobDetailSheet job={selectedJob} open={!!selectedJobId} onClose={() => setSelectedJobId(null)} />
+      <JobDetailSheet
+        job={selectedJob}
+        open={!!selectedJobId}
+        onClose={() => setSelectedJobId(null)}
+        pastReports={selectedJob ? (completedReports[selectedJob.id] ?? []).slice().reverse() : []}
+        onViewReport={(entry) => {
+          if (selectedJob) setViewingReport({ job: selectedJob, entry });
+        }}
+      />
       <MockInterviewDialog
         job={interviewJob}
         open={!!interviewJobId}
@@ -2065,7 +2137,27 @@ function Dashboard() {
             />
           )}
           {reportJob && (
-            <InterviewReport key={`report-${reportJob.id}`} job={reportJob} onClose={() => setReportJobId(null)} />
+            <InterviewReport
+              key={`report-${reportJob.id}`}
+              job={reportJob}
+              onClose={() => {
+                const finishedJob = reportJob;
+                const generatedReport = getMockReport(finishedJob.id);
+                setCompletedReports(prev => ({
+                  ...prev,
+                  [finishedJob.id]: [...(prev[finishedJob.id] ?? []), { date: new Date().toISOString(), report: generatedReport }],
+                }));
+                setReportJobId(null);
+              }}
+            />
+          )}
+          {viewingReport && (
+            <InterviewReport
+              key={`viewing-${viewingReport.job.id}-${viewingReport.entry.date}`}
+              job={viewingReport.job}
+              report={viewingReport.entry.report}
+              onClose={() => setViewingReport(null)}
+            />
           )}
           {scoutJob && (
             <ScoutChat key={scoutJob.id} job={scoutJob} onClose={() => setScoutJobId(null)} />
