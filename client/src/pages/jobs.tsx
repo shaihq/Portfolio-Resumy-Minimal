@@ -2165,19 +2165,18 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   const cardList = (
     <AnimatePresence initial={false}>
       {jobs.map((job) => (
-        <motion.div
-          key={job.id}
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, x: 64, scale: 0.93, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
-          transition={{ duration: 0.28, ease: "easeOut" }}
-        >
-          <KanbanItem value={job.id} className="rounded-lg">
-            <KanbanItemHandle className="w-full rounded-lg">
+        <KanbanItem key={job.id} value={job.id} className="rounded-lg">
+          <KanbanItemHandle className="w-full rounded-lg">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, x: 64, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
               <JobCard job={job} onShortlist={isPicks ? () => onShortlist(job.id) : undefined} onOpen={() => onOpenJob(job.id)} onMockInterview={isInterview ? () => onMockInterview(job.id) : undefined} onAskScout={() => onAskScout(job.id)} />
-            </KanbanItemHandle>
-          </KanbanItem>
-        </motion.div>
+            </motion.div>
+          </KanbanItemHandle>
+        </KanbanItem>
       ))}
       {jobs.length === 0 && (
         <div className="flex items-center justify-center py-10 rounded-lg border border-dashed border-black/10 dark:border-border/50 mx-0.5">
