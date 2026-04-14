@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -1758,6 +1758,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
   const [input, setInput] = useState("");
   const [hasStarted, setHasStarted] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -1783,144 +1784,176 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
   };
 
   return createPortal(
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.22 }}
-      className="fixed inset-0 z-[200] bg-[#F0EDE7] dark:bg-background flex flex-col overflow-hidden"
-    >
-      {/* Top bar */}
-      <div className="flex-shrink-0 flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <ColorOrb dimension="16px" spinDuration={6} />
-          <span className="text-[13px] font-semibold text-foreground/60">Scout</span>
-          <span className="text-[12px] text-foreground/30 font-normal">· {job.company}</span>
-        </div>
-        <button
-          data-testid="button-close-scout"
-          onClick={onClose}
-          className="w-8 h-8 flex items-center justify-center rounded-md text-foreground/35 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
-        >
-          <X className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Body */}
-      <div className="flex-1 min-h-0 relative">
-        <AnimatePresence mode="wait">
-          {!hasStarted ? (
-            /* ── Initial state ── */
-            <motion.div
-              key="initial"
-              className="absolute inset-0 flex flex-col"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.25 }}
-            >
-              {/* Orb + prompt — centered in upper half */}
-              <div className="flex-1 flex flex-col items-center justify-center pb-8">
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <ColorOrb dimension="96px" spinDuration={5} />
-                </motion.div>
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15, duration: 0.4 }}
-                  className="text-center text-[22px] font-light text-foreground/35 mt-8 max-w-[300px] leading-[1.5]"
-                >
-                  What do you want to know about {job.company}?
-                </motion.p>
-              </div>
-
-              {/* Suggestions — right-aligned, staggered */}
-              <div className="flex-shrink-0 flex flex-col items-end gap-2.5 px-8 pb-6">
-                {visibleSuggestions.map((s, i) => (
-                  <motion.button
-                    key={s}
-                    data-testid={`button-scout-suggestion-${i}`}
-                    onClick={() => send(s)}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.07 + 0.2, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="bg-white dark:bg-card rounded-2xl px-5 py-3 text-[14px] text-foreground/65 shadow-sm border border-black/[0.06] dark:border-border hover:bg-white dark:hover:bg-card hover:text-foreground/85 transition-colors"
-                  >
-                    {s}
-                  </motion.button>
-                ))}
-                {!showAll && SCOUT_SUGGESTIONS.length > 3 && (
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.45 }}
-                    onClick={() => setShowAll(true)}
-                    className="text-[13px] text-foreground/30 hover:text-foreground/50 transition-colors mt-0.5"
-                  >
-                    Show more
-                  </motion.button>
-                )}
-              </div>
-            </motion.div>
-          ) : (
-            /* ── Chat state ── */
-            <motion.div
-              key="chat"
-              className="absolute inset-0 flex flex-col min-h-0"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.28 }}
-            >
-              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 min-h-0">
-                {messages.map((msg, i) => (
-                  <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                    {msg.role === "ai" && (
-                      <div className="w-6 h-6 rounded-full flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center">
-                        <ColorOrb dimension="24px" spinDuration={6} />
-                      </div>
-                    )}
-                    <div className={`text-[14px] leading-[1.65] rounded-2xl px-4 py-3 max-w-[76%] ${
-                      msg.role === "user"
-                        ? "bg-foreground text-background rounded-br-md"
-                        : "bg-white dark:bg-card text-foreground/80 border border-black/[0.06] dark:border-border rounded-bl-md shadow-sm"
-                    }`}>
-                      {msg.text}
-                    </div>
-                  </div>
-                ))}
-                <div ref={bottomRef} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Input bar — always at bottom */}
-      <div className="flex-shrink-0 px-6 pb-6 pt-3">
-        <div className="flex items-center gap-3 bg-white dark:bg-card rounded-2xl border border-black/[0.07] dark:border-border px-4 py-3 shadow-sm">
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter") send(input); }}
-            placeholder={hasStarted ? "Ask a follow-up…" : "Or type your own question…"}
-            className="flex-1 text-[14px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none"
+    <div className="fixed inset-0 z-[200] pointer-events-none">
+      {/* Backdrop — only when expanded */}
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/20 backdrop-blur-[3px] pointer-events-auto"
+            onClick={() => setExpanded(false)}
           />
-          <button
-            data-testid="button-scout-send"
-            onClick={() => send(input)}
-            disabled={!input.trim()}
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-foreground disabled:opacity-25 transition-opacity flex-shrink-0"
-          >
-            <ArrowUpCircle className="w-4 h-4 text-background" />
-          </button>
+        )}
+      </AnimatePresence>
+
+      {/* Panel */}
+      <motion.div
+        layout
+        initial={{ opacity: 0, y: 16, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 16, scale: 0.97 }}
+        transition={{ layout: { type: "spring", bounce: 0.18, duration: 0.5 }, opacity: { duration: 0.22 }, y: { duration: 0.22 }, scale: { duration: 0.22 } }}
+        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-[#F0EDE7] dark:bg-[#2A2520] border border-black/[0.07] dark:border-white/[0.08] shadow-2xl rounded-2xl ${
+          expanded
+            ? "inset-[10%]"
+            : "bottom-4 right-4 w-[360px] h-[500px]"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-black/[0.06] dark:border-white/[0.06]">
+          <div className="flex items-center gap-2 min-w-0">
+            <ColorOrb dimension="14px" spinDuration={6} />
+            <span className="text-[13px] font-semibold text-foreground/65">Scout</span>
+            <span className="text-[12px] text-foreground/30 truncate">· {job.role} at {job.company}</span>
+          </div>
+          <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
+            <button
+              data-testid="button-scout-expand"
+              onClick={() => setExpanded(v => !v)}
+              className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
+            >
+              {expanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            </button>
+            <button
+              data-testid="button-close-scout"
+              onClick={onClose}
+              className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
-      </div>
-    </motion.div>,
+
+        {/* Body */}
+        <div className="flex-1 min-h-0 relative">
+          <AnimatePresence mode="wait">
+            {!hasStarted ? (
+              /* ── Initial: orb + prompt + suggestions ── */
+              <motion.div
+                key="initial"
+                className="absolute inset-0 flex flex-col"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {/* Orb + prompt — centered */}
+                <div className="flex-1 flex flex-col items-center justify-center px-5 pb-4">
+                  <motion.div
+                    initial={{ scale: 0.75, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <ColorOrb dimension={expanded ? "80px" : "56px"} spinDuration={5} />
+                  </motion.div>
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.12, duration: 0.35 }}
+                    className={`text-center font-light text-foreground/35 mt-5 leading-[1.5] max-w-[240px] ${expanded ? "text-[20px]" : "text-[15px]"}`}
+                  >
+                    What do you want to know about {job.company}?
+                  </motion.p>
+                </div>
+
+                {/* Suggestions — right-aligned, staggered */}
+                <div className="flex-shrink-0 flex flex-col items-end gap-2 px-4 pb-4">
+                  {visibleSuggestions.map((s, i) => (
+                    <motion.button
+                      key={s}
+                      data-testid={`button-scout-suggestion-${i}`}
+                      onClick={() => send(s)}
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.06 + 0.18, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className="bg-white dark:bg-card rounded-2xl px-4 py-2.5 text-[13px] text-foreground/60 shadow-sm border border-black/[0.06] dark:border-border hover:text-foreground/85 transition-colors"
+                    >
+                      {s}
+                    </motion.button>
+                  ))}
+                  {!showAll && SCOUT_SUGGESTIONS.length > 3 && (
+                    <motion.button
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      onClick={() => setShowAll(true)}
+                      className="text-[12px] text-foreground/28 hover:text-foreground/45 transition-colors mt-0.5 pr-1"
+                    >
+                      Show more
+                    </motion.button>
+                  )}
+                </div>
+              </motion.div>
+            ) : (
+              /* ── Chat state ── */
+              <motion.div
+                key="chat"
+                className="absolute inset-0 flex flex-col min-h-0"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 min-h-0">
+                  {messages.map((msg, i) => (
+                    <div key={i} className={`flex items-end gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                      {msg.role === "ai" && (
+                        <div className="flex-shrink-0 mb-0.5">
+                          <ColorOrb dimension="20px" spinDuration={6} />
+                        </div>
+                      )}
+                      <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[80%] ${
+                        msg.role === "user"
+                          ? "bg-foreground text-background rounded-br-sm"
+                          : "bg-white dark:bg-card text-foreground/75 border border-black/[0.06] dark:border-border rounded-bl-sm shadow-sm"
+                      }`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                  <div ref={bottomRef} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Input bar */}
+        <div className="flex-shrink-0 px-3 pb-3 pt-2 border-t border-black/[0.05] dark:border-white/[0.05]">
+          <div className="flex items-center gap-2 bg-white dark:bg-card rounded-xl border border-black/[0.07] dark:border-border px-3 py-2.5 shadow-sm">
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") send(input); }}
+              placeholder={hasStarted ? "Ask a follow-up…" : "Or type your own question…"}
+              className="flex-1 text-[13px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none"
+            />
+            <button
+              data-testid="button-scout-send"
+              onClick={() => send(input)}
+              disabled={!input.trim()}
+              className="w-6 h-6 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0"
+            >
+              <ArrowUpCircle className="w-3.5 h-3.5 text-background" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>,
     document.body
   );
 }
