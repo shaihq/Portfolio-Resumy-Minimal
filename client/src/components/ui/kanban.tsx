@@ -122,7 +122,22 @@ function Kanban<T>({ value, onValueChange, getItemValue, children, className, on
   const onMoveRef = React.useRef(onMove);
   onMoveRef.current = onMove;
 
-  const columnIds = React.useMemo(() => Object.keys(columns), [columns]);
+  // Stable columnIds: only produce a new array reference when the actual key set changes.
+  // Without this, every setColumns call (even moving an item) recreates columnIds, which
+  // cascades to new isColumn → findContainer → handleDragOver/End → DndContext re-render.
+  const columnIdsRef = React.useRef<string[]>([]);
+  const columnIds = React.useMemo(() => {
+    const next = Object.keys(columns);
+    if (
+      next.length === columnIdsRef.current.length &&
+      next.every((id, i) => id === columnIdsRef.current[i])
+    ) {
+      return columnIdsRef.current;
+    }
+    columnIdsRef.current = next;
+    return next;
+  }, [columns]);
+
   const isColumn = React.useCallback((id: UniqueIdentifier) => columnIds.includes(id as string), [columnIds]);
 
   // No `columns` in deps — reads from ref so this stays stable across column changes.
@@ -366,7 +381,11 @@ export interface KanbanColumnContentProps {
 
 function KanbanColumnContent({ value, className, children }: KanbanColumnContentProps) {
   const { columns, getItemId } = React.useContext(KanbanContext);
-  const itemIds = React.useMemo(() => columns[value]?.map(getItemId) ?? [], [columns, getItemId, value]);
+  // Depend on `columns[value]` (the specific column's array), not the whole `columns` map.
+  // Spread/replace in handleDragOver preserves references for untouched columns, so
+  // unchanged columns won't recompute itemIds and won't disturb their SortableContext.
+  const colItems = columns[value] ?? ([] as any[]);
+  const itemIds = React.useMemo(() => colItems.map(getItemId), [colItems, getItemId]);
   return (
     <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
       <div data-slot="kanban-column-content" className={cn('flex flex-col gap-2', className)}>
@@ -414,4 +433,10 @@ function KanbanOverlay({ children, className }: KanbanOverlayProps) {
   );
 }
 
-export { Kanban, KanbanBoard, KanbanColumn, KanbanColumnHandle, KanbanItem, KanbanItemHandle, KanbanColumnContent, KanbanOverlay };
+// Memo-wrap so DndContext doesn't re-render when an ancestor (e.g. Dashboard)
+// re-renders for unrelated state (selectedJobId, centerMargin, phase, etc.).
+// DndContext is wrapped in React.memo internally but it still gets new `children`
+// objects on every parent render; wrapping Kanban itself stops that cascade.
+const KanbanMemo = React.memo(Kanban) as typeof Kanban;
+
+export { KanbanMemo as Kanban, KanbanBoard, KanbanColumn, KanbanColumnHandle, KanbanItem, KanbanItemHandle, KanbanColumnContent, KanbanOverlay };

@@ -2163,15 +2163,14 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   const isInterview = colId === "interview";
 
   const cardList = (
-    <AnimatePresence mode="popLayout" initial={false}>
+    <AnimatePresence initial={false}>
       {jobs.map((job) => (
         <motion.div
           key={job.id}
-          layout
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, x: 64, scale: 0.93, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
-          transition={{ layout: { duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }, duration: 0.28, ease: "easeOut" }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
         >
           <KanbanItem value={job.id} className="rounded-lg">
             <KanbanItemHandle className="w-full rounded-lg">
