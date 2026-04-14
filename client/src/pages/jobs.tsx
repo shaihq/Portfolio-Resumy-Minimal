@@ -1807,31 +1807,31 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 16, scale: 0.97 }}
         transition={{ layout: { type: "spring", bounce: 0.18, duration: 0.5 }, opacity: { duration: 0.22 }, y: { duration: 0.22 }, scale: { duration: 0.22 } }}
-        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-[#F0EDE7] dark:bg-[#2A2520] border border-black/[0.07] dark:border-white/[0.08] shadow-2xl rounded-2xl ${
+        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-white dark:bg-[#141414] border border-black/[0.1] dark:border-white/[0.12] shadow-2xl rounded-2xl ${
           expanded
             ? "inset-[10%]"
             : "bottom-4 right-4 w-[360px] h-[500px]"
         }`}
       >
         {/* Header */}
-        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-black/[0.06] dark:border-white/[0.06]">
+        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/[0.08] dark:border-white/[0.1]">
           <div className="flex items-center gap-2 min-w-0">
             <span className="orb-spinning"><ColorOrb dimension="14px" spinDuration={6} /></span>
-            <span className="text-[13px] font-semibold text-foreground/65">Scout</span>
-            <span className="text-[12px] text-foreground/30 truncate">· {job.role} at {job.company}</span>
+            <span className="text-[13px] font-semibold text-foreground">Scout</span>
+            <span className="text-[12px] text-foreground/50 truncate">· {job.role} at {job.company}</span>
           </div>
           <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
             <button
               data-testid="button-scout-expand"
               onClick={() => setExpanded(v => !v)}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/40 hover:text-foreground/70 hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-colors"
             >
               {expanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
             </button>
             <button
               data-testid="button-close-scout"
               onClick={onClose}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/40 hover:text-foreground/70 hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-colors"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -1864,7 +1864,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.12, duration: 0.35 }}
-                    className={`text-center font-light text-foreground/35 mt-5 leading-[1.5] max-w-[240px] ${expanded ? "text-[20px]" : "text-[15px]"}`}
+                    className={`text-center font-light text-foreground/55 mt-5 leading-[1.5] max-w-[240px] ${expanded ? "text-[20px]" : "text-[15px]"}`}
                   >
                     What do you want to know about {job.company}?
                   </motion.p>
@@ -1880,7 +1880,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                       initial={{ opacity: 0, x: 16 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.06 + 0.18, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="bg-white dark:bg-card rounded-2xl px-4 py-2.5 text-[13px] text-foreground/60 shadow-sm border border-black/[0.06] dark:border-border hover:text-foreground/85 transition-colors"
+                      className="bg-[#F3F3F2] dark:bg-[#242424] rounded-2xl px-4 py-2.5 text-[13px] text-foreground/70 border border-black/[0.06] dark:border-white/[0.08] hover:text-foreground transition-colors"
                     >
                       {s}
                     </motion.button>
@@ -1925,8 +1925,8 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                         )}
                         <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[80%] ${
                           msg.role === "user"
-                            ? "bg-foreground text-background rounded-br-sm"
-                            : "bg-white dark:bg-card text-foreground/75 border border-black/[0.06] dark:border-border rounded-bl-sm shadow-sm"
+                            ? "bg-[#1A1A1A] dark:bg-white text-white dark:text-[#141414] rounded-br-sm"
+                            : "bg-[#F3F3F2] dark:bg-[#242424] text-foreground/85 border border-black/[0.06] dark:border-white/[0.08] rounded-bl-sm"
                         }`}>
                           {msg.text}
                         </div>
@@ -1941,8 +1941,8 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
         </div>
 
         {/* Input bar */}
-        <div className="flex-shrink-0 px-3 pb-3 pt-2 border-t border-black/[0.05] dark:border-white/[0.05]">
-          <div className="flex items-center gap-2 bg-white dark:bg-card rounded-xl border border-black/[0.07] dark:border-border px-3 py-2.5 shadow-sm">
+        <div className="flex-shrink-0 px-3 pb-3 pt-2 border-t border-black/[0.08] dark:border-white/[0.1]">
+          <div className="flex items-center gap-2 bg-[#F3F3F2] dark:bg-[#242424] rounded-xl border border-black/[0.07] dark:border-white/[0.08] px-3 py-2.5">
             <input
               ref={inputRef}
               type="text"
@@ -2050,20 +2050,20 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
         initial={{ opacity: 0, y: 16, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ layout: { type: "spring", bounce: 0.18, duration: 0.5 }, opacity: { duration: 0.22 }, y: { duration: 0.22 }, scale: { duration: 0.22 } }}
-        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-[#F0EDE7] dark:bg-[#2A2520] border border-black/[0.07] dark:border-white/[0.08] shadow-2xl rounded-2xl ${expanded ? "inset-[10%]" : "bottom-4 right-4 w-[390px] h-[530px]"}`}
+        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-white dark:bg-[#141414] border border-black/[0.1] dark:border-white/[0.12] shadow-2xl rounded-2xl ${expanded ? "inset-[10%]" : "bottom-4 right-4 w-[390px] h-[530px]"}`}
       >
         {/* Header */}
-        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-black/[0.06] dark:border-white/[0.06]">
+        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/[0.08] dark:border-white/[0.1]">
           <div className="flex items-center gap-2 min-w-0">
             <span className="orb-spinning"><ColorOrb dimension="14px" spinDuration={6} /></span>
-            <span className="text-[13px] font-semibold text-foreground/65">Scout</span>
-            <span className="text-[12px] text-foreground/30 truncate">· Comparing {compA} vs {compB}</span>
+            <span className="text-[13px] font-semibold text-foreground">Scout</span>
+            <span className="text-[12px] text-foreground/50 truncate">· Comparing {compA} vs {compB}</span>
           </div>
           <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
-            <button onClick={() => setExpanded(v => !v)} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors">
+            <button onClick={() => setExpanded(v => !v)} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/40 hover:text-foreground/70 hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-colors">
               {expanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
             </button>
-            <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors">
+            <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/40 hover:text-foreground/70 hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-colors">
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -2082,19 +2082,19 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
             if (msg.role === "result") {
               return (
                 <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
-                  className="bg-white dark:bg-card rounded-2xl p-4 border border-black/[0.06] dark:border-border shadow-sm space-y-3">
+                  className="bg-[#F3F3F2] dark:bg-[#1C1C1C] rounded-2xl p-4 border border-black/[0.07] dark:border-white/[0.1] space-y-3">
                   <div className="flex items-center gap-2">
                     <span className="orb-spinning"><ColorOrb dimension="16px" spinDuration={5} /></span>
-                    <span className="text-[11px] font-semibold tracking-widest text-foreground/40 uppercase">Scout\u2019s Take</span>
+                    <span className="text-[11px] font-semibold tracking-widest text-foreground/55 uppercase">Scout's Take</span>
                   </div>
-                  <div className="flex items-center gap-2 bg-foreground/[0.06] dark:bg-white/[0.07] rounded-xl px-3 py-2">
-                    <span className="text-[11px] text-foreground/40">Lean toward</span>
+                  <div className="flex items-center gap-2 bg-foreground/[0.08] dark:bg-white/[0.1] rounded-xl px-3 py-2">
+                    <span className="text-[11px] text-foreground/55">Lean toward</span>
                     <span className="text-[13px] font-semibold text-foreground">{msg.winner}</span>
                   </div>
-                  <p className="text-[13px] text-foreground/65 leading-relaxed">{msg.analysis}</p>
-                  <p className="text-[13px] text-foreground/55 leading-relaxed">{msg.regretNote}</p>
-                  <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3">
-                    <p className="text-[13px] font-medium text-foreground/75 leading-relaxed">{msg.take}</p>
+                  <p className="text-[13px] text-foreground/75 leading-relaxed">{msg.analysis}</p>
+                  <p className="text-[13px] text-foreground/60 leading-relaxed">{msg.regretNote}</p>
+                  <div className="border-t border-black/[0.08] dark:border-white/[0.1] pt-3">
+                    <p className="text-[13px] font-medium text-foreground/80 leading-relaxed">{msg.take}</p>
                   </div>
                 </motion.div>
               );
@@ -2109,7 +2109,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
                       : <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-dashed border-foreground/20" />}
                   </div>
                 )}
-                <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[82%] ${msg.role === "user" ? "bg-foreground text-background rounded-br-sm" : "bg-white dark:bg-card text-foreground/75 border border-black/[0.06] dark:border-border rounded-bl-sm shadow-sm"}`}>
+                <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[82%] ${msg.role === "user" ? "bg-[#1A1A1A] dark:bg-white text-white dark:text-[#141414] rounded-br-sm" : "bg-[#F3F3F2] dark:bg-[#242424] text-foreground/85 border border-black/[0.06] dark:border-white/[0.08] rounded-bl-sm"}`}>
                   {msg.text}
                 </div>
               </div>
@@ -2119,10 +2119,10 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
         </div>
 
         {/* Input / suggestions / close */}
-        <div className="flex-shrink-0 border-t border-black/[0.05] dark:border-white/[0.05]">
+        <div className="flex-shrink-0 border-t border-black/[0.08] dark:border-white/[0.1]">
           {done ? (
             <div className="px-3 pb-3 pt-2">
-              <button onClick={onClose} className="w-full text-[13px] text-foreground/40 hover:text-foreground/65 transition-colors py-2 text-center">
+              <button onClick={onClose} className="w-full text-[13px] text-foreground/50 hover:text-foreground/80 transition-colors py-2 text-center">
                 Close
               </button>
             </div>
@@ -2130,19 +2130,19 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
             <div className="px-3 py-3 flex flex-col items-end gap-2">
               {(curStep as { suggestions: readonly string[] }).suggestions.map((s) => (
                 <button key={s} onClick={() => submit(s)}
-                  className="bg-white dark:bg-card rounded-2xl px-4 py-2.5 text-[13px] text-foreground/60 shadow-sm border border-black/[0.06] dark:border-border hover:text-foreground/85 transition-colors">
+                  className="bg-[#F3F3F2] dark:bg-[#242424] rounded-2xl px-4 py-2.5 text-[13px] text-foreground/70 border border-black/[0.06] dark:border-white/[0.08] hover:text-foreground transition-colors">
                   {s}
                 </button>
               ))}
             </div>
           ) : (
             <div className="px-3 pb-3 pt-2">
-              <div className="flex items-center gap-2 bg-white dark:bg-card rounded-xl border border-black/[0.07] dark:border-border px-3 py-2.5 shadow-sm">
+              <div className="flex items-center gap-2 bg-[#F3F3F2] dark:bg-[#242424] rounded-xl border border-black/[0.07] dark:border-white/[0.08] px-3 py-2.5">
                 <input ref={inputRef} type="text" value={input} autoFocus
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => { if (e.key === "Enter") submit(input); }}
                   placeholder="Type your answer…"
-                  className="flex-1 text-[13px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none" />
+                  className="flex-1 text-[13px] text-foreground placeholder:text-foreground/40 bg-transparent outline-none" />
                 <button onClick={() => submit(input)} disabled={!input.trim()}
                   className="w-6 h-6 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0">
                   <ArrowUpCircle className="w-3.5 h-3.5 text-background" />
