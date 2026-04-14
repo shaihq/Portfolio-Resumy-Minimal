@@ -1907,22 +1907,29 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                 transition={{ duration: 0.25 }}
               >
                 <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 min-h-0">
-                  {messages.map((msg, i) => (
-                    <div key={i} className={`flex items-end gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                      {msg.role === "ai" && (
-                        <div className="flex-shrink-0 mb-0.5">
-                          <ColorOrb dimension="20px" spinDuration={6} />
+                  {messages.map((msg, i) => {
+                    const isLastAi = msg.role === "ai" && messages.slice(i + 1).every(m => m.role !== "ai");
+                    return (
+                      <div key={i} className={`flex items-end gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                        {msg.role === "ai" && (
+                          <div className="flex-shrink-0 mb-0.5 w-5 h-5 flex items-center justify-center">
+                            {isLastAi ? (
+                              <ColorOrb dimension="20px" spinDuration={6} />
+                            ) : (
+                              <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-dashed border-foreground/20" />
+                            )}
+                          </div>
+                        )}
+                        <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[80%] ${
+                          msg.role === "user"
+                            ? "bg-foreground text-background rounded-br-sm"
+                            : "bg-white dark:bg-card text-foreground/75 border border-black/[0.06] dark:border-border rounded-bl-sm shadow-sm"
+                        }`}>
+                          {msg.text}
                         </div>
-                      )}
-                      <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[80%] ${
-                        msg.role === "user"
-                          ? "bg-foreground text-background rounded-br-sm"
-                          : "bg-white dark:bg-card text-foreground/75 border border-black/[0.06] dark:border-border rounded-bl-sm shadow-sm"
-                      }`}>
-                        {msg.text}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                   <div ref={bottomRef} />
                 </div>
               </motion.div>
