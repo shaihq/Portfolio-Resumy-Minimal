@@ -1817,8 +1817,8 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
         <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/[0.08] dark:border-white/[0.1]">
           <div className="flex items-center gap-2 min-w-0">
             <span className="orb-spinning"><ColorOrb dimension="14px" spinDuration={6} /></span>
-            <span className="text-[13px] font-semibold text-foreground">Scout</span>
-            <span className="text-[12px] text-foreground/50 truncate">· {job.role} at {job.company}</span>
+            <span className="text-[14px] font-semibold text-foreground">Scout</span>
+            <span className="text-[13px] text-foreground/50 truncate">· {job.role} at {job.company}</span>
           </div>
           <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
             <button
@@ -1880,7 +1880,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                       initial={{ opacity: 0, x: 16 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.06 + 0.18, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="bg-[#F3F3F2] dark:bg-[#242424] rounded-2xl px-4 py-2.5 text-[13px] text-foreground/70 border border-black/[0.06] dark:border-white/[0.08] hover:text-foreground transition-colors"
+                      className="bg-[#F3F3F2] dark:bg-[#242424] rounded-2xl px-4 py-2.5 text-[14px] text-foreground/70 border border-black/[0.06] dark:border-white/[0.08] hover:text-foreground transition-colors"
                     >
                       {s}
                     </motion.button>
@@ -1891,7 +1891,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 }}
                       onClick={() => setShowAll(true)}
-                      className="text-[12px] text-foreground/28 hover:text-foreground/45 transition-colors mt-0.5 pr-1"
+                      className="text-[13px] text-foreground/28 hover:text-foreground/45 transition-colors mt-0.5 pr-1"
                     >
                       Show more
                     </motion.button>
@@ -1923,7 +1923,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                             )}
                           </div>
                         )}
-                        <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[80%] ${
+                        <div className={`text-[14px] leading-[1.6] rounded-2xl px-3.5 py-2.5 max-w-[80%] ${
                           msg.role === "user"
                             ? "bg-[#1A1A1A] dark:bg-white text-white dark:text-[#141414] rounded-br-sm"
                             : "bg-[#F3F3F2] dark:bg-[#242424] text-foreground/85 border border-black/[0.06] dark:border-white/[0.08] rounded-bl-sm"
@@ -1950,7 +1950,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter") send(input); }}
               placeholder={hasStarted ? "Ask a follow-up…" : "Or type your own question…"}
-              className="flex-1 text-[13px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none"
+              className="flex-1 text-[14px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none"
             />
             <button
               data-testid="button-scout-send"
@@ -2056,8 +2056,8 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
         <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/[0.08] dark:border-white/[0.1]">
           <div className="flex items-center gap-2 min-w-0">
             <span className="orb-spinning"><ColorOrb dimension="14px" spinDuration={6} /></span>
-            <span className="text-[13px] font-semibold text-foreground">Scout</span>
-            <span className="text-[12px] text-foreground/50 truncate">· Comparing {compA} vs {compB}</span>
+            <span className="text-[14px] font-semibold text-foreground">Scout</span>
+            <span className="text-[13px] text-foreground/50 truncate">· Comparing {compA} vs {compB}</span>
           </div>
           <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
             <button onClick={() => setExpanded(v => !v)} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/40 hover:text-foreground/70 hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-colors">
@@ -2085,16 +2085,16 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
                   className="bg-[#F3F3F2] dark:bg-[#1C1C1C] rounded-2xl p-4 border border-black/[0.07] dark:border-white/[0.1] space-y-3">
                   <div className="flex items-center gap-2">
                     <span className="orb-spinning"><ColorOrb dimension="16px" spinDuration={5} /></span>
-                    <span className="text-[11px] font-semibold tracking-widest text-foreground/55 uppercase">Scout's Take</span>
+                    <span className="text-[12px] font-semibold tracking-widest text-foreground/55 uppercase">Scout's Take</span>
                   </div>
                   <div className="flex items-center gap-2 bg-foreground/[0.08] dark:bg-white/[0.1] rounded-xl px-3 py-2">
-                    <span className="text-[11px] text-foreground/55">Lean toward</span>
-                    <span className="text-[13px] font-semibold text-foreground">{msg.winner}</span>
+                    <span className="text-[13px] text-foreground/55">Lean toward</span>
+                    <span className="text-[14px] font-semibold text-foreground">{msg.winner}</span>
                   </div>
-                  <p className="text-[13px] text-foreground/75 leading-relaxed">{msg.analysis}</p>
-                  <p className="text-[13px] text-foreground/60 leading-relaxed">{msg.regretNote}</p>
+                  <p className="text-[14px] text-foreground/75 leading-relaxed">{msg.analysis}</p>
+                  <p className="text-[14px] text-foreground/60 leading-relaxed">{msg.regretNote}</p>
                   <div className="border-t border-black/[0.08] dark:border-white/[0.1] pt-3">
-                    <p className="text-[13px] font-medium text-foreground/80 leading-relaxed">{msg.take}</p>
+                    <p className="text-[14px] font-medium text-foreground/80 leading-relaxed">{msg.take}</p>
                   </div>
                 </motion.div>
               );
@@ -2109,7 +2109,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
                       : <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-dashed border-foreground/20" />}
                   </div>
                 )}
-                <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[82%] ${msg.role === "user" ? "bg-[#1A1A1A] dark:bg-white text-white dark:text-[#141414] rounded-br-sm" : "bg-[#F3F3F2] dark:bg-[#242424] text-foreground/85 border border-black/[0.06] dark:border-white/[0.08] rounded-bl-sm"}`}>
+                <div className={`text-[14px] leading-[1.6] rounded-2xl px-3.5 py-2.5 max-w-[82%] ${msg.role === "user" ? "bg-[#1A1A1A] dark:bg-white text-white dark:text-[#141414] rounded-br-sm" : "bg-[#F3F3F2] dark:bg-[#242424] text-foreground/85 border border-black/[0.06] dark:border-white/[0.08] rounded-bl-sm"}`}>
                   {msg.text}
                 </div>
               </div>
@@ -2122,7 +2122,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
         <div className="flex-shrink-0 border-t border-black/[0.08] dark:border-white/[0.1]">
           {done ? (
             <div className="px-3 pb-3 pt-2">
-              <button onClick={onClose} className="w-full text-[13px] text-foreground/50 hover:text-foreground/80 transition-colors py-2 text-center">
+              <button onClick={onClose} className="w-full text-[14px] text-foreground/50 hover:text-foreground/80 transition-colors py-2 text-center">
                 Close
               </button>
             </div>
@@ -2130,7 +2130,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
             <div className="px-3 py-3 flex flex-col items-end gap-2">
               {(curStep as { suggestions: readonly string[] }).suggestions.map((s) => (
                 <button key={s} onClick={() => submit(s)}
-                  className="bg-[#F3F3F2] dark:bg-[#242424] rounded-2xl px-4 py-2.5 text-[13px] text-foreground/70 border border-black/[0.06] dark:border-white/[0.08] hover:text-foreground transition-colors">
+                  className="bg-[#F3F3F2] dark:bg-[#242424] rounded-2xl px-4 py-2.5 text-[14px] text-foreground/70 border border-black/[0.06] dark:border-white/[0.08] hover:text-foreground transition-colors">
                   {s}
                 </button>
               ))}
@@ -2142,7 +2142,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => { if (e.key === "Enter") submit(input); }}
                   placeholder="Type your answer…"
-                  className="flex-1 text-[13px] text-foreground placeholder:text-foreground/40 bg-transparent outline-none" />
+                  className="flex-1 text-[14px] text-foreground placeholder:text-foreground/40 bg-transparent outline-none" />
                 <button onClick={() => submit(input)} disabled={!input.trim()}
                   className="w-6 h-6 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0">
                   <ArrowUpCircle className="w-3.5 h-3.5 text-background" />
