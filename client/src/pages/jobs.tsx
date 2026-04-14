@@ -2226,19 +2226,27 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="mx-2 mb-1.5 flex-shrink-0"
           >
-            <div className="bg-white dark:bg-card border border-black/[0.07] dark:border-border rounded-xl px-3 py-2.5 flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[12px] font-medium text-foreground/75 leading-tight">Two offers. Big decision.</p>
-                <p className="text-[11px] text-foreground/40 mt-0.5 leading-snug">Let Scout help you think it through.</p>
+            <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-black/[0.06] dark:border-border shadow-sm">
+              {/* Gradient accent top stripe */}
+              <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-[#5D3560] via-[#C04A38] to-[#F5A623]" />
+              <div className="px-3.5 pt-4 pb-3.5">
+                <div className="flex items-center gap-2.5 mb-3">
+                  <span className="orb-spinning flex-shrink-0">
+                    <ColorOrb dimension="22px" spinDuration={4} />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[12.5px] font-semibold text-foreground/85 leading-tight">Two offers. Big decision.</p>
+                    <p className="text-[11px] text-foreground/40 mt-0.5 leading-snug">Let Scout help you think it through.</p>
+                  </div>
+                </div>
+                <button
+                  data-testid="button-offer-decide"
+                  onClick={onDecide}
+                  className="w-full flex items-center justify-center gap-1.5 bg-foreground text-background text-[12px] font-medium h-8 rounded-lg hover:opacity-85 transition-opacity"
+                >
+                  Help me decide
+                </button>
               </div>
-              <button
-                data-testid="button-offer-decide"
-                onClick={onDecide}
-                className="flex-shrink-0 flex items-center gap-1.5 bg-foreground text-background text-[12px] font-medium px-3 py-1.5 rounded-lg hover:opacity-85 transition-opacity"
-              >
-                <span className="orb-spinning"><ColorOrb dimension="10px" spinDuration={4} /></span>
-                Help me decide
-              </button>
             </div>
           </motion.div>
         </AnimatePresence>
