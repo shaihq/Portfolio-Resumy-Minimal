@@ -2166,7 +2166,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   const [bannerReady, setBannerReady] = useState(false);
   useEffect(() => {
     if (!offerThreshold) { setBannerReady(false); return; }
-    const t = setTimeout(() => setBannerReady(true), 2500);
+    const t = setTimeout(() => setBannerReady(true), 1200);
     return () => clearTimeout(t);
   }, [offerThreshold]);
 
@@ -2224,10 +2224,10 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
       {bannerReady && (
         <AnimatePresence>
           <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, scale: 0.97 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, y: -8, scale: 0.97, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -6, scale: 0.97, filter: "blur(4px)" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="mx-2 mb-1.5 flex-shrink-0"
           >
             <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-black/[0.06] dark:border-border shadow-sm">
