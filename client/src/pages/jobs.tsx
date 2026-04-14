@@ -1738,31 +1738,35 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
 
 // ── Scout chat ─────────────────────────────────────────────────────────────
 const SCOUT_SUGGESTIONS = [
-  "Tell me why this job is a good fit for me.",
-  "Give me resume tips to apply here.",
-  "What's the culture like at this company?",
+  "Why is this a good fit for me?",
+  "Give me resume tips for this role.",
+  "What's the culture like here?",
   "Show me similar roles I might like.",
 ];
 
 const SCOUT_RESPONSES: Record<string, string> = {
-  "Tell me why this job is a good fit for me.": "Based on your senior-level background and preference for remote-first environments, this role aligns well. The scope of ownership and design system work matches your experience and career goals closely.",
-  "Give me resume tips to apply here.": "Highlight end-to-end design ownership, design system contributions, and close collaboration with engineering. Tailor your summary to emphasize the product areas most relevant to this company's focus.",
-  "What's the culture like at this company?": "This company is known for a high craft bar and a strong design culture. Teams are small and move fast, with designers having real influence over product direction — not just execution.",
+  "Why is this a good fit for me?": "Based on your senior-level background and preference for remote-first environments, this role aligns well. The scope of ownership and design system work matches your experience and career goals closely.",
+  "Give me resume tips for this role.": "Highlight end-to-end design ownership, design system contributions, and close collaboration with engineering. Tailor your summary to emphasize the product areas most relevant to this company's focus.",
+  "What's the culture like here?": "This company is known for a high craft bar and a strong design culture. Teams are small and move fast, with designers having real influence over product direction — not just execution.",
   "Show me similar roles I might like.": "Based on this role's profile, you might also enjoy similar positions at Notion, Linear, Vercel, or Figma — all share a design-first culture with remote or hybrid flexibility.",
 };
 
 interface ChatMsg { role: "ai" | "user"; text: string; }
 
 function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
-  const [messages, setMessages] = useState<ChatMsg[]>([
-    { role: "ai", text: `I see you're asking about the ${job.role} role at ${job.company}. What would you like to know?` },
-  ]);
+  const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [input, setInput] = useState("");
-  const [suggestionsGone, setSuggestionsGone] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const visibleSuggestions = showAll ? SCOUT_SUGGESTIONS : SCOUT_SUGGESTIONS.slice(0, 3);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   const send = (text: string) => {
@@ -1773,80 +1777,148 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
       { role: "user", text },
       { role: "ai", text: response },
     ]);
-    setSuggestionsGone(true);
+    setHasStarted(true);
     setInput("");
+    setTimeout(() => inputRef.current?.focus(), 80);
   };
 
   return createPortal(
     <motion.div
-      initial={{ opacity: 0, y: 14, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 14, scale: 0.97 }}
-      transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="fixed bottom-4 right-4 w-[340px] bg-white dark:bg-card rounded-2xl shadow-2xl border border-black/[0.08] dark:border-border flex flex-col z-[200]"
-      style={{ maxHeight: "520px" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+      className="fixed inset-0 z-[200] bg-[#F0EDE7] dark:bg-background flex flex-col overflow-hidden"
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-black/[0.06] dark:border-border flex-shrink-0">
+      {/* Top bar */}
+      <div className="flex-shrink-0 flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-foreground" />
-          <span className="text-[14px] font-semibold text-foreground">Scout</span>
+          <ColorOrb dimension="16px" spinDuration={6} />
+          <span className="text-[13px] font-semibold text-foreground/60">Scout</span>
+          <span className="text-[12px] text-foreground/30 font-normal">· {job.company}</span>
         </div>
         <button
+          data-testid="button-close-scout"
           onClick={onClose}
-          className="flex items-center justify-center w-7 h-7 rounded-md text-foreground/40 hover:text-foreground hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded-md text-foreground/35 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors"
         >
-          <X className="w-3.5 h-3.5" />
+          <X className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2.5 min-h-0">
-        {messages.map((msg, i) => (
-          <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`text-[13px] leading-relaxed rounded-xl px-3 py-2 max-w-[88%] ${
-              msg.role === "user"
-                ? "bg-foreground text-background"
-                : "bg-black/[0.04] dark:bg-white/[0.06] text-foreground/80"
-            }`}>
-              {msg.text}
-            </div>
-          </div>
-        ))}
+      {/* Body */}
+      <div className="flex-1 min-h-0 relative">
+        <AnimatePresence mode="wait">
+          {!hasStarted ? (
+            /* ── Initial state ── */
+            <motion.div
+              key="initial"
+              className="absolute inset-0 flex flex-col"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.25 }}
+            >
+              {/* Orb + prompt — centered in upper half */}
+              <div className="flex-1 flex flex-col items-center justify-center pb-8">
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <ColorOrb dimension="96px" spinDuration={5} />
+                </motion.div>
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.4 }}
+                  className="text-center text-[22px] font-light text-foreground/35 mt-8 max-w-[300px] leading-[1.5]"
+                >
+                  What do you want to know about {job.company}?
+                </motion.p>
+              </div>
 
-        {!suggestionsGone && (
-          <div className="space-y-1.5 pt-0.5">
-            {SCOUT_SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                onClick={() => send(s)}
-                className="w-full text-left text-[12px] text-foreground/70 border border-black/[0.10] dark:border-border rounded-lg px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors flex items-center justify-between gap-2"
-              >
-                <span>{s}</span>
-                <ArrowUpCircle className="w-3.5 h-3.5 flex-shrink-0 text-foreground/30" />
-              </button>
-            ))}
-          </div>
-        )}
-        <div ref={bottomRef} />
+              {/* Suggestions — right-aligned, staggered */}
+              <div className="flex-shrink-0 flex flex-col items-end gap-2.5 px-8 pb-6">
+                {visibleSuggestions.map((s, i) => (
+                  <motion.button
+                    key={s}
+                    data-testid={`button-scout-suggestion-${i}`}
+                    onClick={() => send(s)}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.07 + 0.2, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="bg-white dark:bg-card rounded-2xl px-5 py-3 text-[14px] text-foreground/65 shadow-sm border border-black/[0.06] dark:border-border hover:bg-white dark:hover:bg-card hover:text-foreground/85 transition-colors"
+                  >
+                    {s}
+                  </motion.button>
+                ))}
+                {!showAll && SCOUT_SUGGESTIONS.length > 3 && (
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.45 }}
+                    onClick={() => setShowAll(true)}
+                    className="text-[13px] text-foreground/30 hover:text-foreground/50 transition-colors mt-0.5"
+                  >
+                    Show more
+                  </motion.button>
+                )}
+              </div>
+            </motion.div>
+          ) : (
+            /* ── Chat state ── */
+            <motion.div
+              key="chat"
+              className="absolute inset-0 flex flex-col min-h-0"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.28 }}
+            >
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 min-h-0">
+                {messages.map((msg, i) => (
+                  <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    {msg.role === "ai" && (
+                      <div className="w-6 h-6 rounded-full flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center">
+                        <ColorOrb dimension="24px" spinDuration={6} />
+                      </div>
+                    )}
+                    <div className={`text-[14px] leading-[1.65] rounded-2xl px-4 py-3 max-w-[76%] ${
+                      msg.role === "user"
+                        ? "bg-foreground text-background rounded-br-md"
+                        : "bg-white dark:bg-card text-foreground/80 border border-black/[0.06] dark:border-border rounded-bl-md shadow-sm"
+                    }`}>
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+                <div ref={bottomRef} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Input */}
-      <div className="px-3 py-2.5 border-t border-black/[0.06] dark:border-border flex-shrink-0 flex items-center gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => { if (e.key === "Enter") send(input); }}
-          placeholder="Ask me anything..."
-          className="flex-1 text-[13px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none py-1"
-        />
-        <button
-          onClick={() => send(input)}
-          className="flex items-center justify-center w-7 h-7 rounded-full border border-black/[0.12] dark:border-border text-foreground/50 hover:text-foreground hover:border-foreground/30 transition-colors flex-shrink-0"
-        >
-          <ArrowUpCircle className="w-3.5 h-3.5" />
-        </button>
+      {/* Input bar — always at bottom */}
+      <div className="flex-shrink-0 px-6 pb-6 pt-3">
+        <div className="flex items-center gap-3 bg-white dark:bg-card rounded-2xl border border-black/[0.07] dark:border-border px-4 py-3 shadow-sm">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter") send(input); }}
+            placeholder={hasStarted ? "Ask a follow-up…" : "Or type your own question…"}
+            className="flex-1 text-[14px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none"
+          />
+          <button
+            data-testid="button-scout-send"
+            onClick={() => send(input)}
+            disabled={!input.trim()}
+            className="w-7 h-7 flex items-center justify-center rounded-full bg-foreground disabled:opacity-25 transition-opacity flex-shrink-0"
+          >
+            <ArrowUpCircle className="w-4 h-4 text-background" />
+          </button>
+        </div>
       </div>
     </motion.div>,
     document.body
