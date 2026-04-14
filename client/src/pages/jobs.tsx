@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, ArrowUpCircle, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2 } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -1956,9 +1956,9 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
               data-testid="button-scout-send"
               onClick={() => send(input)}
               disabled={!input.trim()}
-              className="w-6 h-6 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0"
+              className="w-7 h-7 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0"
             >
-              <ArrowUpCircle className="w-3.5 h-3.5 text-background" />
+              <SendHorizontal className="w-3.5 h-3.5 text-background" />
             </button>
           </div>
         </div>
@@ -2144,8 +2144,8 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
                   placeholder="Type your answer…"
                   className="flex-1 text-[14px] text-foreground placeholder:text-foreground/40 bg-transparent outline-none" />
                 <button onClick={() => submit(input)} disabled={!input.trim()}
-                  className="w-6 h-6 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0">
-                  <ArrowUpCircle className="w-3.5 h-3.5 text-background" />
+                  className="w-7 h-7 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0">
+                  <SendHorizontal className="w-3.5 h-3.5 text-background" />
                 </button>
               </div>
             </div>
