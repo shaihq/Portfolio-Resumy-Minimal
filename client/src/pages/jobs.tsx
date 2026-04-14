@@ -1858,7 +1858,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                     className="orb-always-active"
                   >
-                    <ColorOrb dimension={expanded ? "80px" : "56px"} spinDuration={5} />
+                    <ColorOrb dimension={expanded ? "60px" : "40px"} spinDuration={5} />
                   </motion.div>
                   <motion.p
                     initial={{ opacity: 0, y: 8 }}
