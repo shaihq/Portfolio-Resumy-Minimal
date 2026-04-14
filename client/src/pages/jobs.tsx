@@ -2231,9 +2231,11 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
             className="mx-2 mb-1.5 flex-shrink-0"
           >
             <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-black/[0.06] dark:border-border shadow-sm">
+              {/* Soft light smudge at top */}
+              <div className="absolute inset-x-0 top-0 h-10 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 100% at 50% 0%, rgba(192,74,56,0.18) 0%, rgba(245,166,35,0.10) 40%, transparent 100%)" }} />
               <div className="px-3.5 pt-4 pb-3.5">
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-[28px] h-[28px] flex-shrink-0">
+                  <div className="w-[36px] h-[36px] flex-shrink-0">
                     <Lottie animationData={aiAssistantAnimation} loop={true} />
                   </div>
                   <div className="min-w-0">
