@@ -107,11 +107,11 @@ const COL_BG: Record<string, string> = {
 };
 
 const INITIAL_COLUMNS: Record<string, Job[]> = {
-  picks: BASE_JOBS,
+  picks: BASE_JOBS.slice(2),
   not_applied: [],
   applied: [],
   interview: [],
-  offer: [],
+  offer: [BASE_JOBS[0], BASE_JOBS[1]],
 };
 
 // ── Orbit company logos (TransitionScreen background) ──────────────────────
@@ -1968,8 +1968,197 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
   );
 }
 
+// ── Offer Decision Scout ───────────────────────────────────────────────────
+const buildOfferSteps = (a: string, b: string) => [
+  { key: "ctc",    q: "What's your current CTC?" },
+  { key: "offerA", q: `Let's figure this out together. What's ${a} actually offering you — base salary, and anything else on top?` },
+  { key: "offerB", q: `Got it. And ${b}?` },
+  { key: "feel",   q: "Okay. Now the part that data can't tell me — how did each interview actually feel?" },
+  { key: "regret", q: "One more. Right now, what's the thing you'd most regret optimising for the wrong way?", suggestions: ["Money short-term", "Career growth", "Work environment", "Job security"] },
+] as const;
+
+type OfferMsg =
+  | { role: "ai";   text: string }
+  | { role: "user"; text: string }
+  | { role: "result"; winner: string; analysis: string; regretNote: string; take: string };
+
+function buildResult(a: string, b: string, answers: Record<string, string>) {
+  const regret = answers.regret ?? "Career growth";
+  const growthFirst = regret === "Career growth" || regret === "Work environment";
+  const winner = growthFirst ? b : a;
+  return {
+    winner,
+    analysis: `Here's what stands out. ${a} has the stronger short-term comp package, but ${b}'s trajectory — especially given how you described the interview — is worth more than it looks on paper right now.`,
+    regretNote: `Your answer about \u201c${regret}\u201d tells me something. You\u2019re not just optimising for the number on the letter. That\u2019s the right instinct.`,
+    take: growthFirst
+      ? `If you\u2019re still building leverage and want to compound your career upside, ${b} is the stronger move — even if the immediate number is a little lower.`
+      : `If financial security is the real constraint right now, ${a} makes sense. The gap in comp is meaningful, and certainty has real value.`,
+  };
+}
+
+function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => void }) {
+  const compA = jobs[0]?.company ?? "Company A";
+  const compB = jobs[1]?.company ?? "Company B";
+  const steps = buildOfferSteps(compA, compB);
+
+  const [messages, setMessages] = useState<OfferMsg[]>([{ role: "ai", text: steps[0].q }]);
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [input, setInput] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const [done, setDone] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+
+  const submit = (text: string) => {
+    if (!text.trim()) return;
+    const cur = steps[step];
+    const newAnswers = { ...answers, [cur.key]: text };
+    setAnswers(newAnswers);
+    const next = step + 1;
+    const userMsg: OfferMsg = { role: "user", text };
+    if (next >= steps.length) {
+      const r = buildResult(compA, compB, newAnswers);
+      setMessages(prev => [...prev, userMsg, { role: "result", ...r }]);
+      setDone(true);
+    } else {
+      setMessages(prev => [...prev, userMsg, { role: "ai", text: steps[next].q }]);
+      setStep(next);
+    }
+    setInput("");
+    setTimeout(() => inputRef.current?.focus(), 80);
+  };
+
+  const curStep = steps[step] as (typeof steps)[number];
+  const hasSuggestions = !done && "suggestions" in curStep;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[200] pointer-events-none">
+      <AnimatePresence>
+        {expanded && (
+          <motion.div key="bd" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/20 backdrop-blur-[3px] pointer-events-auto"
+            onClick={() => setExpanded(false)} />
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        layout
+        initial={{ opacity: 0, y: 16, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ layout: { type: "spring", bounce: 0.18, duration: 0.5 }, opacity: { duration: 0.22 }, y: { duration: 0.22 }, scale: { duration: 0.22 } }}
+        className={`absolute pointer-events-auto flex flex-col overflow-hidden bg-[#F0EDE7] dark:bg-[#2A2520] border border-black/[0.07] dark:border-white/[0.08] shadow-2xl rounded-2xl ${expanded ? "inset-[10%]" : "bottom-4 right-4 w-[390px] h-[530px]"}`}
+      >
+        {/* Header */}
+        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-black/[0.06] dark:border-white/[0.06]">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="orb-spinning"><ColorOrb dimension="14px" spinDuration={6} /></span>
+            <span className="text-[13px] font-semibold text-foreground/65">Scout</span>
+            <span className="text-[12px] text-foreground/30 truncate">· Comparing {compA} vs {compB}</span>
+          </div>
+          <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
+            <button onClick={() => setExpanded(v => !v)} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors">
+              {expanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            </button>
+            <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-md text-foreground/30 hover:text-foreground/60 hover:bg-black/[0.05] dark:hover:bg-white/[0.06] transition-colors">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Progress bar */}
+        <div className="flex-shrink-0 flex items-center gap-1 px-4 pt-3 pb-1">
+          {steps.map((_, i) => (
+            <div key={i} className={`h-[3px] flex-1 rounded-full transition-all duration-400 ${i < step || done ? "bg-foreground/35" : i === step && !done ? "bg-foreground/70" : "bg-foreground/12"}`} />
+          ))}
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0">
+          {messages.map((msg, i) => {
+            if (msg.role === "result") {
+              return (
+                <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+                  className="bg-white dark:bg-card rounded-2xl p-4 border border-black/[0.06] dark:border-border shadow-sm space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="orb-spinning"><ColorOrb dimension="16px" spinDuration={5} /></span>
+                    <span className="text-[11px] font-semibold tracking-widest text-foreground/40 uppercase">Scout\u2019s Take</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-foreground/[0.06] dark:bg-white/[0.07] rounded-xl px-3 py-2">
+                    <span className="text-[11px] text-foreground/40">Lean toward</span>
+                    <span className="text-[13px] font-semibold text-foreground">{msg.winner}</span>
+                  </div>
+                  <p className="text-[13px] text-foreground/65 leading-relaxed">{msg.analysis}</p>
+                  <p className="text-[13px] text-foreground/55 leading-relaxed">{msg.regretNote}</p>
+                  <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3">
+                    <p className="text-[13px] font-medium text-foreground/75 leading-relaxed">{msg.take}</p>
+                  </div>
+                </motion.div>
+              );
+            }
+            const isLastAi = msg.role === "ai" && messages.slice(i + 1).every(m => m.role !== "ai");
+            return (
+              <div key={i} className={`flex items-end gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                {msg.role === "ai" && (
+                  <div className="flex-shrink-0 mb-0.5 w-5 h-5 flex items-center justify-center">
+                    {isLastAi
+                      ? <span className="orb-spinning"><ColorOrb dimension="20px" spinDuration={6} /></span>
+                      : <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-dashed border-foreground/20" />}
+                  </div>
+                )}
+                <div className={`text-[13px] leading-[1.65] rounded-2xl px-3.5 py-2.5 max-w-[82%] ${msg.role === "user" ? "bg-foreground text-background rounded-br-sm" : "bg-white dark:bg-card text-foreground/75 border border-black/[0.06] dark:border-border rounded-bl-sm shadow-sm"}`}>
+                  {msg.text}
+                </div>
+              </div>
+            );
+          })}
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Input / suggestions / close */}
+        <div className="flex-shrink-0 border-t border-black/[0.05] dark:border-white/[0.05]">
+          {done ? (
+            <div className="px-3 pb-3 pt-2">
+              <button onClick={onClose} className="w-full text-[13px] text-foreground/40 hover:text-foreground/65 transition-colors py-2 text-center">
+                Close
+              </button>
+            </div>
+          ) : hasSuggestions ? (
+            <div className="px-3 py-3 flex flex-col items-end gap-2">
+              {(curStep as { suggestions: readonly string[] }).suggestions.map((s) => (
+                <button key={s} onClick={() => submit(s)}
+                  className="bg-white dark:bg-card rounded-2xl px-4 py-2.5 text-[13px] text-foreground/60 shadow-sm border border-black/[0.06] dark:border-border hover:text-foreground/85 transition-colors">
+                  {s}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="px-3 pb-3 pt-2">
+              <div className="flex items-center gap-2 bg-white dark:bg-card rounded-xl border border-black/[0.07] dark:border-border px-3 py-2.5 shadow-sm">
+                <input ref={inputRef} type="text" value={input} autoFocus
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === "Enter") submit(input); }}
+                  placeholder="Type your answer…"
+                  className="flex-1 text-[13px] text-foreground placeholder:text-foreground/30 bg-transparent outline-none" />
+                <button onClick={() => submit(input)} disabled={!input.trim()}
+                  className="w-6 h-6 flex items-center justify-center rounded-full bg-foreground disabled:opacity-20 transition-opacity flex-shrink-0">
+                  <ArrowUpCircle className="w-3.5 h-3.5 text-background" />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </div>,
+    document.body
+  );
+}
+
 // ── Pipeline column ────────────────────────────────────────────────────────
-function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onAskScout, colIndex = 0 }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void; onAskScout: (id: string) => void; colIndex?: number }) {
+function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onAskScout, onDecide, colIndex = 0 }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void; onAskScout: (id: string) => void; onDecide?: () => void; colIndex?: number }) {
   const isPicks = colId === "picks";
   const isInterview = colId === "interview";
 
@@ -2017,6 +2206,8 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
     );
   }
 
+  const showDecideBanner = colId === "offer" && jobs.length >= 2 && !!onDecide;
+
   return (
     <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#E8E4DD] dark:bg-card border border-[#DDD8D0] dark:border-border overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
@@ -2025,6 +2216,34 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
           <span className="text-[11px] text-foreground/40 bg-black/8 rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
         )}
       </div>
+
+      {showDecideBanner && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-2 mb-1.5 flex-shrink-0"
+          >
+            <div className="bg-white dark:bg-card border border-black/[0.07] dark:border-border rounded-xl px-3 py-2.5 flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[12px] font-medium text-foreground/75 leading-tight">Two offers. Big decision.</p>
+                <p className="text-[11px] text-foreground/40 mt-0.5 leading-snug">Let Scout help you think it through.</p>
+              </div>
+              <button
+                data-testid="button-offer-decide"
+                onClick={onDecide}
+                className="flex-shrink-0 flex items-center gap-1.5 bg-foreground text-background text-[12px] font-medium px-3 py-1.5 rounded-lg hover:opacity-85 transition-opacity"
+              >
+                <span className="orb-spinning"><ColorOrb dimension="10px" spinDuration={4} /></span>
+                Help me decide
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      )}
+
       <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
         {cardList}
       </KanbanColumnContent>
@@ -2042,6 +2261,7 @@ function Dashboard() {
   const [completedReports, setCompletedReports] = useState<Record<string, CompletedReport[]>>({});
   const [viewingReport, setViewingReport] = useState<{ job: Job; entry: CompletedReport } | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
+  const [offerDecisionOpen, setOfferDecisionOpen] = useState(false);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
@@ -2226,6 +2446,7 @@ function Dashboard() {
                     onOpenJob={setSelectedJobId}
                     onMockInterview={setInterviewJobId}
                     onAskScout={setScoutJobId}
+                    onDecide={colId === "offer" ? () => setOfferDecisionOpen(true) : undefined}
                   />
                 </div>
               </motion.div>
@@ -2308,6 +2529,13 @@ function Dashboard() {
           )}
           {scoutJob && (
             <ScoutChat key={scoutJob.id} job={scoutJob} onClose={() => setScoutJobId(null)} />
+          )}
+          {offerDecisionOpen && (
+            <OfferDecisionScout
+              key="offer-decision"
+              jobs={columns["offer"] ?? []}
+              onClose={() => setOfferDecisionOpen(false)}
+            />
           )}
         </AnimatePresence>,
         document.body
