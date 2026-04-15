@@ -2274,6 +2274,7 @@ function Dashboard() {
   const [viewingReport, setViewingReport] = useState<{ job: Job; entry: CompletedReport } | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
   const [offerDecisionOpen, setOfferDecisionOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<"kanban" | "cosmos">("kanban");
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
@@ -2370,7 +2371,7 @@ function Dashboard() {
       transition={{ duration: 0.5 }}
     >
       {/* Top filter bar — centered in list mode, left-aligned in split */}
-      <div className="flex flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
+      <div className="flex items-center flex-shrink-0 pl-[108px] pr-4 mt-6 mb-2">
         <div
           ref={filterBarRef}
           className="flex items-center gap-2"
@@ -2403,6 +2404,32 @@ function Dashboard() {
             <Sparkles className="w-3.5 h-3.5" />
             Criteria
             <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
+          </button>
+        </div>
+
+        {/* View mode toggle */}
+        <div className="ml-auto flex-shrink-0 flex items-center gap-0.5 h-9 px-1 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card">
+          <button
+            data-testid="button-view-kanban"
+            onClick={() => setViewMode("kanban")}
+            className={`flex items-center gap-1.5 h-7 px-3.5 rounded-full text-sm font-medium transition-all ${
+              viewMode === "kanban"
+                ? "bg-foreground text-background"
+                : "text-foreground/50 hover:text-foreground"
+            }`}
+          >
+            Kanban
+          </button>
+          <button
+            data-testid="button-view-cosmos"
+            onClick={() => setViewMode("cosmos")}
+            className={`flex items-center gap-1.5 h-7 px-3.5 rounded-full text-sm font-medium transition-all ${
+              viewMode === "cosmos"
+                ? "bg-foreground text-background"
+                : "text-foreground/50 hover:text-foreground"
+            }`}
+          >
+            Cosmos
           </button>
         </div>
       </div>
