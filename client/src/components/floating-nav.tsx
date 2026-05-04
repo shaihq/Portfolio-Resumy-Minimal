@@ -54,9 +54,9 @@ export function FloatingNav() {
               <Link href={href}>
                 <button
                   data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
-                  className={`flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
+                  className={`flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
                     isActive
-                      ? "nav-active"
+                      ? "bg-[hsl(46,15%,80%)] text-foreground dark:bg-white/[0.13] dark:text-foreground"
                       : "text-muted-foreground hover:bg-black/[0.07] dark:hover:bg-white/10"
                   }`}
                 >
