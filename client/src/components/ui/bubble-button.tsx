@@ -63,22 +63,17 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
             <div
               ref={ref}
               className={cn(
-                "group relative inline-flex cursor-default items-center gap-2 overflow-hidden rounded-full border border-black/8 dark:border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground shadow-sm transition-all hover:shadow-md h-9",
+                "group relative inline-flex cursor-default items-center gap-2 overflow-hidden rounded-full border border-input bg-background px-4 h-9 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground",
                 className
               )}
             >
               <Bubbles />
-              <div className="z-10 flex-shrink-0">{icon}</div>
-              <div className="z-10 whitespace-nowrap">
+              <div className="relative z-10 flex-shrink-0">{icon}</div>
+              <div className="relative z-10 whitespace-nowrap">
                 <span>{planName}:</span>
                 <span className="ml-1.5 font-semibold">{usage}</span>
                 <span className="ml-0.5 opacity-50 text-xs">/ {limit}</span>
               </div>
-              <div className="absolute inset-0 z-0 h-full w-full bg-secondary" />
-              <div
-                className="absolute inset-y-0 left-0 z-0 h-full bg-foreground/[0.07] transition-all duration-300"
-                style={{ width: `${usagePercentage}%` }}
-              />
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" sideOffset={8} className="max-w-xs text-center">
