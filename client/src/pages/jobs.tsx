@@ -20,6 +20,7 @@ import type { AnamClient, Message } from "@anam-ai/js-sdk";
 import Lottie from "lottie-react";
 import aiAssistantAnimation from "@/assets/AI-Assistant.json";
 import { RadialIntro } from "@/components/ui/radial-intro";
+import { UsageBadge } from "@/components/ui/bubble-button";
 
 type Phase = "transition" | "voice" | "type" | "done" | "aha" | "dashboard";
 
@@ -2407,20 +2408,17 @@ function Dashboard() {
           </button>
         </div>
 
-        {/* AI Balance button */}
-        <button
-          data-testid="button-ai-balance"
-          className="ml-auto flex-shrink-0 flex items-center gap-2 h-9 px-4 rounded-full text-sm font-medium transition-all duration-150
-            bg-[hsl(20,10%,14%)] text-[hsl(46,25%,88%)]
-            shadow-[inset_0_1px_0_rgba(255,255,255,0.09),inset_0_-1px_0_rgba(0,0,0,0.25),0_2px_5px_rgba(0,0,0,0.22)]
-            hover:bg-[hsl(20,10%,18%)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_-1px_0_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.25)]
-            dark:bg-[hsl(20,8%,20%)] dark:text-[hsl(46,25%,85%)]
-            dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.07),inset_0_-1px_0_rgba(0,0,0,0.3),0_2px_5px_rgba(0,0,0,0.35)]
-            dark:hover:bg-[hsl(20,8%,24%)]"
-        >
-          <FlaskConical className="w-3.5 h-3.5 opacity-80" />
-          <span>AI Balance: <span className="font-semibold">30</span></span>
-        </button>
+        {/* AI Balance usage badge */}
+        <UsageBadge
+          className="ml-auto"
+          icon={<FlaskConical className="w-3.5 h-3.5 opacity-70" />}
+          planName="AI Balance"
+          usage={30}
+          limit={30}
+          tooltipContent={
+            <p>30 AI credits remaining.<br />Used for mock interviews &amp; scout chats.</p>
+          }
+        />
 
         {/* View mode toggle */}
         <div className="flex-shrink-0 flex items-center gap-0.5 h-9 px-1 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card">
