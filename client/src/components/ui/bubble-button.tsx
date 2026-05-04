@@ -63,7 +63,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
             <div
               ref={ref}
               className={cn(
-                "group relative inline-flex cursor-default items-center gap-2 overflow-hidden rounded-full border border-input bg-background px-4 h-9 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground",
+                "group relative inline-flex cursor-default items-center gap-2 overflow-hidden rounded-full border border-input bg-background px-4 h-9 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
                 className
               )}
             >
