@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2 } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -2407,8 +2407,23 @@ function Dashboard() {
           </button>
         </div>
 
+        {/* AI Balance button */}
+        <button
+          data-testid="button-ai-balance"
+          className="ml-auto flex-shrink-0 flex items-center gap-2 h-9 px-4 rounded-full text-sm font-medium transition-all duration-150
+            bg-[hsl(20,10%,14%)] text-[hsl(46,25%,88%)]
+            shadow-[inset_0_1px_0_rgba(255,255,255,0.09),inset_0_-1px_0_rgba(0,0,0,0.25),0_2px_5px_rgba(0,0,0,0.22)]
+            hover:bg-[hsl(20,10%,18%)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_-1px_0_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.25)]
+            dark:bg-[hsl(20,8%,20%)] dark:text-[hsl(46,25%,85%)]
+            dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.07),inset_0_-1px_0_rgba(0,0,0,0.3),0_2px_5px_rgba(0,0,0,0.35)]
+            dark:hover:bg-[hsl(20,8%,24%)]"
+        >
+          <FlaskConical className="w-3.5 h-3.5 opacity-80" />
+          <span>AI Balance: <span className="font-semibold">30</span></span>
+        </button>
+
         {/* View mode toggle */}
-        <div className="ml-auto flex-shrink-0 flex items-center gap-0.5 h-9 px-1 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card">
+        <div className="flex-shrink-0 flex items-center gap-0.5 h-9 px-1 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card">
           <button
             data-testid="button-view-kanban"
             onClick={() => setViewMode("kanban")}
