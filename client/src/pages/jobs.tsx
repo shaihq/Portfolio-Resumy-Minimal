@@ -1637,13 +1637,13 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
 
       {/* Row 2: Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-black/[0.05] dark:bg-white/[0.07] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-[#CFC9BF] dark:bg-[#141414] rounded-md px-2 py-1 whitespace-nowrap">
           {job.location}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-black/[0.05] dark:bg-white/[0.07] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-[#CFC9BF] dark:bg-[#141414] rounded-md px-2 py-1 whitespace-nowrap">
           {job.type}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-black/[0.05] dark:bg-white/[0.07] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-[#CFC9BF] dark:bg-[#141414] rounded-md px-2 py-1 whitespace-nowrap">
           {job.workMode}
         </span>
       </div>
