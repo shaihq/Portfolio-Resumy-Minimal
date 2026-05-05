@@ -1650,26 +1650,26 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
 
       {/* Action row */}
       {onShortlist ? (
-        <div className="flex items-center gap-2">
-          {/* Shortlist — icon right */}
+        <div className="flex items-center gap-1.5">
+          {/* Shortlist — navbar pill style, icon left */}
           <button
             data-testid={`button-shortlist-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
+            className="flex items-center gap-1.5 h-8 px-3 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.04] dark:bg-white/[0.06] text-[12px] font-medium text-foreground/65 hover:text-foreground hover:border-black/[0.15] dark:hover:border-white/[0.18] transition-colors"
           >
+            <Bookmark className="w-3 h-3" />
             Shortlist
-            <Bookmark className="w-3.5 h-3.5" />
           </button>
 
-          {/* Ask Scout — icon right */}
+          {/* Ask Scout — navbar pill style, icon left */}
           {onAskScout && (
             <button
               data-testid={`button-ask-scout-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-              className="orb-activates-on-hover flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
+              className="orb-activates-on-hover flex items-center gap-1.5 h-8 px-3 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.04] dark:bg-white/[0.06] text-[12px] font-medium text-foreground/65 hover:text-foreground hover:border-black/[0.15] dark:hover:border-white/[0.18] transition-colors"
             >
+              <ColorOrb dimension="12px" spinDuration={8} />
               Ask Scout
-              <ColorOrb dimension="14px" spinDuration={8} />
             </button>
           )}
 
@@ -1677,34 +1677,34 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
           <button
             data-testid={`button-expand-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
-            className="ml-auto flex items-center justify-center w-7 h-7 text-foreground/30 hover:text-foreground/60 transition-colors rounded-md"
+            className="ml-auto flex items-center justify-center w-7 h-7 text-foreground/30 hover:text-foreground/60 transition-colors rounded-full"
           >
-            <Maximize2 className="w-4 h-4" />
+            <Maximize2 className="w-3.5 h-3.5" />
           </button>
         </div>
       ) : (
-        <div className="flex items-center gap-2">
-          {/* Mock interview — icon right, only in Interview column */}
+        <div className="flex items-center gap-1.5">
+          {/* Mock interview — navbar pill style, icon left */}
           {onMockInterview && (
             <button
               data-testid={`button-mock-interview-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
-              className="flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
+              className="flex items-center gap-1.5 h-8 px-3 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.04] dark:bg-white/[0.06] text-[12px] font-medium text-foreground/65 hover:text-foreground hover:border-black/[0.15] dark:hover:border-white/[0.18] transition-colors"
             >
+              <Clapperboard className="w-3 h-3" />
               Mock interview
-              <Clapperboard className="w-3.5 h-3.5" />
             </button>
           )}
 
-          {/* Ask Scout — icon right */}
+          {/* Ask Scout — navbar pill style, icon left */}
           {onAskScout && (
             <button
               data-testid={`button-ask-scout-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-              className="orb-activates-on-hover flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
+              className="orb-activates-on-hover flex items-center gap-1.5 h-8 px-3 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.04] dark:bg-white/[0.06] text-[12px] font-medium text-foreground/65 hover:text-foreground hover:border-black/[0.15] dark:hover:border-white/[0.18] transition-colors"
             >
+              <ColorOrb dimension="12px" spinDuration={8} />
               Ask Scout
-              <ColorOrb dimension="14px" spinDuration={8} />
             </button>
           )}
 
@@ -1712,9 +1712,9 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
           <button
             data-testid={`button-expand-other-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
-            className="ml-auto flex items-center justify-center w-7 h-7 text-foreground/30 hover:text-foreground/60 transition-colors rounded-md"
+            className="ml-auto flex items-center justify-center w-7 h-7 text-foreground/30 hover:text-foreground/60 transition-colors rounded-full"
           >
-            <Maximize2 className="w-4 h-4" />
+            <Maximize2 className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
