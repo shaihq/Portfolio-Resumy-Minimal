@@ -1637,13 +1637,13 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
 
       {/* Row 2: Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-white/55 bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#DDD6CE] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.location}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-white/55 bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#DDD6CE] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.type}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-white/55 bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#DDD6CE] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.workMode}
         </span>
       </div>
@@ -2184,7 +2184,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
 
   if (isPicks) {
     return (
-      <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#CFC9BF] dark:bg-[#141414] overflow-hidden">
+      <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#E8E3DC] dark:bg-[#141414] overflow-hidden">
         <div className="flex items-center gap-2 px-4 pt-4 pb-2 flex-shrink-0 select-none">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
@@ -2199,7 +2199,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   }
 
   return (
-    <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#C9C3B9] dark:bg-[#141414] overflow-hidden">
+    <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#E2DDD6] dark:bg-[#141414] overflow-hidden">
       <div className="flex items-center gap-2 px-4 pt-4 pb-2 flex-shrink-0 select-none">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
