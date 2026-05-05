@@ -1637,13 +1637,13 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
 
       {/* Row 2: Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#DDD6CE] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.location}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#DDD6CE] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.type}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#DDD6CE] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.workMode}
         </span>
       </div>
