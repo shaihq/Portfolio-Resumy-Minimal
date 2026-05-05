@@ -1598,7 +1598,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-3.5 p-4 rounded-xl border border-black/[0.06] dark:border-[#3D3530] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
+      className="flex flex-col gap-3 p-3 rounded-xl border border-black/[0.04] dark:border-[#302B28] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
     >
       {/* Row 1: Logo + Title/Company-location + Gauge */}
       <div className="flex items-start justify-between gap-2.5">
