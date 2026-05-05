@@ -1598,7 +1598,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-3 p-3.5 rounded-xl border border-black/[0.06] dark:border-[#3D3530] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
+      className="flex flex-col gap-3.5 p-4 rounded-xl border border-black/[0.06] dark:border-[#3D3530] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
     >
       {/* Row 1: Logo + Title/Company-location + Gauge */}
       <div className="flex items-start justify-between gap-2.5">
@@ -1648,84 +1648,75 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
         </span>
       </div>
 
-      {/* Action buttons — all in one row when in AI Picks (onShortlist present) */}
+      {/* Action row */}
       {onShortlist ? (
-        <div className="flex items-center gap-1.5">
-          {/* Dismiss */}
-          <div className="relative flex-shrink-0" ref={dismissRef}>
-            <button
-              data-testid={`button-dismiss-${job.id}`}
-              onClick={(e) => { e.stopPropagation(); setDismissOpen(v => !v); }}
-              className="flex items-center justify-center w-8 h-8 text-foreground/40 bg-black/[0.04] dark:bg-white/[0.07] hover:bg-red-50 hover:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 rounded-lg transition-colors"
-            >
-              <XCircle className="w-3.5 h-3.5" />
-            </button>
-            {dismissOpen && (
-              <div className="absolute bottom-full left-0 mb-1.5 bg-white dark:bg-[#2D2926] rounded-lg shadow-lg border border-black/[0.08] dark:border-white/[0.08] py-1 min-w-[148px] z-50">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
-                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
-                >
-                  Already applied
-                </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setDismissOpen(false); }}
-                  className="w-full text-left px-3 py-2 text-[12px] text-foreground/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
-                >
-                  Not Interested
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Shortlist */}
+        <div className="flex items-center gap-2">
+          {/* Shortlist — icon right */}
           <button
             data-testid={`button-shortlist-${job.id}`}
             onClick={(e) => { e.stopPropagation(); onShortlist(); }}
-            className="flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/55 bg-black/[0.04] dark:bg-white/[0.07] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-lg px-2 py-2 transition-colors"
+            className="flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
           >
-            <Bookmark className="w-3.5 h-3.5" />
             Shortlist
+            <Bookmark className="w-3.5 h-3.5" />
           </button>
 
-          {/* Ask Scout — same row */}
+          {/* Ask Scout — icon right */}
           {onAskScout && (
             <button
               data-testid={`button-ask-scout-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-              className="orb-activates-on-hover flex items-center justify-center gap-1.5 flex-1 text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] dark:bg-white/[0.07] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-lg px-2 py-2 transition-colors"
+              className="orb-activates-on-hover flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
             >
-              <ColorOrb dimension="14px" spinDuration={8} />
               Ask Scout
+              <ColorOrb dimension="14px" spinDuration={8} />
             </button>
           )}
+
+          {/* Expand — icon only, pushed right */}
+          <button
+            data-testid={`button-expand-${job.id}`}
+            onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
+            className="ml-auto flex items-center justify-center w-7 h-7 text-foreground/30 hover:text-foreground/60 transition-colors rounded-md"
+          >
+            <Maximize2 className="w-4 h-4" />
+          </button>
         </div>
       ) : (
-        <>
-          {/* Mock interview button — only shown in Interview column */}
+        <div className="flex items-center gap-2">
+          {/* Mock interview — icon right, only in Interview column */}
           {onMockInterview && (
             <button
               data-testid={`button-mock-interview-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onMockInterview(); }}
-              className="flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/60 bg-black/[0.04] dark:bg-white/[0.07] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-lg px-2 py-2 transition-colors"
+              className="flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
             >
+              Mock interview
               <Clapperboard className="w-3.5 h-3.5" />
-              Take mock interview
             </button>
           )}
 
-          {/* Ask Scout — full width in other columns */}
+          {/* Ask Scout — icon right */}
           {onAskScout && (
             <button
               data-testid={`button-ask-scout-${job.id}`}
               onClick={(e) => { e.stopPropagation(); onAskScout(); }}
-              className="orb-activates-on-hover flex items-center justify-center gap-1.5 w-full text-[12px] font-semibold text-foreground/65 hover:text-foreground/90 bg-black/[0.04] dark:bg-white/[0.07] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] rounded-lg py-1.5 transition-colors"
+              className="orb-activates-on-hover flex items-center gap-2 text-[12px] font-semibold text-foreground/60 border border-black/[0.1] dark:border-white/[0.12] hover:border-black/[0.2] dark:hover:border-white/[0.2] hover:text-foreground/90 rounded-lg px-3 py-1.5 transition-colors"
             >
-              <ColorOrb dimension="14px" spinDuration={8} />
               Ask Scout
+              <ColorOrb dimension="14px" spinDuration={8} />
             </button>
           )}
-        </>
+
+          {/* Expand — icon only, pushed right */}
+          <button
+            data-testid={`button-expand-other-${job.id}`}
+            onClick={(e) => { e.stopPropagation(); onOpen?.(); }}
+            className="ml-auto flex items-center justify-center w-7 h-7 text-foreground/30 hover:text-foreground/60 transition-colors rounded-md"
+          >
+            <Maximize2 className="w-4 h-4" />
+          </button>
+        </div>
       )}
     </div>
   );
@@ -2194,13 +2185,13 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   if (isPicks) {
     return (
       <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#CFC9BF] dark:bg-[#141414] overflow-hidden">
-        <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
+        <div className="flex items-center gap-2 px-4 pt-4 pb-2 flex-shrink-0 select-none">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
             <span className="text-[10px] font-semibold text-foreground/40 bg-black/[0.08] dark:bg-white/[0.08] rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
           )}
         </div>
-        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
+        <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-3 pt-1 pb-4 min-h-[60px]">
           {cardList}
         </KanbanColumnContent>
       </KanbanColumn>
@@ -2209,7 +2200,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
 
   return (
     <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#C9C3B9] dark:bg-[#141414] overflow-hidden">
-      <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
+      <div className="flex items-center gap-2 px-4 pt-4 pb-2 flex-shrink-0 select-none">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
           <span className="text-[10px] font-semibold text-foreground/40 bg-black/[0.08] dark:bg-white/[0.08] rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
@@ -2251,7 +2242,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
         </AnimatePresence>
       )}
 
-      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-2 pt-2 pb-3 min-h-[60px]">
+      <KanbanColumnContent value={colId} className="flex-1 overflow-y-auto scrollbar-hide px-3 pt-1 pb-4 min-h-[60px]">
         {cardList}
       </KanbanColumnContent>
     </KanbanColumn>
