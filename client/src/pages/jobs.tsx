@@ -1598,7 +1598,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-3 p-3.5 rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-white dark:bg-[#2D2926] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
+      className="flex flex-col gap-3 p-3.5 rounded-xl border border-black/[0.07] dark:border-white/[0.06] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
     >
       {/* Row 1: Logo + Title/Company-location + Gauge */}
       <div className="flex items-start justify-between gap-2.5">
@@ -2193,7 +2193,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
 
   if (isPicks) {
     return (
-      <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#CFC9BF] dark:bg-[#1C1917] border border-[#C0BAB0] dark:border-[#2A2520] overflow-hidden">
+      <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#CFC9BF] dark:bg-[#141414] border border-[#C0BAB0] dark:border-[#2A2520] overflow-hidden">
         <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
           {jobs.length > 0 && (
@@ -2208,7 +2208,7 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   }
 
   return (
-    <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#C9C3B9] dark:bg-[#1C1917] border border-[#BAB3A9] dark:border-[#2A2520] overflow-hidden">
+    <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#C9C3B9] dark:bg-[#141414] border border-[#BAB3A9] dark:border-[#2A2520] overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-1 flex-shrink-0 select-none">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
