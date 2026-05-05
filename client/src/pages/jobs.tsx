@@ -1598,7 +1598,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
   return (
     <div
       data-testid={`card-job-${job.id}`}
-      className="flex flex-col gap-3 p-3 rounded-xl border border-black/[0.04] dark:border-[#302B28] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
+      className="flex flex-col gap-3 p-3 rounded-xl border border-black/[0.04] dark:border-[#302B28] bg-white dark:bg-[#28231E] select-none shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)] transition-all duration-150 hover:-translate-y-0.5 hover:border-black/[0.1] dark:hover:border-[#4A4440] hover:shadow-[0_4px_14px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_4px_14px_rgba(0,0,0,0.55)]"
     >
       {/* Row 1: Logo + Title/Company-location + Gauge */}
       <div className="flex items-start justify-between gap-2.5">
@@ -1637,13 +1637,13 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
 
       {/* Row 2: Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-[#CFC9BF] dark:bg-[#141414] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-white/55 bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.location}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-[#CFC9BF] dark:bg-[#141414] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-white/55 bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.type}
         </span>
-        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-foreground/50 bg-[#CFC9BF] dark:bg-[#141414] rounded-md px-2 py-1 whitespace-nowrap">
+        <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-white/55 bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
           {job.workMode}
         </span>
       </div>
