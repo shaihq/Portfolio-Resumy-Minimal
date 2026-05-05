@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical } from "lucide-react";
@@ -1580,7 +1581,15 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 }
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
+function getScoreColor(score: number): string {
+  if (score >= 85) return "#18A360";
+  if (score >= 70) return "#F5A623";
+  return "#E5534B";
+}
+
 function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { job: Job; onShortlist?: () => void; onOpen?: () => void; onMockInterview?: () => void; onAskScout?: () => void }) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const [dismissOpen, setDismissOpen] = useState(false);
   const dismissRef = useRef<HTMLDivElement>(null);
 
@@ -1625,12 +1634,12 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             size={40}
             strokeWidth={7}
             gapPercent={3}
-            primary="success"
-            secondary="rgba(0,0,0,0.06)"
+            primary={getScoreColor(job.match)}
+            secondary={isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)"}
             showValue={true}
             showPercentage={false}
             transition={{ delay: 200 }}
-            className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
+            className={{ textClassName: isDark ? "fill-white" : "fill-[#1A1A1A]" }}
           />
         </div>
       </div>
