@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
-const ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9";
+const ANAM_API_KEY = process.env.ANAM_API_KEY || "";
 const ANAM_API_BASE = "https://api.anam.ai";
 const KEVIN_LLM_ID = "0934d97d-0c3a-4f33-91b0-5e136a0ef466";
 

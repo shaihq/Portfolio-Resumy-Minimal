@@ -46,3 +46,8 @@ waitForPort = 5000
 stack = "FULLSTACK_JS"
 mockupState = "FULLSTACK"
 expertMode = true
+
+[userenv]
+
+[userenv.shared]
+ANAM_API_KEY = "MTI0ZDNkNjctYjQ0ZS00ZjMzLWJmOTAtYjViZWJjYzdmNWM5OllrU0hvQXVNRkI0TFZQMVMrdXdXbWZoMUY5UGxUQzAzNkExWHlTd213V0E9"
