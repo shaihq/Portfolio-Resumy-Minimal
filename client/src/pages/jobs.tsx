@@ -683,18 +683,21 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
           initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}
         >
           <div className="flex flex-col gap-1">
-            <p
-              className="text-[18px] font-semibold tracking-tight"
-              style={{
-                background: "linear-gradient(110deg, hsl(var(--foreground)) 20%, hsl(var(--muted-foreground)) 50%, hsl(var(--foreground)) 80%)",
-                backgroundSize: "200% 100%",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                animation: "thinking-shimmer 2.8s linear infinite",
-              }}
-            >
-              Finding your matches
-            </p>
+            <div className="flex items-center gap-2">
+              <ColorOrb dimension="18px" spinDuration={4} />
+              <p
+                className="text-[18px] font-semibold tracking-tight"
+                style={{
+                  background: "linear-gradient(110deg, hsl(var(--foreground)) 20%, hsl(var(--muted-foreground)) 50%, hsl(var(--foreground)) 80%)",
+                  backgroundSize: "200% 100%",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  animation: "thinking-shimmer 2.8s linear infinite",
+                }}
+              >
+                Finding your matches
+              </p>
+            </div>
             <p className="text-[12px] text-muted-foreground/50 leading-snug">
               Matching roles to your portfolio and preferences
             </p>
