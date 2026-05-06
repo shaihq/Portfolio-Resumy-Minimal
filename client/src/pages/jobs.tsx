@@ -1630,6 +1630,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
         </div>
         <div className="flex-shrink-0 mt-0.5" style={{ color: isDark ? "#ffffff" : "#111111" }}>
           <Gauge
+            key={isDark ? "dark" : "light"}
             value={job.match}
             size={40}
             strokeWidth={7}
