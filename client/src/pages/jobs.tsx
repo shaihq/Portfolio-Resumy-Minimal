@@ -1635,7 +1635,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             strokeWidth={7}
             gapPercent={3}
             primary={getScoreColor(job.match)}
-            secondary={isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.18)"}
+            secondary={isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)"}
             showValue={true}
             showPercentage={false}
             transition={{ delay: 200 }}

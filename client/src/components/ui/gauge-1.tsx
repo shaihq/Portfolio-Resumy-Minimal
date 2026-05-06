@@ -183,7 +183,7 @@ export function Gauge({
         {showValue && (
           <text x={circleSize / 2} y={circleSize / 2} textAnchor="middle" dominantBaseline="middle" alignmentBaseline="central"
             fontSize={30} fontWeight="700"
-            className={cn("font-bold fill-current", typeof className === "object" && className?.textClassName)}
+            className={cn("font-bold", typeof className === "object" && className?.textClassName)}
             style={{ userSelect: "none" }}>
             {animatedValue}{showPercentage && unit}
           </text>
