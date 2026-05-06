@@ -684,7 +684,7 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
         >
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <ColorOrb dimension="18px" spinDuration={4} />
+              <span className="orb-spinning"><ColorOrb dimension="18px" spinDuration={4} /></span>
               <p
                 className="text-[18px] font-semibold tracking-tight"
                 style={{
