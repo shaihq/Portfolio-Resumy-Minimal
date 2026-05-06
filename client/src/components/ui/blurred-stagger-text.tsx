@@ -22,10 +22,10 @@ const letterAnimation = {
 };
 
 export function BlurredStagger({
-  text,
+  text = "",
   className,
 }: {
-  text: string;
+  text?: string;
   className?: string;
 }) {
   return (
@@ -35,7 +35,7 @@ export function BlurredStagger({
       animate="show"
       className={className}
     >
-      {text.split("").map((char, index) => (
+      {(text ?? "").split("").map((char, index) => (
         <motion.span
           key={index}
           variants={letterAnimation}
