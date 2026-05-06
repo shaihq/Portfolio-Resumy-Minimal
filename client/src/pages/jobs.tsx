@@ -1628,7 +1628,7 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             <div className="text-[12px] text-foreground/45 mt-0.5 truncate">{job.company} · {job.location}</div>
           </div>
         </div>
-        <div className="flex-shrink-0 mt-0.5">
+        <div className="flex-shrink-0 mt-0.5" style={{ color: isDark ? "#ffffff" : "#111111" }}>
           <Gauge
             value={job.match}
             size={40}
@@ -1639,7 +1639,6 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             showValue={true}
             showPercentage={false}
             transition={{ delay: 200 }}
-            className={{ textClassName: isDark ? "fill-white" : "fill-[#111111]" }}
           />
         </div>
       </div>
