@@ -675,7 +675,7 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[380px] rounded-full dark:bg-[#FF553E]/6 blur-[130px]" />
       </div>
 
-      <motion.div layout transition={{ duration: 0.45, ease: "easeOut" }} className="relative z-10 w-full max-w-xs flex flex-col gap-8">
+      <div className="relative z-10 w-full max-w-xs flex flex-col gap-8">
 
         {/* Header */}
         <motion.div
@@ -720,11 +720,10 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
             return (
               <motion.div
                 key={i}
-                layout
                 className="flex gap-3.5"
                 initial={{ opacity: 0, y: 6, filter: "blur(6px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.5, ease: "easeOut", layout: { duration: 0.4, ease: "easeOut" } }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 {/* Dot + vertical line */}
                 <div className="flex flex-col items-center flex-shrink-0" style={{ width: 16 }}>
@@ -819,7 +818,7 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
             );
           })}
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
