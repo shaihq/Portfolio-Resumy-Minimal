@@ -1635,11 +1635,11 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             strokeWidth={7}
             gapPercent={3}
             primary={getScoreColor(job.match)}
-            secondary={isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)"}
+            secondary={isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.18)"}
             showValue={true}
             showPercentage={false}
             transition={{ delay: 200 }}
-            className={{ textClassName: isDark ? "fill-white" : "fill-[#1A1A1A]" }}
+            className={{ textClassName: isDark ? "fill-white" : "fill-[#111111]" }}
           />
         </div>
       </div>
