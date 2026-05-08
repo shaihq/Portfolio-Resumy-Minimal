@@ -97,6 +97,7 @@ const COL_LABELS: Record<string, string> = {
   applied: "Applied",
   interview: "Interview",
   offer: "Offer",
+  archived: "Archived",
 };
 
 // Light-mode column colors — all stages share the same neutral card shade
@@ -106,6 +107,7 @@ const COL_BG: Record<string, string> = {
   applied:     "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
   interview:   "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
   offer:       "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
+  archived:    "bg-[#E5E1DA] border border-[#D5CFC7] dark:bg-card dark:border-border",
 };
 
 const INITIAL_COLUMNS: Record<string, Job[]> = {
@@ -114,6 +116,7 @@ const INITIAL_COLUMNS: Record<string, Job[]> = {
   applied: [],
   interview: [],
   offer: [],
+  archived: [],
 };
 
 // ── Orbit company logos (TransitionScreen background) ──────────────────────
@@ -2267,7 +2270,7 @@ function OfferDecisionScout({ jobs, onClose }: { jobs: Job[]; onClose: () => voi
 }
 
 // ── Pipeline column ────────────────────────────────────────────────────────
-function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onAskScout, onDecide, colIndex = 0 }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void; onAskScout: (id: string) => void; onDecide?: () => void; colIndex?: number }) {
+function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onAskScout, onDecide, onToggleCollapse, collapsed, colIndex = 0 }: { colId: string; jobs: Job[]; onShortlist: (id: string) => void; onOpenJob: (id: string) => void; onMockInterview: (id: string) => void; onAskScout: (id: string) => void; onDecide?: () => void; onToggleCollapse?: () => void; collapsed?: boolean; colIndex?: number }) {
   const isPicks = colId === "picks";
   const isInterview = colId === "interview";
 
@@ -2305,6 +2308,34 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
     </AnimatePresence>
   );
 
+  if (collapsed) {
+    return (
+      <KanbanColumn value={colId} className="flex flex-col w-10 flex-shrink-0 rounded-xl bg-[#E2DDD6] dark:bg-[#141414] overflow-hidden items-center py-3 gap-2">
+        <button
+          onClick={onToggleCollapse}
+          className="cursor-pointer w-6 h-6 flex items-center justify-center rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition-colors flex-shrink-0"
+          title="Expand Archived"
+        >
+          <ChevronRight className="w-3.5 h-3.5 text-foreground/50" />
+        </button>
+        <div className="flex-1 flex flex-col items-center justify-center gap-2 min-h-0">
+          <span
+            className="font-['JetBrains_Mono'] text-[11px] font-semibold uppercase tracking-wider text-foreground/45 select-none"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            {COL_LABELS[colId]}
+          </span>
+          {jobs.length > 0 && (
+            <span className="text-[10px] font-semibold text-foreground/40 bg-black/[0.08] dark:bg-white/[0.08] rounded-full px-1.5 py-0.5 leading-none">
+              {jobs.length}
+            </span>
+          )}
+        </div>
+        <KanbanColumnContent value={colId} className="hidden" />
+      </KanbanColumn>
+    );
+  }
+
   if (isPicks) {
     return (
       <KanbanColumn value={colId} className="flex flex-col min-w-[350px] flex-1 rounded-xl bg-[#E8E3DC] dark:bg-[#141414] overflow-hidden">
@@ -2327,6 +2358,15 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
         <span className="font-['JetBrains_Mono'] text-[11px] font-semibold uppercase tracking-wider text-foreground/55 dark:text-foreground/45">{COL_LABELS[colId]}</span>
         {jobs.length > 0 && (
           <span className="text-[10px] font-semibold text-foreground/40 bg-black/[0.08] dark:bg-white/[0.08] rounded-full px-1.5 py-0.5 leading-none">{jobs.length}</span>
+        )}
+        {onToggleCollapse && (
+          <button
+            onClick={onToggleCollapse}
+            className="cursor-pointer ml-auto w-6 h-6 flex items-center justify-center rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+            title="Collapse Archived"
+          >
+            <ChevronLeft className="w-3.5 h-3.5 text-foreground/40" />
+          </button>
         )}
       </div>
 
@@ -2383,6 +2423,7 @@ function Dashboard() {
   const [viewingReport, setViewingReport] = useState<{ job: Job; entry: CompletedReport } | null>(null);
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
   const [offerDecisionOpen, setOfferDecisionOpen] = useState(false);
+  const [archivedCollapsed, setArchivedCollapsed] = useState(false);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
@@ -2587,6 +2628,37 @@ function Dashboard() {
                 </div>
               </motion.div>
             ))}
+
+            {/* Archived column — always last, collapsible */}
+            <motion.div
+              className="overflow-hidden flex-shrink-0 h-full"
+              initial={{ maxWidth: 0, opacity: 0 }}
+              animate={{
+                maxWidth: phase === "split" ? (archivedCollapsed ? 59 : 362) : 0,
+                opacity: phase === "split" ? 1 : 0,
+              }}
+              transition={{
+                maxWidth: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: phase === "split" ? COL_ORDER.filter(c => c !== "picks").length * 0.12 : 0 },
+                opacity:  { duration: 0.4,  ease: "easeOut",           delay: phase === "split" ? COL_ORDER.filter(c => c !== "picks").length * 0.12 + 0.1 : 0 },
+              }}
+            >
+              <div
+                className="flex flex-col h-full ml-3"
+                style={{ width: archivedCollapsed ? 43 : 350 }}
+              >
+                <PipelineCol
+                  colId="archived"
+                  colIndex={COL_ORDER.length}
+                  jobs={columns.archived ?? []}
+                  onShortlist={handleShortlist}
+                  onOpenJob={setSelectedJobId}
+                  onMockInterview={setInterviewJobId}
+                  onAskScout={setScoutJobId}
+                  collapsed={archivedCollapsed}
+                  onToggleCollapse={() => setArchivedCollapsed(v => !v)}
+                />
+              </div>
+            </motion.div>
 
             {/* Trailing spacer — flex right-padding workaround for overflow-x-auto */}
             <div className="flex-shrink-0 w-10 h-full" />
