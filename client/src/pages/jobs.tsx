@@ -2634,30 +2634,42 @@ function Dashboard() {
               className="overflow-hidden flex-shrink-0 h-full"
               initial={{ maxWidth: 0, opacity: 0 }}
               animate={{
-                maxWidth: phase === "split" ? (archivedCollapsed ? 59 : 362) : 0,
+                maxWidth: phase === "split" ? 362 : 0,
                 opacity: phase === "split" ? 1 : 0,
               }}
               transition={{
-                maxWidth: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: phase === "split" ? COL_ORDER.filter(c => c !== "picks").length * 0.12 : 0 },
+                maxWidth: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: phase === "split" ? COL_ORDER.filter(c => c !== "picks").length * 0.12 : 0 },
                 opacity:  { duration: 0.4,  ease: "easeOut",           delay: phase === "split" ? COL_ORDER.filter(c => c !== "picks").length * 0.12 + 0.1 : 0 },
               }}
             >
-              <div
-                className="flex flex-col h-full ml-3"
-                style={{ width: archivedCollapsed ? 43 : 350 }}
+              <motion.div
+                className="flex flex-col h-full ml-3 overflow-hidden"
+                animate={{ width: archivedCollapsed ? 43 : 350 }}
+                transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
               >
-                <PipelineCol
-                  colId="archived"
-                  colIndex={COL_ORDER.length}
-                  jobs={columns.archived ?? []}
-                  onShortlist={handleShortlist}
-                  onOpenJob={setSelectedJobId}
-                  onMockInterview={setInterviewJobId}
-                  onAskScout={setScoutJobId}
-                  collapsed={archivedCollapsed}
-                  onToggleCollapse={() => setArchivedCollapsed(v => !v)}
-                />
-              </div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={archivedCollapsed ? "col-collapsed" : "col-expanded"}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                    className="flex flex-col h-full"
+                  >
+                    <PipelineCol
+                      colId="archived"
+                      colIndex={COL_ORDER.length}
+                      jobs={columns.archived ?? []}
+                      onShortlist={handleShortlist}
+                      onOpenJob={setSelectedJobId}
+                      onMockInterview={setInterviewJobId}
+                      onAskScout={setScoutJobId}
+                      collapsed={archivedCollapsed}
+                      onToggleCollapse={() => setArchivedCollapsed(v => !v)}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
             </motion.div>
 
             {/* Trailing spacer — flex right-padding workaround for overflow-x-auto */}
