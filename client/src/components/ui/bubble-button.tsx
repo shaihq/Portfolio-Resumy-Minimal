@@ -1,7 +1,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Sparkles, Zap } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 const keyframes = `
   @keyframes bubble-rise {
@@ -48,9 +48,7 @@ export interface UsageBadgeProps {
   className?: string;
 }
 
-const SEGMENT_COUNT = 10;
-
-function getSegmentColor(pct: number): string {
+function getBarColor(pct: number): string {
   if (pct > 0.5) return "#22c55e";
   if (pct > 0.2) return "#f59e0b";
   return "#ef4444";
@@ -70,8 +68,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const remaining = usage;
     const consumed = limit - usage;
     const pct = limit > 0 ? remaining / limit : 0;
-    const filledSegments = Math.round(pct * SEGMENT_COUNT);
-    const segmentColor = getSegmentColor(pct);
+    const barColor = getBarColor(pct);
     const status = getStatusLabel(pct);
 
     React.useEffect(() => {
@@ -87,6 +84,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
 
     return (
       <div ref={containerRef} className="relative">
+        {/* Badge trigger */}
         <div
           ref={ref}
           role="button"
@@ -94,8 +92,10 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           onClick={() => setOpen((o) => !o)}
           onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
           className={cn(
-            "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full border border-input bg-background px-4 h-9 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-            open && "bg-accent text-accent-foreground",
+            "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full border h-9 px-4 text-sm font-medium transition-all",
+            open
+              ? "border-foreground/20 bg-foreground text-background dark:bg-foreground dark:text-background"
+              : "border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
             className
           )}
         >
@@ -108,6 +108,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           </div>
         </div>
 
+        {/* Dropdown */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -117,53 +118,23 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#2A2520] shadow-xl shadow-black/[0.08] p-4 z-50"
             >
-              {/* Header row */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-black/[0.05] dark:bg-white/[0.07]">
-                    <Zap className="w-3.5 h-3.5 text-foreground/60" />
-                  </div>
-                  <span className="text-[13px] font-semibold text-foreground">AI Credits</span>
-                </div>
-                <span
-                  className="text-[11px] font-semibold px-2 py-0.5 rounded-full"
-                  style={{ color: status.color, backgroundColor: `${status.color}18` }}
-                >
-                  {status.text}
-                </span>
-              </div>
-
               {/* Balance numbers */}
               <div className="flex items-baseline gap-1.5 mb-3">
                 <span className="text-[32px] font-bold leading-none text-foreground tabular-nums">
                   {remaining}
                 </span>
-                <span className="text-[13px] text-foreground/35 font-medium">/ {limit} left</span>
+                <span className="text-[13px] text-foreground/35 font-medium">/ {limit} credits left</span>
               </div>
 
-              {/* Staggered segmented bar */}
-              <div className="flex gap-[3px] mb-1.5">
-                {Array.from({ length: SEGMENT_COUNT }, (_, i) => {
-                  const filled = i < filledSegments;
-                  return (
-                    <motion.div
-                      key={i}
-                      className="flex-1 h-[6px] rounded-full"
-                      initial={{ opacity: 0, scaleY: 0.3 }}
-                      animate={{ opacity: 1, scaleY: 1 }}
-                      transition={{
-                        delay: i * 0.04,
-                        duration: 0.2,
-                        ease: "easeOut",
-                      }}
-                      style={{
-                        backgroundColor: filled
-                          ? segmentColor
-                          : "rgba(0,0,0,0.07)",
-                      }}
-                    />
-                  );
-                })}
+              {/* Single fill bar */}
+              <div className="relative h-[6px] w-full rounded-full bg-black/[0.07] dark:bg-white/[0.08] overflow-hidden mb-1.5">
+                <motion.div
+                  className="absolute inset-y-0 left-0 rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${pct * 100}%` }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+                  style={{ backgroundColor: barColor }}
+                />
               </div>
 
               {/* Sub-labels */}
@@ -171,8 +142,11 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 <span className="text-[11px] text-foreground/35">
                   {consumed} used · resets monthly
                 </span>
-                <span className="text-[11px] text-foreground/35">
-                  {Math.round(pct * 100)}%
+                <span
+                  className="text-[11px] font-semibold"
+                  style={{ color: status.color }}
+                >
+                  {status.text}
                 </span>
               </div>
 
