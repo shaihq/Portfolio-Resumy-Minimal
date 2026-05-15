@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -954,6 +954,201 @@ function MockInterviewDialog({ job, open, onClose, onStart }: { job: Job | null;
             <p className="text-center text-[12px] text-foreground/35 mt-2.5">Allow both permissions to continue</p>
           )}
         </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// ── Add Job Dialog ─────────────────────────────────────────────────────────
+
+function AddJobDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [tab, setTab] = useState<"linkedin" | "manual">("linkedin");
+  const [linkedinUrl, setLinkedinUrl] = useState("");
+  const [manualRole, setManualRole] = useState("");
+  const [manualCompany, setManualCompany] = useState("");
+  const [manualLocation, setManualLocation] = useState("");
+  const [manualArrangement, setManualArrangement] = useState("");
+  const [manualSalary, setManualSalary] = useState("");
+  const [manualDescription, setManualDescription] = useState("");
+
+  useEffect(() => {
+    if (!open) {
+      setTab("linkedin");
+      setLinkedinUrl("");
+      setManualRole("");
+      setManualCompany("");
+      setManualLocation("");
+      setManualArrangement("");
+      setManualSalary("");
+      setManualDescription("");
+    }
+  }, [open]);
+
+  const isLinkedinValid = linkedinUrl.trim().startsWith("http") && linkedinUrl.includes("linkedin.com");
+  const isManualValid = manualRole.trim().length > 0 && manualCompany.trim().length > 0;
+
+  const inputBase = "w-full h-10 rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.04] px-3.5 text-[14px] text-foreground placeholder:text-foreground/30 focus:outline-none focus:ring-2 focus:ring-foreground/10 transition";
+  const labelBase = "block text-[12px] font-semibold text-foreground/40 uppercase tracking-widest mb-1.5";
+
+  return (
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent aria-describedby={undefined} className="bg-white dark:bg-[#2A2520] border border-black/[0.08] dark:border-white/[0.08] p-0 gap-0 max-w-[460px] rounded-2xl overflow-hidden">
+
+        {/* Header */}
+        <DialogHeader className="px-6 pt-6 pb-0">
+          <div className="flex items-start justify-between">
+            <div>
+              <DialogTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[18px] font-semibold leading-tight m-0">
+                Add a job
+              </DialogTitle>
+              <p className="text-[13px] text-foreground/45 mt-1 leading-snug">
+                {tab === "linkedin"
+                  ? "Paste a LinkedIn URL — we'll fetch and score it for you."
+                  : "Fill in the details and we'll add it to your board."}
+              </p>
+            </div>
+          </div>
+        </DialogHeader>
+
+        {/* Tab switcher */}
+        <div className="flex gap-1 mx-6 mt-5 p-1 bg-black/[0.04] dark:bg-white/[0.05] rounded-xl">
+          <button
+            onClick={() => setTab("linkedin")}
+            className={`flex-1 flex items-center justify-center gap-1.5 h-8 rounded-lg text-[13px] font-medium transition-all ${
+              tab === "linkedin"
+                ? "bg-white dark:bg-white/[0.1] text-foreground shadow-sm"
+                : "text-foreground/50 hover:text-foreground/70"
+            }`}
+          >
+            <FaLinkedin className="w-3.5 h-3.5" />
+            From LinkedIn
+          </button>
+          <button
+            onClick={() => setTab("manual")}
+            className={`flex-1 flex items-center justify-center gap-1.5 h-8 rounded-lg text-[13px] font-medium transition-all ${
+              tab === "manual"
+                ? "bg-white dark:bg-white/[0.1] text-foreground shadow-sm"
+                : "text-foreground/50 hover:text-foreground/70"
+            }`}
+          >
+            <PenSquare className="w-3.5 h-3.5" />
+            Add manually
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="px-6 pt-5 pb-6">
+          {tab === "linkedin" ? (
+            <div className="space-y-5">
+              <div>
+                <label className={labelBase}>LinkedIn job URL</label>
+                <div className="relative">
+                  <Link2 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30 pointer-events-none" />
+                  <input
+                    type="url"
+                    value={linkedinUrl}
+                    onChange={(e) => setLinkedinUrl(e.target.value)}
+                    placeholder="https://linkedin.com/jobs/view/…"
+                    className={`${inputBase} pl-10`}
+                    autoFocus
+                  />
+                </div>
+                <p className="text-[12px] text-foreground/35 mt-2 leading-relaxed">
+                  Open the job on LinkedIn, copy the URL from your browser, and paste it here.
+                </p>
+              </div>
+
+              <button
+                disabled={!isLinkedinValid}
+                className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[14px] font-medium transition-opacity disabled:opacity-30"
+              >
+                <Sparkles className="w-4 h-4" />
+                Fetch &amp; score job
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2">
+                  <label className={labelBase}>Role title <span className="text-foreground/30 normal-case tracking-normal font-normal">*</span></label>
+                  <input
+                    type="text"
+                    value={manualRole}
+                    onChange={(e) => setManualRole(e.target.value)}
+                    placeholder="e.g. Senior Product Designer"
+                    className={inputBase}
+                    autoFocus
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelBase}>Company <span className="text-foreground/30 normal-case tracking-normal font-normal">*</span></label>
+                  <input
+                    type="text"
+                    value={manualCompany}
+                    onChange={(e) => setManualCompany(e.target.value)}
+                    placeholder="e.g. Figma"
+                    className={inputBase}
+                  />
+                </div>
+                <div>
+                  <label className={labelBase}>Location</label>
+                  <input
+                    type="text"
+                    value={manualLocation}
+                    onChange={(e) => setManualLocation(e.target.value)}
+                    placeholder="e.g. London, UK"
+                    className={inputBase}
+                  />
+                </div>
+                <div>
+                  <label className={labelBase}>Arrangement</label>
+                  <div className="relative">
+                    <select
+                      value={manualArrangement}
+                      onChange={(e) => setManualArrangement(e.target.value)}
+                      className={`${inputBase} appearance-none pr-8`}
+                    >
+                      <option value="">Select…</option>
+                      <option value="remote">Remote</option>
+                      <option value="hybrid">Hybrid</option>
+                      <option value="onsite">On-site</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-foreground/30 pointer-events-none" />
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelBase}>Salary / range</label>
+                  <input
+                    type="text"
+                    value={manualSalary}
+                    onChange={(e) => setManualSalary(e.target.value)}
+                    placeholder="e.g. £80k – £100k"
+                    className={inputBase}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelBase}>Job description</label>
+                  <textarea
+                    value={manualDescription}
+                    onChange={(e) => setManualDescription(e.target.value)}
+                    placeholder="Paste the job description here for AI scoring and interview prep…"
+                    rows={4}
+                    className="w-full rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.04] px-3.5 py-2.5 text-[14px] text-foreground placeholder:text-foreground/30 focus:outline-none focus:ring-2 focus:ring-foreground/10 transition resize-none"
+                  />
+                </div>
+              </div>
+
+              <button
+                disabled={!isManualValid}
+                className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[14px] font-medium transition-opacity disabled:opacity-30 mt-1"
+              >
+                <Plus className="w-4 h-4" />
+                Add to board
+              </button>
+            </div>
+          )}
+        </div>
+
       </DialogContent>
     </Dialog>
   );
@@ -2466,6 +2661,7 @@ function Dashboard() {
   const [scoutJobId, setScoutJobId] = useState<string | null>(null);
   const [offerDecisionOpen, setOfferDecisionOpen] = useState(false);
   const [archivedCollapsed, setArchivedCollapsed] = useState(false);
+  const [addJobOpen, setAddJobOpen] = useState(false);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
@@ -2610,6 +2806,15 @@ function Dashboard() {
           }
         />
 
+        {/* Add Job Manually button */}
+        <button
+          onClick={() => setAddJobOpen(true)}
+          className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          Add job
+        </button>
+
       </div>
 
       {/* Single always-mounted kanban board — AI Picks stays, others reveal */}
@@ -2741,6 +2946,7 @@ function Dashboard() {
         onClose={() => setInterviewJobId(null)}
         onStart={() => { setRoomJobId(interviewJobId); setInterviewJobId(null); }}
       />
+      <AddJobDialog open={addJobOpen} onClose={() => setAddJobOpen(false)} />
 
       {createPortal(
         <AnimatePresence>
