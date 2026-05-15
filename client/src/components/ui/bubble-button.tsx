@@ -95,8 +95,10 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           onClick={() => setOpen((o) => !o)}
           onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
           className={cn(
-            "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full border h-9 px-4 text-sm font-medium text-foreground transition-all bg-background hover:bg-accent hover:text-accent-foreground",
-            open ? "border-foreground/40" : "border-input",
+            "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full h-9 px-4 text-sm font-medium text-foreground transition-all hover:bg-accent hover:text-accent-foreground",
+            open
+              ? "border-2 border-input bg-accent text-accent-foreground"
+              : "border border-input bg-background",
             className
           )}
         >
