@@ -70,6 +70,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const remaining = usage;
     const consumed = limit - usage;
     const pct = limit > 0 ? remaining / limit : 0;
+    const filledSegments = Math.round(pct * SEGMENT_COUNT);
     const barColor = getBarColor(pct);
     const status = getStatusLabel(pct);
 
