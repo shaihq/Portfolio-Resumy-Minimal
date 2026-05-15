@@ -2794,26 +2794,25 @@ function Dashboard() {
           </button>
         </div>
 
-        {/* AI Balance usage badge */}
-        <UsageBadge
-          className="ml-auto"
-          icon={<FlaskConical className="w-3.5 h-3.5 opacity-70" />}
-          planName="AI Balance"
-          usage={30}
-          limit={30}
-          tooltipContent={
-            <p>30 AI credits remaining.<br />Used for mock interviews &amp; scout chats.</p>
-          }
-        />
-
-        {/* Add Job Manually button */}
-        <button
-          onClick={() => setAddJobOpen(true)}
-          className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          Add job
-        </button>
+        {/* Add Job button + AI Balance */}
+        <div className="ml-auto flex items-center gap-3">
+          <button
+            onClick={() => setAddJobOpen(true)}
+            className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Add job
+          </button>
+          <UsageBadge
+            icon={<FlaskConical className="w-3.5 h-3.5 opacity-70" />}
+            planName="AI Balance"
+            usage={30}
+            limit={30}
+            tooltipContent={
+              <p>30 AI credits remaining.<br />Used for mock interviews &amp; scout chats.</p>
+            }
+          />
+        </div>
 
       </div>
 
