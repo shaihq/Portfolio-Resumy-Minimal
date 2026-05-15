@@ -48,6 +48,8 @@ export interface UsageBadgeProps {
   className?: string;
 }
 
+const SEGMENT_COUNT = 10;
+
 function getBarColor(pct: number): string {
   if (pct > 0.5) return "#22c55e";
   if (pct > 0.2) return "#f59e0b";
@@ -92,10 +94,8 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           onClick={() => setOpen((o) => !o)}
           onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
           className={cn(
-            "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full border h-9 px-4 text-sm font-medium transition-all",
-            open
-              ? "border-foreground/20 bg-foreground text-background dark:bg-foreground dark:text-background"
-              : "border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
+            "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full border h-9 px-4 text-sm font-medium text-foreground transition-all bg-background hover:bg-accent hover:text-accent-foreground",
+            open ? "border-foreground/40" : "border-input",
             className
           )}
         >
@@ -126,15 +126,26 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 <span className="text-[13px] text-foreground/35 font-medium">/ {limit} credits left</span>
               </div>
 
-              {/* Single fill bar */}
-              <div className="relative h-[6px] w-full rounded-full bg-black/[0.07] dark:bg-white/[0.08] overflow-hidden mb-1.5">
-                <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full"
-                  initial={{ width: "0%" }}
-                  animate={{ width: `${pct * 100}%` }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-                  style={{ backgroundColor: barColor }}
-                />
+              {/* Staggered segmented bar */}
+              <div className="flex gap-[3px] mb-1.5">
+                {Array.from({ length: SEGMENT_COUNT }, (_, i) => {
+                  const filled = i < filledSegments;
+                  return (
+                    <div key={i} className="flex-1 h-[6px] rounded-full overflow-hidden bg-black/[0.07] dark:bg-white/[0.08]">
+                      <motion.div
+                        className="h-full rounded-full"
+                        initial={{ width: "0%" }}
+                        animate={{ width: filled ? "100%" : "0%" }}
+                        transition={{
+                          delay: filled ? i * 0.04 : 0,
+                          duration: 0.25,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                        style={{ backgroundColor: barColor }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Sub-labels */}
