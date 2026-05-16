@@ -1785,7 +1785,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                 </div>
               </div>
               <div className="flex-shrink-0">
-                <ScoreGauge value={displayJob.match} isDark={isDark} scale={2.1} showLabel />
+                <ScoreGauge value={displayJob.match} isDark={isDark} scale={2.1} />
               </div>
             </div>
 
@@ -2074,34 +2074,7 @@ function sgPalette(score: number, isDark: boolean) {
   return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
 }
 
-function sgMatchLabel(score: number, isDark: boolean): { text: string; bg: string; border: string; color: string } {
-  if (score >= 85) return {
-    text: "Excellent match",
-    bg: isDark ? "rgba(20,83,45,0.55)" : "rgba(220,252,231,0.9)",
-    border: isDark ? "rgba(74,222,128,0.14)" : "rgba(21,128,61,0.14)",
-    color: isDark ? "#4ade80" : "#15803d",
-  };
-  if (score >= 70) return {
-    text: "Good match",
-    bg: isDark ? "rgba(120,53,15,0.55)" : "rgba(254,249,195,0.9)",
-    border: isDark ? "rgba(251,191,36,0.14)" : "rgba(161,98,7,0.14)",
-    color: isDark ? "#fbbf24" : "#a16207",
-  };
-  if (score >= 50) return {
-    text: "Fair match",
-    bg: isDark ? "rgba(124,45,18,0.55)" : "rgba(255,237,213,0.9)",
-    border: isDark ? "rgba(251,146,60,0.14)" : "rgba(194,65,12,0.14)",
-    color: isDark ? "#fb923c" : "#c2410c",
-  };
-  return {
-    text: "Weak match",
-    bg: isDark ? "rgba(127,29,29,0.55)" : "rgba(254,226,226,0.9)",
-    border: isDark ? "rgba(248,113,113,0.14)" : "rgba(185,28,28,0.14)",
-    color: isDark ? "#f87171" : "#b91c1c",
-  };
-}
-
-function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value: number; isDark: boolean; scale?: number; showLabel?: boolean }) {
+function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: boolean; scale?: number }) {
   const uid = useId().replace(/:/g, "");
   const pct = Math.max(0, Math.min(100, value)) / 100;
   const c = sgPalette(value, isDark);
@@ -2128,12 +2101,11 @@ function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value:
     return () => cancelAnimationFrame(raf);
   }, [value]);
 
-  const label = sgMatchLabel(value, isDark);
   const svgW = SG_VBW * scale;
   const svgH = SG_VBH * scale;
 
   return (
-    <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: showLabel ? 6 : 0 }}>
+    <div style={{ flexShrink: 0 }}>
       <svg
         viewBox={`0 0 ${SG_VBW} ${SG_VBH}`}
         width={svgW}
@@ -2181,29 +2153,6 @@ function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value:
         </text>
       </svg>
 
-      {/* Depth badge — squircle, inset shadow, minimal */}
-      {showLabel && (
-        <div
-          style={{
-            whiteSpace: "nowrap",
-            background: label.bg,
-            color: label.color,
-            border: `1px solid ${label.border}`,
-            borderRadius: "9px",
-            padding: "3px 9px",
-            fontSize: "10px",
-            fontWeight: 600,
-            letterSpacing: "0.01em",
-            lineHeight: "16px",
-            pointerEvents: "none",
-            boxShadow: isDark
-              ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 0 rgba(255,255,255,0.03)"
-              : "inset 0 2px 4px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.80), 0 1px 0 rgba(0,0,0,0.04)",
-          }}
-        >
-          {label.text}
-        </div>
-      )}
     </div>
   );
 }
