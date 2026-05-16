@@ -2221,6 +2221,10 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
   const isDark = resolvedTheme === "dark";
   const [dismissOpen, setDismissOpen] = useState(false);
   const dismissRef = useRef<HTMLDivElement>(null);
+  const [gaugeHovered, setGaugeHovered] = useState(false);
+
+  const gaugeAligns = [...new Set((BREAKDOWNS[job.id] ?? []).flatMap(s => s.aligns))].slice(0, 3);
+  const gaugeGaps   = [...new Set((BREAKDOWNS[job.id] ?? []).flatMap(s => s.gaps))].slice(0, 2);
 
   useEffect(() => {
     if (!dismissOpen) return;
@@ -2257,8 +2261,61 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             <div className="text-[12px] text-foreground/45 mt-0.5 truncate">{job.company} · {job.location}</div>
           </div>
         </div>
-        <div className="flex-shrink-0 mt-0.5">
+
+        {/* Gauge + hover popover */}
+        <div
+          className="relative flex-shrink-0 mt-0.5"
+          onMouseEnter={() => setGaugeHovered(true)}
+          onMouseLeave={() => setGaugeHovered(false)}
+        >
           <ScoreGauge value={job.match} isDark={isDark} />
+
+          {/* Popover */}
+          {(gaugeAligns.length > 0 || gaugeGaps.length > 0) && (
+            <div
+              className="absolute right-full top-0 mr-2 z-50 pointer-events-none"
+              style={{
+                opacity: gaugeHovered ? 1 : 0,
+                transform: gaugeHovered ? "translateY(0)" : "translateY(4px)",
+                transition: "opacity 0.18s ease, transform 0.18s ease",
+              }}
+            >
+              <div
+                className="w-[172px] rounded-xl border border-black/[0.07] dark:border-white/[0.09] px-3 py-2.5 flex flex-col gap-2"
+                style={{
+                  background: isDark ? "rgba(30,26,22,0.97)" : "rgba(255,255,255,0.97)",
+                  boxShadow: isDark
+                    ? "0 4px 20px rgba(0,0,0,0.45)"
+                    : "0 4px 20px rgba(0,0,0,0.10)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                {gaugeAligns.length > 0 && (
+                  <div className="flex flex-col gap-1">
+                    {gaugeAligns.map((a) => (
+                      <div key={a} className="flex items-start gap-1.5">
+                        <Check className="w-2.5 h-2.5 mt-[2px] flex-shrink-0 text-emerald-500 dark:text-emerald-400" />
+                        <span className="text-[11px] text-foreground/65 leading-snug">{a}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {gaugeAligns.length > 0 && gaugeGaps.length > 0 && (
+                  <div className="h-px bg-black/[0.06] dark:bg-white/[0.07]" />
+                )}
+                {gaugeGaps.length > 0 && (
+                  <div className="flex flex-col gap-1">
+                    {gaugeGaps.map((g) => (
+                      <div key={g} className="flex items-start gap-1.5">
+                        <X className="w-2.5 h-2.5 mt-[2px] flex-shrink-0 text-foreground/30" />
+                        <span className="text-[11px] text-foreground/40 leading-snug">{g}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
