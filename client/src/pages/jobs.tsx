@@ -1695,19 +1695,14 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       <div className="grid grid-cols-3 border-t border-black/[0.06] dark:border-white/[0.06]">
         {subs.map(({ label, val, target }, idx) => {
           const sa = target >= 85 ? "#22c55e" : target >= 70 ? "#f97316" : "#ef4444";
-          const saText = target >= 85
-            ? (isDark ? "#4ade80" : "#15803d")
-            : target >= 70
-            ? (isDark ? "#fb923c" : "#c2410c")
-            : (isDark ? "#f87171" : "#b91c1c");
           return (
             <div
               key={label}
               className={`px-4 py-3.5 ${idx < 2 ? "border-r border-black/[0.06] dark:border-white/[0.06]" : ""}`}
             >
               <div className="flex items-baseline gap-0.5 mb-0.5">
-                <span className="text-[19px] font-bold leading-none tracking-tight tabular-nums" style={{ color: saText }}>{val}</span>
-                <span className="text-[10px] font-bold leading-none" style={{ color: saText }}>%</span>
+                <span className="text-[19px] font-bold leading-none tracking-tight tabular-nums text-foreground">{val}</span>
+                <span className="text-[10px] font-bold leading-none text-foreground/60">%</span>
               </div>
               <div className="text-[10px] text-foreground/38 font-medium mb-2.5 leading-snug">{label}</div>
               <div className="h-[2.5px] rounded-full overflow-hidden" style={{ backgroundColor: trackColor }}>
