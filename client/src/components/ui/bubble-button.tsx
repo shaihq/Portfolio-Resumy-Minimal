@@ -183,39 +183,72 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 .credits-cta {
                   position: relative;
                   overflow: hidden;
-                  transition: opacity 0.14s ease, transform 0.14s ease;
+                  background: linear-gradient(170deg, #b45309 0%, #7c2d12 100%);
+                  box-shadow:
+                    inset 0 0.3rem 0.9rem rgba(251,191,36,0.28),
+                    inset 0 -0.1rem 0.3rem rgba(0,0,0,0.6),
+                    inset 0 -0.35rem 0.8rem rgba(245,158,11,0.4),
+                    0 0.4rem 1rem rgba(0,0,0,0.28),
+                    0 0.1rem 0.25rem rgba(0,0,0,0.4);
+                  transition: all 0.2s ease;
+                }
+                .credits-cta::before {
+                  content: "";
+                  position: absolute;
+                  left: -15%; right: -15%;
+                  bottom: 20%; top: -120%;
+                  border-radius: 50%;
+                  background: rgba(251,191,36,0.1);
+                  pointer-events: none;
+                  transition: transform 0.3s ease;
                 }
                 .credits-cta::after {
                   content: "";
                   position: absolute;
-                  left: 8%; right: 8%;
-                  top: 0; height: 42%;
+                  left: 6%; right: 6%;
+                  top: 0; bottom: 48%;
                   border-radius: 100px 100px 0 0;
-                  background: linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 100%);
+                  box-shadow: inset 0 10px 8px -10px rgba(251,191,36,0.55);
+                  background: linear-gradient(180deg, rgba(251,191,36,0.2) 0%, rgba(0,0,0,0) 100%);
                   pointer-events: none;
+                  transition: all 0.3s ease;
                 }
                 .credits-cta:hover {
-                  opacity: 0.88;
+                  box-shadow:
+                    inset 0 0.3rem 0.6rem rgba(251,191,36,0.45),
+                    inset 0 -0.1rem 0.3rem rgba(0,0,0,0.6),
+                    inset 0 -0.35rem 0.9rem rgba(245,158,11,0.65),
+                    0 0.6rem 1.4rem rgba(0,0,0,0.32),
+                    0 0.1rem 0.3rem rgba(0,0,0,0.4);
+                }
+                .credits-cta:hover::before {
+                  transform: translateY(-5%);
+                }
+                .credits-cta:hover::after {
+                  opacity: 0.45;
+                  transform: translateY(5%);
                 }
                 .credits-cta:hover .credits-cta-inner {
-                  transform: translateY(-1.5px);
+                  transform: translateY(-2px);
                 }
                 .credits-cta:active {
                   transform: translateY(2px);
                   box-shadow:
-                    inset 0 1px 0 rgba(255,255,255,0.1),
-                    inset 0 -1px 0 rgba(0,0,0,0.5),
-                    inset 0 3px 8px rgba(0,0,0,0.25),
-                    0 2px 5px rgba(0,0,0,0.2);
+                    inset 0 0.3rem 0.5rem rgba(251,191,36,0.5),
+                    inset 0 -0.1rem 0.3rem rgba(0,0,0,0.7),
+                    inset 0 0.3rem 0.8rem rgba(0,0,0,0.25),
+                    0 0.15rem 0.4rem rgba(0,0,0,0.2);
                 }
                 .credits-cta-inner {
                   display: flex;
                   align-items: center;
                   gap: 6px;
-                  transition: transform 0.18s ease;
+                  position: relative;
+                  z-index: 1;
+                  transition: transform 0.2s ease;
                 }
               `}</style>
-              <button className="credits-cta w-full flex items-center justify-center h-9 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[13px] font-medium">
+              <button className="credits-cta w-full flex items-center justify-center h-9 rounded-full text-[13px] font-semibold text-amber-50">
                 <span className="credits-cta-inner">
                   <Sparkles className="w-3.5 h-3.5" />
                   Get more credits
