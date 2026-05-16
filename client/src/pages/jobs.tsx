@@ -1710,24 +1710,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           </span>
         </div>
 
-        {/* Tick line — sits on top of the bar */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            left: open ? `${markerBarPct}%` : "0%",
-            transform: "translateX(-50%)",
-            transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
-            top: -3,
-            bottom: -3,
-            width: 2.5,
-            borderRadius: 2,
-            background: isDark ? "rgba(255,255,255,0.70)" : "rgba(0,0,0,0.50)",
-            boxShadow: isDark
-              ? "0 0 6px 1px rgba(255,255,255,0.22)"
-              : "0 0 6px 1px rgba(0,0,0,0.14)",
-          }}
-        />
-
         {/* Bar segments — vivid up to marker, faded after */}
         <div className="relative flex h-[14px] rounded-lg overflow-hidden gap-[2px]">
           {zones.map((z) => {
@@ -1754,6 +1736,24 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             }}
           />
         </div>
+
+        {/* Tick line — rendered after the bar so it paints on top */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: open ? `${markerBarPct}%` : "0%",
+            transform: "translateX(-50%)",
+            transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
+            top: -3,
+            bottom: -3,
+            width: 2.5,
+            borderRadius: 2,
+            background: isDark ? "rgba(255,255,255,0.70)" : "rgba(0,0,0,0.50)",
+            boxShadow: isDark
+              ? "0 0 6px 1px rgba(255,255,255,0.22)"
+              : "0 0 6px 1px rgba(0,0,0,0.14)",
+          }}
+        />
       </div>
 
       {/* Zone labels */}
