@@ -138,7 +138,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -4, scale: 0.97 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-white/60 dark:border-white/[0.12] bg-white/50 dark:bg-[#1e1a17]/55 backdrop-blur-2xl shadow-2xl shadow-black/[0.15] ring-1 ring-inset ring-white/30 dark:ring-white/[0.06] p-4 z-50"
+              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#2A2520] shadow-xl shadow-black/[0.1] p-4 z-50"
             >
               {/* Balance numbers */}
               <div className="flex items-baseline gap-1.5 mb-3">
