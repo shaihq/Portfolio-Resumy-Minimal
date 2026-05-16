@@ -1663,21 +1663,29 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           </div>
         </div>
 
-        {/* Staggered bars — uniform height, liquid-gauge gradient fill */}
+        {/* Staggered bars — uniform height, flow-fill animation */}
         <div className="flex-1 flex items-center gap-[3px]">
           {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
             const filled = i < filledBars;
-            const t = filledBars > 1 ? i / (filledBars - 1) : 0;
+            const t = BREAKDOWN_BARS > 1 ? i / (BREAKDOWN_BARS - 1) : 0;
             const mid = isDark ? tier.darkMid : tier.lightMid;
-            const barColor = filled ? lerpHex(tier.bright, mid, t) : trackColor;
+            const barColor = lerpHex(tier.bright, mid, t);
             return (
-              <motion.div
+              <div
                 key={i}
-                className="flex-1 rounded-[2px]"
-                style={{ backgroundColor: barColor }}
-                animate={{ height: filled ? 14 : 5 }}
-                transition={{ duration: 0.18, ease: [0.34, 1.56, 0.64, 1] }}
-              />
+                className="flex-1 rounded-[2px] relative overflow-hidden"
+                style={{ height: 14, backgroundColor: trackColor }}
+              >
+                {filled && (
+                  <motion.div
+                    className="absolute inset-0 rounded-[2px]"
+                    style={{ backgroundColor: barColor, transformOrigin: "left" }}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                )}
+              </div>
             );
           })}
         </div>
