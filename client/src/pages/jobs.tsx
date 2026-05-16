@@ -1647,40 +1647,34 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 
   const headline =
     s >= 85 ? "You're an excellent match for this role." :
-    s >= 70 ? "You're a strong match — excellence is within reach." :
-    s >= 60 ? "You're competitive, but a few gaps are holding you back." :
+    s >= 65 ? "You're a strong match — excellence is within reach." :
               "You're in the mix, with some key areas to work on.";
 
   const subtext =
     s >= 85 && allGaps.length === 0 ? "You tick every box — this role is made for you." :
     s >= 85 ? `Already a top candidate. Closing ${allGaps[0]?.toLowerCase()} could make this a perfect fit.` :
-    s >= 70 && allGaps.length > 0 ? `To hit excellent, you'd mainly need to address ${allGaps.slice(0, 2).map(g => g.toLowerCase()).join(" and ")}.` :
-    s >= 70 ? "Strong across the board — you're in a great position." :
-    s >= 60 && allGaps.length > 0 ? `Bridging ${allGaps.slice(0, 2).map(g => g.toLowerCase()).join(" and ")} would tip the scales considerably.` :
+    s >= 65 && allGaps.length > 0 ? `To hit excellent, you'd mainly need to address ${allGaps.slice(0, 2).map(g => g.toLowerCase()).join(" and ")}.` :
+    s >= 65 ? "Strong across the board — you're in a great position." :
               "A few areas need attention, but your core strengths still apply here.";
 
-  // Zones: Weak 0–59 (59%), Fair 60–69 (10%), Good 70–84 (15%), Excellent 85–100 (16%)
-  // barStart/barEnd = cumulative bar% position of each zone
+  // 3 zones matching the liquid gauge palette: Red 0–64, Orange 65–84, Green 85–100
+  // Bar widths are proportional to score range sizes (65 / 20 / 16 values)
   const zones = [
-    { label: "Weak",      pct: 59, barStart: 0,  barEnd: 59,  scoreMin: 0,  scoreMax: 59,
-      vividL: "#fca5a5", vividD: "rgba(239,68,68,0.80)",
-      fadedL: "#ffd6d6", fadedD: "rgba(239,68,68,0.18)" },
-    { label: "Fair",      pct: 10, barStart: 59, barEnd: 69,  scoreMin: 60, scoreMax: 69,
-      vividL: "#fde68a", vividD: "rgba(251,191,36,0.80)",
-      fadedL: "#fef9c3", fadedD: "rgba(251,191,36,0.18)" },
-    { label: "Good",      pct: 15, barStart: 69, barEnd: 84,  scoreMin: 70, scoreMax: 84,
-      vividL: "#86efac", vividD: "rgba(52,211,153,0.80)",
-      fadedL: "#bbf7d0", fadedD: "rgba(52,211,153,0.18)" },
-    { label: "Excellent", pct: 16, barStart: 84, barEnd: 100, scoreMin: 85, scoreMax: 100,
-      vividL: "#5eead4", vividD: "rgba(20,184,166,0.80)",
-      fadedL: "#ccfbf1", fadedD: "rgba(20,184,166,0.18)" },
+    { label: "Weak",      pct: 64, barStart: 0,  barEnd: 64,
+      vividL: "#fca5a5", vividD: "rgba(239,68,68,0.82)",
+      fadedL: "rgba(252,165,165,0.28)", fadedD: "rgba(239,68,68,0.16)" },
+    { label: "Strong",    pct: 20, barStart: 64, barEnd: 84,
+      vividL: "#fde68a", vividD: "rgba(249,115,22,0.82)",
+      fadedL: "rgba(253,230,138,0.30)", fadedD: "rgba(249,115,22,0.16)" },
+    { label: "Excellent", pct: 16, barStart: 84, barEnd: 100,
+      vividL: "#86efac", vividD: "rgba(74,222,128,0.82)",
+      fadedL: "rgba(134,239,172,0.28)", fadedD: "rgba(74,222,128,0.16)" },
   ];
 
-  // Map score → bar % (respects non-linear zone widths)
+  // Map score → bar % (proportional to zone widths)
   function scoreToBarPct(score: number): number {
-    if (score <= 59) return (score / 59) * 59;
-    if (score <= 69) return 59 + ((score - 60) / 9) * 10;
-    if (score <= 84) return 69 + ((score - 70) / 14) * 15;
+    if (score <= 64) return (score / 64) * 64;
+    if (score <= 84) return 64 + ((score - 65) / 19) * 20;
     return 84 + ((score - 85) / 15) * 16;
   }
 
