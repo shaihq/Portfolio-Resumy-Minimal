@@ -1719,9 +1719,12 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
             top: -3,
             bottom: -3,
-            width: 1.5,
+            width: 2.5,
             borderRadius: 2,
-            background: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.40)",
+            background: isDark ? "rgba(255,255,255,0.70)" : "rgba(0,0,0,0.50)",
+            boxShadow: isDark
+              ? "0 0 6px 1px rgba(255,255,255,0.22)"
+              : "0 0 6px 1px rgba(0,0,0,0.14)",
           }}
         />
 
