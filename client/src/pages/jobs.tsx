@@ -3020,8 +3020,7 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
     <div className="w-[300px] rounded-2xl border border-black/[0.07] dark:border-white/[0.09] bg-white dark:bg-[#1E1B18] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
       {/* Header */}
       <div className="px-4 pt-4 pb-3.5 border-b border-black/[0.05] dark:border-white/[0.06]">
-        <p className="text-[13px] font-semibold text-foreground">Search criteria</p>
-        <p className="text-[11px] text-foreground/40 mt-0.5">Update to rescan with fresh results</p>
+        <p className="text-[11px] text-foreground/40">Edit below to refresh your AI picks</p>
       </div>
 
       {/* Inputs */}
