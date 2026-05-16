@@ -1660,14 +1660,31 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
               "A few areas need attention, but your core strengths still apply here.";
 
   // Zones: Weak 0–59 (59%), Fair 60–69 (10%), Good 70–84 (15%), Excellent 85–100 (16%)
+  // barStart/barEnd = cumulative bar% position of each zone
   const zones = [
-    { label: "Weak",      range: "0–59",  pct: 59, light: "#ffd6d6", dark: "rgba(239,68,68,0.22)"   },
-    { label: "Fair",      range: "60–69", pct: 10, light: "#fef3c7", dark: "rgba(251,191,36,0.22)"  },
-    { label: "Good",      range: "70–84", pct: 15, light: "#bbf7d0", dark: "rgba(52,211,153,0.22)"  },
-    { label: "Excellent", range: "85+",   pct: 16, light: "#ccfbf1", dark: "rgba(20,184,166,0.22)"  },
+    { label: "Weak",      pct: 59, barStart: 0,  barEnd: 59,  scoreMin: 0,  scoreMax: 59,
+      vividL: "#fca5a5", vividD: "rgba(239,68,68,0.80)",
+      fadedL: "#ffd6d6", fadedD: "rgba(239,68,68,0.18)" },
+    { label: "Fair",      pct: 10, barStart: 59, barEnd: 69,  scoreMin: 60, scoreMax: 69,
+      vividL: "#fde68a", vividD: "rgba(251,191,36,0.80)",
+      fadedL: "#fef9c3", fadedD: "rgba(251,191,36,0.18)" },
+    { label: "Good",      pct: 15, barStart: 69, barEnd: 84,  scoreMin: 70, scoreMax: 84,
+      vividL: "#86efac", vividD: "rgba(52,211,153,0.80)",
+      fadedL: "#bbf7d0", fadedD: "rgba(52,211,153,0.18)" },
+    { label: "Excellent", pct: 16, barStart: 84, barEnd: 100, scoreMin: 85, scoreMax: 100,
+      vividL: "#5eead4", vividD: "rgba(20,184,166,0.80)",
+      fadedL: "#ccfbf1", fadedD: "rgba(20,184,166,0.18)" },
   ];
 
-  const markerPct = Math.max(1, Math.min(99, s));
+  // Map score → bar % (respects non-linear zone widths)
+  function scoreToBarPct(score: number): number {
+    if (score <= 59) return (score / 59) * 59;
+    if (score <= 69) return 59 + ((score - 60) / 9) * 10;
+    if (score <= 84) return 69 + ((score - 70) / 14) * 15;
+    return 84 + ((score - 85) / 15) * 16;
+  }
+
+  const markerBarPct = Math.max(1, Math.min(98.5, scoreToBarPct(s)));
 
   return (
     <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-4" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
@@ -1677,36 +1694,51 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 
       {/* Zoned bar + YOU marker */}
       <div className="relative">
-        {/* YOU label + tick — CSS transition for smooth animation */}
+        {/* YOU label above marker — no score attached */}
         <div
           className="absolute -top-5 flex flex-col items-center pointer-events-none"
           style={{
-            left: open ? `${markerPct}%` : "0%",
+            left: open ? `${markerBarPct}%` : "0%",
             transform: "translateX(-50%)",
             transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
           }}
         >
-          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/55 leading-none mb-0.5">You</span>
-          <span className="text-[8px] font-bold text-foreground/55 tabular-nums">{s}</span>
+          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/55 leading-none">You</span>
         </div>
 
-        {/* Bar segments */}
-        <div className="flex h-[14px] rounded-lg overflow-hidden gap-[2px]">
-          {zones.map((z) => (
-            <div
-              key={z.label}
-              style={{ width: `${z.pct}%`, backgroundColor: isDark ? z.dark : z.light }}
-            />
-          ))}
+        {/* Bar segments — vivid up to marker, faded after */}
+        <div className="relative flex h-[14px] rounded-lg overflow-hidden gap-[2px]">
+          {zones.map((z) => {
+            const filledBars = Math.max(0, Math.min(markerBarPct, z.barEnd) - z.barStart);
+            const fadedBars  = z.pct - filledBars;
+            const vividColor = isDark ? z.vividD : z.vividL;
+            const fadedColor = isDark ? z.fadedD : z.fadedL;
+            return (
+              <div key={z.label} style={{ width: `${z.pct}%`, display: "flex" }}>
+                {filledBars > 0 && <div style={{ flex: filledBars, background: vividColor }} />}
+                {fadedBars  > 0 && <div style={{ flex: fadedBars,  background: fadedColor  }} />}
+              </div>
+            );
+          })}
+
+          {/* 3D gloss overlay — top highlight + bottom shadow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(to bottom, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.06) 45%, rgba(0,0,0,0.08) 100%)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.14)",
+            }}
+          />
         </div>
 
         {/* Marker tick line */}
         <div
           className="absolute top-0 bottom-0 w-[2px] rounded-full pointer-events-none"
           style={{
-            left: open ? `${markerPct}%` : "0%",
+            left: open ? `${markerBarPct}%` : "0%",
             transform: "translateX(-50%)",
-            backgroundColor: isDark ? "rgba(240,237,232,0.85)" : "rgba(26,26,26,0.75)",
+            backgroundColor: isDark ? "rgba(240,237,232,0.90)" : "rgba(26,26,26,0.80)",
+            boxShadow: isDark ? "0 0 3px rgba(0,0,0,0.5)" : "0 0 3px rgba(255,255,255,0.8)",
             transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
           }}
         />
