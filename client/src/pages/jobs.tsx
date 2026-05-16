@@ -1642,20 +1642,14 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
     { label: "Qualification Match", target: 80, aligns: [], gaps: [] },
   ];
 
-  const allGaps = [...new Set(subs.flatMap(s => s.gaps))].slice(0, 3);
+  const allGaps   = [...new Set(subs.flatMap(s => s.gaps))].slice(0, 3);
+  const allAligns = [...new Set(subs.flatMap(s => s.aligns))].slice(0, 3);
   const s = job.match;
 
   const headline =
     s >= 85 ? "You're an excellent match for this role." :
     s >= 65 ? "You're a strong match — excellence is within reach." :
               "You're in the mix, with some key areas to work on.";
-
-  const subtext =
-    s >= 85 && allGaps.length === 0 ? "You tick every box — this role is made for you." :
-    s >= 85 ? `Already a top candidate. Closing ${allGaps[0]?.toLowerCase()} could make this a perfect fit.` :
-    s >= 65 && allGaps.length > 0 ? `To hit excellent, you'd mainly need to address ${allGaps.slice(0, 2).map(g => g.toLowerCase()).join(" and ")}.` :
-    s >= 65 ? "Strong across the board — you're in a great position." :
-              "A few areas need attention, but your core strengths still apply here.";
 
   // 3 zones — colors mirror sgPalette exactly (bright → mid gradient, same as the gauge arc)
   // Bar widths proportional to score range sizes: 64 / 20 / 16
@@ -1686,8 +1680,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   return (
     <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-4" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
       {/* Headline */}
-      <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-1.5">{headline}</p>
-      <p className="text-[12px] text-foreground/50 leading-[1.65] mb-4">{subtext}</p>
+      <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-4">{headline}</p>
 
       {/* Zoned bar + YOU marker */}
       <div className="relative">
@@ -1752,26 +1745,51 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
         ))}
       </div>
 
-      {/* Gaps — recessed insight banner */}
-      {allGaps.length > 0 && (
-        <div
-          className="mt-3.5 rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5 flex items-start gap-2.5"
-          style={{
-            background: isDark ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.030)",
-            boxShadow: isDark
-              ? "inset 0 2px 5px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.025)"
-              : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.80)",
-          }}
-        >
-          <div className="flex-shrink-0 w-[18px] h-[18px] rounded-[6px] bg-foreground/[0.07] flex items-center justify-center mt-px">
-            <Lightbulb className="w-[10px] h-[10px] text-foreground/40" />
+      {/* Signals + Missing — two lean recessed sections */}
+      <div className="mt-3.5 space-y-1.5">
+        {allAligns.length > 0 && (
+          <div
+            className="rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5"
+            style={{
+              background: isDark ? "rgba(0,0,0,0.20)" : "rgba(0,0,0,0.026)",
+              boxShadow: isDark
+                ? "inset 0 2px 5px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.025)"
+                : "inset 0 2px 4px rgba(0,0,0,0.065), inset 0 1px 0 rgba(255,255,255,0.80)",
+            }}
+          >
+            <p className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/35 mb-1.5">Strongest signals</p>
+            <ul className="space-y-1">
+              {allAligns.map((a) => (
+                <li key={a} className="flex items-start gap-1.5">
+                  <span className="mt-[4px] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
+                  <span className="text-[11.5px] text-foreground/60 leading-snug">{a}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <p className="text-[11px] text-foreground/55 leading-[1.6]">
-            <span className="font-semibold text-foreground/65">To reach excellent: </span>
-            {allGaps.join(" · ")}
-          </p>
-        </div>
-      )}
+        )}
+        {allGaps.length > 0 && (
+          <div
+            className="rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5"
+            style={{
+              background: isDark ? "rgba(0,0,0,0.20)" : "rgba(0,0,0,0.026)",
+              boxShadow: isDark
+                ? "inset 0 2px 5px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.025)"
+                : "inset 0 2px 4px rgba(0,0,0,0.065), inset 0 1px 0 rgba(255,255,255,0.80)",
+            }}
+          >
+            <p className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/35 mb-1.5">Missing</p>
+            <ul className="space-y-1">
+              {allGaps.map((g) => (
+                <li key={g} className="flex items-start gap-1.5">
+                  <span className="mt-[4px] w-1 h-1 rounded-full bg-foreground/20 flex-shrink-0" />
+                  <span className="text-[11.5px] text-foreground/45 leading-snug">{g}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
