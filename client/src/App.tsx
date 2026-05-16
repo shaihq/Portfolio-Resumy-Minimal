@@ -8,14 +8,31 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
-import { useEffect } from "react";
-import { ThemeProvider } from "next-themes";
-import { Home as HomeIcon, MonitorPlay } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ThemeProvider, useTheme } from "next-themes";
+import { Home as HomeIcon, MonitorPlay, Sun, Moon } from "lucide-react";
 
 import Landing from "@/pages/landing";
 import Signup from "@/pages/signup";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import { FloatingNav } from "@/components/floating-nav";
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  return (
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="fixed bottom-[60px] left-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-white/70 hover:text-white transition-colors"
+      aria-label="Toggle light/dark mode"
+    >
+      {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+    </button>
+  );
+}
 
 // Temporary dev navigation to easily switch pages in the Replit preview
 function DevNav() {
@@ -48,6 +65,7 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       {showFloatingNav && <FloatingNav />}
+      <ThemeToggle />
       <DevNav />
     </>
   );

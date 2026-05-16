@@ -252,7 +252,7 @@ function AnimatedJobCount({ onDone }: { onDone?: () => void }) {
 }
 
 // ── Transition screen ──────────────────────────────────────────────────────
-function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: () => void }) {
+function TransitionScreen({ onVoice, onType, onSkip }: { onVoice: () => void; onType: () => void; onSkip: () => void }) {
   const [orbitVisible, setOrbitVisible] = useState(false);
 
   return (
@@ -288,9 +288,12 @@ function TransitionScreen({ onVoice, onType }: { onVoice: () => void; onType: ()
           </h1>
           <p className="text-[16px] text-muted-foreground leading-relaxed font-light">Now let's find the ones worth your time. Answer 3 quick questions and we'll narrow it down to your best matches.</p>
         </div>
-        <motion.div className="flex items-center justify-center pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
+        <motion.div className="flex flex-col items-center gap-3 pt-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
           <button data-testid="button-lets-do-it" onClick={onType} className="cursor-pointer flex items-center gap-2 bg-foreground text-background font-medium text-[14px] px-7 py-3 rounded-full hover:bg-foreground/90 transition-all active:scale-[0.97]">
             Let's do it <ArrowRight className="w-4 h-4" />
+          </button>
+          <button onClick={onSkip} className="cursor-pointer text-[13px] text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline">
+            Skip
           </button>
         </motion.div>
       </motion.div>
@@ -3142,7 +3145,7 @@ export default function Jobs() {
     <>
       <AnimatePresence mode="wait">
         {phase === "transition" && (
-          <TransitionScreen key="transition" onVoice={() => setPhase("voice")} onType={() => setPhase("type")} />
+          <TransitionScreen key="transition" onVoice={() => setPhase("voice")} onType={() => setPhase("type")} onSkip={() => setPhase("dashboard")} />
         )}
         {phase === "voice" && (
           <VoiceRoom key="voice" onDone={() => setPhase("done")} onReset={() => setPhase("transition")} />
