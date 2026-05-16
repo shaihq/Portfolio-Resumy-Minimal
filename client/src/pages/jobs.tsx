@@ -1757,7 +1757,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             <>
               <button
                 onClick={() => setExpandedSection(expandedSection === "signals" ? null : "signals")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-left"
+                className="w-full flex items-center justify-between px-3 py-2.5 text-left cursor-pointer hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors duration-150"
               >
                 <span className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/40">Strongest signals</span>
                 <ChevronDown
@@ -1765,16 +1765,27 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                   style={{ transform: expandedSection === "signals" ? "rotate(180deg)" : "rotate(0deg)" }}
                 />
               </button>
-              {expandedSection === "signals" && (
-                <ul className="px-3 pb-2.5 space-y-1.5">
-                  {allAligns.map((a) => (
-                    <li key={a} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3 h-3 mt-[2px] text-emerald-500/70 flex-shrink-0" />
-                      <span className="text-[11.5px] text-foreground/60 leading-snug">{a}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <AnimatePresence initial={false}>
+                {expandedSection === "signals" && (
+                  <motion.div
+                    key="signals-body"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <ul className="px-3 pb-2.5 space-y-1.5">
+                      {allAligns.map((a) => (
+                        <li key={a} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-3 h-3 mt-[2px] text-emerald-500/70 flex-shrink-0" />
+                          <span className="text-[11.5px] text-foreground/60 leading-snug">{a}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </>
           )}
 
@@ -1788,7 +1799,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             <>
               <button
                 onClick={() => setExpandedSection(expandedSection === "missing" ? null : "missing")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-left"
+                className="w-full flex items-center justify-between px-3 py-2.5 text-left cursor-pointer hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors duration-150"
               >
                 <span className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/40">Missing</span>
                 <ChevronDown
@@ -1796,16 +1807,27 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                   style={{ transform: expandedSection === "missing" ? "rotate(180deg)" : "rotate(0deg)" }}
                 />
               </button>
-              {expandedSection === "missing" && (
-                <ul className="px-3 pb-2.5 space-y-1.5">
-                  {allGaps.map((g) => (
-                    <li key={g} className="flex items-start gap-2">
-                      <XCircle className="w-3 h-3 mt-[2px] text-foreground/25 flex-shrink-0" />
-                      <span className="text-[11.5px] text-foreground/45 leading-snug">{g}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <AnimatePresence initial={false}>
+                {expandedSection === "missing" && (
+                  <motion.div
+                    key="missing-body"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <ul className="px-3 pb-2.5 space-y-1.5">
+                      {allGaps.map((g) => (
+                        <li key={g} className="flex items-start gap-2">
+                          <XCircle className="w-3 h-3 mt-[2px] text-foreground/25 flex-shrink-0" />
+                          <span className="text-[11.5px] text-foreground/45 leading-snug">{g}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </>
           )}
         </div>
