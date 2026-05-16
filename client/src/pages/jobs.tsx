@@ -1576,28 +1576,35 @@ function InterviewReport({ job, report: reportProp, onClose }: { job: Job; repor
 
 // ── Job detail sheet ───────────────────────────────────────────────────────
 // ── Match score breakdown ──────────────────────────────────────────────────
-const BREAKDOWN_BARS = 38;
-// Sine-wave height pattern so filled bars look like a waveform
+const BREAKDOWN_BARS = 34;
 const BAR_HEIGHTS = Array.from({ length: BREAKDOWN_BARS }, (_, i) =>
-  Math.round(12 + Math.sin((i / BREAKDOWN_BARS) * Math.PI * 2.8 + 0.4) * 5)
+  Math.round(10 + Math.sin((i / BREAKDOWN_BARS) * Math.PI * 2.6 + 0.5) * 4.5)
 );
+
+const SCORE_TIERS = [
+  { min: 90, label: "Excellent match", accent: "#22c55e", lightText: "#15803d", darkText: "#4ade80", lightBg: "rgba(34,197,94,0.09)",  darkBg: "rgba(34,197,94,0.13)"  },
+  { min: 80, label: "Strong match",    accent: "#10b981", lightText: "#047857", darkText: "#34d399", lightBg: "rgba(16,185,129,0.09)", darkBg: "rgba(16,185,129,0.13)" },
+  { min: 70, label: "Good match",      accent: "#f59e0b", lightText: "#b45309", darkText: "#fbbf24", lightBg: "rgba(245,158,11,0.09)", darkBg: "rgba(245,158,11,0.13)" },
+  { min: 60, label: "Fair match",      accent: "#f97316", lightText: "#c2410c", darkText: "#fb923c", lightBg: "rgba(249,115,22,0.09)", darkBg: "rgba(249,115,22,0.13)" },
+  { min:  0, label: "Partial match",   accent: "#ef4444", lightText: "#b91c1c", darkText: "#f87171", lightBg: "rgba(239,68,68,0.09)",  darkBg: "rgba(239,68,68,0.13)"  },
+];
 
 function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  // Derive deterministic sub-scores from job id + overall match
   const seed = parseInt(job.id) || 1;
   const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
   const expTarget   = clamp(job.match + ((seed * 7  + 3) % 17) - 8, 45, 99);
   const skillTarget = clamp(job.match + ((seed * 11 + 5) % 19) - 3, 48, 99);
   const reqTarget   = clamp(job.match - ((seed * 13 + 7) % 23) + 6, 40, 97);
 
-  // Accent colour matches overall score tier
-  const accent     = job.match >= 85 ? "#22c55e" : job.match >= 70 ? "#f97316" : "#ef4444";
-  const trackColor = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+  const tier = SCORE_TIERS.find(t => job.match >= t.min) ?? SCORE_TIERS[SCORE_TIERS.length - 1];
+  const accentColor = tier.accent;
+  const accentText  = isDark ? tier.darkText  : tier.lightText;
+  const accentBg    = isDark ? tier.darkBg    : tier.lightBg;
+  const trackColor  = isDark ? "rgba(255,255,255,0.065)" : "rgba(0,0,0,0.065)";
 
-  // Animated counters
   const [score,    setScore]    = useState(0);
   const [expVal,   setExpVal]   = useState(0);
   const [skillVal, setSkillVal] = useState(0);
@@ -1605,7 +1612,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 
   useEffect(() => {
     if (!open) { setScore(0); setExpVal(0); setSkillVal(0); setReqVal(0); return; }
-    const duration = 1000;
+    const duration = 950;
     const start = performance.now();
     let raf: number;
     const tick = (now: number) => {
@@ -1617,36 +1624,43 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       setReqVal(Math.round(e * reqTarget));
       if (t < 1) raf = requestAnimationFrame(tick);
     };
-    const timer = setTimeout(() => { raf = requestAnimationFrame(tick); }, 120);
+    const timer = setTimeout(() => { raf = requestAnimationFrame(tick); }, 100);
     return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
   }, [open, job.match, expTarget, skillTarget, reqTarget]);
 
   const filledBars = Math.round((score / 100) * BREAKDOWN_BARS);
 
   const subs = [
-    { label: "Experience Match",    val: expVal,   target: expTarget   },
-    { label: "Skills Match",        val: skillVal, target: skillTarget },
-    { label: "Requirements Match",  val: reqVal,   target: reqTarget   },
+    { label: "Experience",   val: expVal,   target: expTarget   },
+    { label: "Skills",       val: skillVal, target: skillTarget },
+    { label: "Requirements", val: reqVal,   target: reqTarget   },
   ];
 
   return (
-    <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-      {/* Header */}
-      <h3 className="text-[11px] font-semibold text-foreground/35 uppercase tracking-widest mb-4">Match breakdown</h3>
+    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
 
-      {/* Score + segmented waveform bar */}
-      <div className="flex items-center gap-5">
-        <div className="flex-shrink-0 w-[72px]">
+      {/* ── Row 1: score + quality label + waveform ── */}
+      <div className="flex items-center gap-4 px-4 pt-4 pb-3.5">
+        {/* Score block */}
+        <div className="flex-shrink-0">
           <div className="flex items-baseline gap-1">
-            <span className="text-[40px] font-bold leading-none tracking-tight tabular-nums" style={{ color: accent }}>
+            <span className="text-[42px] font-bold leading-none tracking-tight tabular-nums" style={{ color: accentText }}>
               {score}
             </span>
+            <span className="text-[13px] font-medium text-foreground/30 mb-0.5">/100</span>
           </div>
-          <div className="text-[10px] text-foreground/35 font-medium mt-0.5">of 100</div>
+          {/* Quality badge */}
+          <div
+            className="mt-1.5 inline-flex items-center gap-1.5 rounded-full px-2 py-[3px]"
+            style={{ backgroundColor: accentBg }}
+          >
+            <div className="w-[5px] h-[5px] rounded-full flex-shrink-0" style={{ backgroundColor: accentColor }} />
+            <span className="text-[10.5px] font-semibold leading-none" style={{ color: accentText }}>{tier.label}</span>
+          </div>
         </div>
 
-        {/* Segmented waveform */}
-        <div className="flex-1 flex items-end gap-[2.5px]">
+        {/* Waveform bar — fills remaining width */}
+        <div className="flex-1 flex items-end gap-[2px]">
           {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
             const filled = i < filledBars;
             return (
@@ -1654,10 +1668,10 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                 key={i}
                 className="flex-1 rounded-[2px]"
                 style={{
-                  height: filled ? BAR_HEIGHTS[i] : 8,
-                  backgroundColor: filled ? accent : trackColor,
-                  opacity: filled ? 0.45 + (i / BREAKDOWN_BARS) * 0.55 : 1,
-                  transition: "height 0.15s ease, background-color 0.15s ease",
+                  height: filled ? BAR_HEIGHTS[i] : 6,
+                  backgroundColor: filled ? accentColor : trackColor,
+                  opacity: filled ? 0.38 + (i / BREAKDOWN_BARS) * 0.62 : 1,
+                  transition: "height 0.1s ease, background-color 0.1s ease",
                 }}
               />
             );
@@ -1665,31 +1679,46 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
         </div>
       </div>
 
-      {/* Sub-scores */}
-      <div className="mt-5 grid grid-cols-3 gap-x-4 gap-y-3">
-        {subs.map(({ label, val, target }) => {
-          const subAccent = target >= 85 ? "#22c55e" : target >= 70 ? "#f97316" : "#ef4444";
+      {/* ── Row 2: sub-scores ── */}
+      <div className="grid grid-cols-3 border-t border-black/[0.06] dark:border-white/[0.06]">
+        {subs.map(({ label, val, target }, idx) => {
+          const sa = target >= 85 ? "#22c55e" : target >= 70 ? "#f97316" : "#ef4444";
+          const saText = target >= 85
+            ? (isDark ? "#4ade80" : "#15803d")
+            : target >= 70
+            ? (isDark ? "#fb923c" : "#c2410c")
+            : (isDark ? "#f87171" : "#b91c1c");
           return (
-            <div key={label}>
-              <div className="flex items-baseline gap-0.5 mb-1">
-                <span className="text-[22px] font-bold leading-none tracking-tight tabular-nums" style={{ color: subAccent }}>
-                  {val}
-                </span>
-                <span className="text-[11px] font-semibold" style={{ color: subAccent }}>%</span>
+            <div
+              key={label}
+              className={`px-4 py-3.5 ${idx < 2 ? "border-r border-black/[0.06] dark:border-white/[0.06]" : ""}`}
+            >
+              <div className="flex items-baseline gap-0.5 mb-0.5">
+                <span className="text-[19px] font-bold leading-none tracking-tight tabular-nums" style={{ color: saText }}>{val}</span>
+                <span className="text-[10px] font-bold leading-none" style={{ color: saText }}>%</span>
               </div>
-              <div className="text-[10px] text-foreground/40 font-medium leading-snug mb-2">{label}</div>
-              <div className="h-[3px] rounded-full overflow-hidden" style={{ backgroundColor: trackColor }}>
+              <div className="text-[10px] text-foreground/38 font-medium mb-2.5 leading-snug">{label}</div>
+              <div className="h-[2.5px] rounded-full overflow-hidden" style={{ backgroundColor: trackColor }}>
                 <motion.div
                   className="h-full rounded-full"
-                  style={{ backgroundColor: subAccent }}
+                  style={{ backgroundColor: sa }}
                   initial={{ width: "0%" }}
                   animate={{ width: open ? `${target}%` : "0%" }}
-                  transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 + idx * 0.07 }}
                 />
               </div>
             </div>
           );
         })}
+      </div>
+
+      {/* ── Row 3: why it's a match ── */}
+      <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-4 py-3.5">
+        <div className="flex items-center gap-1.5 mb-1.5">
+          <Sparkles className="w-3 h-3 text-foreground/28" />
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-foreground/32">Why it's a match</span>
+        </div>
+        <p className="text-[12.5px] text-foreground/58 leading-[1.65]">{job.reason}</p>
       </div>
     </div>
   );
@@ -1797,6 +1826,9 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                 </div>
                 <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.yearsExp}</span>
               </div>
+
+              {/* Match breakdown card */}
+              <MatchBreakdown job={displayJob} open={open} />
 
               {/* AI Agent */}
               <div className="pt-1">
@@ -1917,12 +1949,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
               </div>
             </div>
 
-            {/* AI reason */}
-            <MatchGlowCard reason={displayJob.reason} className="mt-4" />
           </div>
-
-          {/* Match breakdown */}
-          <MatchBreakdown job={displayJob} open={open} />
 
           {/* Description */}
           <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
