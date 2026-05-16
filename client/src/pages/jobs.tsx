@@ -2074,30 +2074,30 @@ function sgPalette(score: number, isDark: boolean) {
   return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
 }
 
-function sgMatchLabel(score: number): { text: string; bg: string; color: string; border: string } {
+function sgMatchLabel(score: number, isDark: boolean): { text: string; gradientTop: string; gradientBot: string; border: string } {
   if (score >= 85) return {
     text: "Excellent match",
-    bg: "rgba(74,222,128,0.12)",
-    color: "#15803d",
-    border: "rgba(74,222,128,0.30)",
+    gradientTop: isDark ? "#22c55e" : "#4ade80",
+    gradientBot: isDark ? "#14532d" : "#15803d",
+    border: isDark ? "#166534" : "#15803d",
   };
   if (score >= 70) return {
     text: "Good match",
-    bg: "rgba(251,191,36,0.12)",
-    color: "#b45309",
-    border: "rgba(251,191,36,0.32)",
+    gradientTop: isDark ? "#fbbf24" : "#fcd34d",
+    gradientBot: isDark ? "#92400e" : "#b45309",
+    border: isDark ? "#78350f" : "#b45309",
   };
   if (score >= 50) return {
     text: "Fair match",
-    bg: "rgba(251,146,60,0.12)",
-    color: "#c2410c",
-    border: "rgba(251,146,60,0.30)",
+    gradientTop: isDark ? "#fb923c" : "#fdba74",
+    gradientBot: isDark ? "#9a3412" : "#c2410c",
+    border: isDark ? "#7c2d12" : "#c2410c",
   };
   return {
     text: "Weak match",
-    bg: "rgba(252,165,165,0.13)",
-    color: "#b91c1c",
-    border: "rgba(252,165,165,0.32)",
+    gradientTop: isDark ? "#f87171" : "#fca5a5",
+    gradientBot: isDark ? "#7f1d1d" : "#b91c1c",
+    border: isDark ? "#6b1c1c" : "#b91c1c",
   };
 }
 
@@ -2112,7 +2112,6 @@ function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value:
   const arcLen  = (filledSweep * Math.PI / 180) * SG_R;
   const trackSurface = isDark ? "hsl(20,8%,20%)" : "rgba(210,205,198,0.90)";
   const scoreColor   = isDark ? "rgba(240,237,232,0.88)" : "#1A1A1A";
-  const label = sgMatchLabel(value);
 
   const [displayNum, setDisplayNum] = useState(0);
   useEffect(() => {
@@ -2129,16 +2128,17 @@ function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value:
     return () => cancelAnimationFrame(raf);
   }, [value]);
 
+  const label = sgMatchLabel(value, isDark);
   const svgW = SG_VBW * scale;
   const svgH = SG_VBH * scale;
 
   return (
-    <div style={{ flexShrink: 0, position: "relative", width: svgW, height: showLabel ? svgH + 10 : svgH }}>
+    <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: showLabel ? 6 : 0 }}>
       <svg
         viewBox={`0 0 ${SG_VBW} ${SG_VBH}`}
         width={svgW}
         height={svgH}
-        style={{ display: "block", overflow: "visible", position: "absolute", top: 0, left: 0 }}
+        style={{ display: "block", overflow: "visible" }}
       >
         <defs>
           <linearGradient id={`sg-fg-${uid}`} gradientUnits="userSpaceOnUse"
@@ -2181,32 +2181,27 @@ function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value:
         </text>
       </svg>
 
-      {/* Label pill — sits in the gap at the bottom of the arc */}
+      {/* Metallic badge — centered below the gauge */}
       {showLabel && (
-        <motion.div
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
+        <div
           style={{
-            position: "absolute",
-            bottom: 0,
-            left: "50%",
-            transform: "translateX(-50%)",
             whiteSpace: "nowrap",
-            background: label.bg,
-            color: isDark ? label.color.replace(/^#/, "") === label.color.replace(/^#/, "") ? label.color : label.color : label.color,
+            background: `linear-gradient(to bottom, ${label.gradientTop}, ${label.gradientBot})`,
+            color: "#ffffff",
             border: `1px solid ${label.border}`,
             borderRadius: "999px",
-            padding: "2px 8px",
+            padding: "3px 10px",
             fontSize: "10px",
-            fontWeight: 600,
-            letterSpacing: "-0.01em",
+            fontWeight: 700,
+            letterSpacing: "0.01em",
             lineHeight: "16px",
             pointerEvents: "none",
+            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -1px 0 rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.28)`,
+            textShadow: "0 1px 1px rgba(0,0,0,0.35)",
           }}
         >
           {label.text}
-        </motion.div>
+        </div>
       )}
     </div>
   );
