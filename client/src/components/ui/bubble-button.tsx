@@ -145,7 +145,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 <span className="text-[32px] font-bold leading-none text-foreground tabular-nums">
                   {remaining}
                 </span>
-                <span className="text-[13px] text-foreground/35 font-medium">/ {limit} credits left</span>
+                <span className="text-[13px] text-foreground/50 font-medium">/ {limit} credits left</span>
               </div>
 
               {/* Staggered segmented bar */}
@@ -174,7 +174,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-3" />
 
               {/* Usage hint */}
-              <p className="text-[12px] text-foreground/40 leading-relaxed mb-3">
+              <p className="text-[12px] text-foreground/55 leading-relaxed mb-3">
                 Credits power mock interviews and scout chats.
               </p>
 
@@ -183,13 +183,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 .credits-cta {
                   position: relative;
                   overflow: hidden;
-                  box-shadow:
-                    inset 0 1px 0 rgba(255,255,255,0.18),
-                    inset 0 -1px 0 rgba(0,0,0,0.45),
-                    inset 0 -4px 8px rgba(255,255,255,0.07),
-                    0 4px 14px rgba(0,0,0,0.35),
-                    0 1px 3px rgba(0,0,0,0.45);
-                  transition: box-shadow 0.18s ease, transform 0.14s ease;
+                  transition: opacity 0.14s ease, transform 0.14s ease;
                 }
                 .credits-cta::after {
                   content: "";
@@ -201,12 +195,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   pointer-events: none;
                 }
                 .credits-cta:hover {
-                  box-shadow:
-                    inset 0 1px 0 rgba(255,255,255,0.28),
-                    inset 0 -1px 0 rgba(0,0,0,0.45),
-                    inset 0 -4px 10px rgba(255,255,255,0.14),
-                    0 6px 18px rgba(0,0,0,0.38),
-                    0 2px 4px rgba(0,0,0,0.45);
+                  opacity: 0.88;
                 }
                 .credits-cta:hover .credits-cta-inner {
                   transform: translateY(-1.5px);
