@@ -92,7 +92,7 @@ export function Gauge({
   const uid = useId().replace(/:/g, "")
   const resolvedTrackWidth = trackWidth ?? strokeWidth
   const circleSize = 100
-  const radius = circleSize / 2 - Math.max(strokeWidth, resolvedTrackWidth) / 2
+  const radius = circleSize / 2 - resolvedTrackWidth / 2
   const circumference = 2 * Math.PI * radius
 
   const offsetFactor = equal ? 0.5 : 0
@@ -251,7 +251,7 @@ export function Gauge({
           stroke={secondaryColor}
           strokeWidth={resolvedTrackWidth}
           strokeDasharray={secondaryStrokeDasharray()}
-          style={{ ...sharedCircle.style, transform: secondaryTransform(), filter: `url(#trackShadow-${uid})` }}
+          style={{ ...sharedCircle.style, transform: secondaryTransform() }}
           opacity={secondaryOpacity()}
           className={cn("", typeof className === "object" && (className as any)?.secondaryClassName)}
         />
@@ -263,16 +263,6 @@ export function Gauge({
           strokeDasharray={secondaryStrokeDasharray()}
           style={{ ...sharedCircle.style, transform: secondaryTransform() }}
           opacity={secondaryOpacity()}
-        />
-
-        {/* ── PROGRESS ARC — bottom glow layer ── */}
-        <circle
-          {...sharedCircle}
-          stroke={primaryColor}
-          strokeWidth={strokeWidth + 3}
-          strokeDasharray={primaryStrokeDasharray()}
-          style={{ ...sharedCircle.style, transform: primaryTransform(), filter: `url(#glow-${uid})`, opacity: 0.55 }}
-          opacity={primaryOpacity()}
         />
 
         {/* ── PROGRESS ARC — main 3D gradient arc ── */}
@@ -305,6 +295,7 @@ export function Gauge({
           style={{ ...sharedCircle.style, transform: primaryTransform() }}
           opacity={primaryOpacity()}
         />
+
 
         {/* ── CENTER TEXT ── */}
         {showValue && (

@@ -1953,8 +1953,8 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
           <Gauge
             value={job.match}
             size={40}
-            strokeWidth={7}
-            trackWidth={11}
+            strokeWidth={5}
+            trackWidth={15}
             gapPercent={3}
             primary={getScoreColor(job.match, isDark).primary}
             gradientEnd={getScoreColor(job.match, isDark).gradientEnd}
