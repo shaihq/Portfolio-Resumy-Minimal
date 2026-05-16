@@ -3,7 +3,6 @@ import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motio
 import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
 
 /* ─── Keyframes ─────────────────────────────────────────────────────── */
 const KEYFRAMES = `
@@ -14,6 +13,14 @@ const KEYFRAMES = `
   @keyframes pulse-dot {
     0%, 100% { opacity: 0.5;  }
     50%       { opacity: 1;   }
+  }
+  @property --btn-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+  @keyframes rotate-btn-gradient {
+    to { --btn-angle: 360deg; }
   }
 `;
 
@@ -334,11 +341,26 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   Credits power mock interviews and scout chats.
                 </p>
 
-                {/* CTA */}
-                <Button variant="default" size="sm" className="w-full gap-1.5">
-                  <Zap className="w-3 h-3" />
-                  Get more credits
-                </Button>
+                {/* CTA — rotating gradient border button */}
+                <div style={{ borderRadius: 50, padding: 2,
+                  background: `conic-gradient(from var(--btn-angle, 0deg), ${c.bright}, ${c.mid}, ${c.deep}, ${c.mid}, ${c.bright})`,
+                  animation: "rotate-btn-gradient 3s linear infinite",
+                  cursor: "pointer",
+                }}
+                  role="button" tabIndex={0}
+                >
+                  <div style={{
+                    background: isDark ? "hsl(20,10%,12%)" : "#F0EDE7",
+                    borderRadius: 48,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    gap: 6, padding: "8px 0",
+                    fontSize: 13, fontWeight: 600,
+                    color: isDark ? "hsl(46,29%,94%)" : "hsl(20,10%,15%)",
+                  }}>
+                    <Zap size={12} />
+                    Get more credits
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}
