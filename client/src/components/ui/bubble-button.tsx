@@ -148,11 +148,18 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         <filter id={`bf-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="4" />
         </filter>
+        <filter id={`is-${uid}`} x="-5%" y="-5%" width="110%" height="110%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="blur"/>
+          <feOffset dy="1.5" result="offset"/>
+          <feFlood floodColor="black" floodOpacity="0.45" result="flood"/>
+          <feComposite in="flood" in2="offset" operator="in" result="composite"/>
+          <feComposite in="composite" in2="SourceGraphic" operator="atop"/>
+        </filter>
       </defs>
 
-      {/* ── Track: wider than fill to create recessed-channel depth ── */}
-      <path d={track} fill="none" stroke={trackShadow}  strokeWidth={SW + 9} strokeLinecap="round" />
-      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round" />
+      {/* ── Track: surface with inner shadow for depth ── */}
+      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round"
+        style={{ filter: `url(#is-${uid})` }} />
 
 
       {/* ── Filled arc: narrower than track so track peeks around it ── */}
