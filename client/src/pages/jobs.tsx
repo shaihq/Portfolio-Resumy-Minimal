@@ -1897,49 +1897,27 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
 function ScoreRing({ value, primary, isDark }: { value: number; primary: string; isDark: boolean }) {
-  const S = 44;
+  const S = 40;
   const C = S / 2;
-  const R = 15;
-  const TW = 10;
-  const FW = 5;
-
+  const R = 16;
+  const SW = 3;
   const circ = 2 * Math.PI * R;
-  const pct  = Math.max(0, Math.min(100, value)) / 100;
-  const da   = (len: number) => `${(len).toFixed(3)} ${(circ - len).toFixed(3)}`;
-  const rot  = `rotate(-90 ${C} ${C})`;
-
-  const tShadow = isDark ? "rgba(0,0,0,0.65)"         : "rgba(0,0,0,0.24)";
-  const tBase   = isDark ? "rgba(255,255,255,0.07)"   : "rgba(0,0,0,0.08)";
-  const tMid    = isDark ? "rgba(255,255,255,0.12)"   : "rgba(255,255,255,0.28)";
-  const tGloss  = isDark ? "rgba(255,255,255,0.26)"   : "rgba(255,255,255,0.86)";
-  const tInner  = isDark ? "rgba(255,255,255,0.06)"   : "rgba(0,0,0,0.05)";
-
+  const pct = Math.max(0, Math.min(100, value)) / 100;
+  const track = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
   return (
     <div style={{ position: "relative", width: S, height: S, flexShrink: 0 }}>
       <svg width={S} height={S} viewBox={`0 0 ${S} ${S}`} fill="none" style={{ display: "block" }}>
-        {/* Track — 4 concentric layers from wide+dark → narrow+bright = convex 3D torus */}
-        <circle cx={C} cy={C} r={R} stroke={tShadow} strokeWidth={TW + 3} />
-        <circle cx={C} cy={C} r={R} stroke={tBase}   strokeWidth={TW}     />
-        <circle cx={C} cy={C} r={R} stroke={tMid}    strokeWidth={TW - 4} />
-        <circle cx={C} cy={C} r={R} stroke={tGloss}  strokeWidth={TW - 7} />
-        <circle cx={C} cy={C} r={R - TW / 2 + 1.5}  stroke={tInner} strokeWidth={1} />
-
-        {/* Fill arc — narrower than track so track peeks on both sides */}
-        <circle cx={C} cy={C} r={R}
-          stroke={primary} strokeWidth={FW + 1} strokeOpacity={0.28}
-          strokeLinecap="round" strokeDasharray={da(pct * circ)} transform={rot} />
-        <circle cx={C} cy={C} r={R}
-          stroke={primary} strokeWidth={FW}
-          strokeLinecap="round" strokeDasharray={da(pct * circ)} transform={rot} />
-        <circle cx={C} cy={C} r={R - FW / 2 + 1}
-          stroke="rgba(255,255,255,0.45)" strokeWidth={1}
-          strokeLinecap="round" strokeDasharray={da(pct * circ)} transform={rot} />
+        <circle cx={C} cy={C} r={R} stroke={track} strokeWidth={SW} />
+        <circle cx={C} cy={C} r={R} stroke={primary} strokeWidth={SW}
+          strokeLinecap="round"
+          strokeDasharray={`${(pct * circ).toFixed(3)} ${circ.toFixed(3)}`}
+          transform={`rotate(-90 ${C} ${C})`} />
       </svg>
       <div style={{
         position: "absolute", inset: 0,
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 11, fontWeight: 700, letterSpacing: "-0.3px",
-        color: isDark ? "rgba(255,255,255,0.88)" : "#1A1A1A",
+        fontSize: 10, fontWeight: 600, letterSpacing: "-0.2px",
+        color: isDark ? "rgba(255,255,255,0.85)" : "#1A1A1A",
         userSelect: "none", pointerEvents: "none",
       }}>
         {value}
