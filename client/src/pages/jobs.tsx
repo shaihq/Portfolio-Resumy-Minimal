@@ -1964,7 +1964,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                     <span className="text-[12px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors leading-none">Practice with a mock interview</span>
                     <span className="text-[9.5px] font-medium text-foreground/40 leading-none whitespace-nowrap">✦ Recommended</span>
                   </div>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/30 group-hover:text-foreground/60 transition-colors flex-shrink-0" />
+                  <span className="flex items-center gap-0.5 bg-amber-400/15 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">10</span>
+                  </span>
                 </button>
 
                 {/* Tailor resume */}
@@ -1973,7 +1976,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                     <FileText className="w-3 h-3 text-foreground/40" />
                   </div>
                   <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                  <span className="flex items-center gap-0.5 bg-amber-400/15 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">4</span>
+                  </span>
                 </button>
 
                 {/* Cover letter */}
@@ -1982,7 +1988,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                     <PenLine className="w-3 h-3 text-foreground/40" />
                   </div>
                   <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Write a job-specific cover letter</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                  <span className="flex items-center gap-0.5 bg-amber-400/15 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">3</span>
+                  </span>
                 </button>
 
                 {/* Fit analysis */}
@@ -1991,7 +2000,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                     <Crosshair className="w-3 h-3 text-foreground/40" />
                   </div>
                   <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Run a deep fit analysis</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                  <span className="flex items-center gap-0.5 bg-amber-400/15 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">6</span>
+                  </span>
                 </button>
               </div>
 
