@@ -1966,16 +1966,16 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 
               {/* Action buttons — Resume · Mock interview · Cover letter · Fit analysis */}
               <div className="space-y-1.5">
-                {/* Tailor resume */}
-                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
-                  <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-3 h-3 text-foreground/40" />
+                {/* Tailor resume — primary recommended action */}
+                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.07] hover:bg-foreground/[0.10] border border-foreground/[0.10] transition-colors group text-left">
+                  <div className="w-5 h-5 rounded-md bg-foreground/[0.10] flex items-center justify-center flex-shrink-0">
+                    <FileText className="w-3 h-3 text-foreground/60" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</div>
-                    <div className="text-[10.5px] text-foreground/35 mt-0.5 leading-snug">Rewritten to match what they're hiring for</div>
+                  <div className="flex-1 min-w-0 flex items-center gap-2">
+                    <span className="text-[12px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors leading-none">Tailor resume to this role</span>
+                    <span className="text-[9.5px] font-medium text-foreground/40 leading-none whitespace-nowrap">✦ Recommended</span>
                   </div>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                  <ChevronRight className="w-3.5 h-3.5 text-foreground/30 group-hover:text-foreground/60 transition-colors flex-shrink-0" />
                 </button>
 
                 {/* Mock interview */}
@@ -1987,14 +1987,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
                     <Clapperboard className="w-3 h-3 text-foreground/40" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Practice with a mock interview</div>
-                    <div className="text-[10.5px] text-foreground/35 mt-0.5 leading-snug">
-                      {(pastReports ?? []).length > 0
-                        ? `${(pastReports ?? []).length} session${(pastReports ?? []).length !== 1 ? "s" : ""} completed`
-                        : "Get ready before you apply"}
-                    </div>
-                  </div>
+                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Practice with a mock interview</span>
                   <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
                 </button>
 
@@ -2003,10 +1996,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
                     <PenLine className="w-3 h-3 text-foreground/40" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Write a job-specific cover letter</div>
-                    <div className="text-[10.5px] text-foreground/35 mt-0.5 leading-snug">Drafted in your voice, shaped to this role</div>
-                  </div>
+                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Write a job-specific cover letter</span>
                   <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
                 </button>
 
@@ -2015,10 +2005,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
                     <Crosshair className="w-3 h-3 text-foreground/40" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Run a deep fit analysis</div>
-                    <div className="text-[10.5px] text-foreground/35 mt-0.5 leading-snug">See what lands and what's holding you back</div>
-                  </div>
+                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Run a deep fit analysis</span>
                   <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
                 </button>
               </div>
