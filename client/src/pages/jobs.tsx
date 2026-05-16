@@ -1757,7 +1757,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             <>
               <button
                 onClick={() => setExpandedSection(expandedSection === "signals" ? null : "signals")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-left cursor-pointer hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors duration-150"
+                className="w-full flex items-center justify-between px-3 py-2.5 text-left cursor-pointer hover:bg-black/[0.06] dark:hover:bg-white/[0.09] transition-colors duration-150"
               >
                 <span className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/40">Strongest signals</span>
                 <ChevronDown
@@ -1799,7 +1799,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             <>
               <button
                 onClick={() => setExpandedSection(expandedSection === "missing" ? null : "missing")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-left cursor-pointer hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors duration-150"
+                className="w-full flex items-center justify-between px-3 py-2.5 text-left cursor-pointer hover:bg-black/[0.06] dark:hover:bg-white/[0.09] transition-colors duration-150"
               >
                 <span className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/40">Missing</span>
                 <ChevronDown
