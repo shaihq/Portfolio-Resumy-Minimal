@@ -1648,7 +1648,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
         {/* Score block */}
         <div className="flex-shrink-0">
           <div className="flex items-baseline gap-1">
-            <span className="text-[42px] font-bold leading-none tracking-tight tabular-nums" style={{ color: accentText }}>
+            <span className="text-[42px] font-bold leading-none tracking-tight tabular-nums text-foreground">
               {score}
             </span>
             <span className="text-[13px] font-medium text-foreground/30 mb-0.5">/100</span>
