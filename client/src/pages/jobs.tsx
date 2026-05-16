@@ -3011,6 +3011,63 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
   );
 }
 
+// ── Criteria Dropdown ──────────────────────────────────────────────────────
+function CriteriaDropdown({ onClose }: { onClose: () => void }) {
+  const [role, setRole] = useState("Software engineers");
+  const [location, setLocation] = useState("Remote · United States");
+
+  return (
+    <div className="w-[300px] rounded-2xl border border-black/[0.07] dark:border-white/[0.09] bg-white dark:bg-[#1E1B18] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
+      {/* Header */}
+      <div className="px-4 pt-4 pb-3.5 border-b border-black/[0.05] dark:border-white/[0.06]">
+        <p className="text-[13px] font-semibold text-foreground">Search criteria</p>
+        <p className="text-[11px] text-foreground/40 mt-0.5">Update to rescan with fresh results</p>
+      </div>
+
+      {/* Inputs */}
+      <div className="px-4 pt-3.5 pb-3 flex flex-col gap-3">
+        {/* Role */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[11px] font-medium text-foreground/40 uppercase tracking-wide">Role</label>
+          <input
+            type="text"
+            value={role}
+            onChange={e => setRole(e.target.value)}
+            placeholder="e.g. Product Designer"
+            className="w-full h-9 px-3 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.03] dark:bg-white/[0.05] text-[13px] text-foreground placeholder:text-foreground/30 outline-none focus:border-black/[0.18] dark:focus:border-white/[0.22] transition-colors"
+          />
+        </div>
+
+        {/* Location */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[11px] font-medium text-foreground/40 uppercase tracking-wide">Location</label>
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-foreground/35 pointer-events-none" />
+            <input
+              type="text"
+              value={location}
+              onChange={e => setLocation(e.target.value)}
+              placeholder="e.g. Remote, New York"
+              className="w-full h-9 pl-8 pr-3 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.03] dark:bg-white/[0.05] text-[13px] text-foreground placeholder:text-foreground/30 outline-none focus:border-black/[0.18] dark:focus:border-white/[0.22] transition-colors"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="px-3 pb-3">
+        <button
+          onClick={onClose}
+          className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-foreground text-background text-[13px] font-semibold hover:opacity-90 active:opacity-80 transition-opacity"
+        >
+          <Search className="w-3.5 h-3.5" />
+          Rescan jobs
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ── Dashboard ──────────────────────────────────────────────────────────────
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
@@ -3162,37 +3219,7 @@ function Dashboard() {
                 transformOrigin: "top left",
               }}
             >
-              <div className="w-[300px] rounded-2xl border border-black/[0.07] dark:border-white/[0.09] bg-white dark:bg-[#1E1B18] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-                {/* Header */}
-                <div className="px-4 pt-4 pb-3 border-b border-black/[0.05] dark:border-white/[0.06]">
-                  <p className="text-[13px] font-semibold text-foreground">Search criteria</p>
-                  <p className="text-[11px] text-foreground/40 mt-0.5">Your active job preferences</p>
-                </div>
-
-                {/* Criteria rows */}
-                <div className="px-4 py-3 flex flex-col gap-3">
-                  {[
-                    { label: "Role", value: "Software Engineer" },
-                    { label: "Level", value: "Senior" },
-                    { label: "Work mode", value: "Remote-first" },
-                    { label: "Location", value: "United States" },
-                    { label: "Type", value: "Full-time" },
-                  ].map(({ label, value }) => (
-                    <div key={label} className="flex items-center justify-between gap-3">
-                      <span className="text-[12px] text-foreground/40 flex-shrink-0">{label}</span>
-                      <span className="text-[12px] font-medium text-foreground/80 text-right">{value}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Footer action */}
-                <div className="px-3 pb-3 pt-1">
-                  <button className="w-full flex items-center justify-center gap-1.5 h-9 rounded-xl bg-foreground/[0.05] dark:bg-white/[0.06] hover:bg-foreground/[0.08] dark:hover:bg-white/[0.1] transition-colors text-[12px] font-medium text-foreground/60 hover:text-foreground/80">
-                    <Search className="w-3 h-3" />
-                    Edit &amp; rescan
-                  </button>
-                </div>
-              </div>
+              <CriteriaDropdown onClose={() => setCriteriaOpen(false)} />
             </div>
           </div>
 
