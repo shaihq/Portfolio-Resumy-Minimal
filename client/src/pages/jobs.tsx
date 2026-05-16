@@ -1708,38 +1708,47 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           })}
         </div>
       </div>
-      {/* ── Row 2: sub-scores with explainability ── */}
+      {/* ── Row 2: sub-scores ── */}
       <div className="border-t border-black/[0.06] dark:border-white/[0.06] divide-y divide-black/[0.05] dark:divide-white/[0.05]">
-        {subs.map((sub) => (
-          <div key={sub.label} className="flex items-start gap-3 px-4 py-3">
-            <div className="flex-shrink-0 mt-0.5">
-              <ScoreGauge value={open ? sub.target : 0} isDark={isDark} scale={1.1} />
-            </div>
-            <div className="flex-1 min-w-0 pt-1">
-              <div className="text-[12px] font-semibold text-foreground/65 mb-1.5 leading-none">{sub.label}</div>
+        {subs.map((sub) => {
+          const subColor = sub.target >= 85 ? "#22c55e" : sub.target >= 70 ? "#f97316" : "#ef4444";
+          const subTextColor = sub.target >= 85
+            ? (isDark ? "#4ade80" : "#15803d")
+            : sub.target >= 70
+            ? (isDark ? "#fb923c" : "#c2410c")
+            : (isDark ? "#f87171" : "#b91c1c");
+          return (
+            <div key={sub.label} className="px-4 py-3">
+              {/* Label + score */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10.5px] font-semibold uppercase tracking-widest text-foreground/40">{sub.label}</span>
+                <span className="text-[14px] font-bold tabular-nums leading-none" style={{ color: subTextColor }}>{sub.target}</span>
+              </div>
+              {/* Thin animated bar */}
+              <div className="h-[3px] rounded-full mb-2.5 overflow-hidden" style={{ backgroundColor: trackColor }}>
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: subColor }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: open ? `${sub.target}%` : "0%" }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                />
+              </div>
+              {/* Aligns */}
               {sub.aligns.length > 0 && (
-                <div className="flex flex-wrap gap-x-3 gap-y-0.5 mb-1">
-                  {sub.aligns.map(a => (
-                    <span key={a} className="inline-flex items-center gap-1 text-[10.5px] text-emerald-600 dark:text-emerald-400">
-                      <span className="w-1 h-1 rounded-full bg-emerald-500 flex-shrink-0" />
-                      {a}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-[11px] text-emerald-600 dark:text-emerald-400 leading-snug mb-0.5">
+                  {sub.aligns.join(" · ")}
+                </p>
               )}
+              {/* Gaps */}
               {sub.gaps.length > 0 && (
-                <div className="flex flex-wrap gap-x-3 gap-y-0.5">
-                  {sub.gaps.map(g => (
-                    <span key={g} className="inline-flex items-center gap-1 text-[10.5px] text-amber-600 dark:text-amber-400">
-                      <span className="w-1 h-1 rounded-full bg-amber-500 flex-shrink-0" />
-                      {g}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-[11px] text-amber-600 dark:text-amber-400 leading-snug">
+                  <span className="font-medium">Missing:</span> {sub.gaps.join(" · ")}
+                </p>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       {/* ── Row 3: why it's a match ── */}
       <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-4 py-3.5">
