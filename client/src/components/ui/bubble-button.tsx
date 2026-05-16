@@ -119,9 +119,9 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
   const labelY = CY + 16;
 
   /* ── adaptive track colors ── */
-  const trackShadow  = isDark ? "rgba(0,0,0,0.50)"        : "rgba(0,0,0,0.08)";
-  const trackSurface = isDark ? "rgba(12,13,16,0.95)"      : "rgba(215,210,203,0.90)";
-  const trackRim     = isDark ? "rgba(255,255,255,0.045)"  : "rgba(255,255,255,0.60)";
+  const trackShadow  = isDark ? "rgba(0,0,0,0.50)"       : "rgba(0,0,0,0.08)";
+  const trackSurface = isDark ? "hsl(20,10%,14%)"        : "rgba(215,210,203,0.90)";
+  const trackRim     = isDark ? "hsl(20,10%,22%)"        : "rgba(255,255,255,0.60)";
   const scoreColor   = isDark ? "white"                    : "#1A1A1A";
   const labelColor   = isDark ? "rgba(255,255,255,0.30)"   : "rgba(26,26,26,0.38)";
 
@@ -259,11 +259,11 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
 
     /* ── adaptive card tokens ── */
     const card = isDark ? {
-      background:  "linear-gradient(160deg, rgba(22,24,28,0.98) 0%, rgba(13,14,17,1) 100%)",
-      border:      "1px solid rgba(255,255,255,0.09)",
+      background:  "linear-gradient(160deg, hsl(20,10%,13%) 0%, hsl(20,10%,10%) 100%)",
+      border:      "1px solid hsl(20,10%,20%)",
       boxShadow:   "0 4px 24px rgba(0,0,0,0.28), 0 1px 4px rgba(0,0,0,0.18)",
-      gloss:       "linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent)",
-      descColor:   "rgba(255,255,255,0.40)",
+      gloss:       "linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)",
+      descColor:   "hsl(46,10%,60%)",
     } : {
       background:  "linear-gradient(160deg, #FDFCFB 0%, #F0EDE7 100%)",
       border:      "1px solid rgba(26,26,26,0.10)",
