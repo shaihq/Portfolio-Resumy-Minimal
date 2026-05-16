@@ -1887,9 +1887,6 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   </div>
                 </div>
               </div>
-              <div className="flex-shrink-0">
-                <ScoreGauge value={displayJob.match} isDark={isDark} scale={2.1} />
-              </div>
             </div>
 
             {/* Property rows */}
