@@ -1773,20 +1773,6 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-center flex-shrink-0">
-                <Gauge
-                  value={displayJob.match}
-                  size={48}
-                  strokeWidth={8}
-                  gapPercent={3}
-                  primary="success"
-                  secondary="rgba(0,0,0,0.06)"
-                  showValue={true}
-                  showPercentage={false}
-                  className={{ textClassName: "fill-emerald-600 dark:fill-emerald-400" }}
-                />
-                <span className="text-sm text-foreground/40 mt-0.5">match</span>
-              </div>
             </div>
 
             {/* Property rows */}
