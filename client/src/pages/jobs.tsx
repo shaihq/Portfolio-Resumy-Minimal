@@ -1575,6 +1575,126 @@ function InterviewReport({ job, report: reportProp, onClose }: { job: Job; repor
 }
 
 // ── Job detail sheet ───────────────────────────────────────────────────────
+// ── Match score breakdown ──────────────────────────────────────────────────
+const BREAKDOWN_BARS = 38;
+// Sine-wave height pattern so filled bars look like a waveform
+const BAR_HEIGHTS = Array.from({ length: BREAKDOWN_BARS }, (_, i) =>
+  Math.round(12 + Math.sin((i / BREAKDOWN_BARS) * Math.PI * 2.8 + 0.4) * 5)
+);
+
+function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  // Derive deterministic sub-scores from job id + overall match
+  const seed = parseInt(job.id) || 1;
+  const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+  const expTarget   = clamp(job.match + ((seed * 7  + 3) % 17) - 8, 45, 99);
+  const skillTarget = clamp(job.match + ((seed * 11 + 5) % 19) - 3, 48, 99);
+  const reqTarget   = clamp(job.match - ((seed * 13 + 7) % 23) + 6, 40, 97);
+
+  // Accent colour matches overall score tier
+  const accent     = job.match >= 85 ? "#22c55e" : job.match >= 70 ? "#f97316" : "#ef4444";
+  const trackColor = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+
+  // Animated counters
+  const [score,    setScore]    = useState(0);
+  const [expVal,   setExpVal]   = useState(0);
+  const [skillVal, setSkillVal] = useState(0);
+  const [reqVal,   setReqVal]   = useState(0);
+
+  useEffect(() => {
+    if (!open) { setScore(0); setExpVal(0); setSkillVal(0); setReqVal(0); return; }
+    const duration = 1000;
+    const start = performance.now();
+    let raf: number;
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const e = 1 - Math.pow(1 - t, 3);
+      setScore(Math.round(e * job.match));
+      setExpVal(Math.round(e * expTarget));
+      setSkillVal(Math.round(e * skillTarget));
+      setReqVal(Math.round(e * reqTarget));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    const timer = setTimeout(() => { raf = requestAnimationFrame(tick); }, 120);
+    return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
+  }, [open, job.match, expTarget, skillTarget, reqTarget]);
+
+  const filledBars = Math.round((score / 100) * BREAKDOWN_BARS);
+
+  const subs = [
+    { label: "Experience Match",    val: expVal,   target: expTarget   },
+    { label: "Skills Match",        val: skillVal, target: skillTarget },
+    { label: "Requirements Match",  val: reqVal,   target: reqTarget   },
+  ];
+
+  return (
+    <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+      {/* Header */}
+      <h3 className="text-[11px] font-semibold text-foreground/35 uppercase tracking-widest mb-4">Match breakdown</h3>
+
+      {/* Score + segmented waveform bar */}
+      <div className="flex items-center gap-5">
+        <div className="flex-shrink-0 w-[72px]">
+          <div className="flex items-baseline gap-1">
+            <span className="text-[40px] font-bold leading-none tracking-tight tabular-nums" style={{ color: accent }}>
+              {score}
+            </span>
+          </div>
+          <div className="text-[10px] text-foreground/35 font-medium mt-0.5">of 100</div>
+        </div>
+
+        {/* Segmented waveform */}
+        <div className="flex-1 flex items-end gap-[2.5px]">
+          {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
+            const filled = i < filledBars;
+            return (
+              <div
+                key={i}
+                className="flex-1 rounded-[2px]"
+                style={{
+                  height: filled ? BAR_HEIGHTS[i] : 8,
+                  backgroundColor: filled ? accent : trackColor,
+                  opacity: filled ? 0.45 + (i / BREAKDOWN_BARS) * 0.55 : 1,
+                  transition: "height 0.15s ease, background-color 0.15s ease",
+                }}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Sub-scores */}
+      <div className="mt-5 grid grid-cols-3 gap-x-4 gap-y-3">
+        {subs.map(({ label, val, target }) => {
+          const subAccent = target >= 85 ? "#22c55e" : target >= 70 ? "#f97316" : "#ef4444";
+          return (
+            <div key={label}>
+              <div className="flex items-baseline gap-0.5 mb-1">
+                <span className="text-[22px] font-bold leading-none tracking-tight tabular-nums" style={{ color: subAccent }}>
+                  {val}
+                </span>
+                <span className="text-[11px] font-semibold" style={{ color: subAccent }}>%</span>
+              </div>
+              <div className="text-[10px] text-foreground/40 font-medium leading-snug mb-2">{label}</div>
+              <div className="h-[3px] rounded-full overflow-hidden" style={{ backgroundColor: trackColor }}>
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: subAccent }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: open ? `${target}%` : "0%" }}
+                  transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job: Job | null; open: boolean; onClose: () => void; pastReports?: CompletedReport[]; onViewReport?: (report: CompletedReport) => void }) {
   const lastJobRef = useRef<Job | null>(null);
   if (job) lastJobRef.current = job;
@@ -1800,6 +1920,9 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
             {/* AI reason */}
             <MatchGlowCard reason={displayJob.reason} className="mt-4" />
           </div>
+
+          {/* Match breakdown */}
+          <MatchBreakdown job={displayJob} open={open} />
 
           {/* Description */}
           <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
