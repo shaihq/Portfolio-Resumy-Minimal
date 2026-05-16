@@ -8,6 +8,7 @@ export interface GaugeProps extends Omit<SVGProps<SVGSVGElement>, "className"> {
   size?: number | string
   gapPercent?: number
   strokeWidth?: number
+  trackWidth?: number
   equal?: boolean
   showValue?: boolean
   showPercentage?: boolean
@@ -70,6 +71,7 @@ export function Gauge({
   size = 150,
   gapPercent = 5,
   strokeWidth = 10,
+  trackWidth,
   equal = false,
   showValue = true,
   showPercentage = false,
@@ -88,8 +90,9 @@ export function Gauge({
   ...props
 }: GaugeProps) {
   const uid = useId().replace(/:/g, "")
+  const resolvedTrackWidth = trackWidth ?? strokeWidth
   const circleSize = 100
-  const radius = circleSize / 2 - strokeWidth / 2
+  const radius = circleSize / 2 - Math.max(strokeWidth, resolvedTrackWidth) / 2
   const circumference = 2 * Math.PI * radius
 
   const offsetFactor = equal ? 0.5 : 0
@@ -237,7 +240,7 @@ export function Gauge({
         <circle
           {...sharedCircle}
           stroke="rgba(0,0,0,0.10)"
-          strokeWidth={strokeWidth + 1.5}
+          strokeWidth={resolvedTrackWidth + 1.5}
           strokeDasharray={secondaryStrokeDasharray()}
           style={{ ...sharedCircle.style, transform: secondaryTransform() }}
           opacity={secondaryOpacity()}
@@ -246,6 +249,7 @@ export function Gauge({
         <circle
           {...sharedCircle}
           stroke={secondaryColor}
+          strokeWidth={resolvedTrackWidth}
           strokeDasharray={secondaryStrokeDasharray()}
           style={{ ...sharedCircle.style, transform: secondaryTransform(), filter: `url(#trackShadow-${uid})` }}
           opacity={secondaryOpacity()}
