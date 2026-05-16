@@ -3012,12 +3012,14 @@ function PipelineCol({ colId, jobs, onShortlist, onOpenJob, onMockInterview, onA
 }
 
 // ── Criteria Dropdown ──────────────────────────────────────────────────────
+const ROLE_SUGGESTIONS = ["Product Designer", "UX Researcher", "Design Lead", "Motion Designer"];
+
 function CriteriaDropdown({ onClose }: { onClose: () => void }) {
   const [role, setRole] = useState("Software engineers");
   const [location, setLocation] = useState("Remote · United States");
 
   return (
-    <div className="w-[300px] rounded-2xl border border-black/[0.07] dark:border-white/[0.09] bg-white dark:bg-[#1E1B18] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
+    <div className="w-full min-w-[300px] rounded-2xl border border-black/[0.07] dark:border-white/[0.09] bg-white dark:bg-[#1E1B18] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
       {/* Header */}
       <div className="px-4 pt-4 pb-3.5 border-b border-black/[0.05] dark:border-white/[0.06]">
         <p className="text-[11px] text-foreground/40">Edit below to refresh your AI picks</p>
@@ -3035,6 +3037,19 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
             placeholder="e.g. Product Designer"
             className="w-full h-9 px-3 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.03] dark:bg-white/[0.05] text-[13px] text-foreground placeholder:text-foreground/30 outline-none focus:border-black/[0.18] dark:focus:border-white/[0.22] transition-colors"
           />
+          {/* Suggestion chips */}
+          <div className="flex flex-wrap gap-1.5 pt-0.5">
+            {ROLE_SUGGESTIONS.map(suggestion => (
+              <button
+                key={suggestion}
+                type="button"
+                onClick={() => setRole(suggestion)}
+                className="h-6 px-2.5 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-black/[0.03] dark:bg-white/[0.04] text-[11px] text-foreground/55 hover:text-foreground hover:border-black/[0.16] dark:hover:border-white/[0.2] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] transition-colors"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Location */}
@@ -3054,7 +3069,7 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* CTA */}
-      <div className="px-3 pb-3">
+      <div className="px-3 pt-2 pb-3">
         <button
           onClick={onClose}
           className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-foreground text-background text-[13px] font-semibold hover:opacity-90 active:opacity-80 transition-opacity"
@@ -3209,7 +3224,7 @@ function Dashboard() {
 
             {/* Criteria dropdown */}
             <div
-              className="absolute left-0 top-full mt-2 z-50"
+              className="absolute left-0 top-full mt-2 z-50 w-full"
               style={{
                 opacity: criteriaOpen ? 1 : 0,
                 transform: criteriaOpen ? "translateY(0) scale(1)" : "translateY(-6px) scale(0.98)",
