@@ -14,6 +14,7 @@ export interface GaugeProps extends Omit<SVGProps<SVGSVGElement>, "className"> {
   primary?: "danger" | "warning" | "success" | "info" | string | { [key: number]: string }
   secondary?: "danger" | "warning" | "success" | "info" | string | { [key: number]: string }
   gradient?: boolean
+  gradientEnd?: string
   gaugeType?: "full" | "half" | "quarter"
   transition?: { length?: number; step?: number; delay?: number }
   className?: string | { svgClassName?: string; primaryClassName?: string; secondaryClassName?: string; textClassName?: string }
@@ -35,6 +36,7 @@ export function Gauge({
   primary,
   secondary,
   gradient = false,
+  gradientEnd,
   gaugeType = "full",
   transition = { length: 1000, step: 200, delay: 0 },
   className,
@@ -164,8 +166,8 @@ export function Gauge({
       >
         {gradient && (
           <defs>
-            <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={primaryStroke} stopOpacity="0.3" />
+            <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={gradientEnd ?? primaryStroke} stopOpacity="1" />
               <stop offset="100%" stopColor={primaryStroke} stopOpacity="1" />
             </linearGradient>
           </defs>
