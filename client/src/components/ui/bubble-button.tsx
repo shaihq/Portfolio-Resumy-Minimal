@@ -2,6 +2,7 @@ import * as React from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
+import { useTheme } from "next-themes";
 
 /* ─── Keyframes ─────────────────────────────────────────────────────── */
 const KEYFRAMES = `
@@ -41,7 +42,7 @@ const BadgeBubbles = () => (
   </>
 );
 
-/* ─── Colour palette ─────────────────────────────────────────────────── */
+/* ─── Colour palette (gauge accent — same in both modes) ─────────────── */
 function palette(pct: number) {
   if (pct > 0.5) return { bright: "#b5f546", mid: "#4ade80", deep: "#166534", glow: "#22c55e", label: "#86efac" };
   if (pct > 0.2) return { bright: "#fde68a", mid: "#f59e0b", deep: "#92400e", glow: "#d97706", label: "#fcd34d" };
@@ -62,19 +63,15 @@ function arcPath(cx: number, cy: number, r: number, a1: number, a2: number) {
 }
 
 /* ─── Gauge geometry ─────────────────────────────────────────────────── */
-// 240° sweep: 8-o'clock (240°) → top → 4-o'clock (120°)
 const A0    = 240;
 const A1    = 120;
 const SWEEP = 240;
-const CX    = 120;   // SVG center x  (viewBox width = 240)
-const CY    = 108;   // SVG center y
-const R     = 82;    // arc radius
-const SW    = 19;    // stroke width
-
-// Arc endpoints are at y = CY + R * |cos(240°)| = CY + R*0.5
-// => 108 + 41 = 149.  SVG height = 149 + 16 = 165 (a little breathing room)
-const VB_W  = CX * 2;       // 240
-const VB_H  = CY + R * 0.5 + 16; // 165
+const CX    = 120;
+const CY    = 108;
+const R     = 82;
+const SW    = 19;
+const VB_W  = CX * 2;
+const VB_H  = CY + R * 0.5 + 16;
 
 /* ─── Tick marks ─────────────────────────────────────────────────────── */
 function Ticks({ startDeg, endDeg, color }: { startDeg: number; endDeg: number; color: string }) {
@@ -101,7 +98,7 @@ function Ticks({ startDeg, endDeg, color }: { startDeg: number; endDeg: number; 
 const SPARKS = Array.from({ length: 20 }, (_, i) => ({
   id:       i,
   frac:     Math.random(),
-  radOff:   (Math.random() - 0.5) * (SW * 0.6),  // ±~5.7px — well inside stroke
+  radOff:   (Math.random() - 0.5) * (SW * 0.6),
   size:     0.9 + Math.random() * 1.8,
   dur:      1.8 + Math.random() * 2.4,
   delay:    Math.random() * 4,
@@ -124,8 +121,8 @@ function ArcSparks({ filledSweep, clipId }: { filledSweep: number; clipId: strin
 }
 
 /* ─── Liquid Gauge SVG ───────────────────────────────────────────────── */
-function LiquidGauge({ pct, remaining, limit, uid }: {
-  pct: number; remaining: number; limit: number; uid: string;
+function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
+  pct: number; remaining: number; limit: number; uid: string; isDark: boolean;
 }) {
   const c           = palette(pct);
   const filled_sw   = SWEEP * Math.min(Math.max(pct, 0), 1);
@@ -136,52 +133,46 @@ function LiquidGauge({ pct, remaining, limit, uid }: {
   const empty  = filled_sw < SWEEP - 0.5 ? arcPath(CX, CY, R, filledEnd, A1) : "";
   const capPt  = filled && pct > 0.02 && pct < 0.99 ? pt(CX, CY, R, filledEnd) : null;
 
-  // Animated count-up (uses state so it lives inside SVG text safely)
   const mv   = useMotionValue(0);
   const sp   = useSpring(mv, { stiffness: 50, damping: 18 });
   const [disp, setDisp] = React.useState(0);
   React.useEffect(() => sp.on("change", (v) => setDisp(Math.round(v))), [sp]);
   React.useEffect(() => { const t = setTimeout(() => mv.set(remaining), 120); return () => clearTimeout(t); }, [remaining, mv]);
 
-  // Score position: center of the arc gap, visually between center and bottom
-  const scoreY = CY + R * 0.22;   // ≈ 126 — comfortably inside the opening
-  const labelY = CY + R * 0.44;   // ≈ 144 — just above arc endpoints (≈149)
+  const scoreY = CY + R * 0.22;
+  const labelY = CY + R * 0.44;
+
+  /* ── adaptive track colors ── */
+  const trackShadow  = isDark ? "rgba(0,0,0,0.50)"        : "rgba(0,0,0,0.08)";
+  const trackSurface = isDark ? "rgba(12,13,16,0.95)"      : "rgba(215,210,203,0.90)";
+  const trackRim     = isDark ? "rgba(255,255,255,0.045)"  : "rgba(255,255,255,0.60)";
+  const scoreColor   = isDark ? "white"                    : "#1A1A1A";
+  const labelColor   = isDark ? "rgba(255,255,255,0.30)"   : "rgba(26,26,26,0.38)";
 
   return (
-    // overflow:visible so glow can bleed without clipping
-    // The parent card does NOT use overflow:hidden
     <svg viewBox={`0 0 ${VB_W} ${VB_H}`} width={VB_W} height={VB_H}
       style={{ display: "block", overflow: "visible", margin: "0 auto" }}>
       <defs>
-        {/* Fill gradient: bright (top) → deep (bottom) */}
         <linearGradient id={`fg-${uid}`} gradientUnits="userSpaceOnUse"
           x1={CX} y1={CY - R} x2={CX} y2={CY + R * 0.55}>
           <stop offset="0%"   stopColor={c.bright} />
           <stop offset="40%"  stopColor={c.mid}    />
           <stop offset="100%" stopColor={c.deep}   />
         </linearGradient>
-
-        {/* Gloss: white → transparent, top half only */}
         <linearGradient id={`gg-${uid}`} gradientUnits="userSpaceOnUse"
           x1={CX} y1={CY - R} x2={CX} y2={CY}>
           <stop offset="0%"   stopColor="white" stopOpacity="0.40" />
           <stop offset="100%" stopColor="white" stopOpacity="0"    />
         </linearGradient>
-
-        {/* Focused glow filter — modest radius to avoid over-bloom */}
         <filter id={`af-${uid}`} x="-35%" y="-35%" width="170%" height="170%"
           colorInterpolationFilters="sRGB">
           <feDropShadow dx="0" dy="0" stdDeviation="3"  floodColor={c.glow} floodOpacity="0.9" />
           <feDropShadow dx="0" dy="0" stdDeviation="8"  floodColor={c.glow} floodOpacity="0.4" />
           <feDropShadow dx="0" dy="2" stdDeviation="14" floodColor={c.glow} floodOpacity="0.2" />
         </filter>
-
-        {/* Wide bloom blur */}
         <filter id={`bf-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="5" />
         </filter>
-
-        {/* Clip for particles — exactly the filled stroke area */}
         {filled && (
           <clipPath id={`cp-${uid}`} clipPathUnits="userSpaceOnUse">
             <path d={filled} fill="none" stroke="white"
@@ -190,17 +181,12 @@ function LiquidGauge({ pct, remaining, limit, uid }: {
         )}
       </defs>
 
-      {/* ── Track: depth shadow ── */}
-      <path d={track} fill="none" stroke="rgba(0,0,0,0.5)"  strokeWidth={SW + 3} strokeLinecap="round" />
-      {/* ── Track: dark surface ── */}
-      <path d={track} fill="none" stroke="rgba(12,13,16,0.95)" strokeWidth={SW} strokeLinecap="round" />
-      {/* ── Track: rim glint ── */}
-      <path d={track} fill="none" stroke="rgba(255,255,255,0.045)" strokeWidth={1.2} strokeLinecap="round" />
+      <path d={track} fill="none" stroke={trackShadow}  strokeWidth={SW + 3} strokeLinecap="round" />
+      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW}     strokeLinecap="round" />
+      <path d={track} fill="none" stroke={trackRim}     strokeWidth={1.2}    strokeLinecap="round" />
 
-      {/* ── Empty-arc tick marks ── */}
       {empty && <Ticks startDeg={(A0 + filled_sw) % 360} endDeg={A1} color={c.label} />}
 
-      {/* ── Filled arc: wide bloom ── */}
       {filled && (
         <motion.path d={filled} fill="none"
           stroke={c.glow} strokeWidth={SW + 12} strokeLinecap="round"
@@ -208,8 +194,6 @@ function LiquidGauge({ pct, remaining, limit, uid }: {
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
-
-      {/* ── Filled arc: focused glow ── */}
       {filled && (
         <motion.path d={filled} fill="none"
           stroke={c.glow} strokeWidth={SW + 2} strokeLinecap="round"
@@ -217,32 +201,25 @@ function LiquidGauge({ pct, remaining, limit, uid }: {
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
-
-      {/* ── Filled arc: main gradient body ── */}
       {filled && (
         <motion.path d={filled} fill="none"
           stroke={`url(#fg-${uid})`} strokeWidth={SW} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
-
-      {/* ── Filled arc: gloss overlay ── */}
       {filled && (
         <motion.path d={filled} fill="none"
           stroke={`url(#gg-${uid})`} strokeWidth={SW} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
-
-      {/* ── Filled arc: inner rim line ── */}
       {filled && (
         <motion.path d={arcPath(CX, CY, R - SW * 0.42, A0, filledEnd)} fill="none"
-          stroke="rgba(255,255,255,0.18)" strokeWidth={1.2} strokeLinecap="round"
+          stroke={isDark ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.55)"} strokeWidth={1.2} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }} />
       )}
 
-      {/* ── Particles — clipped to filled stroke area ── */}
       {filled && pct > 0.03 && (
         <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 0.75, duration: 0.6 }}>
@@ -250,7 +227,6 @@ function LiquidGauge({ pct, remaining, limit, uid }: {
         </motion.g>
       )}
 
-      {/* ── Leading-edge cap dot ── */}
       {capPt && (
         <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}>
           <circle cx={capPt.x} cy={capPt.y} r={SW * 0.42} fill={c.bright} opacity={0.25}
@@ -260,23 +236,21 @@ function LiquidGauge({ pct, remaining, limit, uid }: {
         </motion.g>
       )}
 
-      {/* ── Score number — static SVG text, only opacity animated ── */}
       <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
         transition={{ delay: 0.25, duration: 0.5 }}>
         <text x={CX} y={scoreY}
           textAnchor="middle" dominantBaseline="central"
-          fill="white" fontSize="38" fontWeight="700"
+          fill={scoreColor} fontSize="38" fontWeight="700"
           style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "inherit" }}>
           {disp}
         </text>
       </motion.g>
 
-      {/* ── "/ N credits left" label — no glow, plain subdued text ── */}
       <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
         transition={{ delay: 0.45, duration: 0.5 }}>
         <text x={CX} y={labelY}
           textAnchor="middle" dominantBaseline="central"
-          fill="rgba(255,255,255,0.30)" fontSize="9" fontWeight="400"
+          fill={labelColor} fontSize="9" fontWeight="400"
           style={{ userSelect: "none", letterSpacing: "0.5px", fontFamily: "inherit" }}>
           / {limit} credits left
         </text>
@@ -302,6 +276,11 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const containerRef   = React.useRef<HTMLDivElement>(null);
     const uid = React.useId().replace(/:/g, "");
 
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = React.useState(false);
+    React.useEffect(() => setMounted(true), []);
+    const isDark = mounted ? resolvedTheme === "dark" : false;
+
     const remaining = usage;
     const pct    = limit > 0 ? remaining / limit : 0;
     const c      = palette(pct);
@@ -315,6 +294,26 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
       document.addEventListener("mousedown", h);
       return () => document.removeEventListener("mousedown", h);
     }, [open]);
+
+    /* ── adaptive card tokens ── */
+    const card = isDark ? {
+      background:  "linear-gradient(160deg, rgba(22,24,28,0.98) 0%, rgba(13,14,17,1) 100%)",
+      border:      "1px solid rgba(255,255,255,0.09)",
+      boxShadow:   "0 24px 56px rgba(0,0,0,0.65), 0 4px 12px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.07)",
+      gloss:       "linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent)",
+      titleColor:  "white",
+      descColor:   "rgba(255,255,255,0.40)",
+    } : {
+      background:  "linear-gradient(160deg, #FDFCFB 0%, #F0EDE7 100%)",
+      border:      "1px solid rgba(26,26,26,0.10)",
+      boxShadow:   "0 24px 56px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.90)",
+      gloss:       "linear-gradient(90deg, transparent, rgba(255,255,255,0.70), transparent)",
+      titleColor:  "#1A1A1A",
+      descColor:   "rgba(26,26,26,0.45)",
+    };
+
+    /* ── adaptive CTA button class string ── */
+    const ctaId = `liq-cta-v3-${uid}`;
 
     return (
       <div ref={containerRef} className="relative">
@@ -348,30 +347,25 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               className="absolute right-0 top-[calc(100%+10px)] z-50"
               style={{ width: 272 }}>
 
-              {/* Glass card — NO overflow:hidden so SVG glow is never clipped */}
               <div style={{
-                background: "linear-gradient(160deg, rgba(22,24,28,0.98) 0%, rgba(13,14,17,1) 100%)",
-                border:     "1px solid rgba(255,255,255,0.09)",
+                background:   card.background,
+                border:       card.border,
                 borderRadius: 22,
-                boxShadow: [
-                  "0 24px 56px rgba(0,0,0,0.65)",
-                  "0 4px 12px rgba(0,0,0,0.4)",
-                  "inset 0 1px 0 rgba(255,255,255,0.07)",
-                ].join(", "),
-                padding: "20px 20px 18px",
-                position: "relative",
+                boxShadow:    card.boxShadow,
+                padding:      "20px 20px 18px",
+                position:     "relative",
               }}>
 
                 {/* Top gloss streak */}
                 <div style={{
                   position: "absolute", top: 0, left: "18%", right: "18%", height: 1,
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent)",
+                  background: card.gloss,
                   pointerEvents: "none",
                 }} />
 
-                {/* Gauge — full width, self-contained */}
+                {/* Gauge */}
                 <div style={{ marginLeft: -20, marginRight: -20, marginTop: -20, marginBottom: 8 }}>
-                  <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} />
+                  <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} isDark={isDark} />
                 </div>
 
                 {/* Title row + status pill */}
@@ -379,7 +373,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   display: "flex", alignItems: "center",
                   justifyContent: "space-between", marginBottom: 8,
                 }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "white", letterSpacing: "-0.2px" }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: card.titleColor, letterSpacing: "-0.2px" }}>
                     AI Balance
                   </span>
                   <div style={{
@@ -402,7 +396,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
 
                 {/* Description */}
                 <p style={{
-                  fontSize: 12, color: "rgba(255,255,255,0.40)",
+                  fontSize: 12, color: card.descColor,
                   lineHeight: 1.6, margin: "0 0 14px",
                 }}>
                   Credits power mock interviews and scout chats.
@@ -410,7 +404,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
 
                 {/* CTA */}
                 <style>{`
-                  .liq-cta-v3 {
+                  .${ctaId} {
                     position: relative; overflow: hidden; cursor: pointer; width: 100%;
                     background: linear-gradient(155deg, ${c.bright}1a 0%, ${c.deep}35 100%);
                     border: 1px solid ${c.glow}48;
@@ -419,20 +413,20 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                     box-shadow: 0 0 10px ${c.glow}22, inset 0 1px 0 rgba(255,255,255,0.08);
                     transition: all 0.2s ease;
                   }
-                  .liq-cta-v3::before {
+                  .${ctaId}::before {
                     content:""; position:absolute; top:0; left:0; right:0; height:48%;
                     background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%);
                     border-radius:40px 40px 0 0; pointer-events:none;
                   }
-                  .liq-cta-v3:hover {
+                  .${ctaId}:hover {
                     background: linear-gradient(155deg, ${c.bright}28 0%, ${c.deep}50 100%);
                     border-color: ${c.glow}78;
                     box-shadow: 0 0 18px ${c.glow}38, inset 0 1px 0 rgba(255,255,255,0.12);
                     transform: translateY(-1px);
                   }
-                  .liq-cta-v3:active { transform: translateY(1px); }
+                  .${ctaId}:active { transform: translateY(1px); }
                 `}</style>
-                <button className="liq-cta-v3">
+                <button className={ctaId}>
                   <Zap style={{ width: 12, height: 12, color: c.bright, flexShrink: 0 }} />
                   <span style={{ fontSize: 12, fontWeight: 600, color: c.label, letterSpacing: "0.1px" }}>
                     Get more credits
