@@ -1634,7 +1634,7 @@ const BREAKDOWNS: Record<string, SubBreakdown[]> = {
 function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const [expandedSection, setExpandedSection] = useState<"signals" | "missing" | null>("signals");
+  const [expandedSection, setExpandedSection] = useState<"signals" | "missing" | null>(null);
 
   const subs: SubBreakdown[] = BREAKDOWNS[job.id] ?? [
     { label: "Role Requirements",   target: 80, aligns: [], gaps: [] },
@@ -1679,7 +1679,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const markerBarPct = Math.max(1, Math.min(98.5, scoreToBarPct(s)));
 
   return (
-    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-4" style={{ background: isDark ? "#141414" : "#E8E3DC" }}>
+    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-0 overflow-hidden" style={{ background: isDark ? "#141414" : "#F0EDE7" }}>
       {/* Headline */}
       <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-4">{headline}</p>
 
@@ -1746,16 +1746,11 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
         ))}
       </div>
 
-      {/* Signals + Missing — single accordion */}
+      {/* Signals + Missing — single accordion, flush edge-to-edge */}
       {(allAligns.length > 0 || allGaps.length > 0) && (
         <div
-          className="mt-3.5 rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] overflow-hidden"
-          style={{
-            background: isDark ? "#0F0F0F" : "#DDD8CF",
-            boxShadow: isDark
-              ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02)"
-              : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.70)",
-          }}
+          className="mt-3.5 -mx-4 border-t border-black/[0.07] dark:border-white/[0.06] overflow-hidden"
+          style={{ background: isDark ? "#0F0F0F" : "#E8E3DC" }}
         >
           {/* Strongest signals row */}
           {allAligns.length > 0 && (
