@@ -209,7 +209,7 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         <text x={CX} y={scoreY}
           textAnchor="middle" dominantBaseline="central"
           fill={scoreColor} fontSize="38" fontWeight="700"
-          style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "'JetBrains Mono', monospace" }}>
+          style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "inherit" }}>
           {disp}
         </text>
       </motion.g>
@@ -219,8 +219,8 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         <text x={CX} y={labelY}
           textAnchor="middle" dominantBaseline="central"
           fill={labelColor} fontSize="11" fontWeight="500"
-          style={{ userSelect: "none", letterSpacing: "0.3px", fontFamily: "'JetBrains Mono', monospace" }}>
-          / {limit} credits left
+          style={{ userSelect: "none", letterSpacing: "1px", fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase" }}>
+          / {limit} CREDITS
         </text>
       </motion.g>
     </svg>
