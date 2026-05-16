@@ -1696,22 +1696,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             paddingBottom: "2px",
           }}
         >
-          {/* Glow halo */}
-          <div
-            style={{
-              position: "absolute",
-              width: 32,
-              height: 32,
-              borderRadius: "50%",
-              background: isDark
-                ? "radial-gradient(circle, rgba(139,92,246,0.45) 0%, transparent 70%)"
-                : "radial-gradient(circle, rgba(109,40,217,0.30) 0%, transparent 70%)",
-              filter: "blur(4px)",
-              top: 0,
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          />
           {/* Avatar dot */}
           <div
             style={{
@@ -1719,16 +1703,17 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
               height: 26,
               borderRadius: "50%",
               background: isDark
-                ? "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)"
-                : "linear-gradient(135deg, #8b5cf6 0%, #5b21b6 100%)",
+                ? "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)"
+                : "linear-gradient(135deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.06) 100%)",
               boxShadow: isDark
-                ? "0 0 0 2px rgba(167,139,250,0.35), 0 2px 8px rgba(109,40,217,0.55)"
-                : "0 0 0 2px rgba(139,92,246,0.30), 0 2px 8px rgba(91,33,182,0.40)",
+                ? "0 0 0 1.5px rgba(255,255,255,0.14), 0 2px 6px rgba(0,0,0,0.35)"
+                : "0 0 0 1.5px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               position: "relative",
               flexShrink: 0,
+              backdropFilter: "blur(4px)",
             }}
           >
             <span
@@ -1736,7 +1721,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                 fontSize: 8,
                 fontWeight: 800,
                 letterSpacing: "0.05em",
-                color: "rgba(255,255,255,0.95)",
+                color: isDark ? "rgba(255,255,255,0.70)" : "rgba(0,0,0,0.55)",
                 lineHeight: 1,
                 userSelect: "none",
               }}
@@ -1751,8 +1736,8 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
               height: 7,
               borderRadius: 2,
               background: isDark
-                ? "linear-gradient(to bottom, rgba(167,139,250,0.8), rgba(167,139,250,0.1))"
-                : "linear-gradient(to bottom, rgba(109,40,217,0.7), rgba(109,40,217,0.08))",
+                ? "linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.03))"
+                : "linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.02))",
               flexShrink: 0,
             }}
           />
