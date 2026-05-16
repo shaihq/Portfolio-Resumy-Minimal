@@ -50,10 +50,30 @@ export interface UsageBadgeProps {
 
 const SEGMENT_COUNT = 10;
 
-function getBarGradient(pct: number): string {
-  if (pct > 0.5) return "linear-gradient(90deg, #16a34a, #86efac)";
-  if (pct > 0.2) return "linear-gradient(90deg, #ea580c, #fcd34d)";
-  return "linear-gradient(90deg, #dc2626, #f97316)";
+function hexToRgb(hex: string): [number, number, number] {
+  return [
+    parseInt(hex.slice(1, 3), 16),
+    parseInt(hex.slice(3, 5), 16),
+    parseInt(hex.slice(5, 7), 16),
+  ];
+}
+
+function lerpColor(a: string, b: string, t: number): string {
+  const [r1, g1, b1] = hexToRgb(a);
+  const [r2, g2, b2] = hexToRgb(b);
+  return `rgb(${Math.round(r1 + (r2 - r1) * t)},${Math.round(g1 + (g2 - g1) * t)},${Math.round(b1 + (b2 - b1) * t)})`;
+}
+
+function getGradientEnds(pct: number): [string, string] {
+  if (pct > 0.5) return ["#16a34a", "#86efac"];
+  if (pct > 0.2) return ["#ea580c", "#fcd34d"];
+  return ["#dc2626", "#f97316"];
+}
+
+function segmentColor(pct: number, index: number, total: number): string {
+  const [start, end] = getGradientEnds(pct);
+  const t = total > 1 ? index / (total - 1) : 0;
+  return lerpColor(start, end, t);
 }
 
 function getStatusLabel(pct: number): { text: string; color: string } {
@@ -71,7 +91,6 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const consumed = limit - usage;
     const pct = limit > 0 ? remaining / limit : 0;
     const filledSegments = Math.round(pct * SEGMENT_COUNT);
-    const barGradient = getBarGradient(pct);
     const status = getStatusLabel(pct);
 
     React.useEffect(() => {
@@ -119,7 +138,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -4, scale: 0.97 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-white/40 dark:border-white/[0.08] bg-white/70 dark:bg-[#2A2520]/75 backdrop-blur-xl shadow-xl shadow-black/[0.1] p-4 z-50"
+              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-white/60 dark:border-white/[0.12] bg-white/50 dark:bg-[#1e1a17]/55 backdrop-blur-2xl shadow-2xl shadow-black/[0.15] ring-1 ring-inset ring-white/30 dark:ring-white/[0.06] p-4 z-50"
             >
               {/* Balance numbers */}
               <div className="flex items-baseline gap-1.5 mb-3">
@@ -144,7 +163,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                           duration: 0.25,
                           ease: [0.16, 1, 0.3, 1],
                         }}
-                        style={{ background: barGradient }}
+                        style={{ backgroundColor: segmentColor(pct, i, filledSegments) }}
                       />
                     </div>
                   );
