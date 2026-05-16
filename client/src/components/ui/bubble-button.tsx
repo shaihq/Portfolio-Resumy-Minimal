@@ -115,8 +115,8 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
   React.useEffect(() => sp.on("change", (v) => setDisp(Math.round(v))), [sp]);
   React.useEffect(() => { const t = setTimeout(() => mv.set(remaining), 120); return () => clearTimeout(t); }, [remaining, mv]);
 
-  const scoreY = CY + R * 0.10;
-  const labelY = CY + R * 0.42;
+  const scoreY = CY - 16;
+  const labelY = CY + 16;
 
   /* ── adaptive track colors ── */
   const trackShadow  = isDark ? "rgba(0,0,0,0.50)"        : "rgba(0,0,0,0.08)";
@@ -155,7 +155,6 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
       <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round" />
       <path d={track} fill="none" stroke={trackRim}     strokeWidth={1.2}    strokeLinecap="round" />
 
-      {empty && <Ticks startDeg={(A0 + filled_sw) % 360} endDeg={A1} color={c.label} />}
 
       {/* ── Filled arc: narrower than track so track peeks around it ── */}
       {filled && (
