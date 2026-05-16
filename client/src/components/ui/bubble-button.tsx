@@ -170,19 +170,6 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 })}
               </div>
 
-              {/* Sub-labels */}
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-[11px] text-foreground/35">
-                  {consumed} used · resets monthly
-                </span>
-                <span
-                  className="text-[11px] font-semibold"
-                  style={{ color: status.color }}
-                >
-                  {status.text}
-                </span>
-              </div>
-
               {/* Divider */}
               <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-3" />
 
