@@ -183,11 +183,11 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 .credits-cta {
                   position: relative;
                   overflow: hidden;
-                  background: linear-gradient(170deg, #edc84a 0%, #c8920c 42%, #7c5200 100%);
+                  background: linear-gradient(170deg, #fb923c 0%, #ea580c 45%, #9a3412 100%);
                   box-shadow:
-                    inset 0 0.3rem 0.9rem rgba(255,220,80,0.35),
+                    inset 0 0.3rem 0.9rem rgba(255,160,80,0.35),
                     inset 0 -0.1rem 0.3rem rgba(0,0,0,0.55),
-                    inset 0 -0.35rem 0.8rem rgba(200,146,12,0.45),
+                    inset 0 -0.35rem 0.8rem rgba(234,88,12,0.45),
                     0 0.4rem 1rem rgba(0,0,0,0.28),
                     0 0.1rem 0.25rem rgba(0,0,0,0.4);
                   transition: all 0.2s ease;
@@ -215,9 +215,9 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 }
                 .credits-cta:hover {
                   box-shadow:
-                    inset 0 0.3rem 0.6rem rgba(255,220,80,0.5),
+                    inset 0 0.3rem 0.6rem rgba(255,160,80,0.5),
                     inset 0 -0.1rem 0.3rem rgba(0,0,0,0.55),
-                    inset 0 -0.35rem 0.9rem rgba(200,146,12,0.65),
+                    inset 0 -0.35rem 0.9rem rgba(234,88,12,0.65),
                     0 0.6rem 1.4rem rgba(0,0,0,0.32),
                     0 0.1rem 0.3rem rgba(0,0,0,0.4);
                 }
