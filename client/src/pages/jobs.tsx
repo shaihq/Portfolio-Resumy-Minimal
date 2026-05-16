@@ -1641,25 +1641,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const accentBg    = isDark ? tier.darkBg    : tier.lightBg;
   const trackColor  = isDark ? "rgba(255,255,255,0.065)" : "rgba(0,0,0,0.065)";
 
-  const [score, setScore] = useState(0);
-
-  useEffect(() => {
-    if (!open) { setScore(0); return; }
-    const duration = 950;
-    const start = performance.now();
-    let raf: number;
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / duration, 1);
-      const e = 1 - Math.pow(1 - t, 3);
-      setScore(Math.round(e * job.match));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    const timer = setTimeout(() => { raf = requestAnimationFrame(tick); }, 100);
-    return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
-  }, [open, job.match]);
-
-  const filledBars = Math.round((score / 100) * BREAKDOWN_BARS);
-
   const subs: SubBreakdown[] = BREAKDOWNS[job.id] ?? [
     { label: "Role Requirements",   target: 80, aligns: [], gaps: [] },
     { label: "Job Criteria",        target: 80, aligns: [], gaps: [] },
@@ -1669,54 +1650,20 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 
   return (
     <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
-      {/* ── Row 1: score + quality label + waveform ── */}
-      <div className="flex items-center gap-4 px-4 pt-4 pb-3.5">
-        {/* Score block */}
-        <div className="flex-shrink-0">
-          <div className="flex items-baseline gap-1">
-            <span className="font-bold tracking-tight tabular-nums text-foreground text-[32px]">
-              {score}
-            </span>
-            <span className="text-[13px] font-medium text-foreground/30 mb-0.5">/100</span>
-          </div>
-        </div>
-
-        {/* Staggered bars — uniform height, flow-fill animation */}
-        <div className="flex-1 flex items-center gap-[3px]">
-          {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
-            const filled = i < filledBars;
-            const t = BREAKDOWN_BARS > 1 ? i / (BREAKDOWN_BARS - 1) : 0;
-            const mid = isDark ? tier.darkMid : tier.lightMid;
-            const barColor = lerpHex(tier.bright, mid, t);
-            return (
-              <div
-                key={i}
-                className="flex-1 rounded-[2px] relative overflow-hidden"
-                style={{ height: 14, backgroundColor: trackColor }}
-              >
-                {filled && (
-                  <motion.div
-                    className="absolute inset-0 rounded-[2px]"
-                    style={{ backgroundColor: barColor, transformOrigin: "left" }}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      {/* ── Row 2: sub-scores ── */}
-      <div className="border-t border-black/[0.06] dark:border-white/[0.06] divide-y divide-black/[0.05] dark:divide-white/[0.05]">
+      {/* ── Sub-scores ── */}
+      <div className="divide-y divide-black/[0.05] dark:divide-white/[0.05]">
         {subs.map((sub) => {
-          const subColor = sub.target >= 85 ? "#22c55e" : sub.target >= 70 ? "#f97316" : "#ef4444";
+          const subPalette = sub.target >= 85
+            ? { bright: "#4ade80", mid: isDark ? "#16a34a" : "#10b981" }
+            : sub.target >= 70
+            ? { bright: "#fde68a", mid: isDark ? "#ea580c" : "#f97316" }
+            : { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
           const subTextColor = sub.target >= 85
             ? (isDark ? "#4ade80" : "#15803d")
             : sub.target >= 70
             ? (isDark ? "#fb923c" : "#c2410c")
             : (isDark ? "#f87171" : "#b91c1c");
+          const subFilledBars = open ? Math.round((sub.target / 100) * BREAKDOWN_BARS) : 0;
           return (
             <div key={sub.label} className="px-4 py-3">
               {/* Label + score */}
@@ -1724,15 +1671,30 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                 <span className="text-[10.5px] font-semibold uppercase tracking-widest text-foreground/40">{sub.label}</span>
                 <span className="text-[14px] font-bold tabular-nums leading-none" style={{ color: subTextColor }}>{sub.target}</span>
               </div>
-              {/* Thin animated bar */}
-              <div className="h-[3px] rounded-full mb-2.5 overflow-hidden" style={{ backgroundColor: trackColor }}>
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: subColor }}
-                  initial={{ width: "0%" }}
-                  animate={{ width: open ? `${sub.target}%` : "0%" }}
-                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                />
+              {/* Staggered bars */}
+              <div className="flex items-center gap-[3px] mb-2.5">
+                {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
+                  const filled = i < subFilledBars;
+                  const t = BREAKDOWN_BARS > 1 ? i / (BREAKDOWN_BARS - 1) : 0;
+                  const barColor = lerpHex(subPalette.bright, subPalette.mid, t);
+                  return (
+                    <div
+                      key={i}
+                      className="flex-1 rounded-[2px] relative overflow-hidden"
+                      style={{ height: 10, backgroundColor: trackColor }}
+                    >
+                      {filled && (
+                        <motion.div
+                          className="absolute inset-0 rounded-[2px]"
+                          style={{ backgroundColor: barColor, transformOrigin: "left" }}
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1], delay: i * 0.012 }}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
               {/* Aligns */}
               {sub.aligns.length > 0 && (
