@@ -485,39 +485,6 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   </div>
                 </div>
 
-                {/* Bottom divider + usage bar */}
-                <div style={{ marginTop: 14, borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 12 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.5px" }}>USED</span>
-                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.5px" }}>TOTAL</span>
-                  </div>
-                  {/* Mini HUD bar */}
-                  <div style={{
-                    height: 4, borderRadius: 4,
-                    background: "rgba(255,255,255,0.06)",
-                    overflow: "hidden",
-                    boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)",
-                  }}>
-                    <motion.div
-                      initial={{ width: "0%" }}
-                      animate={{ width: `${pct * 100}%` }}
-                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-                      style={{
-                        height: "100%", borderRadius: 4,
-                        background: `linear-gradient(90deg, ${colors.deep}, ${colors.bright})`,
-                        boxShadow: `0 0 8px ${colors.glow}88`,
-                      }}
-                    />
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
-                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)" }}>
-                      {limit - remaining} used
-                    </span>
-                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)" }}>
-                      {limit} total
-                    </span>
-                  </div>
-                </div>
               </div>
             </motion.div>
           )}
