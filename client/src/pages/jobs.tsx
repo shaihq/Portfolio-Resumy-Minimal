@@ -1957,57 +1957,6 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                 <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
               </button>
 
-              {/* Connections — full-width, no card stacking */}
-              <div className="pt-1">
-                {/* Section label + tip */}
-                <div className="flex items-baseline justify-between gap-2 mb-1">
-                  <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">Insider connections</span>
-                  <span className="text-[11px] text-foreground/35">Email gets <span className="font-medium text-foreground/50">3× more replies</span></span>
-                </div>
-                {/* Hairline */}
-                <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-0" />
-                {/* Contact list — separator between items */}
-                {(displayJob.contacts ?? []).map((c, i) => (
-                  <div key={c.name}>
-                    <div className="flex items-center justify-between gap-3 py-3">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-7 h-7 rounded-full bg-foreground/[0.08] flex items-center justify-center text-[10px] font-semibold text-foreground/50 flex-shrink-0">
-                          {c.initials}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-[13px] font-medium text-foreground/80 leading-none">{c.name}</div>
-                          <div className="text-[11px] text-foreground/35 mt-0.5">{displayJob.company}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 flex-shrink-0">
-                        <a
-                          href={`mailto:${c.name.toLowerCase().replace(" ", ".")}@${displayJob.company.toLowerCase()}.com`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md text-[11px] font-medium text-foreground/50 hover:text-foreground/80 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all"
-                          title={`Email ${c.name}`}
-                        >
-                          <Mail className="w-3 h-3" />
-                          Email
-                        </a>
-                        <a
-                          href={`https://linkedin.com/in/${c.name.toLowerCase().replace(" ", "-")}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md text-[11px] font-medium text-foreground/50 hover:text-[#0077B5] hover:bg-[#0077B5]/[0.07] transition-all"
-                          title={`${c.name} on LinkedIn`}
-                        >
-                          <FaLinkedin className="w-3 h-3" />
-                          LinkedIn
-                        </a>
-                      </div>
-                    </div>
-                    {i < (displayJob.contacts ?? []).length - 1 && (
-                      <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />
-                    )}
-                  </div>
-                ))}
-              </div>
             </div>
 
           </div>
