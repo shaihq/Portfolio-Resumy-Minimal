@@ -1590,15 +1590,50 @@ const SCORE_TIERS = [
   { min:  0, label: "Partial match",   accent: "#ef4444", lightText: "#b91c1c", darkText: "#f87171", lightBg: "rgba(239,68,68,0.09)",  darkBg: "rgba(239,68,68,0.13)",  bright: "#fca5a5", lightMid: "#ef4444", darkMid: "#b91c1c" },
 ];
 
+type SubBreakdown = { label: string; target: number; aligns: string[]; gaps: string[] };
+
+const BREAKDOWNS: Record<string, SubBreakdown[]> = {
+  "1": [
+    { label: "Role Requirements",   target: 94, aligns: ["End-to-end ownership", "Design system contribution", "Engineer collaboration"], gaps: [] },
+    { label: "Job Criteria",        target: 97, aligns: ["Remote-first role", "Full-time position", "SF-compatible"], gaps: [] },
+    { label: "Must-Have Match",     target: 95, aligns: ["5+ years experience", "Figma proficiency", "Interaction design"], gaps: ["Enterprise SaaS scale"] },
+    { label: "Qualification Match", target: 92, aligns: ["Portfolio depth & breadth", "Systems thinking"], gaps: ["B2B analytics background"] },
+  ],
+  "2": [
+    { label: "Role Requirements",   target: 88, aligns: ["Dashboard design", "Developer tool UX", "Frontend fundamentals"], gaps: ["CLI interface experience"] },
+    { label: "Job Criteria",        target: 94, aligns: ["Remote", "Full-time", "Async-first mindset"], gaps: [] },
+    { label: "Must-Have Match",     target: 91, aligns: ["3+ years experience", "Figma", "Complex SaaS design"], gaps: [] },
+    { label: "Qualification Match", target: 86, aligns: ["Async communication"], gaps: ["Infrastructure product exp", "Technical SaaS depth"] },
+  ],
+  "3": [
+    { label: "Role Requirements",   target: 85, aligns: ["Interaction mastery", "Collaborative mindset", "State-heavy UI design"], gaps: ["AI workflow experience"] },
+    { label: "Job Criteria",        target: 91, aligns: ["Hybrid compatible", "Full-time", "SF-based"], gaps: [] },
+    { label: "Must-Have Match",     target: 88, aligns: ["4+ years experience", "Editor & database UI"], gaps: ["AI feature design"] },
+    { label: "Qualification Match", target: 84, aligns: ["Consumer software portfolio"], gaps: ["AI product experience", "Prosumer tools depth"] },
+  ],
+  "4": [
+    { label: "Role Requirements",   target: 83, aligns: ["Interaction design depth", "Design systems", "Visual quality"], gaps: ["Multiplayer feature design"] },
+    { label: "Job Criteria",        target: 88, aligns: ["Full-time", "Strong portfolio"], gaps: ["On-site SF requirement"] },
+    { label: "Must-Have Match",     target: 85, aligns: ["3+ years experience", "Design tokens", "Feedback integration"], gaps: ["Canvas product design"] },
+    { label: "Qualification Match", target: 81, aligns: ["Portfolio polish", "Typographic detail"], gaps: ["Plugin ecosystem experience"] },
+  ],
+  "5": [
+    { label: "Role Requirements",   target: 79, aligns: ["5+ years experience", "Remote mindset", "Self-run research"], gaps: ["Video product experience", "Media workflows"] },
+    { label: "Job Criteria",        target: 85, aligns: ["Remote", "Full-time"], gaps: [] },
+    { label: "Must-Have Match",     target: 81, aligns: ["Polished visual design", "Async collaboration"], gaps: ["Video/media product exp", "Communication tooling"] },
+    { label: "Qualification Match", target: 78, aligns: ["UX research skills"], gaps: ["Video UX background", "Growth startup experience"] },
+  ],
+  "6": [
+    { label: "Role Requirements",   target: 76, aligns: ["Complex workflow design", "Design system contribution", "Written clarity"], gaps: ["Fintech experience", "Financial product UX"] },
+    { label: "Job Criteria",        target: 83, aligns: ["Hybrid compatible", "Full-time"], gaps: ["Seattle on-site days"] },
+    { label: "Must-Have Match",     target: 78, aligns: ["4+ years experience", "Multi-step workflow design"], gaps: ["Fintech/developer tools", "Writing-first culture fit"] },
+    { label: "Qualification Match", target: 74, aligns: ["Large design system experience"], gaps: ["Financial infrastructure background", "Global B2B design"] },
+  ],
+};
+
 function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-
-  const seed = parseInt(job.id) || 1;
-  const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-  const expTarget   = clamp(job.match + ((seed * 7  + 3) % 17) - 8, 45, 99);
-  const skillTarget = clamp(job.match + ((seed * 11 + 5) % 19) - 3, 48, 99);
-  const reqTarget   = clamp(job.match - ((seed * 13 + 7) % 23) + 6, 40, 97);
 
   const tier = SCORE_TIERS.find(t => job.match >= t.min) ?? SCORE_TIERS[SCORE_TIERS.length - 1];
   const accentColor = tier.accent;
@@ -1606,13 +1641,10 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const accentBg    = isDark ? tier.darkBg    : tier.lightBg;
   const trackColor  = isDark ? "rgba(255,255,255,0.065)" : "rgba(0,0,0,0.065)";
 
-  const [score,    setScore]    = useState(0);
-  const [expVal,   setExpVal]   = useState(0);
-  const [skillVal, setSkillVal] = useState(0);
-  const [reqVal,   setReqVal]   = useState(0);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
-    if (!open) { setScore(0); setExpVal(0); setSkillVal(0); setReqVal(0); return; }
+    if (!open) { setScore(0); return; }
     const duration = 950;
     const start = performance.now();
     let raf: number;
@@ -1620,21 +1652,19 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       const t = Math.min((now - start) / duration, 1);
       const e = 1 - Math.pow(1 - t, 3);
       setScore(Math.round(e * job.match));
-      setExpVal(Math.round(e * expTarget));
-      setSkillVal(Math.round(e * skillTarget));
-      setReqVal(Math.round(e * reqTarget));
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     const timer = setTimeout(() => { raf = requestAnimationFrame(tick); }, 100);
     return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
-  }, [open, job.match, expTarget, skillTarget, reqTarget]);
+  }, [open, job.match]);
 
   const filledBars = Math.round((score / 100) * BREAKDOWN_BARS);
 
-  const subs = [
-    { label: "Experience",   val: expVal,   target: expTarget   },
-    { label: "Skills",       val: skillVal, target: skillTarget },
-    { label: "Requirements", val: reqVal,   target: reqTarget   },
+  const subs: SubBreakdown[] = BREAKDOWNS[job.id] ?? [
+    { label: "Role Requirements",   target: 80, aligns: [], gaps: [] },
+    { label: "Job Criteria",        target: 80, aligns: [], gaps: [] },
+    { label: "Must-Have Match",     target: 80, aligns: [], gaps: [] },
+    { label: "Qualification Match", target: 80, aligns: [], gaps: [] },
   ];
 
   return (
@@ -1678,19 +1708,38 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           })}
         </div>
       </div>
-      {/* ── Row 2: sub-scores ── */}
-      <div className="grid grid-cols-3 border-t border-black/[0.06] dark:border-white/[0.06]">
-        {subs.map(({ label, target }, idx) => {
-          return (
-            <div
-              key={label}
-              className={`flex flex-col items-center py-3 ${idx < 2 ? "border-r border-black/[0.06] dark:border-white/[0.06]" : ""}`}
-            >
-              <ScoreGauge value={target} isDark={isDark} />
-              <div className="text-[10px] text-foreground/38 font-medium leading-snug -mt-1">{label}</div>
+      {/* ── Row 2: sub-scores with explainability ── */}
+      <div className="border-t border-black/[0.06] dark:border-white/[0.06] divide-y divide-black/[0.05] dark:divide-white/[0.05]">
+        {subs.map((sub) => (
+          <div key={sub.label} className="flex items-start gap-3 px-4 py-3">
+            <div className="flex-shrink-0 mt-0.5">
+              <ScoreGauge value={open ? sub.target : 0} isDark={isDark} scale={1.1} />
             </div>
-          );
-        })}
+            <div className="flex-1 min-w-0 pt-1">
+              <div className="text-[12px] font-semibold text-foreground/65 mb-1.5 leading-none">{sub.label}</div>
+              {sub.aligns.length > 0 && (
+                <div className="flex flex-wrap gap-x-3 gap-y-0.5 mb-1">
+                  {sub.aligns.map(a => (
+                    <span key={a} className="inline-flex items-center gap-1 text-[10.5px] text-emerald-600 dark:text-emerald-400">
+                      <span className="w-1 h-1 rounded-full bg-emerald-500 flex-shrink-0" />
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {sub.gaps.length > 0 && (
+                <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+                  {sub.gaps.map(g => (
+                    <span key={g} className="inline-flex items-center gap-1 text-[10.5px] text-amber-600 dark:text-amber-400">
+                      <span className="w-1 h-1 rounded-full bg-amber-500 flex-shrink-0" />
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
       {/* ── Row 3: why it's a match ── */}
       <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-4 py-3.5">
@@ -2042,7 +2091,7 @@ function sgPalette(score: number, isDark: boolean) {
   return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
 }
 
-function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
+function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: boolean; scale?: number }) {
   const uid = useId().replace(/:/g, "");
   const pct = Math.max(0, Math.min(100, value)) / 100;
   const c = sgPalette(value, isDark);
@@ -2075,8 +2124,8 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
     <div style={{ flexShrink: 0 }}>
       <svg
         viewBox={`0 0 ${SG_VBW} ${SG_VBH}`}
-        width={SG_VBW * 1.55}
-        height={SG_VBH * 1.55}
+        width={SG_VBW * scale}
+        height={SG_VBH * scale}
         style={{ display: "block", overflow: "visible" }}
       >
         <defs>
