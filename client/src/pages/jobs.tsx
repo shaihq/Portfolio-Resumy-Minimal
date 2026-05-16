@@ -1738,10 +1738,10 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       </div>
 
       {/* Zone labels */}
-      <div className="flex mt-2">
+      <div className="flex mt-1">
         {zones.map((z) => (
           <div key={z.label} style={{ width: `${z.pct}%` }}>
-            <span className="text-[9.5px] text-foreground/30 whitespace-nowrap">{z.label}</span>
+            <span className="text-[9.5px] text-foreground/50 whitespace-nowrap">{z.label}</span>
           </div>
         ))}
       </div>
