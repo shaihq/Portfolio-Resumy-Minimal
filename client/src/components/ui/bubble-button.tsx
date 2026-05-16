@@ -179,9 +179,58 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               </p>
 
               {/* CTA */}
-              <button className="w-full flex items-center justify-center gap-2 h-9 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[13px] font-medium transition-opacity hover:opacity-80">
-                <Sparkles className="w-3.5 h-3.5" />
-                Get more credits
+              <style>{`
+                .credits-cta {
+                  position: relative;
+                  overflow: hidden;
+                  box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.18),
+                    inset 0 -1px 0 rgba(0,0,0,0.45),
+                    inset 0 -4px 8px rgba(255,255,255,0.07),
+                    0 4px 14px rgba(0,0,0,0.35),
+                    0 1px 3px rgba(0,0,0,0.45);
+                  transition: box-shadow 0.18s ease, transform 0.14s ease;
+                }
+                .credits-cta::after {
+                  content: "";
+                  position: absolute;
+                  left: 8%; right: 8%;
+                  top: 0; height: 42%;
+                  border-radius: 100px 100px 0 0;
+                  background: linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 100%);
+                  pointer-events: none;
+                }
+                .credits-cta:hover {
+                  box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.28),
+                    inset 0 -1px 0 rgba(0,0,0,0.45),
+                    inset 0 -4px 10px rgba(255,255,255,0.14),
+                    0 6px 18px rgba(0,0,0,0.38),
+                    0 2px 4px rgba(0,0,0,0.45);
+                }
+                .credits-cta:hover .credits-cta-inner {
+                  transform: translateY(-1.5px);
+                }
+                .credits-cta:active {
+                  transform: translateY(2px);
+                  box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.1),
+                    inset 0 -1px 0 rgba(0,0,0,0.5),
+                    inset 0 3px 8px rgba(0,0,0,0.25),
+                    0 2px 5px rgba(0,0,0,0.2);
+                }
+                .credits-cta-inner {
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  transition: transform 0.18s ease;
+                }
+              `}</style>
+              <button className="credits-cta w-full flex items-center justify-center h-9 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[13px] font-medium">
+                <span className="credits-cta-inner">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Get more credits
+                </span>
               </button>
             </motion.div>
           )}
