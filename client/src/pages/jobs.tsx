@@ -1778,7 +1778,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                     <ul className="px-3 pb-2.5 space-y-1.5">
                       {allAligns.map((a) => (
                         <li key={a} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-3 h-3 mt-[2px] text-emerald-500/70 flex-shrink-0" />
+                          <Check className="w-3 h-3 mt-[2px] text-foreground/40 flex-shrink-0" />
                           <span className="text-[11.5px] text-foreground/60 leading-snug">{a}</span>
                         </li>
                       ))}
@@ -1820,7 +1820,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                     <ul className="px-3 pb-2.5 space-y-1.5">
                       {allGaps.map((g) => (
                         <li key={g} className="flex items-start gap-2">
-                          <XCircle className="w-3 h-3 mt-[2px] text-foreground/25 flex-shrink-0" />
+                          <X className="w-3 h-3 mt-[2px] text-foreground/30 flex-shrink-0" />
                           <span className="text-[11.5px] text-foreground/45 leading-snug">{g}</span>
                         </li>
                       ))}
