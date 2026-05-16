@@ -1684,17 +1684,78 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-4">{headline}</p>
 
       {/* Zoned bar + YOU marker */}
-      <div className="relative">
-        {/* YOU label above marker — no score attached */}
+      <div className="relative mt-10">
+        {/* Glowing avatar pin */}
         <div
-          className="absolute -top-5 flex flex-col items-center pointer-events-none"
+          className="absolute flex flex-col items-center pointer-events-none"
           style={{
             left: open ? `${markerBarPct}%` : "0%",
             transform: "translateX(-50%)",
             transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
+            bottom: "100%",
+            paddingBottom: "2px",
           }}
         >
-          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/55 leading-none">You</span>
+          {/* Glow halo */}
+          <div
+            style={{
+              position: "absolute",
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              background: isDark
+                ? "radial-gradient(circle, rgba(139,92,246,0.45) 0%, transparent 70%)"
+                : "radial-gradient(circle, rgba(109,40,217,0.30) 0%, transparent 70%)",
+              filter: "blur(4px)",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          />
+          {/* Avatar dot */}
+          <div
+            style={{
+              width: 26,
+              height: 26,
+              borderRadius: "50%",
+              background: isDark
+                ? "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)"
+                : "linear-gradient(135deg, #8b5cf6 0%, #5b21b6 100%)",
+              boxShadow: isDark
+                ? "0 0 0 2px rgba(167,139,250,0.35), 0 2px 8px rgba(109,40,217,0.55)"
+                : "0 0 0 2px rgba(139,92,246,0.30), 0 2px 8px rgba(91,33,182,0.40)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              flexShrink: 0,
+            }}
+          >
+            <span
+              style={{
+                fontSize: 8,
+                fontWeight: 800,
+                letterSpacing: "0.05em",
+                color: "rgba(255,255,255,0.95)",
+                lineHeight: 1,
+                userSelect: "none",
+              }}
+            >
+              YOU
+            </span>
+          </div>
+          {/* Pin stem */}
+          <div
+            style={{
+              width: 2,
+              height: 7,
+              borderRadius: 2,
+              background: isDark
+                ? "linear-gradient(to bottom, rgba(167,139,250,0.8), rgba(167,139,250,0.1))"
+                : "linear-gradient(to bottom, rgba(109,40,217,0.7), rgba(109,40,217,0.08))",
+              flexShrink: 0,
+            }}
+          />
         </div>
 
         {/* Bar segments — vivid up to marker, faded after */}
@@ -1723,18 +1784,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             }}
           />
         </div>
-
-        {/* Marker tick line */}
-        <div
-          className="absolute top-0 bottom-0 w-[2px] rounded-full pointer-events-none"
-          style={{
-            left: open ? `${markerBarPct}%` : "0%",
-            transform: "translateX(-50%)",
-            backgroundColor: isDark ? "rgba(240,237,232,0.90)" : "rgba(26,26,26,0.80)",
-            boxShadow: isDark ? "0 0 3px rgba(0,0,0,0.5)" : "0 0 3px rgba(255,255,255,0.8)",
-            transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
-          }}
-        />
       </div>
 
       {/* Zone labels */}
