@@ -1964,30 +1964,30 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
               {/* Match breakdown card */}
               <MatchBreakdown job={displayJob} open={open} />
 
-              {/* Action buttons — Resume · Mock interview · Cover letter · Fit analysis */}
+              {/* Action buttons — Mock interview · Resume · Cover letter · Fit analysis */}
               <div className="space-y-1.5">
-                {/* Tailor resume — primary recommended action */}
-                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.07] hover:bg-foreground/[0.10] border border-foreground/[0.10] transition-colors group text-left">
+                {/* Mock interview — primary recommended action */}
+                <button
+                  data-testid="button-jump-mock-interviews"
+                  onClick={scrollToMockInterviews}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.07] hover:bg-foreground/[0.10] border border-foreground/[0.10] transition-colors group text-left"
+                >
                   <div className="w-5 h-5 rounded-md bg-foreground/[0.10] flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-3 h-3 text-foreground/60" />
+                    <Clapperboard className="w-3 h-3 text-foreground/60" />
                   </div>
                   <div className="flex-1 min-w-0 flex items-center gap-2">
-                    <span className="text-[12px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors leading-none">Tailor resume to this role</span>
+                    <span className="text-[12px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors leading-none">Practice with a mock interview</span>
                     <span className="text-[9.5px] font-medium text-foreground/40 leading-none whitespace-nowrap">✦ Recommended</span>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-foreground/30 group-hover:text-foreground/60 transition-colors flex-shrink-0" />
                 </button>
 
-                {/* Mock interview */}
-                <button
-                  data-testid="button-jump-mock-interviews"
-                  onClick={scrollToMockInterviews}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left"
-                >
+                {/* Tailor resume */}
+                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
                   <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
-                    <Clapperboard className="w-3 h-3 text-foreground/40" />
+                    <FileText className="w-3 h-3 text-foreground/40" />
                   </div>
-                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Practice with a mock interview</span>
+                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</span>
                   <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
                 </button>
 
