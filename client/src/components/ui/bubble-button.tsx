@@ -342,12 +342,15 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 </p>
 
                 {/* CTA — rotating gradient border button */}
-                <div style={{ borderRadius: 50, padding: 2,
+                <div style={{ borderRadius: 50, padding: "2px",
                   background: isDark
-                    ? "conic-gradient(from var(--btn-angle, 0deg), #1c1916 0deg, #1c1916 25deg, #888480 50deg, #f0ede8 85deg, #f0ede8 330deg, #888480 350deg, #1c1916 360deg)"
-                    : "conic-gradient(from var(--btn-angle, 0deg), #f0ede8 0deg, #f0ede8 25deg, #888480 50deg, #1c1916 85deg, #1c1916 330deg, #888480 350deg, #f0ede8 360deg)",
+                    ? "conic-gradient(from var(--btn-angle, 0deg), #ffffff 0deg, #d0ccc6 6deg, #706c68 18deg, #302e2b 32deg, #1c1916 60deg, #1c1916 300deg, #302e2b 328deg, #706c68 342deg, #d0ccc6 354deg, #ffffff 360deg)"
+                    : "conic-gradient(from var(--btn-angle, 0deg), #ffffff 0deg, #c8c4be 6deg, #686460 18deg, #282522 32deg, #1c1916 60deg, #1c1916 300deg, #282522 328deg, #686460 342deg, #c8c4be 354deg, #ffffff 360deg)",
                   animation: "rotate-btn-gradient 3s linear infinite",
                   cursor: "pointer",
+                  boxShadow: isDark
+                    ? "0 0 0 1px hsl(20,10%,22%), inset 0 1px 0 rgba(255,255,255,0.06)"
+                    : "0 0 0 1px hsl(20,10%,72%), inset 0 1px 0 rgba(255,255,255,0.5)",
                 }}
                   role="button" tabIndex={0}
                 >
