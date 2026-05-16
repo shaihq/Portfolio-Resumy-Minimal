@@ -1932,8 +1932,27 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
   const filledEnd   = (SG_A0 + filledSweep) % 360;
   const track  = sgArc(SG_A0, SG_A1);
   const filled = filledSweep > 0.5 ? sgArc(SG_A0, filledEnd) : "";
+  // Arc length of the filled portion for dasharray animation
+  const arcLen  = (filledSweep * Math.PI / 180) * SG_R;
   const trackSurface = isDark ? "hsl(20,8%,20%)" : "rgba(210,205,198,0.90)";
   const scoreColor   = isDark ? "rgba(240,237,232,0.88)" : "#1A1A1A";
+
+  // Count-up number animation
+  const [displayNum, setDisplayNum] = useState(0);
+  useEffect(() => {
+    const duration = 900;
+    const start = performance.now();
+    let raf: number;
+    const step = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplayNum(Math.round(eased * value));
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+
   return (
     <div style={{ flexShrink: 0 }}>
       <svg
@@ -1953,19 +1972,22 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
         {/* Track */}
         <path d={track} fill="none" stroke={trackSurface} strokeWidth={SG_SW} strokeLinecap="round" />
 
-        {/* Filled arc — animates in on mount */}
+        {/* Filled arc — strokeDashoffset sweep animation */}
         {filled && (
-          <motion.path d={filled} fill="none"
+          <motion.path
+            d={filled}
+            fill="none"
             stroke={`url(#sg-fg-${uid})`}
             strokeWidth={SG_SW}
             strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
+            strokeDasharray={arcLen}
+            initial={{ strokeDashoffset: arcLen }}
+            animate={{ strokeDashoffset: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
           />
         )}
 
-        {/* Score value */}
+        {/* Score value — counts up */}
         <text
           x={SG_CX}
           y={SG_CY + 1}
@@ -1976,7 +1998,7 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
           fontWeight="700"
           style={{ userSelect: "none", letterSpacing: "-0.3px", fontFamily: "inherit" }}
         >
-          {value}
+          {displayNum}
         </text>
       </svg>
     </div>
