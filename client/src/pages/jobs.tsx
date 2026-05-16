@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -1753,11 +1753,23 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
         ))}
       </div>
 
-      {/* Gaps */}
+      {/* Gaps — recessed insight banner */}
       {allGaps.length > 0 && (
-        <div className="mt-3.5 pt-3 border-t border-black/[0.06] dark:border-white/[0.06]">
-          <p className="text-[11.5px] text-amber-600 dark:text-amber-400 leading-snug">
-            <span className="font-semibold">To reach excellent: </span>{allGaps.join(" · ")}
+        <div
+          className="mt-3.5 rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5 flex items-start gap-2.5"
+          style={{
+            background: isDark ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.030)",
+            boxShadow: isDark
+              ? "inset 0 2px 5px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.025)"
+              : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.80)",
+          }}
+        >
+          <div className="flex-shrink-0 w-[18px] h-[18px] rounded-[6px] bg-foreground/[0.07] flex items-center justify-center mt-px">
+            <Lightbulb className="w-[10px] h-[10px] text-foreground/40" />
+          </div>
+          <p className="text-[11px] text-foreground/55 leading-[1.6]">
+            <span className="font-semibold text-foreground/65">To reach excellent: </span>
+            {allGaps.join(" · ")}
           </p>
         </div>
       )}
