@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motio
 import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
 
 /* ─── Keyframes ─────────────────────────────────────────────────────── */
 const KEYFRAMES = `
@@ -139,8 +140,8 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
   React.useEffect(() => sp.on("change", (v) => setDisp(Math.round(v))), [sp]);
   React.useEffect(() => { const t = setTimeout(() => mv.set(remaining), 120); return () => clearTimeout(t); }, [remaining, mv]);
 
-  const scoreY = CY + R * 0.22;
-  const labelY = CY + R * 0.44;
+  const scoreY = CY + R * 0.10;
+  const labelY = CY + R * 0.42;
 
   /* ── adaptive track colors ── */
   const trackShadow  = isDark ? "rgba(0,0,0,0.50)"        : "rgba(0,0,0,0.08)";
@@ -282,9 +283,8 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const isDark = mounted ? resolvedTheme === "dark" : false;
 
     const remaining = usage;
-    const pct    = limit > 0 ? remaining / limit : 0;
-    const c      = palette(pct);
-    const status = pct > 0.5 ? "Healthy" : pct > 0.2 ? "Running low" : "Almost out";
+    const pct = limit > 0 ? remaining / limit : 0;
+    const c   = palette(pct);
 
     React.useEffect(() => {
       if (!open) return;
@@ -299,21 +299,17 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const card = isDark ? {
       background:  "linear-gradient(160deg, rgba(22,24,28,0.98) 0%, rgba(13,14,17,1) 100%)",
       border:      "1px solid rgba(255,255,255,0.09)",
-      boxShadow:   "0 24px 56px rgba(0,0,0,0.65), 0 4px 12px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.07)",
+      boxShadow:   "0 4px 24px rgba(0,0,0,0.28), 0 1px 4px rgba(0,0,0,0.18)",
       gloss:       "linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent)",
-      titleColor:  "white",
       descColor:   "rgba(255,255,255,0.40)",
     } : {
       background:  "linear-gradient(160deg, #FDFCFB 0%, #F0EDE7 100%)",
       border:      "1px solid rgba(26,26,26,0.10)",
-      boxShadow:   "0 24px 56px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.90)",
+      boxShadow:   "0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)",
       gloss:       "linear-gradient(90deg, transparent, rgba(255,255,255,0.70), transparent)",
-      titleColor:  "#1A1A1A",
       descColor:   "rgba(26,26,26,0.45)",
     };
 
-    /* ── adaptive CTA button class string ── */
-    const ctaId = `liq-cta-v3-${uid}`;
 
     return (
       <div ref={containerRef} className="relative">
@@ -368,70 +364,20 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} isDark={isDark} />
                 </div>
 
-                {/* Title row + status pill */}
-                <div style={{
-                  display: "flex", alignItems: "center",
-                  justifyContent: "space-between", marginBottom: 8,
-                }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: card.titleColor, letterSpacing: "-0.2px" }}>
-                    AI Balance
-                  </span>
-                  <div style={{
-                    display: "inline-flex", alignItems: "center", gap: 5,
-                    background: `${c.glow}18`,
-                    border: `1px solid ${c.glow}38`,
-                    borderRadius: 20, padding: "3px 9px",
-                  }}>
-                    <div style={{
-                      width: 5, height: 5, borderRadius: "50%",
-                      background: c.mid,
-                      boxShadow: `0 0 5px ${c.glow}`,
-                      animation: "pulse-dot 2.2s ease-in-out infinite",
-                    }} />
-                    <span style={{ fontSize: 10, fontWeight: 600, color: c.label, letterSpacing: "0.2px" }}>
-                      {status}
-                    </span>
-                  </div>
-                </div>
-
                 {/* Description */}
                 <p style={{
                   fontSize: 12, color: card.descColor,
                   lineHeight: 1.6, margin: "0 0 14px",
+                  textAlign: "center",
                 }}>
                   Credits power mock interviews and scout chats.
                 </p>
 
                 {/* CTA */}
-                <style>{`
-                  .${ctaId} {
-                    position: relative; overflow: hidden; cursor: pointer; width: 100%;
-                    background: linear-gradient(155deg, ${c.bright}1a 0%, ${c.deep}35 100%);
-                    border: 1px solid ${c.glow}48;
-                    border-radius: 40px; height: 34px;
-                    display: flex; align-items: center; justify-content: center; gap: 7px;
-                    box-shadow: 0 0 10px ${c.glow}22, inset 0 1px 0 rgba(255,255,255,0.08);
-                    transition: all 0.2s ease;
-                  }
-                  .${ctaId}::before {
-                    content:""; position:absolute; top:0; left:0; right:0; height:48%;
-                    background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%);
-                    border-radius:40px 40px 0 0; pointer-events:none;
-                  }
-                  .${ctaId}:hover {
-                    background: linear-gradient(155deg, ${c.bright}28 0%, ${c.deep}50 100%);
-                    border-color: ${c.glow}78;
-                    box-shadow: 0 0 18px ${c.glow}38, inset 0 1px 0 rgba(255,255,255,0.12);
-                    transform: translateY(-1px);
-                  }
-                  .${ctaId}:active { transform: translateY(1px); }
-                `}</style>
-                <button className={ctaId}>
-                  <Zap style={{ width: 12, height: 12, color: c.bright, flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, fontWeight: 600, color: c.label, letterSpacing: "0.1px" }}>
-                    Get more credits
-                  </span>
-                </button>
+                <Button variant="default" size="sm" className="w-full gap-1.5">
+                  <Zap className="w-3 h-3" />
+                  Get more credits
+                </Button>
               </div>
             </motion.div>
           )}
