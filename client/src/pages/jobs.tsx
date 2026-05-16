@@ -1635,12 +1635,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const tier = SCORE_TIERS.find(t => job.match >= t.min) ?? SCORE_TIERS[SCORE_TIERS.length - 1];
-  const accentColor = tier.accent;
-  const accentText  = isDark ? tier.darkText  : tier.lightText;
-  const accentBg    = isDark ? tier.darkBg    : tier.lightBg;
-  const trackColor  = isDark ? "rgba(255,255,255,0.065)" : "rgba(0,0,0,0.065)";
-
   const subs: SubBreakdown[] = BREAKDOWNS[job.id] ?? [
     { label: "Role Requirements",   target: 80, aligns: [], gaps: [] },
     { label: "Job Criteria",        target: 80, aligns: [], gaps: [] },
@@ -1648,70 +1642,93 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
     { label: "Qualification Match", target: 80, aligns: [], gaps: [] },
   ];
 
+  const allGaps = [...new Set(subs.flatMap(s => s.gaps))].slice(0, 3);
+  const s = job.match;
+
+  const headline =
+    s >= 85 ? "You're an excellent match for this role." :
+    s >= 70 ? "You're a strong match — excellence is within reach." :
+    s >= 60 ? "You're competitive, but a few gaps are holding you back." :
+              "You're in the mix, with some key areas to work on.";
+
+  const subtext =
+    s >= 85 && allGaps.length === 0 ? "You tick every box — this role is made for you." :
+    s >= 85 ? `Already a top candidate. Closing ${allGaps[0]?.toLowerCase()} could make this a perfect fit.` :
+    s >= 70 && allGaps.length > 0 ? `To hit excellent, you'd mainly need to address ${allGaps.slice(0, 2).map(g => g.toLowerCase()).join(" and ")}.` :
+    s >= 70 ? "Strong across the board — you're in a great position." :
+    s >= 60 && allGaps.length > 0 ? `Bridging ${allGaps.slice(0, 2).map(g => g.toLowerCase()).join(" and ")} would tip the scales considerably.` :
+              "A few areas need attention, but your core strengths still apply here.";
+
+  // Zones: Weak 0–59 (59%), Fair 60–69 (10%), Good 70–84 (15%), Excellent 85–100 (16%)
+  const zones = [
+    { label: "Weak",      range: "0–59",  pct: 59, light: "#ffd6d6", dark: "rgba(239,68,68,0.22)"   },
+    { label: "Fair",      range: "60–69", pct: 10, light: "#fef3c7", dark: "rgba(251,191,36,0.22)"  },
+    { label: "Good",      range: "70–84", pct: 15, light: "#bbf7d0", dark: "rgba(52,211,153,0.22)"  },
+    { label: "Excellent", range: "85+",   pct: 16, light: "#ccfbf1", dark: "rgba(20,184,166,0.22)"  },
+  ];
+
+  const markerPct = Math.max(1, Math.min(99, s));
+
   return (
-    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
-      {/* ── Sub-scores ── */}
-      <div className="divide-y divide-black/[0.05] dark:divide-white/[0.05]">
-        {subs.map((sub) => {
-          const subPalette = sub.target >= 85
-            ? { bright: "#4ade80", mid: isDark ? "#16a34a" : "#10b981" }
-            : sub.target >= 70
-            ? { bright: "#fde68a", mid: isDark ? "#ea580c" : "#f97316" }
-            : { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
-          const subTextColor = sub.target >= 85
-            ? (isDark ? "#4ade80" : "#15803d")
-            : sub.target >= 70
-            ? (isDark ? "#fb923c" : "#c2410c")
-            : (isDark ? "#f87171" : "#b91c1c");
-          const subFilledBars = open ? Math.round((sub.target / 100) * BREAKDOWN_BARS) : 0;
-          return (
-            <div key={sub.label} className="px-4 py-3">
-              {/* Label + score */}
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10.5px] font-semibold uppercase tracking-widest text-foreground/40">{sub.label}</span>
-                <span className="text-[14px] font-bold tabular-nums leading-none" style={{ color: subTextColor }}>{sub.target}</span>
-              </div>
-              {/* Staggered bars */}
-              <div className="flex items-center gap-[3px] mb-2.5">
-                {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
-                  const filled = i < subFilledBars;
-                  const t = BREAKDOWN_BARS > 1 ? i / (BREAKDOWN_BARS - 1) : 0;
-                  const barColor = lerpHex(subPalette.bright, subPalette.mid, t);
-                  return (
-                    <div
-                      key={i}
-                      className="flex-1 rounded-[2px] relative overflow-hidden"
-                      style={{ height: 10, backgroundColor: trackColor }}
-                    >
-                      {filled && (
-                        <motion.div
-                          className="absolute inset-0 rounded-[2px]"
-                          style={{ backgroundColor: barColor, transformOrigin: "left" }}
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1], delay: i * 0.012 }}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-              {/* Aligns */}
-              {sub.aligns.length > 0 && (
-                <p className="text-[11px] text-emerald-600 dark:text-emerald-400 leading-snug mb-0.5">
-                  {sub.aligns.join(" · ")}
-                </p>
-              )}
-              {/* Gaps */}
-              {sub.gaps.length > 0 && (
-                <p className="text-[11px] text-amber-600 dark:text-amber-400 leading-snug">
-                  <span className="font-medium">Missing:</span> {sub.gaps.join(" · ")}
-                </p>
-              )}
-            </div>
-          );
-        })}
+    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-4" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
+      {/* Headline */}
+      <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-1.5">{headline}</p>
+      <p className="text-[12px] text-foreground/50 leading-[1.65] mb-4">{subtext}</p>
+
+      {/* Zoned bar + YOU marker */}
+      <div className="relative">
+        {/* YOU label + tick — CSS transition for smooth animation */}
+        <div
+          className="absolute -top-5 flex flex-col items-center pointer-events-none"
+          style={{
+            left: open ? `${markerPct}%` : "0%",
+            transform: "translateX(-50%)",
+            transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
+          }}
+        >
+          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/55 leading-none mb-0.5">You</span>
+          <span className="text-[8px] font-bold text-foreground/55 tabular-nums">{s}</span>
+        </div>
+
+        {/* Bar segments */}
+        <div className="flex h-[14px] rounded-lg overflow-hidden gap-[2px]">
+          {zones.map((z) => (
+            <div
+              key={z.label}
+              style={{ width: `${z.pct}%`, backgroundColor: isDark ? z.dark : z.light }}
+            />
+          ))}
+        </div>
+
+        {/* Marker tick line */}
+        <div
+          className="absolute top-0 bottom-0 w-[2px] rounded-full pointer-events-none"
+          style={{
+            left: open ? `${markerPct}%` : "0%",
+            transform: "translateX(-50%)",
+            backgroundColor: isDark ? "rgba(240,237,232,0.85)" : "rgba(26,26,26,0.75)",
+            transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
+          }}
+        />
       </div>
+
+      {/* Zone labels */}
+      <div className="flex mt-2">
+        {zones.map((z) => (
+          <div key={z.label} style={{ width: `${z.pct}%` }}>
+            <span className="text-[9.5px] text-foreground/30 whitespace-nowrap">{z.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Gaps */}
+      {allGaps.length > 0 && (
+        <div className="mt-3.5 pt-3 border-t border-black/[0.06] dark:border-white/[0.06]">
+          <p className="text-[11.5px] text-amber-600 dark:text-amber-400 leading-snug">
+            <span className="font-semibold">To reach excellent: </span>{allGaps.join(" · ")}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
