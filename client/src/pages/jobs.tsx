@@ -1785,7 +1785,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                 </div>
               </div>
               <div className="flex-shrink-0">
-                <ScoreGauge value={displayJob.match} isDark={isDark} />
+                <ScoreGauge value={displayJob.match} isDark={isDark} scale={2.1} showLabel />
               </div>
             </div>
 
@@ -2074,7 +2074,34 @@ function sgPalette(score: number, isDark: boolean) {
   return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
 }
 
-function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: boolean; scale?: number }) {
+function sgMatchLabel(score: number): { text: string; bg: string; color: string; border: string } {
+  if (score >= 85) return {
+    text: "Excellent match",
+    bg: "rgba(74,222,128,0.12)",
+    color: "#15803d",
+    border: "rgba(74,222,128,0.30)",
+  };
+  if (score >= 70) return {
+    text: "Good match",
+    bg: "rgba(251,191,36,0.12)",
+    color: "#b45309",
+    border: "rgba(251,191,36,0.32)",
+  };
+  if (score >= 50) return {
+    text: "Fair match",
+    bg: "rgba(251,146,60,0.12)",
+    color: "#c2410c",
+    border: "rgba(251,146,60,0.30)",
+  };
+  return {
+    text: "Weak match",
+    bg: "rgba(252,165,165,0.13)",
+    color: "#b91c1c",
+    border: "rgba(252,165,165,0.32)",
+  };
+}
+
+function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value: number; isDark: boolean; scale?: number; showLabel?: boolean }) {
   const uid = useId().replace(/:/g, "");
   const pct = Math.max(0, Math.min(100, value)) / 100;
   const c = sgPalette(value, isDark);
@@ -2082,12 +2109,11 @@ function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: bo
   const filledEnd   = (SG_A0 + filledSweep) % 360;
   const track  = sgArc(SG_A0, SG_A1);
   const filled = filledSweep > 0.5 ? sgArc(SG_A0, filledEnd) : "";
-  // Arc length of the filled portion for dasharray animation
   const arcLen  = (filledSweep * Math.PI / 180) * SG_R;
   const trackSurface = isDark ? "hsl(20,8%,20%)" : "rgba(210,205,198,0.90)";
   const scoreColor   = isDark ? "rgba(240,237,232,0.88)" : "#1A1A1A";
+  const label = sgMatchLabel(value);
 
-  // Count-up number animation
   const [displayNum, setDisplayNum] = useState(0);
   useEffect(() => {
     const duration = 900;
@@ -2103,13 +2129,16 @@ function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: bo
     return () => cancelAnimationFrame(raf);
   }, [value]);
 
+  const svgW = SG_VBW * scale;
+  const svgH = SG_VBH * scale;
+
   return (
-    <div style={{ flexShrink: 0 }}>
+    <div style={{ flexShrink: 0, position: "relative", width: svgW, height: showLabel ? svgH + 10 : svgH }}>
       <svg
         viewBox={`0 0 ${SG_VBW} ${SG_VBH}`}
-        width={SG_VBW * scale}
-        height={SG_VBH * scale}
-        style={{ display: "block", overflow: "visible" }}
+        width={svgW}
+        height={svgH}
+        style={{ display: "block", overflow: "visible", position: "absolute", top: 0, left: 0 }}
       >
         <defs>
           <linearGradient id={`sg-fg-${uid}`} gradientUnits="userSpaceOnUse"
@@ -2122,7 +2151,7 @@ function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: bo
         {/* Track */}
         <path d={track} fill="none" stroke={trackSurface} strokeWidth={SG_SW} strokeLinecap="round" />
 
-        {/* Filled arc — strokeDashoffset sweep animation */}
+        {/* Filled arc */}
         {filled && (
           <motion.path
             d={filled}
@@ -2151,6 +2180,34 @@ function ScoreGauge({ value, isDark, scale = 1.55 }: { value: number; isDark: bo
           {displayNum}
         </text>
       </svg>
+
+      {/* Label pill — sits in the gap at the bottom of the arc */}
+      {showLabel && (
+        <motion.div
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            whiteSpace: "nowrap",
+            background: label.bg,
+            color: isDark ? label.color.replace(/^#/, "") === label.color.replace(/^#/, "") ? label.color : label.color : label.color,
+            border: `1px solid ${label.border}`,
+            borderRadius: "999px",
+            padding: "2px 8px",
+            fontSize: "10px",
+            fontWeight: 600,
+            letterSpacing: "-0.01em",
+            lineHeight: "16px",
+            pointerEvents: "none",
+          }}
+        >
+          {label.text}
+        </motion.div>
+      )}
     </div>
   );
 }
