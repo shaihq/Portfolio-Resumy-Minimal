@@ -1953,12 +1953,15 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
         {/* Track */}
         <path d={track} fill="none" stroke={trackSurface} strokeWidth={SG_SW} strokeLinecap="round" />
 
-        {/* Filled arc */}
+        {/* Filled arc — animates in on mount */}
         {filled && (
-          <path d={filled} fill="none"
+          <motion.path d={filled} fill="none"
             stroke={`url(#sg-fg-${uid})`}
             strokeWidth={SG_SW}
             strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
           />
         )}
 
