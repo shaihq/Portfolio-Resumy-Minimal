@@ -3024,10 +3024,23 @@ function Dashboard() {
   const [offerDecisionOpen, setOfferDecisionOpen] = useState(false);
   const [archivedCollapsed, setArchivedCollapsed] = useState(false);
   const [addJobOpen, setAddJobOpen] = useState(false);
+  const [criteriaOpen, setCriteriaOpen] = useState(false);
+  const criteriaRef = useRef<HTMLDivElement>(null);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
   const picksRef = useRef<HTMLDivElement>(null);
   const filterBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!criteriaOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (criteriaRef.current && !criteriaRef.current.contains(e.target as Node)) {
+        setCriteriaOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [criteriaOpen]);
 
   // Computed margin-left to visually center the 520px AI Picks column within the content area.
   // Using explicit px (not "auto") so it can be CSS-transitioned smoothly.
@@ -3127,12 +3140,60 @@ function Dashboard() {
           style={{ marginLeft: (phase === "list" || phase === "shrinking") ? centerMargin : 0 }}
         >
           {/* Prompt pill */}
-          <div className="flex items-center gap-2.5 bg-white dark:bg-card border border-black/8 dark:border-border rounded-full pl-1.5 pr-4 h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none">
-            <Avatar className="w-6 h-6 flex-shrink-0 border border-black/10 dark:border-white/10">
-              <AvatarImage src={profileImg} alt="Profile" />
-              <AvatarFallback className="text-[10px]">MB</AvatarFallback>
-            </Avatar>
-            <span className="truncate">Software engineers · remote-first · senior-level</span>
+          <div ref={criteriaRef} className="relative">
+            <button
+              onClick={() => setCriteriaOpen(v => !v)}
+              className={`flex items-center gap-2.5 bg-white dark:bg-card border h-9 text-sm text-foreground min-w-0 max-w-[380px] select-none rounded-full pl-1.5 pr-4 transition-colors ${criteriaOpen ? "border-black/20 dark:border-white/20" : "border-black/8 dark:border-border hover:border-black/15 dark:hover:border-white/15"}`}
+            >
+              <div className="w-6 h-6 flex-shrink-0 rounded-full bg-foreground/[0.07] dark:bg-white/[0.08] flex items-center justify-center">
+                <Search className="w-3 h-3 text-foreground/55" />
+              </div>
+              <span className="truncate text-foreground/70">Software engineers · remote-first · senior-level</span>
+            </button>
+
+            {/* Criteria dropdown */}
+            <div
+              className="absolute left-0 top-full mt-2 z-50"
+              style={{
+                opacity: criteriaOpen ? 1 : 0,
+                transform: criteriaOpen ? "translateY(0) scale(1)" : "translateY(-6px) scale(0.98)",
+                pointerEvents: criteriaOpen ? "auto" : "none",
+                transition: "opacity 0.16s ease, transform 0.16s ease",
+                transformOrigin: "top left",
+              }}
+            >
+              <div className="w-[300px] rounded-2xl border border-black/[0.07] dark:border-white/[0.09] bg-white dark:bg-[#1E1B18] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+                {/* Header */}
+                <div className="px-4 pt-4 pb-3 border-b border-black/[0.05] dark:border-white/[0.06]">
+                  <p className="text-[13px] font-semibold text-foreground">Search criteria</p>
+                  <p className="text-[11px] text-foreground/40 mt-0.5">Your active job preferences</p>
+                </div>
+
+                {/* Criteria rows */}
+                <div className="px-4 py-3 flex flex-col gap-3">
+                  {[
+                    { label: "Role", value: "Software Engineer" },
+                    { label: "Level", value: "Senior" },
+                    { label: "Work mode", value: "Remote-first" },
+                    { label: "Location", value: "United States" },
+                    { label: "Type", value: "Full-time" },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex items-center justify-between gap-3">
+                      <span className="text-[12px] text-foreground/40 flex-shrink-0">{label}</span>
+                      <span className="text-[12px] font-medium text-foreground/80 text-right">{value}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Footer action */}
+                <div className="px-3 pb-3 pt-1">
+                  <button className="w-full flex items-center justify-center gap-1.5 h-9 rounded-xl bg-foreground/[0.05] dark:bg-white/[0.06] hover:bg-foreground/[0.08] dark:hover:bg-white/[0.1] transition-colors text-[12px] font-medium text-foreground/60 hover:text-foreground/80">
+                    <Search className="w-3 h-3" />
+                    Edit &amp; rescan
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Filters button */}
