@@ -1768,7 +1768,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
           {/* Company hero */}
           <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-sm font-bold"
@@ -2074,30 +2074,30 @@ function sgPalette(score: number, isDark: boolean) {
   return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
 }
 
-function sgMatchLabel(score: number, isDark: boolean): { text: string; gradientTop: string; gradientBot: string; border: string } {
+function sgMatchLabel(score: number, isDark: boolean): { text: string; bg: string; border: string; color: string } {
   if (score >= 85) return {
     text: "Excellent match",
-    gradientTop: isDark ? "#22c55e" : "#4ade80",
-    gradientBot: isDark ? "#14532d" : "#15803d",
-    border: isDark ? "#166534" : "#15803d",
+    bg: isDark ? "rgba(20,83,45,0.55)" : "rgba(220,252,231,0.9)",
+    border: isDark ? "rgba(74,222,128,0.14)" : "rgba(21,128,61,0.14)",
+    color: isDark ? "#4ade80" : "#15803d",
   };
   if (score >= 70) return {
     text: "Good match",
-    gradientTop: isDark ? "#fbbf24" : "#fcd34d",
-    gradientBot: isDark ? "#92400e" : "#b45309",
-    border: isDark ? "#78350f" : "#b45309",
+    bg: isDark ? "rgba(120,53,15,0.55)" : "rgba(254,249,195,0.9)",
+    border: isDark ? "rgba(251,191,36,0.14)" : "rgba(161,98,7,0.14)",
+    color: isDark ? "#fbbf24" : "#a16207",
   };
   if (score >= 50) return {
     text: "Fair match",
-    gradientTop: isDark ? "#fb923c" : "#fdba74",
-    gradientBot: isDark ? "#9a3412" : "#c2410c",
-    border: isDark ? "#7c2d12" : "#c2410c",
+    bg: isDark ? "rgba(124,45,18,0.55)" : "rgba(255,237,213,0.9)",
+    border: isDark ? "rgba(251,146,60,0.14)" : "rgba(194,65,12,0.14)",
+    color: isDark ? "#fb923c" : "#c2410c",
   };
   return {
     text: "Weak match",
-    gradientTop: isDark ? "#f87171" : "#fca5a5",
-    gradientBot: isDark ? "#7f1d1d" : "#b91c1c",
-    border: isDark ? "#6b1c1c" : "#b91c1c",
+    bg: isDark ? "rgba(127,29,29,0.55)" : "rgba(254,226,226,0.9)",
+    border: isDark ? "rgba(248,113,113,0.14)" : "rgba(185,28,28,0.14)",
+    color: isDark ? "#f87171" : "#b91c1c",
   };
 }
 
@@ -2181,23 +2181,24 @@ function ScoreGauge({ value, isDark, scale = 1.55, showLabel = false }: { value:
         </text>
       </svg>
 
-      {/* Metallic badge — centered below the gauge */}
+      {/* Depth badge — squircle, inset shadow, minimal */}
       {showLabel && (
         <div
           style={{
             whiteSpace: "nowrap",
-            background: `linear-gradient(to bottom, ${label.gradientTop}, ${label.gradientBot})`,
-            color: "#ffffff",
+            background: label.bg,
+            color: label.color,
             border: `1px solid ${label.border}`,
-            borderRadius: "999px",
-            padding: "3px 10px",
+            borderRadius: "9px",
+            padding: "3px 9px",
             fontSize: "10px",
-            fontWeight: 700,
+            fontWeight: 600,
             letterSpacing: "0.01em",
             lineHeight: "16px",
             pointerEvents: "none",
-            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -1px 0 rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.28)`,
-            textShadow: "0 1px 1px rgba(0,0,0,0.35)",
+            boxShadow: isDark
+              ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 0 rgba(255,255,255,0.03)"
+              : "inset 0 2px 4px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.80), 0 1px 0 rgba(0,0,0,0.04)",
           }}
         >
           {label.text}
