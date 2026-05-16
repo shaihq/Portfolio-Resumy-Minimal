@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
