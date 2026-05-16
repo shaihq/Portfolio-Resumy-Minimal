@@ -1679,7 +1679,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const markerBarPct = Math.max(1, Math.min(98.5, scoreToBarPct(s)));
 
   return (
-    <div className="rounded-2xl border border-black/[0.06] dark:border-white/[0.08] px-4 pt-4 pb-0 overflow-hidden" style={{ background: isDark ? "#141414" : "rgba(0,0,0,0.028)" }}>
+    <div className="rounded-xl border border-black/[0.06] dark:border-white/[0.07] px-4 pt-4 pb-0 overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.028)" }}>
       {/* Headline */}
       <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-4">{headline}</p>
 
@@ -1750,7 +1750,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       {(allAligns.length > 0 || allGaps.length > 0) && (
         <div
           className="mt-3.5 -mx-4 border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
-          style={{ background: isDark ? "#0F0F0F" : "rgba(0,0,0,0.038)" }}
+          style={{ background: isDark ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.038)" }}
         >
           {/* Strongest signals row */}
           {allAligns.length > 0 && (
