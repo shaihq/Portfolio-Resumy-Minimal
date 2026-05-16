@@ -129,8 +129,8 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
   const trackShadow  = isDark ? "rgba(0,0,0,0.50)"       : "rgba(0,0,0,0.08)";
   const trackSurface = isDark ? "hsl(20,10%,14%)"        : "rgba(215,210,203,0.90)";
   const trackRim     = isDark ? "hsl(20,10%,22%)"        : "rgba(255,255,255,0.60)";
-  const scoreColor   = isDark ? "white"                    : "#1A1A1A";
-  const labelColor   = isDark ? "rgba(255,255,255,0.30)"   : "rgba(26,26,26,0.38)";
+  const scoreColor   = isDark ? "hsl(46,29%,94%)"           : "#1A1A1A";
+  const labelColor   = isDark ? "rgba(240,237,232,0.68)"   : "rgba(26,26,26,0.62)";
 
   return (
     <svg viewBox={`0 0 ${VB_W} ${VB_H}`} width={VB_W} height={VB_H}
@@ -209,7 +209,7 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         <text x={CX} y={scoreY}
           textAnchor="middle" dominantBaseline="central"
           fill={scoreColor} fontSize="38" fontWeight="700"
-          style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "inherit" }}>
+          style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "'JetBrains Mono', monospace" }}>
           {disp}
         </text>
       </motion.g>
@@ -218,8 +218,8 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         transition={{ delay: 0.45, duration: 0.5 }}>
         <text x={CX} y={labelY}
           textAnchor="middle" dominantBaseline="central"
-          fill={labelColor} fontSize="9" fontWeight="400"
-          style={{ userSelect: "none", letterSpacing: "0.5px", fontFamily: "inherit" }}>
+          fill={labelColor} fontSize="11" fontWeight="500"
+          style={{ userSelect: "none", letterSpacing: "0.3px", fontFamily: "'JetBrains Mono', monospace" }}>
           / {limit} credits left
         </text>
       </motion.g>
