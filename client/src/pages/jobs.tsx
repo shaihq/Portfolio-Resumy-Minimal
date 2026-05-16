@@ -1774,19 +1774,6 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   </div>
                 </div>
               </div>
-              {/* Match quality badge */}
-              {(() => {
-                const t = SCORE_TIERS.find(t => displayJob.match >= t.min) ?? SCORE_TIERS[SCORE_TIERS.length - 1];
-                return (
-                  <div
-                    className="flex-shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1"
-                    style={{ backgroundColor: isDark ? t.darkBg : t.lightBg }}
-                  >
-                    <div className="w-[5px] h-[5px] rounded-full" style={{ backgroundColor: t.accent }} />
-                    <span className="text-[11px] font-semibold leading-none" style={{ color: isDark ? t.darkText : t.lightText }}>{t.label}</span>
-                  </div>
-                );
-              })()}
             </div>
 
             {/* Property rows */}
