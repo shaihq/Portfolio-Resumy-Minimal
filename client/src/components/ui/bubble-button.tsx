@@ -95,31 +95,6 @@ function Ticks({ startDeg, endDeg, color }: { startDeg: number; endDeg: number; 
   );
 }
 
-/* ─── Particles — strictly clipped to stroke area ────────────────────── */
-const SPARKS = Array.from({ length: 20 }, (_, i) => ({
-  id:       i,
-  frac:     Math.random(),
-  radOff:   (Math.random() - 0.5) * (SW * 0.6),
-  size:     0.9 + Math.random() * 1.8,
-  dur:      1.8 + Math.random() * 2.4,
-  delay:    Math.random() * 4,
-  opacity:  0.3 + Math.random() * 0.5,
-}));
-function ArcSparks({ filledSweep, clipId }: { filledSweep: number; clipId: string }) {
-  return (
-    <g clipPath={`url(#${clipId})`}>
-      {SPARKS.map((s) => {
-        const deg = A0 + s.frac * filledSweep;
-        const p   = pt(CX, CY, R + s.radOff, deg);
-        return (
-          <circle key={s.id} cx={p.x} cy={p.y} r={s.size} fill="white"
-            style={{ opacity: s.opacity, animation: `pulse-dot ${s.dur}s ${s.delay}s ease-in-out infinite` }}
-          />
-        );
-      })}
-    </g>
-  );
-}
 
 /* ─── Liquid Gauge SVG ───────────────────────────────────────────────── */
 function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
@@ -162,70 +137,58 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         </linearGradient>
         <linearGradient id={`gg-${uid}`} gradientUnits="userSpaceOnUse"
           x1={CX} y1={CY - R} x2={CX} y2={CY}>
-          <stop offset="0%"   stopColor="white" stopOpacity="0.40" />
+          <stop offset="0%"   stopColor="white" stopOpacity="0.35" />
           <stop offset="100%" stopColor="white" stopOpacity="0"    />
         </linearGradient>
         <filter id={`af-${uid}`} x="-35%" y="-35%" width="170%" height="170%"
           colorInterpolationFilters="sRGB">
-          <feDropShadow dx="0" dy="0" stdDeviation="3"  floodColor={c.glow} floodOpacity="0.9" />
-          <feDropShadow dx="0" dy="0" stdDeviation="8"  floodColor={c.glow} floodOpacity="0.4" />
-          <feDropShadow dx="0" dy="2" stdDeviation="14" floodColor={c.glow} floodOpacity="0.2" />
+          <feDropShadow dx="0" dy="0" stdDeviation="3"  floodColor={c.glow} floodOpacity="0.55" />
+          <feDropShadow dx="0" dy="0" stdDeviation="7"  floodColor={c.glow} floodOpacity="0.20" />
         </filter>
         <filter id={`bf-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="5" />
+          <feGaussianBlur stdDeviation="4" />
         </filter>
-        {filled && (
-          <clipPath id={`cp-${uid}`} clipPathUnits="userSpaceOnUse">
-            <path d={filled} fill="none" stroke="white"
-              strokeWidth={SW - 4} strokeLinecap="round" />
-          </clipPath>
-        )}
       </defs>
 
-      <path d={track} fill="none" stroke={trackShadow}  strokeWidth={SW + 3} strokeLinecap="round" />
-      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW}     strokeLinecap="round" />
+      {/* ── Track: wider than fill to create recessed-channel depth ── */}
+      <path d={track} fill="none" stroke={trackShadow}  strokeWidth={SW + 9} strokeLinecap="round" />
+      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round" />
       <path d={track} fill="none" stroke={trackRim}     strokeWidth={1.2}    strokeLinecap="round" />
 
       {empty && <Ticks startDeg={(A0 + filled_sw) % 360} endDeg={A1} color={c.label} />}
 
+      {/* ── Filled arc: narrower than track so track peeks around it ── */}
       {filled && (
         <motion.path d={filled} fill="none"
-          stroke={c.glow} strokeWidth={SW + 12} strokeLinecap="round"
-          style={{ filter: `url(#bf-${uid})`, opacity: 0.28 }}
+          stroke={c.glow} strokeWidth={SW + 4} strokeLinecap="round"
+          style={{ filter: `url(#bf-${uid})`, opacity: 0.10 }}
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
       {filled && (
         <motion.path d={filled} fill="none"
-          stroke={c.glow} strokeWidth={SW + 2} strokeLinecap="round"
-          style={{ filter: `url(#af-${uid})`, opacity: 0.55 }}
+          stroke={c.glow} strokeWidth={SW - 4} strokeLinecap="round"
+          style={{ filter: `url(#af-${uid})`, opacity: 0.22 }}
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
       {filled && (
         <motion.path d={filled} fill="none"
-          stroke={`url(#fg-${uid})`} strokeWidth={SW} strokeLinecap="round"
+          stroke={`url(#fg-${uid})`} strokeWidth={SW - 4} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
       {filled && (
         <motion.path d={filled} fill="none"
-          stroke={`url(#gg-${uid})`} strokeWidth={SW} strokeLinecap="round"
+          stroke={`url(#gg-${uid})`} strokeWidth={SW - 4} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
       {filled && (
-        <motion.path d={arcPath(CX, CY, R - SW * 0.42, A0, filledEnd)} fill="none"
-          stroke={isDark ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.55)"} strokeWidth={1.2} strokeLinecap="round"
+        <motion.path d={arcPath(CX, CY, R - (SW - 4) * 0.42, A0, filledEnd)} fill="none"
+          stroke={isDark ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.50)"} strokeWidth={1.2} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }} />
-      )}
-
-      {filled && pct > 0.03 && (
-        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.75, duration: 0.6 }}>
-          <ArcSparks filledSweep={filled_sw} clipId={`cp-${uid}`} />
-        </motion.g>
       )}
 
       {capPt && (
