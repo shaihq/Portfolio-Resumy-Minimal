@@ -6,16 +6,16 @@ import { Zap } from "lucide-react";
 /* ─── Keyframes ─────────────────────────────────────────────────────── */
 const KEYFRAMES = `
   @keyframes bubble-rise {
-    0%   { transform: translateY(0) scale(1);  opacity: 0.4; }
-    100% { transform: translateY(-100px) scale(0); opacity: 0; }
+    0%   { transform: translateY(0) scale(1);     opacity: 0.4; }
+    100% { transform: translateY(-100px) scale(0); opacity: 0;   }
   }
   @keyframes pulse-dot {
-    0%, 100% { opacity: 0.55; transform: scale(1);   }
-    50%       { opacity: 1;    transform: scale(1.25); }
+    0%, 100% { opacity: 0.5;  }
+    50%       { opacity: 1;   }
   }
 `;
 
-/* ─── Badge bubble particles ─────────────────────────────────────────── */
+/* ─── Badge bubbles ──────────────────────────────────────────────────── */
 const BUBBLES = Array.from({ length: 15 }, (_, i) => ({
   id: i,
   width:    Math.random() * 12 + 4,
@@ -24,7 +24,6 @@ const BUBBLES = Array.from({ length: 15 }, (_, i) => ({
   duration: 2 + Math.random() * 3,
   delay:    Math.random() * 4,
 }));
-
 const BadgeBubbles = () => (
   <>
     <style>{KEYFRAMES}</style>
@@ -42,63 +41,55 @@ const BadgeBubbles = () => (
   </>
 );
 
-/* ─── Color palette per credit level ────────────────────────────────── */
+/* ─── Colour palette ─────────────────────────────────────────────────── */
 function palette(pct: number) {
-  if (pct > 0.5) return {
-    bright: "#b5f546", mid: "#4ade80", deep: "#166534",
-    glow:   "#22c55e", label: "#86efac",
-  };
-  if (pct > 0.2) return {
-    bright: "#fde68a", mid: "#f59e0b", deep: "#92400e",
-    glow:   "#d97706", label: "#fcd34d",
-  };
-  return {
-    bright: "#fca5a5", mid: "#ef4444", deep: "#7f1d1d",
-    glow:   "#dc2626", label: "#fca5a5",
-  };
+  if (pct > 0.5) return { bright: "#b5f546", mid: "#4ade80", deep: "#166534", glow: "#22c55e", label: "#86efac" };
+  if (pct > 0.2) return { bright: "#fde68a", mid: "#f59e0b", deep: "#92400e", glow: "#d97706", label: "#fcd34d" };
+  return           { bright: "#fca5a5", mid: "#ef4444", deep: "#7f1d1d", glow: "#dc2626", label: "#fca5a5" };
 }
 
-/* ─── SVG polar helpers ──────────────────────────────────────────────── */
-// Angles in "clock degrees": 0 = 12 o'clock, clockwise
+/* ─── Polar helpers (clock° — 0 = 12 o'clock, clockwise) ─────────────── */
 function pt(cx: number, cy: number, r: number, deg: number) {
   const rad = (deg * Math.PI) / 180;
   return { x: cx + r * Math.sin(rad), y: cy - r * Math.cos(rad) };
 }
-
 function arcPath(cx: number, cy: number, r: number, a1: number, a2: number) {
-  const s = pt(cx, cy, r, a1);
-  const e = pt(cx, cy, r, a2);
+  const s  = pt(cx, cy, r, a1);
+  const e  = pt(cx, cy, r, a2);
   const sw = ((a2 - a1) + 360) % 360;
-  if (sw === 0) return "";
+  if (sw < 0.1) return "";
   return `M ${s.x.toFixed(2)} ${s.y.toFixed(2)} A ${r} ${r} 0 ${sw > 180 ? 1 : 0} 1 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
 }
 
-/* ─── Gauge geometry constants ───────────────────────────────────────── */
-// 240° sweep: 8 o'clock (240°) → over top → 4 o'clock (120°)
-const A0    = 240;   // start angle (clock °)
-const A1    = 120;   // end angle   (clock °)
-const SWEEP = 240;   // total sweep
-const CX    = 120;   // SVG center x
-const CY    = 104;   // SVG center y
-const R     = 88;    // arc radius
-const SW    = 22;    // stroke width
+/* ─── Gauge geometry ─────────────────────────────────────────────────── */
+// 240° sweep: 8-o'clock (240°) → top → 4-o'clock (120°)
+const A0    = 240;
+const A1    = 120;
+const SWEEP = 240;
+const CX    = 120;   // SVG center x  (viewBox width = 240)
+const CY    = 108;   // SVG center y
+const R     = 82;    // arc radius
+const SW    = 19;    // stroke width
 
-/* ─── Tick marks on empty arc ────────────────────────────────────────── */
+// Arc endpoints are at y = CY + R * |cos(240°)| = CY + R*0.5
+// => 108 + 41 = 149.  SVG height = 149 + 16 = 165 (a little breathing room)
+const VB_W  = CX * 2;       // 240
+const VB_H  = CY + R * 0.5 + 16; // 165
+
+/* ─── Tick marks ─────────────────────────────────────────────────────── */
 function Ticks({ startDeg, endDeg, color }: { startDeg: number; endDeg: number; color: string }) {
   const sweep = ((endDeg - startDeg) + 360) % 360;
-  const n = 14;
+  const n = 12;
   return (
     <>
       {Array.from({ length: n }, (_, i) => {
-        const deg = startDeg + (i / (n - 1)) * sweep;
-        const isMajor = i % 7 === 0;
-        const inner = pt(CX, CY, R - (isMajor ? 5 : 3), deg);
-        const outer = pt(CX, CY, R + (isMajor ? 5 : 3), deg);
+        const deg    = startDeg + (i / (n - 1)) * sweep;
+        const inner  = pt(CX, CY, R - 3, deg);
+        const outer  = pt(CX, CY, R + 3, deg);
         return (
           <line key={i}
             x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y}
-            stroke={color} strokeWidth={isMajor ? 1.2 : 0.7} strokeLinecap="round"
-            opacity={isMajor ? 0.35 : 0.18}
+            stroke={color} strokeWidth="0.8" strokeLinecap="round" opacity="0.25"
           />
         );
       })}
@@ -106,30 +97,25 @@ function Ticks({ startDeg, endDeg, color }: { startDeg: number; endDeg: number; 
   );
 }
 
-/* ─── Arc-following particles (clipped to stroke path) ───────────────── */
-const SPARKS = Array.from({ length: 22 }, (_, i) => ({
-  id: i,
-  frac:     Math.random(),                         // position along arc 0-1
-  radOff:   (Math.random() - 0.5) * (SW * 0.7),  // radial offset within stroke
-  size:     0.8 + Math.random() * 2.0,
-  dur:      1.6 + Math.random() * 2.8,
+/* ─── Particles — strictly clipped to stroke area ────────────────────── */
+const SPARKS = Array.from({ length: 20 }, (_, i) => ({
+  id:       i,
+  frac:     Math.random(),
+  radOff:   (Math.random() - 0.5) * (SW * 0.6),  // ±~5.7px — well inside stroke
+  size:     0.9 + Math.random() * 1.8,
+  dur:      1.8 + Math.random() * 2.4,
   delay:    Math.random() * 4,
-  baseOpac: 0.35 + Math.random() * 0.55,
+  opacity:  0.3 + Math.random() * 0.5,
 }));
-
 function ArcSparks({ filledSweep, clipId }: { filledSweep: number; clipId: string }) {
   return (
     <g clipPath={`url(#${clipId})`}>
       {SPARKS.map((s) => {
         const deg = A0 + s.frac * filledSweep;
-        const p = pt(CX, CY, R + s.radOff, deg);
+        const p   = pt(CX, CY, R + s.radOff, deg);
         return (
-          <circle key={s.id} cx={p.x} cy={p.y} r={s.size}
-            fill="white"
-            style={{
-              opacity: s.baseOpac,
-              animation: `pulse-dot ${s.dur}s ${s.delay}s ease-in-out infinite`,
-            }}
+          <circle key={s.id} cx={p.x} cy={p.y} r={s.size} fill="white"
+            style={{ opacity: s.opacity, animation: `pulse-dot ${s.dur}s ${s.delay}s ease-in-out infinite` }}
           />
         );
       })}
@@ -137,204 +123,164 @@ function ArcSparks({ filledSweep, clipId }: { filledSweep: number; clipId: strin
   );
 }
 
-/* ─── Liquid Speedometer SVG ─────────────────────────────────────────── */
-// viewBox has 24px of glow padding on every side so feDropShadow never clips
-const VB_PAD = 24;
-const VB = `${-VB_PAD} ${-VB_PAD} ${(CX * 2) + VB_PAD * 2} ${CY + R * 0.6 + VB_PAD * 2}`;
-
+/* ─── Liquid Gauge SVG ───────────────────────────────────────────────── */
 function LiquidGauge({ pct, remaining, limit, uid }: {
   pct: number; remaining: number; limit: number; uid: string;
 }) {
-  const c = palette(pct);
-  const filledSweep = SWEEP * Math.min(Math.max(pct, 0), 1);
-  const filledEnd   = (A0 + filledSweep) % 360;
-  const emptyStart  = filledEnd;
+  const c           = palette(pct);
+  const filled_sw   = SWEEP * Math.min(Math.max(pct, 0), 1);
+  const filledEnd   = (A0 + filled_sw) % 360;
 
-  const track    = arcPath(CX, CY, R, A0, A1);
-  const filled   = filledSweep > 0.5 ? arcPath(CX, CY, R, A0, filledEnd) : "";
-  const empty    = filledSweep < SWEEP - 0.5 ? arcPath(CX, CY, R, emptyStart, A1) : "";
-  const clipPath = filledSweep > 0.5 ? arcPath(CX, CY, R, A0, filledEnd) : "";
+  const track  = arcPath(CX, CY, R, A0, A1);
+  const filled = filled_sw > 0.5 ? arcPath(CX, CY, R, A0, filledEnd) : "";
+  const empty  = filled_sw < SWEEP - 0.5 ? arcPath(CX, CY, R, filledEnd, A1) : "";
+  const capPt  = filled && pct > 0.02 && pct < 0.99 ? pt(CX, CY, R, filledEnd) : null;
 
-  // Animated spring for score counter
-  const mv = useMotionValue(0);
-  const sp = useSpring(mv, { stiffness: 55, damping: 20 });
+  // Animated count-up (uses state so it lives inside SVG text safely)
+  const mv   = useMotionValue(0);
+  const sp   = useSpring(mv, { stiffness: 50, damping: 18 });
   const [disp, setDisp] = React.useState(0);
-  React.useEffect(() => { sp.on("change", (v) => setDisp(Math.round(v))); }, [sp]);
-  React.useEffect(() => { const t = setTimeout(() => mv.set(remaining), 100); return () => clearTimeout(t); }, [remaining, mv]);
+  React.useEffect(() => sp.on("change", (v) => setDisp(Math.round(v))), [sp]);
+  React.useEffect(() => { const t = setTimeout(() => mv.set(remaining), 120); return () => clearTimeout(t); }, [remaining, mv]);
 
-  // Viewbox computed height: arc bottom y + some floor space
-  const arcBottomY = CY - R * Math.cos((A0 * Math.PI) / 180); // = CY + R*0.5 for 240°
-  const svgH = arcBottomY + 28 + VB_PAD * 2;
-  const svgW = CX * 2 + VB_PAD * 2;
-
-  const capPt = filled ? pt(CX, CY, R, filledEnd) : null;
+  // Score position: center of the arc gap, visually between center and bottom
+  const scoreY = CY + R * 0.22;   // ≈ 126 — comfortably inside the opening
+  const labelY = CY + R * 0.44;   // ≈ 144 — just above arc endpoints (≈149)
 
   return (
-    <svg
-      viewBox={VB}
-      width={svgW}
-      height={svgH}
-      style={{ display: "block", overflow: "visible", margin: "0 auto" }}
-    >
+    // overflow:visible so glow can bleed without clipping
+    // The parent card does NOT use overflow:hidden
+    <svg viewBox={`0 0 ${VB_W} ${VB_H}`} width={VB_W} height={VB_H}
+      style={{ display: "block", overflow: "visible", margin: "0 auto" }}>
       <defs>
-        {/* Fill gradient: bright at top, deep at bottom */}
+        {/* Fill gradient: bright (top) → deep (bottom) */}
         <linearGradient id={`fg-${uid}`} gradientUnits="userSpaceOnUse"
           x1={CX} y1={CY - R} x2={CX} y2={CY + R * 0.55}>
           <stop offset="0%"   stopColor={c.bright} />
-          <stop offset="38%"  stopColor={c.mid} />
-          <stop offset="100%" stopColor={c.deep} />
+          <stop offset="40%"  stopColor={c.mid}    />
+          <stop offset="100%" stopColor={c.deep}   />
         </linearGradient>
 
-        {/* Gloss gradient: white top → transparent */}
+        {/* Gloss: white → transparent, top half only */}
         <linearGradient id={`gg-${uid}`} gradientUnits="userSpaceOnUse"
-          x1={CX} y1={CY - R} x2={CX} y2={CY - R * 0.1}>
-          <stop offset="0%"   stopColor="white" stopOpacity="0.50" />
-          <stop offset="100%" stopColor="white" stopOpacity="0" />
+          x1={CX} y1={CY - R} x2={CX} y2={CY}>
+          <stop offset="0%"   stopColor="white" stopOpacity="0.40" />
+          <stop offset="100%" stopColor="white" stopOpacity="0"    />
         </linearGradient>
 
-        {/* Floor ambient glow */}
-        <radialGradient id={`rg-${uid}`} cx="50%" cy="85%" r="55%">
-          <stop offset="0%"   stopColor={c.glow} stopOpacity="0.50" />
-          <stop offset="100%" stopColor={c.glow} stopOpacity="0" />
-        </radialGradient>
-
-        {/* Multi-pass ambient glow filter — generous region so it never clips */}
-        <filter id={`af-${uid}`} x="-60%" y="-60%" width="220%" height="220%"
+        {/* Focused glow filter — modest radius to avoid over-bloom */}
+        <filter id={`af-${uid}`} x="-35%" y="-35%" width="170%" height="170%"
           colorInterpolationFilters="sRGB">
-          <feDropShadow dx="0" dy="0" stdDeviation="4"  floodColor={c.glow} floodOpacity="1"   result="s1"/>
-          <feDropShadow dx="0" dy="0" stdDeviation="10" floodColor={c.glow} floodOpacity="0.6" result="s2"/>
-          <feDropShadow dx="0" dy="3" stdDeviation="18" floodColor={c.glow} floodOpacity="0.3" result="s3"/>
+          <feDropShadow dx="0" dy="0" stdDeviation="3"  floodColor={c.glow} floodOpacity="0.9" />
+          <feDropShadow dx="0" dy="0" stdDeviation="8"  floodColor={c.glow} floodOpacity="0.4" />
+          <feDropShadow dx="0" dy="2" stdDeviation="14" floodColor={c.glow} floodOpacity="0.2" />
         </filter>
 
-        {/* Blur-only filter for soft glow bloom */}
-        <filter id={`bf-${uid}`} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="7" />
+        {/* Wide bloom blur */}
+        <filter id={`bf-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="5" />
         </filter>
 
-        {/* ── Clip path for particles: strictly inside the filled stroke ── */}
-        {clipPath && (
+        {/* Clip for particles — exactly the filled stroke area */}
+        {filled && (
           <clipPath id={`cp-${uid}`} clipPathUnits="userSpaceOnUse">
-            <path d={clipPath} fill="none" stroke="white"
-              strokeWidth={SW - 3} strokeLinecap="round" />
+            <path d={filled} fill="none" stroke="white"
+              strokeWidth={SW - 4} strokeLinecap="round" />
           </clipPath>
         )}
       </defs>
 
-      {/* ── Floor glow ellipse ── */}
-      <ellipse cx={CX} cy={CY + R * 0.42} rx={R * 0.85} ry={R * 0.28}
-        fill={`url(#rg-${uid})`}
-        style={{ filter: "blur(10px)" }}
-      />
+      {/* ── Track: depth shadow ── */}
+      <path d={track} fill="none" stroke="rgba(0,0,0,0.5)"  strokeWidth={SW + 3} strokeLinecap="round" />
+      {/* ── Track: dark surface ── */}
+      <path d={track} fill="none" stroke="rgba(12,13,16,0.95)" strokeWidth={SW} strokeLinecap="round" />
+      {/* ── Track: rim glint ── */}
+      <path d={track} fill="none" stroke="rgba(255,255,255,0.045)" strokeWidth={1.2} strokeLinecap="round" />
 
-      {/* ── Track: outer depth shadow ── */}
-      <path d={track} fill="none"
-        stroke="rgba(0,0,0,0.55)" strokeWidth={SW + 3} strokeLinecap="round" />
-      {/* Track: main dark surface */}
-      <path d={track} fill="none"
-        stroke="rgba(15,15,18,0.92)" strokeWidth={SW} strokeLinecap="round" />
-      {/* Track: subtle inner rim highlight */}
-      <path d={track} fill="none"
-        stroke="rgba(255,255,255,0.055)" strokeWidth={1.5} strokeLinecap="round" />
+      {/* ── Empty-arc tick marks ── */}
+      {empty && <Ticks startDeg={(A0 + filled_sw) % 360} endDeg={A1} color={c.label} />}
 
-      {/* ── Empty arc tick marks ── */}
-      {empty && <Ticks startDeg={emptyStart} endDeg={A1} color={c.label} />}
-
-      {/* ── Filled arc: outer bloom (blurred, wide) ── */}
+      {/* ── Filled arc: wide bloom ── */}
       {filled && (
         <motion.path d={filled} fill="none"
-          stroke={c.glow} strokeWidth={SW + 18} strokeLinecap="round"
-          style={{ filter: `url(#bf-${uid})`, opacity: 0.4 }}
+          stroke={c.glow} strokeWidth={SW + 12} strokeLinecap="round"
+          style={{ filter: `url(#bf-${uid})`, opacity: 0.28 }}
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-        />
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
 
-      {/* ── Filled arc: focused glow (with ambient filter) ── */}
+      {/* ── Filled arc: focused glow ── */}
       {filled && (
         <motion.path d={filled} fill="none"
-          stroke={c.glow} strokeWidth={SW + 4} strokeLinecap="round"
-          style={{ filter: `url(#af-${uid})`, opacity: 0.7 }}
+          stroke={c.glow} strokeWidth={SW + 2} strokeLinecap="round"
+          style={{ filter: `url(#af-${uid})`, opacity: 0.55 }}
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-        />
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
 
-      {/* ── Filled arc: main liquid body (gradient) ── */}
+      {/* ── Filled arc: main gradient body ── */}
       {filled && (
         <motion.path d={filled} fill="none"
           stroke={`url(#fg-${uid})`} strokeWidth={SW} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-        />
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
 
-      {/* ── Filled arc: gloss specular overlay ── */}
+      {/* ── Filled arc: gloss overlay ── */}
       {filled && (
         <motion.path d={filled} fill="none"
           stroke={`url(#gg-${uid})`} strokeWidth={SW} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-        />
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }} />
       )}
 
-      {/* ── Filled arc: inner rim bright line ── */}
+      {/* ── Filled arc: inner rim line ── */}
       {filled && (
-        <motion.path d={arcPath(CX, CY, R - SW * 0.44, A0, filledEnd)} fill="none"
-          stroke="rgba(255,255,255,0.22)" strokeWidth={1.5} strokeLinecap="round"
+        <motion.path d={arcPath(CX, CY, R - SW * 0.42, A0, filledEnd)} fill="none"
+          stroke="rgba(255,255,255,0.18)" strokeWidth={1.2} strokeLinecap="round"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        />
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }} />
       )}
 
-      {/* ── Floating sparks — clipped strictly to the filled stroke ── */}
-      {filled && pct > 0.02 && (
-        <motion.g
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.7 }}
-        >
-          <ArcSparks filledSweep={filledSweep} clipId={`cp-${uid}`} />
+      {/* ── Particles — clipped to filled stroke area ── */}
+      {filled && pct > 0.03 && (
+        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: 0.75, duration: 0.6 }}>
+          <ArcSparks filledSweep={filled_sw} clipId={`cp-${uid}`} />
         </motion.g>
       )}
 
-      {/* ── Leading edge cap glow ── */}
-      {capPt && pct > 0.02 && pct < 0.99 && (
-        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 }}>
-          <circle cx={capPt.x} cy={capPt.y} r={SW * 0.5}
-            fill={c.bright} opacity={0.3}
-            style={{ filter: `blur(${SW * 0.35}px)` }}
-          />
-          <circle cx={capPt.x} cy={capPt.y} r={SW * 0.22}
-            fill={c.bright} opacity={0.95}
-            style={{ animation: "pulse-dot 2s ease-in-out infinite" }}
-          />
+      {/* ── Leading-edge cap dot ── */}
+      {capPt && (
+        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}>
+          <circle cx={capPt.x} cy={capPt.y} r={SW * 0.42} fill={c.bright} opacity={0.25}
+            style={{ filter: `blur(${SW * 0.3}px)` }} />
+          <circle cx={capPt.x} cy={capPt.y} r={SW * 0.19} fill={c.bright} opacity={0.95}
+            style={{ animation: "pulse-dot 2s ease-in-out infinite" }} />
         </motion.g>
       )}
 
-      {/* ── Center score: number ── */}
-      <motion.text
-        x={CX} y={CY + R * 0.25}
-        textAnchor="middle" dominantBaseline="central"
-        fill="white" fontSize="36" fontWeight="700"
-        style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "inherit" }}
-        initial={{ opacity: 0, y: CY + R * 0.35 }}
-        animate={{ opacity: 1, y: CY + R * 0.25 }}
-        transition={{ delay: 0.28, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {disp}
-      </motion.text>
+      {/* ── Score number — static SVG text, only opacity animated ── */}
+      <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ delay: 0.25, duration: 0.5 }}>
+        <text x={CX} y={scoreY}
+          textAnchor="middle" dominantBaseline="central"
+          fill="white" fontSize="38" fontWeight="700"
+          style={{ userSelect: "none", letterSpacing: "-1.5px", fontFamily: "inherit" }}>
+          {disp}
+        </text>
+      </motion.g>
 
-      {/* ── Center score: "/ N credits left" label ── */}
-      <motion.text
-        x={CX} y={CY + R * 0.52}
-        textAnchor="middle" dominantBaseline="central"
-        fill="rgba(255,255,255,0.36)" fontSize="9" fontWeight="500"
-        style={{ userSelect: "none", letterSpacing: "0.4px", fontFamily: "inherit" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.48, duration: 0.5 }}
-      >
-        / {limit} credits left
-      </motion.text>
+      {/* ── "/ N credits left" label — no glow, plain subdued text ── */}
+      <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ delay: 0.45, duration: 0.5 }}>
+        <text x={CX} y={labelY}
+          textAnchor="middle" dominantBaseline="central"
+          fill="rgba(255,255,255,0.30)" fontSize="9" fontWeight="400"
+          style={{ userSelect: "none", letterSpacing: "0.5px", fontFamily: "inherit" }}>
+          / {limit} credits left
+        </text>
+      </motion.g>
     </svg>
   );
 }
@@ -349,7 +295,7 @@ export interface UsageBadgeProps {
   className?: string;
 }
 
-/* ─── Main exported component ────────────────────────────────────────── */
+/* ─── Component ──────────────────────────────────────────────────────── */
 const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
   ({ icon, planName, usage, limit, className }, ref) => {
     const [open, setOpen] = React.useState(false);
@@ -373,17 +319,15 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     return (
       <div ref={containerRef} className="relative">
 
-        {/* ── Trigger badge ── */}
-        <div
-          ref={ref} role="button" tabIndex={0}
+        {/* Trigger badge */}
+        <div ref={ref} role="button" tabIndex={0}
           onClick={() => setOpen((o) => !o)}
           onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
           className={cn(
             "group relative inline-flex cursor-pointer select-none items-center gap-2 overflow-hidden rounded-full h-9 px-4 text-sm font-medium text-foreground transition-all hover:bg-accent hover:text-accent-foreground",
             open ? "border-2 border-input bg-accent text-accent-foreground" : "border border-input bg-background",
             className,
-          )}
-        >
+          )}>
           <BadgeBubbles />
           <div className="relative z-10 flex-shrink-0">{icon}</div>
           <div className="relative z-10 whitespace-nowrap">
@@ -393,116 +337,107 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           </div>
         </div>
 
-        {/* ── Dropdown ── */}
+        {/* Dropdown */}
         <AnimatePresence>
           {open && (
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1,  y: 0,   scale: 1    }}
               exit={{    opacity: 0,  y: -8,  scale: 0.95 }}
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="absolute right-0 top-[calc(100%+10px)] z-50"
-              style={{ width: 288 }}
-            >
-              {/* ── Glass card shell ── */}
+              style={{ width: 272 }}>
+
+              {/* Glass card — NO overflow:hidden so SVG glow is never clipped */}
               <div style={{
-                background: "linear-gradient(160deg, rgba(24,26,30,0.98) 0%, rgba(14,15,18,1) 100%)",
-                border: "1px solid rgba(255,255,255,0.09)",
+                background: "linear-gradient(160deg, rgba(22,24,28,0.98) 0%, rgba(13,14,17,1) 100%)",
+                border:     "1px solid rgba(255,255,255,0.09)",
                 borderRadius: 22,
                 boxShadow: [
-                  "0 28px 64px rgba(0,0,0,0.65)",
-                  "0 4px 12px rgba(0,0,0,0.45)",
+                  "0 24px 56px rgba(0,0,0,0.65)",
+                  "0 4px 12px rgba(0,0,0,0.4)",
                   "inset 0 1px 0 rgba(255,255,255,0.07)",
-                  `0 0 40px ${c.glow}18`,
                 ].join(", "),
-                padding: "22px 22px 20px",
+                padding: "20px 20px 18px",
                 position: "relative",
               }}>
 
                 {/* Top gloss streak */}
                 <div style={{
-                  position: "absolute", top: 0, left: "20%", right: "20%", height: 1,
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)",
+                  position: "absolute", top: 0, left: "18%", right: "18%", height: 1,
+                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent)",
                   pointerEvents: "none",
                 }} />
 
-                {/* ── Gauge — centered, SVG overflow:visible so glow never clips ── */}
-                <div style={{ marginBottom: 6 }}>
+                {/* Gauge — full width, self-contained */}
+                <div style={{ marginLeft: -20, marginRight: -20, marginTop: -20, marginBottom: 8 }}>
                   <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} />
                 </div>
 
-                {/* ── Title row: name + status pill ── */}
+                {/* Title row + status pill */}
                 <div style={{
                   display: "flex", alignItems: "center",
                   justifyContent: "space-between", marginBottom: 8,
                 }}>
-                  <span style={{
-                    fontSize: 15, fontWeight: 700, color: "white", letterSpacing: "-0.2px",
-                  }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "white", letterSpacing: "-0.2px" }}>
                     AI Balance
                   </span>
-
-                  {/* Status pill */}
                   <div style={{
                     display: "inline-flex", alignItems: "center", gap: 5,
-                    background: `${c.glow}1a`,
-                    border: `1px solid ${c.glow}40`,
+                    background: `${c.glow}18`,
+                    border: `1px solid ${c.glow}38`,
                     borderRadius: 20, padding: "3px 9px",
                   }}>
                     <div style={{
                       width: 5, height: 5, borderRadius: "50%",
                       background: c.mid,
-                      boxShadow: `0 0 6px ${c.glow}`,
+                      boxShadow: `0 0 5px ${c.glow}`,
                       animation: "pulse-dot 2.2s ease-in-out infinite",
                     }} />
-                    <span style={{
-                      fontSize: 10, fontWeight: 600, color: c.label, letterSpacing: "0.25px",
-                    }}>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: c.label, letterSpacing: "0.2px" }}>
                       {status}
                     </span>
                   </div>
                 </div>
 
-                {/* ── Description ── */}
+                {/* Description */}
                 <p style={{
-                  fontSize: 12, color: "rgba(255,255,255,0.42)",
-                  lineHeight: 1.6, marginBottom: 16, marginTop: 0,
+                  fontSize: 12, color: "rgba(255,255,255,0.40)",
+                  lineHeight: 1.6, margin: "0 0 14px",
                 }}>
                   Credits power mock interviews and scout chats.
                 </p>
 
-                {/* ── CTA button ── */}
+                {/* CTA */}
                 <style>{`
-                  .liq-cta-v2 {
+                  .liq-cta-v3 {
                     position: relative; overflow: hidden; cursor: pointer; width: 100%;
-                    background: linear-gradient(155deg, ${c.bright}1e 0%, ${c.deep}3a 100%);
-                    border: 1px solid ${c.glow}50;
+                    background: linear-gradient(155deg, ${c.bright}1a 0%, ${c.deep}35 100%);
+                    border: 1px solid ${c.glow}48;
                     border-radius: 40px; height: 34px;
                     display: flex; align-items: center; justify-content: center; gap: 7px;
-                    box-shadow: 0 0 14px ${c.glow}2a, inset 0 1px 0 rgba(255,255,255,0.09);
+                    box-shadow: 0 0 10px ${c.glow}22, inset 0 1px 0 rgba(255,255,255,0.08);
                     transition: all 0.2s ease;
                   }
-                  .liq-cta-v2::before {
-                    content: ""; position: absolute;
-                    top: 0; left: 0; right: 0; height: 48%;
-                    background: linear-gradient(180deg, rgba(255,255,255,0.065) 0%, transparent 100%);
-                    border-radius: 40px 40px 0 0; pointer-events: none;
+                  .liq-cta-v3::before {
+                    content:""; position:absolute; top:0; left:0; right:0; height:48%;
+                    background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%);
+                    border-radius:40px 40px 0 0; pointer-events:none;
                   }
-                  .liq-cta-v2:hover {
-                    background: linear-gradient(155deg, ${c.bright}30 0%, ${c.deep}55 100%);
-                    border-color: ${c.glow}88;
-                    box-shadow: 0 0 22px ${c.glow}44, inset 0 1px 0 rgba(255,255,255,0.13);
+                  .liq-cta-v3:hover {
+                    background: linear-gradient(155deg, ${c.bright}28 0%, ${c.deep}50 100%);
+                    border-color: ${c.glow}78;
+                    box-shadow: 0 0 18px ${c.glow}38, inset 0 1px 0 rgba(255,255,255,0.12);
                     transform: translateY(-1px);
                   }
-                  .liq-cta-v2:active { transform: translateY(1px); }
+                  .liq-cta-v3:active { transform: translateY(1px); }
                 `}</style>
-                <button className="liq-cta-v2">
+                <button className="liq-cta-v3">
                   <Zap style={{ width: 12, height: 12, color: c.bright, flexShrink: 0 }} />
                   <span style={{ fontSize: 12, fontWeight: 600, color: c.label, letterSpacing: "0.1px" }}>
                     Get more credits
                   </span>
                 </button>
-
               </div>
             </motion.div>
           )}
