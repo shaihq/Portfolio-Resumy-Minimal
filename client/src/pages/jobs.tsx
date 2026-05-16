@@ -1896,10 +1896,16 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 }
 
 // ── Job card (shared) ──────────────────────────────────────────────────────
-function getScoreColor(score: number): { primary: string; gradientEnd: string } {
-  if (score >= 85) return { primary: "#059669", gradientEnd: "#34d399" };
-  if (score >= 70) return { primary: "#ea580c", gradientEnd: "#fbbf24" };
-  return { primary: "#dc2626", gradientEnd: "#f87171" };
+function getScoreColor(score: number, isDark: boolean): { primary: string; gradientEnd: string } {
+  if (isDark) {
+    if (score >= 85) return { primary: "#059669", gradientEnd: "#34d399" };
+    if (score >= 70) return { primary: "#ea580c", gradientEnd: "#fbbf24" };
+    return { primary: "#dc2626", gradientEnd: "#f87171" };
+  }
+  // Light mode — rich saturated pairs, no pale pastels that wash out on beige
+  if (score >= 85) return { primary: "#047857", gradientEnd: "#059669" };
+  if (score >= 70) return { primary: "#b45309", gradientEnd: "#d97706" };
+  return { primary: "#b91c1c", gradientEnd: "#dc2626" };
 }
 
 function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { job: Job; onShortlist?: () => void; onOpen?: () => void; onMockInterview?: () => void; onAskScout?: () => void }) {
@@ -1949,8 +1955,8 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
             size={40}
             strokeWidth={7}
             gapPercent={3}
-            primary={getScoreColor(job.match).primary}
-            gradientEnd={getScoreColor(job.match).gradientEnd}
+            primary={getScoreColor(job.match, isDark).primary}
+            gradientEnd={getScoreColor(job.match, isDark).gradientEnd}
             gradient={true}
             secondary={isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)"}
             showValue={true}
