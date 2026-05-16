@@ -183,7 +183,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 .credits-cta {
                   position: relative;
                   overflow: hidden;
-                  background: linear-gradient(170deg, #b45309 0%, #7c2d12 100%);
+                  background: linear-gradient(170deg, #f59e0b 0%, #b45309 100%);
                   box-shadow:
                     inset 0 0.3rem 0.9rem rgba(251,191,36,0.28),
                     inset 0 -0.1rem 0.3rem rgba(0,0,0,0.6),
