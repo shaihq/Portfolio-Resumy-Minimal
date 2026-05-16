@@ -1657,18 +1657,21 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
     s >= 65 ? "Strong across the board — you're in a great position." :
               "A few areas need attention, but your core strengths still apply here.";
 
-  // 3 zones matching the liquid gauge palette: Red 0–64, Orange 65–84, Green 85–100
-  // Bar widths are proportional to score range sizes (65 / 20 / 16 values)
+  // 3 zones — colors mirror sgPalette exactly (bright → mid gradient, same as the gauge arc)
+  // Bar widths proportional to score range sizes: 64 / 20 / 16
   const zones = [
     { label: "Weak",      pct: 64, barStart: 0,  barEnd: 64,
-      vividL: "#fca5a5", vividD: "rgba(239,68,68,0.82)",
-      fadedL: "rgba(252,165,165,0.28)", fadedD: "rgba(239,68,68,0.16)" },
+      brightL: "#fca5a5", midL: "#ef4444",
+      brightD: "#fca5a5", midD: "#b91c1c",
+      fadedL: "rgba(239,68,68,0.13)", fadedD: "rgba(185,28,28,0.14)" },
     { label: "Strong",    pct: 20, barStart: 64, barEnd: 84,
-      vividL: "#fde68a", vividD: "rgba(249,115,22,0.82)",
-      fadedL: "rgba(253,230,138,0.30)", fadedD: "rgba(249,115,22,0.16)" },
+      brightL: "#fde68a", midL: "#f97316",
+      brightD: "#fde68a", midD: "#ea580c",
+      fadedL: "rgba(249,115,22,0.13)", fadedD: "rgba(234,88,12,0.14)" },
     { label: "Excellent", pct: 16, barStart: 84, barEnd: 100,
-      vividL: "#86efac", vividD: "rgba(74,222,128,0.82)",
-      fadedL: "rgba(134,239,172,0.28)", fadedD: "rgba(74,222,128,0.16)" },
+      brightL: "#4ade80", midL: "#10b981",
+      brightD: "#4ade80", midD: "#16a34a",
+      fadedL: "rgba(16,185,129,0.13)", fadedD: "rgba(22,163,74,0.14)" },
   ];
 
   // Map score → bar % (proportional to zone widths)
@@ -1705,12 +1708,14 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           {zones.map((z) => {
             const filledBars = Math.max(0, Math.min(markerBarPct, z.barEnd) - z.barStart);
             const fadedBars  = z.pct - filledBars;
-            const vividColor = isDark ? z.vividD : z.vividL;
-            const fadedColor = isDark ? z.fadedD : z.fadedL;
+            const bright     = isDark ? z.brightD : z.brightL;
+            const mid        = isDark ? z.midD    : z.midL;
+            const vividGrad  = `linear-gradient(to right, ${bright}, ${mid})`;
+            const fadedColor = isDark ? z.fadedD  : z.fadedL;
             return (
               <div key={z.label} style={{ width: `${z.pct}%`, display: "flex" }}>
-                {filledBars > 0 && <div style={{ flex: filledBars, background: vividColor }} />}
-                {fadedBars  > 0 && <div style={{ flex: fadedBars,  background: fadedColor  }} />}
+                {filledBars > 0 && <div style={{ flex: filledBars, background: vividGrad }} />}
+                {fadedBars  > 0 && <div style={{ flex: fadedBars,  background: fadedColor }} />}
               </div>
             );
           })}
