@@ -1903,7 +1903,7 @@ function ScoreRing({ value, primary, isDark }: { value: number; primary: string;
   const SW = 3;
   const circ = 2 * Math.PI * R;
   const pct = Math.max(0, Math.min(100, value)) / 100;
-  const track = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
+  const track = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.12)";
   return (
     <div style={{ position: "relative", width: S, height: S, flexShrink: 0 }}>
       <svg width={S} height={S} viewBox={`0 0 ${S} ${S}`} fill="none" style={{ display: "block" }}>
@@ -1932,10 +1932,9 @@ function getScoreColor(score: number, isDark: boolean): { primary: string; gradi
     if (score >= 70) return { primary: "#ea580c", gradientEnd: "#fbbf24" };
     return { primary: "#dc2626", gradientEnd: "#f87171" };
   }
-  // Light mode — rich saturated pairs, no pale pastels that wash out on beige
-  if (score >= 85) return { primary: "#047857", gradientEnd: "#059669" };
-  if (score >= 70) return { primary: "#b45309", gradientEnd: "#d97706" };
-  return { primary: "#b91c1c", gradientEnd: "#dc2626" };
+  if (score >= 85) return { primary: "#10b981", gradientEnd: "#34d399" };
+  if (score >= 70) return { primary: "#f97316", gradientEnd: "#fbbf24" };
+  return { primary: "#ef4444", gradientEnd: "#f87171" };
 }
 
 function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { job: Job; onShortlist?: () => void; onOpen?: () => void; onMockInterview?: () => void; onAskScout?: () => void }) {
