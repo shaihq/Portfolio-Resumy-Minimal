@@ -50,10 +50,10 @@ export interface UsageBadgeProps {
 
 const SEGMENT_COUNT = 10;
 
-function getBarColor(pct: number): string {
-  if (pct > 0.5) return "#22c55e";
-  if (pct > 0.2) return "#f59e0b";
-  return "#ef4444";
+function getBarGradient(pct: number): string {
+  if (pct > 0.5) return "linear-gradient(90deg, #16a34a, #86efac)";
+  if (pct > 0.2) return "linear-gradient(90deg, #ea580c, #fcd34d)";
+  return "linear-gradient(90deg, #dc2626, #f97316)";
 }
 
 function getStatusLabel(pct: number): { text: string; color: string } {
@@ -71,7 +71,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
     const consumed = limit - usage;
     const pct = limit > 0 ? remaining / limit : 0;
     const filledSegments = Math.round(pct * SEGMENT_COUNT);
-    const barColor = getBarColor(pct);
+    const barGradient = getBarGradient(pct);
     const status = getStatusLabel(pct);
 
     React.useEffect(() => {
@@ -119,7 +119,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -4, scale: 0.97 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#2A2520] shadow-xl shadow-black/[0.08] p-4 z-50"
+              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-white/40 dark:border-white/[0.08] bg-white/70 dark:bg-[#2A2520]/75 backdrop-blur-xl shadow-xl shadow-black/[0.1] p-4 z-50"
             >
               {/* Balance numbers */}
               <div className="flex items-baseline gap-1.5 mb-3">
@@ -144,7 +144,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                           duration: 0.25,
                           ease: [0.16, 1, 0.3, 1],
                         }}
-                        style={{ backgroundColor: barColor }}
+                        style={{ background: barGradient }}
                       />
                     </div>
                   );
