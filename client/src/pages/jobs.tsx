@@ -1706,8 +1706,8 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
                 ? "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)"
                 : "linear-gradient(135deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.06) 100%)",
               boxShadow: isDark
-                ? "0 0 0 1.5px rgba(255,255,255,0.14), 0 2px 6px rgba(0,0,0,0.35)"
-                : "0 0 0 1.5px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.12)",
+                ? "0 0 0 1.5px rgba(255,255,255,0.14)"
+                : "0 0 0 1.5px rgba(0,0,0,0.10)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
