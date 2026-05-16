@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -3072,10 +3072,13 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
       <div className="px-3 pt-2 pb-3">
         <button
           onClick={onClose}
-          className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-foreground text-background text-[13px] font-semibold hover:opacity-90 active:opacity-80 transition-opacity"
+          className="w-full h-10 flex items-center justify-between px-4 rounded-xl bg-foreground text-background text-[13px] font-semibold hover:opacity-90 active:opacity-80 transition-opacity"
         >
-          <Search className="w-3.5 h-3.5" />
-          Rescan jobs
+          <span>Rescan jobs</span>
+          <span className="flex items-center gap-1 bg-white/[0.13] rounded-full px-2 py-0.5">
+            <Zap className="w-3 h-3 text-amber-300 fill-amber-300" />
+            <span className="text-[12px] font-semibold text-white/80">15</span>
+          </span>
         </button>
       </div>
     </div>
