@@ -3266,15 +3266,6 @@ function Dashboard() {
             <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">4</span>
           </button>
 
-          {/* Criteria button */}
-          <button
-            data-testid="button-criteria"
-            className="flex-shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-full border border-black/8 dark:border-border bg-white dark:bg-card text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            Criteria
-            <span className="flex items-center justify-center w-4 h-4 rounded-full bg-foreground text-background text-[10px] font-semibold">3</span>
-          </button>
         </div>
 
         {/* Add Job button + AI Balance */}
