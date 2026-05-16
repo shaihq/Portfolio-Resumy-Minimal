@@ -1577,16 +1577,20 @@ function InterviewReport({ job, report: reportProp, onClose }: { job: Job; repor
 // ── Job detail sheet ───────────────────────────────────────────────────────
 // ── Match score breakdown ──────────────────────────────────────────────────
 const BREAKDOWN_BARS = 34;
-const BAR_HEIGHTS = Array.from({ length: BREAKDOWN_BARS }, (_, i) =>
-  Math.round(10 + Math.sin((i / BREAKDOWN_BARS) * Math.PI * 2.6 + 0.5) * 4.5)
-);
+// Interpolate between two hex colours (e.g. "#4ade80" → "#10b981")
+function lerpHex(a: string, b: string, t: number): string {
+  const h = (s: string) => [parseInt(s.slice(1,3),16), parseInt(s.slice(3,5),16), parseInt(s.slice(5,7),16)];
+  const [ar,ag,ab] = h(a), [br,bg,bb] = h(b);
+  const r = Math.round(ar + (br-ar)*t), g = Math.round(ag + (bg-ag)*t), bv = Math.round(ab + (bb-ab)*t);
+  return `#${[r,g,bv].map(v=>v.toString(16).padStart(2,"0")).join("")}`;
+}
 
 const SCORE_TIERS = [
-  { min: 90, label: "Excellent match", accent: "#22c55e", lightText: "#15803d", darkText: "#4ade80", lightBg: "rgba(34,197,94,0.09)",  darkBg: "rgba(34,197,94,0.13)"  },
-  { min: 80, label: "Strong match",    accent: "#10b981", lightText: "#047857", darkText: "#34d399", lightBg: "rgba(16,185,129,0.09)", darkBg: "rgba(16,185,129,0.13)" },
-  { min: 70, label: "Good match",      accent: "#f59e0b", lightText: "#b45309", darkText: "#fbbf24", lightBg: "rgba(245,158,11,0.09)", darkBg: "rgba(245,158,11,0.13)" },
-  { min: 60, label: "Fair match",      accent: "#f97316", lightText: "#c2410c", darkText: "#fb923c", lightBg: "rgba(249,115,22,0.09)", darkBg: "rgba(249,115,22,0.13)" },
-  { min:  0, label: "Partial match",   accent: "#ef4444", lightText: "#b91c1c", darkText: "#f87171", lightBg: "rgba(239,68,68,0.09)",  darkBg: "rgba(239,68,68,0.13)"  },
+  { min: 90, label: "Excellent match", accent: "#22c55e", lightText: "#15803d", darkText: "#4ade80", lightBg: "rgba(34,197,94,0.09)",  darkBg: "rgba(34,197,94,0.13)",  bright: "#4ade80", lightMid: "#10b981", darkMid: "#16a34a" },
+  { min: 80, label: "Strong match",    accent: "#10b981", lightText: "#047857", darkText: "#34d399", lightBg: "rgba(16,185,129,0.09)", darkBg: "rgba(16,185,129,0.13)", bright: "#4ade80", lightMid: "#10b981", darkMid: "#16a34a" },
+  { min: 70, label: "Good match",      accent: "#f59e0b", lightText: "#b45309", darkText: "#fbbf24", lightBg: "rgba(245,158,11,0.09)", darkBg: "rgba(245,158,11,0.13)", bright: "#fde68a", lightMid: "#f97316", darkMid: "#ea580c" },
+  { min: 60, label: "Fair match",      accent: "#f97316", lightText: "#c2410c", darkText: "#fb923c", lightBg: "rgba(249,115,22,0.09)", darkBg: "rgba(249,115,22,0.13)", bright: "#fde68a", lightMid: "#f97316", darkMid: "#ea580c" },
+  { min:  0, label: "Partial match",   accent: "#ef4444", lightText: "#b91c1c", darkText: "#f87171", lightBg: "rgba(239,68,68,0.09)",  darkBg: "rgba(239,68,68,0.13)",  bright: "#fca5a5", lightMid: "#ef4444", darkMid: "#b91c1c" },
 ];
 
 function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
@@ -1659,20 +1663,20 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           </div>
         </div>
 
-        {/* Waveform bar — fills remaining width */}
-        <div className="flex-1 flex items-end gap-[2px]">
+        {/* Staggered bars — uniform height, liquid-gauge gradient fill */}
+        <div className="flex-1 flex items-center gap-[3px]">
           {Array.from({ length: BREAKDOWN_BARS }).map((_, i) => {
             const filled = i < filledBars;
+            const t = filledBars > 1 ? i / (filledBars - 1) : 0;
+            const mid = isDark ? tier.darkMid : tier.lightMid;
+            const barColor = filled ? lerpHex(tier.bright, mid, t) : trackColor;
             return (
-              <div
+              <motion.div
                 key={i}
                 className="flex-1 rounded-[2px]"
-                style={{
-                  height: filled ? BAR_HEIGHTS[i] : 6,
-                  backgroundColor: filled ? accentColor : trackColor,
-                  opacity: filled ? 0.38 + (i / BREAKDOWN_BARS) * 0.62 : 1,
-                  transition: "height 0.1s ease, background-color 0.1s ease",
-                }}
+                style={{ backgroundColor: barColor }}
+                animate={{ height: filled ? 14 : 5 }}
+                transition={{ duration: 0.18, ease: [0.34, 1.56, 0.64, 1] }}
               />
             );
           })}
