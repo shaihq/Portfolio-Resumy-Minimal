@@ -153,7 +153,6 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
       {/* ── Track: wider than fill to create recessed-channel depth ── */}
       <path d={track} fill="none" stroke={trackShadow}  strokeWidth={SW + 9} strokeLinecap="round" />
       <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round" />
-      <path d={track} fill="none" stroke={trackRim}     strokeWidth={1.2}    strokeLinecap="round" />
 
 
       {/* ── Filled arc: narrower than track so track peeks around it ── */}
