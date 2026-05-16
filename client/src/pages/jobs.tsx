@@ -1750,14 +1750,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           );
         })}
       </div>
-      {/* ── Row 3: why it's a match ── */}
-      <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-4 py-3.5">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <Sparkles className="w-3 h-3 text-foreground/28" />
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-foreground/32">Why it's a match</span>
-        </div>
-        <p className="text-[12.5px] text-foreground/58 leading-[1.65]">{job.reason}</p>
-      </div>
     </div>
   );
 }
