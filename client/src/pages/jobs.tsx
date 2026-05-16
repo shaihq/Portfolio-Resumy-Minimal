@@ -3072,7 +3072,7 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
       <div className="px-3 pt-2 pb-3">
         <button
           onClick={onClose}
-          className="w-full h-10 flex items-center justify-center gap-2.5 rounded-xl bg-foreground dark:bg-zinc-700 text-background dark:text-white text-[13px] font-semibold hover:opacity-90 active:opacity-80 transition-opacity"
+          className="w-full h-10 flex items-center justify-center gap-2.5 rounded-xl bg-foreground dark:bg-[#2E2B27] text-background dark:text-white text-[13px] font-semibold hover:opacity-90 active:opacity-80 transition-opacity"
         >
           <span>Rescan jobs</span>
           <span className="flex items-center gap-1 bg-amber-400/20 rounded-full px-2 py-0.5">
