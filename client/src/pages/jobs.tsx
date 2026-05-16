@@ -1684,64 +1684,46 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-4">{headline}</p>
 
       {/* Zoned bar + YOU marker */}
-      <div className="relative mt-10">
-        {/* Glowing avatar pin */}
+      <div className="relative mt-7">
+        {/* YOU label chip */}
         <div
           className="absolute flex flex-col items-center pointer-events-none"
           style={{
             left: open ? `${markerBarPct}%` : "0%",
             transform: "translateX(-50%)",
             transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
-            bottom: "100%",
-            paddingBottom: "2px",
+            bottom: "calc(100% + 5px)",
           }}
         >
-          {/* Avatar dot */}
-          <div
+          <span
             style={{
-              width: 26,
-              height: 26,
-              borderRadius: "50%",
-              background: isDark
-                ? "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)"
-                : "linear-gradient(135deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.06) 100%)",
-              boxShadow: isDark
-                ? "0 0 0 1.5px rgba(255,255,255,0.14)"
-                : "0 0 0 1.5px rgba(0,0,0,0.10)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-              flexShrink: 0,
-              backdropFilter: "blur(4px)",
+              fontSize: 9,
+              fontWeight: 600,
+              letterSpacing: "0.06em",
+              color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.38)",
+              lineHeight: 1,
+              userSelect: "none",
+              textTransform: "uppercase",
             }}
           >
-            <span
-              style={{
-                fontSize: 8,
-                fontWeight: 800,
-                letterSpacing: "0.05em",
-                color: isDark ? "rgba(255,255,255,0.70)" : "rgba(0,0,0,0.55)",
-                lineHeight: 1,
-                userSelect: "none",
-              }}
-            >
-              YOU
-            </span>
-          </div>
-          {/* Pin stem */}
-          <div
-            style={{
-              width: 2,
-              height: 7,
-              borderRadius: 2,
-              background: isDark
-                ? "linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.03))"
-                : "linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.02))",
-              flexShrink: 0,
-            }}
-          />
+            you
+          </span>
         </div>
+
+        {/* Tick line — sits on top of the bar */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: open ? `${markerBarPct}%` : "0%",
+            transform: "translateX(-50%)",
+            transition: open ? "left 1s cubic-bezier(0.22,1,0.36,1) 0.15s" : "none",
+            top: -3,
+            bottom: -3,
+            width: 1.5,
+            borderRadius: 2,
+            background: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.40)",
+          }}
+        />
 
         {/* Bar segments — vivid up to marker, faded after */}
         <div className="relative flex h-[14px] rounded-lg overflow-hidden gap-[2px]">
