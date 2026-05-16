@@ -1900,12 +1900,12 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 const SG_A0    = 225;  // start deg (bottom-left, ~7-8 o'clock)
 const SG_A1    = 135;  // end deg   (bottom-right, ~4-5 o'clock)
 const SG_SWEEP = 270;  // 270° arc, 90° gap at the bottom
-const SG_CX    = 26;
-const SG_CY    = 23;
-const SG_R     = 17;
-const SG_SW    = 4;
+const SG_CX    = 18;
+const SG_CY    = 16;
+const SG_R     = 12;
+const SG_SW    = 3;
 const SG_VBW   = SG_CX * 2;
-const SG_VBH   = SG_CY + SG_R * 0.52 + 10;
+const SG_VBH   = SG_CY + SG_R * 0.52 + 7;
 
 function sgPt(deg: number) {
   const rad = (deg * Math.PI) / 180;
@@ -1919,9 +1919,9 @@ function sgArc(a1: number, a2: number) {
   return `M ${s.x.toFixed(2)} ${s.y.toFixed(2)} A ${SG_R} ${SG_R} 0 ${sw > 180 ? 1 : 0} 1 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
 }
 function sgPalette(score: number, isDark: boolean) {
-  if (score >= 85) return { bright: "#4ade80", mid: isDark ? "#16a34a" : "#10b981", glow: "#22c55e" };
-  if (score >= 70) return { bright: "#fde68a", mid: isDark ? "#ea580c" : "#f97316", glow: isDark ? "#f97316" : "#f59e0b" };
-  return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444", glow: "#dc2626" };
+  if (score >= 85) return { bright: "#4ade80", mid: isDark ? "#16a34a" : "#10b981" };
+  if (score >= 70) return { bright: "#fde68a", mid: isDark ? "#ea580c" : "#f97316" };
+  return { bright: "#fca5a5", mid: isDark ? "#b91c1c" : "#ef4444" };
 }
 
 function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
@@ -1932,8 +1932,7 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
   const filledEnd   = (SG_A0 + filledSweep) % 360;
   const track  = sgArc(SG_A0, SG_A1);
   const filled = filledSweep > 0.5 ? sgArc(SG_A0, filledEnd) : "";
-  const trackSurface = isDark ? "hsl(20,8%,17%)" : "rgba(210,205,198,0.90)";
-  const trackRim     = isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.70)";
+  const trackSurface = isDark ? "hsl(20,8%,20%)" : "rgba(210,205,198,0.90)";
   const scoreColor   = isDark ? "rgba(240,237,232,0.88)" : "#1A1A1A";
   return (
     <div style={{ flexShrink: 0 }}>
@@ -1949,40 +1948,16 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
             <stop offset="0%"   stopColor={c.bright} />
             <stop offset="100%" stopColor={c.mid}    />
           </linearGradient>
-          <filter id={`sg-glow-${uid}`} x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="0" stdDeviation="1.8" floodColor={c.glow} floodOpacity="0.65" />
-            <feDropShadow dx="0" dy="0" stdDeviation="4"   floodColor={c.glow} floodOpacity="0.20" />
-          </filter>
         </defs>
 
-        {/* Track shadow depth */}
-        <path d={track} fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth={SG_SW + 2.5} strokeLinecap="round" />
-        {/* Track surface */}
-        <path d={track} fill="none" stroke={trackSurface} strokeWidth={SG_SW + 1.5} strokeLinecap="round" />
-        {/* Track rim highlight */}
-        <path d={track} fill="none" stroke={trackRim} strokeWidth={1} strokeLinecap="round" />
+        {/* Track */}
+        <path d={track} fill="none" stroke={trackSurface} strokeWidth={SG_SW} strokeLinecap="round" />
 
-        {/* Filled arc glow bloom */}
-        {filled && (
-          <path d={filled} fill="none"
-            stroke={c.glow} strokeWidth={SG_SW + 2} strokeLinecap="round"
-            style={{ filter: `blur(3px)`, opacity: 0.18 }}
-          />
-        )}
-        {/* Filled arc main gradient */}
+        {/* Filled arc */}
         {filled && (
           <path d={filled} fill="none"
             stroke={`url(#sg-fg-${uid})`}
             strokeWidth={SG_SW}
-            strokeLinecap="round"
-            style={{ filter: `url(#sg-glow-${uid})` }}
-          />
-        )}
-        {/* Filled arc top rim light */}
-        {filled && (
-          <path d={filled} fill="none"
-            stroke="rgba(255,255,255,0.32)"
-            strokeWidth={1}
             strokeLinecap="round"
           />
         )}
@@ -1994,9 +1969,9 @@ function ScoreGauge({ value, isDark }: { value: number; isDark: boolean }) {
           textAnchor="middle"
           dominantBaseline="middle"
           fill={scoreColor}
-          fontSize="9.5"
+          fontSize="7"
           fontWeight="700"
-          style={{ userSelect: "none", letterSpacing: "-0.4px", fontFamily: "inherit" }}
+          style={{ userSelect: "none", letterSpacing: "-0.3px", fontFamily: "inherit" }}
         >
           {value}
         </text>
