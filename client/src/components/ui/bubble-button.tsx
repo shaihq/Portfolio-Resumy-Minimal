@@ -1,12 +1,21 @@
 import * as React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Zap } from "lucide-react";
 
+/* ─── Bubble rise animation (trigger badge) ──────────────────────────── */
 const keyframes = `
   @keyframes bubble-rise {
     0%   { transform: translateY(0) scale(1); opacity: 0.4; }
     100% { transform: translateY(-100px) scale(0); opacity: 0; }
+  }
+  @keyframes particle-float {
+    0%,100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+    50%      { transform: translateY(-3px) scale(1.15); opacity: 1; }
+  }
+  @keyframes pulse-glow {
+    0%,100% { opacity: 0.6; }
+    50%      { opacity: 1; }
   }
 `;
 
@@ -39,6 +48,283 @@ const Bubbles = () => (
   </>
 );
 
+/* ─── Color system ───────────────────────────────────────────────────── */
+function getColorSystem(pct: number) {
+  if (pct > 0.5) return {
+    bright:   "#a3e635",
+    main:     "#22c55e",
+    deep:     "#15803d",
+    glow:     "#16a34a",
+    glowFade: "#16a34a00",
+    track:    "rgba(34,197,94,0.08)",
+    tick:     "rgba(134,239,172,0.18)",
+    label:    "#86efac",
+  };
+  if (pct > 0.2) return {
+    bright:   "#fcd34d",
+    main:     "#f59e0b",
+    deep:     "#b45309",
+    glow:     "#d97706",
+    glowFade: "#d9770600",
+    track:    "rgba(245,158,11,0.08)",
+    tick:     "rgba(252,211,77,0.18)",
+    label:    "#fcd34d",
+  };
+  return {
+    bright:   "#fca5a5",
+    main:     "#ef4444",
+    deep:     "#991b1b",
+    glow:     "#dc2626",
+    glowFade: "#dc262600",
+    track:    "rgba(239,68,68,0.08)",
+    tick:     "rgba(252,165,165,0.18)",
+    label:    "#fca5a5",
+  };
+}
+
+/* ─── Polar coordinate helper ───────────────────────────────────────── */
+function polar(cx: number, cy: number, r: number, angleDeg: number) {
+  const rad = (angleDeg * Math.PI) / 180;
+  return { x: cx + r * Math.sin(rad), y: cy - r * Math.cos(rad) };
+}
+
+function arc(cx: number, cy: number, r: number, startDeg: number, endDeg: number): string {
+  const s = polar(cx, cy, r, startDeg);
+  const e = polar(cx, cy, r, endDeg);
+  const sweep = ((endDeg - startDeg) + 360) % 360;
+  const large = sweep > 180 ? 1 : 0;
+  if (sweep === 0) return "";
+  return `M ${s.x.toFixed(3)} ${s.y.toFixed(3)} A ${r} ${r} 0 ${large} 1 ${e.x.toFixed(3)} ${e.y.toFixed(3)}`;
+}
+
+/* ─── Tick marks along an arc ───────────────────────────────────────── */
+function TickMarks({ cx, cy, r, startDeg, endDeg, count, inner, outer, color }: {
+  cx: number; cy: number; r: number; startDeg: number; endDeg: number;
+  count: number; inner: number; outer: number; color: string;
+}) {
+  const sweep = ((endDeg - startDeg) + 360) % 360;
+  return (
+    <>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = startDeg + (i / (count - 1)) * sweep;
+        const p1 = polar(cx, cy, r - inner, angle);
+        const p2 = polar(cx, cy, r - outer, angle);
+        return (
+          <line key={i} x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y}
+            stroke={color} strokeWidth="0.8" strokeLinecap="round" />
+        );
+      })}
+    </>
+  );
+}
+
+/* ─── Floating particles along arc ──────────────────────────────────── */
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  arcFrac:  Math.random(),
+  r:        1 + Math.random() * 2.2,
+  offset:   (Math.random() - 0.5) * 10,
+  duration: 1.8 + Math.random() * 2.4,
+  delay:    Math.random() * 3,
+  opacity:  0.4 + Math.random() * 0.5,
+}));
+
+function ArcParticles({ cx, cy, r, startDeg, filledSweep, color }: {
+  cx: number; cy: number; r: number; startDeg: number; filledSweep: number; color: string;
+}) {
+  return (
+    <>
+      {PARTICLES.map((p) => {
+        const angle = startDeg + p.arcFrac * filledSweep;
+        const pr = r + p.offset;
+        const pt = polar(cx, cy, pr, angle);
+        return (
+          <circle key={p.id} cx={pt.x} cy={pt.y} r={p.r} fill={color}
+            style={{
+              animation: `particle-float ${p.duration}s ${p.delay}s ease-in-out infinite`,
+              opacity: p.opacity,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+/* ─── Liquid Speedometer SVG ─────────────────────────────────────────── */
+const GAUGE_START = 240;
+const GAUGE_END   = 120;
+const GAUGE_SWEEP = 240;
+const CX = 100, CY = 78, R = 68;
+const STROKE = 18;
+
+function LiquidSpeedometer({ pct, remaining, limit, uid }: {
+  pct: number; remaining: number; limit: number; uid: string;
+}) {
+  const colors = getColorSystem(pct);
+  const filledSweep = GAUGE_SWEEP * pct;
+  const filledEnd   = (GAUGE_START + filledSweep) % 360;
+  const emptyStart  = filledEnd;
+
+  const trackPath  = arc(CX, CY, R, GAUGE_START, GAUGE_END);
+  const fillPath   = filledSweep > 0 ? arc(CX, CY, R, GAUGE_START, filledEnd) : "";
+  const emptyPath  = filledSweep < GAUGE_SWEEP ? arc(CX, CY, R, emptyStart, GAUGE_END) : "";
+
+  const fillSweepActual = ((filledEnd - GAUGE_START) + 360) % 360 || 0;
+
+  const motionPct = useMotionValue(0);
+  const spring = useSpring(motionPct, { stiffness: 60, damping: 18 });
+  const animCount = useTransform(spring, (v) => Math.round(v * remaining));
+
+  React.useEffect(() => {
+    const t = setTimeout(() => motionPct.set(1), 80);
+    return () => clearTimeout(t);
+  }, [remaining, motionPct]);
+
+  const floorPt = polar(CX, CY, 0, 0);
+
+  return (
+    <svg viewBox="0 0 200 130" width="180" height="117" style={{ overflow: "visible" }}>
+      <defs>
+        {/* Main fill gradient — bright top, deep bottom */}
+        <linearGradient id={`lg-${uid}`} gradientUnits="userSpaceOnUse"
+          x1={CX} y1={CY - R} x2={CX} y2={CY + R}>
+          <stop offset="0%"   stopColor={colors.bright} />
+          <stop offset="40%"  stopColor={colors.main} />
+          <stop offset="100%" stopColor={colors.deep} />
+        </linearGradient>
+
+        {/* Specular gloss overlay — white at top */}
+        <linearGradient id={`gloss-${uid}`} gradientUnits="userSpaceOnUse"
+          x1={CX} y1={CY - R} x2={CX} y2={CY}>
+          <stop offset="0%"   stopColor="#ffffff" stopOpacity="0.45" />
+          <stop offset="60%"  stopColor="#ffffff" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </linearGradient>
+
+        {/* Outer glow gradient */}
+        <radialGradient id={`floor-${uid}`} cx="50%" cy="100%" r="60%">
+          <stop offset="0%"   stopColor={colors.glow} stopOpacity="0.45" />
+          <stop offset="100%" stopColor={colors.glowFade} />
+        </radialGradient>
+
+        {/* Ambient glow filter for filled arc */}
+        <filter id={`glow-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="0" dy="0" stdDeviation="5"   floodColor={colors.glow} floodOpacity="0.8" />
+          <feDropShadow dx="0" dy="2" stdDeviation="12"  floodColor={colors.glow} floodOpacity="0.4" />
+          <feDropShadow dx="0" dy="4" stdDeviation="20"  floodColor={colors.glow} floodOpacity="0.2" />
+        </filter>
+
+        {/* Soft blur for glow under-layer */}
+        <filter id={`blur-${uid}`}>
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
+
+        {/* Inner shadow for track */}
+        <filter id={`track-${uid}`} x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="1" stdDeviation="2" floodColor="rgba(0,0,0,0.7)" floodOpacity="1" />
+        </filter>
+      </defs>
+
+      {/* ── Floor ambient glow ── */}
+      <ellipse cx={CX} cy={CY + R * 0.3} rx={R * 0.9} ry={R * 0.35}
+        fill={`url(#floor-${uid})`} style={{ filter: `blur(8px)` }} />
+
+      {/* ── Background glow bloom behind filled arc ── */}
+      {fillPath && (
+        <path d={fillPath} fill="none"
+          stroke={colors.glow} strokeWidth={STROKE + 14} strokeLinecap="round"
+          style={{ filter: `url(#blur-${uid})`, opacity: 0.35 }} />
+      )}
+
+      {/* ── Track (recessed background ring) ── */}
+      <path d={trackPath} fill="none"
+        stroke="rgba(255,255,255,0.04)" strokeWidth={STROKE + 2} strokeLinecap="round"
+        style={{ filter: `url(#track-${uid})` }} />
+      <path d={trackPath} fill="none"
+        stroke="rgba(20,20,20,0.85)" strokeWidth={STROKE} strokeLinecap="round" />
+      {/* Track inner glint */}
+      <path d={trackPath} fill="none"
+        stroke="rgba(255,255,255,0.06)" strokeWidth={1.2} strokeLinecap="round"
+        style={{ transform: "translate(0,-1px)", transformOrigin: `${CX}px ${CY}px` }} />
+
+      {/* ── Tick marks on empty portion ── */}
+      {emptyPath && (
+        <TickMarks cx={CX} cy={CY} r={R} startDeg={emptyStart} endDeg={GAUGE_END}
+          count={12} inner={4} outer={9} color={colors.tick} />
+      )}
+
+      {/* ── Filled arc: glow base layer ── */}
+      {fillPath && (
+        <motion.path d={fillPath} fill="none"
+          stroke={colors.glow} strokeWidth={STROKE + 6} strokeLinecap="round"
+          style={{ filter: `url(#glow-${uid})` }}
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }} />
+      )}
+
+      {/* ── Filled arc: main liquid body ── */}
+      {fillPath && (
+        <motion.path d={fillPath} fill="none"
+          stroke={`url(#lg-${uid})`} strokeWidth={STROKE} strokeLinecap="round"
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }} />
+      )}
+
+      {/* ── Filled arc: gloss overlay ── */}
+      {fillPath && (
+        <motion.path d={fillPath} fill="none"
+          stroke={`url(#gloss-${uid})`} strokeWidth={STROKE} strokeLinecap="round"
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }} />
+      )}
+
+      {/* ── Top rim highlight (inner edge bright line) ── */}
+      {fillPath && (
+        <motion.path d={fillPath} fill="none"
+          stroke="rgba(255,255,255,0.28)" strokeWidth={1.4} strokeLinecap="round"
+          style={{ transform: `translate(0,-${STROKE * 0.42}px)`, transformOrigin: `${CX}px ${CY}px` }}
+          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.12 }} />
+      )}
+
+      {/* ── Floating particles inside filled arc ── */}
+      {pct > 0 && (
+        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.6 }}>
+          <ArcParticles cx={CX} cy={CY} r={R} startDeg={GAUGE_START}
+            filledSweep={fillSweepActual} color="rgba(255,255,255,0.75)" />
+        </motion.g>
+      )}
+
+      {/* ── Leading edge cap glow dot ── */}
+      {pct > 0.01 && pct < 0.99 && (() => {
+        const capPt = polar(CX, CY, R, filledEnd);
+        return (
+          <motion.circle cx={capPt.x} cy={capPt.y} r={5}
+            fill={colors.bright} style={{ filter: `blur(3px)`, animation: "pulse-glow 1.8s ease-in-out infinite" }}
+            initial={{ opacity: 0 }} animate={{ opacity: 0.9 }} transition={{ delay: 1 }} />
+        );
+      })()}
+
+      {/* ── Center: animated number + label ── */}
+      <motion.text x={CX} y={CY + 14} textAnchor="middle" dominantBaseline="middle"
+        fill="white" fontSize="30" fontWeight="700"
+        style={{ userSelect: "none", letterSpacing: "-1px" }}
+        initial={{ opacity: 0, y: CY + 20 }} animate={{ opacity: 1, y: CY + 14 }}
+        transition={{ delay: 0.3, duration: 0.5 }}>
+        {remaining}
+      </motion.text>
+      <motion.text x={CX} y={CY + 32} textAnchor="middle"
+        fill="rgba(255,255,255,0.38)" fontSize="7.5" fontWeight="500"
+        style={{ userSelect: "none", letterSpacing: "0.3px" }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+        / {limit} credits left
+      </motion.text>
+    </svg>
+  );
+}
+
+/* ─── Props ──────────────────────────────────────────────────────────── */
 export interface UsageBadgeProps {
   icon: React.ReactNode;
   planName: string;
@@ -48,50 +334,16 @@ export interface UsageBadgeProps {
   className?: string;
 }
 
-const SEGMENT_COUNT = 10;
-
-function hexToRgb(hex: string): [number, number, number] {
-  return [
-    parseInt(hex.slice(1, 3), 16),
-    parseInt(hex.slice(3, 5), 16),
-    parseInt(hex.slice(5, 7), 16),
-  ];
-}
-
-function lerpColor(a: string, b: string, t: number): string {
-  const [r1, g1, b1] = hexToRgb(a);
-  const [r2, g2, b2] = hexToRgb(b);
-  return `rgb(${Math.round(r1 + (r2 - r1) * t)},${Math.round(g1 + (g2 - g1) * t)},${Math.round(b1 + (b2 - b1) * t)})`;
-}
-
-function getGradientEnds(pct: number): [string, string] {
-  if (pct > 0.5) return ["#16a34a", "#86efac"];
-  if (pct > 0.2) return ["#ea580c", "#fcd34d"];
-  return ["#dc2626", "#f97316"];
-}
-
-function segmentColor(pct: number, index: number, total: number): string {
-  const [start, end] = getGradientEnds(pct);
-  const t = total > 1 ? index / (total - 1) : 0;
-  return lerpColor(start, end, t);
-}
-
-function getStatusLabel(pct: number): { text: string; color: string } {
-  if (pct > 0.5) return { text: "Healthy", color: "#22c55e" };
-  if (pct > 0.2) return { text: "Running low", color: "#f59e0b" };
-  return { text: "Almost out", color: "#ef4444" };
-}
-
+/* ─── Main component ─────────────────────────────────────────────────── */
 const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
   ({ icon, planName, usage, limit, className }, ref) => {
     const [open, setOpen] = React.useState(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const uid = React.useId().replace(/:/g, "");
 
     const remaining = usage;
-    const consumed = limit - usage;
     const pct = limit > 0 ? remaining / limit : 0;
-    const filledSegments = Math.round(pct * SEGMENT_COUNT);
-    const status = getStatusLabel(pct);
+    const colors = getColorSystem(pct);
 
     React.useEffect(() => {
       if (!open) return;
@@ -103,6 +355,8 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
       document.addEventListener("mousedown", handler);
       return () => document.removeEventListener("mousedown", handler);
     }, [open]);
+
+    const statusLabel = pct > 0.5 ? "Healthy" : pct > 0.2 ? "Running low" : "Almost out";
 
     return (
       <div ref={containerRef} className="relative">
@@ -130,130 +384,141 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           </div>
         </div>
 
-        {/* Dropdown */}
+        {/* Dropdown — liquid glass speedometer card */}
         <AnimatePresence>
           {open && (
             <motion.div
-              initial={{ opacity: 0, y: -6, scale: 0.97 }}
+              initial={{ opacity: 0, y: -8, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.97 }}
-              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-0 top-[calc(100%+8px)] w-[268px] rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#2A2520] shadow-xl shadow-black/[0.1] p-4 z-50"
+              exit={{ opacity: 0, y: -6, scale: 0.96 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute right-0 top-[calc(100%+10px)] z-50"
+              style={{ width: 360 }}
             >
-              {/* Balance numbers */}
-              <div className="flex items-baseline gap-1.5 mb-3">
-                <span className="text-[32px] font-bold leading-none text-foreground tabular-nums">
-                  {remaining}
-                </span>
-                <span className="text-[13px] text-foreground/50 font-medium">/ {limit} credits left</span>
-              </div>
+              {/* Glass card */}
+              <div style={{
+                background: "linear-gradient(145deg, rgba(28,28,32,0.97) 0%, rgba(18,18,22,0.99) 100%)",
+                border: "1px solid rgba(255,255,255,0.10)",
+                borderRadius: 20,
+                boxShadow: "0 24px 60px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)",
+                overflow: "hidden",
+                padding: "20px 20px 18px 18px",
+              }}>
+                {/* Top gloss line */}
+                <div style={{
+                  position: "absolute", top: 0, left: "15%", right: "15%", height: 1,
+                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)",
+                  borderRadius: 1,
+                }} />
 
-              {/* Staggered segmented bar */}
-              <div className="flex gap-[3px] mb-1.5">
-                {Array.from({ length: SEGMENT_COUNT }, (_, i) => {
-                  const filled = i < filledSegments;
-                  return (
-                    <div key={i} className="flex-1 h-[6px] rounded-full overflow-hidden bg-black/[0.07] dark:bg-white/[0.08]">
-                      <motion.div
-                        className="h-full rounded-full"
-                        initial={{ width: "0%" }}
-                        animate={{ width: filled ? "100%" : "0%" }}
-                        transition={{
-                          delay: filled ? i * 0.04 : 0,
-                          duration: 0.25,
-                          ease: [0.16, 1, 0.3, 1],
-                        }}
-                        style={{ backgroundColor: segmentColor(pct, i, filledSegments) }}
-                      />
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  {/* Left: Speedometer */}
+                  <div style={{ flexShrink: 0, position: "relative" }}>
+                    <LiquidSpeedometer pct={pct} remaining={remaining} limit={limit} uid={uid} />
+                  </div>
+
+                  {/* Right: Info panel */}
+                  <div style={{ flex: 1, paddingLeft: 4, paddingBottom: 6 }}>
+                    {/* Title */}
+                    <div style={{ fontSize: 15, fontWeight: 700, color: "white", marginBottom: 6, letterSpacing: "-0.2px" }}>
+                      AI Balance
                     </div>
-                  );
-                })}
+
+                    {/* Status pill */}
+                    <div style={{
+                      display: "inline-flex", alignItems: "center", gap: 4,
+                      background: `${colors.glow}22`,
+                      border: `1px solid ${colors.glow}44`,
+                      borderRadius: 20, padding: "2px 8px", marginBottom: 10,
+                    }}>
+                      <div style={{
+                        width: 5, height: 5, borderRadius: "50%",
+                        background: colors.main,
+                        boxShadow: `0 0 5px ${colors.glow}`,
+                        animation: "pulse-glow 2s ease-in-out infinite",
+                      }} />
+                      <span style={{ fontSize: 10, fontWeight: 600, color: colors.label, letterSpacing: "0.2px" }}>
+                        {statusLabel}
+                      </span>
+                    </div>
+
+                    {/* Description */}
+                    <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.55, marginBottom: 14 }}>
+                      Credits power mock interviews and scout chats.
+                    </p>
+
+                    {/* CTA button */}
+                    <style>{`
+                      .liq-cta {
+                        position: relative; overflow: hidden; cursor: pointer;
+                        background: linear-gradient(160deg, ${colors.bright}22 0%, ${colors.deep}44 100%);
+                        border: 1px solid ${colors.glow}55;
+                        border-radius: 40px;
+                        box-shadow: 0 0 12px ${colors.glow}33, inset 0 1px 0 rgba(255,255,255,0.1);
+                        transition: all 0.2s ease;
+                        padding: 0 14px;
+                        height: 32px;
+                        display: flex; align-items: center; gap: 6px;
+                        width: 100%;
+                        justify-content: center;
+                      }
+                      .liq-cta::before {
+                        content: "";
+                        position: absolute; top: 0; left: 0; right: 0; height: 50%;
+                        background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%);
+                        border-radius: 40px 40px 0 0; pointer-events: none;
+                      }
+                      .liq-cta:hover {
+                        background: linear-gradient(160deg, ${colors.bright}33 0%, ${colors.deep}66 100%);
+                        border-color: ${colors.glow}99;
+                        box-shadow: 0 0 20px ${colors.glow}55, inset 0 1px 0 rgba(255,255,255,0.15);
+                        transform: translateY(-1px);
+                      }
+                      .liq-cta:active { transform: translateY(1px); }
+                    `}</style>
+                    <button className="liq-cta">
+                      <Zap style={{ width: 11, height: 11, color: colors.bright }} />
+                      <span style={{ fontSize: 11, fontWeight: 600, color: colors.label, letterSpacing: "0.1px" }}>
+                        Get more credits
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Bottom divider + usage bar */}
+                <div style={{ marginTop: 14, borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.5px" }}>USED</span>
+                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.5px" }}>TOTAL</span>
+                  </div>
+                  {/* Mini HUD bar */}
+                  <div style={{
+                    height: 4, borderRadius: 4,
+                    background: "rgba(255,255,255,0.06)",
+                    overflow: "hidden",
+                    boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)",
+                  }}>
+                    <motion.div
+                      initial={{ width: "0%" }}
+                      animate={{ width: `${pct * 100}%` }}
+                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+                      style={{
+                        height: "100%", borderRadius: 4,
+                        background: `linear-gradient(90deg, ${colors.deep}, ${colors.bright})`,
+                        boxShadow: `0 0 8px ${colors.glow}88`,
+                      }}
+                    />
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
+                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)" }}>
+                      {limit - remaining} used
+                    </span>
+                    <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)" }}>
+                      {limit} total
+                    </span>
+                  </div>
+                </div>
               </div>
-
-              {/* Divider */}
-              <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-3" />
-
-              {/* Usage hint */}
-              <p className="text-[12px] text-foreground/55 leading-relaxed mb-3">
-                Credits power mock interviews and scout chats.
-              </p>
-
-              {/* CTA */}
-              <style>{`
-                .credits-cta {
-                  position: relative;
-                  overflow: hidden;
-                  background: linear-gradient(170deg, #fb923c 0%, #ea580c 45%, #9a3412 100%);
-                  box-shadow:
-                    inset 0 0.3rem 0.9rem rgba(255,160,80,0.35),
-                    inset 0 -0.1rem 0.3rem rgba(0,0,0,0.55),
-                    inset 0 -0.35rem 0.8rem rgba(234,88,12,0.45),
-                    0 0.4rem 1rem rgba(0,0,0,0.28),
-                    0 0.1rem 0.25rem rgba(0,0,0,0.4);
-                  transition: all 0.2s ease;
-                }
-                .credits-cta::before {
-                  content: "";
-                  position: absolute;
-                  left: -15%; right: -15%;
-                  bottom: 20%; top: -120%;
-                  border-radius: 50%;
-                  background: rgba(251,191,36,0.1);
-                  pointer-events: none;
-                  transition: transform 0.3s ease;
-                }
-                .credits-cta::after {
-                  content: "";
-                  position: absolute;
-                  left: 6%; right: 6%;
-                  top: 0; bottom: 48%;
-                  border-radius: 100px 100px 0 0;
-                  box-shadow: inset 0 10px 8px -10px rgba(251,191,36,0.55);
-                  background: linear-gradient(180deg, rgba(251,191,36,0.2) 0%, rgba(0,0,0,0) 100%);
-                  pointer-events: none;
-                  transition: all 0.3s ease;
-                }
-                .credits-cta:hover {
-                  box-shadow:
-                    inset 0 0.3rem 0.6rem rgba(255,160,80,0.5),
-                    inset 0 -0.1rem 0.3rem rgba(0,0,0,0.55),
-                    inset 0 -0.35rem 0.9rem rgba(234,88,12,0.65),
-                    0 0.6rem 1.4rem rgba(0,0,0,0.32),
-                    0 0.1rem 0.3rem rgba(0,0,0,0.4);
-                }
-                .credits-cta:hover::before {
-                  transform: translateY(-5%);
-                }
-                .credits-cta:hover::after {
-                  opacity: 0.45;
-                  transform: translateY(5%);
-                }
-                .credits-cta:hover .credits-cta-inner {
-                  transform: translateY(-2px);
-                }
-                .credits-cta:active {
-                  transform: translateY(2px);
-                  box-shadow:
-                    inset 0 0.3rem 0.5rem rgba(251,191,36,0.5),
-                    inset 0 -0.1rem 0.3rem rgba(0,0,0,0.7),
-                    inset 0 0.3rem 0.8rem rgba(0,0,0,0.25),
-                    0 0.15rem 0.4rem rgba(0,0,0,0.2);
-                }
-                .credits-cta-inner {
-                  display: flex;
-                  align-items: center;
-                  gap: 6px;
-                  position: relative;
-                  z-index: 1;
-                  transition: transform 0.2s ease;
-                }
-              `}</style>
-              <button className="credits-cta w-full flex items-center justify-center h-9 rounded-full text-[13px] font-semibold text-amber-50">
-                <span className="credits-cta-inner">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Get more credits
-                </span>
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
