@@ -1634,6 +1634,7 @@ const BREAKDOWNS: Record<string, SubBreakdown[]> = {
 function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const [expandedSection, setExpandedSection] = useState<"signals" | "missing" | null>("signals");
 
   const subs: SubBreakdown[] = BREAKDOWNS[job.id] ?? [
     { label: "Role Requirements",   target: 80, aligns: [], gaps: [] },
@@ -1745,51 +1746,75 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
         ))}
       </div>
 
-      {/* Signals + Missing — two lean recessed sections */}
-      <div className="mt-3.5 space-y-1.5">
-        {allAligns.length > 0 && (
-          <div
-            className="rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5"
-            style={{
-              background: isDark ? "#0F0F0F" : "#DDD8CF",
-              boxShadow: isDark
-                ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02)"
-                : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.70)",
-            }}
-          >
-            <p className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/35 mb-1.5">Strongest signals</p>
-            <ul className="space-y-1">
-              {allAligns.map((a) => (
-                <li key={a} className="flex items-start gap-1.5">
-                  <span className="mt-[4px] w-1 h-1 rounded-full bg-foreground/25 flex-shrink-0" />
-                  <span className="text-[11.5px] text-foreground/60 leading-snug">{a}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {allGaps.length > 0 && (
-          <div
-            className="rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5"
-            style={{
-              background: isDark ? "#0F0F0F" : "#DDD8CF",
-              boxShadow: isDark
-                ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02)"
-                : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.70)",
-            }}
-          >
-            <p className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/35 mb-1.5">Missing</p>
-            <ul className="space-y-1">
-              {allGaps.map((g) => (
-                <li key={g} className="flex items-start gap-1.5">
-                  <span className="mt-[4px] w-1 h-1 rounded-full bg-foreground/20 flex-shrink-0" />
-                  <span className="text-[11.5px] text-foreground/45 leading-snug">{g}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {/* Signals + Missing — single accordion */}
+      {(allAligns.length > 0 || allGaps.length > 0) && (
+        <div
+          className="mt-3.5 rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] overflow-hidden"
+          style={{
+            background: isDark ? "#0F0F0F" : "#DDD8CF",
+            boxShadow: isDark
+              ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02)"
+              : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.70)",
+          }}
+        >
+          {/* Strongest signals row */}
+          {allAligns.length > 0 && (
+            <>
+              <button
+                onClick={() => setExpandedSection(expandedSection === "signals" ? null : "signals")}
+                className="w-full flex items-center justify-between px-3 py-2.5 text-left"
+              >
+                <span className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/40">Strongest signals</span>
+                <ChevronDown
+                  className="w-3 h-3 text-foreground/30 transition-transform duration-200 flex-shrink-0"
+                  style={{ transform: expandedSection === "signals" ? "rotate(180deg)" : "rotate(0deg)" }}
+                />
+              </button>
+              {expandedSection === "signals" && (
+                <ul className="px-3 pb-2.5 space-y-1.5">
+                  {allAligns.map((a) => (
+                    <li key={a} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3 h-3 mt-[2px] text-emerald-500/70 flex-shrink-0" />
+                      <span className="text-[11.5px] text-foreground/60 leading-snug">{a}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+
+          {/* Divider between sections */}
+          {allAligns.length > 0 && allGaps.length > 0 && (
+            <div className="h-px bg-black/[0.06] dark:bg-white/[0.06]" />
+          )}
+
+          {/* Missing row */}
+          {allGaps.length > 0 && (
+            <>
+              <button
+                onClick={() => setExpandedSection(expandedSection === "missing" ? null : "missing")}
+                className="w-full flex items-center justify-between px-3 py-2.5 text-left"
+              >
+                <span className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/40">Missing</span>
+                <ChevronDown
+                  className="w-3 h-3 text-foreground/30 transition-transform duration-200 flex-shrink-0"
+                  style={{ transform: expandedSection === "missing" ? "rotate(180deg)" : "rotate(0deg)" }}
+                />
+              </button>
+              {expandedSection === "missing" && (
+                <ul className="px-3 pb-2.5 space-y-1.5">
+                  {allGaps.map((g) => (
+                    <li key={g} className="flex items-start gap-2">
+                      <XCircle className="w-3 h-3 mt-[2px] text-foreground/25 flex-shrink-0" />
+                      <span className="text-[11.5px] text-foreground/45 leading-snug">{g}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
