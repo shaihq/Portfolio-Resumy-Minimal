@@ -148,18 +148,10 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
         <filter id={`bf-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="4" />
         </filter>
-        <filter id={`is-${uid}`} x="-5%" y="-5%" width="110%" height="110%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="blur"/>
-          <feOffset dy="1.5" result="offset"/>
-          <feFlood floodColor="black" floodOpacity="0.45" result="flood"/>
-          <feComposite in="flood" in2="offset" operator="in" result="composite"/>
-          <feComposite in="composite" in2="SourceGraphic" operator="atop"/>
-        </filter>
       </defs>
 
-      {/* ── Track: surface with inner shadow for depth ── */}
-      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round"
-        style={{ filter: `url(#is-${uid})` }} />
+      {/* ── Track ── */}
+      <path d={track} fill="none" stroke={trackSurface} strokeWidth={SW + 6} strokeLinecap="round" />
 
 
       {/* ── Filled arc: narrower than track so track peeks around it ── */}
@@ -318,6 +310,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 boxShadow:    card.boxShadow,
                 padding:      "20px 20px 18px",
                 position:     "relative",
+                overflow:     "visible",
               }}>
 
                 {/* Top gloss streak */}
@@ -328,7 +321,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 }} />
 
                 {/* Gauge */}
-                <div style={{ marginLeft: -20, marginRight: -20, marginTop: -20, marginBottom: 8 }}>
+                <div style={{ marginLeft: -20, marginRight: -20, marginTop: -20, marginBottom: 8, overflow: "visible" }}>
                   <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} isDark={isDark} />
                 </div>
 
