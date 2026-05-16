@@ -1680,27 +1680,14 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
       </div>
       {/* ── Row 2: sub-scores ── */}
       <div className="grid grid-cols-3 border-t border-black/[0.06] dark:border-white/[0.06]">
-        {subs.map(({ label, val, target }, idx) => {
-          const sa = target >= 85 ? "#22c55e" : target >= 70 ? "#f97316" : "#ef4444";
+        {subs.map(({ label, target }, idx) => {
           return (
             <div
               key={label}
-              className={`px-4 py-3.5 ${idx < 2 ? "border-r border-black/[0.06] dark:border-white/[0.06]" : ""}`}
+              className={`flex flex-col items-center py-3 ${idx < 2 ? "border-r border-black/[0.06] dark:border-white/[0.06]" : ""}`}
             >
-              <div className="flex items-baseline gap-0.5 mb-0.5">
-                <span className="text-[19px] font-bold leading-none tracking-tight tabular-nums text-foreground">{val}</span>
-                <span className="text-[10px] font-bold leading-none text-foreground/60">%</span>
-              </div>
-              <div className="text-[10px] text-foreground/38 font-medium mb-2.5 leading-snug">{label}</div>
-              <div className="h-[2.5px] rounded-full overflow-hidden" style={{ backgroundColor: trackColor }}>
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: sa }}
-                  initial={{ width: "0%" }}
-                  animate={{ width: open ? `${target}%` : "0%" }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 + idx * 0.07 }}
-                />
-              </div>
+              <ScoreGauge value={target} isDark={isDark} />
+              <div className="text-[10px] text-foreground/38 font-medium leading-snug -mt-1">{label}</div>
             </div>
           );
         })}
