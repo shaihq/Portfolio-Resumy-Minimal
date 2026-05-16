@@ -1653,14 +1653,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
             </span>
             <span className="text-[13px] font-medium text-foreground/30 mb-0.5">/100</span>
           </div>
-          {/* Quality badge */}
-          <div
-            className="mt-1.5 inline-flex items-center gap-1.5 rounded-full px-2 py-[3px]"
-            style={{ backgroundColor: accentBg }}
-          >
-            <div className="w-[5px] h-[5px] rounded-full flex-shrink-0" style={{ backgroundColor: accentColor }} />
-            <span className="text-[10.5px] font-semibold leading-none" style={{ color: accentText }}>{tier.label}</span>
-          </div>
         </div>
 
         {/* Staggered bars — uniform height, flow-fill animation */}
@@ -1732,6 +1724,8 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 }
 
 function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job: Job | null; open: boolean; onClose: () => void; pastReports?: CompletedReport[]; onViewReport?: (report: CompletedReport) => void }) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const lastJobRef = useRef<Job | null>(null);
   if (job) lastJobRef.current = job;
   const displayJob = job ?? lastJobRef.current;
@@ -1780,6 +1774,19 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                   </div>
                 </div>
               </div>
+              {/* Match quality badge */}
+              {(() => {
+                const t = SCORE_TIERS.find(t => displayJob.match >= t.min) ?? SCORE_TIERS[SCORE_TIERS.length - 1];
+                return (
+                  <div
+                    className="flex-shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1"
+                    style={{ backgroundColor: isDark ? t.darkBg : t.lightBg }}
+                  >
+                    <div className="w-[5px] h-[5px] rounded-full" style={{ backgroundColor: t.accent }} />
+                    <span className="text-[11px] font-semibold leading-none" style={{ color: isDark ? t.darkText : t.lightText }}>{t.label}</span>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Property rows */}
