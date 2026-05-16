@@ -1678,7 +1678,7 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   const markerBarPct = Math.max(1, Math.min(98.5, scoreToBarPct(s)));
 
   return (
-    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-4" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
+    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] px-4 pt-4 pb-4" style={{ background: isDark ? "#141414" : "#E8E3DC" }}>
       {/* Headline */}
       <p className="text-[14.5px] font-semibold text-foreground leading-snug mb-4">{headline}</p>
 
@@ -1751,10 +1751,10 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           <div
             className="rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5"
             style={{
-              background: isDark ? "rgba(0,0,0,0.20)" : "rgba(0,0,0,0.026)",
+              background: isDark ? "#0F0F0F" : "#DDD8CF",
               boxShadow: isDark
-                ? "inset 0 2px 5px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.025)"
-                : "inset 0 2px 4px rgba(0,0,0,0.065), inset 0 1px 0 rgba(255,255,255,0.80)",
+                ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02)"
+                : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.70)",
             }}
           >
             <p className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/35 mb-1.5">Strongest signals</p>
@@ -1772,10 +1772,10 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           <div
             className="rounded-[10px] border border-black/[0.07] dark:border-white/[0.06] px-3 py-2.5"
             style={{
-              background: isDark ? "rgba(0,0,0,0.20)" : "rgba(0,0,0,0.026)",
+              background: isDark ? "#0F0F0F" : "#DDD8CF",
               boxShadow: isDark
-                ? "inset 0 2px 5px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.025)"
-                : "inset 0 2px 4px rgba(0,0,0,0.065), inset 0 1px 0 rgba(255,255,255,0.80)",
+                ? "inset 0 2px 5px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02)"
+                : "inset 0 2px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.70)",
             }}
           >
             <p className="text-[9.5px] font-semibold uppercase tracking-widest text-foreground/35 mb-1.5">Missing</p>
