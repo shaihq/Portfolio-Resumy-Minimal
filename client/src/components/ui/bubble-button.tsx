@@ -344,8 +344,8 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 {/* CTA — rotating gradient border button */}
                 <div style={{ borderRadius: 50, padding: 2,
                   background: isDark
-                    ? "conic-gradient(from var(--btn-angle, 0deg), hsl(46,29%,94%), hsl(46,10%,50%), hsl(46,5%,25%), hsl(46,10%,50%), hsl(46,29%,94%))"
-                    : "conic-gradient(from var(--btn-angle, 0deg), hsl(20,10%,15%), hsl(20,8%,50%), hsl(20,6%,78%), hsl(20,8%,50%), hsl(20,10%,15%))",
+                    ? "conic-gradient(from var(--btn-angle, 0deg), hsl(46,29%,94%), hsl(46,10%,72%), hsl(20,8%,28%), hsl(20,10%,14%), hsl(20,8%,28%), hsl(46,10%,72%), hsl(46,29%,94%))"
+                    : "conic-gradient(from var(--btn-angle, 0deg), hsl(20,10%,12%), hsl(20,8%,35%), hsl(20,5%,72%), hsl(20,3%,90%), hsl(20,5%,72%), hsl(20,8%,35%), hsl(20,10%,12%))",
                   animation: "rotate-btn-gradient 3s linear infinite",
                   cursor: "pointer",
                 }}
