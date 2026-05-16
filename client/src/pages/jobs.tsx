@@ -424,9 +424,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full dark:bg-[#FF553E]/6 blur-[120px]" />
       </div>
-
       <div />
-
       {/* Question + answer area */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-lg gap-6 w-full">
         <motion.div
@@ -538,7 +536,6 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
           )}
         </AnimatePresence>
       </div>
-
       {/* Bottom nav */}
       <div className="relative z-10 flex flex-col items-center gap-5 w-full max-w-lg">
         <div className="flex items-center justify-between w-full gap-3">
@@ -1642,13 +1639,12 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 
   return (
     <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.016)" }}>
-
       {/* ── Row 1: score + quality label + waveform ── */}
       <div className="flex items-center gap-4 px-4 pt-4 pb-3.5">
         {/* Score block */}
         <div className="flex-shrink-0">
           <div className="flex items-baseline gap-1">
-            <span className="text-[42px] font-bold leading-none tracking-tight tabular-nums text-foreground">
+            <span className="font-bold tracking-tight tabular-nums text-foreground text-[32px]">
               {score}
             </span>
             <span className="text-[13px] font-medium text-foreground/30 mb-0.5">/100</span>
@@ -1682,7 +1678,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           })}
         </div>
       </div>
-
       {/* ── Row 2: sub-scores ── */}
       <div className="grid grid-cols-3 border-t border-black/[0.06] dark:border-white/[0.06]">
         {subs.map(({ label, val, target }, idx) => {
@@ -1710,7 +1705,6 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
           );
         })}
       </div>
-
       {/* ── Row 3: why it's a match ── */}
       <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-4 py-3.5">
         <div className="flex items-center gap-1.5 mb-1.5">
@@ -2393,7 +2387,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
           <AnimatePresence mode="wait">
             {!hasStarted ? (
               /* ── Initial: orb + prompt + suggestions ── */
-              <motion.div
+              (<motion.div
                 key="initial"
                 className="absolute inset-0 flex flex-col"
                 initial={{ opacity: 1 }}
@@ -2419,7 +2413,6 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                     What do you want to know about {job.company}?
                   </motion.p>
                 </div>
-
                 {/* Suggestions — right-aligned, staggered */}
                 <div className="flex-shrink-0 flex flex-col items-end gap-2 px-4 pb-4">
                   {visibleSuggestions.map((s, i) => (
@@ -2447,10 +2440,10 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                     </motion.button>
                   )}
                 </div>
-              </motion.div>
+              </motion.div>)
             ) : (
               /* ── Chat state ── */
-              <motion.div
+              (<motion.div
                 key="chat"
                 className="absolute inset-0 flex flex-col min-h-0"
                 initial={{ opacity: 0, y: 10 }}
@@ -2485,7 +2478,7 @@ function ScoutChat({ job, onClose }: { job: Job; onClose: () => void }) {
                   })}
                   <div ref={bottomRef} />
                 </div>
-              </motion.div>
+              </motion.div>)
             )}
           </AnimatePresence>
         </div>
