@@ -3113,6 +3113,7 @@ const CREDIT_ACTIONS = [
 function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const [btnHovered, setBtnHovered] = useState(false);
 
   if (!open) return null;
 
@@ -3163,8 +3164,8 @@ function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => voi
             {/* Header band */}
             <div className="px-6 pt-7 pb-5 border-b border-black/[0.06] dark:border-white/[0.06]">
               {/* Animated color orb */}
-              <div className="mb-4 orb-always-active">
-                <ColorOrb dimension="44px" spinDuration={5} />
+              <div className="mb-4 orb-always-active flex items-center">
+                <ColorOrb dimension="28px" spinDuration={5} />
               </div>
 
               <h2 className="text-[20px] font-bold text-foreground leading-tight tracking-tight">Top up AI Credits</h2>
@@ -3200,18 +3201,47 @@ function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => voi
 
             {/* CTA */}
             <div className="px-5 pb-6 pt-2">
-              <button
-                onClick={onClose}
-                className="w-full h-12 rounded-2xl flex items-center justify-center gap-2.5 text-[14px] font-bold transition-opacity hover:opacity-90 active:opacity-80"
+              <div
+                onMouseEnter={() => setBtnHovered(true)}
+                onMouseLeave={() => setBtnHovered(false)}
                 style={{
-                  background: "linear-gradient(135deg, #f59e0b 0%, #f97316 60%, #ef4444 100%)",
-                  color: "#fff",
-                  boxShadow: "0 4px 14px rgba(245,158,11,0.18)",
+                  borderRadius: 50,
+                  padding: "2px",
+                  background: isDark
+                    ? "conic-gradient(from var(--btn-angle, 0deg), #ffffff 0deg, #d0ccc6 6deg, #706c68 18deg, #302e2b 32deg, #1c1916 60deg, #1c1916 300deg, #302e2b 328deg, #706c68 342deg, #d0ccc6 354deg, #ffffff 360deg)"
+                    : "conic-gradient(from var(--btn-angle, 0deg), #ffffff 0deg, #c8c4be 6deg, #686460 18deg, #282522 32deg, #1c1916 60deg, #1c1916 300deg, #282522 328deg, #686460 342deg, #c8c4be 354deg, #ffffff 360deg)",
+                  animation: "rotate-btn-gradient 3s linear infinite",
+                  cursor: "pointer",
+                  transform: btnHovered ? "scale(1.025)" : "scale(1)",
+                  boxShadow: btnHovered
+                    ? "0 0 0 1px rgba(250,95,75,0.3), 0 4px 20px rgba(250,95,75,0.35)"
+                    : "0 0 0 1px rgba(250,95,75,0.15), 0 4px 14px rgba(250,95,75,0.18)",
+                  transition: "transform 220ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 200ms ease",
                 }}
               >
-                <Zap className="w-4 h-4 fill-white" />
-                Buy 30 Credits — ₹300
-              </button>
+                <button
+                  onClick={onClose}
+                  style={{
+                    width: "100%",
+                    background: btnHovered ? "#f8614e" : "#FA5F4B",
+                    borderRadius: 48,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    padding: "12px 0",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: "#fff",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "background 200ms ease",
+                  }}
+                >
+                  <Zap className="w-4 h-4 fill-white" />
+                  Buy 30 Credits — ₹300
+                </button>
+              </div>
               <p className="text-center text-[11px] text-foreground/30 mt-2.5">No subscription · Credits never expire</p>
             </div>
           </motion.div>
