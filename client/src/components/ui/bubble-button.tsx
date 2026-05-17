@@ -235,11 +235,12 @@ export interface UsageBadgeProps {
   limit: number;
   tooltipContent?: React.ReactNode;
   className?: string;
+  onGetMoreCredits?: () => void;
 }
 
 /* ─── Component ──────────────────────────────────────────────────────── */
 const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
-  ({ icon, planName, usage, limit, className }, ref) => {
+  ({ icon, planName, usage, limit, className, onGetMoreCredits }, ref) => {
     const [open, setOpen] = React.useState(false);
     const [btnHovered, setBtnHovered] = React.useState(false);
     const containerRef   = React.useRef<HTMLDivElement>(null);
@@ -365,7 +366,9 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                     transition: "transform 220ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 200ms ease",
                   }}
                 >
-                  <div style={{
+                  <div
+                    onClick={() => { setOpen(false); onGetMoreCredits?.(); }}
+                    style={{
                     background: isDark
                       ? btnHovered ? "hsl(46,35%,97%)" : "hsl(46,29%,94%)"
                       : btnHovered ? "hsl(20,12%,18%)"  : "hsl(20,10%,15%)",

@@ -3101,6 +3101,136 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
   );
 }
 
+// ── Credits Shop Modal ─────────────────────────────────────────────────────
+const CREDIT_ACTIONS = [
+  { icon: Clapperboard, label: "Mock interview", sub: "Practice with a real AI interviewer", cost: 10 },
+  { icon: FileText,    label: "Tailor resume",   sub: "Rewrite your resume for this specific role", cost: 4 },
+  { icon: PenLine,     label: "Cover letter",    sub: "Generate a job-specific cover letter", cost: 3 },
+  { icon: Crosshair,   label: "Scout AI chat",   sub: "Get deep insights on any job or company", cost: 6 },
+];
+
+function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  if (!open) return null;
+
+  return createPortal(
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed inset-0 z-[500] flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {/* Scrim */}
+          <motion.div
+            className="absolute inset-0 bg-black/50 backdrop-blur-[6px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          {/* Card */}
+          <motion.div
+            className="relative z-10 w-full max-w-[400px] rounded-[28px] overflow-hidden"
+            style={{
+              background: isDark
+                ? "linear-gradient(160deg, #252220 0%, #1C1917 100%)"
+                : "linear-gradient(160deg, #FDFCFB 0%, #F0EDE7 100%)",
+              border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(26,26,26,0.09)",
+              boxShadow: isDark
+                ? "0 32px 80px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.3)"
+                : "0 32px 80px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06)",
+            }}
+            initial={{ scale: 0.90, y: 20, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.93, y: 12, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 w-7 h-7 flex items-center justify-center rounded-full bg-foreground/[0.07] hover:bg-foreground/[0.12] transition-colors text-foreground/50 hover:text-foreground"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Header band */}
+            <div className="px-6 pt-7 pb-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+              {/* Icon */}
+              <div className="w-11 h-11 rounded-2xl bg-amber-400/15 border border-amber-400/25 flex items-center justify-center mb-4">
+                <Zap className="w-5 h-5 text-amber-500 fill-amber-500" />
+              </div>
+
+              <h2 className="text-[20px] font-bold text-foreground leading-tight tracking-tight">Top up AI Credits</h2>
+              <p className="text-[13px] text-foreground/45 mt-1 leading-relaxed">
+                Credits power every AI action in Designfolio — no subscription, just pay when you need more.
+              </p>
+
+              {/* Price pill */}
+              <div className="mt-4 flex items-end gap-1.5">
+                <span className="text-[36px] font-extrabold text-foreground tracking-tight leading-none">₹300</span>
+                <div className="mb-1.5 flex flex-col gap-0">
+                  <span className="text-[12px] text-foreground/40 leading-tight">for</span>
+                  <span className="text-[15px] font-semibold text-foreground/70 leading-tight">30 credits</span>
+                </div>
+                <span className="mb-1.5 ml-auto inline-flex items-center gap-1 bg-amber-100 dark:bg-amber-400/15 border border-amber-300/50 dark:border-amber-400/25 text-amber-700 dark:text-amber-400 text-[11px] font-semibold rounded-full px-2.5 py-1">
+                  <Zap className="w-2.5 h-2.5 fill-current" />
+                  One-time
+                </span>
+              </div>
+            </div>
+
+            {/* What credits do */}
+            <div className="px-6 py-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-foreground/30 mb-3">What you can do</p>
+              <div className="space-y-2.5">
+                {CREDIT_ACTIONS.map(({ icon: Icon, label, sub, cost }) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-foreground/[0.05] flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-3.5 h-3.5 text-foreground/40" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[13px] font-medium text-foreground/80 leading-none">{label}</div>
+                      <div className="text-[11px] text-foreground/40 mt-0.5 leading-tight">{sub}</div>
+                    </div>
+                    <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/15 border border-amber-300/50 dark:border-amber-400/25 rounded-full px-2 py-0.5 flex-shrink-0">
+                      <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                      <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">{cost}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="px-5 pb-6 pt-2">
+              <button
+                onClick={onClose}
+                className="w-full h-12 rounded-2xl flex items-center justify-center gap-2.5 text-[14px] font-bold transition-opacity hover:opacity-90 active:opacity-80"
+                style={{
+                  background: "linear-gradient(135deg, #f59e0b 0%, #f97316 60%, #ef4444 100%)",
+                  color: "#fff",
+                  boxShadow: "0 8px 24px rgba(245,158,11,0.35)",
+                }}
+              >
+                <Zap className="w-4 h-4 fill-white" />
+                Buy 30 Credits — ₹300
+              </button>
+              <p className="text-center text-[11px] text-foreground/30 mt-2.5">One-time purchase · No subscription · Credits never expire</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body
+  );
+}
+
 // ── Dashboard ──────────────────────────────────────────────────────────────
 function Dashboard() {
   const [columns, setColumns] = useState<Record<string, Job[]>>(INITIAL_COLUMNS);
@@ -3115,6 +3245,7 @@ function Dashboard() {
   const [archivedCollapsed, setArchivedCollapsed] = useState(false);
   const [addJobOpen, setAddJobOpen] = useState(false);
   const [criteriaOpen, setCriteriaOpen] = useState(false);
+  const [creditsShopOpen, setCreditsShopOpen] = useState(false);
   const criteriaRef = useRef<HTMLDivElement>(null);
   // 4-phase: list → shrinking → settled (snapped left, columns hidden) → split (columns reveal)
   const [phase, setPhase] = useState<"list" | "shrinking" | "settled" | "split">("list");
@@ -3285,6 +3416,7 @@ function Dashboard() {
             tooltipContent={
               <p>30 AI credits remaining.<br />Used for mock interviews &amp; scout chats.</p>
             }
+            onGetMoreCredits={() => setCreditsShopOpen(true)}
           />
         </div>
 
@@ -3470,6 +3602,8 @@ function Dashboard() {
         </AnimatePresence>,
         document.body
       )}
+
+      <CreditsShopModal open={creditsShopOpen} onClose={() => setCreditsShopOpen(false)} />
     </motion.div>
   );
 }
