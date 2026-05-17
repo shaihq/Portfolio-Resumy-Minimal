@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -3103,10 +3103,11 @@ function CriteriaDropdown({ onClose }: { onClose: () => void }) {
 
 // ── Credits Shop Modal ─────────────────────────────────────────────────────
 const CREDIT_ACTIONS = [
-  { icon: Clapperboard, label: "Mock interview", sub: "Practice with a real AI interviewer", cost: 10 },
-  { icon: FileText,    label: "Tailor resume",   sub: "Rewrite your resume for this specific role", cost: 4 },
-  { icon: PenLine,     label: "Cover letter",    sub: "Generate a job-specific cover letter", cost: 3 },
-  { icon: Crosshair,   label: "Scout AI chat",   sub: "Get deep insights on any job or company", cost: 6 },
+  { icon: Clapperboard, label: "Mock interview",           sub: "Practice with a real AI interviewer" },
+  { icon: FileText,     label: "Tailor resume",            sub: "Rewrite your resume for this specific role" },
+  { icon: PenLine,      label: "Cover letter",             sub: "Generate a job-specific cover letter" },
+  { icon: Crosshair,    label: "Scout AI chat",            sub: "Get deep insights on any job or company" },
+  { icon: BookOpen,     label: "Write / Analyze Case studies", sub: "Draft or critique design case studies" },
 ];
 
 function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -3161,27 +3162,21 @@ function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => voi
 
             {/* Header band */}
             <div className="px-6 pt-7 pb-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-              {/* Icon */}
-              <div className="w-11 h-11 rounded-2xl bg-amber-400/15 border border-amber-400/25 flex items-center justify-center mb-4">
-                <Zap className="w-5 h-5 text-amber-500 fill-amber-500" />
+              {/* Animated color orb */}
+              <div className="mb-4 orb-always-active">
+                <ColorOrb dimension="44px" spinDuration={5} />
               </div>
 
               <h2 className="text-[20px] font-bold text-foreground leading-tight tracking-tight">Top up AI Credits</h2>
               <p className="text-[13px] text-foreground/45 mt-1 leading-relaxed">
-                Credits power every AI action in Designfolio — no subscription, just pay when you need more.
+                Credits power every AI action in Designfolio — no subscription, pay only when you need more.
               </p>
 
-              {/* Price pill */}
-              <div className="mt-4 flex items-end gap-1.5">
-                <span className="text-[36px] font-extrabold text-foreground tracking-tight leading-none">₹300</span>
-                <div className="mb-1.5 flex flex-col gap-0">
-                  <span className="text-[12px] text-foreground/40 leading-tight">for</span>
-                  <span className="text-[15px] font-semibold text-foreground/70 leading-tight">30 credits</span>
-                </div>
-                <span className="mb-1.5 ml-auto inline-flex items-center gap-1 bg-amber-100 dark:bg-amber-400/15 border border-amber-300/50 dark:border-amber-400/25 text-amber-700 dark:text-amber-400 text-[11px] font-semibold rounded-full px-2.5 py-1">
-                  <Zap className="w-2.5 h-2.5 fill-current" />
-                  One-time
-                </span>
+              {/* Price row */}
+              <div className="mt-4 flex items-center gap-3">
+                <span className="text-[34px] font-extrabold text-foreground tracking-tight leading-none">₹300</span>
+                <div className="h-7 w-px bg-foreground/10 rounded-full" />
+                <span className="text-[14px] font-medium text-foreground/50 leading-tight">30 credits</span>
               </div>
             </div>
 
@@ -3189,7 +3184,7 @@ function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => voi
             <div className="px-6 py-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-foreground/30 mb-3">What you can do</p>
               <div className="space-y-2.5">
-                {CREDIT_ACTIONS.map(({ icon: Icon, label, sub, cost }) => (
+                {CREDIT_ACTIONS.map(({ icon: Icon, label, sub }) => (
                   <div key={label} className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-xl bg-foreground/[0.05] flex items-center justify-center flex-shrink-0">
                       <Icon className="w-3.5 h-3.5 text-foreground/40" />
@@ -3198,10 +3193,6 @@ function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => voi
                       <div className="text-[13px] font-medium text-foreground/80 leading-none">{label}</div>
                       <div className="text-[11px] text-foreground/40 mt-0.5 leading-tight">{sub}</div>
                     </div>
-                    <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/15 border border-amber-300/50 dark:border-amber-400/25 rounded-full px-2 py-0.5 flex-shrink-0">
-                      <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
-                      <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">{cost}</span>
-                    </span>
                   </div>
                 ))}
               </div>
@@ -3215,13 +3206,13 @@ function CreditsShopModal({ open, onClose }: { open: boolean; onClose: () => voi
                 style={{
                   background: "linear-gradient(135deg, #f59e0b 0%, #f97316 60%, #ef4444 100%)",
                   color: "#fff",
-                  boxShadow: "0 8px 24px rgba(245,158,11,0.35)",
+                  boxShadow: "0 4px 14px rgba(245,158,11,0.18)",
                 }}
               >
                 <Zap className="w-4 h-4 fill-white" />
                 Buy 30 Credits — ₹300
               </button>
-              <p className="text-center text-[11px] text-foreground/30 mt-2.5">One-time purchase · No subscription · Credits never expire</p>
+              <p className="text-center text-[11px] text-foreground/30 mt-2.5">No subscription · Credits never expire</p>
             </div>
           </motion.div>
         </motion.div>
