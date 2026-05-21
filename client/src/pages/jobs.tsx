@@ -2313,14 +2313,31 @@ function ResumeGeneratingView({ job, onComplete, onBack }: { job: Job; onComplet
 function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
   type ChatMsg = { role: "ai" | "user"; text: string };
   type RightTab = "ai" | "editor" | "style";
+  type ExpEntry = { id: string; company: string; title: string; dates: string; bullets: string[] };
+  type EduEntry = { id: string; school: string; degree: string; dates: string };
   type Section = { id: string; label: string; expanded: boolean };
 
+  // ── Resume content state (drives left panel) ──
+  const [personalInfo, setPersonalInfo] = useState({ name: "Matt Carter", email: "matt@gmail.com", linkedin: "linkedin.com/in/mattcarter", portfolio: "mattcarter.design" });
+  const [summary, setSummary] = useState(`Senior Product Designer with 5+ years crafting B2B and consumer products at scale. Known for translating complex requirements into elegant, measurable experiences — directly aligned with ${job.company}'s focus on craft and product thinking. Drove 32% task-completion gains and 40% onboarding improvement through research-led iteration.`);
+  const [experiences, setExperiences] = useState<ExpEntry[]>([
+    { id: "exp1", company: "NovaTech Labs", title: "Lead Product Designer", dates: "Jul 2021 – Present", bullets: ["Led end-to-end design for a B2B dashboard serving 50K+ daily active users", `Improved task completion by 32% through rapid prototyping — directly applicable to the ${job.role} role`, "Redesigned onboarding flow, cutting drop-offs by 40% and lifting 30-day activation", "Built and maintained a scalable design system spanning 3 product lines"] },
+    { id: "exp2", company: "PixelForge Studio", title: "Product Designer", dates: "Jan 2019 – Jun 2021", bullets: ["Designed mobile-first products for fintech and edtech reaching 1M+ users", "Improved conversion by 22% through A/B testing and iterative usability research", "Partnered cross-functionally with PM, engineering, and marketing teams"] },
+  ]);
+  const [education, setEducation] = useState<EduEntry[]>([
+    { id: "edu1", school: "Rhode Island School of Design", degree: "BFA, Graphic Design", dates: "Jan 2015 – May 2019" },
+  ]);
+  const [skills, setSkills] = useState("Design: Figma, Prototyping, Design Systems, Interaction Design, Design Tokens\nResearch: User Research, Usability Testing, A/B Testing\nCollaboration: Cross-functional Leadership, Component Libraries, Agile / Scrum");
+
+  // ── UI state ──
   const [rightTab, setRightTab] = useState<RightTab>("ai");
   const [messages, setMessages] = useState<ChatMsg[]>([
     { role: "ai", text: `Your resume has been tailored for the ${job.role} role at ${job.company}. I've matched your experience to the job requirements and strengthened your impact metrics. Want me to sharpen any section?` },
   ]);
   const [aiInput, setAiInput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [editingLabelId, setEditingLabelId] = useState<string | null>(null);
+  const [editingLabelVal, setEditingLabelVal] = useState("");
   const [sections, setSections] = useState<Section[]>([
     { id: "personal", label: "Personal Info", expanded: false },
     { id: "summary", label: "Summary", expanded: true },
@@ -2329,16 +2346,40 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
     { id: "skills", label: "Skills", expanded: false },
     { id: "volunteering", label: "Volunteering", expanded: false },
   ]);
+  const [selectedFont, setSelectedFont] = useState("Inter");
+  const [selectedSpacing, setSelectedSpacing] = useState("Normal");
+  const [selectedAccent, setSelectedAccent] = useState("#1A1A1A");
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const resumeRef = useRef<HTMLDivElement>(null);
   const CHIPS = ["Strengthen summary", "Add keywords", "Sharpen bullets"];
 
   const toggleSection = (id: string) =>
     setSections((prev) => prev.map((s) => s.id === id ? { ...s, expanded: !s.expanded } : s));
 
+  const startEditLabel = (section: Section) => {
+    setEditingLabelId(section.id);
+    setEditingLabelVal(section.label);
+  };
+  const commitLabel = () => {
+    if (editingLabelId && editingLabelVal.trim()) {
+      setSections((prev) => prev.map((s) => s.id === editingLabelId ? { ...s, label: editingLabelVal.trim() } : s));
+    }
+    setEditingLabelId(null);
+  };
+  const deleteSection = (id: string) =>
+    setSections((prev) => prev.filter((s) => s.id !== id));
+
+  const updateExp = (id: string, field: keyof Omit<ExpEntry, "id" | "bullets">, val: string) =>
+    setExperiences((prev) => prev.map((e) => e.id === id ? { ...e, [field]: val } : e));
+  const updateExpBullets = (id: string, raw: string) =>
+    setExperiences((prev) => prev.map((e) => e.id === id ? { ...e, bullets: raw.split("\n") } : e));
+  const updateEdu = (id: string, field: keyof Omit<EduEntry, "id">, val: string) =>
+    setEducation((prev) => prev.map((e) => e.id === id ? { ...e, [field]: val } : e));
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(document.getElementById("resume-doc")?.innerText ?? "");
+    navigator.clipboard.writeText(resumeRef.current?.innerText ?? "");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -2351,11 +2392,19 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 60);
   };
 
+  const lineHeight = selectedSpacing === "Compact" ? "1.5" : selectedSpacing === "Relaxed" ? "2" : "1.75";
+  const fontFamily = selectedFont === "Geist Mono" ? "'Geist Mono', monospace" : selectedFont === "DM Mono" ? "'DM Mono', monospace" : selectedFont === "Manrope" ? "'Manrope', sans-serif" : "'Inter', sans-serif";
+
   const TABS: { key: RightTab; label: string }[] = [
     { key: "ai", label: "AI Rewrite" },
     { key: "editor", label: "Editor" },
     { key: "style", label: "Style" },
   ];
+
+  // shared field class
+  const F = "w-full text-[11.5px] text-foreground/75 bg-foreground/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-lg px-2.5 py-1.5 outline-none focus:ring-1 focus:ring-foreground/[0.18] transition-all";
+  const sectionLabel = (id: string) => sections.find((s) => s.id === id)?.label ?? id;
+  const sectionVisible = (id: string) => sections.some((s) => s.id === id);
 
   return (
     <div className="flex flex-col h-full">
@@ -2380,132 +2429,98 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
       {/* Two-column body */}
       <div className="flex flex-1 min-h-0">
 
-        {/* ── Left: Formatted Resume Document ── */}
+        {/* ── Left: Resume preview (state-driven) ── */}
         <div className="flex flex-col flex-1 min-w-0">
-          {/* Doc toolbar */}
+          {/* Toolbar */}
           <div className="flex items-center gap-1 px-4 py-2 border-b border-black/[0.05] dark:border-white/[0.05] flex-shrink-0">
-            <div className="flex items-center gap-1.5 text-foreground/38 cursor-default">
+            <div className="flex items-center gap-1.5 text-foreground/35 cursor-default select-none">
               <Info className="w-3 h-3 flex-shrink-0" />
-              <span className="text-[11px]">Click anywhere to edit</span>
+              <span className="text-[11px]">Edit sections using the Editor tab →</span>
             </div>
             <div className="flex-1" />
             <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/70 hover:bg-foreground/[0.05] transition-all text-[11px] font-medium group">
-              <RotateCcw className="w-3 h-3 group-hover:rotate-[-45deg] transition-transform duration-300" />
-              Regenerate
+              <RotateCcw className="w-3 h-3 group-hover:rotate-[-45deg] transition-transform duration-300" />Regenerate
             </button>
             <div className="w-px h-3.5 bg-black/[0.07] dark:bg-white/[0.07]" />
             <button onClick={handleCopy} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/70 hover:bg-foreground/[0.05] transition-all text-[11px] font-medium">
               <AnimatePresence mode="wait" initial={false}>
                 {copied ? (
-                  <motion.span key="check" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.14 }} className="flex items-center gap-1.5 text-emerald-500">
-                    <Check className="w-3 h-3" />Copied
-                  </motion.span>
+                  <motion.span key="check" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.14 }} className="flex items-center gap-1.5 text-emerald-500"><Check className="w-3 h-3" />Copied</motion.span>
                 ) : (
-                  <motion.span key="copy" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.14 }} className="flex items-center gap-1.5">
-                    <Copy className="w-3 h-3" />Copy
-                  </motion.span>
+                  <motion.span key="copy" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.14 }} className="flex items-center gap-1.5"><Copy className="w-3 h-3" />Copy</motion.span>
                 )}
               </AnimatePresence>
             </button>
           </div>
 
-          {/* Scrollable resume area */}
+          {/* Resume paper */}
           <div className="flex-1 overflow-y-auto bg-[#F7F5F2] dark:bg-[#161210] px-5 py-5">
-            {/* Paper card */}
-            <div
-              id="resume-doc"
-              contentEditable
-              suppressContentEditableWarning
-              className="bg-white dark:bg-[#1C1814] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.35)] px-8 py-7 outline-none cursor-text focus:ring-1 focus:ring-foreground/10 transition-shadow min-h-[520px]"
-              style={{ fontFamily: "'Inter', 'Manrope', sans-serif" }}
-            >
-              {/* Name */}
-              <div className="text-center mb-1" contentEditable={false} style={{ pointerEvents: "none" }}>
-                <p className="text-[20px] font-bold tracking-tight text-foreground leading-tight">Matt Carter</p>
-              </div>
-              {/* Contact */}
-              <p className="text-[10.5px] text-foreground/55 text-center mb-5 leading-relaxed">
-                matt@gmail.com&nbsp;&nbsp;·&nbsp;&nbsp;linkedin.com/in/mattcarter&nbsp;&nbsp;·&nbsp;&nbsp;mattcarter.design
+            <div ref={resumeRef} className="bg-white dark:bg-[#1C1814] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.35)] px-8 py-7 min-h-[520px]" style={{ fontFamily, lineHeight }}>
+              {/* Name & contact */}
+              <p className="text-[20px] font-bold tracking-tight text-center text-foreground leading-tight">{personalInfo.name}</p>
+              <p className="text-[10.5px] text-foreground/55 text-center mt-1 mb-5">
+                {personalInfo.email}&nbsp;&nbsp;·&nbsp;&nbsp;{personalInfo.linkedin}&nbsp;&nbsp;·&nbsp;&nbsp;{personalInfo.portfolio}
               </p>
 
-              {/* SUMMARY */}
-              <div className="mb-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.09em] text-foreground/60 mb-1">Summary</p>
-                <hr className="border-foreground/15 mb-2" />
-                <p className="text-[11.5px] text-foreground/80 leading-[1.75]">
-                  Senior Product Designer with 5+ years crafting B2B and consumer products at scale. Known for translating complex requirements into elegant, measurable experiences — directly aligned with {job.company}'s focus on craft and product thinking. Drove 32% task-completion gains and 40% onboarding improvement through research-led iteration.
-                </p>
-              </div>
-
-              {/* EXPERIENCE */}
-              <div className="mb-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.09em] text-foreground/60 mb-1">Experience</p>
-                <hr className="border-foreground/15 mb-3" />
-
-                {/* Role 1 */}
-                <div className="mb-3.5">
-                  <div className="flex items-baseline justify-between gap-2">
-                    <p className="text-[12px] font-semibold text-foreground leading-snug">NovaTech Labs</p>
-                    <p className="text-[10.5px] text-foreground/45 whitespace-nowrap flex-shrink-0">Jul 2021 – Present</p>
-                  </div>
-                  <p className="text-[11px] text-foreground/55 italic mb-1.5">Lead Product Designer</p>
-                  <ul className="space-y-0.5 pl-3.5">
-                    {[
-                      "Led end-to-end design for a B2B dashboard serving 50K+ daily active users",
-                      `Improved task completion by 32% through rapid prototyping and usability testing — a methodology directly applicable to ${job.role}`,
-                      "Redesigned onboarding flow, cutting drop-offs by 40% and lifting 30-day activation",
-                      "Built and maintained a scalable design system spanning 3 product lines",
-                    ].map((b, i) => (
-                      <li key={i} className="text-[11.5px] text-foreground/72 leading-[1.7] list-disc list-outside ml-1">{b}</li>
-                    ))}
-                  </ul>
+              {/* Summary */}
+              {sectionVisible("summary") && (
+                <div className="mb-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.09em] mb-1" style={{ color: selectedAccent }}>{sectionLabel("summary")}</p>
+                  <hr className="border-foreground/15 mb-2" />
+                  <p className="text-[11.5px] text-foreground/80">{summary}</p>
                 </div>
+              )}
 
-                {/* Role 2 */}
-                <div className="mb-1">
-                  <div className="flex items-baseline justify-between gap-2">
-                    <p className="text-[12px] font-semibold text-foreground leading-snug">PixelForge Studio</p>
-                    <p className="text-[10.5px] text-foreground/45 whitespace-nowrap flex-shrink-0">Jan 2019 – Jun 2021</p>
-                  </div>
-                  <p className="text-[11px] text-foreground/55 italic mb-1.5">Product Designer</p>
-                  <ul className="space-y-0.5 pl-3.5">
-                    {[
-                      "Designed mobile-first products for fintech and edtech reaching 1M+ users",
-                      "Improved conversion by 22% through A/B testing and iterative usability research",
-                      "Partnered cross-functionally with PM, engineering, and marketing teams",
-                    ].map((b, i) => (
-                      <li key={i} className="text-[11.5px] text-foreground/72 leading-[1.7] list-disc list-outside ml-1">{b}</li>
-                    ))}
-                  </ul>
+              {/* Experience */}
+              {sectionVisible("experience") && (
+                <div className="mb-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.09em] mb-1" style={{ color: selectedAccent }}>{sectionLabel("experience")}</p>
+                  <hr className="border-foreground/15 mb-3" />
+                  {experiences.map((exp, i) => (
+                    <div key={exp.id} className={i < experiences.length - 1 ? "mb-3.5" : ""}>
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="text-[12px] font-semibold text-foreground leading-snug">{exp.company}</p>
+                        <p className="text-[10.5px] text-foreground/45 whitespace-nowrap flex-shrink-0">{exp.dates}</p>
+                      </div>
+                      <p className="text-[11px] text-foreground/55 italic mb-1.5">{exp.title}</p>
+                      <ul className="space-y-0.5 pl-3.5">
+                        {exp.bullets.filter(Boolean).map((b, bi) => (
+                          <li key={bi} className="text-[11.5px] text-foreground/72 leading-[1.7] list-disc list-outside ml-1">{b}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
 
-              {/* EDUCATION */}
-              <div className="mb-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.09em] text-foreground/60 mb-1">Education</p>
-                <hr className="border-foreground/15 mb-2" />
-                <div className="flex items-baseline justify-between">
-                  <div>
-                    <p className="text-[11.5px] font-semibold text-foreground">Rhode Island School of Design</p>
-                    <p className="text-[11px] text-foreground/55 italic">BFA, Graphic Design</p>
-                  </div>
-                  <p className="text-[10.5px] text-foreground/45 whitespace-nowrap">Jan 2015 – May 2019</p>
+              {/* Education */}
+              {sectionVisible("education") && (
+                <div className="mb-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.09em] mb-1" style={{ color: selectedAccent }}>{sectionLabel("education")}</p>
+                  <hr className="border-foreground/15 mb-2" />
+                  {education.map((edu) => (
+                    <div key={edu.id} className="flex items-baseline justify-between gap-2">
+                      <div>
+                        <p className="text-[11.5px] font-semibold text-foreground">{edu.school}</p>
+                        <p className="text-[11px] text-foreground/55 italic">{edu.degree}</p>
+                      </div>
+                      <p className="text-[10.5px] text-foreground/45 whitespace-nowrap flex-shrink-0">{edu.dates}</p>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
 
-              {/* SKILLS */}
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.09em] text-foreground/60 mb-1">Skills</p>
-                <hr className="border-foreground/15 mb-2" />
-                <p className="text-[11.5px] text-foreground/72 leading-[1.75]">
-                  <strong className="font-semibold text-foreground/80">Design:</strong> Figma, Prototyping, Design Systems, Interaction Design, Design Tokens<br />
-                  <strong className="font-semibold text-foreground/80">Research:</strong> User Research, Usability Testing, A/B Testing<br />
-                  <strong className="font-semibold text-foreground/80">Collaboration:</strong> Cross-functional Leadership, Component Libraries, Agile / Scrum
-                </p>
-              </div>
+              {/* Skills */}
+              {sectionVisible("skills") && (
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.09em] mb-1" style={{ color: selectedAccent }}>{sectionLabel("skills")}</p>
+                  <hr className="border-foreground/15 mb-2" />
+                  {skills.split("\n").filter(Boolean).map((line, i) => (
+                    <p key={i} className="text-[11.5px] text-foreground/72">{line}</p>
+                  ))}
+                </div>
+              )}
             </div>
-
-            {/* Page counter */}
             <div className="flex items-center justify-center mt-3">
               <span className="text-[11px] text-foreground/25 font-medium tracking-wide">1 / 1</span>
             </div>
@@ -2513,7 +2528,7 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
 
           {/* Left footer */}
           <div className="px-5 py-3.5 border-t border-black/[0.06] dark:border-white/[0.06] flex gap-2.5 flex-shrink-0">
-            <button className="flex-1 flex items-center justify-center gap-2 h-9 rounded-full border border-black/[0.12] dark:border-white/[0.12] text-foreground/60 hover:text-foreground hover:border-black/[0.20] dark:hover:border-white/[0.20] text-[12.5px] font-medium transition-colors">
+            <button className="flex-1 flex items-center justify-center gap-2 h-9 rounded-full border border-black/[0.12] dark:border-white/[0.12] text-foreground/60 hover:text-foreground hover:border-black/[0.20] text-[12.5px] font-medium transition-colors">
               <Download className="w-3.5 h-3.5" />Download
             </button>
             <button className="flex-1 flex items-center justify-center gap-2 h-9 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[12.5px] font-semibold hover:opacity-80 transition-opacity">
@@ -2525,39 +2540,27 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
         {/* Vertical divider */}
         <div className="w-px bg-black/[0.06] dark:bg-white/[0.06] flex-shrink-0" />
 
-        {/* ── Right: Tabbed Panel ── */}
+        {/* ── Right: Tabbed panel ── */}
         <div className="w-[294px] flex-shrink-0 flex flex-col bg-[#F4F1EC] dark:bg-[#131008]">
-
           {/* Tab bar */}
           <div className="flex items-center px-3 pt-3 pb-0 gap-0.5 flex-shrink-0">
             {TABS.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setRightTab(tab.key)}
-                className={`flex-1 py-2 text-[11.5px] font-semibold rounded-t-lg transition-all ${
-                  rightTab === tab.key
-                    ? "bg-white dark:bg-[#1E1A16] text-foreground/85 shadow-[0_-1px_0_0_rgba(0,0,0,0.04)] border border-black/[0.07] dark:border-white/[0.07] border-b-0"
-                    : "text-foreground/40 hover:text-foreground/65"
-                }`}
-              >
-                {tab.label}
-              </button>
+              <button key={tab.key} onClick={() => setRightTab(tab.key)}
+                className={`flex-1 py-2 text-[11.5px] font-semibold rounded-t-lg transition-all ${rightTab === tab.key ? "bg-white dark:bg-[#1E1A16] text-foreground/85 border border-black/[0.07] dark:border-white/[0.07] border-b-0" : "text-foreground/40 hover:text-foreground/65"}`}
+              >{tab.label}</button>
             ))}
           </div>
           <div className="h-px bg-black/[0.07] dark:bg-white/[0.07] flex-shrink-0" />
 
-          {/* Tab content */}
           <AnimatePresence mode="wait" initial={false}>
+
+            {/* ── AI Rewrite tab ── */}
             {rightTab === "ai" && (
               <motion.div key="ai" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.14 }} className="flex flex-col flex-1 min-h-0">
                 <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2">
                   {messages.map((msg, i) => (
                     <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                      <div className={`max-w-[90%] px-3.5 py-2.5 text-[12px] leading-[1.65] ${
-                        msg.role === "ai"
-                          ? "bg-white dark:bg-[#1E1B16] border border-black/[0.06] dark:border-white/[0.06] text-foreground/75 rounded-2xl rounded-tl-sm"
-                          : "bg-[#1A1A1A] dark:bg-[#E8E3DC] text-white dark:text-[#1A1A1A] rounded-2xl rounded-tr-sm"
-                      }`}>
+                      <div className={`max-w-[90%] px-3.5 py-2.5 text-[12px] leading-[1.65] ${msg.role === "ai" ? "bg-white dark:bg-[#1E1B16] border border-black/[0.06] dark:border-white/[0.06] text-foreground/75 rounded-2xl rounded-tl-sm" : "bg-[#1A1A1A] dark:bg-[#E8E3DC] text-white dark:text-[#1A1A1A] rounded-2xl rounded-tr-sm"}`}>
                         {msg.text}
                       </div>
                     </div>
@@ -2568,7 +2571,7 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
                   <div className="flex flex-wrap gap-1">
                     {CHIPS.map((chip) => (
                       <button key={chip} onClick={() => { setAiInput(chip); inputRef.current?.focus(); }}
-                        className="text-[11px] text-foreground/50 hover:text-foreground/80 bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.07] rounded-full px-2.5 py-1 transition-colors hover:border-black/[0.14] dark:hover:border-white/[0.14] leading-none"
+                        className="text-[11px] text-foreground/50 hover:text-foreground/80 bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.07] rounded-full px-2.5 py-1 transition-colors hover:border-black/[0.14] leading-none"
                       >{chip}</button>
                     ))}
                   </div>
@@ -2588,6 +2591,7 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
               </motion.div>
             )}
 
+            {/* ── Editor tab ── */}
             {rightTab === "editor" && (
               <motion.div key="editor" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.14 }} className="flex flex-col flex-1 min-h-0 overflow-y-auto">
                 <div className="px-3 py-3 space-y-3">
@@ -2595,40 +2599,53 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
                   <div className="flex items-start gap-2.5 bg-amber-50 dark:bg-amber-400/10 border border-amber-200/70 dark:border-amber-400/20 rounded-xl px-3 py-2.5">
                     <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
                     <div className="space-y-1.5">
-                      <p className="text-[11px] leading-[1.6] text-amber-800 dark:text-amber-300">
-                        Section order changes will be saved. Other edits here apply only to this tailored resume.
-                      </p>
+                      <p className="text-[11px] leading-[1.6] text-amber-800 dark:text-amber-300">Changes here apply only to this tailored resume and update the preview instantly.</p>
                       <button className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-400/20 hover:bg-amber-200 dark:hover:bg-amber-400/30 border border-amber-300/60 dark:border-amber-400/30 rounded-lg px-2.5 py-1 transition-colors leading-none">
                         Edit Base Resume
                       </button>
                     </div>
                   </div>
 
-                  {/* Sections list */}
-                  <div className="space-y-1">
+                  {/* Sections */}
+                  <div className="space-y-2.5">
                     {sections.map((section) => (
                       <div key={section.id} className="bg-white dark:bg-[#1E1A16] border border-black/[0.06] dark:border-white/[0.05] rounded-xl overflow-hidden">
-                        {/* Section row */}
+                        {/* Header row */}
                         <div className="flex items-center gap-2 px-2.5 py-2.5">
-                          {/* Drag handle */}
                           <div className="cursor-grab active:cursor-grabbing text-foreground/20 hover:text-foreground/45 transition-colors flex-shrink-0">
                             <GripVertical className="w-3.5 h-3.5" />
                           </div>
-                          {/* Label */}
-                          <button
-                            onClick={() => toggleSection(section.id)}
-                            className="flex-1 text-left text-[12px] font-semibold text-foreground/75 hover:text-foreground/95 transition-colors leading-none"
-                          >
-                            {section.label}
-                          </button>
-                          {/* Actions */}
+
+                          {/* Inline label edit */}
+                          {editingLabelId === section.id ? (
+                            <input
+                              autoFocus
+                              value={editingLabelVal}
+                              onChange={(e) => setEditingLabelVal(e.target.value)}
+                              onBlur={commitLabel}
+                              onKeyDown={(e) => { if (e.key === "Enter") commitLabel(); if (e.key === "Escape") setEditingLabelId(null); }}
+                              className="flex-1 text-[12px] font-semibold bg-foreground/[0.04] border border-foreground/[0.12] rounded-md px-1.5 py-0.5 outline-none text-foreground/85"
+                            />
+                          ) : (
+                            <button onClick={() => toggleSection(section.id)} className="flex-1 text-left text-[12px] font-semibold text-foreground/75 hover:text-foreground/95 transition-colors leading-none">
+                              {section.label}
+                            </button>
+                          )}
+
                           <div className="flex items-center gap-1 flex-shrink-0">
-                            <button className="w-6 h-6 rounded-md flex items-center justify-center text-foreground/30 hover:text-foreground/65 hover:bg-foreground/[0.06] transition-colors">
+                            {/* Pencil = edit title */}
+                            <button
+                              onClick={() => startEditLabel(section)}
+                              title="Rename section"
+                              className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${editingLabelId === section.id ? "text-blue-500 bg-blue-50 dark:bg-blue-400/10" : "text-foreground/30 hover:text-foreground/65 hover:bg-foreground/[0.06]"}`}
+                            >
                               <Pencil className="w-3 h-3" />
                             </button>
-                            <button className="w-6 h-6 rounded-md flex items-center justify-center text-foreground/25 hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-400/10 transition-colors">
+                            {/* Trash = remove section */}
+                            <button onClick={() => deleteSection(section.id)} title="Remove section" className="w-6 h-6 rounded-md flex items-center justify-center text-foreground/25 hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-400/10 transition-colors">
                               <Trash2 className="w-3 h-3" />
                             </button>
+                            {/* Chevron = expand content */}
                             <button onClick={() => toggleSection(section.id)} className="w-6 h-6 rounded-md flex items-center justify-center text-foreground/30 hover:text-foreground/65 hover:bg-foreground/[0.06] transition-colors">
                               <motion.div animate={{ rotate: section.expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
                                 <ChevronDown className="w-3.5 h-3.5" />
@@ -2637,36 +2654,93 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
                           </div>
                         </div>
 
-                        {/* Expanded content */}
+                        {/* Expanded fields */}
                         <AnimatePresence initial={false}>
                           {section.expanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-                              className="overflow-hidden"
-                            >
-                              <div className="border-t border-black/[0.05] dark:border-white/[0.05] px-3 py-3">
+                            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }} className="overflow-hidden">
+                              <div className="border-t border-black/[0.05] dark:border-white/[0.05] px-3 py-3 space-y-2">
+
+                                {/* Personal Info */}
+                                {section.id === "personal" && (
+                                  <>
+                                    {(["name", "email", "linkedin", "portfolio"] as const).map((field) => (
+                                      <div key={field}>
+                                        <p className="text-[10px] text-foreground/40 font-medium mb-0.5 capitalize">{field}</p>
+                                        <input value={personalInfo[field]} onChange={(e) => setPersonalInfo((p) => ({ ...p, [field]: e.target.value }))} className={F} />
+                                      </div>
+                                    ))}
+                                  </>
+                                )}
+
+                                {/* Summary */}
                                 {section.id === "summary" && (
-                                  <textarea
-                                    defaultValue={`Senior Product Designer with 5+ years crafting B2B and consumer products at scale. Known for translating complex requirements into elegant, measurable experiences — directly aligned with ${job.company}'s focus on craft and product thinking.`}
-                                    rows={5}
-                                    className="w-full text-[11.5px] text-foreground/72 leading-[1.7] bg-foreground/[0.03] border border-black/[0.06] dark:border-white/[0.05] rounded-lg px-3 py-2.5 resize-none outline-none focus:ring-1 focus:ring-foreground/15 transition-all placeholder:text-foreground/30"
+                                  <textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={6}
+                                    className={`${F} resize-none`}
                                   />
                                 )}
-                                {section.id === "personal" && (
-                                  <div className="space-y-2">
-                                    {[["Name", "Matt Carter"], ["Email", "matt@gmail.com"], ["LinkedIn", "linkedin.com/in/mattcarter"], ["Portfolio", "mattcarter.design"]].map(([label, val]) => (
-                                      <div key={label}>
-                                        <p className="text-[10px] text-foreground/40 font-medium mb-0.5">{label}</p>
-                                        <input defaultValue={val} className="w-full text-[11.5px] text-foreground/75 bg-foreground/[0.03] border border-black/[0.06] dark:border-white/[0.05] rounded-lg px-2.5 py-1.5 outline-none focus:ring-1 focus:ring-foreground/15 transition-all" />
+
+                                {/* Experience */}
+                                {section.id === "experience" && (
+                                  <div className="space-y-4">
+                                    {experiences.map((exp, idx) => (
+                                      <div key={exp.id} className="space-y-2">
+                                        {idx > 0 && <div className="h-px bg-black/[0.05] dark:bg-white/[0.05]" />}
+                                        <p className="text-[10px] font-semibold text-foreground/40 uppercase tracking-wide">Role {idx + 1}</p>
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Company</p>
+                                          <input value={exp.company} onChange={(e) => updateExp(exp.id, "company", e.target.value)} className={F} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Title</p>
+                                          <input value={exp.title} onChange={(e) => updateExp(exp.id, "title", e.target.value)} className={F} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Dates</p>
+                                          <input value={exp.dates} onChange={(e) => updateExp(exp.id, "dates", e.target.value)} className={F} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Bullet points (one per line)</p>
+                                          <textarea value={exp.bullets.join("\n")} onChange={(e) => updateExpBullets(exp.id, e.target.value)} rows={4} className={`${F} resize-none`} />
+                                        </div>
                                       </div>
                                     ))}
                                   </div>
                                 )}
-                                {!["summary", "personal"].includes(section.id) && (
-                                  <p className="text-[11px] text-foreground/40 italic">Click the pencil icon to edit this section in detail.</p>
+
+                                {/* Education */}
+                                {section.id === "education" && (
+                                  <div className="space-y-4">
+                                    {education.map((edu, idx) => (
+                                      <div key={edu.id} className="space-y-2">
+                                        {idx > 0 && <div className="h-px bg-black/[0.05] dark:bg-white/[0.05]" />}
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">School</p>
+                                          <input value={edu.school} onChange={(e) => updateEdu(edu.id, "school", e.target.value)} className={F} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Degree</p>
+                                          <input value={edu.degree} onChange={(e) => updateEdu(edu.id, "degree", e.target.value)} className={F} />
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Dates</p>
+                                          <input value={edu.dates} onChange={(e) => updateEdu(edu.id, "dates", e.target.value)} className={F} />
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+
+                                {/* Skills */}
+                                {section.id === "skills" && (
+                                  <div>
+                                    <p className="text-[10px] text-foreground/40 font-medium mb-0.5">Skills (one category per line)</p>
+                                    <textarea value={skills} onChange={(e) => setSkills(e.target.value)} rows={5} className={`${F} resize-none`} />
+                                  </div>
+                                )}
+
+                                {/* Volunteering / other */}
+                                {section.id === "volunteering" && (
+                                  <textarea placeholder="Add volunteering details…" rows={4} className={`${F} resize-none`} />
                                 )}
                               </div>
                             </motion.div>
@@ -2676,7 +2750,6 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
                     ))}
                   </div>
 
-                  {/* Add section */}
                   <button className="w-full flex items-center justify-center gap-2 h-9 rounded-xl border border-dashed border-black/[0.12] dark:border-white/[0.12] text-foreground/40 hover:text-foreground/65 hover:border-black/[0.22] dark:hover:border-white/[0.22] text-[12px] font-medium transition-colors">
                     <Plus className="w-3.5 h-3.5" />Add section
                   </button>
@@ -2684,45 +2757,44 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
               </motion.div>
             )}
 
+            {/* ── Style tab ── */}
             {rightTab === "style" && (
               <motion.div key="style" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.14 }} className="flex flex-col flex-1 min-h-0 overflow-y-auto">
-                <div className="px-3 py-4 space-y-4">
-                  {/* Font */}
+                <div className="px-3 py-4 space-y-5">
                   <div>
                     <p className="text-[10.5px] font-semibold text-foreground/45 uppercase tracking-[0.07em] mb-2">Font</p>
                     <div className="grid grid-cols-2 gap-1.5">
-                      {["Inter", "Manrope", "Geist Mono", "DM Mono"].map((font, i) => (
-                        <button key={font} className={`h-9 rounded-xl border text-[11.5px] font-medium transition-colors ${i === 0 ? "border-foreground/30 dark:border-white/30 bg-white dark:bg-[#1E1A16] text-foreground/80" : "border-black/[0.07] dark:border-white/[0.07] text-foreground/45 hover:text-foreground/70 hover:border-black/[0.14] bg-white dark:bg-[#1E1A16]"}`}>
-                          {font}
-                        </button>
+                      {["Inter", "Manrope", "Geist Mono", "DM Mono"].map((font) => (
+                        <button key={font} onClick={() => setSelectedFont(font)}
+                          className={`h-9 rounded-xl border text-[11.5px] font-medium transition-colors ${selectedFont === font ? "border-foreground/35 bg-white dark:bg-[#1E1A16] text-foreground/85" : "border-black/[0.07] dark:border-white/[0.07] text-foreground/45 hover:text-foreground/70 hover:border-black/[0.14] bg-white dark:bg-[#1E1A16]"}`}
+                        >{font}</button>
                       ))}
                     </div>
                   </div>
 
-                  {/* Spacing */}
                   <div>
                     <p className="text-[10.5px] font-semibold text-foreground/45 uppercase tracking-[0.07em] mb-2">Line Spacing</p>
                     <div className="flex gap-1.5">
-                      {["Compact", "Normal", "Relaxed"].map((s, i) => (
-                        <button key={s} className={`flex-1 h-8 rounded-xl border text-[11px] font-medium transition-colors ${i === 1 ? "border-foreground/30 dark:border-white/30 bg-white dark:bg-[#1E1A16] text-foreground/80" : "border-black/[0.07] dark:border-white/[0.07] text-foreground/45 hover:text-foreground/70 bg-white dark:bg-[#1E1A16]"}`}>
-                          {s}
-                        </button>
+                      {["Compact", "Normal", "Relaxed"].map((s) => (
+                        <button key={s} onClick={() => setSelectedSpacing(s)}
+                          className={`flex-1 h-8 rounded-xl border text-[11px] font-medium transition-colors ${selectedSpacing === s ? "border-foreground/35 bg-white dark:bg-[#1E1A16] text-foreground/85" : "border-black/[0.07] dark:border-white/[0.07] text-foreground/45 hover:text-foreground/70 bg-white dark:bg-[#1E1A16]"}`}
+                        >{s}</button>
                       ))}
                     </div>
                   </div>
 
-                  {/* Accent color */}
                   <div>
-                    <p className="text-[10.5px] font-semibold text-foreground/45 uppercase tracking-[0.07em] mb-2">Accent</p>
-                    <div className="flex gap-2">
-                      {["#1A1A1A", "#2563EB", "#16A34A", "#9333EA", "#DC2626"].map((color, i) => (
-                        <button key={color} style={{ backgroundColor: color }} className={`w-7 h-7 rounded-full transition-all ${i === 0 ? "ring-2 ring-offset-2 ring-foreground/50 dark:ring-offset-[#131008]" : "hover:scale-110"}`} />
+                    <p className="text-[10.5px] font-semibold text-foreground/45 uppercase tracking-[0.07em] mb-2">Section Header Colour</p>
+                    <div className="flex gap-2 flex-wrap">
+                      {["#1A1A1A", "#2563EB", "#16A34A", "#9333EA", "#DC2626", "#D97706"].map((color) => (
+                        <button key={color} onClick={() => setSelectedAccent(color)} style={{ backgroundColor: color }}
+                          className={`w-7 h-7 rounded-full transition-all ${selectedAccent === color ? "ring-2 ring-offset-2 ring-foreground/50 dark:ring-offset-[#131008] scale-110" : "hover:scale-110"}`}
+                        />
                       ))}
                     </div>
                   </div>
 
-                  {/* Fit to page */}
-                  <div className="pt-1">
+                  <div>
                     <button className="w-full flex items-center justify-center gap-2 h-9 rounded-xl bg-white dark:bg-[#1E1A16] border border-black/[0.08] dark:border-white/[0.07] text-foreground/60 hover:text-foreground/85 text-[12px] font-medium transition-colors">
                       <Maximize2 className="w-3.5 h-3.5" />Fit to one page
                     </button>
@@ -2730,6 +2802,7 @@ function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
                 </div>
               </motion.div>
             )}
+
           </AnimatePresence>
         </div>
       </div>
