@@ -1868,8 +1868,6 @@ I've also built scalable design systems and cross-product experiences. At PixelF
 Thank you for your time. I'd welcome the opportunity to discuss how I can contribute to ${job.company}.
 
 Matt Carter`);
-  const [isEditing, setIsEditing] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleAiEdit = (e: React.FormEvent) => {
@@ -1908,41 +1906,21 @@ Matt Carter`);
         <div className="px-5 py-5">
           <div className="relative bg-white dark:bg-[#1E1A16] border border-black/[0.08] dark:border-white/[0.06] rounded-xl shadow-[0_2px_16px_0_rgba(0,0,0,0.06)] dark:shadow-[0_2px_16px_0_rgba(0,0,0,0.3)] overflow-hidden">
             {/* Top bar */}
-            <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-black/[0.05] dark:border-white/[0.05]">
+            <div className="flex items-center px-5 pt-4 pb-3 border-b border-black/[0.05] dark:border-white/[0.05]">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span className="text-[11px] font-medium text-foreground/35">Ready to send</span>
               </div>
-              <button
-                onClick={() => {
-                  setIsEditing(!isEditing);
-                  if (!isEditing) setTimeout(() => textareaRef.current?.focus(), 50);
-                }}
-                className="flex items-center gap-1.5 text-[11px] font-medium text-foreground/40 hover:text-foreground/70 transition-colors px-2.5 py-1 rounded-md hover:bg-foreground/[0.05]"
-              >
-                <PenLine className="w-3 h-3" />
-                {isEditing ? "Done" : "Edit"}
-              </button>
             </div>
 
             {/* Letter body */}
             <div className="px-6 py-5">
-              {isEditing ? (
-                <textarea
-                  ref={textareaRef}
-                  value={coverText}
-                  onChange={(e) => setCoverText(e.target.value)}
-                  className="w-full text-[13px] leading-[1.85] text-foreground/80 bg-transparent resize-none outline-none min-h-[380px] font-[Georgia,serif]"
-                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-                />
-              ) : (
-                <div
-                  className="text-[13px] leading-[1.85] text-foreground/80 whitespace-pre-wrap select-text"
-                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-                >
-                  {coverText}
-                </div>
-              )}
+              <div
+                className="text-[13px] leading-[1.85] text-foreground/80 whitespace-pre-wrap select-text"
+                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+              >
+                {coverText}
+              </div>
             </div>
 
             {/* Page indicator */}
@@ -2043,10 +2021,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
           {panelView === "coverLetter" ? (
             <motion.div
               key="coverLetter"
-              initial={{ x: "100%", opacity: 0 }}
+              initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
-              transition={{ type: "spring", stiffness: 380, damping: 38, mass: 0.8 }}
+              exit={{ x: 20, opacity: 0 }}
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
             >
               <CoverLetterView job={displayJob} onBack={() => setPanelView("job")} />
@@ -2054,10 +2032,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
           ) : (
             <motion.div
               key="job"
-              initial={{ x: "-8%", opacity: 0 }}
+              initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "-8%", opacity: 0 }}
-              transition={{ type: "spring", stiffness: 380, damping: 38, mass: 0.8 }}
+              exit={{ x: -20, opacity: 0 }}
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute inset-0 flex flex-col"
             >
               {/* Header */}
