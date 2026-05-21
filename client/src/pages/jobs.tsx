@@ -2036,13 +2036,24 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   const scrollRef = useRef<HTMLDivElement>(null);
   const mockInterviewsRef = useRef<HTMLDivElement>(null);
   const [panelView, setPanelView] = useState<"job" | "coverLetter">("job");
+  const [panelExpanded, setPanelExpanded] = useState(false);
+
+  const openCoverLetter = () => {
+    setPanelExpanded(true);
+    setPanelView("coverLetter");
+  };
+
+  const closeCoverLetter = () => {
+    setPanelView("job");
+    // width shrinks only after the exit animation finishes (see onExitComplete)
+  };
 
   useEffect(() => {
-    if (!open) setPanelView("job");
+    if (!open) { setPanelView("job"); setPanelExpanded(false); }
   }, [open]);
 
   useEffect(() => {
-    setPanelView("job");
+    setPanelView("job"); setPanelExpanded(false);
   }, [job?.id]);
 
   const scrollToMockInterviews = () => {
@@ -2058,11 +2069,17 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()} modal={false}>
       <SheetContent
-        className={`inset-y-3 right-3 h-[calc(100vh-24px)] rounded-2xl shadow-2xl !border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] p-0 flex flex-col overflow-hidden transition-[width] duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${panelView === "coverLetter" ? "!w-[880px] !max-w-[880px]" : "!w-[560px] !max-w-[560px]"}`}
+        className={`inset-y-3 right-3 h-[calc(100vh-24px)] rounded-2xl shadow-2xl !border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] p-0 flex flex-col overflow-hidden transition-[width] duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${panelExpanded ? "!w-[880px] !max-w-[880px]" : "!w-[560px] !max-w-[560px]"}`}
         hasOverlay={false}
         onInteractOutside={(e) => e.preventDefault()}
       >
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+          onExitComplete={() => {
+            if (panelView === "job") setPanelExpanded(false);
+          }}
+        >
           {panelView === "coverLetter" ? (
             <motion.div
               key="coverLetter"
@@ -2072,7 +2089,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
               transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
             >
-              <CoverLetterView job={displayJob} onBack={() => setPanelView("job")} />
+              <CoverLetterView job={displayJob} onBack={closeCoverLetter} />
             </motion.div>
           ) : (
             <motion.div
@@ -2188,7 +2205,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 
                       {/* Cover letter — opens nested view */}
                       <button
-                        onClick={() => setPanelView("coverLetter")}
+                        onClick={openCoverLetter}
                         className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left"
                       >
                         <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
