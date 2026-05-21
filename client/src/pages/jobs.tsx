@@ -1878,7 +1878,7 @@ function CoverLetterGeneratingView({
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const totalDuration = 3800;
+    const totalDuration = 6200;
     const interval = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
@@ -1944,7 +1944,7 @@ function CoverLetterGeneratingView({
           transition={{ duration: 0.55, ease: [0.34, 1.3, 0.64, 1] }}
           className="orb-spinning relative z-10"
         >
-          <ColorOrb dimension="108px" spinDuration={4} />
+          <ColorOrb dimension="72px" spinDuration={4} />
         </motion.div>
 
         {/* Cycling text */}
