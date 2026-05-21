@@ -2075,10 +2075,10 @@ Matt Carter`);
           <div className="flex-1 overflow-y-auto px-5 py-5">
             <div className="bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] overflow-hidden">
               <div className="flex items-center gap-1.5 px-3.5 pt-3 pb-2.5 border-b border-black/[0.04] dark:border-white/[0.04]">
-                <div className="group/info relative flex items-center gap-1.5 text-foreground/30 hover:text-foreground/50 transition-colors cursor-default px-1">
+                <div className="flex items-center gap-1.5 text-foreground/45 cursor-default">
                   <Info className="w-3 h-3 flex-shrink-0" />
-                  <span className="text-[11px]">Click the letter to edit</span>
-                  </div>
+                  <span className="text-[11.5px]">You can manually edit by clicking and typing below</span>
+                </div>
                 <div className="flex-1" />
                 <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.05] transition-all text-[11.5px] font-medium group">
                   <RotateCcw className="w-3 h-3 group-hover:rotate-[-45deg] transition-transform duration-300" />
