@@ -2433,9 +2433,9 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                           <div className="w-5 h-5 rounded-md bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
                             <Mail className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                           </div>
-                          <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">View Cover Letter</span>
-                          <span className="text-[11px] text-foreground/40 leading-none flex-shrink-0">
-                            Updated {coverLetterDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          <span className="flex-1 flex items-center gap-1.5 min-w-0">
+                            <span className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">View Cover Letter</span>
+                            <span className="text-[11px] text-foreground/40 leading-none">· {coverLetterDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
                           </span>
                           <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
                             <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
