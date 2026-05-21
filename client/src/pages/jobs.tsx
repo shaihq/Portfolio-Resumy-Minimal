@@ -2069,10 +2069,16 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()} modal={false}>
       <SheetContent
-        className={`inset-y-3 right-3 h-[calc(100vh-24px)] rounded-2xl shadow-2xl !border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] p-0 flex flex-col overflow-hidden transition-[width] duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${panelExpanded ? "!w-[880px] !max-w-[880px]" : "!w-[560px] !max-w-[560px]"}`}
+        className="inset-y-3 right-3 h-[calc(100vh-24px)] !w-[880px] !max-w-[880px] !bg-transparent !border-0 !shadow-none !rounded-none !p-0 overflow-hidden pointer-events-none"
         hasOverlay={false}
         onInteractOutside={(e) => e.preventDefault()}
       >
+        <motion.div
+          initial={false}
+          animate={{ width: panelExpanded ? 880 : 560 }}
+          transition={{ duration: 0.38, ease: [0.4, 0, 0.2, 1] }}
+          className="absolute top-0 right-0 h-full rounded-2xl shadow-2xl border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] flex flex-col overflow-hidden pointer-events-auto"
+        >
         <AnimatePresence
           mode="wait"
           initial={false}
@@ -2083,10 +2089,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
           {panelView === "coverLetter" ? (
             <motion.div
               key="coverLetter"
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 20, opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
             >
               <CoverLetterView job={displayJob} onBack={closeCoverLetter} />
@@ -2094,10 +2100,10 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
           ) : (
             <motion.div
               key="job"
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute inset-0 flex flex-col"
             >
               {/* Header */}
@@ -2327,6 +2333,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
             </motion.div>
           )}
         </AnimatePresence>
+        </motion.div>
       </SheetContent>
     </Sheet>
   );
