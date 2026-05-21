@@ -2231,6 +2231,268 @@ Matt Carter`);
   );
 }
 
+// ─── Resume Generating View ────────────────────────────────────────────────
+function ResumeGeneratingView({ job, onComplete, onBack }: { job: Job; onComplete: () => void; onBack: () => void }) {
+  const PHRASES = [
+    "Scanning your experience",
+    "Mapping to job requirements",
+    "Highlighting key achievements",
+    "Adjusting impact metrics",
+    "Strengthening keywords",
+    "Optimising your summary",
+    "Finalising your resume",
+  ];
+
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setPhraseIndex((i) => (i + 1) % PHRASES.length);
+        setVisible(true);
+      }, 280);
+    }, 900);
+    const done = setTimeout(() => {
+      clearInterval(interval);
+      onComplete();
+    }, 6200);
+    return () => { clearInterval(interval); clearTimeout(done); };
+  }, [onComplete]);
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="px-4 flex-shrink-0 flex items-center gap-3 h-[65px] border-b border-black/[0.08] dark:border-white/[0.08]">
+        <button onClick={onBack} className="flex items-center gap-1.5 text-foreground/45 hover:text-foreground/75 transition-colors group -ml-1">
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-[13px]">{job.role}</span>
+        </button>
+        <div className="h-3.5 w-px bg-black/[0.10] dark:bg-white/[0.10]" />
+        <span className="text-[13px] font-semibold text-foreground/80">Tailored Resume</span>
+        <div className="ml-auto flex items-center gap-2">
+          <div className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0" style={{ backgroundColor: job.logoColor }}>{job.logoLetter}</div>
+          <span className="text-[12px] text-foreground/40">{job.company}</span>
+        </div>
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center gap-8 px-8 relative overflow-hidden">
+        <div className="absolute pointer-events-none" style={{ width: 340, height: 340, borderRadius: "50%", background: "radial-gradient(circle, oklch(62% 0.18 240 / 0.08) 0%, oklch(66% 0.17 260 / 0.06) 40%, transparent 70%)", filter: "blur(40px)" }} />
+        <motion.div initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.55, ease: [0.34, 1.3, 0.64, 1] }} className="orb-spinning relative z-10">
+          <ColorOrb dimension="72px" spinDuration={4} />
+        </motion.div>
+        <div className="flex flex-col items-center gap-2 z-10">
+          <div className="h-7 flex items-center justify-center overflow-hidden">
+            <AnimatePresence mode="wait">
+              {visible && (
+                <motion.p key={phraseIndex} initial={{ opacity: 0, y: 8, filter: "blur(4px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: -8, filter: "blur(4px)" }} transition={{ duration: 0.26, ease: "easeOut" }}
+                  className="text-[15px] font-semibold tracking-tight whitespace-nowrap"
+                  style={{ background: "linear-gradient(110deg, hsl(var(--foreground)) 20%, hsl(var(--muted-foreground)) 55%, hsl(var(--foreground)) 80%)", backgroundSize: "200% 100%", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "thinking-shimmer 2.6s linear infinite" }}
+                >
+                  {PHRASES[phraseIndex]}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+          <p className="text-[12px] text-foreground/35 leading-snug text-center max-w-[220px]">Tailoring your resume for the {job.role} role at {job.company}</p>
+          <div className="flex items-center gap-1.5 mt-1">
+            {[0, 1, 2].map((i) => (
+              <motion.div key={i} className="w-1.5 h-1.5 rounded-full bg-foreground/25"
+                animate={{ opacity: [0.25, 1, 0.25], scale: [0.8, 1.2, 0.8] }}
+                transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.22, ease: "easeInOut" }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Tailored Resume View ──────────────────────────────────────────────────
+function TailoredResumeView({ job, onBack }: { job: Job; onBack: () => void }) {
+  type ChatMsg = { role: "ai" | "user"; text: string };
+  const [messages, setMessages] = useState<ChatMsg[]>([
+    { role: "ai", text: `Your resume has been tailored for the ${job.role} role at ${job.company}. I've matched your experience to the job requirements and strengthened your impact metrics. Want me to sharpen any section?` },
+  ]);
+  const [aiInput, setAiInput] = useState("");
+  const [copied, setCopied] = useState(false);
+  const resumeEditableRef = useRef<HTMLDivElement>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const CHIPS = ["Strengthen summary", "Add keywords", "Sharpen bullets"];
+
+  const resumeText = `MATT CARTER
+matt@gmail.com  ·  linkedin.com/in/mattcarter  ·  mattcarter.design
+
+SUMMARY
+Senior Product Designer with 5+ years crafting B2B and consumer products at scale. Known for translating complex requirements into elegant, measurable experiences — directly relevant to ${job.company}'s focus on craft and product thinking. Drove 32% task completion gains and 40% onboarding improvement through research-led iteration.
+
+EXPERIENCE
+
+Lead Product Designer  ·  NovaTech Labs  ·  2021–Present
+•  Led end-to-end design for a B2B dashboard used by 50K+ daily users
+•  Improved task completion by 32% through rapid prototyping and usability testing
+•  Redesigned onboarding flow, reducing drop-offs by 40% and increasing activation
+•  Built and maintained a scalable design system across 3 product lines
+
+Product Designer  ·  PixelForge Studio  ·  2019–2021
+•  Designed mobile-first products for fintech and edtech reaching 1M+ users
+•  Improved conversion by 22% through A/B testing and iterative usability research
+•  Partnered cross-functionally with PM, engineering, and marketing teams
+
+SKILLS
+Figma  ·  Prototyping  ·  Design Systems  ·  User Research  ·  A/B Testing  ·  Usability Testing  ·  Component Libraries  ·  Cross-functional Collaboration  ·  Design Tokens  ·  Interaction Design
+
+EDUCATION
+BFA Design  ·  Rhode Island School of Design  ·  2019`;
+
+  const handleCopy = () => {
+    const text = resumeEditableRef.current?.innerText ?? resumeText;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleSend = (text: string) => {
+    const msg = text.trim();
+    if (!msg) return;
+    setMessages((prev) => [...prev, { role: "user", text: msg }, { role: "ai", text: "On it — updating your resume to reflect that now." }]);
+    setAiInput("");
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 60);
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="px-4 flex-shrink-0 flex items-center gap-3 h-[65px] border-b border-black/[0.08] dark:border-white/[0.08]">
+        <button onClick={onBack} className="flex items-center gap-1.5 text-foreground/45 hover:text-foreground/75 transition-colors group -ml-1">
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-[13px]">{job.role}</span>
+        </button>
+        <div className="h-3.5 w-px bg-black/[0.10] dark:bg-white/[0.10]" />
+        <span className="text-[13px] font-semibold text-foreground/80">Tailored Resume</span>
+        <span className="flex items-center gap-1 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-2 py-0.5">
+          <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+          <span className="text-[10.5px] font-semibold text-amber-600 dark:text-amber-400">4 credits left</span>
+        </span>
+        <div className="ml-auto flex items-center gap-2">
+          <div className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0" style={{ backgroundColor: job.logoColor }}>{job.logoLetter}</div>
+          <span className="text-[12px] text-foreground/40">{job.company}</span>
+        </div>
+      </div>
+
+      {/* Two-column body */}
+      <div className="flex flex-1 min-h-0">
+        {/* ── Left: Resume preview ── */}
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex-1 overflow-y-auto px-5 py-5">
+            <div className="bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] overflow-hidden">
+              {/* Toolbar */}
+              <div className="flex items-center gap-1.5 px-3.5 pt-3 pb-2.5 border-b border-black/[0.04] dark:border-white/[0.04]">
+                <div className="flex items-center gap-1.5 text-foreground/45 cursor-default">
+                  <Info className="w-3 h-3 flex-shrink-0" />
+                  <span className="text-[11.5px]">You can manually edit by clicking and typing below</span>
+                </div>
+                <div className="flex-1" />
+                <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.05] transition-all text-[11.5px] font-medium group">
+                  <RotateCcw className="w-3 h-3 group-hover:rotate-[-45deg] transition-transform duration-300" />
+                  Regenerate
+                </button>
+                <div className="w-px h-3.5 bg-black/[0.08] dark:bg-white/[0.08]" />
+                <button onClick={handleCopy} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.05] transition-all text-[11.5px] font-medium">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {copied ? (
+                      <motion.span key="check" initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.7 }} transition={{ duration: 0.15 }} className="flex items-center gap-1.5 text-emerald-500">
+                        <Check className="w-3 h-3" />Copied
+                      </motion.span>
+                    ) : (
+                      <motion.span key="copy" initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.7 }} transition={{ duration: 0.15 }} className="flex items-center gap-1.5">
+                        <Copy className="w-3 h-3" />Copy
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </button>
+              </div>
+
+              {/* Editable resume body */}
+              <div
+                ref={resumeEditableRef}
+                contentEditable
+                suppressContentEditableWarning
+                className="px-6 py-5 text-[12px] leading-[1.9] text-foreground/75 whitespace-pre-wrap outline-none cursor-text focus:bg-foreground/[0.015] transition-colors"
+                style={{ fontFamily: "'Geist Mono', 'DM Mono', monospace" }}
+              >
+                {resumeText}
+              </div>
+
+              <div className="flex items-center justify-center py-2.5 border-t border-black/[0.04] dark:border-white/[0.04]">
+                <span className="text-[11px] text-foreground/20 font-medium tracking-wide">1 / 1</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Left footer */}
+          <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex gap-2.5 flex-shrink-0">
+            <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full border border-black/[0.12] dark:border-white/[0.12] text-foreground/65 hover:text-foreground hover:border-black/[0.20] dark:hover:border-white/[0.20] text-[13px] font-medium transition-colors">
+              <Download className="w-3.5 h-3.5" />Download
+            </button>
+            <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[13px] font-medium hover:opacity-80 transition-opacity">
+              Apply Now<ExternalLink className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Vertical divider */}
+        <div className="w-px bg-black/[0.06] dark:bg-white/[0.06] flex-shrink-0" />
+
+        {/* ── Right: AI Chatbox ── */}
+        <div className="w-[296px] flex-shrink-0 flex flex-col bg-[#F4F1EC] dark:bg-[#131008]">
+          <div className="px-4 py-2.5 flex items-center gap-2 border-b border-black/[0.06] dark:border-white/[0.05] flex-shrink-0">
+            <div className="w-5 h-5 rounded-md bg-[#1A1A1A] dark:bg-[#E8E3DC] flex items-center justify-center flex-shrink-0">
+              <Wand2 className="w-3 h-3 text-white dark:text-[#1A1A1A]" />
+            </div>
+            <span className="text-[11.5px] font-semibold text-foreground/55 tracking-wide">AI Edit</span>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[88%] px-3.5 py-2.5 text-[12.5px] leading-[1.6] ${msg.role === "ai" ? "bg-white dark:bg-[#1E1B16] border border-black/[0.06] dark:border-white/[0.06] text-foreground/75 rounded-2xl rounded-tl-sm" : "bg-[#1A1A1A] dark:bg-[#E8E3DC] text-white dark:text-[#1A1A1A] rounded-2xl rounded-tr-sm"}`}>
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+
+          <div className="px-3 pb-3 pt-2 flex-shrink-0 space-y-2">
+            <div className="flex flex-wrap gap-1">
+              {CHIPS.map((chip) => (
+                <button key={chip} onClick={() => { setAiInput(chip); inputRef.current?.focus(); }}
+                  className="text-[11px] text-foreground/50 hover:text-foreground/80 bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.07] rounded-full px-2.5 py-1 transition-colors hover:border-black/[0.15] dark:hover:border-white/[0.15] leading-none"
+                >{chip}</button>
+              ))}
+            </div>
+            <div className="flex items-end gap-2 bg-white dark:bg-[#1E1A16] border border-black/[0.08] dark:border-white/[0.07] rounded-2xl px-3.5 py-2.5">
+              <textarea ref={inputRef} value={aiInput} onChange={(e) => setAiInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(aiInput); } }}
+                placeholder="Ask me to edit…" rows={1}
+                className="flex-1 text-[12.5px] text-foreground/80 placeholder:text-foreground/30 bg-transparent resize-none outline-none leading-[1.5] max-h-[72px]"
+              />
+              <button onClick={() => handleSend(aiInput)} disabled={!aiInput.trim()} aria-label="Send"
+                className="w-7 h-7 rounded-full bg-[#1A1A1A] dark:bg-[#E8E3DC] flex items-center justify-center flex-shrink-0 disabled:opacity-25 transition-opacity hover:opacity-75 mb-px"
+              >
+                <SendHorizontal className="w-3.5 h-3.5 text-white dark:text-[#1A1A1A]" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job: Job | null; open: boolean; onClose: () => void; pastReports?: CompletedReport[]; onViewReport?: (report: CompletedReport) => void }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -2239,11 +2501,13 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   const displayJob = job ?? lastJobRef.current;
   const scrollRef = useRef<HTMLDivElement>(null);
   const mockInterviewsRef = useRef<HTMLDivElement>(null);
-  const [panelView, setPanelView] = useState<"job" | "generating" | "coverLetter">("job");
+  const [panelView, setPanelView] = useState<"job" | "generating" | "coverLetter" | "tailoringResume" | "tailoredResume">("job");
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [coverLetterDates, setCoverLetterDates] = useState<Record<string, Date>>({});
+  const [tailoredResumeDates, setTailoredResumeDates] = useState<Record<string, Date>>({});
 
   const coverLetterDate = displayJob ? coverLetterDates[displayJob.id] : undefined;
+  const tailoredResumeDate = displayJob ? tailoredResumeDates[displayJob.id] : undefined;
 
   const openCoverLetter = () => {
     setPanelExpanded(true);
@@ -2252,7 +2516,15 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
 
   const closeCoverLetter = () => {
     setPanelView("job");
-    // width shrinks only after the exit animation finishes (see onExitComplete)
+  };
+
+  const openTailorResume = () => {
+    setPanelExpanded(true);
+    setPanelView("tailoringResume");
+  };
+
+  const closeTailorResume = () => {
+    setPanelView("job");
   };
 
   useEffect(() => {
@@ -2294,35 +2566,34 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
           }}
         >
           {panelView === "generating" ? (
-            <motion.div
-              key="generating"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
-              className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
-            >
+            <motion.div key="generating" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }} className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]">
               <CoverLetterGeneratingView
                 job={displayJob}
                 onComplete={() => {
-                  if (displayJob) {
-                    setCoverLetterDates(prev => ({ ...prev, [displayJob.id]: new Date() }));
-                  }
+                  if (displayJob) setCoverLetterDates(prev => ({ ...prev, [displayJob.id]: new Date() }));
                   setPanelView("coverLetter");
                 }}
                 onBack={closeCoverLetter}
               />
             </motion.div>
           ) : panelView === "coverLetter" ? (
-            <motion.div
-              key="coverLetter"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
-              className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
-            >
+            <motion.div key="coverLetter" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }} className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]">
               <CoverLetterView job={displayJob} onBack={closeCoverLetter} />
+            </motion.div>
+          ) : panelView === "tailoringResume" ? (
+            <motion.div key="tailoringResume" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }} className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]">
+              <ResumeGeneratingView
+                job={displayJob}
+                onComplete={() => {
+                  if (displayJob) setTailoredResumeDates(prev => ({ ...prev, [displayJob.id]: new Date() }));
+                  setPanelView("tailoredResume");
+                }}
+                onBack={closeTailorResume}
+              />
+            </motion.div>
+          ) : panelView === "tailoredResume" ? (
+            <motion.div key="tailoredResume" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }} className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]">
+              <TailoredResumeView job={displayJob} onBack={closeTailorResume} />
             </motion.div>
           ) : (
             <motion.div
@@ -2428,18 +2699,41 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
                         <ChevronRight className="w-3.5 h-3.5 text-foreground/30 group-hover:text-foreground/60 transition-colors flex-shrink-0" />
                       </button>
 
-                      {/* Tailor resume */}
-                      <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
-                        <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
-                          <FileText className="w-3 h-3 text-foreground/40" />
-                        </div>
-                        <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</span>
-                        <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
-                          <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
-                          <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">4</span>
-                        </span>
-                        <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
-                      </button>
+                      {/* Tailor resume — opens nested view */}
+                      {tailoredResumeDate ? (
+                        <button
+                          onClick={openTailorResume}
+                          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left"
+                        >
+                          <div className="w-5 h-5 rounded-md bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                            <FileText className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <span className="flex-1 flex items-center gap-1.5 min-w-0">
+                            <span className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">View Tailored Resume</span>
+                            <span className="text-[11px] text-foreground/40 leading-none">· {tailoredResumeDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                          </span>
+                          <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                            <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                            <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">4</span>
+                          </span>
+                          <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={openTailorResume}
+                          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left"
+                        >
+                          <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
+                            <FileText className="w-3 h-3 text-foreground/40" />
+                          </div>
+                          <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</span>
+                          <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                            <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                            <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">4</span>
+                          </span>
+                          <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                        </button>
+                      )}
 
                       {/* Cover letter — opens nested view */}
                       {coverLetterDate ? (
