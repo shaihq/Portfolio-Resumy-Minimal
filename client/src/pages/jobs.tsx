@@ -14,7 +14,7 @@ import {
   KanbanItem, KanbanItemHandle, KanbanOverlay,
 } from "@/components/ui/kanban";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { createClient, AnamEvent } from "@anam-ai/js-sdk";
 import type { AnamClient, Message } from "@anam-ai/js-sdk";
@@ -2107,8 +2107,13 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
               className="absolute inset-0 flex flex-col"
             >
               {/* Header */}
-              <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+              <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px] relative">
                 <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-base font-semibold m-0 truncate pr-10">{displayJob.role}</SheetTitle>
+                <SheetClose asChild>
+                  <button className="absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center text-foreground/40 hover:text-foreground/70 hover:bg-foreground/[0.06] transition-colors">
+                    <X className="w-4 h-4" />
+                  </button>
+                </SheetClose>
               </SheetHeader>
 
               {/* Scrollable body */}
