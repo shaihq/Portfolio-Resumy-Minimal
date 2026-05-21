@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen, Download, ArrowDownToLine, Wand2, RotateCcw, Copy } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen, Download, ArrowDownToLine, Wand2, RotateCcw, Copy, Info } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -2007,7 +2007,7 @@ function CoverLetterView({ job, onBack }: { job: Job; onBack: () => void }) {
   ]);
   const [aiInput, setAiInput] = useState("");
   const [copied, setCopied] = useState(false);
-  const coverText = `Dear Hiring Manager,
+  const [coverText, setCoverText] = useState(`Dear Hiring Manager,
 
 I'm applying for the ${job.role} role at ${job.company}. ${job.company}'s focus on craft and product thinking is exactly the kind of environment I thrive in — I've spent the past five years solving complex design problems at the intersection of user needs and business outcomes.
 
@@ -2017,12 +2017,14 @@ I've also built scalable design systems and cross-product experiences. At PixelF
 
 Thank you for your time. I'd welcome the opportunity to discuss how I can contribute to ${job.company}.
 
-Matt Carter`;
+Matt Carter`);
+  const editableRef = useRef<HTMLDivElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(coverText);
+    const text = editableRef.current?.innerText ?? coverText;
+    navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -2072,7 +2074,12 @@ Matt Carter`;
         <div className="flex flex-col flex-1 min-w-0">
           <div className="flex-1 overflow-y-auto px-5 py-5">
             <div className="bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] overflow-hidden">
-              <div className="flex items-center justify-end gap-1.5 px-3.5 pt-3 pb-2.5 border-b border-black/[0.04] dark:border-white/[0.04]">
+              <div className="flex items-center gap-1.5 px-3.5 pt-3 pb-2.5 border-b border-black/[0.04] dark:border-white/[0.04]">
+                <div className="group/info relative flex items-center gap-1.5 text-foreground/30 hover:text-foreground/50 transition-colors cursor-default px-1">
+                  <Info className="w-3 h-3 flex-shrink-0" />
+                  <span className="text-[11px]">Click the letter to edit</span>
+                  </div>
+                <div className="flex-1" />
                 <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.05] transition-all text-[11.5px] font-medium group">
                   <RotateCcw className="w-3 h-3 group-hover:rotate-[-45deg] transition-transform duration-300" />
                   Regenerate
@@ -2112,7 +2119,13 @@ Matt Carter`;
                 </button>
               </div>
               <div
-                className="px-6 py-5 text-[13px] leading-[1.85] text-foreground/78 whitespace-pre-wrap select-text"
+                ref={editableRef}
+                contentEditable
+                suppressContentEditableWarning
+                onBlur={() => {
+                  if (editableRef.current) setCoverText(editableRef.current.innerText);
+                }}
+                className="px-6 py-5 text-[13px] leading-[1.85] text-foreground/78 whitespace-pre-wrap outline-none cursor-text focus:bg-foreground/[0.015] transition-colors rounded-b-xl"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
               >
                 {coverText}
