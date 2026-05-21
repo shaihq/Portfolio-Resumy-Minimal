@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen, Download, ArrowDownToLine, Wand2 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -1855,6 +1855,155 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   );
 }
 
+function CoverLetterView({ job, onBack }: { job: Job; onBack: () => void }) {
+  const [aiInput, setAiInput] = useState("");
+  const [coverText, setCoverText] = useState(`Dear Hiring Manager,
+
+I'm applying for the ${job.role} role at ${job.company}. ${job.company}'s focus on craft and product thinking is exactly the kind of environment I thrive in — I've spent the past five years solving complex design problems at the intersection of user needs and business outcomes.
+
+At NovaTech Labs, I led end-to-end design for a B2B dashboard used by 50K+ users, improving task completion by 32% through rapid prototyping in Figma and close collaboration with product and engineering. I also redesigned the onboarding flow through iterative usability testing, which reduced drop-offs by 40% and increased activation. Those projects required translating complex stakeholder feedback into clear design decisions and shipping polished experiences that moved real metrics.
+
+I've also built scalable design systems and cross-product experiences. At PixelForge Studio I designed mobile-first products for fintech and edtech, reaching 1M+ users and improving conversion by 22% through usability testing and A/B testing. Across those roles, I've partnered closely with PMs and engineers to take work from vision to prototype to launch, while keeping interaction design, information architecture, and visual craft consistent across every surface.
+
+Thank you for your time. I'd welcome the opportunity to discuss how I can contribute to ${job.company}.
+
+Matt Carter`);
+  const [isEditing, setIsEditing] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleAiEdit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!aiInput.trim()) return;
+    setAiInput("");
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="px-4 py-3.5 border-b border-black/[0.08] dark:border-white/[0.08] flex-shrink-0 flex items-center gap-3 h-[65px]">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1.5 text-foreground/50 hover:text-foreground/80 transition-colors group -ml-1 pr-2"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-[13px]">{job.role}</span>
+        </button>
+        <div className="h-3.5 w-px bg-black/[0.12] dark:bg-white/[0.12]" />
+        <span className="text-[13px] font-semibold text-foreground/80">Cover Letter</span>
+        <div className="ml-auto flex items-center gap-1.5">
+          <div
+            className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 text-white text-[9px] font-bold"
+            style={{ backgroundColor: job.logoColor }}
+          >
+            {job.logoLetter}
+          </div>
+          <span className="text-[12px] text-foreground/45">{job.company}</span>
+        </div>
+      </div>
+
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Paper letter */}
+        <div className="px-5 py-5">
+          <div className="relative bg-white dark:bg-[#1E1A16] border border-black/[0.08] dark:border-white/[0.06] rounded-xl shadow-[0_2px_16px_0_rgba(0,0,0,0.06)] dark:shadow-[0_2px_16px_0_rgba(0,0,0,0.3)] overflow-hidden">
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-black/[0.05] dark:border-white/[0.05]">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="text-[11px] font-medium text-foreground/35">Ready to send</span>
+              </div>
+              <button
+                onClick={() => {
+                  setIsEditing(!isEditing);
+                  if (!isEditing) setTimeout(() => textareaRef.current?.focus(), 50);
+                }}
+                className="flex items-center gap-1.5 text-[11px] font-medium text-foreground/40 hover:text-foreground/70 transition-colors px-2.5 py-1 rounded-md hover:bg-foreground/[0.05]"
+              >
+                <PenLine className="w-3 h-3" />
+                {isEditing ? "Done" : "Edit"}
+              </button>
+            </div>
+
+            {/* Letter body */}
+            <div className="px-6 py-5">
+              {isEditing ? (
+                <textarea
+                  ref={textareaRef}
+                  value={coverText}
+                  onChange={(e) => setCoverText(e.target.value)}
+                  className="w-full text-[13px] leading-[1.85] text-foreground/80 bg-transparent resize-none outline-none min-h-[380px] font-[Georgia,serif]"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                />
+              ) : (
+                <div
+                  className="text-[13px] leading-[1.85] text-foreground/80 whitespace-pre-wrap select-text"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  {coverText}
+                </div>
+              )}
+            </div>
+
+            {/* Page indicator */}
+            <div className="flex items-center justify-center py-3 border-t border-black/[0.04] dark:border-white/[0.04]">
+              <span className="text-[11px] text-foreground/25 font-medium tracking-wide">1 / 1</span>
+            </div>
+          </div>
+        </div>
+
+        {/* AI Edit area */}
+        <div className="px-5 pb-4">
+          <div className="rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-foreground/[0.02] overflow-hidden">
+            {/* Suggestions */}
+            <div className="px-4 pt-3.5 pb-2 flex flex-wrap gap-1.5">
+              {["More confident tone", "Shorter & punchier", "Tailor to job description"].map((chip) => (
+                <button
+                  key={chip}
+                  onClick={() => setAiInput(chip)}
+                  className="text-[11px] text-foreground/50 hover:text-foreground/80 border border-black/[0.08] dark:border-white/[0.08] hover:border-black/[0.16] dark:hover:border-white/[0.16] rounded-full px-3 py-1 transition-colors bg-white dark:bg-[#1E1A16] hover:bg-foreground/[0.03]"
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+            {/* Input */}
+            <form onSubmit={handleAiEdit} className="flex items-center gap-2 px-4 pb-3 pt-1">
+              <input
+                ref={inputRef}
+                value={aiInput}
+                onChange={(e) => setAiInput(e.target.value)}
+                placeholder="Tell me how to tweak it…"
+                className="flex-1 text-[13px] text-foreground/80 placeholder:text-foreground/30 bg-transparent outline-none"
+              />
+              <button
+                type="submit"
+                disabled={!aiInput.trim()}
+                className="flex items-center gap-1.5 text-[12px] font-medium px-3 py-1.5 rounded-lg bg-[#1A1A1A] dark:bg-white text-white dark:text-black disabled:opacity-30 transition-opacity hover:opacity-80"
+              >
+                <Wand2 className="w-3 h-3" />
+                Edit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex-shrink-0 flex gap-2.5">
+        <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full border border-black/[0.12] dark:border-white/[0.12] text-foreground/70 hover:text-foreground hover:border-black/[0.22] dark:hover:border-white/[0.22] text-sm font-medium transition-colors">
+          <Download className="w-3.5 h-3.5" />
+          Download
+        </button>
+        <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-sm font-medium hover:opacity-80 transition-opacity">
+          Apply Now
+          <ExternalLink className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job: Job | null; open: boolean; onClose: () => void; pastReports?: CompletedReport[]; onViewReport?: (report: CompletedReport) => void }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -1863,6 +2012,15 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   const displayJob = job ?? lastJobRef.current;
   const scrollRef = useRef<HTMLDivElement>(null);
   const mockInterviewsRef = useRef<HTMLDivElement>(null);
+  const [panelView, setPanelView] = useState<"job" | "coverLetter">("job");
+
+  useEffect(() => {
+    if (!open) setPanelView("job");
+  }, [open]);
+
+  useEffect(() => {
+    setPanelView("job");
+  }, [job?.id]);
 
   const scrollToMockInterviews = () => {
     if (scrollRef.current && mockInterviewsRef.current) {
@@ -1881,229 +2039,254 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
         hasOverlay={false}
         onInteractOutside={(e) => e.preventDefault()}
       >
-        {/* Header */}
-        <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
-          <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-base font-semibold m-0 truncate pr-10">{displayJob.role}</SheetTitle>
-        </SheetHeader>
+        <AnimatePresence mode="wait" initial={false}>
+          {panelView === "coverLetter" ? (
+            <motion.div
+              key="coverLetter"
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0 }}
+              transition={{ type: "spring", stiffness: 380, damping: 38, mass: 0.8 }}
+              className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
+            >
+              <CoverLetterView job={displayJob} onBack={() => setPanelView("job")} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="job"
+              initial={{ x: "-8%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "-8%", opacity: 0 }}
+              transition={{ type: "spring", stiffness: 380, damping: 38, mass: 0.8 }}
+              className="absolute inset-0 flex flex-col"
+            >
+              {/* Header */}
+              <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
+                <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-base font-semibold m-0 truncate pr-10">{displayJob.role}</SheetTitle>
+              </SheetHeader>
 
-        {/* Scrollable body */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto">
-          {/* Company hero */}
-          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-sm font-bold"
-                  style={{ backgroundColor: displayJob.logoColor }}
-                >
-                  {displayJob.logoLetter}
-                </div>
-                <div>
-                  <div className="text-base font-semibold text-foreground">{displayJob.company}</div>
-                  <div className="flex items-center gap-1 mt-0.5 text-sm text-foreground/50">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {displayJob.location}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Property rows */}
-            <div className="mt-5 space-y-3.5">
-              {/* Posted */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
-                  <Calendar className="w-4 h-4 text-foreground/30" />
-                  <span className="text-sm text-foreground/40">Posted</span>
-                </div>
-                <span className="text-sm text-foreground/70">{displayJob.postedDate}</span>
-              </div>
-
-              {/* Type */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
-                  <Briefcase className="w-4 h-4 text-foreground/30" />
-                  <span className="text-sm text-foreground/40">Type</span>
-                </div>
-                <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.type}</span>
-              </div>
-
-              {/* Work mode */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
-                  <Monitor className="w-4 h-4 text-foreground/30" />
-                  <span className="text-sm text-foreground/40">Work mode</span>
-                </div>
-                <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.workMode}</span>
-              </div>
-
-              {/* Experience */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
-                  <Clock className="w-4 h-4 text-foreground/30" />
-                  <span className="text-sm text-foreground/40">Experience</span>
-                </div>
-                <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.yearsExp}</span>
-              </div>
-
-              {/* Match breakdown card */}
-              <MatchBreakdown job={displayJob} open={open} />
-
-              {/* Action buttons — Mock interview · Resume · Cover letter · Fit analysis */}
-              <div className="space-y-1.5">
-                {/* Mock interview — primary recommended action */}
-                <button
-                  data-testid="button-jump-mock-interviews"
-                  onClick={scrollToMockInterviews}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.07] hover:bg-foreground/[0.10] border border-foreground/[0.10] transition-colors group text-left"
-                >
-                  <div className="w-5 h-5 rounded-md bg-foreground/[0.10] flex items-center justify-center flex-shrink-0">
-                    <Clapperboard className="w-3 h-3 text-foreground/60" />
-                  </div>
-                  <div className="flex-1 min-w-0 flex items-center gap-2">
-                    <span className="text-[12px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors leading-none">Practice with a mock interview</span>
-                    <span className="text-[9.5px] font-medium text-foreground/40 leading-none whitespace-nowrap">✦ Recommended</span>
-                  </div>
-                  <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
-                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
-                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">10</span>
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/30 group-hover:text-foreground/60 transition-colors flex-shrink-0" />
-                </button>
-
-                {/* Tailor resume */}
-                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
-                  <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-3 h-3 text-foreground/40" />
-                  </div>
-                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</span>
-                  <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
-                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
-                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">4</span>
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
-                </button>
-
-                {/* Cover letter */}
-                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
-                  <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
-                    <PenLine className="w-3 h-3 text-foreground/40" />
-                  </div>
-                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Write a job-specific cover letter</span>
-                  <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
-                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
-                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">3</span>
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
-                </button>
-
-                {/* Fit analysis */}
-                <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
-                  <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
-                    <Crosshair className="w-3 h-3 text-foreground/40" />
-                  </div>
-                  <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Run a deep fit analysis</span>
-                  <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
-                    <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
-                    <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">6</span>
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
-                </button>
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* Description */}
-          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-            <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
-            {displayJob.description.split("\n\n").map((para, i) => (
-              <p key={i} className="text-sm text-foreground/75 leading-[1.7] mb-3 last:mb-0">{para}</p>
-            ))}
-          </div>
-
-          {/* Requirements */}
-          <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
-            <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
-            <ul className="space-y-2.5">
-              {displayJob.requirements.map((req, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-sm text-foreground/75 leading-[1.6]">
-                  <span className="mt-[5px] w-1.5 h-1.5 rounded-full bg-foreground/25 flex-shrink-0" />
-                  {req}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Past mock interviews */}
-          <div ref={mockInterviewsRef} className="px-5 py-5 pb-8">
-            <div className="flex items-baseline justify-between gap-2 mb-1">
-              <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">Mock interviews</span>
-              {(pastReports ?? []).length > 0 && (
-                <span className="text-[11px] text-foreground/35">{(pastReports ?? []).length} session{(pastReports ?? []).length !== 1 ? "s" : ""}</span>
-              )}
-            </div>
-            <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-0" />
-
-            {(pastReports ?? []).length === 0 ? (
-              <div className="flex items-center gap-3 py-4">
-                <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center flex-shrink-0">
-                  <Clapperboard className="w-3.5 h-3.5 text-foreground/25" />
-                </div>
-                <p className="text-[13px] text-foreground/35 leading-snug">No mock sessions yet. Take one to get an actionable debrief.</p>
-              </div>
-            ) : (
-              <div>
-                {(pastReports ?? []).map((entry, i) => {
-                  const d = new Date(entry.date);
-                  const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-                  const timeStr = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-                  const score = entry.report.communicationScore;
-                  const scoreColor = score >= 80 ? "text-emerald-600 dark:text-emerald-400" : score >= 65 ? "text-amber-600 dark:text-amber-400" : "text-red-500 dark:text-red-400";
-                  return (
-                    <div key={i}>
-                      <button
-                        data-testid={`button-view-report-${displayJob.id}-${i}`}
-                        onClick={() => onViewReport?.(entry)}
-                        className="w-full flex items-center justify-between gap-3 py-3 group text-left"
+              {/* Scrollable body */}
+              <div ref={scrollRef} className="flex-1 overflow-y-auto">
+                {/* Company hero */}
+                <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-sm font-bold"
+                        style={{ backgroundColor: displayJob.logoColor }}
                       >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] group-hover:bg-foreground/[0.07] transition-colors flex items-center justify-center flex-shrink-0">
-                            <Clapperboard className="w-3.5 h-3.5 text-foreground/35" />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="text-[13px] font-medium text-foreground/75 leading-none">Session {(pastReports ?? []).length - i}</div>
-                            <div className="text-[11px] text-foreground/35 mt-0.5">{dateStr} · {timeStr}</div>
-                          </div>
+                        {displayJob.logoLetter}
+                      </div>
+                      <div>
+                        <div className="text-base font-semibold text-foreground">{displayJob.company}</div>
+                        <div className="flex items-center gap-1 mt-0.5 text-sm text-foreground/50">
+                          <MapPin className="w-3.5 h-3.5" />
+                          {displayJob.location}
                         </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          <span className={`text-[15px] font-bold ${scoreColor}`}>{score}</span>
-                          <span className="text-[11px] text-foreground/30">/100</span>
-                          <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors" />
-                        </div>
-                      </button>
-                      {i < (pastReports ?? []).length - 1 && (
-                        <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />
-                      )}
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
+                  </div>
 
-        {/* Footer CTA */}
-        <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex-shrink-0">
-          <button
-            data-testid={`button-apply-${displayJob.id}`}
-            className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-sm font-medium hover:opacity-80 transition-opacity"
-          >
-            Apply on {displayJob.source === "linkedin" ? "LinkedIn" : "Indeed"}
-            <ExternalLink className="w-3.5 h-3.5" />
-          </button>
-        </div>
+                  {/* Property rows */}
+                  <div className="mt-5 space-y-3.5">
+                    {/* Posted */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                        <Calendar className="w-4 h-4 text-foreground/30" />
+                        <span className="text-sm text-foreground/40">Posted</span>
+                      </div>
+                      <span className="text-sm text-foreground/70">{displayJob.postedDate}</span>
+                    </div>
+
+                    {/* Type */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                        <Briefcase className="w-4 h-4 text-foreground/30" />
+                        <span className="text-sm text-foreground/40">Type</span>
+                      </div>
+                      <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.type}</span>
+                    </div>
+
+                    {/* Work mode */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                        <Monitor className="w-4 h-4 text-foreground/30" />
+                        <span className="text-sm text-foreground/40">Work mode</span>
+                      </div>
+                      <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.workMode}</span>
+                    </div>
+
+                    {/* Experience */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 w-[124px] flex-shrink-0">
+                        <Clock className="w-4 h-4 text-foreground/30" />
+                        <span className="text-sm text-foreground/40">Experience</span>
+                      </div>
+                      <span className="inline-flex items-center text-sm text-foreground/65 border border-black/[0.09] dark:border-white/[0.09] rounded-md px-2.5 py-0.5">{displayJob.yearsExp}</span>
+                    </div>
+
+                    {/* Match breakdown card */}
+                    <MatchBreakdown job={displayJob} open={open} />
+
+                    {/* Action buttons */}
+                    <div className="space-y-1.5">
+                      {/* Mock interview */}
+                      <button
+                        data-testid="button-jump-mock-interviews"
+                        onClick={scrollToMockInterviews}
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.07] hover:bg-foreground/[0.10] border border-foreground/[0.10] transition-colors group text-left"
+                      >
+                        <div className="w-5 h-5 rounded-md bg-foreground/[0.10] flex items-center justify-center flex-shrink-0">
+                          <Clapperboard className="w-3 h-3 text-foreground/60" />
+                        </div>
+                        <div className="flex-1 min-w-0 flex items-center gap-2">
+                          <span className="text-[12px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors leading-none">Practice with a mock interview</span>
+                          <span className="text-[9.5px] font-medium text-foreground/40 leading-none whitespace-nowrap">✦ Recommended</span>
+                        </div>
+                        <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                          <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                          <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">10</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-foreground/30 group-hover:text-foreground/60 transition-colors flex-shrink-0" />
+                      </button>
+
+                      {/* Tailor resume */}
+                      <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
+                        <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
+                          <FileText className="w-3 h-3 text-foreground/40" />
+                        </div>
+                        <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Tailor resume to this role</span>
+                        <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                          <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                          <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">4</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                      </button>
+
+                      {/* Cover letter — opens nested view */}
+                      <button
+                        onClick={() => setPanelView("coverLetter")}
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left"
+                      >
+                        <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
+                          <PenLine className="w-3 h-3 text-foreground/40" />
+                        </div>
+                        <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Write a job-specific cover letter</span>
+                        <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                          <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                          <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">3</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                      </button>
+
+                      {/* Fit analysis */}
+                      <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-foreground/[0.03] hover:bg-foreground/[0.06] border border-black/[0.05] dark:border-white/[0.05] transition-colors group text-left">
+                        <div className="w-5 h-5 rounded-md bg-foreground/[0.07] flex items-center justify-center flex-shrink-0">
+                          <Crosshair className="w-3 h-3 text-foreground/40" />
+                        </div>
+                        <span className="flex-1 text-[12px] font-medium text-foreground/65 group-hover:text-foreground/85 transition-colors leading-none">Run a deep fit analysis</span>
+                        <span className="flex items-center gap-0.5 bg-amber-100 dark:bg-amber-400/20 border border-amber-300/60 dark:border-amber-400/30 rounded-full px-1.5 py-0.5 flex-shrink-0">
+                          <Zap className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />
+                          <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">6</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors flex-shrink-0" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+                  <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">About the role</h3>
+                  {displayJob.description.split("\n\n").map((para, i) => (
+                    <p key={i} className="text-sm text-foreground/75 leading-[1.7] mb-3 last:mb-0">{para}</p>
+                  ))}
+                </div>
+
+                {/* Requirements */}
+                <div className="px-5 py-5 border-b border-black/[0.06] dark:border-white/[0.06]">
+                  <h3 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest mb-3">Requirements</h3>
+                  <ul className="space-y-2.5">
+                    {displayJob.requirements.map((req, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-foreground/75 leading-[1.6]">
+                        <span className="mt-[5px] w-1.5 h-1.5 rounded-full bg-foreground/25 flex-shrink-0" />
+                        {req}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Past mock interviews */}
+                <div ref={mockInterviewsRef} className="px-5 py-5 pb-8">
+                  <div className="flex items-baseline justify-between gap-2 mb-1">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">Mock interviews</span>
+                    {(pastReports ?? []).length > 0 && (
+                      <span className="text-[11px] text-foreground/35">{(pastReports ?? []).length} session{(pastReports ?? []).length !== 1 ? "s" : ""}</span>
+                    )}
+                  </div>
+                  <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-0" />
+
+                  {(pastReports ?? []).length === 0 ? (
+                    <div className="flex items-center gap-3 py-4">
+                      <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center flex-shrink-0">
+                        <Clapperboard className="w-3.5 h-3.5 text-foreground/25" />
+                      </div>
+                      <p className="text-[13px] text-foreground/35 leading-snug">No mock sessions yet. Take one to get an actionable debrief.</p>
+                    </div>
+                  ) : (
+                    <div>
+                      {(pastReports ?? []).map((entry, i) => {
+                        const d = new Date(entry.date);
+                        const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                        const timeStr = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+                        const score = entry.report.communicationScore;
+                        const scoreColor = score >= 80 ? "text-emerald-600 dark:text-emerald-400" : score >= 65 ? "text-amber-600 dark:text-amber-400" : "text-red-500 dark:text-red-400";
+                        return (
+                          <div key={i}>
+                            <button
+                              data-testid={`button-view-report-${displayJob.id}-${i}`}
+                              onClick={() => onViewReport?.(entry)}
+                              className="w-full flex items-center justify-between gap-3 py-3 group text-left"
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] group-hover:bg-foreground/[0.07] transition-colors flex items-center justify-center flex-shrink-0">
+                                  <Clapperboard className="w-3.5 h-3.5 text-foreground/35" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-[13px] font-medium text-foreground/75 leading-none">Session {(pastReports ?? []).length - i}</div>
+                                  <div className="text-[11px] text-foreground/35 mt-0.5">{dateStr} · {timeStr}</div>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 flex-shrink-0">
+                                <span className={`text-[15px] font-bold ${scoreColor}`}>{score}</span>
+                                <span className="text-[11px] text-foreground/30">/100</span>
+                                <ChevronRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-foreground/45 transition-colors" />
+                              </div>
+                            </button>
+                            {i < (pastReports ?? []).length - 1 && (
+                              <div className="h-px bg-black/[0.04] dark:bg-white/[0.04]" />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Footer CTA */}
+              <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex-shrink-0">
+                <button
+                  data-testid={`button-apply-${displayJob.id}`}
+                  className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-sm font-medium hover:opacity-80 transition-opacity"
+                >
+                  Apply on {displayJob.source === "linkedin" ? "LinkedIn" : "Indeed"}
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </SheetContent>
     </Sheet>
   );
