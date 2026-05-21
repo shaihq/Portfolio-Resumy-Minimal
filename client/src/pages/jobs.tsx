@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen, Download, ArrowDownToLine, Wand2 } from "lucide-react";
+import { Mic, MicOff, ArrowRight, ArrowLeft, Search, ChevronRight, SlidersHorizontal, Sparkles, Bookmark, MapPin, Briefcase, Building2, ExternalLink, Video, Check, CheckCircle2, XCircle, Clapperboard, Phone, ChevronLeft, Clock, Monitor, X, SendHorizontal, Calendar, Users, Mail, FileText, ThumbsUp, PenLine, MessageSquare, Star, AlertTriangle, Crosshair, Maximize2, Minimize2, FlaskConical, Plus, Link2, PenSquare, ChevronDown, Lightbulb, Zap, BookOpen, Download, ArrowDownToLine, Wand2, RotateCcw, Copy } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { Gauge } from "@/components/ui/gauge-1";
 import { BlurredStagger } from "@/components/ui/blurred-stagger-text";
@@ -2006,6 +2006,7 @@ function CoverLetterView({ job, onBack }: { job: Job; onBack: () => void }) {
     { role: "ai", text: `Your cover letter for the ${job.role} role at ${job.company} is ready. Want me to adjust the tone, make it shorter, or tailor it more to the job description?` },
   ]);
   const [aiInput, setAiInput] = useState("");
+  const [copied, setCopied] = useState(false);
   const coverText = `Dear Hiring Manager,
 
 I'm applying for the ${job.role} role at ${job.company}. ${job.company}'s focus on craft and product thinking is exactly the kind of environment I thrive in — I've spent the past five years solving complex design problems at the intersection of user needs and business outcomes.
@@ -2019,6 +2020,12 @@ Thank you for your time. I'd welcome the opportunity to discuss how I can contri
 Matt Carter`;
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(coverText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleSend = (text: string) => {
     const msg = text.trim();
@@ -2065,9 +2072,44 @@ Matt Carter`;
         <div className="flex flex-col flex-1 min-w-0">
           <div className="flex-1 overflow-y-auto px-5 py-5">
             <div className="bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] overflow-hidden">
-              <div className="flex items-center gap-2 px-5 pt-3.5 pb-3 border-b border-black/[0.04] dark:border-white/[0.04]">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span className="text-[11px] text-foreground/35 font-medium">Ready to send</span>
+              <div className="flex items-center justify-end gap-1.5 px-3.5 pt-3 pb-2.5 border-b border-black/[0.04] dark:border-white/[0.04]">
+                <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.05] transition-all text-[11.5px] font-medium group">
+                  <RotateCcw className="w-3 h-3 group-hover:rotate-[-45deg] transition-transform duration-300" />
+                  Regenerate
+                </button>
+                <div className="w-px h-3.5 bg-black/[0.08] dark:bg-white/[0.08]" />
+                <button
+                  onClick={handleCopy}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.05] transition-all text-[11.5px] font-medium"
+                >
+                  <AnimatePresence mode="wait" initial={false}>
+                    {copied ? (
+                      <motion.span
+                        key="check"
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.7 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex items-center gap-1.5 text-emerald-500"
+                      >
+                        <Check className="w-3 h-3" />
+                        Copied
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="copy"
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.7 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex items-center gap-1.5"
+                      >
+                        <Copy className="w-3 h-3" />
+                        Copy
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </button>
               </div>
               <div
                 className="px-6 py-5 text-[13px] leading-[1.85] text-foreground/78 whitespace-pre-wrap select-text"
