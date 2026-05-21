@@ -1855,6 +1855,151 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
   );
 }
 
+function CoverLetterGeneratingView({
+  job,
+  onComplete,
+  onBack,
+}: {
+  job: Job;
+  onComplete: () => void;
+  onBack: () => void;
+}) {
+  const PHRASES = [
+    "Reading your portfolio",
+    "Studying the job description",
+    "Matching your strongest projects",
+    "Shaping your narrative",
+    "Calibrating the tone",
+    "Polishing the opening",
+    "Finalising your letter",
+  ];
+
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const totalDuration = 3800;
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setPhraseIndex((i) => (i + 1) % PHRASES.length);
+        setVisible(true);
+      }, 280);
+    }, 900);
+
+    const done = setTimeout(() => {
+      clearInterval(interval);
+      onComplete();
+    }, totalDuration);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(done);
+    };
+  }, [onComplete]);
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="px-4 flex-shrink-0 flex items-center gap-3 h-[65px] border-b border-black/[0.08] dark:border-white/[0.08]">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1.5 text-foreground/45 hover:text-foreground/75 transition-colors group -ml-1"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-[13px]">{job.role}</span>
+        </button>
+        <div className="h-3.5 w-px bg-black/[0.10] dark:bg-white/[0.10]" />
+        <span className="text-[13px] font-semibold text-foreground/80">Cover Letter</span>
+        <div className="ml-auto flex items-center gap-2">
+          <div
+            className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
+            style={{ backgroundColor: job.logoColor }}
+          >
+            {job.logoLetter}
+          </div>
+          <span className="text-[12px] text-foreground/40">{job.company}</span>
+        </div>
+      </div>
+
+      {/* Centered generating area */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-8 px-8 relative overflow-hidden">
+        {/* Subtle ambient glow behind orb */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            width: 340,
+            height: 340,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, oklch(62% 0.28 318 / 0.08) 0%, oklch(66% 0.27 22 / 0.06) 40%, transparent 70%)",
+            filter: "blur(40px)",
+          }}
+        />
+
+        {/* Orb */}
+        <motion.div
+          initial={{ scale: 0.7, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.55, ease: [0.34, 1.3, 0.64, 1] }}
+          className="orb-spinning relative z-10"
+        >
+          <ColorOrb dimension="108px" spinDuration={4} />
+        </motion.div>
+
+        {/* Cycling text */}
+        <div className="flex flex-col items-center gap-2 z-10">
+          <div className="h-7 flex items-center justify-center overflow-hidden">
+            <AnimatePresence mode="wait">
+              {visible && (
+                <motion.p
+                  key={phraseIndex}
+                  initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+                  transition={{ duration: 0.26, ease: "easeOut" }}
+                  className="text-[15px] font-semibold tracking-tight whitespace-nowrap"
+                  style={{
+                    background:
+                      "linear-gradient(110deg, hsl(var(--foreground)) 20%, hsl(var(--muted-foreground)) 55%, hsl(var(--foreground)) 80%)",
+                    backgroundSize: "200% 100%",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    animation: "thinking-shimmer 2.6s linear infinite",
+                  }}
+                >
+                  {PHRASES[phraseIndex]}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <p className="text-[12px] text-foreground/35 leading-snug text-center max-w-[220px]">
+            Tailoring your letter to {job.company} and the {job.role} role
+          </p>
+
+          {/* Dots progress */}
+          <div className="flex items-center gap-1.5 mt-1">
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                className="w-1.5 h-1.5 rounded-full bg-foreground/25"
+                animate={{ opacity: [0.25, 1, 0.25], scale: [0.8, 1.2, 0.8] }}
+                transition={{
+                  duration: 1.2,
+                  repeat: Infinity,
+                  delay: i * 0.22,
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CoverLetterView({ job, onBack }: { job: Job; onBack: () => void }) {
   type ChatMsg = { role: "ai" | "user"; text: string };
   const [messages, setMessages] = useState<ChatMsg[]>([
@@ -2035,12 +2180,12 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   const displayJob = job ?? lastJobRef.current;
   const scrollRef = useRef<HTMLDivElement>(null);
   const mockInterviewsRef = useRef<HTMLDivElement>(null);
-  const [panelView, setPanelView] = useState<"job" | "coverLetter">("job");
+  const [panelView, setPanelView] = useState<"job" | "generating" | "coverLetter">("job");
   const [panelExpanded, setPanelExpanded] = useState(false);
 
   const openCoverLetter = () => {
     setPanelExpanded(true);
-    setPanelView("coverLetter");
+    setPanelView("generating");
   };
 
   const closeCoverLetter = () => {
@@ -2086,7 +2231,22 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
             if (panelView === "job") setPanelExpanded(false);
           }}
         >
-          {panelView === "coverLetter" ? (
+          {panelView === "generating" ? (
+            <motion.div
+              key="generating"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+              className="absolute inset-0 flex flex-col bg-white dark:bg-[#2A2520]"
+            >
+              <CoverLetterGeneratingView
+                job={displayJob}
+                onComplete={() => setPanelView("coverLetter")}
+                onBack={closeCoverLetter}
+              />
+            </motion.div>
+          ) : panelView === "coverLetter" ? (
             <motion.div
               key="coverLetter"
               initial={{ opacity: 0 }}
