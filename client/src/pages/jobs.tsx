@@ -1856,127 +1856,172 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
 }
 
 function CoverLetterView({ job, onBack }: { job: Job; onBack: () => void }) {
+  type ChatMsg = { role: "ai" | "user"; text: string };
+  const [messages, setMessages] = useState<ChatMsg[]>([
+    { role: "ai", text: `Your cover letter for the ${job.role} role at ${job.company} is ready. Want me to adjust the tone, make it shorter, or tailor it more to the job description?` },
+  ]);
   const [aiInput, setAiInput] = useState("");
-  const [coverText, setCoverText] = useState(`Dear Hiring Manager,
+  const coverText = `Dear Hiring Manager,
 
 I'm applying for the ${job.role} role at ${job.company}. ${job.company}'s focus on craft and product thinking is exactly the kind of environment I thrive in — I've spent the past five years solving complex design problems at the intersection of user needs and business outcomes.
 
-At NovaTech Labs, I led end-to-end design for a B2B dashboard used by 50K+ users, improving task completion by 32% through rapid prototyping in Figma and close collaboration with product and engineering. I also redesigned the onboarding flow through iterative usability testing, which reduced drop-offs by 40% and increased activation. Those projects required translating complex stakeholder feedback into clear design decisions and shipping polished experiences that moved real metrics.
+At NovaTech Labs, I led end-to-end design for a B2B dashboard used by 50K+ users, improving task completion by 32% through rapid prototyping in Figma and close collaboration with product and engineering. I also redesigned the onboarding flow through iterative usability testing, which reduced drop-offs by 40% and increased activation.
 
-I've also built scalable design systems and cross-product experiences. At PixelForge Studio I designed mobile-first products for fintech and edtech, reaching 1M+ users and improving conversion by 22% through usability testing and A/B testing. Across those roles, I've partnered closely with PMs and engineers to take work from vision to prototype to launch, while keeping interaction design, information architecture, and visual craft consistent across every surface.
+I've also built scalable design systems and cross-product experiences. At PixelForge Studio I designed mobile-first products for fintech and edtech, reaching 1M+ users and improving conversion by 22% through usability testing and A/B testing.
 
 Thank you for your time. I'd welcome the opportunity to discuss how I can contribute to ${job.company}.
 
-Matt Carter`);
-  const inputRef = useRef<HTMLInputElement>(null);
+Matt Carter`;
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleAiEdit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!aiInput.trim()) return;
+  const handleSend = (text: string) => {
+    const msg = text.trim();
+    if (!msg) return;
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", text: msg },
+      { role: "ai", text: "On it — refining your letter to reflect that now." },
+    ]);
     setAiInput("");
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 60);
   };
+
+  const CHIPS = ["More confident", "Shorter & punchier", "Tailor to role"];
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="px-4 py-3.5 border-b border-black/[0.08] dark:border-white/[0.08] flex-shrink-0 flex items-center gap-3 h-[65px]">
+      {/* Shared header */}
+      <div className="px-4 flex-shrink-0 flex items-center gap-3 h-[65px] border-b border-black/[0.08] dark:border-white/[0.08]">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-foreground/50 hover:text-foreground/80 transition-colors group -ml-1 pr-2"
+          className="flex items-center gap-1.5 text-foreground/45 hover:text-foreground/75 transition-colors group -ml-1"
         >
           <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
           <span className="text-[13px]">{job.role}</span>
         </button>
-        <div className="h-3.5 w-px bg-black/[0.12] dark:bg-white/[0.12]" />
+        <div className="h-3.5 w-px bg-black/[0.10] dark:bg-white/[0.10]" />
         <span className="text-[13px] font-semibold text-foreground/80">Cover Letter</span>
-        <div className="ml-auto flex items-center gap-1.5">
+        <div className="ml-auto flex items-center gap-2">
           <div
-            className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 text-white text-[9px] font-bold"
+            className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
             style={{ backgroundColor: job.logoColor }}
           >
             {job.logoLetter}
           </div>
-          <span className="text-[12px] text-foreground/45">{job.company}</span>
+          <span className="text-[12px] text-foreground/40">{job.company}</span>
         </div>
       </div>
 
-      {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Paper letter */}
-        <div className="px-5 py-5">
-          <div className="relative bg-white dark:bg-[#1E1A16] border border-black/[0.08] dark:border-white/[0.06] rounded-xl shadow-[0_2px_16px_0_rgba(0,0,0,0.06)] dark:shadow-[0_2px_16px_0_rgba(0,0,0,0.3)] overflow-hidden">
-            {/* Top bar */}
-            <div className="flex items-center px-5 pt-4 pb-3 border-b border-black/[0.05] dark:border-white/[0.05]">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span className="text-[11px] font-medium text-foreground/35">Ready to send</span>
-              </div>
-            </div>
+      {/* Two-column body */}
+      <div className="flex flex-1 min-h-0">
 
-            {/* Letter body */}
-            <div className="px-6 py-5">
+        {/* ── Left: Letter preview ── */}
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex-1 overflow-y-auto px-5 py-5">
+            <div className="bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.05] rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] overflow-hidden">
+              <div className="flex items-center gap-2 px-5 pt-3.5 pb-3 border-b border-black/[0.04] dark:border-white/[0.04]">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="text-[11px] text-foreground/35 font-medium">Ready to send</span>
+              </div>
               <div
-                className="text-[13px] leading-[1.85] text-foreground/80 whitespace-pre-wrap select-text"
+                className="px-6 py-5 text-[13px] leading-[1.85] text-foreground/78 whitespace-pre-wrap select-text"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
               >
                 {coverText}
               </div>
+              <div className="flex items-center justify-center py-2.5 border-t border-black/[0.04] dark:border-white/[0.04]">
+                <span className="text-[11px] text-foreground/20 font-medium tracking-wide">1 / 1</span>
+              </div>
             </div>
+          </div>
 
-            {/* Page indicator */}
-            <div className="flex items-center justify-center py-3 border-t border-black/[0.04] dark:border-white/[0.04]">
-              <span className="text-[11px] text-foreground/25 font-medium tracking-wide">1 / 1</span>
-            </div>
+          {/* Left footer */}
+          <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex gap-2.5 flex-shrink-0">
+            <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full border border-black/[0.12] dark:border-white/[0.12] text-foreground/65 hover:text-foreground hover:border-black/[0.20] dark:hover:border-white/[0.20] text-[13px] font-medium transition-colors">
+              <Download className="w-3.5 h-3.5" />
+              Download
+            </button>
+            <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[13px] font-medium hover:opacity-80 transition-opacity">
+              Apply Now
+              <ExternalLink className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* AI Edit area */}
-        <div className="px-5 pb-4">
-          <div className="rounded-xl border border-black/[0.07] dark:border-white/[0.07] bg-foreground/[0.02] overflow-hidden">
-            {/* Suggestions */}
-            <div className="px-4 pt-3.5 pb-2 flex flex-wrap gap-1.5">
-              {["More confident tone", "Shorter & punchier", "Tailor to job description"].map((chip) => (
+        {/* Vertical divider */}
+        <div className="w-px bg-black/[0.06] dark:bg-white/[0.06] flex-shrink-0" />
+
+        {/* ── Right: AI Chatbox ── */}
+        <div className="w-[296px] flex-shrink-0 flex flex-col bg-[#F4F1EC] dark:bg-[#131008]">
+          {/* Chat label */}
+          <div className="px-4 py-2.5 flex items-center gap-2 border-b border-black/[0.06] dark:border-white/[0.05] flex-shrink-0">
+            <div className="w-5 h-5 rounded-md bg-[#1A1A1A] dark:bg-[#E8E3DC] flex items-center justify-center flex-shrink-0">
+              <Wand2 className="w-3 h-3 text-white dark:text-[#1A1A1A]" />
+            </div>
+            <span className="text-[11.5px] font-semibold text-foreground/55 tracking-wide">AI Edit</span>
+          </div>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  className={`max-w-[88%] px-3.5 py-2.5 text-[12.5px] leading-[1.6] ${
+                    msg.role === "ai"
+                      ? "bg-white dark:bg-[#1E1B16] border border-black/[0.06] dark:border-white/[0.06] text-foreground/75 rounded-2xl rounded-tl-sm"
+                      : "bg-[#1A1A1A] dark:bg-[#E8E3DC] text-white dark:text-[#1A1A1A] rounded-2xl rounded-tr-sm"
+                  }`}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+
+          {/* Quick chips + input */}
+          <div className="px-3 pb-3 pt-2 flex-shrink-0 space-y-2">
+            <div className="flex flex-wrap gap-1">
+              {CHIPS.map((chip) => (
                 <button
                   key={chip}
-                  onClick={() => setAiInput(chip)}
-                  className="text-[11px] text-foreground/50 hover:text-foreground/80 border border-black/[0.08] dark:border-white/[0.08] hover:border-black/[0.16] dark:hover:border-white/[0.16] rounded-full px-3 py-1 transition-colors bg-white dark:bg-[#1E1A16] hover:bg-foreground/[0.03]"
+                  onClick={() => { setAiInput(chip); inputRef.current?.focus(); }}
+                  className="text-[11px] text-foreground/50 hover:text-foreground/80 bg-white dark:bg-[#1E1A16] border border-black/[0.07] dark:border-white/[0.07] rounded-full px-2.5 py-1 transition-colors hover:border-black/[0.15] dark:hover:border-white/[0.15] leading-none"
                 >
                   {chip}
                 </button>
               ))}
             </div>
-            {/* Input */}
-            <form onSubmit={handleAiEdit} className="flex items-center gap-2 px-4 pb-3 pt-1">
-              <input
+
+            {/* Input bubble */}
+            <div className="flex items-end gap-2 bg-white dark:bg-[#1E1A16] border border-black/[0.08] dark:border-white/[0.07] rounded-2xl px-3.5 py-2.5">
+              <textarea
                 ref={inputRef}
                 value={aiInput}
                 onChange={(e) => setAiInput(e.target.value)}
-                placeholder="Tell me how to tweak it…"
-                className="flex-1 text-[13px] text-foreground/80 placeholder:text-foreground/30 bg-transparent outline-none"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend(aiInput);
+                  }
+                }}
+                placeholder="Ask me to edit…"
+                rows={1}
+                className="flex-1 text-[12.5px] text-foreground/80 placeholder:text-foreground/30 bg-transparent resize-none outline-none leading-[1.5] max-h-[72px]"
               />
               <button
-                type="submit"
+                onClick={() => handleSend(aiInput)}
                 disabled={!aiInput.trim()}
-                className="flex items-center gap-1.5 text-[12px] font-medium px-3 py-1.5 rounded-lg bg-[#1A1A1A] dark:bg-white text-white dark:text-black disabled:opacity-30 transition-opacity hover:opacity-80"
+                aria-label="Send"
+                className="w-7 h-7 rounded-full bg-[#1A1A1A] dark:bg-[#E8E3DC] flex items-center justify-center flex-shrink-0 disabled:opacity-25 transition-opacity hover:opacity-75 mb-px"
               >
-                <Wand2 className="w-3 h-3" />
-                Edit
+                <SendHorizontal className="w-3.5 h-3.5 text-white dark:text-[#1A1A1A]" />
               </button>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="px-5 py-4 border-t border-black/[0.06] dark:border-white/[0.06] flex-shrink-0 flex gap-2.5">
-        <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full border border-black/[0.12] dark:border-white/[0.12] text-foreground/70 hover:text-foreground hover:border-black/[0.22] dark:hover:border-white/[0.22] text-sm font-medium transition-colors">
-          <Download className="w-3.5 h-3.5" />
-          Download
-        </button>
-        <button className="flex-1 flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-sm font-medium hover:opacity-80 transition-opacity">
-          Apply Now
-          <ExternalLink className="w-3.5 h-3.5" />
-        </button>
       </div>
     </div>
   );
@@ -2013,7 +2058,7 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()} modal={false}>
       <SheetContent
-        className="inset-y-3 right-3 h-[calc(100vh-24px)] rounded-2xl shadow-2xl !border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] p-0 flex flex-col w-[560px] sm:max-w-[560px] overflow-hidden"
+        className={`inset-y-3 right-3 h-[calc(100vh-24px)] rounded-2xl shadow-2xl !border border-black/[0.09] dark:border-white/[0.09] bg-white dark:bg-[#2A2520] p-0 flex flex-col overflow-hidden transition-[width] duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${panelView === "coverLetter" ? "!w-[880px] !max-w-[880px]" : "!w-[560px] !max-w-[560px]"}`}
         hasOverlay={false}
         onInteractOutside={(e) => e.preventDefault()}
       >
