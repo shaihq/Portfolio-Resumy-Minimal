@@ -10,8 +10,19 @@ import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
-import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X } from "lucide-react";
+import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+const PRO_KEYFRAMES = `
+  @property --pro-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+  @keyframes rotate-pro-gradient {
+    to { --pro-angle: 360deg; }
+  }
+`;
 
 import Landing from "@/pages/landing";
 import Signup from "@/pages/signup";
@@ -67,8 +78,14 @@ const PLANS = {
 function ProButton() {
   const [open, setOpen] = useState(false);
   const [billing, setBilling] = useState<"quarterly" | "yearly">("yearly");
+  const [btnHovered, setBtnHovered] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const plan = PLANS[billing];
+
+  const { resolvedTheme } = useTheme();
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted ? resolvedTheme === "dark" : false;
 
   useEffect(() => {
     if (!open) return;
@@ -163,10 +180,48 @@ function ProButton() {
                   </motion.div>
                 </AnimatePresence>
 
+                {/* Keyframes injection */}
+                <style>{PRO_KEYFRAMES}</style>
+
                 {/* CTA */}
-                <button className="w-full py-3 rounded-xl bg-[#E8593A] hover:bg-[#d44e30] text-white text-[13px] font-semibold transition-colors mb-4">
-                  {plan.cta}
-                </button>
+                {billing === "yearly" ? (
+                  <div
+                    onMouseEnter={() => setBtnHovered(true)}
+                    onMouseLeave={() => setBtnHovered(false)}
+                    style={{
+                      borderRadius: 14, padding: "2px", marginBottom: 16,
+                      background: isDark
+                        ? "conic-gradient(from var(--pro-angle, 0deg), #ffffff 0deg, #d0ccc6 6deg, #706c68 18deg, #302e2b 32deg, #1c1916 60deg, #1c1916 300deg, #302e2b 328deg, #706c68 342deg, #d0ccc6 354deg, #ffffff 360deg)"
+                        : "conic-gradient(from var(--pro-angle, 0deg), #ffffff 0deg, #c8c4be 6deg, #686460 18deg, #282522 32deg, #1c1916 60deg, #1c1916 300deg, #282522 328deg, #686460 342deg, #c8c4be 354deg, #ffffff 360deg)",
+                      animation: "rotate-pro-gradient 3s linear infinite",
+                      cursor: "pointer",
+                      transform: btnHovered ? "scale(1.02)" : "scale(1)",
+                      transition: "transform 220ms cubic-bezier(0.34,1.56,0.64,1)",
+                    }}
+                  >
+                    <div
+                      onClick={() => setOpen(false)}
+                      style={{
+                        background: btnHovered ? "#d44e30" : "#E8593A",
+                        borderRadius: 12,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        gap: 6, padding: "11px 0",
+                        fontSize: 13, fontWeight: 600, color: "white",
+                        transition: "background 180ms ease",
+                      }}
+                    >
+                      <Zap size={13} />
+                      {plan.cta}
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    className="w-full py-3 rounded-xl bg-[#E8593A] hover:bg-[#d44e30] text-white text-[13px] font-semibold transition-colors mb-4"
+                    onClick={() => setOpen(false)}
+                  >
+                    {plan.cta}
+                  </button>
+                )}
 
                 {/* Features */}
                 <div className="flex flex-col gap-2.5">
