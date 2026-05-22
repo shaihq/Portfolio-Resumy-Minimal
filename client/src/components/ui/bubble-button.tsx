@@ -22,6 +22,10 @@ const KEYFRAMES = `
   @keyframes rotate-btn-gradient {
     to { --btn-angle: 360deg; }
   }
+  @keyframes liquid-flow {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
 `;
 
 /* ─── Badge bubbles ──────────────────────────────────────────────────── */
@@ -334,38 +338,63 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} isDark={isDark} />
                 </div>
 
-                {/* Credit breakdown */}
+                {/* Credit breakdown — staggered segmented liquid bars */}
                 <div style={{ marginBottom: 14 }}>
                   {[
-                    { label: "Mock Interview", left: 8  },
-                    { label: "Resume Tailor",  left: 30 },
-                    { label: "Cover Letter",   left: 30 },
-                  ].map(({ label, left }, idx, arr) => {
+                    { label: "Mock Interview", left: 8,  total: 16 },
+                    { label: "Resume Tailor",  left: 30, total: 30 },
+                    { label: "Cover Letter",   left: 30, total: 30 },
+                  ].map(({ label, left, total }, idx, arr) => {
+                    const pct        = total > 0 ? left / total : 0;
+                    const SEGS       = 10;
+                    const filledSegs = Math.round(pct * SEGS);
                     const labelColor = isDark ? "rgba(240,237,232,0.82)" : "rgba(26,26,26,0.80)";
-                    const countColor = isDark ? "rgba(240,237,232,0.55)" : "rgba(26,26,26,0.50)";
-                    const trackColor = isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)";
-                    const fillColor  = isDark ? "rgba(255,255,255,0.70)" : "rgba(26,26,26,0.58)";
+                    const countColor = isDark ? "rgba(240,237,232,0.50)" : "rgba(26,26,26,0.45)";
+                    const trackColor = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.09)";
+                    const fillBase   = isDark ? "rgba(255,255,255,0.80)" : "rgba(26,26,26,0.65)";
+                    const fillShine  = isDark ? "rgba(255,255,255,0.40)" : "rgba(255,255,255,0.45)";
                     return (
                       <motion.div key={label}
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        transition={{ delay: 0.05 + idx * 0.05, duration: 0.22 }}
+                        transition={{ delay: 0.04 + idx * 0.06, duration: 0.2 }}
                         style={{
                           display: "flex", alignItems: "center", gap: 10,
-                          marginBottom: idx < arr.length - 1 ? 10 : 0,
+                          marginBottom: idx < arr.length - 1 ? 11 : 0,
                         }}>
                         {/* Label */}
-                        <span style={{ fontSize: 12, fontWeight: 500, color: labelColor, whiteSpace: "nowrap", minWidth: 96 }}>
+                        <span style={{ fontSize: 11.5, fontWeight: 500, color: labelColor, whiteSpace: "nowrap", minWidth: 96 }}>
                           {label}
                         </span>
-                        {/* Bar */}
-                        <div style={{ flex: 1, height: 2.5, borderRadius: 99, overflow: "hidden", background: trackColor }}>
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: "100%" }}
-                            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.14 + idx * 0.07 }}
-                            style={{ height: "100%", borderRadius: 99, background: fillColor }}
-                          />
+
+                        {/* Segmented liquid bar */}
+                        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 2.5 }}>
+                          {Array.from({ length: SEGS }).map((_, si) => {
+                            const isFilled = si < filledSegs;
+                            const segDelay = 0.18 + idx * 0.1 + si * 0.045;
+                            return (
+                              <motion.div
+                                key={si}
+                                initial={{ scaleX: 0, opacity: 0 }}
+                                animate={{ scaleX: 1, opacity: isFilled ? 1 : 0.22 }}
+                                transition={{ delay: segDelay, duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                                style={{
+                                  flex: 1,
+                                  height: isFilled ? 7 : 5,
+                                  borderRadius: 3,
+                                  transformOrigin: "left center",
+                                  background: isFilled
+                                    ? `linear-gradient(90deg, ${fillBase} 0%, ${fillShine} 40%, ${fillBase} 60%, ${fillBase} 100%)`
+                                    : trackColor,
+                                  backgroundSize: isFilled ? "300% 100%" : undefined,
+                                  animation: isFilled
+                                    ? `liquid-flow 2.2s ease-in-out infinite ${(si * 0.12).toFixed(2)}s`
+                                    : undefined,
+                                }}
+                              />
+                            );
+                          })}
                         </div>
+
                         {/* Left count */}
                         <span style={{ fontSize: 11, fontWeight: 600, color: countColor, whiteSpace: "nowrap", minWidth: 36, textAlign: "right", letterSpacing: "-0.2px" }}>
                           {left} Left
