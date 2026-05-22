@@ -344,24 +344,24 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                     { label: "Resume",         used: 2,  total: 4  },
                   ].map(({ label, used, total }, idx, arr) => {
                     const barPct = total > 0 ? used / total : 0;
-                    const fillColor = isDark ? "rgba(255,255,255,0.50)" : "rgba(26,26,26,0.45)";
+                    const labelColor  = isDark ? "rgba(240,237,232,0.82)" : "rgba(26,26,26,0.80)";
+                    const countColor  = isDark ? "rgba(240,237,232,0.60)" : "rgba(26,26,26,0.55)";
+                    const trackColor  = isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)";
+                    const fillColor   = isDark ? "rgba(255,255,255,0.72)" : "rgba(26,26,26,0.62)";
                     return (
                       <motion.div key={label}
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                         transition={{ delay: 0.05 + idx * 0.04, duration: 0.22 }}
-                        style={{ marginBottom: idx < arr.length - 1 ? 9 : 0 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 5 }}>
-                          <span style={{ fontSize: 11, fontWeight: 500, color: card.descColor, letterSpacing: "0.01em" }}>
-                            {label}
-                          </span>
-                          <span style={{ fontSize: 10.5, fontWeight: 500, color: card.descColor, letterSpacing: "-0.2px", opacity: 0.6 }}>
-                            {used}<span style={{ opacity: 0.4 }}> / {total}</span>
-                          </span>
-                        </div>
-                        <div style={{
-                          height: 3, borderRadius: 99, overflow: "hidden",
-                          background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                        style={{
+                          display: "flex", alignItems: "center", gap: 8,
+                          marginBottom: idx < arr.length - 1 ? 8 : 0,
                         }}>
+                        {/* Label */}
+                        <span style={{ fontSize: 11, fontWeight: 500, color: labelColor, whiteSpace: "nowrap", minWidth: 84 }}>
+                          {label}
+                        </span>
+                        {/* Bar */}
+                        <div style={{ flex: 1, height: 3, borderRadius: 99, overflow: "hidden", background: trackColor }}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${barPct * 100}%` }}
@@ -369,6 +369,10 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                             style={{ height: "100%", borderRadius: 99, background: fillColor }}
                           />
                         </div>
+                        {/* Count */}
+                        <span style={{ fontSize: 10.5, fontWeight: 600, color: countColor, whiteSpace: "nowrap", minWidth: 28, textAlign: "right", letterSpacing: "-0.2px" }}>
+                          {used}<span style={{ fontWeight: 400, opacity: 0.55 }}>/{total}</span>
+                        </span>
                       </motion.div>
                     );
                   })}
