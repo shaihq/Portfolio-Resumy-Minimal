@@ -335,40 +335,37 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 </div>
 
                 {/* Credit breakdown */}
-                <div style={{
-                  borderRadius: 14,
-                  background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
-                  padding: "12px 14px",
-                  marginBottom: 14,
-                }}>
+                <div style={{ marginBottom: 14 }}>
                   {[
                     { label: "Mock Interview", used: 12, total: 15 },
                     { label: "Ask Scout",      used: 5,  total: 10 },
                     { label: "Fit Analysis",   used: 3,  total: 5  },
-                  ].map(({ label, used, total }, idx) => {
+                    { label: "Cover Letter",   used: 6,  total: 8  },
+                    { label: "Resume",         used: 2,  total: 4  },
+                  ].map(({ label, used, total }, idx, arr) => {
                     const barPct = total > 0 ? used / total : 0;
-                    const fillColor = isDark ? "rgba(255,255,255,0.55)" : "rgba(26,26,26,0.50)";
+                    const fillColor = isDark ? "rgba(255,255,255,0.50)" : "rgba(26,26,26,0.45)";
                     return (
                       <motion.div key={label}
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        transition={{ delay: 0.06 + idx * 0.05, duration: 0.25 }}
-                        style={{ marginBottom: idx < 2 ? 10 : 0 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+                        transition={{ delay: 0.05 + idx * 0.04, duration: 0.22 }}
+                        style={{ marginBottom: idx < arr.length - 1 ? 9 : 0 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 5 }}>
                           <span style={{ fontSize: 11, fontWeight: 500, color: card.descColor, letterSpacing: "0.01em" }}>
                             {label}
                           </span>
-                          <span style={{ fontSize: 10.5, fontWeight: 500, color: card.descColor, letterSpacing: "-0.2px", opacity: 0.7 }}>
-                            {used} <span style={{ opacity: 0.45 }}>/ {total}</span>
+                          <span style={{ fontSize: 10.5, fontWeight: 500, color: card.descColor, letterSpacing: "-0.2px", opacity: 0.6 }}>
+                            {used}<span style={{ opacity: 0.4 }}> / {total}</span>
                           </span>
                         </div>
                         <div style={{
                           height: 3, borderRadius: 99, overflow: "hidden",
-                          background: isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)",
+                          background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
                         }}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${barPct * 100}%` }}
-                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 + idx * 0.07 }}
+                            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.12 + idx * 0.06 }}
                             style={{ height: "100%", borderRadius: 99, background: fillColor }}
                           />
                         </div>
