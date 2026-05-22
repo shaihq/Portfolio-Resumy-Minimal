@@ -190,9 +190,7 @@ function ProButton() {
                     onMouseLeave={() => setBtnHovered(false)}
                     style={{
                       borderRadius: 14, padding: "2px", marginBottom: 16,
-                      background: isDark
-                        ? "conic-gradient(from var(--pro-angle, 0deg), #ffffff 0deg, #d0ccc6 6deg, #706c68 18deg, #302e2b 32deg, #1c1916 60deg, #1c1916 300deg, #302e2b 328deg, #706c68 342deg, #d0ccc6 354deg, #ffffff 360deg)"
-                        : "conic-gradient(from var(--pro-angle, 0deg), #ffffff 0deg, #c8c4be 6deg, #686460 18deg, #282522 32deg, #1c1916 60deg, #1c1916 300deg, #282522 328deg, #686460 342deg, #c8c4be 354deg, #ffffff 360deg)",
+                      background: "conic-gradient(from var(--pro-angle, 0deg), #FFD580 0deg, #FF9A3C 40deg, #E8593A 90deg, #C0392B 150deg, #7A1A0A 180deg, #7A1A0A 200deg, #C0392B 240deg, #E8593A 290deg, #FF9A3C 330deg, #FFD580 360deg)",
                       animation: "rotate-pro-gradient 3s linear infinite",
                       cursor: "pointer",
                       transform: btnHovered ? "scale(1.02)" : "scale(1)",
