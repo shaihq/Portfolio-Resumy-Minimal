@@ -220,7 +220,7 @@ function LiquidGauge({ pct, remaining, limit, uid, isDark }: {
           textAnchor="middle" dominantBaseline="central"
           fill={labelColor} fontSize="11" fontWeight="500"
           style={{ userSelect: "none", letterSpacing: "1px", fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase" }}>
-          / {limit} CREDITS
+          AI CREDITS LEFT
         </text>
       </motion.g>
     </svg>
@@ -297,7 +297,7 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
           <div className="relative z-10 whitespace-nowrap">
             <span>{planName}:</span>
             <span className="ml-1.5 font-semibold">{usage}</span>
-            <span className="ml-0.5 opacity-50 text-xs">/ {limit}</span>
+            <span className="ml-1 opacity-50 text-xs">Credits</span>
           </div>
         </div>
 
@@ -337,41 +337,38 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                 {/* Credit breakdown */}
                 <div style={{ marginBottom: 14 }}>
                   {[
-                    { label: "Mock Interview", used: 12, total: 15 },
-                    { label: "Ask Scout",      used: 5,  total: 10 },
-                    { label: "Fit Analysis",   used: 3,  total: 5  },
-                    { label: "Cover Letter",   used: 6,  total: 8  },
-                    { label: "Resume",         used: 2,  total: 4  },
-                  ].map(({ label, used, total }, idx, arr) => {
-                    const barPct = total > 0 ? used / total : 0;
-                    const labelColor  = isDark ? "rgba(240,237,232,0.82)" : "rgba(26,26,26,0.80)";
-                    const countColor  = isDark ? "rgba(240,237,232,0.60)" : "rgba(26,26,26,0.55)";
-                    const trackColor  = isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)";
-                    const fillColor   = isDark ? "rgba(255,255,255,0.72)" : "rgba(26,26,26,0.62)";
+                    { label: "Mock Interview", left: 8  },
+                    { label: "Resume Tailor",  left: 30 },
+                    { label: "Cover Letter",   left: 30 },
+                  ].map(({ label, left }, idx, arr) => {
+                    const labelColor = isDark ? "rgba(240,237,232,0.82)" : "rgba(26,26,26,0.80)";
+                    const countColor = isDark ? "rgba(240,237,232,0.55)" : "rgba(26,26,26,0.50)";
+                    const trackColor = isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)";
+                    const fillColor  = isDark ? "rgba(255,255,255,0.70)" : "rgba(26,26,26,0.58)";
                     return (
                       <motion.div key={label}
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        transition={{ delay: 0.05 + idx * 0.04, duration: 0.22 }}
+                        transition={{ delay: 0.05 + idx * 0.05, duration: 0.22 }}
                         style={{
-                          display: "flex", alignItems: "center", gap: 8,
-                          marginBottom: idx < arr.length - 1 ? 8 : 0,
+                          display: "flex", alignItems: "center", gap: 10,
+                          marginBottom: idx < arr.length - 1 ? 10 : 0,
                         }}>
                         {/* Label */}
-                        <span style={{ fontSize: 11, fontWeight: 500, color: labelColor, whiteSpace: "nowrap", minWidth: 84 }}>
+                        <span style={{ fontSize: 12, fontWeight: 500, color: labelColor, whiteSpace: "nowrap", minWidth: 96 }}>
                           {label}
                         </span>
                         {/* Bar */}
-                        <div style={{ flex: 1, height: 3, borderRadius: 99, overflow: "hidden", background: trackColor }}>
+                        <div style={{ flex: 1, height: 2.5, borderRadius: 99, overflow: "hidden", background: trackColor }}>
                           <motion.div
                             initial={{ width: 0 }}
-                            animate={{ width: `${barPct * 100}%` }}
-                            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.12 + idx * 0.06 }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.14 + idx * 0.07 }}
                             style={{ height: "100%", borderRadius: 99, background: fillColor }}
                           />
                         </div>
-                        {/* Count */}
-                        <span style={{ fontSize: 10.5, fontWeight: 600, color: countColor, whiteSpace: "nowrap", minWidth: 28, textAlign: "right", letterSpacing: "-0.2px" }}>
-                          {used}<span style={{ fontWeight: 400, opacity: 0.55 }}>/{total}</span>
+                        {/* Left count */}
+                        <span style={{ fontSize: 11, fontWeight: 600, color: countColor, whiteSpace: "nowrap", minWidth: 36, textAlign: "right", letterSpacing: "-0.2px" }}>
+                          {left} Left
                         </span>
                       </motion.div>
                     );

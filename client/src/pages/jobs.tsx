@@ -4525,8 +4525,8 @@ function Dashboard() {
           <UsageBadge
             icon={<FlaskConical className="w-3.5 h-3.5 opacity-70" />}
             planName="AI Balance"
-            usage={20}
-            limit={30}
+            usage={68}
+            limit={68}
             tooltipContent={
               <p>30 AI credits remaining.<br />Used for mock interviews &amp; scout chats.</p>
             }
