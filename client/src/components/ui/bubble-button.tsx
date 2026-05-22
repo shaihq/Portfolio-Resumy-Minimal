@@ -334,51 +334,48 @@ const UsageBadge = React.forwardRef<HTMLDivElement, UsageBadgeProps>(
                   <LiquidGauge pct={pct} remaining={remaining} limit={limit} uid={uid} isDark={isDark} />
                 </div>
 
-                {/* Credit breakdown bars */}
-                <div style={{ marginBottom: 16 }}>
+                {/* Credit breakdown */}
+                <div style={{
+                  borderRadius: 14,
+                  background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+                  padding: "12px 14px",
+                  marginBottom: 14,
+                }}>
                   {[
-                    { label: "Mock Interview", icon: "🎙", used: 12, total: 15 },
-                    { label: "Ask Scout",      icon: "🤖", used: 5,  total: 10 },
-                    { label: "Fit Analysis",   icon: "📊", used: 3,  total: 5  },
-                  ].map(({ label, icon, used, total }, idx) => {
+                    { label: "Mock Interview", used: 12, total: 15 },
+                    { label: "Ask Scout",      used: 5,  total: 10 },
+                    { label: "Fit Analysis",   used: 3,  total: 5  },
+                  ].map(({ label, used, total }, idx) => {
                     const barPct = total > 0 ? used / total : 0;
-                    const gradFrom = barPct > 0.5 ? "#b5f546" : barPct > 0.2 ? "#fde68a" : "#fca5a5";
-                    const gradTo   = barPct > 0.5 ? "#4ade80" : barPct > 0.2 ? "#f59e0b" : "#ef4444";
+                    const fillColor = isDark ? "rgba(255,255,255,0.55)" : "rgba(26,26,26,0.50)";
                     return (
                       <motion.div key={label}
-                        initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.08 + idx * 0.06, duration: 0.3 }}
-                        style={{ marginBottom: idx < 2 ? 11 : 0 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
-                          <span style={{ fontSize: 11.5, fontWeight: 500, color: card.descColor, display: "flex", alignItems: "center", gap: 5 }}>
-                            <span style={{ fontSize: 11 }}>{icon}</span>{label}
+                        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                        transition={{ delay: 0.06 + idx * 0.05, duration: 0.25 }}
+                        style={{ marginBottom: idx < 2 ? 10 : 0 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+                          <span style={{ fontSize: 11, fontWeight: 500, color: card.descColor, letterSpacing: "0.01em" }}>
+                            {label}
                           </span>
-                          <span style={{ fontSize: 11, fontWeight: 600, color: isDark ? "hsl(46,29%,85%)" : "rgba(26,26,26,0.75)", letterSpacing: "-0.2px" }}>
-                            {used}<span style={{ opacity: 0.38, fontWeight: 500 }}>/{total}</span>
+                          <span style={{ fontSize: 10.5, fontWeight: 500, color: card.descColor, letterSpacing: "-0.2px", opacity: 0.7 }}>
+                            {used} <span style={{ opacity: 0.45 }}>/ {total}</span>
                           </span>
                         </div>
                         <div style={{
-                          height: 5, borderRadius: 99, overflow: "hidden",
-                          background: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)",
+                          height: 3, borderRadius: 99, overflow: "hidden",
+                          background: isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)",
                         }}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${barPct * 100}%` }}
-                            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.18 + idx * 0.08 }}
-                            style={{
-                              height: "100%", borderRadius: 99,
-                              background: `linear-gradient(90deg, ${gradFrom}, ${gradTo})`,
-                              boxShadow: `0 0 6px ${gradTo}55`,
-                            }}
+                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 + idx * 0.07 }}
+                            style={{ height: "100%", borderRadius: 99, background: fillColor }}
                           />
                         </div>
                       </motion.div>
                     );
                   })}
                 </div>
-
-                {/* Divider */}
-                <div style={{ height: 1, background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", margin: "0 0 14px" }} />
 
                 {/* CTA — rotating gradient border button */}
                 <div
