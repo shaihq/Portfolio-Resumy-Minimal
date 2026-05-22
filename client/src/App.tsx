@@ -62,12 +62,14 @@ function DevNav() {
 }
 
 const FEATURES = [
-  "Use your own custom domain",
-  "Access all templates — now & forever",
-  "Create unlimited projects (not just 2)",
-  "Track views with built-in analytics",
-  "Remove Designfolio branding",
-  "Priority support",
+  "Write unlimited case studies",
+  "Custom domain",
+  "All premium templates",
+  "Use AI to find jobs",
+  "Tailored resumes & cover letters",
+  "AI-powered job insights",
+  "Mock interviews",
+  "AI case study analysis",
 ];
 
 const PLANS = {
