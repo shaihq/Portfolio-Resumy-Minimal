@@ -118,6 +118,104 @@ function garc(a1: number, a2: number) {
   return `M ${s.x.toFixed(2)} ${s.y.toFixed(2)} A ${GR} ${GR} 0 ${sw > 180 ? 1 : 0} 1 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
 }
 
+// ── Score reveal gauge — arc filled to score, number blurred ──────────────
+function ScoreRevealGauge({ score, isDark }: { score: number; isDark: boolean }) {
+  const uid = useId().replace(/:/g, "");
+  const trackPath = garc(GA0, GA1);
+  const scoreFraction = score / 100;
+  // Arc filled only up to the score position
+  const scoreEndAngle = GA0 + scoreFraction * 240;
+  const scorePath = garc(GA0, scoreEndAngle);
+  const pointerDot = gpt(scoreEndAngle);
+  const xL = gpt(GA0).x, xR = gpt(GA1).x;
+  const trackColor = isDark ? "hsl(20,8%,18%)" : "rgba(215,210,203,0.85)";
+
+  return (
+    <svg
+      viewBox={`0 0 ${GVW} ${GVH}`}
+      width={GVW * 1.7}
+      height={GVH * 1.7}
+      style={{ overflow: "visible", display: "block" }}
+    >
+      <defs>
+        <linearGradient id={`rb-reveal-${uid}`} gradientUnits="userSpaceOnUse" x1={xL} y1="0" x2={xR} y2="0">
+          <stop offset="0%"   stopColor="#ef4444" />
+          <stop offset="28%"  stopColor="#f97316" />
+          <stop offset="52%"  stopColor="#eab308" />
+          <stop offset="78%"  stopColor="#84cc16" />
+          <stop offset="100%" stopColor="#22c55e" />
+        </linearGradient>
+        <filter id={`blur-score-${uid}`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.8" />
+        </filter>
+        <filter id={`glow-dot-${uid}`} x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="1.8" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+
+      {/* Track (grey) */}
+      <path d={trackPath} fill="none" stroke={trackColor} strokeWidth={GSW} strokeLinecap="round" />
+
+      {/* Filled arc up to score */}
+      <motion.path
+        d={scorePath}
+        fill="none"
+        stroke={`url(#rb-reveal-${uid})`}
+        strokeWidth={GSW - 1}
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+      />
+
+      {/* Shine on filled arc */}
+      <motion.path
+        d={scorePath}
+        fill="none"
+        stroke="rgba(255,255,255,0.22)"
+        strokeWidth={(GSW - 1) * 0.45}
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+      />
+
+      {/* Pointer dot at score position */}
+      <motion.circle
+        cx={pointerDot.x}
+        cy={pointerDot.y}
+        r={GSW * 0.52}
+        fill="white"
+        stroke="rgba(0,0,0,0.14)"
+        strokeWidth={0.7}
+        filter={`url(#glow-dot-${uid})`}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.2, duration: 0.35, ease: "backOut" }}
+      />
+
+      {/* Blurred score number */}
+      <motion.text
+        x={GCX}
+        y={GCY - 2}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill={isDark ? "rgba(240,237,232,0.9)" : "#1A1A1A"}
+        fontSize="22"
+        fontWeight="900"
+        filter={`url(#blur-score-${uid})`}
+        style={{ userSelect: "none", fontFamily: "inherit", letterSpacing: "-0.5px" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0.75, 1] }}
+        transition={{ delay: 0.5, duration: 1.2, times: [0, 0.4, 0.7, 1] }}
+      >
+        {score}
+      </motion.text>
+    </svg>
+  );
+}
+
 // ── "Your Score" — rainbow arc + ? + dot ──────────────────────────────────
 function YourScoreGauge({ isDark }: { isDark: boolean }) {
   const uid = useId().replace(/:/g, "");
@@ -506,49 +604,88 @@ function ScoreModal({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
+                transition={{ duration: 0.3 }}
               >
-                {/* Success badge */}
-                <div className="flex items-center gap-2 mb-5">
-                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-400/15 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
-                  </div>
-                  <p className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400">
-                    Resume analysed — your score is ready
-                  </p>
-                </div>
+                {/* Score reveal hero */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.94 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative flex flex-col items-center gap-2 rounded-2xl bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] border border-[#1D1B1A]/[0.07] dark:border-white/[0.07] pt-7 pb-5 mb-6 overflow-hidden"
+                >
+                  {/* Subtle glow behind gauge */}
+                  <div
+                    className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-24 pointer-events-none"
+                    style={{
+                      background: "radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.12) 0%, transparent 70%)",
+                    }}
+                  />
 
-                <div className="mb-6">
-                  <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight mb-1.5">
-                    Create your free account
+                  {/* Company context */}
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <div
+                      className="w-4 h-4 rounded-[4px] flex items-center justify-center text-white text-[8px] font-black flex-shrink-0"
+                      style={{ backgroundColor: job.logoColor }}
+                    >
+                      {job.logoLetter}
+                    </div>
+                    <span className="text-[10px] font-semibold text-[#1D1B1A]/40 dark:text-foreground/40 uppercase tracking-widest">
+                      {job.company} · {job.role}
+                    </span>
+                  </div>
+
+                  {/* Big gauge */}
+                  <ScoreRevealGauge score={job.match} isDark={isDark} />
+
+                  {/* Label + lock */}
+                  <div className="flex flex-col items-center gap-1 mt-1">
+                    <div className="flex items-center gap-1.5">
+                      <Lock className="w-3 h-3 text-[#1D1B1A]/35 dark:text-foreground/35" />
+                      <span className="text-[12px] font-semibold text-[#1D1B1A]/50 dark:text-foreground/50">
+                        Your match score
+                      </span>
+                    </div>
+                    {/* Blurred teaser stat */}
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                      className="text-[11px] text-[#1D1B1A]/40 dark:text-foreground/40"
+                      style={{ filter: "blur(4px)", userSelect: "none" }}
+                    >
+                      You match {job.skills.length} of {job.skills.length} must-have skills
+                    </motion.p>
+                  </div>
+                </motion.div>
+
+                {/* Headline */}
+                <div className="mb-5">
+                  <h2 className="text-[21px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight mb-1.5">
+                    Your score is waiting
                   </h2>
-                  <p className="text-[14px] text-[#1D1B1A]/55 dark:text-foreground/55 leading-relaxed">
-                    Save your score and unlock the full breakdown for{" "}
-                    <span className="font-semibold text-[#1D1B1A] dark:text-foreground">{job.company}</span>.
+                  <p className="text-[13.5px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-relaxed">
+                    Sign up free to reveal your full breakdown and see how you rank against other applicants.
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Full name"
-                      value={form.name}
-                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                      required
-                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/15 dark:border-white/15 bg-white dark:bg-white/[0.05] px-4 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/35 dark:placeholder:text-foreground/35 focus:outline-none focus:border-[#1D1B1A]/40 dark:focus:border-white/30 transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="Work email"
-                      value={form.email}
-                      onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                      required
-                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/15 dark:border-white/15 bg-white dark:bg-white/[0.05] px-4 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/35 dark:placeholder:text-foreground/35 focus:outline-none focus:border-[#1D1B1A]/40 dark:focus:border-white/30 transition-colors"
-                    />
-                  </div>
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+                  <input
+                    type="text"
+                    placeholder="Full name"
+                    value={form.name}
+                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                    required
+                    className="w-full h-11 rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-white dark:bg-white/[0.05] px-4 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/30 dark:placeholder:text-foreground/30 focus:outline-none focus:border-[#1D1B1A]/35 dark:focus:border-white/30 transition-colors"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Work email"
+                    value={form.email}
+                    onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                    required
+                    className="w-full h-11 rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-white dark:bg-white/[0.05] px-4 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/30 dark:placeholder:text-foreground/30 focus:outline-none focus:border-[#1D1B1A]/35 dark:focus:border-white/30 transition-colors"
+                  />
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -556,7 +693,7 @@ function ScoreModal({
                       value={form.password}
                       onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
                       required
-                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/15 dark:border-white/15 bg-white dark:bg-white/[0.05] px-4 pr-11 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/35 dark:placeholder:text-foreground/35 focus:outline-none focus:border-[#1D1B1A]/40 dark:focus:border-white/30 transition-colors"
+                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/12 dark:border-white/12 bg-white dark:bg-white/[0.05] px-4 pr-11 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/30 dark:placeholder:text-foreground/30 focus:outline-none focus:border-[#1D1B1A]/35 dark:focus:border-white/30 transition-colors"
                     />
                     <button
                       type="button"
@@ -569,16 +706,17 @@ function ScoreModal({
 
                   <button
                     type="submit"
-                    className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold mt-1 transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                    className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold mt-0.5 flex items-center justify-center gap-2 transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
                   >
-                    See my Score for {job.company}
+                    Reveal my Score
+                    <ArrowRight className="w-4 h-4" />
                   </button>
 
-                  <p className="text-[11px] text-[#1D1B1A]/30 dark:text-foreground/30 text-center leading-relaxed">
+                  <p className="text-[11px] text-[#1D1B1A]/28 dark:text-foreground/28 text-center leading-relaxed pt-0.5">
                     By signing up you agree to our{" "}
-                    <a href="#" className="underline underline-offset-2 hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60">Terms</a>
+                    <a href="#" className="underline underline-offset-2 hover:text-[#1D1B1A]/55 dark:hover:text-foreground/55">Terms</a>
                     {" "}and{" "}
-                    <a href="#" className="underline underline-offset-2 hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60">Privacy Policy</a>.
+                    <a href="#" className="underline underline-offset-2 hover:text-[#1D1B1A]/55 dark:hover:text-foreground/55">Privacy Policy</a>.
                   </p>
                 </form>
               </motion.div>
