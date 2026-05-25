@@ -570,11 +570,11 @@ function ScoreModal({
             {stage === "processing" && (
               <motion.div
                 key="stage-processing"
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.97 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                className="orb-always-active flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-6 py-16"
+                className="orb-always-active flex flex-col items-center justify-center gap-4 py-16"
               >
                 <ColorOrb dimension="32px" spinDuration={5} />
                 <div className="flex flex-col items-center gap-1">
