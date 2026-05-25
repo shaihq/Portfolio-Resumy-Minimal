@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useId, useEffect, useState } from "react";
 import {
   MapPin, Briefcase, Monitor, Clock, Calendar, ExternalLink,
-  Check, ArrowRight, Sparkles, Zap,
+  Check, ArrowRight, Sparkles, Lock,
 } from "lucide-react";
 
 // ── Shared job data ────────────────────────────────────────────────────────
@@ -100,78 +100,127 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ── Semi-circle score gauge ────────────────────────────────────────────────
-const G_R = 28, G_CX = 36, G_CY = 34, G_SW = 5;
-const G_A0 = 210, G_A1 = 330; // start/end deg — leaves gap at bottom
+// ── Gauge geometry (same convention as bubble-button.tsx) ─────────────────
+// A0=240 (lower-left), A1=120 (lower-right), sweep=240° through the top
+const GA0 = 240, GA1 = 120, GCX = 50, GCY = 52, GR = 34, GSW = 7;
+const GVW = 100, GVH = 72;
 
-function gPt(deg: number) {
+function gpt(deg: number) {
   const r = (deg * Math.PI) / 180;
-  return { x: G_CX + G_R * Math.sin(r), y: G_CY - G_R * Math.cos(r) };
+  return { x: GCX + GR * Math.sin(r), y: GCY - GR * Math.cos(r) };
 }
-function gArc(a1: number, a2: number) {
-  const s = gPt(a1), e = gPt(a2);
+function garc(a1: number, a2: number) {
+  const s = gpt(a1), e = gpt(a2);
   const sw = ((a2 - a1) + 360) % 360;
-  return `M ${s.x.toFixed(2)} ${s.y.toFixed(2)} A ${G_R} ${G_R} 0 ${sw > 180 ? 1 : 0} 1 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
+  if (sw < 0.1) return "";
+  return `M ${s.x.toFixed(2)} ${s.y.toFixed(2)} A ${GR} ${GR} 0 ${sw > 180 ? 1 : 0} 1 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
 }
 
-function ScoreArc({ filled, isDark }: { filled?: boolean; isDark: boolean }) {
+// ── "Your Score" — rainbow arc + ? + dot ──────────────────────────────────
+function YourScoreGauge({ isDark }: { isDark: boolean }) {
   const uid = useId().replace(/:/g, "");
-  const track = gArc(G_A0, G_A1);
-  const trackColor = isDark ? "hsl(20,8%,20%)" : "rgba(210,205,198,0.80)";
-  const [num, setNum] = useState(0);
-  useEffect(() => {
-    if (!filled) return;
-    const dur = 900, start = performance.now();
-    let raf: number;
-    const step = (now: number) => {
-      const t = Math.min((now - start) / dur, 1);
-      setNum(Math.round((1 - Math.pow(1 - t, 3)) * 78));
-      if (t < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [filled]);
+  const trackPath = garc(GA0, GA1);
+  const topDot = gpt(0); // 12 o'clock = top of arc
 
-  const filledSweep = filled ? 240 * (num / 100) : 0;
-  const filledEnd = (G_A0 + filledSweep) % 360;
-  const arcPath = filledSweep > 0.5 ? gArc(G_A0, filledEnd) : "";
-  const arcLen = (filledSweep * Math.PI / 180) * G_R;
+  const trackColor = isDark ? "hsl(20,8%,18%)" : "rgba(215,210,203,0.85)";
+  // x-range of the arc: leftmost=gpt(GA0).x, rightmost=gpt(GA1).x
+  const xL = gpt(GA0).x, xR = gpt(GA1).x;
 
   return (
-    <svg viewBox={`0 0 72 44`} width={72} height={44} style={{ overflow: "visible" }}>
+    <svg viewBox={`0 0 ${GVW} ${GVH}`} width={GVW} height={GVH} style={{ overflow: "visible", display: "block" }}>
       <defs>
-        <linearGradient id={`g-${uid}`} gradientUnits="userSpaceOnUse" x1={G_CX} y1={G_CY - G_R} x2={G_CX} y2={G_CY + G_R * 0.4}>
-          <stop offset="0%" stopColor="#4ade80" />
-          <stop offset="100%" stopColor="#10b981" />
+        {/* Rainbow gradient from left to right across the arc */}
+        <linearGradient id={`rb-${uid}`} gradientUnits="userSpaceOnUse" x1={xL} y1="0" x2={xR} y2="0">
+          <stop offset="0%"   stopColor="#ef4444" />
+          <stop offset="28%"  stopColor="#f97316" />
+          <stop offset="52%"  stopColor="#eab308" />
+          <stop offset="78%"  stopColor="#84cc16" />
+          <stop offset="100%" stopColor="#22c55e" />
         </linearGradient>
+        {/* Glow filter for the filled arc */}
+        <filter id={`glow-${uid}`} x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2.5" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
       </defs>
-      <path d={track} fill="none" stroke={trackColor} strokeWidth={G_SW} strokeLinecap="round" />
-      {filled && arcPath && (
-        <motion.path
-          d={arcPath}
-          fill="none"
-          stroke={`url(#g-${uid})`}
-          strokeWidth={G_SW}
-          strokeLinecap="round"
-          strokeDasharray={arcLen}
-          initial={{ strokeDashoffset: arcLen }}
-          animate={{ strokeDashoffset: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-        />
-      )}
-      {filled ? (
-        <text x={G_CX} y={G_CY + 1} textAnchor="middle" dominantBaseline="middle"
-          fill={isDark ? "rgba(240,237,232,0.9)" : "#1A1A1A"}
-          fontSize="9" fontWeight="700" style={{ userSelect: "none" }}>
-          {num}
-        </text>
-      ) : (
-        <text x={G_CX} y={G_CY + 1} textAnchor="middle" dominantBaseline="middle"
-          fill={isDark ? "rgba(240,237,232,0.3)" : "rgba(26,26,26,0.25)"}
-          fontSize="12" fontWeight="600" style={{ userSelect: "none" }}>
-          —
-        </text>
-      )}
+
+      {/* Track (grey) */}
+      <path d={trackPath} fill="none" stroke={trackColor} strokeWidth={GSW} strokeLinecap="round" />
+
+      {/* Rainbow filled arc (full sweep — unknown state shows full rainbow) */}
+      <motion.path
+        d={trackPath}
+        fill="none"
+        stroke={`url(#rb-${uid})`}
+        strokeWidth={GSW - 1}
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+      />
+
+      {/* Shine highlight on the arc */}
+      <motion.path
+        d={trackPath}
+        fill="none"
+        stroke="rgba(255,255,255,0.25)"
+        strokeWidth={(GSW - 1) * 0.5}
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+      />
+
+      {/* White dot at the top (pointer indicator) */}
+      <motion.circle
+        cx={topDot.x} cy={topDot.y} r={GSW * 0.48}
+        fill="white"
+        stroke="rgba(0,0,0,0.12)"
+        strokeWidth={0.8}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.9, duration: 0.3, ease: "backOut" }}
+      />
+
+      {/* "?" label */}
+      <motion.text
+        x={GCX} y={GCY - 2}
+        textAnchor="middle" dominantBaseline="middle"
+        fill={isDark ? "rgba(240,237,232,0.85)" : "#1A1A1A"}
+        fontSize="22" fontWeight="800"
+        style={{ userSelect: "none", fontFamily: "inherit", letterSpacing: "-0.5px" }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+      >
+        ?
+      </motion.text>
+    </svg>
+  );
+}
+
+// ── "Top Applicants" — grey flat arc + — ─────────────────────────────────
+function TopApplicantsGauge({ isDark }: { isDark: boolean }) {
+  const trackPath = garc(GA0, GA1);
+  const trackColor = isDark ? "hsl(20,8%,22%)" : "rgba(215,210,203,0.85)";
+  const dashColor  = isDark ? "hsl(20,8%,30%)" : "rgba(190,185,178,0.95)";
+
+  return (
+    <svg viewBox={`0 0 ${GVW} ${GVH}`} width={GVW} height={GVH} style={{ overflow: "visible", display: "block" }}>
+      {/* Track */}
+      <path d={trackPath} fill="none" stroke={trackColor} strokeWidth={GSW} strokeLinecap="round" />
+      {/* Slightly darker filled arc (full, grey) */}
+      <path d={trackPath} fill="none" stroke={dashColor} strokeWidth={GSW - 2} strokeLinecap="round" />
+
+      {/* "—" label */}
+      <text
+        x={GCX} y={GCY - 2}
+        textAnchor="middle" dominantBaseline="middle"
+        fill={isDark ? "rgba(240,237,232,0.25)" : "rgba(26,26,26,0.22)"}
+        fontSize="22" fontWeight="700"
+        style={{ userSelect: "none", fontFamily: "inherit" }}
+      >
+        —
+      </text>
     </svg>
   );
 }
@@ -194,42 +243,56 @@ function BoostCard({ job, onCta, isDark }: { job: Job; onCta: () => void; isDark
       </div>
 
       {/* Gauges */}
-      <div className="flex items-end justify-around mb-5 px-1">
-        <div className="flex flex-col items-center gap-1.5">
-          <ScoreArc filled={false} isDark={isDark} />
-          <span className="text-[11px] text-foreground/45 font-medium">Your Score</span>
+      <div className="flex items-center justify-between gap-1 mb-4 px-0.5">
+        <div className="flex flex-col items-center gap-1.5 flex-1">
+          <YourScoreGauge isDark={isDark} />
+          <span className="text-[11px] text-foreground/50 font-medium tracking-tight">Your Score</span>
         </div>
 
-        {/* Arrow divider */}
-        <div className="flex items-center gap-0.5 pb-5 opacity-30">
-          <div className="w-1.5 h-1.5 border-r-[2px] border-t-[2px] border-foreground rotate-45" />
-          <div className="w-1.5 h-1.5 border-r-[2px] border-t-[2px] border-foreground rotate-45 -ml-1" />
+        {/* Triple chevron arrows (>>>), matching reference image */}
+        <div className="flex items-center gap-[2px] opacity-20 mb-6 flex-shrink-0">
+          {[0, 1, 2].map((i) => (
+            <svg key={i} width="8" height="12" viewBox="0 0 8 12" fill="none">
+              <path d="M1 1l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                className="text-foreground" />
+            </svg>
+          ))}
         </div>
 
-        <div className="flex flex-col items-center gap-1.5">
-          <ScoreArc filled={true} isDark={isDark} />
-          <span className="text-[11px] text-foreground/45 font-medium">Top Applicants</span>
+        <div className="flex flex-col items-center gap-1.5 flex-1">
+          <TopApplicantsGauge isDark={isDark} />
+          <span className="text-[11px] text-foreground/50 font-medium tracking-tight">Top Applicants</span>
         </div>
       </div>
 
       {/* Divider */}
       <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-4" />
 
-      {/* Skills */}
+      {/* Skills — blurred with lock overlay */}
       <div className="mb-4">
-        <div className="flex items-center gap-1.5 mb-3">
-          <Zap className="w-3.5 h-3.5 text-foreground/40" />
-          <span className="text-[11px] font-semibold text-foreground/55 uppercase tracking-widest">Must-Have Skills</span>
+        <div className="flex items-center gap-1.5 mb-2.5">
+          <Lock className="w-3 h-3 text-foreground/35" />
+          <span className="text-[11px] font-semibold text-foreground/50 uppercase tracking-widest">Must-Have Skills</span>
         </div>
-        <div className="flex flex-wrap gap-1.5">
-          {job.skills.map((s) => (
-            <span
-              key={s}
-              className="inline-flex items-center font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap"
-            >
-              {s}
-            </span>
-          ))}
+        <div className="relative">
+          {/* Blurred skill tags */}
+          <div className="flex flex-wrap gap-1.5 select-none pointer-events-none" style={{ filter: "blur(4px)" }}>
+            {job.skills.map((s) => (
+              <span
+                key={s}
+                className="inline-flex items-center font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+          {/* Lock overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-center gap-1.5 bg-white/70 dark:bg-[#28231E]/80 backdrop-blur-[2px] rounded-lg px-3 py-1.5 border border-black/[0.06] dark:border-white/[0.07]">
+              <Lock className="w-3 h-3 text-foreground/50" />
+              <span className="text-[11px] font-semibold text-foreground/55">Sign up to unlock</span>
+            </div>
+          </div>
         </div>
       </div>
 
