@@ -1,10 +1,13 @@
 import { useRoute, useLocation } from "wouter";
-import { motion } from "framer-motion";
-import { useId, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useId, useEffect, useState, useRef, useCallback } from "react";
 import {
   MapPin, Briefcase, Monitor, Clock, Calendar, ExternalLink,
-  ArrowRight, Sparkles, Lock,
+  ArrowRight, Sparkles, Lock, X, CheckCircle2, Eye, EyeOff,
 } from "lucide-react";
+import { ColorOrb } from "@/components/ui/color-orb";
+import { Folder } from "@/components/ui/folder";
+import { cn } from "@/lib/utils";
 
 // ── Shared job data ────────────────────────────────────────────────────────
 interface Job {
@@ -101,7 +104,6 @@ function Pill({ children }: { children: React.ReactNode }) {
 }
 
 // ── Gauge geometry (same convention as bubble-button.tsx) ─────────────────
-// A0=240 (lower-left), A1=120 (lower-right), sweep=240° through the top
 const GA0 = 240, GA1 = 120, GCX = 50, GCY = 52, GR = 34, GSW = 7;
 const GVW = 100, GVH = 72;
 
@@ -120,16 +122,13 @@ function garc(a1: number, a2: number) {
 function YourScoreGauge({ isDark }: { isDark: boolean }) {
   const uid = useId().replace(/:/g, "");
   const trackPath = garc(GA0, GA1);
-  const topDot = gpt(0); // 12 o'clock = top of arc
-
+  const topDot = gpt(0);
   const trackColor = isDark ? "hsl(20,8%,18%)" : "rgba(215,210,203,0.85)";
-  // x-range of the arc: leftmost=gpt(GA0).x, rightmost=gpt(GA1).x
   const xL = gpt(GA0).x, xR = gpt(GA1).x;
 
   return (
     <svg viewBox={`0 0 ${GVW} ${GVH}`} width={GVW} height={GVH} style={{ overflow: "visible", display: "block" }}>
       <defs>
-        {/* Rainbow gradient from left to right across the arc */}
         <linearGradient id={`rb-${uid}`} gradientUnits="userSpaceOnUse" x1={xL} y1="0" x2={xR} y2="0">
           <stop offset="0%"   stopColor="#ef4444" />
           <stop offset="28%"  stopColor="#f97316" />
@@ -137,55 +136,29 @@ function YourScoreGauge({ isDark }: { isDark: boolean }) {
           <stop offset="78%"  stopColor="#84cc16" />
           <stop offset="100%" stopColor="#22c55e" />
         </linearGradient>
-        {/* Glow filter for the filled arc */}
         <filter id={`glow-${uid}`} x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="2.5" result="blur" />
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-
-      {/* Track (grey) */}
       <path d={trackPath} fill="none" stroke={trackColor} strokeWidth={GSW} strokeLinecap="round" />
-
-      {/* Rainbow filled arc (full sweep — unknown state shows full rainbow) */}
       <motion.path
-        d={trackPath}
-        fill="none"
-        stroke={`url(#rb-${uid})`}
-        strokeWidth={GSW - 1}
-        strokeLinecap="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
+        d={trackPath} fill="none" stroke={`url(#rb-${uid})`} strokeWidth={GSW - 1} strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
         transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
       />
-
-      {/* Shine highlight on the arc */}
       <motion.path
-        d={trackPath}
-        fill="none"
-        stroke="rgba(255,255,255,0.25)"
-        strokeWidth={(GSW - 1) * 0.5}
-        strokeLinecap="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
+        d={trackPath} fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth={(GSW - 1) * 0.5} strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
         transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
       />
-
-      {/* White dot at the top (pointer indicator) */}
       <motion.circle
-        cx={topDot.x} cy={topDot.y} r={GSW * 0.48}
-        fill="white"
-        stroke="rgba(0,0,0,0.12)"
-        strokeWidth={0.8}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
+        cx={topDot.x} cy={topDot.y} r={GSW * 0.48} fill="white" stroke="rgba(0,0,0,0.12)" strokeWidth={0.8}
+        initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.9, duration: 0.3, ease: "backOut" }}
       />
-
-      {/* "?" label */}
       <motion.text
-        x={GCX} y={GCY - 2}
-        textAnchor="middle" dominantBaseline="middle"
+        x={GCX} y={GCY - 2} textAnchor="middle" dominantBaseline="middle"
         fill={isDark ? "rgba(240,237,232,0.85)" : "#1A1A1A"}
         fontSize="22" fontWeight="800"
         style={{ userSelect: "none", fontFamily: "inherit", letterSpacing: "-0.5px" }}
@@ -206,15 +179,10 @@ function TopApplicantsGauge({ isDark }: { isDark: boolean }) {
 
   return (
     <svg viewBox={`0 0 ${GVW} ${GVH}`} width={GVW} height={GVH} style={{ overflow: "visible", display: "block" }}>
-      {/* Track */}
       <path d={trackPath} fill="none" stroke={trackColor} strokeWidth={GSW} strokeLinecap="round" />
-      {/* Slightly darker filled arc (full, grey) */}
       <path d={trackPath} fill="none" stroke={dashColor} strokeWidth={GSW - 2} strokeLinecap="round" />
-
-      {/* "—" label */}
       <text
-        x={GCX} y={GCY - 2}
-        textAnchor="middle" dominantBaseline="middle"
+        x={GCX} y={GCY - 2} textAnchor="middle" dominantBaseline="middle"
         fill={isDark ? "rgba(240,237,232,0.25)" : "rgba(26,26,26,0.22)"}
         fontSize="22" fontWeight="700"
         style={{ userSelect: "none", fontFamily: "inherit" }}
@@ -234,7 +202,6 @@ function BoostCard({ job, onCta, isDark }: { job: Job; onCta: () => void; isDark
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
       className="bg-white dark:bg-[#28231E] rounded-2xl border border-black/[0.05] dark:border-[#302B28] shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] p-5 lg:sticky lg:top-[74px]"
     >
-      {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-5">
         <h3 className="text-[14px] font-semibold text-foreground leading-snug">Boost your interview chances</h3>
         <span className="flex-shrink-0 inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-200 dark:border-emerald-400/20 rounded-full px-2 py-0.5 mt-0.5">
@@ -242,14 +209,11 @@ function BoostCard({ job, onCta, isDark }: { job: Job; onCta: () => void; isDark
         </span>
       </div>
 
-      {/* Gauges */}
       <div className="flex items-center justify-between gap-1 mb-4 px-0.5">
         <div className="flex flex-col items-center gap-1.5 flex-1">
           <YourScoreGauge isDark={isDark} />
           <span className="text-[11px] text-foreground/50 font-medium tracking-tight">Your Score</span>
         </div>
-
-        {/* Triple chevron arrows (>>>), matching reference image */}
         <div className="flex items-center gap-[2px] opacity-20 mb-6 flex-shrink-0">
           {[0, 1, 2].map((i) => (
             <svg key={i} width="8" height="12" viewBox="0 0 8 12" fill="none">
@@ -258,45 +222,39 @@ function BoostCard({ job, onCta, isDark }: { job: Job; onCta: () => void; isDark
             </svg>
           ))}
         </div>
-
         <div className="flex flex-col items-center gap-1.5 flex-1">
           <TopApplicantsGauge isDark={isDark} />
           <span className="text-[11px] text-foreground/50 font-medium tracking-tight">Top Applicants</span>
         </div>
       </div>
 
-      {/* Divider */}
       <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-4" />
 
-      {/* Skills — blurred with lock overlay */}
       <div className="mb-4">
         <div className="flex items-center gap-1.5 mb-2.5">
           <Lock className="w-3 h-3 text-foreground/35" />
           <span className="text-[11px] font-semibold text-foreground/50 uppercase tracking-widest">Must-Have Skills</span>
         </div>
         <div className="relative">
-          {/* Blurred skill tags */}
           <div className="flex flex-wrap gap-1.5 select-none pointer-events-none" style={{ filter: "blur(4px)" }}>
             {job.skills.map((s) => (
-              <span
-                key={s}
-                className="inline-flex items-center font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap"
-              >
+              <span key={s} className="inline-flex items-center font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-wide text-[#3D3630] dark:text-white/55 bg-[#EAE5DF] dark:bg-[#1F1C1C] rounded-md px-2 py-1 whitespace-nowrap">
                 {s}
               </span>
             ))}
           </div>
-          {/* Lock overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex items-center gap-1.5 bg-white/70 dark:bg-[#28231E]/80 backdrop-blur-[2px] rounded-lg px-3 py-1.5 border border-black/[0.06] dark:border-white/[0.07]">
+            <button
+              onClick={onCta}
+              className="flex items-center gap-1.5 bg-white/70 dark:bg-[#28231E]/80 backdrop-blur-[2px] rounded-lg px-3 py-1.5 border border-black/[0.06] dark:border-white/[0.07] hover:bg-white/90 dark:hover:bg-[#28231E]/95 transition-colors"
+            >
               <Lock className="w-3 h-3 text-foreground/50" />
               <span className="text-[11px] font-semibold text-foreground/55">Sign up to unlock</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* CTA */}
       <button
         onClick={onCta}
         className="w-full flex items-center justify-center gap-2 h-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[13px] font-semibold hover:opacity-80 transition-opacity"
@@ -335,11 +293,310 @@ function JobNotFound() {
   );
 }
 
+// ── Score Modal ────────────────────────────────────────────────────────────
+type ModalStage = "upload" | "processing" | "signup";
+
+function ScoreModal({
+  job,
+  isDark,
+  onClose,
+  onComplete,
+}: {
+  job: Job;
+  isDark: boolean;
+  onClose: () => void;
+  onComplete: () => void;
+}) {
+  const [stage, setStage] = useState<ModalStage>("upload");
+  const [isDragging, setIsDragging] = useState(false);
+  const [aiStatusIndex, setAiStatusIndex] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const aiStatuses = [
+    "Reading your resume...",
+    "Extracting skills & experience...",
+    "Checking fit for this role...",
+    `Scoring against ${job.company}'s requirements...`,
+  ];
+
+  const handleFile = useCallback((file: File | undefined) => {
+    if (!file || file.type !== "application/pdf") return;
+    setStage("processing");
+  }, []);
+
+  useEffect(() => {
+    if (stage !== "processing") return;
+    setAiStatusIndex(0);
+    const interval = setInterval(() => {
+      setAiStatusIndex((i) => (i + 1) % aiStatuses.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [stage]);
+
+  useEffect(() => {
+    if (stage !== "processing") return;
+    const timer = setTimeout(() => setStage("signup"), 6200);
+    return () => clearTimeout(timer);
+  }, [stage]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onComplete();
+  };
+
+  return (
+    <motion.div
+      key="score-modal-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[200] flex items-center justify-center px-4"
+      style={{
+        backgroundColor: isDark ? "rgba(10,9,8,0.75)" : "rgba(29,27,26,0.45)",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
+      }}
+      onClick={onClose}
+    >
+      <motion.div
+        key="score-modal-card"
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 12 }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[580px] rounded-3xl border border-[#E2E1DA] dark:border-white/10 bg-[#FDFCF8] dark:bg-[#1C1A19] shadow-2xl overflow-hidden"
+      >
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08] text-[#1D1B1A]/50 dark:text-foreground/50 hover:bg-[#1D1B1A]/[0.12] dark:hover:bg-white/[0.14] hover:text-[#1D1B1A] dark:hover:text-foreground transition-all duration-150"
+        >
+          <X className="w-3.5 h-3.5" strokeWidth={2.5} />
+        </button>
+
+        <div className="p-7 md:p-9">
+          <AnimatePresence mode="wait">
+
+            {/* ── Stage: Upload ── */}
+            {stage === "upload" && (
+              <motion.div
+                key="stage-upload"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+              >
+                {/* Job context badge */}
+                <div className="flex items-center gap-2 mb-5">
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0"
+                    style={{ backgroundColor: job.logoColor }}
+                  >
+                    {job.logoLetter}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold text-[#1D1B1A]/40 dark:text-foreground/40 uppercase tracking-widest truncate">
+                      {job.company} · {job.role}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mb-7">
+                  <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight mb-1.5">
+                    See if you're a match
+                  </h2>
+                  <p className="text-[14px] text-[#1D1B1A]/55 dark:text-foreground/55 leading-relaxed">
+                    Upload your resume and we'll instantly score how well you fit this role — for free.
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  {/* Dropzone */}
+                  <div
+                    className={cn(
+                      "group/dropzone w-full cursor-pointer flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-6 py-10 transition-all duration-200",
+                      isDragging
+                        ? "border-[#FF553E] bg-[#FF553E]/5"
+                        : "border-[#1D1B1A]/20 dark:border-white/20 bg-[#1D1B1A]/[0.025] dark:bg-white/[0.04] hover:border-[#1D1B1A]/40 dark:hover:border-white/35 hover:bg-[#1D1B1A]/[0.04] dark:hover:bg-white/[0.06]"
+                    )}
+                    onClick={() => fileInputRef.current?.click()}
+                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                    onDragLeave={() => setIsDragging(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDragging(false);
+                      handleFile(e.dataTransfer.files?.[0]);
+                    }}
+                  >
+                    <Folder isDragging={isDragging} />
+                    <div className="text-center">
+                      <p className={cn("text-[14px] font-semibold leading-none mb-1 transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
+                        {isDragging ? "Drop it here" : "Click to upload Resume"}
+                      </p>
+                      <p className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40">PDF format only · Max 5MB</p>
+                    </div>
+                  </div>
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    className="hidden"
+                    onChange={(e) => handleFile(e.target.files?.[0])}
+                  />
+
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                  >
+                    Upload Resume
+                  </button>
+
+                  <div className="flex items-center justify-center gap-3 flex-wrap">
+                    {["Data never sold", "Delete anytime"].map((label) => (
+                      <span key={label} className="flex items-center gap-1 text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
+                        <CheckCircle2 className="w-3 h-3 shrink-0" strokeWidth={2} />
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── Stage: Processing ── */}
+            {stage === "processing" && (
+              <motion.div
+                key="stage-processing"
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.25 }}
+                className="orb-always-active flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-6 py-16"
+              >
+                <ColorOrb dimension="32px" spinDuration={5} />
+                <div className="flex flex-col items-center gap-1">
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={aiStatusIndex}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="text-[14px] font-semibold leading-none text-[#1D1B1A] dark:text-foreground text-center"
+                    >
+                      {aiStatuses[aiStatusIndex]}
+                    </motion.span>
+                  </AnimatePresence>
+                  <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none mt-1">
+                    This takes a few seconds…
+                  </span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── Stage: Signup ── */}
+            {stage === "signup" && (
+              <motion.div
+                key="stage-signup"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+              >
+                {/* Success badge */}
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-400/15 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
+                  </div>
+                  <p className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    Resume analysed — your score is ready
+                  </p>
+                </div>
+
+                <div className="mb-6">
+                  <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight mb-1.5">
+                    Create your free account
+                  </h2>
+                  <p className="text-[14px] text-[#1D1B1A]/55 dark:text-foreground/55 leading-relaxed">
+                    Save your score and unlock the full breakdown for{" "}
+                    <span className="font-semibold text-[#1D1B1A] dark:text-foreground">{job.company}</span>.
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Full name"
+                      value={form.name}
+                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                      required
+                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/15 dark:border-white/15 bg-white dark:bg-white/[0.05] px-4 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/35 dark:placeholder:text-foreground/35 focus:outline-none focus:border-[#1D1B1A]/40 dark:focus:border-white/30 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      placeholder="Work email"
+                      value={form.email}
+                      onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                      required
+                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/15 dark:border-white/15 bg-white dark:bg-white/[0.05] px-4 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/35 dark:placeholder:text-foreground/35 focus:outline-none focus:border-[#1D1B1A]/40 dark:focus:border-white/30 transition-colors"
+                    />
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Create a password"
+                      value={form.password}
+                      onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+                      required
+                      className="w-full h-11 rounded-xl border border-[#1D1B1A]/15 dark:border-white/15 bg-white dark:bg-white/[0.05] px-4 pr-11 text-[14px] text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/35 dark:placeholder:text-foreground/35 focus:outline-none focus:border-[#1D1B1A]/40 dark:focus:border-white/30 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1D1B1A]/35 dark:text-foreground/35 hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60 transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FDFCF8] dark:text-[#1D1B1A] py-3.5 text-[15px] font-semibold mt-1 transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white"
+                  >
+                    See my Score for {job.company}
+                  </button>
+
+                  <p className="text-[11px] text-[#1D1B1A]/30 dark:text-foreground/30 text-center leading-relaxed">
+                    By signing up you agree to our{" "}
+                    <a href="#" className="underline underline-offset-2 hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60">Terms</a>
+                    {" "}and{" "}
+                    <a href="#" className="underline underline-offset-2 hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60">Privacy Policy</a>.
+                  </p>
+                </form>
+              </motion.div>
+            )}
+
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ── Main page ──────────────────────────────────────────────────────────────
 export default function PublicJob() {
   const [, params] = useRoute("/job/:id");
   const [, navigate] = useLocation();
   const [isDark, setIsDark] = useState(false);
+  const [showScoreModal, setShowScoreModal] = useState(false);
 
   useEffect(() => {
     const check = () => setIsDark(document.documentElement.classList.contains("dark"));
@@ -478,11 +735,23 @@ export default function PublicJob() {
 
           {/* ── RIGHT: Sidebar ── */}
           <div className="min-w-0">
-            <BoostCard job={job} onCta={() => navigate("/signup")} isDark={isDark} />
+            <BoostCard job={job} onCta={() => setShowScoreModal(true)} isDark={isDark} />
           </div>
 
         </div>
       </main>
+
+      {/* ── Score Modal ── */}
+      <AnimatePresence>
+        {showScoreModal && (
+          <ScoreModal
+            job={job}
+            isDark={isDark}
+            onClose={() => setShowScoreModal(false)}
+            onComplete={() => navigate("/signup")}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
