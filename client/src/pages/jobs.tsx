@@ -131,6 +131,37 @@ const ORBIT_COMPANIES = [
   { id: 8, name: "Company 8", src: "/companylogo-new/companyradial08.svg" },
 ];
 
+// ── Share job button ────────────────────────────────────────────────────────
+function ShareJobButton({ jobId }: { jobId: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleShare = () => {
+    const url = `${window.location.origin}/job/${jobId}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      onClick={handleShare}
+      title="Copy shareable link"
+      className="absolute right-12 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center text-foreground/40 hover:text-foreground/70 hover:bg-foreground/[0.06] transition-colors"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {copied ? (
+          <motion.span key="check" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <Check className="w-4 h-4 text-emerald-500" />
+          </motion.span>
+        ) : (
+          <motion.span key="link" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <Link2 className="w-4 h-4" />
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  );
+}
+
 // ── Shared sub-components ──────────────────────────────────────────────────
 const questions = [
   "What role are you looking for next?",
@@ -2923,7 +2954,9 @@ function JobDetailSheet({ job, open, onClose, pastReports, onViewReport }: { job
             >
               {/* Header */}
               <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px] relative">
-                <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-base font-semibold m-0 truncate pr-10">{displayJob.role}</SheetTitle>
+                <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-base font-semibold m-0 truncate pr-20">{displayJob.role}</SheetTitle>
+                {/* Share button */}
+                <ShareJobButton jobId={displayJob.id} />
                 <SheetClose asChild>
                   <button className="absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center text-foreground/40 hover:text-foreground/70 hover:bg-foreground/[0.06] transition-colors">
                     <X className="w-4 h-4" />

@@ -27,6 +27,7 @@ const PRO_KEYFRAMES = `
 import Landing from "@/pages/landing";
 import Signup from "@/pages/signup";
 import PrivacyPolicy from "@/pages/privacy-policy";
+import PublicJob from "@/pages/public-job";
 import { FloatingNav } from "@/components/floating-nav";
 
 function ThemeToggle() {
@@ -356,6 +357,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home}/>
         <Route path="/jobs" component={Jobs}/>
+        <Route path="/job/:id" component={PublicJob}/>
         <Route path="/landing" component={Landing}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/privacy-policy" component={PrivacyPolicy}/>
