@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useId, useEffect, useState } from "react";
 import {
   MapPin, Briefcase, Monitor, Clock, Calendar, ExternalLink,
-  Check, ArrowRight, Sparkles, Lock,
+  ArrowRight, Sparkles, Lock,
 } from "lucide-react";
 
 // ── Shared job data ────────────────────────────────────────────────────────
@@ -484,34 +484,6 @@ export default function PublicJob() {
         </div>
       </main>
 
-      {/* ── Sticky bottom CTA ── */}
-      <div className="fixed bottom-0 inset-x-0 z-50">
-        <div className="h-8 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-        <div className="bg-background border-t border-black/[0.07] dark:border-white/[0.07] px-5 py-4">
-          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div>
-              <p className="text-sm font-semibold text-foreground">Want jobs matched to your portfolio?</p>
-              <p className="text-[12px] text-foreground/50 mt-0.5">Designfolio finds roles that actually fit — and helps you apply faster.</p>
-            </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <div className="hidden sm:flex items-center gap-1.5 mr-1">
-                {["96%", "91%", "88%"].map((n) => (
-                  <span key={n} className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-200 dark:border-emerald-400/20 rounded-full px-2 py-0.5">
-                    <Check className="w-2.5 h-2.5" />{n} match
-                  </span>
-                ))}
-              </div>
-              <button
-                onClick={() => navigate("/signup")}
-                className="flex items-center gap-2 h-9 px-5 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-black text-[13px] font-semibold hover:opacity-80 transition-opacity whitespace-nowrap"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                Get started free
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
