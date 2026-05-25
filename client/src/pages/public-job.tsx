@@ -133,8 +133,8 @@ function ScoreRevealGauge({ score, isDark }: { score: number; isDark: boolean })
   return (
     <svg
       viewBox={`0 0 ${GVW} ${GVH}`}
-      width={GVW * 1.7}
-      height={GVH * 1.7}
+      width={GVW * 1.2}
+      height={GVH * 1.2}
       style={{ overflow: "visible", display: "block" }}
     >
       <defs>
@@ -611,7 +611,7 @@ function ScoreModal({
                   initial={{ opacity: 0, scale: 0.94 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative flex flex-col items-center gap-2 rounded-2xl bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] border border-[#1D1B1A]/[0.07] dark:border-white/[0.07] pt-7 pb-5 mb-6 overflow-hidden"
+                  className="relative flex flex-col items-center gap-1.5 rounded-2xl bg-[#1D1B1A]/[0.03] dark:bg-white/[0.04] border border-[#1D1B1A]/[0.07] dark:border-white/[0.07] pt-5 pb-4 mb-5 overflow-hidden"
                 >
                   {/* Subtle glow behind gauge */}
                   <div
