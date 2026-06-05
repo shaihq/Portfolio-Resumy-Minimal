@@ -239,7 +239,7 @@ function TestimonialCarousel() {
 
   return (
     <div className="w-full max-w-[560px] mx-auto flex flex-col items-center">
-      <div className="w-full relative h-[140px] sm:h-[130px]">
+      <div className="w-full relative h-[155px] sm:h-[145px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -249,9 +249,9 @@ function TestimonialCarousel() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="flex flex-col w-full absolute top-0 left-0"
           >
-            <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="flex items-center justify-between gap-3 mb-3.5">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-[28%] overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
+                <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border border-[#E2E1DA] dark:border-border shadow-sm">
                   <img 
                     src={testimonials[currentIndex].image} 
                     alt={testimonials[currentIndex].name} 
@@ -259,22 +259,23 @@ function TestimonialCarousel() {
                   />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <div className="text-[#1D1B1A] dark:text-foreground text-[14px] font-bold leading-tight">{testimonials[currentIndex].name}</div>
-                  <div className="text-[12px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
+                  <div className="text-[#1D1B1A] dark:text-foreground text-[15px] font-bold leading-tight mb-0.5">{testimonials[currentIndex].name}</div>
+                  <div className="text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
                 </div>
               </div>
               {testimonials[currentIndex].logoSrc && (
-                <img
-                  src={testimonials[currentIndex].logoSrc}
-                  alt=""
-                  aria-hidden="true"
-                  className={cn("shrink-0", !testimonials[currentIndex].logoRaw && "opacity-20 dark:invert")}
-                  style={{ width: 36, height: 36, objectFit: "contain" }}
-                />
+                <div className="shrink-0 w-11 h-11 rounded-full overflow-hidden flex items-center justify-center border border-[#E2E1DA] dark:border-border bg-white dark:bg-white/5">
+                  <img
+                    src={testimonials[currentIndex].logoSrc}
+                    alt=""
+                    aria-hidden="true"
+                    className={cn("w-6 h-6 object-contain", !testimonials[currentIndex].logoRaw && "opacity-40 dark:invert")}
+                  />
+                </div>
               )}
             </div>
             
-            <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[16px] leading-[1.5]">
+            <p className="text-[#1D1B1A]/75 dark:text-foreground/75 font-medium text-[15px] leading-[1.55]">
               {testimonials[currentIndex].content}
             </p>
           </motion.div>
