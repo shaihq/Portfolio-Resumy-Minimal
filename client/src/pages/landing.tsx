@@ -264,12 +264,12 @@ function TestimonialCarousel() {
                 </div>
               </div>
               {testimonials[currentIndex].logoSrc && (
-                <div className="shrink-0 w-11 h-11 rounded-full overflow-hidden flex items-center justify-center border border-[#E2E1DA] dark:border-border bg-white dark:bg-white/5">
+                <div className={cn("shrink-0 w-11 h-11 rounded-full overflow-hidden border border-[#E2E1DA] dark:border-border", !testimonials[currentIndex].logoRaw && "bg-white dark:bg-white/5")}>
                   <img
                     src={testimonials[currentIndex].logoSrc}
                     alt=""
                     aria-hidden="true"
-                    className={cn("w-6 h-6 object-contain", !testimonials[currentIndex].logoRaw && "opacity-40 dark:invert")}
+                    className={cn("w-full h-full object-cover", !testimonials[currentIndex].logoRaw && "opacity-50 dark:invert")}
                   />
                 </div>
               )}
@@ -283,13 +283,20 @@ function TestimonialCarousel() {
       </div>
 
       <div className="flex items-center gap-3 mt-6 w-full">
-        <button
+        <motion.button
           onClick={() => navigate(-1)}
           aria-label="Previous testimonial"
-          className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[#1D1B1A]/30 dark:text-foreground/30 border border-[#1D1B1A]/10 dark:border-white/10 transition-colors hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60 hover:border-[#1D1B1A]/20 dark:hover:border-white/20"
+          whileTap={{ y: 1 }}
+          transition={{ type: "spring", stiffness: 600, damping: 30 }}
+          className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+          style={{
+            background: 'linear-gradient(to bottom, #ffffff, #f0ede8)',
+            boxShadow: '0 2px 0 rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9)',
+            border: '1px solid rgba(0,0,0,0.07)',
+          }}
         >
           <ChevronLeft className="size-3.5" />
-        </button>
+        </motion.button>
 
         <div className="flex-1 h-[3px] bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
           <motion.div 
@@ -299,13 +306,20 @@ function TestimonialCarousel() {
           />
         </div>
 
-        <button
+        <motion.button
           onClick={() => navigate(1)}
           aria-label="Next testimonial"
-          className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[#1D1B1A]/30 dark:text-foreground/30 border border-[#1D1B1A]/10 dark:border-white/10 transition-colors hover:text-[#1D1B1A]/60 dark:hover:text-foreground/60 hover:border-[#1D1B1A]/20 dark:hover:border-white/20"
+          whileTap={{ y: 1 }}
+          transition={{ type: "spring", stiffness: 600, damping: 30 }}
+          className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+          style={{
+            background: 'linear-gradient(to bottom, #ffffff, #f0ede8)',
+            boxShadow: '0 2px 0 rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9)',
+            border: '1px solid rgba(0,0,0,0.07)',
+          }}
         >
           <ChevronRight className="size-3.5" />
-        </button>
+        </motion.button>
       </div>
     </div>
   );
