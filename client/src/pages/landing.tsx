@@ -937,7 +937,7 @@ export default function Landing() {
                             value={scratchUsername}
                             onChange={(e) => setScratchUsername(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
                             placeholder="yourname"
-                            className="flex-1 min-w-0 bg-transparent pl-4 pr-1 py-3 text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/25 dark:placeholder:text-foreground/25 outline-none"
+                            className="flex-1 min-w-0 bg-transparent pl-4 pr-1 py-3 text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/45 dark:placeholder:text-foreground/45 outline-none"
                           />
                           <span className="flex items-center border-l border-[#1D1B1A]/08 dark:border-border pl-2.5 pr-4 text-[13px] font-medium text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap select-none">
                             .designfolio.me
@@ -951,7 +951,7 @@ export default function Landing() {
                           Get started
                         </button>
                       </div>
-                      <p className="text-[12px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
+                      <p className="text-[12px] text-[#1D1B1A]/55 dark:text-foreground/55 font-medium">
                         Claim your domain before it's taken
                       </p>
                     </div>
