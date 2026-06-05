@@ -1151,9 +1151,7 @@ export default function Landing() {
           {/* About Maker Section */}
           <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6 scroll-mt-24">
             <div className="max-w-[560px] mx-auto">
-              <h2 className="text-[26px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">
-                I'm Shai. Maker of Designfolio.
-              </h2>
+              <h2 className="text-[26px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">Yo. I'm Shai (I built Designfolio)</h2>
               
               <div className="flex flex-col gap-6 text-[16px] leading-[1.65] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium">
                 <p>
