@@ -775,7 +775,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="mb-6 inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-white/10 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.05] p-0.5"
+              className="mb-6 inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-white/[0.08] bg-[#1D1B1A]/[0.04] dark:bg-white/[0.04] p-0.5"
             >
               <button
                 data-testid="tab-use-resume"
@@ -783,8 +783,8 @@ export default function Landing() {
                 className={cn(
                   "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
                   heroTab === 'resume'
-                    ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
-                    : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+                    ? "bg-[#FFFEF2] dark:bg-white/[0.10] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/[0.08] dark:border-white/[0.08]"
+                    : "text-[#1D1B1A]/45 dark:text-foreground/40 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/60"
                 )}
               >
                 Use Resume
@@ -795,8 +795,8 @@ export default function Landing() {
                 className={cn(
                   "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
                   heroTab === 'scratch'
-                    ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
-                    : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+                    ? "bg-[#FFFEF2] dark:bg-white/[0.10] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/[0.08] dark:border-white/[0.08]"
+                    : "text-[#1D1B1A]/45 dark:text-foreground/40 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/60"
                 )}
               >
                 From Scratch
