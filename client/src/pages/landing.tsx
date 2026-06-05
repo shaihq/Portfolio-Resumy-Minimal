@@ -773,9 +773,8 @@ export default function Landing() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] dark:text-foreground"
               style={{ fontWeight: 650 }}
-            >
-              The career tool that works while you sleep.
-            </motion.h1>
+            >Landing a job was never
+            meant to be hard.</motion.h1>
             
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -1287,7 +1286,6 @@ export default function Landing() {
           </motion.div>
         )}
       </AnimatePresence>
-
       {/* AI Focus Overlay — spotlight locked to the upload button's exact position */}
       <motion.div
         animate={{ opacity: isProcessing && resumeFile ? 1 : 0 }}
@@ -1365,7 +1363,6 @@ export default function Landing() {
           background: 'linear-gradient(to right, transparent, rgba(255,85,62,0.65) 20%, rgba(255,85,62,0.65) 80%, transparent)',
         }}
       />
-
       {/* Floating Theme FAB */}
       <AnimatePresence>
         {fabVisible && (
