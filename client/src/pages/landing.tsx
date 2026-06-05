@@ -769,10 +769,44 @@ export default function Landing() {
         <main className="flex flex-col items-center">
           {/* Hero Section */}
           <section className="w-full px-6 pt-12 pb-12 flex flex-col items-center text-center">
-            <motion.h1 
+
+            {/* Tab switcher — above title */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
+              className="mb-6 inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-white/10 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.05] p-0.5"
+            >
+              <button
+                data-testid="tab-use-resume"
+                onClick={() => setHeroTab('resume')}
+                className={cn(
+                  "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
+                  heroTab === 'resume'
+                    ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
+                    : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+                )}
+              >
+                Use Resume
+              </button>
+              <button
+                data-testid="tab-from-scratch"
+                onClick={() => setHeroTab('scratch')}
+                className={cn(
+                  "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
+                  heroTab === 'scratch'
+                    ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
+                    : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+                )}
+              >
+                From Scratch
+              </button>
+            </motion.div>
+
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
               className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] max-w-[480px] mb-5 text-[#463B34] dark:text-foreground"
               style={{ fontWeight: 650 }}
             >Landing a job was never
@@ -784,7 +818,9 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="text-[16px] mb-8 max-w-[400px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
-              Upload your resume. AI builds your portfolio, scans, scores, and shortlists matched jobs.
+              {heroTab === 'resume'
+                ? "Upload your resume. AI builds your portfolio, scans, scores, and shortlists matched jobs."
+                : "Pick your domain and start building your portfolio from scratch — no resume needed."}
             </motion.p>
             
             <motion.div
@@ -793,34 +829,6 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
               className="w-full max-w-[400px] flex flex-col items-center gap-4"
             >
-              {/* Tab switcher */}
-              <div className="inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-white/10 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.05] p-0.5">
-                <button
-                  data-testid="tab-use-resume"
-                  onClick={() => setHeroTab('resume')}
-                  className={cn(
-                    "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
-                    heroTab === 'resume'
-                      ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
-                      : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
-                  )}
-                >
-                  Use Resume
-                </button>
-                <button
-                  data-testid="tab-from-scratch"
-                  onClick={() => setHeroTab('scratch')}
-                  className={cn(
-                    "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
-                    heroTab === 'scratch'
-                      ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
-                      : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
-                  )}
-                >
-                  From Scratch
-                </button>
-              </div>
-
               {/* Tab content */}
               <AnimatePresence mode="wait">
                 {heroTab === 'resume' ? (
