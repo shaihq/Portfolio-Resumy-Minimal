@@ -984,12 +984,18 @@ export default function Landing() {
           </section>
 
           {/* Trusted By Section */}
-          <section className="w-full px-6 mb-20 flex flex-col items-center gap-5">
-            <div className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45 text-center font-semibold tracking-wide uppercase" style={{ letterSpacing: '0.08em' }}>
-              Trusted by folks working at
+          <section className="w-full px-6 mb-20 flex flex-col gap-6">
+            {/* Label inset into a hairline rule */}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-[#1D1B1A]/[0.07] dark:bg-white/[0.06]" />
+              <span className="text-[11px] font-semibold tracking-[0.11em] uppercase text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap">
+                Trusted by folks working at
+              </span>
+              <div className="flex-1 h-px bg-[#1D1B1A]/[0.07] dark:bg-white/[0.06]" />
             </div>
-            <div className="w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
-              <motion.div 
+            {/* Marquee */}
+            <div className="w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+              <motion.div
                 className="flex items-center w-max"
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{ ease: "linear", duration: 40, repeat: Infinity }}
@@ -997,11 +1003,11 @@ export default function Landing() {
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center gap-x-10 pr-10">
                     {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                      <img 
+                      <img
                         key={num}
-                        src={`/companylogo/companienames0${num}.svg`} 
+                        src={`/companylogo/companienames0${num}.svg`}
                         alt={`Company logo ${num}`}
-                        className="h-[44px] w-auto opacity-40 hover:opacity-70 transition-opacity duration-200 dark:invert dark:opacity-55 dark:hover:opacity-85"
+                        className="h-[36px] w-auto opacity-30 hover:opacity-55 transition-opacity duration-300 dark:invert dark:opacity-40 dark:hover:opacity-65"
                       />
                     ))}
                   </div>
