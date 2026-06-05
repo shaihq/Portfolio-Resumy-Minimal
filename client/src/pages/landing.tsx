@@ -345,7 +345,6 @@ export default function Landing() {
   const [activeSection, setActiveSection] = useState('overview');
   const [showNavCTA, setShowNavCTA] = useState(false);
   const [fabVisible, setFabVisible] = useState(true);
-  const [speedLevel, setSpeedLevel] = useState(4);
   const [showAllFeatures, setShowAllFeatures] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -380,26 +379,6 @@ export default function Landing() {
     return () => clearTimeout(timer);
   }, [isProcessing, navigate]);
 
-  const speedLabels = ["Taking it easy", "Comfortable", "Normal", "Skimming", "Quick scan"];
-  const speedDurations = [52, 38, 28, 18, 11];
-  const scrollDuration = speedDurations[speedLevel - 1];
-
-  const playSliderTick = useCallback((level: number) => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(300 + level * 60, ctx.currentTime);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.08);
-      osc.onended = () => ctx.close();
-    } catch {}
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1164,31 +1143,8 @@ export default function Landing() {
           </section>
 
           {/* Vertical Testimonials Section */}
-          <section className="w-full border-y border-[#EAE9E4] dark:border-border px-6 pt-10 pb-4 bg-[#F4F3E5] dark:bg-card">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-[12px] font-semibold tracking-widest uppercase text-[#1D1B1A]/40 dark:text-foreground/40 tabular-nums w-[130px]">
-                {speedLabels[speedLevel - 1]}
-              </span>
-              <div className="flex items-center gap-2.5">
-                <span className="text-[11px] text-[#1D1B1A]/30 dark:text-foreground/30 font-medium">Slow</span>
-                <input
-                  type="range"
-                  min={1}
-                  max={5}
-                  step={1}
-                  value={speedLevel}
-                  onChange={(e) => { const v = Number(e.target.value); setSpeedLevel(v); playSliderTick(v); }}
-                  className="speed-slider w-24 h-1 appearance-none cursor-pointer rounded-full outline-none"
-                  style={{
-                    background: isDark
-                      ? `linear-gradient(to right, #F0EDE7 ${(speedLevel - 1) * 25}%, #F0EDE740 ${(speedLevel - 1) * 25}%)`
-                      : `linear-gradient(to right, #1D1B1A ${(speedLevel - 1) * 25}%, #1D1B1A30 ${(speedLevel - 1) * 25}%)`,
-                  }}
-                />
-                <span className="text-[11px] text-[#1D1B1A]/30 dark:text-foreground/30 font-medium">Fast</span>
-              </div>
-            </div>
-            <VerticalTestimonialsScroller duration={scrollDuration} />
+          <section className="w-full border-y border-[#EAE9E4] dark:border-border px-6 pt-8 pb-4 bg-[#F4F3E5] dark:bg-card">
+            <VerticalTestimonialsScroller duration={52} />
           </section>
 
           {/* About Maker Section */}
