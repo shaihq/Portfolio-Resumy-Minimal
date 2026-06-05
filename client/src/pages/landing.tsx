@@ -982,24 +982,24 @@ export default function Landing() {
           </section>
 
           {/* Trusted By Section */}
-          <section className="w-full px-6 mb-20 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-            <div className="text-[14px] text-[#1D1B1A]/60 dark:text-foreground/60 leading-tight whitespace-nowrap text-center md:text-left shrink-0 font-semibold">
-              Trusted by folks<br className="hidden md:block" /> working at
+          <section className="w-full px-6 mb-20 flex flex-col items-center gap-5">
+            <div className="text-[13px] text-[#1D1B1A]/45 dark:text-foreground/45 text-center font-semibold tracking-wide uppercase" style={{ letterSpacing: '0.08em' }}>
+              Trusted by folks working at
             </div>
-            <div className="flex-1 w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+            <div className="w-full overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
               <motion.div 
-                className="flex items-center text-[#1D1B1A]/40 dark:text-foreground/40 w-max"
+                className="flex items-center w-max"
                 animate={{ x: ["0%", "-50%"] }}
-                transition={{ ease: "linear", duration: 50, repeat: Infinity }}
+                transition={{ ease: "linear", duration: 40, repeat: Infinity }}
               >
                 {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-x-8 pr-8">
+                  <div key={i} className="flex items-center gap-x-10 pr-10">
                     {[1, 2, 3, 4, 5, 6, 7].map((num) => (
                       <img 
                         key={num}
                         src={`/companylogo/companienames0${num}.svg`} 
                         alt={`Company logo ${num}`}
-                        className="h-[32px] w-auto opacity-50 hover:opacity-80 transition-opacity dark:invert dark:opacity-75 dark:hover:opacity-100"
+                        className="h-[44px] w-auto opacity-40 hover:opacity-70 transition-opacity duration-200 dark:invert dark:opacity-55 dark:hover:opacity-85"
                       />
                     ))}
                   </div>
