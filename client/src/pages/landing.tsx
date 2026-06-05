@@ -330,6 +330,8 @@ export default function Landing() {
   const [cutoutPos, setCutoutPos] = useState({ x: 0, y: 300 });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const uploadZoneRef = useRef<HTMLDivElement>(null);
+  const [heroTab, setHeroTab] = useState<'resume' | 'scratch'>('resume');
+  const [scratchUsername, setScratchUsername] = useState('');
 
   const aiStatuses = [
     "Reading your resume...",
@@ -786,88 +788,163 @@ export default function Landing() {
             </motion.p>
             
             <motion.div
-              ref={uploadZoneRef}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-              className="w-full max-w-[400px]"
+              className="w-full max-w-[400px] flex flex-col items-center gap-4"
             >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf"
-                className="hidden"
-                data-testid="input-resume-upload"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) { setResumeFile(file); setIsProcessing(true); }
-                }}
-              />
+              {/* Tab switcher */}
+              <div className="inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-white/10 bg-[#1D1B1A]/[0.04] dark:bg-white/[0.05] p-0.5">
+                <button
+                  data-testid="tab-use-resume"
+                  onClick={() => setHeroTab('resume')}
+                  className={cn(
+                    "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
+                    heroTab === 'resume'
+                      ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
+                      : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+                  )}
+                >
+                  Use Resume
+                </button>
+                <button
+                  data-testid="tab-from-scratch"
+                  onClick={() => setHeroTab('scratch')}
+                  className={cn(
+                    "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
+                    heroTab === 'scratch'
+                      ? "bg-[#FFFEF2] dark:bg-[#2a2826] text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/08 dark:border-white/10"
+                      : "text-[#1D1B1A]/45 dark:text-foreground/45 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
+                  )}
+                >
+                  From Scratch
+                </button>
+              </div>
+
+              {/* Tab content */}
               <AnimatePresence mode="wait">
-                {isProcessing && resumeFile ? (
+                {heroTab === 'resume' ? (
                   <motion.div
-                    key="processing"
-                    initial={{ opacity: 0, scale: 0.97 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.25 }}
-                    className="orb-always-active inline-flex items-center gap-3.5 rounded-xl border border-dashed border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-3"
+                    key="resume-tab"
+                    ref={uploadZoneRef}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="w-full"
                   >
-                    <ColorOrb dimension="14px" spinDuration={5} />
-                    <div className="flex flex-col items-start gap-0.5">
-                      <AnimatePresence mode="wait">
-                        <motion.span
-                          key={aiStatusIndex}
-                          initial={{ opacity: 0, y: 4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
-                          className="text-[14px] font-semibold leading-none text-[#1D1B1A] dark:text-foreground whitespace-nowrap"
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".pdf"
+                      className="hidden"
+                      data-testid="input-resume-upload"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) { setResumeFile(file); setIsProcessing(true); }
+                      }}
+                    />
+                    <AnimatePresence mode="wait">
+                      {isProcessing && resumeFile ? (
+                        <motion.div
+                          key="processing"
+                          initial={{ opacity: 0, scale: 0.97 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.97 }}
+                          transition={{ duration: 0.25 }}
+                          className="orb-always-active inline-flex items-center gap-3.5 rounded-xl border border-dashed border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] px-5 py-3"
                         >
-                          {aiStatuses[aiStatusIndex]}
-                        </motion.span>
-                      </AnimatePresence>
-                      <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
-                        This takes a few seconds…
-                      </span>
-                    </div>
+                          <ColorOrb dimension="14px" spinDuration={5} />
+                          <div className="flex flex-col items-start gap-0.5">
+                            <AnimatePresence mode="wait">
+                              <motion.span
+                                key={aiStatusIndex}
+                                initial={{ opacity: 0, y: 4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -4 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className="text-[14px] font-semibold leading-none text-[#1D1B1A] dark:text-foreground whitespace-nowrap"
+                              >
+                                {aiStatuses[aiStatusIndex]}
+                              </motion.span>
+                            </AnimatePresence>
+                            <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
+                              This takes a few seconds…
+                            </span>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="idle"
+                          initial={{ opacity: 0, scale: 0.97 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.97 }}
+                          transition={{ duration: 0.25 }}
+                          data-testid="dropzone-resume"
+                          onClick={() => fileInputRef.current?.click()}
+                          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                          onDragLeave={() => setIsDragging(false)}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            setIsDragging(false);
+                            const file = e.dataTransfer.files?.[0];
+                            if (file && file.type === "application/pdf") { setResumeFile(file); setIsProcessing(true); }
+                          }}
+                          className={cn(
+                            "group/dropzone cursor-pointer inline-flex items-center gap-3.5 rounded-xl border border-dashed px-5 py-3 transition-all duration-200",
+                            isDragging
+                              ? "border-[#FF553E] bg-[#FF553E]/5"
+                              : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/40 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.07]"
+                          )}
+                        >
+                          <Folder />
+                          <div className="flex flex-col items-start gap-0.5">
+                            <span className={cn("text-[14px] font-semibold leading-none transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
+                              {isDragging ? "Drop it here" : "Upload your resume"}
+                            </span>
+                            <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
+                              PDF · max 5MB
+                            </span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 ) : (
                   <motion.div
-                    key="idle"
-                    initial={{ opacity: 0, scale: 0.97 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.25 }}
-                    data-testid="dropzone-resume"
-                    onClick={() => fileInputRef.current?.click()}
-                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                    onDragLeave={() => setIsDragging(false)}
-                    onDrop={(e) => {
-                      e.preventDefault();
-                      setIsDragging(false);
-                      const file = e.dataTransfer.files?.[0];
-                      if (file && file.type === "application/pdf") { setResumeFile(file); setIsProcessing(true); }
-                    }}
-                    className={cn(
-                      "group/dropzone cursor-pointer inline-flex items-center gap-3.5 rounded-xl border border-dashed px-5 py-3 transition-all duration-200",
-                      isDragging
-                        ? "border-[#FF553E] bg-[#FF553E]/5"
-                        : "border-[#1D1B1A]/25 dark:border-white/25 bg-[#1D1B1A]/[0.03] dark:bg-white/[0.05] hover:border-[#1D1B1A]/45 dark:hover:border-white/40 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.07]"
-                    )}
+                    key="scratch-tab"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="w-full flex flex-col items-center gap-2"
                   >
-                    {/* Animated folder icon */}
-                    <Folder />
-
-                    {/* Text */}
-                    <div className="flex flex-col items-start gap-0.5">
-                      <span className={cn("text-[14px] font-semibold leading-none transition-colors duration-200", isDragging ? "text-[#FF553E]" : "text-[#1D1B1A] dark:text-foreground")}>
-                        {isDragging ? "Drop it here" : "Upload your resume"}
-                      </span>
-                      <span className="text-[12px] text-[#1D1B1A]/40 dark:text-foreground/40 leading-none">
-                        PDF · max 5MB
-                      </span>
+                    {/* Domain input row */}
+                    <div className="w-full flex items-stretch gap-2">
+                      <div className="flex-1 flex items-center rounded-xl border border-[#1D1B1A]/18 dark:border-white/15 bg-[#FFFEF2] dark:bg-[#1D1B1A]/40 overflow-hidden focus-within:border-[#1D1B1A]/35 dark:focus-within:border-white/30 transition-colors duration-200 shadow-[inset_0_1px_2px_rgba(29,27,26,0.04)]">
+                        <input
+                          data-testid="input-scratch-username"
+                          type="text"
+                          value={scratchUsername}
+                          onChange={(e) => setScratchUsername(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                          placeholder="yourname"
+                          className="flex-1 min-w-0 bg-transparent px-4 py-3 text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/30 dark:placeholder:text-foreground/30 outline-none"
+                        />
+                        <span className="pr-4 text-[13px] font-semibold text-[#1D1B1A]/40 dark:text-foreground/40 whitespace-nowrap select-none">
+                          .designfolio.me
+                        </span>
+                      </div>
+                      <button
+                        data-testid="button-scratch-start"
+                        onClick={() => navigate('/signup')}
+                        className="flex-shrink-0 rounded-xl bg-[#1D1B1A] dark:bg-white text-[#FFFEF2] dark:text-[#1D1B1A] px-4 py-3 text-[13px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white whitespace-nowrap"
+                      >
+                        Get started
+                      </button>
                     </div>
+                    <p className="text-[12px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
+                      Claim your domain before it's taken
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
