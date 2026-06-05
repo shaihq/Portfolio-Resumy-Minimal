@@ -290,8 +290,8 @@ function TestimonialCarousel() {
           transition={{ type: "spring", stiffness: 600, damping: 30 }}
           className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
           style={{
-            background: 'linear-gradient(to bottom, #ffffff, #f0ede8)',
-            boxShadow: '0 2px 0 rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9)',
+            background: 'linear-gradient(to bottom, #ffffff, #ece9e3)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.85)',
             border: '1px solid rgba(0,0,0,0.07)',
           }}
         >
@@ -313,8 +313,8 @@ function TestimonialCarousel() {
           transition={{ type: "spring", stiffness: 600, damping: 30 }}
           className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
           style={{
-            background: 'linear-gradient(to bottom, #ffffff, #f0ede8)',
-            boxShadow: '0 2px 0 rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9)',
+            background: 'linear-gradient(to bottom, #ffffff, #ece9e3)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.85)',
             border: '1px solid rgba(0,0,0,0.07)',
           }}
         >
