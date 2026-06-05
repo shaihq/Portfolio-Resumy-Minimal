@@ -1204,25 +1204,7 @@ export default function Landing() {
                 </div>
               </div>
 
-              <motion.div
-                className="group inline-flex cursor-pointer items-center gap-0 rounded-full mt-4 mb-6"
-                onClick={() => setShowUploadModal(true)}
-                whileTap={{ y: 2 }}
-                transition={{ type: "spring", stiffness: 600, damping: 30 }}
-                style={{ boxShadow: '0 3px 0 rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.08)', borderRadius: '9999px' }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 3px 0 #b82e16, 0 8px 22px rgba(232,57,30,0.38), inset 0 1px 0 rgba(255,255,255,0.15)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 3px 0 rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.08)';
-                }}
-                onMouseDown={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 0 #b82e16, 0 3px 10px rgba(232,57,30,0.25), inset 0 1px 0 rgba(255,255,255,0.1)';
-                }}
-                onMouseUp={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 3px 0 #b82e16, 0 8px 22px rgba(232,57,30,0.38), inset 0 1px 0 rgba(255,255,255,0.15)';
-                }}
-              >
+              <div className="group inline-flex cursor-pointer items-center gap-0 rounded-full mt-4 mb-6" onClick={() => setShowUploadModal(true)}>
                 <span className="rounded-full bg-[#1D1B1A] dark:bg-white px-6 py-[13px] text-[15px] font-medium text-[#FDFCF8] dark:text-[#1D1B1A] transition-colors duration-500 ease-in-out group-hover:bg-[#FF553E] dark:group-hover:bg-[#FF553E] group-hover:text-white dark:group-hover:text-white">
                   Get started for Free
                 </span>
@@ -1230,7 +1212,7 @@ export default function Landing() {
                   <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-8 group-hover:-translate-y-8" strokeWidth={2.5} />
                   <ArrowUpRight className="absolute top-1/2 left-1/2 h-[18px] w-[18px] -translate-x-10 translate-y-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={2.5} />
                 </div>
-              </motion.div>
+              </div>
             </div>
           </section>
 
