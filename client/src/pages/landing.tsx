@@ -943,13 +943,31 @@ export default function Landing() {
                             .designfolio.me
                           </span>
                         </div>
-                        <button
+                        <motion.button
                           data-testid="button-scratch-start"
                           onClick={() => navigate('/signup')}
-                          className="flex-shrink-0 rounded-full bg-[#FF553E] text-white px-6 py-3.5 text-[14px] font-semibold transition-opacity duration-200 hover:opacity-85 whitespace-nowrap"
+                          whileTap={{ y: 2 }}
+                          transition={{ type: "spring", stiffness: 600, damping: 30 }}
+                          className="flex-shrink-0 rounded-full text-white px-6 py-3.5 text-[14px] font-semibold whitespace-nowrap select-none"
+                          style={{
+                            background: 'linear-gradient(to bottom, #FF6E52 0%, #E8391E 100%)',
+                            boxShadow: '0 3px 0 #b82e16, 0 6px 18px rgba(232,57,30,0.32), inset 0 1px 0 rgba(255,255,255,0.22)',
+                          }}
+                          onMouseEnter={e => {
+                            (e.currentTarget as HTMLElement).style.boxShadow = '0 3px 0 #b82e16, 0 8px 22px rgba(232,57,30,0.42), inset 0 1px 0 rgba(255,255,255,0.22)';
+                          }}
+                          onMouseLeave={e => {
+                            (e.currentTarget as HTMLElement).style.boxShadow = '0 3px 0 #b82e16, 0 6px 18px rgba(232,57,30,0.32), inset 0 1px 0 rgba(255,255,255,0.22)';
+                          }}
+                          onMouseDown={e => {
+                            (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 0 #b82e16, 0 3px 10px rgba(232,57,30,0.25), inset 0 1px 0 rgba(255,255,255,0.22)';
+                          }}
+                          onMouseUp={e => {
+                            (e.currentTarget as HTMLElement).style.boxShadow = '0 3px 0 #b82e16, 0 6px 18px rgba(232,57,30,0.32), inset 0 1px 0 rgba(255,255,255,0.22)';
+                          }}
                         >
                           Get started
-                        </button>
+                        </motion.button>
                       </div>
                       <p className="text-[12px] text-[#1D1B1A]/55 dark:text-foreground/55 font-medium">
                         Claim your domain before it's taken
