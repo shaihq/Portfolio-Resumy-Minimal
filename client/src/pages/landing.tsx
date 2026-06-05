@@ -930,23 +930,23 @@ export default function Landing() {
                     {/* Domain input row */}
                     <div className="w-full flex flex-col items-center gap-2.5">
                       <div className="w-full flex items-stretch gap-2">
-                        <div className="flex-1 flex items-center rounded-full border border-[#1D1B1A]/12 dark:border-border bg-white dark:bg-card overflow-hidden transition-all duration-200 focus-within:border-[#1D1B1A]/30 dark:focus-within:border-foreground/25 focus-within:shadow-[0_0_0_3px_rgba(29,27,26,0.07)] dark:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
+                        <div className="flex-1 flex items-center rounded-full border border-[#1D1B1A]/12 dark:border-border bg-[#F5F4E9] dark:bg-card overflow-hidden transition-all duration-200 focus-within:border-[#1D1B1A]/30 dark:focus-within:border-foreground/25 focus-within:shadow-[0_0_0_3px_rgba(29,27,26,0.07)] dark:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
                           <input
                             data-testid="input-scratch-username"
                             type="text"
                             value={scratchUsername}
                             onChange={(e) => setScratchUsername(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
                             placeholder="yourname"
-                            className="flex-1 min-w-0 bg-transparent pl-4 pr-1 py-3 text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/45 dark:placeholder:text-foreground/45 outline-none"
+                            className="flex-1 min-w-0 bg-transparent pl-5 pr-1 py-3.5 text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/45 dark:placeholder:text-foreground/45 outline-none"
                           />
-                          <span className="flex items-center border-l border-[#1D1B1A]/08 dark:border-border pl-2.5 pr-4 text-[13px] font-medium text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap select-none">
+                          <span className="flex items-center border-l border-[#1D1B1A]/08 dark:border-border pl-3 pr-5 text-[14px] font-medium text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap select-none">
                             .designfolio.me
                           </span>
                         </div>
                         <button
                           data-testid="button-scratch-start"
                           onClick={() => navigate('/signup')}
-                          className="flex-shrink-0 rounded-full bg-[#FF553E] text-white px-5 py-3 text-[13px] font-semibold transition-opacity duration-200 hover:opacity-85 whitespace-nowrap"
+                          className="flex-shrink-0 rounded-full bg-[#FF553E] text-white px-6 py-3.5 text-[14px] font-semibold transition-opacity duration-200 hover:opacity-85 whitespace-nowrap"
                         >
                           Get started
                         </button>
