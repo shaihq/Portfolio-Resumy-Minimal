@@ -212,6 +212,8 @@ const testimonials = [
 ];
 
 function TestimonialCarousel() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const navigate = (dir: 1 | -1) => {
@@ -289,7 +291,11 @@ function TestimonialCarousel() {
           whileTap={{ y: 1 }}
           transition={{ type: "spring", stiffness: 600, damping: 30 }}
           className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
-          style={{
+          style={isDark ? {
+            background: 'linear-gradient(to bottom, #2e2c2a, #252320)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.07)',
+          } : {
             background: 'linear-gradient(to bottom, #ffffff, #ece9e3)',
             boxShadow: '0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.85)',
             border: '1px solid rgba(0,0,0,0.07)',
@@ -312,7 +318,11 @@ function TestimonialCarousel() {
           whileTap={{ y: 1 }}
           transition={{ type: "spring", stiffness: 600, damping: 30 }}
           className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70"
-          style={{
+          style={isDark ? {
+            background: 'linear-gradient(to bottom, #2e2c2a, #252320)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.07)',
+          } : {
             background: 'linear-gradient(to bottom, #ffffff, #ece9e3)',
             boxShadow: '0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.85)',
             border: '1px solid rgba(0,0,0,0.07)',
