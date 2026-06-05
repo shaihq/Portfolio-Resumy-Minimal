@@ -777,30 +777,30 @@ export default function Landing() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="mb-6 inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-border bg-[#1D1B1A]/[0.04] dark:bg-card p-0.5"
             >
-              <button
-                data-testid="tab-use-resume"
-                onClick={() => setHeroTab('resume')}
-                className={cn(
-                  "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
-                  heroTab === 'resume'
-                    ? "bg-[#FFFEF2] dark:bg-secondary text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/[0.08] dark:border-border"
-                    : "text-[#1D1B1A]/45 dark:text-muted-foreground hover:text-[#1D1B1A]/70 dark:hover:text-foreground"
-                )}
-              >
-                Use Resume
-              </button>
-              <button
-                data-testid="tab-from-scratch"
-                onClick={() => setHeroTab('scratch')}
-                className={cn(
-                  "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all duration-200",
-                  heroTab === 'scratch'
-                    ? "bg-[#FFFEF2] dark:bg-secondary text-[#1D1B1A] dark:text-foreground shadow-sm border border-[#1D1B1A]/[0.08] dark:border-border"
-                    : "text-[#1D1B1A]/45 dark:text-muted-foreground hover:text-[#1D1B1A]/70 dark:hover:text-foreground"
-                )}
-              >
-                From Scratch
-              </button>
+              {(['resume', 'scratch'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  data-testid={tab === 'resume' ? 'tab-use-resume' : 'tab-from-scratch'}
+                  onClick={() => setHeroTab(tab)}
+                  className={cn(
+                    "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-colors duration-200",
+                    heroTab === tab
+                      ? "text-[#1D1B1A] dark:text-foreground"
+                      : "text-[#1D1B1A]/45 dark:text-muted-foreground hover:text-[#1D1B1A]/70 dark:hover:text-foreground"
+                  )}
+                >
+                  {heroTab === tab && (
+                    <motion.span
+                      layoutId="tab-pill"
+                      className="absolute inset-0 rounded-md bg-[#FFFEF2] dark:bg-secondary border border-[#1D1B1A]/[0.08] dark:border-border shadow-sm"
+                      transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                    />
+                  )}
+                  <span className="relative z-10">
+                    {tab === 'resume' ? 'Use Resume' : 'From Scratch'}
+                  </span>
+                </button>
+              ))}
             </motion.div>
 
             <motion.h1 
