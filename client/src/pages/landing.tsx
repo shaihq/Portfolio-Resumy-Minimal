@@ -238,8 +238,8 @@ function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full max-w-[620px] mx-auto flex flex-col items-center">
-      <div className="w-full relative h-[160px] sm:h-[145px]">
+    <div className="w-full max-w-[560px] mx-auto flex flex-col items-center">
+      <div className="w-full relative h-[140px] sm:h-[130px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -259,8 +259,8 @@ function TestimonialCarousel() {
                   />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <div className="text-[#1D1B1A] dark:text-foreground text-[16px] font-bold leading-tight">{testimonials[currentIndex].name}</div>
-                  <div className="text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
+                  <div className="text-[#1D1B1A] dark:text-foreground text-[14px] font-bold leading-tight">{testimonials[currentIndex].name}</div>
+                  <div className="text-[12px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight">{testimonials[currentIndex].role}</div>
                 </div>
               </div>
               {testimonials[currentIndex].logoSrc && (
@@ -274,7 +274,7 @@ function TestimonialCarousel() {
               )}
             </div>
             
-            <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[17px] leading-[1.5]">
+            <p className="text-[#1D1B1A]/80 dark:text-foreground/80 font-medium text-[16px] leading-[1.5]">
               {testimonials[currentIndex].content}
             </p>
           </motion.div>
@@ -595,7 +595,7 @@ export default function Landing() {
 
   return (
     <div id="overview" className="min-h-screen bg-[#FFFEF2] dark:bg-background text-[#1D1B1A] dark:text-foreground antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
-      <div className="w-full max-w-[800px] bg-[#FFFEF2] dark:bg-background min-h-screen border-x border-[#EAE9E4] dark:border-border relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
+      <div className="w-full max-w-[720px] bg-[#FFFEF2] dark:bg-background min-h-screen border-x border-[#EAE9E4] dark:border-border relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
         
         {/* Left Floating Nav */}
         <div className="hidden lg:block absolute right-full top-0 bottom-0 z-40">
@@ -807,7 +807,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-              className="text-[38px] sm:text-[50px] leading-[1.1] tracking-[-0.02em] max-w-[560px] mb-5 text-[#463B34] dark:text-foreground"
+              className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[520px] mb-5 text-[#463B34] dark:text-foreground"
               style={{ fontWeight: 650 }}
             >Landing a job was never
             meant to be hard.</motion.h1>
@@ -816,7 +816,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              className="text-[18px] mb-8 max-w-[480px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
+              className="text-[17px] mb-8 max-w-[450px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
               {heroTab === 'resume'
                 ? "Upload your resume. AI builds your portfolio, scans, scores, and shortlists matched jobs."
@@ -827,7 +827,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-              className="w-full max-w-[480px] flex flex-col items-center gap-4"
+              className="w-full max-w-[450px] flex flex-col items-center gap-4"
             >
               {/* Tab content */}
               <AnimatePresence mode="wait">
@@ -1007,7 +1007,7 @@ export default function Landing() {
                         key={num}
                         src={`/companylogo/companienames0${num}.svg`}
                         alt={`Company logo ${num}`}
-                        className="h-[46px] w-auto opacity-60 hover:opacity-85 transition-opacity duration-300 dark:invert dark:opacity-70 dark:hover:opacity-90"
+                        className="h-[40px] w-auto opacity-60 hover:opacity-85 transition-opacity duration-300 dark:invert dark:opacity-70 dark:hover:opacity-90"
                       />
                     ))}
                   </div>
@@ -1037,7 +1037,7 @@ export default function Landing() {
                 ] }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
-                  <h3 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground">
+                  <h3 className="text-[20px] font-bold text-[#1D1B1A] dark:text-foreground">
                     {item.step} <ShimmerInView text={item.title} />
                   </h3>
                   <div className="w-full rounded-[12px] overflow-hidden border border-[#E2E1DA] dark:border-border shadow-sm bg-[#141414]">
@@ -1150,12 +1150,12 @@ export default function Landing() {
 
           {/* About Maker Section */}
           <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6 scroll-mt-24">
-            <div className="max-w-[620px] mx-auto">
-              <h2 className="text-[30px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">
+            <div className="max-w-[560px] mx-auto">
+              <h2 className="text-[26px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">
                 I'm Shai. Maker of Designfolio.
               </h2>
               
-              <div className="flex flex-col gap-6 text-[17px] leading-[1.65] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium">
+              <div className="flex flex-col gap-6 text-[16px] leading-[1.65] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium">
                 <p>
                   For the last decade, I've been designing products.<br />
                   And honestly, the hardest problem was never design itself — it was the portfolio.
@@ -1180,10 +1180,10 @@ export default function Landing() {
               </div>
 
               <div className="mt-8 mb-6">
-                <div className="font-['Caveat'] text-[40px] text-[#1D1B1A] dark:text-foreground mb-2 leading-none">
+                <div className="font-['Caveat'] text-[36px] text-[#1D1B1A] dark:text-foreground mb-2 leading-none">
                   Shai
                 </div>
-                <div className="text-[16px] font-medium text-[#1D1B1A]/70 dark:text-foreground/70">
+                <div className="text-[14px] font-medium text-[#1D1B1A]/70 dark:text-foreground/70">
                   Say hi - shai@designfolio.me
                 </div>
               </div>
