@@ -930,7 +930,7 @@ export default function Landing() {
                     {/* Domain input row */}
                     <div className="w-full flex flex-col items-center gap-2.5">
                       <div className="w-full flex items-stretch gap-2">
-                        <div className="flex-1 flex items-center rounded-full border border-[#1D1B1A]/12 dark:border-border bg-[#F5F4E9] dark:bg-card overflow-hidden transition-all duration-200 focus-within:border-[#1D1B1A]/30 dark:focus-within:border-foreground/25 focus-within:shadow-[0_0_0_3px_rgba(29,27,26,0.07)] dark:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
+                        <div className="flex-1 flex items-center rounded-full border border-[#1D1B1A]/12 dark:border-border bg-[#FEFDF4] dark:bg-card overflow-hidden transition-all duration-200 focus-within:border-[#1D1B1A]/30 dark:focus-within:border-foreground/25 focus-within:shadow-[0_0_0_3px_rgba(29,27,26,0.07)] dark:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
                           <input
                             data-testid="input-scratch-username"
                             type="text"
