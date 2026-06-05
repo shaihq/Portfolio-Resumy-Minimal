@@ -775,7 +775,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="mb-6 inline-flex items-center rounded-lg border border-[#1D1B1A]/10 dark:border-border bg-[#1D1B1A]/[0.04] dark:bg-card p-0.5"
+              className="mb-6 inline-flex items-center rounded-full border border-[#1D1B1A]/10 dark:border-border bg-[#1D1B1A]/[0.04] dark:bg-card p-0.5"
             >
               {(['resume', 'scratch'] as const).map((tab) => (
                 <button
@@ -783,7 +783,7 @@ export default function Landing() {
                   data-testid={tab === 'resume' ? 'tab-use-resume' : 'tab-from-scratch'}
                   onClick={() => setHeroTab(tab)}
                   className={cn(
-                    "relative px-4 py-1.5 rounded-md text-[13px] font-semibold transition-colors duration-200",
+                    "relative px-4 py-1.5 rounded-full text-[13px] font-semibold transition-colors duration-200",
                     heroTab === tab
                       ? "text-[#1D1B1A] dark:text-foreground"
                       : "text-[#1D1B1A]/45 dark:text-muted-foreground hover:text-[#1D1B1A]/70 dark:hover:text-foreground"
@@ -792,7 +792,7 @@ export default function Landing() {
                   {heroTab === tab && (
                     <motion.span
                       layoutId="tab-pill"
-                      className="absolute inset-0 rounded-md bg-[#FFFEF2] dark:bg-secondary border border-[#1D1B1A]/[0.08] dark:border-border shadow-sm"
+                      className="absolute inset-0 rounded-full bg-[#FFFEF2] dark:bg-secondary border border-[#1D1B1A]/[0.08] dark:border-border shadow-sm"
                       transition={{ type: "spring", stiffness: 500, damping: 38 }}
                     />
                   )}
@@ -928,28 +928,30 @@ export default function Landing() {
                     className="w-full flex flex-col items-center gap-2"
                   >
                     {/* Domain input row */}
-                    <div className="w-full flex flex-col gap-2">
-                      <div className="w-full flex items-stretch rounded-xl border border-[#1D1B1A]/12 dark:border-border bg-white dark:bg-card overflow-hidden transition-all duration-200 focus-within:border-[#1D1B1A]/30 dark:focus-within:border-foreground/25 focus-within:shadow-[0_0_0_3px_rgba(29,27,26,0.07)] dark:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
-                        <input
-                          data-testid="input-scratch-username"
-                          type="text"
-                          value={scratchUsername}
-                          onChange={(e) => setScratchUsername(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                          placeholder="yourname"
-                          className="flex-1 min-w-0 bg-transparent pl-4 pr-1 py-3 text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/25 dark:placeholder:text-foreground/25 outline-none"
-                        />
-                        <span className="flex items-center border-l border-[#1D1B1A]/08 dark:border-border pl-2.5 pr-3 text-[13px] font-medium text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap select-none bg-[#1D1B1A]/[0.02] dark:bg-white/[0.02]">
-                          .designfolio.me
-                        </span>
+                    <div className="w-full flex flex-col items-center gap-2.5">
+                      <div className="w-full flex items-stretch gap-2">
+                        <div className="flex-1 flex items-center rounded-full border border-[#1D1B1A]/12 dark:border-border bg-white dark:bg-card overflow-hidden transition-all duration-200 focus-within:border-[#1D1B1A]/30 dark:focus-within:border-foreground/25 focus-within:shadow-[0_0_0_3px_rgba(29,27,26,0.07)] dark:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]">
+                          <input
+                            data-testid="input-scratch-username"
+                            type="text"
+                            value={scratchUsername}
+                            onChange={(e) => setScratchUsername(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                            placeholder="yourname"
+                            className="flex-1 min-w-0 bg-transparent pl-4 pr-1 py-3 text-[14px] font-semibold text-[#1D1B1A] dark:text-foreground placeholder:text-[#1D1B1A]/25 dark:placeholder:text-foreground/25 outline-none"
+                          />
+                          <span className="flex items-center border-l border-[#1D1B1A]/08 dark:border-border pl-2.5 pr-4 text-[13px] font-medium text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap select-none">
+                            .designfolio.me
+                          </span>
+                        </div>
                         <button
                           data-testid="button-scratch-start"
                           onClick={() => navigate('/signup')}
-                          className="flex-shrink-0 m-1 rounded-lg bg-[#1D1B1A] dark:bg-foreground text-[#FFFEF2] dark:text-background px-4 py-2 text-[13px] font-semibold transition-colors duration-300 hover:bg-[#FF553E] dark:hover:bg-[#FF553E] dark:hover:text-white whitespace-nowrap"
+                          className="flex-shrink-0 rounded-full bg-[#FF553E] text-white px-5 py-3 text-[13px] font-semibold transition-opacity duration-200 hover:opacity-85 whitespace-nowrap"
                         >
                           Get started
                         </button>
                       </div>
-                      <p className="text-[12px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium text-center">
+                      <p className="text-[12px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium">
                         Claim your domain before it's taken
                       </p>
                     </div>
