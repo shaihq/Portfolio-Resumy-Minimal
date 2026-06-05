@@ -988,7 +988,7 @@ export default function Landing() {
             {/* Label inset into a hairline rule */}
             <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-[#1D1B1A]/[0.07] dark:bg-white/[0.06]" />
-              <span className="text-[11px] font-semibold tracking-[0.11em] uppercase text-[#1D1B1A]/35 dark:text-foreground/35 whitespace-nowrap">
+              <span className="text-[11px] font-semibold tracking-[0.11em] uppercase text-[#1D1B1A]/55 dark:text-foreground/55 whitespace-nowrap">
                 Helping 28,000+ job seekers
               </span>
               <div className="flex-1 h-px bg-[#1D1B1A]/[0.07] dark:bg-white/[0.06]" />
@@ -1007,7 +1007,7 @@ export default function Landing() {
                         key={num}
                         src={`/companylogo/companienames0${num}.svg`}
                         alt={`Company logo ${num}`}
-                        className="h-[36px] w-auto opacity-45 hover:opacity-70 transition-opacity duration-300 dark:invert dark:opacity-55 dark:hover:opacity-80"
+                        className="h-[36px] w-auto opacity-60 hover:opacity-85 transition-opacity duration-300 dark:invert dark:opacity-70 dark:hover:opacity-90"
                       />
                     ))}
                   </div>
