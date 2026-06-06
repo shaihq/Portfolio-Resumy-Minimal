@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Check } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -397,6 +397,8 @@ export default function Landing() {
   const uploadZoneRef = useRef<HTMLDivElement>(null);
   const [heroTab, setHeroTab] = useState<'resume' | 'scratch'>('resume');
   const [scratchUsername, setScratchUsername] = useState('');
+  const [heroStep, setHeroStep] = useState(0);
+  const [heroProgress, setHeroProgress] = useState(0);
 
   const aiStatuses = [
     "Reading your resume...",
@@ -413,6 +415,24 @@ export default function Landing() {
     }, 2200);
     return () => clearInterval(interval);
   }, [isProcessing]);
+
+  const HERO_STEP_COUNT = 4;
+  const HERO_STEP_DURATION = 5000;
+  const HERO_TICK = 50;
+
+  useEffect(() => {
+    const increment = (HERO_TICK / HERO_STEP_DURATION) * 100;
+    const timer = setInterval(() => {
+      setHeroProgress(prev => {
+        if (prev + increment >= 100) {
+          setHeroStep(s => (s + 1) % HERO_STEP_COUNT);
+          return 0;
+        }
+        return prev + increment;
+      });
+    }, HERO_TICK);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (!isProcessing) return;
@@ -1024,26 +1044,127 @@ export default function Landing() {
             </motion.div>
           </section>
 
-          {/* Browser Mockup Section */}
+          {/* Hero Progress Section */}
           <section ref={videoSectionRef} className="w-full px-6 mb-16">
-            <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-              className="relative rounded-[20px] overflow-hidden shadow-xl border border-[#E2E1DA] dark:border-border bg-[#141414]"
-            >
-              <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
-                <video 
-                  key={isDark ? "dark" : "light"}
-                  src={isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4"}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover origin-center" 
-                />
-              </div>
-            </motion.div>
+            {(() => {
+              const CIRC = 2 * Math.PI * 7.5;
+              const steps = [
+                { label: "Build a portfolio", video: isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4" },
+                { label: "Find jobs",          video: "/landing-video/template-section.mp4" },
+                { label: "Improve your resume", video: "/landing-video/other-ai-tools.mp4" },
+                { label: "Track applications",  video: isDark ? "/landing-video/hero-light.mp4" : "/landing-video/hero-dark.mp4" },
+              ];
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+                  className="flex flex-col gap-5"
+                >
+                  {/* Step indicator */}
+                  <div className="flex items-start justify-between gap-1">
+                    {steps.map((step, i) => {
+                      const isActive = heroStep === i;
+                      const isDone   = i < heroStep;
+                      const pct      = isActive ? heroProgress : isDone ? 100 : 0;
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => { setHeroStep(i); setHeroProgress(0); }}
+                          className="group flex-1 flex flex-col items-center gap-2 min-w-0"
+                        >
+                          {/* Circle with progress ring */}
+                          <div className="relative w-[34px] h-[34px] flex-shrink-0">
+                            <svg width="34" height="34" viewBox="0 0 34 34" className="absolute inset-0 -rotate-90">
+                              {/* Track */}
+                              <circle
+                                cx="17" cy="17" r="7.5"
+                                fill="none"
+                                strokeWidth="1.5"
+                                className="stroke-[#1D1B1A]/10 dark:stroke-white/10"
+                              />
+                              {/* Fill */}
+                              <circle
+                                cx="17" cy="17" r="7.5"
+                                fill="none"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeDasharray={CIRC}
+                                strokeDashoffset={CIRC * (1 - pct / 100)}
+                                className={cn(
+                                  "transition-[stroke-dashoffset]",
+                                  isDone  ? "stroke-[#16A34A]" : "stroke-[#FF553E]"
+                                )}
+                                style={isActive ? { transition: "stroke-dashoffset 0.05s linear" } : { transition: "stroke-dashoffset 0.4s ease" }}
+                              />
+                            </svg>
+                            {/* Center icon */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              {isDone ? (
+                                <Check className="w-3 h-3 text-[#16A34A]" strokeWidth={3} />
+                              ) : isActive ? (
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#FF553E]" />
+                              ) : (
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#1D1B1A]/15 dark:bg-white/15" />
+                              )}
+                            </div>
+                          </div>
+                          {/* Label */}
+                          <span className={cn(
+                            "text-[11px] font-semibold text-center leading-tight tracking-tight transition-colors duration-300 px-0.5",
+                            isActive
+                              ? "text-[#1D1B1A] dark:text-foreground"
+                              : isDone
+                                ? "text-[#16A34A]"
+                                : "text-[#1D1B1A]/35 dark:text-foreground/35"
+                          )}>
+                            {step.label}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Connecting line between steps */}
+                  <div className="relative h-px mx-[17px] -mt-2 mb-1">
+                    <div className="absolute inset-0 bg-[#1D1B1A]/08 dark:bg-white/08 rounded-full" />
+                    <motion.div
+                      className="absolute inset-y-0 left-0 bg-[#16A34A]/40 rounded-full"
+                      animate={{ width: `${(heroStep / (HERO_STEP_COUNT - 1)) * 100}%` }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                    />
+                  </div>
+
+                  {/* Video block */}
+                  <div className="relative rounded-[20px] overflow-hidden shadow-xl border border-[#E2E1DA] dark:border-border bg-[#141414]">
+                    {/* Step label overlay */}
+                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/10">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#FF553E] animate-pulse" />
+                      <span className="text-[11px] font-semibold text-white/90 tracking-tight">
+                        {steps[heroStep].label}
+                      </span>
+                    </div>
+                    <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
+                      <AnimatePresence mode="wait">
+                        <motion.video
+                          key={heroStep}
+                          src={steps[heroStep].video}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.45, ease: "easeInOut" }}
+                          className="absolute inset-0 w-full h-full object-cover origin-center"
+                        />
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })()}
           </section>
 
           {/* Trusted By Section */}
