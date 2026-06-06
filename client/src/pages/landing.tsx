@@ -143,7 +143,7 @@ function MasonryScrollColumn({ items, duration, reverse, hovered }: { items: Scr
     if (!el) return;
     const anims = el.getAnimations();
     anims.forEach((anim) => {
-      anim.playbackRate = hovered ? 0.04 : 1;
+      anim.playbackRate = hovered ? 0.18 : 1;
     });
   }, [hovered]);
 
