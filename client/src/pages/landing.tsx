@@ -134,7 +134,7 @@ function MasonryScrollCard({ t }: { t: ScrollTestimonial }) {
   );
 }
 
-function MasonryScrollColumn({ items, duration, reverse, hovered }: { items: ScrollTestimonial[]; duration: number; reverse?: boolean; hovered: boolean }) {
+function MasonryScrollColumn({ items, duration, reverse, hovered, className }: { items: ScrollTestimonial[]; duration: number; reverse?: boolean; hovered: boolean; className?: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const doubled = [...items, ...items];
 
@@ -149,8 +149,7 @@ function MasonryScrollColumn({ items, duration, reverse, hovered }: { items: Scr
 
   return (
     <div
-      className="flex-1 min-w-0 overflow-hidden"
-      style={{ overflow: 'hidden' }}
+      className={cn("flex-1 min-w-0 overflow-hidden", className)}
     >
       <div
         ref={scrollRef}
@@ -175,13 +174,13 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
 
   return (
     <div
-      className="flex gap-3"
+      className="flex gap-3 px-6"
       style={{ height: 440 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <MasonryScrollColumn items={col1} duration={duration} hovered={hovered} />
-      <MasonryScrollColumn items={col2} duration={duration * 0.78} reverse hovered={hovered} />
+      <MasonryScrollColumn items={col2} duration={duration * 0.78} reverse hovered={hovered} className="hidden sm:flex" />
     </div>
   );
 }
