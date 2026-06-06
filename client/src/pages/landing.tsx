@@ -143,17 +143,14 @@ function MasonryScrollColumn({ items, duration, reverse, hovered }: { items: Scr
     if (!el) return;
     const anims = el.getAnimations();
     anims.forEach((anim) => {
-      anim.playbackRate = hovered ? 0.18 : 1;
+      anim.playbackRate = hovered ? 0.35 : 1;
     });
   }, [hovered]);
 
   return (
     <div
       className="flex-1 min-w-0 overflow-hidden"
-      style={{
-        maskImage: 'linear-gradient(to bottom, transparent, black 3%, black 97%, transparent)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 3%, black 97%, transparent)',
-      }}
+      style={{ overflow: 'hidden' }}
     >
       <div
         ref={scrollRef}
