@@ -1061,7 +1061,7 @@ export default function Landing() {
                   className="flex flex-col gap-5"
                 >
                   {/* Step indicator — horizontal pills */}
-                  <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+                  <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-2xl border border-[#1D1B1A]/[0.055] dark:border-white/[0.06] bg-[#1D1B1A]/[0.025] dark:bg-white/[0.03] px-5 py-3 mx-auto">
                     {steps.map((step, i) => {
                       const isActive = heroStep === i;
                       const isDone   = i < heroStep;
