@@ -1075,39 +1075,48 @@ export default function Landing() {
                         >
                           {/* Circle with progress ring */}
                           <div className="relative w-[34px] h-[34px] flex-shrink-0">
-                            <svg width="34" height="34" viewBox="0 0 34 34" className="absolute inset-0 -rotate-90">
-                              {/* Track */}
-                              <circle
-                                cx="17" cy="17" r="7.5"
-                                fill="none"
-                                strokeWidth="1.5"
-                                className="stroke-[#1D1B1A]/10 dark:stroke-white/10"
-                              />
-                              {/* Fill */}
-                              <circle
-                                cx="17" cy="17" r="7.5"
-                                fill="none"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeDasharray={CIRC}
-                                strokeDashoffset={CIRC * (1 - pct / 100)}
-                                className={cn(
-                                  "transition-[stroke-dashoffset]",
-                                  isDone  ? "stroke-[#16A34A]" : "stroke-[#FF553E]"
-                                )}
-                                style={isActive ? { transition: "stroke-dashoffset 0.05s linear" } : { transition: "stroke-dashoffset 0.4s ease" }}
-                              />
-                            </svg>
-                            {/* Center icon */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              {isDone ? (
-                                <Check className="w-3 h-3 text-[#16A34A]" strokeWidth={3} />
-                              ) : isActive ? (
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#FF553E]" />
-                              ) : (
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#1D1B1A]/15 dark:bg-white/15" />
-                              )}
-                            </div>
+                            {isDone ? (
+                              /* Completed — solid filled circle */
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-[18px] h-[18px] rounded-full bg-[#1D1B1A] dark:bg-white flex items-center justify-center">
+                                  <Check className="w-2.5 h-2.5 text-white dark:text-[#1D1B1A]" strokeWidth={3} />
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                <svg width="34" height="34" viewBox="0 0 34 34" className="absolute inset-0 -rotate-90">
+                                  {/* Track */}
+                                  <circle
+                                    cx="17" cy="17" r="7.5"
+                                    fill="none"
+                                    strokeWidth="2"
+                                    className="stroke-[#1D1B1A]/10 dark:stroke-white/10"
+                                  />
+                                  {/* Fill — only shown when active */}
+                                  {isActive && (
+                                    <circle
+                                      cx="17" cy="17" r="7.5"
+                                      fill="none"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeDasharray={CIRC}
+                                      strokeDashoffset={CIRC * (1 - pct / 100)}
+                                      className="stroke-[#FF553E]"
+                                      style={{ transition: "stroke-dashoffset 0.05s linear" }}
+                                    />
+                                  )}
+                                </svg>
+                                {/* Center dot */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className={cn(
+                                    "rounded-full transition-all duration-300",
+                                    isActive
+                                      ? "w-2 h-2 bg-[#FF553E]"
+                                      : "w-1.5 h-1.5 bg-[#1D1B1A]/12 dark:bg-white/12"
+                                  )} />
+                                </div>
+                              </>
+                            )}
                           </div>
                           {/* Label */}
                           <span className={cn(
@@ -1115,8 +1124,8 @@ export default function Landing() {
                             isActive
                               ? "text-[#1D1B1A] dark:text-foreground"
                               : isDone
-                                ? "text-[#16A34A]"
-                                : "text-[#1D1B1A]/35 dark:text-foreground/35"
+                                ? "text-[#1D1B1A]/70 dark:text-foreground/70"
+                                : "text-[#1D1B1A]/30 dark:text-foreground/30"
                           )}>
                             {step.label}
                           </span>
@@ -1126,10 +1135,9 @@ export default function Landing() {
                   </div>
 
                   {/* Connecting line between steps */}
-                  <div className="relative h-px mx-[17px] -mt-2 mb-1">
-                    <div className="absolute inset-0 bg-[#1D1B1A]/08 dark:bg-white/08 rounded-full" />
+                  <div className="relative h-[3px] mx-[17px] -mt-3 mb-1 rounded-full overflow-hidden bg-[#1D1B1A]/[0.07] dark:bg-white/[0.07]">
                     <motion.div
-                      className="absolute inset-y-0 left-0 bg-[#16A34A]/40 rounded-full"
+                      className="absolute inset-y-0 left-0 rounded-full bg-[#1D1B1A]/25 dark:bg-white/25"
                       animate={{ width: `${(heroStep / (HERO_STEP_COUNT - 1)) * 100}%` }}
                       transition={{ duration: 0.5, ease: "easeOut" }}
                     />
