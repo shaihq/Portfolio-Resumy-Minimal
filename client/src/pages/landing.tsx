@@ -99,13 +99,18 @@ const scrollerExtraTestimonials = [
   },
 ];
 
-function VerticalTestimonialsScroller({ duration }: { duration: number }) {
-  const all = [...testimonials, ...scrollerExtraTestimonials];
-  const col1 = all.filter((_, i) => i % 2 === 0);
-  const col2 = all.filter((_, i) => i % 2 === 1);
+type ScrollTestimonial = {
+  content: string;
+  name: string;
+  role: string;
+  image: string;
+  logoSrc?: string;
+  logoRaw?: boolean;
+};
 
-  const renderCard = (t: typeof all[0], i: number) => (
-    <div key={i} className="px-4 py-4 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
+function MasonryScrollCard({ t }: { t: ScrollTestimonial }) {
+  return (
+    <div className="px-4 py-4 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
       <p className="text-[13px] leading-[1.6] text-[#1D1B1A]/75 dark:text-foreground/75 font-medium mb-3.5">
         "{t.content}"
       </p>
@@ -118,7 +123,7 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
           </div>
         </div>
         {t.logoSrc && (
-          <div className={cn("shrink-0 w-6 h-6 rounded-full overflow-hidden flex-shrink-0", !t.logoRaw && "bg-white dark:bg-white/5")}>
+          <div className={cn("shrink-0 w-6 h-6 rounded-full overflow-hidden", !t.logoRaw && "bg-white dark:bg-white/5")}>
             <img src={t.logoSrc} alt="" aria-hidden="true"
               className={cn("w-full h-full object-cover", !t.logoRaw && "opacity-40 dark:invert")}
             />
@@ -127,32 +132,41 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
       </div>
     </div>
   );
+}
 
-  const MasonryColumn = ({ items, dur, reverse }: { items: typeof all, dur: number, reverse?: boolean }) => {
-    const doubled = [...items, ...items];
-    return (
-      <div className="flex-1 min-w-0 overflow-hidden"
-        style={{
-          maskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
-        }}
+function MasonryScrollColumn({ items, duration, reverse }: { items: ScrollTestimonial[]; duration: number; reverse?: boolean }) {
+  const doubled = [...items, ...items];
+  return (
+    <div
+      className="flex-1 min-w-0 overflow-hidden"
+      style={{
+        maskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
+      }}
+    >
+      <motion.div
+        initial={{ y: reverse ? "-50%" : "0%" }}
+        animate={{ y: reverse ? "0%" : "-50%" }}
+        transition={{ duration, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+        className="flex flex-col gap-3"
       >
-        <motion.div
-          animate={{ translateY: reverse ? ["0%", "50%"] : ["-50%", "0%"] }}
-          initial={{ translateY: reverse ? "0%" : "-50%" }}
-          transition={{ duration: dur, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-          className="flex flex-col gap-3"
-        >
-          {doubled.map((t, i) => renderCard(t, i))}
-        </motion.div>
-      </div>
-    );
-  };
+        {doubled.map((t, i) => (
+          <MasonryScrollCard key={i} t={t} />
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function VerticalTestimonialsScroller({ duration }: { duration: number }) {
+  const all = [...scrollerExtraTestimonials, ...testimonials];
+  const col1 = all.filter((_, i) => i % 2 === 0);
+  const col2 = all.filter((_, i) => i % 2 === 1);
 
   return (
     <div className="flex gap-3" style={{ height: 440 }}>
-      <MasonryColumn items={col1} dur={duration} />
-      <MasonryColumn items={col2} dur={duration * 0.78} reverse />
+      <MasonryScrollColumn items={col1} duration={duration} />
+      <MasonryScrollColumn items={col2} duration={duration * 0.78} reverse />
     </div>
   );
 }
