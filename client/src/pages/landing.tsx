@@ -101,52 +101,58 @@ const scrollerExtraTestimonials = [
 
 function VerticalTestimonialsScroller({ duration }: { duration: number }) {
   const all = [...testimonials, ...scrollerExtraTestimonials];
-  const doubled = [...all, ...all];
-  return (
-    <div
-      className="relative overflow-hidden"
-      style={{
-        height: 420,
-        maskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)',
-      }}
-    >
-      <motion.ul
-        key={duration}
-        animate={{ translateY: "-50%" }}
-        transition={{ duration, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-        className="flex flex-col gap-3 list-none m-0 p-0"
+  const col1 = all.filter((_, i) => i % 2 === 0);
+  const col2 = all.filter((_, i) => i % 2 === 1);
+
+  const renderCard = (t: typeof all[0], i: number) => (
+    <div key={i} className="px-4 py-4 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
+      <p className="text-[13px] leading-[1.6] text-[#1D1B1A]/75 dark:text-foreground/75 font-medium mb-3.5">
+        "{t.content}"
+      </p>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <img src={t.image} alt={t.name} className="h-7 w-7 rounded-full object-cover flex-shrink-0" />
+          <div className="flex flex-col min-w-0">
+            <span className="text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none truncate">{t.name}</span>
+            <span className="text-[11px] text-[#1D1B1A]/45 dark:text-foreground/45 leading-tight truncate">{t.role}</span>
+          </div>
+        </div>
+        {t.logoSrc && (
+          <div className={cn("shrink-0 w-6 h-6 rounded-full overflow-hidden flex-shrink-0", !t.logoRaw && "bg-white dark:bg-white/5")}>
+            <img src={t.logoSrc} alt="" aria-hidden="true"
+              className={cn("w-full h-full object-cover", !t.logoRaw && "opacity-40 dark:invert")}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const MasonryColumn = ({ items, dur, reverse }: { items: typeof all, dur: number, reverse?: boolean }) => {
+    const doubled = [...items, ...items];
+    return (
+      <div className="flex-1 min-w-0 overflow-hidden"
+        style={{
+          maskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
+        }}
       >
-        {doubled.map((t, i) => (
-          <li key={i} className="px-5 py-5 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
-            <p className="text-[14px] leading-[1.6] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium mb-4">
-              "{t.content}"
-            </p>
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <img
-                  src={t.image}
-                  alt={t.name}
-                  className="h-8 w-8 rounded-[28%] object-cover flex-shrink-0"
-                />
-                <div className="flex flex-col gap-0.5 min-w-0">
-                  <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none">{t.name}</span>
-                  <span className="text-[12px] text-[#1D1B1A]/50 dark:text-foreground/50">{t.role}</span>
-                </div>
-              </div>
-              {t.logoSrc && (
-                <img
-                  src={t.logoSrc}
-                  alt=""
-                  aria-hidden="true"
-                  className={cn("shrink-0", !t.logoRaw && "opacity-20 dark:invert")}
-                  style={{ width: 32, height: 32, objectFit: "contain" }}
-                />
-              )}
-            </div>
-          </li>
-        ))}
-      </motion.ul>
+        <motion.div
+          animate={{ translateY: reverse ? ["0%", "50%"] : ["-50%", "0%"] }}
+          initial={{ translateY: reverse ? "0%" : "-50%" }}
+          transition={{ duration: dur, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+          className="flex flex-col gap-3"
+        >
+          {doubled.map((t, i) => renderCard(t, i))}
+        </motion.div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex gap-3" style={{ height: 440 }}>
+      <MasonryColumn items={col1} dur={duration} />
+      <MasonryColumn items={col2} dur={duration * 0.78} reverse />
     </div>
   );
 }
