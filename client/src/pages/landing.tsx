@@ -111,19 +111,19 @@ type ScrollTestimonial = {
 function MasonryScrollCard({ t }: { t: ScrollTestimonial }) {
   return (
     <div className="px-4 py-4 rounded-xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background">
-      <p className="text-[13px] leading-[1.6] text-[#1D1B1A]/75 dark:text-foreground/75 font-medium mb-3.5">
+      <p className="text-[14px] leading-[1.65] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium mb-4">
         "{t.content}"
       </p>
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2.5 min-w-0">
-          <img src={t.image} alt={t.name} className="h-7 w-7 rounded-full object-cover flex-shrink-0" />
-          <div className="flex flex-col min-w-0">
-            <span className="text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none truncate">{t.name}</span>
-            <span className="text-[11px] text-[#1D1B1A]/45 dark:text-foreground/45 leading-tight truncate">{t.role}</span>
+          <img src={t.image} alt={t.name} className="h-8 w-8 rounded-full object-cover flex-shrink-0" />
+          <div className="flex flex-col min-w-0 gap-0.5">
+            <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none truncate">{t.name}</span>
+            <span className="text-[11.5px] text-[#1D1B1A]/50 dark:text-foreground/50 leading-tight truncate">{t.role}</span>
           </div>
         </div>
         {t.logoSrc && (
-          <div className={cn("shrink-0 w-6 h-6 rounded-full overflow-hidden", !t.logoRaw && "bg-white dark:bg-white/5")}>
+          <div className={cn("shrink-0 w-7 h-7 rounded-full overflow-hidden", !t.logoRaw && "bg-white dark:bg-white/5")}>
             <img src={t.logoSrc} alt="" aria-hidden="true"
               className={cn("w-full h-full object-cover", !t.logoRaw && "opacity-40 dark:invert")}
             />
