@@ -1062,7 +1062,7 @@ export default function Landing() {
                   className="flex flex-col gap-5"
                 >
                   {/* Step indicator — horizontal pills */}
-                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                  <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
                     {steps.map((step, i) => {
                       const isActive = heroStep === i;
                       const isDone   = i < heroStep;
@@ -1078,8 +1078,14 @@ export default function Landing() {
                           <div className="relative w-[22px] h-[22px] flex-shrink-0">
                             {isDone ? (
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-[16px] h-[16px] rounded-full bg-[#1D1B1A] dark:bg-white flex items-center justify-center">
-                                  <Check className="w-2 h-2 text-white dark:text-[#1D1B1A]" strokeWidth={3.5} />
+                                <div
+                                  className="w-[18px] h-[18px] rounded-full flex items-center justify-center"
+                                  style={{
+                                    background: 'radial-gradient(circle at 38% 32%, #FF9B7A, #FF553E 55%, #C93A20)',
+                                    boxShadow: '0 1px 0 #a02f18, 0 2px 6px rgba(232,57,30,0.45), inset 0 1px 0 rgba(255,255,255,0.30)',
+                                  }}
+                                >
+                                  <Check className="w-2 h-2 text-white" strokeWidth={3.5} />
                                 </div>
                               </div>
                             ) : (
