@@ -399,3 +399,13 @@ input[type="range"].speed-slider::-moz-range-thumb {
 @media (prefers-reduced-motion: reduce) {
   .color-orb::before { animation: none !important; opacity: 0 !important; }
 }
+
+@keyframes masonryScrollUp {
+  from { transform: translateY(0%); }
+  to   { transform: translateY(-50%); }
+}
+
+@keyframes masonryScrollDown {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0%); }
+}

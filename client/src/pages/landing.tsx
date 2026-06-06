@@ -134,26 +134,27 @@ function MasonryScrollCard({ t }: { t: ScrollTestimonial }) {
   );
 }
 
-function MasonryScrollColumn({ items, duration, reverse }: { items: ScrollTestimonial[]; duration: number; reverse?: boolean }) {
+function MasonryScrollColumn({ items, duration, reverse, paused }: { items: ScrollTestimonial[]; duration: number; reverse?: boolean; paused: boolean }) {
   const doubled = [...items, ...items];
   return (
     <div
       className="flex-1 min-w-0 overflow-hidden"
       style={{
-        maskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)',
+        maskImage: 'linear-gradient(to bottom, transparent, black 6%, black 94%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 6%, black 94%, transparent)',
       }}
     >
-      <motion.div
-        initial={{ y: reverse ? "-50%" : "0%" }}
-        animate={{ y: reverse ? "0%" : "-50%" }}
-        transition={{ duration, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+      <div
+        style={{
+          animation: `${reverse ? 'masonryScrollDown' : 'masonryScrollUp'} ${duration}s linear infinite`,
+          animationPlayState: paused ? 'paused' : 'running',
+        }}
         className="flex flex-col gap-3"
       >
         {doubled.map((t, i) => (
           <MasonryScrollCard key={i} t={t} />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -162,11 +163,17 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
   const all = [...scrollerExtraTestimonials, ...testimonials];
   const col1 = all.filter((_, i) => i % 2 === 0);
   const col2 = all.filter((_, i) => i % 2 === 1);
+  const [paused, setPaused] = useState(false);
 
   return (
-    <div className="flex gap-3" style={{ height: 440 }}>
-      <MasonryScrollColumn items={col1} duration={duration} />
-      <MasonryScrollColumn items={col2} duration={duration * 0.78} reverse />
+    <div
+      className="flex gap-3"
+      style={{ height: 440 }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <MasonryScrollColumn items={col1} duration={duration} paused={paused} />
+      <MasonryScrollColumn items={col2} duration={duration * 0.78} reverse paused={paused} />
     </div>
   );
 }
