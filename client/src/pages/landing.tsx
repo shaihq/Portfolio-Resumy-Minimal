@@ -1071,7 +1071,7 @@ export default function Landing() {
                         <button
                           key={i}
                           onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                          className="flex items-center gap-2 group"
+                          className="flex items-center gap-2 group cursor-pointer rounded-lg px-2 py-1 -mx-2 -my-1 transition-colors duration-150 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.06]"
                         >
                           {/* Circle */}
                           <div className="relative w-[22px] h-[22px] flex-shrink-0">
