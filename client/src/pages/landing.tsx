@@ -1061,20 +1061,20 @@ export default function Landing() {
                   className="flex flex-col gap-5"
                 >
                   {/* Step indicator — horizontal pills */}
-                  <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+                  <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
                     {steps.map((step, i) => {
                       const isActive = heroStep === i;
                       const isDone   = i < heroStep;
                       const pct      = isActive ? heroProgress : 0;
-                      const CIRC_SM  = 2 * Math.PI * 9;
+                      const CIRC_SM  = 2 * Math.PI * 6;
                       return (
                         <button
                           key={i}
                           onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                          className="flex items-center gap-2.5 group"
+                          className="flex items-center gap-2 group"
                         >
                           {/* Circle */}
-                          <div className="relative w-[30px] h-[30px] flex-shrink-0">
+                          <div className="relative w-[22px] h-[22px] flex-shrink-0">
                             <AnimatePresence mode="wait">
                               {isDone ? (
                                 <motion.div
@@ -1086,13 +1086,13 @@ export default function Landing() {
                                   transition={{ type: "spring", stiffness: 500, damping: 28 }}
                                 >
                                   <div
-                                    className="w-[24px] h-[24px] rounded-full flex items-center justify-center"
+                                    className="w-[18px] h-[18px] rounded-full flex items-center justify-center"
                                     style={{
                                       background: 'radial-gradient(circle at 38% 32%, #FF9B7A, #FF553E 55%, #C93A20)',
                                       boxShadow: '0 1px 0 #a02f18, inset 0 1px 0 rgba(255,255,255,0.28)',
                                     }}
                                   >
-                                    <Check className="w-2.5 h-2.5 text-white" strokeWidth={3.5} />
+                                    <Check className="w-2 h-2 text-white" strokeWidth={3.5} />
                                   </div>
                                 </motion.div>
                               ) : (
@@ -1104,13 +1104,13 @@ export default function Landing() {
                                   exit={{ scale: 1.2, opacity: 0 }}
                                   transition={{ duration: 0.25, ease: "easeOut" }}
                                 >
-                                  <svg width="30" height="30" viewBox="0 0 30 30" className="absolute inset-0 -rotate-90">
-                                    <circle cx="15" cy="15" r="9" fill="none" strokeWidth="2" className="stroke-[#1D1B1A]/10 dark:stroke-white/10" />
+                                  <svg width="22" height="22" viewBox="0 0 22 22" className="absolute inset-0 -rotate-90">
+                                    <circle cx="11" cy="11" r="6" fill="none" strokeWidth="1.5" className="stroke-[#1D1B1A]/12 dark:stroke-white/12" />
                                     {isActive && (
                                       <circle
-                                        cx="15" cy="15" r="9"
+                                        cx="11" cy="11" r="6"
                                         fill="none"
-                                        strokeWidth="2"
+                                        strokeWidth="1.5"
                                         strokeLinecap="round"
                                         strokeDasharray={CIRC_SM}
                                         strokeDashoffset={CIRC_SM * (1 - pct / 100)}
@@ -1122,7 +1122,7 @@ export default function Landing() {
                                   <div className="absolute inset-0 flex items-center justify-center">
                                     <div className={cn(
                                       "rounded-full transition-all duration-300",
-                                      isActive ? "w-[7px] h-[7px] bg-[#FF553E]" : "w-[5px] h-[5px] bg-[#1D1B1A]/12 dark:bg-white/12"
+                                      isActive ? "w-[5px] h-[5px] bg-[#FF553E]" : "w-1 h-1 bg-[#1D1B1A]/15 dark:bg-white/15"
                                     )} />
                                   </div>
                                 </motion.div>
@@ -1131,12 +1131,12 @@ export default function Landing() {
                           </div>
                           {/* Label */}
                           <span className={cn(
-                            "text-[15px] font-semibold leading-none transition-colors duration-300 whitespace-nowrap",
+                            "text-[13px] font-medium leading-none transition-colors duration-300 whitespace-nowrap",
                             isActive
                               ? "text-[#1D1B1A] dark:text-foreground"
                               : isDone
-                                ? "text-[#1D1B1A]/50 dark:text-foreground/50"
-                                : "text-[#1D1B1A]/22 dark:text-foreground/22"
+                                ? "text-[#1D1B1A]/55 dark:text-foreground/55"
+                                : "text-[#1D1B1A]/25 dark:text-foreground/25"
                           )}>
                             {step.label}
                           </span>
