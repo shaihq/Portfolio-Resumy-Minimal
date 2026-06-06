@@ -885,7 +885,7 @@ export default function Landing() {
             >
               {heroTab === 'resume'
                 ? "Upload your resume. AI turns it into a portfolio and powers your job search."
-                : "Pick your domain and start building your portfolio from scratch — no resume needed."}
+                : "Pick your domain. AI helps you build a portfolio and powers your job search."}
             </motion.p>
             
             <motion.div
