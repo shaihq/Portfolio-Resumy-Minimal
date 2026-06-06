@@ -134,9 +134,16 @@ function MasonryScrollCard({ t }: { t: ScrollTestimonial }) {
   );
 }
 
-function MasonryScrollColumn({ items, duration, reverse, hovered, className }: { items: ScrollTestimonial[]; duration: number; reverse?: boolean; hovered: boolean; className?: string }) {
+function MasonryScrollColumn({ items, pixelsPerSecond, reverse, hovered, className }: { items: ScrollTestimonial[]; pixelsPerSecond: number; reverse?: boolean; hovered: boolean; className?: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [duration, setDuration] = useState<number | null>(null);
   const doubled = [...items, ...items];
+
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    const halfH = scrollRef.current.scrollHeight / 2;
+    if (halfH > 0) setDuration(halfH / pixelsPerSecond);
+  }, [pixelsPerSecond]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -148,13 +155,13 @@ function MasonryScrollColumn({ items, duration, reverse, hovered, className }: {
   }, [hovered]);
 
   return (
-    <div
-      className={cn("flex-1 min-w-0 overflow-hidden", className)}
-    >
+    <div className={cn("flex-1 min-w-0 overflow-hidden", className)}>
       <div
         ref={scrollRef}
         style={{
-          animation: `${reverse ? 'masonryScrollDown' : 'masonryScrollUp'} ${duration}s linear infinite`,
+          animation: duration != null
+            ? `${reverse ? 'masonryScrollDown' : 'masonryScrollUp'} ${duration}s linear infinite`
+            : undefined,
         }}
         className="flex flex-col gap-3"
       >
@@ -166,7 +173,7 @@ function MasonryScrollColumn({ items, duration, reverse, hovered, className }: {
   );
 }
 
-function VerticalTestimonialsScroller({ duration }: { duration: number }) {
+function VerticalTestimonialsScroller() {
   const all = [...scrollerExtraTestimonials, ...testimonials];
   const col1 = all.filter((_, i) => i % 2 === 0);
   const col2 = all.filter((_, i) => i % 2 === 1);
@@ -179,8 +186,8 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <MasonryScrollColumn items={col1} duration={duration} hovered={hovered} />
-      <MasonryScrollColumn items={col2} duration={duration} reverse hovered={hovered} className="hidden sm:flex" />
+      <MasonryScrollColumn items={col1} pixelsPerSecond={55} hovered={hovered} />
+      <MasonryScrollColumn items={col2} pixelsPerSecond={55} reverse hovered={hovered} className="hidden sm:flex" />
     </div>
   );
 }
@@ -1178,7 +1185,7 @@ export default function Landing() {
 
           {/* Vertical Testimonials Section */}
           <section className="w-full border-y border-[#EAE9E4] dark:border-border bg-[#F4F3E5] dark:bg-card">
-            <VerticalTestimonialsScroller duration={52} />
+            <VerticalTestimonialsScroller />
           </section>
 
           {/* About Maker Section */}
