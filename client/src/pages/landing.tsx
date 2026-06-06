@@ -1076,43 +1076,59 @@ export default function Landing() {
                         >
                           {/* Circle */}
                           <div className="relative w-[22px] h-[22px] flex-shrink-0">
-                            {isDone ? (
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div
-                                  className="w-[18px] h-[18px] rounded-full flex items-center justify-center"
-                                  style={{
-                                    background: 'radial-gradient(circle at 38% 32%, #FF9B7A, #FF553E 55%, #C93A20)',
-                                    boxShadow: '0 1px 0 #a02f18, 0 2px 6px rgba(232,57,30,0.45), inset 0 1px 0 rgba(255,255,255,0.30)',
-                                  }}
+                            <AnimatePresence mode="wait">
+                              {isDone ? (
+                                <motion.div
+                                  key="done"
+                                  className="absolute inset-0 flex items-center justify-center"
+                                  initial={{ scale: 0.5, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  exit={{ scale: 0.5, opacity: 0 }}
+                                  transition={{ type: "spring", stiffness: 500, damping: 28 }}
                                 >
-                                  <Check className="w-2 h-2 text-white" strokeWidth={3.5} />
-                                </div>
-                              </div>
-                            ) : (
-                              <>
-                                <svg width="22" height="22" viewBox="0 0 22 22" className="absolute inset-0 -rotate-90">
-                                  <circle cx="11" cy="11" r="6" fill="none" strokeWidth="1.5" className="stroke-[#1D1B1A]/12 dark:stroke-white/12" />
-                                  {isActive && (
-                                    <circle
-                                      cx="11" cy="11" r="6"
-                                      fill="none"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeDasharray={CIRC_SM}
-                                      strokeDashoffset={CIRC_SM * (1 - pct / 100)}
-                                      className="stroke-[#FF553E]"
-                                      style={{ transition: "stroke-dashoffset 0.05s linear" }}
-                                    />
-                                  )}
-                                </svg>
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                  <div className={cn(
-                                    "rounded-full transition-all duration-300",
-                                    isActive ? "w-[5px] h-[5px] bg-[#FF553E]" : "w-1 h-1 bg-[#1D1B1A]/15 dark:bg-white/15"
-                                  )} />
-                                </div>
-                              </>
-                            )}
+                                  <div
+                                    className="w-[18px] h-[18px] rounded-full flex items-center justify-center"
+                                    style={{
+                                      background: 'radial-gradient(circle at 38% 32%, #FF9B7A, #FF553E 55%, #C93A20)',
+                                      boxShadow: '0 1px 0 #a02f18, inset 0 1px 0 rgba(255,255,255,0.28)',
+                                    }}
+                                  >
+                                    <Check className="w-2 h-2 text-white" strokeWidth={3.5} />
+                                  </div>
+                                </motion.div>
+                              ) : (
+                                <motion.div
+                                  key="ring"
+                                  className="absolute inset-0"
+                                  initial={{ scale: 0.7, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  exit={{ scale: 1.2, opacity: 0 }}
+                                  transition={{ duration: 0.25, ease: "easeOut" }}
+                                >
+                                  <svg width="22" height="22" viewBox="0 0 22 22" className="absolute inset-0 -rotate-90">
+                                    <circle cx="11" cy="11" r="6" fill="none" strokeWidth="1.5" className="stroke-[#1D1B1A]/12 dark:stroke-white/12" />
+                                    {isActive && (
+                                      <circle
+                                        cx="11" cy="11" r="6"
+                                        fill="none"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeDasharray={CIRC_SM}
+                                        strokeDashoffset={CIRC_SM * (1 - pct / 100)}
+                                        className="stroke-[#FF553E]"
+                                        style={{ transition: "stroke-dashoffset 0.05s linear" }}
+                                      />
+                                    )}
+                                  </svg>
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className={cn(
+                                      "rounded-full transition-all duration-300",
+                                      isActive ? "w-[5px] h-[5px] bg-[#FF553E]" : "w-1 h-1 bg-[#1D1B1A]/15 dark:bg-white/15"
+                                    )} />
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
                           {/* Label */}
                           <span className={cn(
