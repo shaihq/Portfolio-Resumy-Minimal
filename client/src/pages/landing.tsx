@@ -180,7 +180,7 @@ function VerticalTestimonialsScroller({ duration }: { duration: number }) {
       onMouseLeave={() => setHovered(false)}
     >
       <MasonryScrollColumn items={col1} duration={duration} hovered={hovered} />
-      <MasonryScrollColumn items={col2} duration={duration * 0.78} reverse hovered={hovered} className="hidden sm:flex" />
+      <MasonryScrollColumn items={col2} duration={duration} reverse hovered={hovered} className="hidden sm:flex" />
     </div>
   );
 }
