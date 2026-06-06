@@ -1178,7 +1178,7 @@ export default function Landing() {
           </section>
 
           {/* Vertical Testimonials Section */}
-          <section className="w-full border-y border-[#EAE9E4] dark:border-border px-6 pt-8 pb-4 bg-[#F4F3E5] dark:bg-card">
+          <section className="w-full border-y border-[#EAE9E4] dark:border-border bg-[#F4F3E5] dark:bg-card">
             <VerticalTestimonialsScroller duration={52} />
           </section>
 
