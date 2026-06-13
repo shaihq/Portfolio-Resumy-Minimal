@@ -1061,86 +1061,30 @@ export default function Landing() {
                   transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
                   className="flex flex-col gap-5"
                 >
-                  {/* Step indicator — horizontal pills */}
-                  <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-2xl border border-[#1D1B1A]/[0.055] dark:border-white/[0.06] bg-[#1D1B1A]/[0.025] dark:bg-white/[0.03] px-5 py-3 mx-auto">
+                  {/* Step indicator — minimal tabs */}
+                  <div className="flex items-center justify-center gap-6 mx-auto">
                     {steps.map((step, i) => {
                       const isActive = heroStep === i;
-                      const isDone   = i < heroStep;
-                      const pct      = isActive ? heroProgress : 0;
-                      const CIRC_SM  = 2 * Math.PI * 6;
                       return (
                         <button
                           key={i}
                           onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                          className="flex items-center gap-2 group cursor-pointer rounded-lg px-2 py-1 -mx-2 -my-1 transition-colors duration-150 hover:bg-[#1D1B1A]/[0.05] dark:hover:bg-white/[0.06]"
+                          className="relative flex flex-col items-center gap-2 pb-2 cursor-pointer"
                         >
-                          {/* Circle */}
-                          <div className="relative w-[22px] h-[22px] flex-shrink-0">
-                            <AnimatePresence mode="wait">
-                              {isDone ? (
-                                <motion.div
-                                  key="done"
-                                  className="absolute inset-0 flex items-center justify-center"
-                                  initial={{ scale: 0.5, opacity: 0 }}
-                                  animate={{ scale: 1, opacity: 1 }}
-                                  exit={{ scale: 0.5, opacity: 0 }}
-                                  transition={{ type: "spring", stiffness: 500, damping: 28 }}
-                                >
-                                  <div
-                                    className="w-[18px] h-[18px] rounded-full flex items-center justify-center"
-                                    style={{
-                                      background: 'radial-gradient(circle at 38% 32%, #FF9B7A, #FF553E 55%, #C93A20)',
-                                      boxShadow: '0 1px 0 #a02f18, inset 0 1px 0 rgba(255,255,255,0.28)',
-                                    }}
-                                  >
-                                    <Check className="w-2 h-2 text-white" strokeWidth={3.5} />
-                                  </div>
-                                </motion.div>
-                              ) : (
-                                <motion.div
-                                  key="ring"
-                                  className="absolute inset-0"
-                                  initial={{ scale: 0.7, opacity: 0 }}
-                                  animate={{ scale: 1, opacity: 1 }}
-                                  exit={{ scale: 1.2, opacity: 0 }}
-                                  transition={{ duration: 0.25, ease: "easeOut" }}
-                                >
-                                  <svg width="22" height="22" viewBox="0 0 22 22" className="absolute inset-0 -rotate-90">
-                                    <circle cx="11" cy="11" r="6" fill="none" strokeWidth="1.5" className="stroke-[#1D1B1A]/12 dark:stroke-white/12" />
-                                    {isActive && (
-                                      <circle
-                                        cx="11" cy="11" r="6"
-                                        fill="none"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeDasharray={CIRC_SM}
-                                        strokeDashoffset={CIRC_SM * (1 - pct / 100)}
-                                        className="stroke-[#FF553E]"
-                                        style={{ transition: "stroke-dashoffset 0.05s linear" }}
-                                      />
-                                    )}
-                                  </svg>
-                                  <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className={cn(
-                                      "rounded-full transition-all duration-300",
-                                      isActive ? "w-[5px] h-[5px] bg-[#FF553E]" : "w-1 h-1 bg-[#1D1B1A]/15 dark:bg-white/15"
-                                    )} />
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                          {/* Label */}
                           <span className={cn(
-                            "text-[13px] font-medium leading-none transition-colors duration-300 whitespace-nowrap",
+                            "text-[13px] font-semibold leading-none transition-all duration-300 whitespace-nowrap",
                             isActive
                               ? "text-[#1D1B1A] dark:text-foreground"
-                              : isDone
-                                ? "text-[#1D1B1A]/55 dark:text-foreground/55"
-                                : "text-[#1D1B1A]/25 dark:text-foreground/25"
+                              : "text-[#1D1B1A]/35 dark:text-foreground/35 hover:text-[#1D1B1A]/55 dark:hover:text-foreground/55"
                           )}>
                             {step.label}
                           </span>
+                          <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/08 dark:bg-white/08 overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-[#FF553E] transition-none"
+                              style={{ width: isActive ? `${heroProgress}%` : "0%" }}
+                            />
+                          </div>
                         </button>
                       );
                     })}
