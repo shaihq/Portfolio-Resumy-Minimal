@@ -1381,7 +1381,7 @@ export default function Landing() {
           <div className="w-full overflow-hidden bg-[#1D1B1A] dark:bg-[#111] py-3.5">
             <div
               className="flex items-center gap-10 w-max"
-              style={{ animation: "quoteScroll 28s linear infinite" }}
+              style={{ animation: "quoteScroll 60s linear infinite" }}
             >
               {[...Array(3)].flatMap(() => [
                 "Finally finished my portfolio.",
@@ -1391,8 +1391,8 @@ export default function Landing() {
                 "So clean. So fast.",
               ]).map((quote, i) => (
                 <span key={i} className="flex items-center gap-2.5 flex-shrink-0">
-                  <span className="text-[#F5A623] text-[13px] tracking-tight">★★★★★</span>
-                  <span className="text-white/90 text-[13px] font-medium whitespace-nowrap">"{quote}"</span>
+                  <span className="text-white text-[13px] font-bold whitespace-nowrap">"{quote}"</span>
+                  <span className="text-[13px] tracking-tight" style={{ color: '#FFD700' }}>★★★★★</span>
                 </span>
               ))}
             </div>
