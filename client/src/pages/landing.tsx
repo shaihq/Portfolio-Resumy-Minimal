@@ -399,6 +399,7 @@ export default function Landing() {
   const [scratchUsername, setScratchUsername] = useState('');
   const [heroStep, setHeroStep] = useState(0);
   const [heroProgress, setHeroProgress] = useState(0);
+  const [heroTitleIndex, setHeroTitleIndex] = useState(0);
 
   const aiStatuses = [
     "Reading your resume...",
@@ -431,6 +432,13 @@ export default function Landing() {
         return prev + increment;
       });
     }, HERO_TICK);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroTitleIndex(i => (i + 1) % 2);
+    }, 3500);
     return () => clearInterval(timer);
   }, []);
 
@@ -868,14 +876,40 @@ export default function Landing() {
               ))}
             </motion.div>
 
-            <motion.h1 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-              className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[520px] mb-5 text-[#463B34] dark:text-foreground"
-              style={{ fontWeight: 650 }}
-            >Landing a job was never
-            meant to be hard.</motion.h1>
+              className="relative mb-5 max-w-[520px] flex items-center justify-center"
+            >
+              <AnimatePresence mode="wait">
+                {heroTitleIndex === 0 ? (
+                  <motion.h1
+                    key="title-0"
+                    initial={{ opacity: 0, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, filter: "blur(12px)" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] text-[#463B34] dark:text-foreground text-center"
+                    style={{ fontWeight: 650 }}
+                  >
+                    Wait... another recruiter asked for your portfolio?
+                  </motion.h1>
+                ) : (
+                  <motion.h1
+                    key="title-1"
+                    initial={{ opacity: 0, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, filter: "blur(12px)" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] text-[#463B34] dark:text-foreground text-center"
+                    style={{ fontWeight: 650 }}
+                  >
+                    Wait... you're still hunting jobs on Linkedin?
+                  </motion.h1>
+                )}
+              </AnimatePresence>
+            </motion.div>
             
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
