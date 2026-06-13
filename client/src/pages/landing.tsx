@@ -1320,11 +1320,6 @@ export default function Landing() {
             <PortfolioGallery />
           </section>
 
-          {/* Vertical Testimonials Section */}
-          <section className="w-full border-y border-[#EAE9E4] dark:border-border bg-[#F4F3E5] dark:bg-card">
-            <VerticalTestimonialsScroller />
-          </section>
-
           {/* About Maker Section */}
           <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6 scroll-mt-24">
             <div className="max-w-[560px] mx-auto">
@@ -1373,6 +1368,11 @@ export default function Landing() {
                 </div>
               </div>
             </div>
+          </section>
+
+          {/* Vertical Testimonials Section */}
+          <section className="w-full border-y border-[#EAE9E4] dark:border-border bg-[#F4F3E5] dark:bg-card">
+            <VerticalTestimonialsScroller />
           </section>
 
           {/* Footer */}
