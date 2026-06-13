@@ -1061,56 +1061,65 @@ export default function Landing() {
                   transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
                   className="flex flex-col gap-5"
                 >
-                  {/* Unified card: tab header + video */}
-                  <div className="overflow-hidden">
-                    {/* Tab header — sits on page background, hairline bottom border */}
-                    <div className="flex items-end pb-4 gap-8 px-1">
+                  {/* Chrome-tab style: tabs + video */}
+                  <div className="flex flex-col">
+                    {/* Tab row */}
+                    <div className="flex items-end gap-1">
                       {steps.map((step, i) => {
                         const isActive = heroStep === i;
                         return (
                           <button
                             key={i}
                             onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                            className="relative flex flex-col items-start gap-2 cursor-pointer group"
+                            className={cn(
+                              "relative flex flex-col justify-end cursor-pointer select-none transition-all duration-200",
+                              "rounded-t-xl border-t border-l border-r px-5 overflow-hidden",
+                              isActive
+                                ? "bg-[#FDFCF8] dark:bg-[#1C1A19] border-[#E2E1DA] dark:border-white/[0.09] z-10 pt-3 pb-[10px] -mb-px"
+                                : "bg-[#EFEEE9] dark:bg-[#141210] border-[#E2E1DA]/50 dark:border-white/[0.05] pt-2 pb-2 mb-0 hover:bg-[#E8E7E2] dark:hover:bg-[#1A1815]"
+                            )}
                           >
                             <span className={cn(
-                              "text-[13px] font-semibold leading-none transition-colors duration-200 whitespace-nowrap",
+                              "text-[12.5px] font-semibold leading-none mb-2.5 transition-colors duration-200 whitespace-nowrap",
                               isActive
                                 ? "text-[#1D1B1A] dark:text-foreground"
-                                : "text-[#1D1B1A]/35 dark:text-foreground/35 group-hover:text-[#1D1B1A]/55 dark:group-hover:text-foreground/55"
+                                : "text-[#1D1B1A]/40 dark:text-foreground/40"
                             )}>
                               {step.label}
                             </span>
+                            {/* Progress bar — pinned to bottom of tab */}
                             <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/10 dark:bg-white/10 overflow-hidden">
                               <div
-                                className="h-full rounded-full bg-[#FF553E] transition-none"
+                                className="h-full bg-[#FF553E] transition-none"
                                 style={{ width: isActive ? `${heroProgress}%` : "0%" }}
                               />
                             </div>
                           </button>
                         );
                       })}
+                      {/* Tab bar trailing line */}
+                      <div className="flex-1 self-end border-b border-[#E2E1DA] dark:border-white/[0.09] mb-0" style={{ height: 1 }} />
                     </div>
 
-                    {/* Video — subtle border, no shadow */}
-                    <div className="rounded-[16px] overflow-hidden border border-[#E2E1DA] dark:border-white/[0.08] bg-[#141414]">
-                    <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
-                      <AnimatePresence mode="wait">
-                        <motion.video
-                          key={heroStep}
-                          src={steps[heroStep].video}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.45, ease: "easeInOut" }}
-                          className="absolute inset-0 w-full h-full object-cover origin-center"
-                        />
-                      </AnimatePresence>
-                    </div>
+                    {/* Video — top border hidden under active tab */}
+                    <div className="relative z-0 rounded-b-[16px] rounded-tr-[16px] overflow-hidden border border-t-0 border-[#E2E1DA] dark:border-white/[0.09] bg-[#141414]">
+                      <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
+                        <AnimatePresence mode="wait">
+                          <motion.video
+                            key={heroStep}
+                            src={steps[heroStep].video}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.45, ease: "easeInOut" }}
+                            className="absolute inset-0 w-full h-full object-cover origin-center"
+                          />
+                        </AnimatePresence>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
