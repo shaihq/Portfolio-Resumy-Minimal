@@ -1377,6 +1377,27 @@ export default function Landing() {
             <VerticalTestimonialsScroller />
           </section>
 
+          {/* Scrolling Quote Banner */}
+          <div className="w-full overflow-hidden bg-[#1D1B1A] dark:bg-[#111] py-3.5">
+            <div
+              className="flex items-center gap-10 w-max"
+              style={{ animation: "quoteScroll 28s linear infinite" }}
+            >
+              {[...Array(3)].flatMap(() => [
+                "Finally finished my portfolio.",
+                "Just works.",
+                "Got shortlisted the same week.",
+                "Clean design.",
+                "So clean. So fast.",
+              ]).map((quote, i) => (
+                <span key={i} className="flex items-center gap-2.5 flex-shrink-0">
+                  <span className="text-[#F5A623] text-[13px] tracking-tight">★★★★★</span>
+                  <span className="text-white/90 text-[13px] font-medium whitespace-nowrap">"{quote}"</span>
+                </span>
+              ))}
+            </div>
+          </div>
+
           {/* Footer */}
           <footer className="w-full border-t border-[#EAE9E4] dark:border-border">
             <div className="px-6 py-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 bg-[#F4F3E5] dark:bg-card">

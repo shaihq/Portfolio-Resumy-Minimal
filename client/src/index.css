@@ -419,3 +419,8 @@ input[type="range"].speed-slider::-moz-range-thumb {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
+
+@keyframes quoteScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
