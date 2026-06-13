@@ -1056,14 +1056,14 @@ export default function Landing() {
               ];
               return (
                 <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-                  className="flex flex-col gap-5"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+                  className="flex flex-col"
                 >
                   {/* Chrome-tab style: tabs + video */}
                   <div className="flex flex-col">
-                    {/* Tab row */}
+                    {/* Tab row — sits above the video border line */}
                     <div className="flex items-end gap-1">
                       {steps.map((step, i) => {
                         const isActive = heroStep === i;
@@ -1076,7 +1076,7 @@ export default function Landing() {
                               "rounded-t-xl border-t border-l border-r px-5 overflow-hidden",
                               isActive
                                 ? "bg-[#FDFCF8] dark:bg-[#1C1A19] border-[#E2E1DA] dark:border-white/[0.09] z-10 pt-3 pb-[10px] -mb-px"
-                                : "bg-[#EFEEE9] dark:bg-[#141210] border-[#E2E1DA]/50 dark:border-white/[0.05] pt-2 pb-2 mb-0 hover:bg-[#E8E7E2] dark:hover:bg-[#1A1815]"
+                                : "bg-[#EFEEE9] dark:bg-[#141210] border-[#E2E1DA]/60 dark:border-white/[0.05] pt-2 pb-2 hover:bg-[#E8E7E2] dark:hover:bg-[#1A1815]"
                             )}
                           >
                             <span className={cn(
@@ -1097,12 +1097,12 @@ export default function Landing() {
                           </button>
                         );
                       })}
-                      {/* Tab bar trailing line */}
-                      <div className="flex-1 self-end border-b border-[#E2E1DA] dark:border-white/[0.09] mb-0" style={{ height: 1 }} />
+                      {/* Trailing fill — completes the top edge of the video border */}
+                      <div className="flex-1 self-end h-px bg-[#E2E1DA] dark:bg-white/[0.09]" />
                     </div>
 
-                    {/* Video — top border hidden under active tab */}
-                    <div className="relative z-0 rounded-b-[16px] rounded-tr-[16px] overflow-hidden border border-t-0 border-[#E2E1DA] dark:border-white/[0.09] bg-[#141414]">
+                    {/* Video — full border, active tab's -mb-px covers top-left seam */}
+                    <div className="relative z-0 rounded-b-[16px] rounded-tr-[16px] overflow-hidden border border-[#E2E1DA] dark:border-white/[0.09] bg-[#141414]">
                       <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                         <AnimatePresence mode="wait">
                           <motion.video
@@ -1116,7 +1116,7 @@ export default function Landing() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.45, ease: "easeInOut" }}
-                            className="absolute inset-0 w-full h-full object-cover origin-center"
+                            className="absolute inset-0 w-full h-full object-cover"
                           />
                         </AnimatePresence>
                       </div>
