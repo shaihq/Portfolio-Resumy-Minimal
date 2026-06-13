@@ -409,3 +409,8 @@ input[type="range"].speed-slider::-moz-range-thumb {
   from { transform: translateY(-50%); }
   to   { transform: translateY(0%); }
 }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

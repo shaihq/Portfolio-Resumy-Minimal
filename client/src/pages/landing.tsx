@@ -399,7 +399,9 @@ export default function Landing() {
   const [scratchUsername, setScratchUsername] = useState('');
   const [heroStep, setHeroStep] = useState(0);
   const [heroProgress, setHeroProgress] = useState(0);
-  const [heroTitleIndex, setHeroTitleIndex] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [phraseIndex, setPhraseIndex] = useState(0);
 
   const aiStatuses = [
     "Reading your resume...",
@@ -436,11 +438,43 @@ export default function Landing() {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setHeroTitleIndex(i => (i + 1) % 2);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, []);
+    const phrases = [
+      "another recruiter asked for your portfolio?",
+      "still finding jobs on Linkedin?",
+    ];
+    const typeSpeed = 55;
+    const deleteSpeed = 28;
+    const pauseAfterType = 2200;
+    const pauseAfterDelete = 400;
+
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      const current = phrases[phraseIndex];
+      if (!isDeleting) {
+        if (typedText.length < current.length) {
+          setTypedText(current.slice(0, typedText.length + 1));
+          timeout = setTimeout(tick, typeSpeed);
+        } else {
+          timeout = setTimeout(() => {
+            setIsDeleting(true);
+          }, pauseAfterType);
+        }
+      } else {
+        if (typedText.length > 0) {
+          setTypedText(current.slice(0, typedText.length - 1));
+          timeout = setTimeout(tick, deleteSpeed);
+        } else {
+          setIsDeleting(false);
+          setPhraseIndex(i => (i + 1) % phrases.length);
+          timeout = setTimeout(tick, pauseAfterDelete);
+        }
+      }
+    };
+
+    timeout = setTimeout(tick, isDeleting ? deleteSpeed : typeSpeed);
+    return () => clearTimeout(timeout);
+  }, [typedText, isDeleting, phraseIndex]);
 
   useEffect(() => {
     if (!isProcessing) return;
@@ -876,40 +910,22 @@ export default function Landing() {
               ))}
             </motion.div>
 
-            <motion.div
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-              className="relative mb-5 max-w-[520px] flex items-center justify-center"
+              className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[520px] mb-5 text-[#463B34] dark:text-foreground text-center"
+              style={{ fontWeight: 650 }}
             >
-              <AnimatePresence mode="wait">
-                {heroTitleIndex === 0 ? (
-                  <motion.h1
-                    key="title-0"
-                    initial={{ opacity: 0, filter: "blur(12px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, filter: "blur(12px)" }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                    className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] text-[#463B34] dark:text-foreground text-center"
-                    style={{ fontWeight: 650 }}
-                  >
-                    Wait... another recruiter asked for your portfolio?
-                  </motion.h1>
-                ) : (
-                  <motion.h1
-                    key="title-1"
-                    initial={{ opacity: 0, filter: "blur(12px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, filter: "blur(12px)" }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                    className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] text-[#463B34] dark:text-foreground text-center"
-                    style={{ fontWeight: 650 }}
-                  >
-                    Wait... you're still hunting jobs on Linkedin?
-                  </motion.h1>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              Wait...{" "}
+              <span>{typedText}</span>
+              <span
+                className="inline-block w-[3px] h-[0.85em] bg-[#FF553E] ml-[2px] align-middle"
+                style={{
+                  animation: "blink 1s step-end infinite",
+                }}
+              />
+            </motion.h1>
             
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
