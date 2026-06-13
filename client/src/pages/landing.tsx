@@ -13,6 +13,12 @@ import caseStudy2 from "@/assets/images/casestudies/project2.jpg";
 import caseStudy3 from "@/assets/images/casestudies/project3.png";
 import caseStudy4 from "@/assets/images/casestudies/project4.png";
 import caseStudy5 from "@/assets/images/casestudies/project5.png";
+import aiIconFixResume from "@/assets/images/ai-icons/fixResume.svg";
+import aiIconSalary from "@/assets/images/ai-icons/salary-negotiate.svg";
+import aiIconCaseGen from "@/assets/images/ai-icons/caseStudyGen.svg";
+import aiIconMock from "@/assets/images/ai-icons/aiMock.svg";
+import aiIconEmail from "@/assets/images/ai-icons/emailGen.svg";
+import aiIconAnalyze from "@/assets/images/ai-icons/analyzeCaseStudyGen.svg";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
@@ -1223,94 +1229,49 @@ export default function Landing() {
               {[
                 { step: "1/", title: 'Choose a "template".', video: "/landing-video/template-section.mp4" },
                 { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
-                { step: "3/", title: 'And other "AI tools".', video: "/landing-video/other-ai-tools.mp4", features: [
-                  { label: "Fix your resume",       icon: FileText,  color: "#2563EB", lightBg: "#DBEAFE", midBg: "#BFDBFE" },
-                  { label: "Salary Negotiation",    icon: TrendingUp, color: "#16A34A", lightBg: "#DCFCE7", midBg: "#BBF7D0" },
-                  { label: "Case study generator",  icon: BookOpen,  color: "#7C3AED", lightBg: "#EDE9FE", midBg: "#DDD6FE" },
-                  { label: "AI mock interview",     icon: Mic,       color: "#C2410C", lightBg: "#FFEDD5", midBg: "#FED7AA" },
-                  { label: "AI email generator",    icon: Mail,      color: "#0D9488", lightBg: "#CCFBF1", midBg: "#99F6E4" },
-                  { label: "Analyze Case study",    icon: BarChart2, color: "#DC2626", lightBg: "#FFE4E1", midBg: "#FECACA" },
+                { step: "3/", title: 'And other "AI tools".', video: "", cards: [
+                  { label: "Fix your resume",      icon: aiIconFixResume },
+                  { label: "Salary Negotiation",   icon: aiIconSalary },
+                  { label: "Case study generator", icon: aiIconCaseGen },
+                  { label: "AI mock interview",    icon: aiIconMock },
+                  { label: "AI email generator",   icon: aiIconEmail },
+                  { label: "Analyze Case study",   icon: aiIconAnalyze },
                 ] }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-5">
                   <h3 className="text-[20px] font-bold text-[#1D1B1A] dark:text-foreground">
                     {item.step} <ShimmerInView text={item.title} />
                   </h3>
-                  <div className="w-full rounded-[12px] overflow-hidden border border-[#E2E1DA] dark:border-border shadow-sm bg-[#141414]">
-                    <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
-                      <video 
-                        src={item.video} 
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="absolute inset-0 w-full h-full object-cover origin-center" 
-                      />
-                    </div>
-                  </div>
-                  {item.features && (() => {
-                    const renderRow = (f: any, fi: number, isLast: boolean) => {
-                      const Icon = f.icon;
-                      const c = f.color as string | undefined;
-                      const lightBg = f.lightBg as string | undefined;
-                      const midBg = f.midBg as string | undefined;
-                      const pillStyle = lightBg && midBg ? {
-                        background: `radial-gradient(circle at 38% 32%, ${lightBg}, ${midBg})`,
-                        boxShadow: `inset 0 1.5px 2px rgba(255,255,255,0.75), inset 0 -1px 2px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08)`,
-                      } : undefined;
-                      return (
+                  {(item as any).cards ? (
+                    <div className="grid grid-cols-2 gap-3">
+                      {(item as any).cards.map((card: any, ci: number) => (
                         <div
-                          className={cn("group flex items-center justify-between px-4 py-3.5 cursor-pointer bg-[#FFFEF2] dark:bg-background hover:bg-[#F8F7EE] dark:hover:bg-white/[0.03] transition-colors duration-150", !isLast && "border-b border-[#E2E1DA] dark:border-border")}
+                          key={ci}
+                          className="group flex flex-col items-center gap-3 rounded-2xl border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-background p-5 cursor-pointer hover:bg-[#F4F3E5] dark:hover:bg-white/[0.03] transition-colors duration-150"
                         >
-                          <div className="flex items-center gap-3">
-                            <div className="relative h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-[#1D1B1A]/[0.08] dark:bg-white/[0.10]">
-                              <span className="absolute inset-0 rounded-full scale-100 sm:scale-0 sm:group-hover:scale-100 transition-transform duration-300 ease-out origin-center" style={pillStyle} />
-                              <Icon className="absolute h-3.5 w-3.5 text-[#1D1B1A]/30 dark:text-foreground/30 opacity-0 sm:opacity-100 transition-opacity duration-200 sm:group-hover:opacity-0" strokeWidth={1.75} />
-                              <Icon className="absolute h-3.5 w-3.5 opacity-100 sm:opacity-0 transition-opacity duration-200 sm:group-hover:opacity-100" style={c ? { color: c } : undefined} strokeWidth={1.75} />
-                            </div>
-                            <span className="text-[14px] font-medium text-[#1D1B1A] dark:text-foreground">{f.label}</span>
+                          <div className="w-14 h-14 rounded-2xl overflow-hidden flex items-center justify-center bg-[#F4F3E5] dark:bg-white/[0.06]">
+                            <img src={card.icon} alt={card.label} className="w-full h-full object-cover" />
                           </div>
-                          <ArrowUpRight className="h-[15px] w-[15px] text-[#1D1B1A]/40 dark:text-foreground/40 opacity-0 -translate-x-1 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-0 flex-shrink-0" strokeWidth={2} />
+                          <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground text-center leading-snug">
+                            {card.label}
+                          </span>
                         </div>
-                      );
-                    };
-                    const visible = item.features.slice(0, 3);
-                    const hidden = item.features.slice(3);
-                    return (
-                      <div className="flex flex-col gap-2">
-                        <div className="flex flex-col rounded-xl border border-[#E2E1DA] dark:border-border overflow-hidden">
-                          {visible.map((f, fi) => {
-                            const isLast = !showAllFeatures && fi === visible.length - 1;
-                            return <div key={fi}>{renderRow(f, fi, isLast)}</div>;
-                          })}
-                          <motion.div
-                            initial={false}
-                            animate={{ height: showAllFeatures ? "auto" : 0 }}
-                            transition={{ type: "spring", stiffness: 380, damping: 38, restDelta: 0.5 }}
-                            style={{ overflow: "hidden" }}
-                          >
-                            {hidden.map((f, fi) => (
-                              <motion.div
-                                key={`hidden-${fi}`}
-                                initial={{ opacity: 0, y: -6 }}
-                                animate={showAllFeatures ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
-                                transition={{ type: "spring", stiffness: 420, damping: 28, delay: showAllFeatures ? fi * 0.06 : 0 }}
-                              >
-                                {renderRow(f, fi + 3, fi === hidden.length - 1)}
-                              </motion.div>
-                            ))}
-                          </motion.div>
-                        </div>
-                        <button
-                          onClick={() => setShowAllFeatures(v => !v)}
-                          className="self-start flex items-center gap-1.5 px-1 py-1 text-[13px] font-medium text-[#1D1B1A]/50 dark:text-foreground/50 hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors duration-150"
-                        >
-                          <span>{showAllFeatures ? "Show less" : `+${hidden.length} more tools`}</span>
-                          <ChevronRight className={cn("h-3.5 w-3.5 transition-transform duration-300", showAllFeatures && "rotate-90")} />
-                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="w-full rounded-[12px] overflow-hidden border border-[#E2E1DA] dark:border-border shadow-sm bg-[#141414]">
+                      <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
+                        <video
+                          src={item.video}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover origin-center"
+                        />
                       </div>
-                    );
-                  })()}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
