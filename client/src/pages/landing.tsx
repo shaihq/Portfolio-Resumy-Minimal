@@ -173,6 +173,63 @@ function MasonryScrollColumn({ items, pixelsPerSecond, reverse, hovered, classNa
   );
 }
 
+const portfolioCards = [
+  { title: "Redesigning onboarding for 2M users", image: "/previewproject/Thumbnail1.png" },
+  { title: "Building a design system from scratch", image: "/previewproject/Thumbnail2.png" },
+  { title: "Zero-to-one mobile banking app", image: "/previewproject/mockup.png" },
+  { title: "AI-powered resume builder experience", image: "/previewproject/buildresume.png" },
+  { title: "Job discovery & matching platform", image: "/previewproject/jobs.png" },
+  { title: "Collaborative whiteboarding tool", image: "/images/story-1_1.jpg" },
+];
+
+function PortfolioGallery() {
+  const [hovered, setHovered] = useState(false);
+  const doubled = [...portfolioCards, ...portfolioCards];
+
+  return (
+    <div
+      className="relative overflow-hidden"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        className="flex gap-4 pl-6"
+        style={{
+          animation: `portfolioScroll 28s linear infinite`,
+          animationPlayState: hovered ? "paused" : "running",
+          width: "max-content",
+        }}
+      >
+        {doubled.map((card, i) => (
+          <div
+            key={i}
+            className="group relative flex-shrink-0 w-[280px] rounded-2xl overflow-hidden border border-[#EAE9E4] dark:border-border bg-[#F4F3EE] dark:bg-card cursor-pointer"
+          >
+            <div className="w-full h-[180px] overflow-hidden bg-[#EAE9E4] dark:bg-muted">
+              <img
+                src={card.image}
+                alt={card.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-4 flex items-center justify-between gap-3">
+              <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2 flex-1">
+                {card.title}
+              </p>
+              <a
+                href="#"
+                className="flex-shrink-0 flex items-center gap-1 text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/20 dark:border-border rounded-full px-3 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
+              >
+                View Project <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function VerticalTestimonialsScroller() {
   const all = [...scrollerExtraTestimonials, ...testimonials];
   const col1 = all.filter((_, i) => i % 2 === 0);
@@ -1251,6 +1308,14 @@ export default function Landing() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* Portfolio Gallery Section */}
+          <section className="w-full border-t border-[#EAE9E4] dark:border-border py-14 overflow-hidden">
+            <div className="px-6 mb-8">
+              <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight">See what people are building</h2>
+            </div>
+            <PortfolioGallery />
           </section>
 
           {/* Vertical Testimonials Section */}
