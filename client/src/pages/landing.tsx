@@ -1061,49 +1061,61 @@ export default function Landing() {
                   transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
                   className="flex flex-col"
                 >
-                  {/* Chrome-tab style: tabs + video */}
+                  {/* Mac Chrome-style tabs */}
                   <div className="flex flex-col">
-                    {/* Tab row — sits above the video border line */}
-                    <div className="flex items-end gap-1">
+                    {/* Tab strip */}
+                    <div className="flex items-end">
                       {steps.map((step, i) => {
                         const isActive = heroStep === i;
+                        const pageBg = isDark ? 'hsl(20,10%,10%)' : 'hsl(42,16%,92%)';
                         return (
                           <button
                             key={i}
                             onClick={() => { setHeroStep(i); setHeroProgress(0); }}
                             className={cn(
-                              "relative flex flex-col justify-end cursor-pointer select-none transition-all duration-200",
-                              "rounded-t-xl border-t border-l border-r px-5 overflow-hidden",
+                              "relative flex flex-col justify-end cursor-pointer select-none",
+                              "rounded-t-[10px] border-t border-l border-r px-6 pt-3 pb-3",
+                              "transition-colors duration-200",
                               isActive
-                                ? "bg-[#FDFCF8] dark:bg-[#1C1A19] border-[#E2E1DA] dark:border-white/[0.09] z-10 pt-3 pb-[10px] -mb-px"
-                                : "bg-[#EFEEE9] dark:bg-[#141210] border-[#E2E1DA]/60 dark:border-white/[0.05] pt-2 pb-2 hover:bg-[#E8E7E2] dark:hover:bg-[#1A1815]"
+                                ? "bg-[#E8E4DC] dark:bg-[#1C1A18] border-[#CCC8BF] dark:border-white/[0.10] z-10 -mb-px"
+                                : "bg-[#DDD9D1] dark:bg-[#131110] border-[#C8C4BB]/70 dark:border-white/[0.05] hover:bg-[#D8D4CC] dark:hover:bg-[#181613]"
                             )}
+                            style={{ overflow: 'visible' }}
                           >
                             <span className={cn(
                               "text-[12.5px] font-semibold leading-none mb-2.5 transition-colors duration-200 whitespace-nowrap",
                               isActive
                                 ? "text-[#1D1B1A] dark:text-foreground"
-                                : "text-[#1D1B1A]/40 dark:text-foreground/40"
+                                : "text-[#1D1B1A]/38 dark:text-foreground/38"
                             )}>
                               {step.label}
                             </span>
-                            {/* Progress bar — pinned to bottom of tab */}
+                            {/* Progress bar */}
                             <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/10 dark:bg-white/10 overflow-hidden">
                               <div
                                 className="h-full bg-[#FF553E] transition-none"
                                 style={{ width: isActive ? `${heroProgress}%` : "0%" }}
                               />
                             </div>
+                            {/* Concave corner curves (only on active tab) */}
+                            {isActive && (
+                              <>
+                                <div className="absolute bottom-0 left-[-10px] w-[10px] h-[10px] z-20"
+                                  style={{ background: pageBg, borderTopRightRadius: 10 }} />
+                                <div className="absolute bottom-0 right-[-10px] w-[10px] h-[10px] z-20"
+                                  style={{ background: pageBg, borderTopLeftRadius: 10 }} />
+                              </>
+                            )}
                           </button>
                         );
                       })}
-                      {/* Trailing fill — completes the top edge of the video border */}
-                      <div className="flex-1 self-end h-px bg-[#E2E1DA] dark:bg-white/[0.09]" />
+                      {/* Tab bar trailing line — same color as video border */}
+                      <div className="flex-1 self-end h-px bg-[#CCC8BF] dark:bg-white/[0.10]" />
                     </div>
 
-                    {/* Video — full border, active tab's -mb-px covers top-left seam */}
-                    <div className="relative z-0 rounded-b-[16px] rounded-tr-[16px] overflow-hidden border border-[#E2E1DA] dark:border-white/[0.09] bg-[#141414]">
-                      <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
+                    {/* Video — top border same color as tabs, no top-left rounding (tab covers it) */}
+                    <div className="relative z-0 rounded-b-[12px] rounded-tr-[12px] overflow-hidden border border-[#CCC8BF] dark:border-white/[0.10] bg-[#141414]">
+                      <div className="relative w-full overflow-hidden" style={{ paddingTop: '62%' }}>
                         <AnimatePresence mode="wait">
                           <motion.video
                             key={heroStep}
@@ -1115,7 +1127,7 @@ export default function Landing() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.45, ease: "easeInOut" }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
                             className="absolute inset-0 w-full h-full object-cover"
                           />
                         </AnimatePresence>
