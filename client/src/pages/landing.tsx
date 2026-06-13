@@ -1079,7 +1079,7 @@ export default function Landing() {
                           )}>
                             {step.label}
                           </span>
-                          <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/08 dark:bg-white/08 overflow-hidden">
+                          <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/15 dark:bg-white/15 overflow-hidden">
                             <div
                               className="h-full rounded-full bg-[#FF553E] transition-none"
                               style={{ width: isActive ? `${heroProgress}%` : "0%" }}
