@@ -203,7 +203,7 @@ function PortfolioGallery() {
         {doubled.map((card, i) => (
           <div
             key={i}
-            className="group relative flex-shrink-0 w-[260px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="group relative flex-shrink-0 w-[260px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
           >
             <div className="w-full h-[170px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
               <img
@@ -214,7 +214,7 @@ function PortfolioGallery() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="p-4 flex flex-col gap-3">
-              <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
+              <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
                 {card.title}
               </p>
               <a
