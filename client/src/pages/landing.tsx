@@ -7,6 +7,7 @@ import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingU
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
+import footerImage from "@/assets/footerimagemain.svg";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
@@ -1324,6 +1325,7 @@ export default function Landing() {
           <section id="why" className="w-full border-t border-[#EAE9E4] dark:border-border pt-16 pb-12 px-6 scroll-mt-24">
             <div className="max-w-[560px] mx-auto">
               <h2 className="text-[26px] font-bold text-[#1D1B1A] dark:text-foreground mb-6 tracking-tight">Yo. I'm Shai (I built Designfolio)</h2>
+              <img src={footerImage} alt="Shai" className="w-full rounded-2xl mb-8" />
               
               <div className="flex flex-col gap-6 text-[16px] leading-[1.65] text-[#1D1B1A]/80 dark:text-foreground/80 font-medium">
                 <p>
