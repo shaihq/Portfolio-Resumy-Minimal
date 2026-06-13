@@ -203,9 +203,9 @@ function PortfolioGallery() {
         {doubled.map((card, i) => (
           <div
             key={i}
-            className="group relative flex-shrink-0 w-[260px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
+            className="group relative flex-shrink-0 w-[300px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
           >
-            <div className="w-full h-[170px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
+            <div className="w-full h-[200px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
               <img
                 src={card.image}
                 alt={card.title}
@@ -219,7 +219,7 @@ function PortfolioGallery() {
               </p>
               <a
                 href="#"
-                className="self-start flex items-center gap-1 text-[11px] font-semibold text-[#1D1B1A]/60 dark:text-foreground/60 hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors duration-200"
+                className="self-start flex items-center gap-1.5 text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/25 dark:border-border rounded-full px-3 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
               >
                 View Project <ArrowUpRight className="w-3 h-3" />
               </a>
