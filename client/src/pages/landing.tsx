@@ -8,6 +8,11 @@ import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
 import footerImage from "@/assets/footerimagemain.svg";
+import caseStudy1 from "@/assets/images/casestudies/project1.png";
+import caseStudy2 from "@/assets/images/casestudies/project2.jpg";
+import caseStudy3 from "@/assets/images/casestudies/project3.png";
+import caseStudy4 from "@/assets/images/casestudies/project4.png";
+import caseStudy5 from "@/assets/images/casestudies/project5.png";
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
@@ -175,12 +180,11 @@ function MasonryScrollColumn({ items, pixelsPerSecond, reverse, hovered, classNa
 }
 
 const portfolioCards = [
-  { title: "Redesigning onboarding for 2M users", image: "/previewproject/Thumbnail1.png" },
-  { title: "Building a design system from scratch", image: "/previewproject/Thumbnail2.png" },
-  { title: "Zero-to-one mobile banking app", image: "/previewproject/mockup.png" },
-  { title: "AI-powered resume builder experience", image: "/previewproject/buildresume.png" },
-  { title: "Job discovery & matching platform", image: "/previewproject/jobs.png" },
-  { title: "Collaborative whiteboarding tool", image: "/images/story-1_1.jpg" },
+  { title: "Unlocking mental wellness: Zenly's journey of seamless journaling and crisis support", image: caseStudy1 },
+  { title: "Boosting user trust & task completion by optimizing doctor video call scheduling, reducing drop-offs", image: caseStudy2 },
+  { title: "Redesigning Quote Builder at Freshworks for 1,900+ Enterprise Users", image: caseStudy3 },
+  { title: "Designfolio: No-Code Portfolio Builder for 9,000+ Users (An Idea I Brought to Life)", image: caseStudy4 },
+  { title: "Redefining the experience for Magenta", image: caseStudy5 },
 ];
 
 function PortfolioGallery() {
