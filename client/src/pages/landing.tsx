@@ -1312,8 +1312,8 @@ export default function Landing() {
           </section>
 
           {/* Portfolio Gallery Section */}
-          <section className="w-full border-t border-[#EAE9E4] dark:border-border py-14 overflow-hidden bg-[#F4F3E5] dark:bg-card">
-            <div className="px-6 mb-8">
+          <section className="w-full border-t border-[#EAE9E4] dark:border-border pt-10 pb-10 overflow-hidden bg-[#F4F3E5] dark:bg-card">
+            <div className="px-6 mb-6 text-center">
               <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight">See what people are building</h2>
               <p className="mt-1.5 text-[14px] text-[#1D1B1A]/50 dark:text-foreground/50 font-medium">Over 1000+ portfolios are published every week.</p>
             </div>
