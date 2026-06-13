@@ -193,9 +193,9 @@ function PortfolioGallery() {
       onMouseLeave={() => setHovered(false)}
     >
       <div
-        className="flex gap-4 pl-6"
+        className="flex gap-5 pl-6"
         style={{
-          animation: `portfolioScroll 28s linear infinite`,
+          animation: `portfolioScroll 55s linear infinite`,
           animationPlayState: hovered ? "paused" : "running",
           width: "max-content",
         }}
@@ -203,22 +203,23 @@ function PortfolioGallery() {
         {doubled.map((card, i) => (
           <div
             key={i}
-            className="group relative flex-shrink-0 w-[280px] rounded-2xl overflow-hidden border border-[#EAE9E4] dark:border-border bg-[#F4F3EE] dark:bg-card cursor-pointer"
+            className="group relative flex-shrink-0 w-[260px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-300"
           >
-            <div className="w-full h-[180px] overflow-hidden bg-[#EAE9E4] dark:bg-muted">
+            <div className="w-full h-[170px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
               <img
                 src={card.image}
                 alt={card.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
-            <div className="p-4 flex items-center justify-between gap-3">
-              <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2 flex-1">
+            <div className="p-4 flex flex-col gap-3">
+              <p className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
                 {card.title}
               </p>
               <a
                 href="#"
-                className="flex-shrink-0 flex items-center gap-1 text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/20 dark:border-border rounded-full px-3 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
+                className="self-start flex items-center gap-1 text-[11px] font-semibold text-[#1D1B1A]/60 dark:text-foreground/60 hover:text-[#1D1B1A] dark:hover:text-foreground transition-colors duration-200"
               >
                 View Project <ArrowUpRight className="w-3 h-3" />
               </a>
@@ -1314,6 +1315,7 @@ export default function Landing() {
           <section className="w-full border-t border-[#EAE9E4] dark:border-border py-14 overflow-hidden">
             <div className="px-6 mb-8">
               <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight">See what people are building</h2>
+              <p className="mt-1.5 text-[14px] text-[#1D1B1A]/50 dark:text-foreground/50 font-medium">Over 1000+ portfolios are published every week.</p>
             </div>
             <PortfolioGallery />
           </section>
