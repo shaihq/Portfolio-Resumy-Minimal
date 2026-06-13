@@ -1062,27 +1062,22 @@ export default function Landing() {
                   className="flex flex-col gap-5"
                 >
                   {/* Unified card: tab header + video */}
-                  <div className="rounded-[20px] overflow-hidden shadow-xl border border-[#E2E1DA] dark:border-border bg-[#141414]">
-                    {/* Tab header */}
-                    <div className="flex items-stretch bg-[#FDFCF8] dark:bg-[#1C1A19] border-b border-[#E2E1DA] dark:border-white/[0.07]">
+                  <div className="overflow-hidden">
+                    {/* Tab header — sits on page background, hairline bottom border */}
+                    <div className="flex items-end pb-4 gap-8 px-1">
                       {steps.map((step, i) => {
                         const isActive = heroStep === i;
                         return (
                           <button
                             key={i}
                             onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                            className={cn(
-                              "relative flex-1 flex flex-col items-center justify-center gap-0 px-4 py-3.5 cursor-pointer transition-colors duration-200",
-                              isActive
-                                ? "bg-[#FDFCF8] dark:bg-[#1C1A19]"
-                                : "bg-[#F4F3EE] dark:bg-[#161412] hover:bg-[#EEEDE8] dark:hover:bg-[#1E1C1A]"
-                            )}
+                            className="relative flex flex-col items-start gap-2 cursor-pointer group"
                           >
                             <span className={cn(
-                              "text-[13px] font-semibold leading-none mb-2.5 transition-colors duration-200 whitespace-nowrap",
+                              "text-[13px] font-semibold leading-none transition-colors duration-200 whitespace-nowrap",
                               isActive
                                 ? "text-[#1D1B1A] dark:text-foreground"
-                                : "text-[#1D1B1A]/40 dark:text-foreground/40"
+                                : "text-[#1D1B1A]/35 dark:text-foreground/35 group-hover:text-[#1D1B1A]/55 dark:group-hover:text-foreground/55"
                             )}>
                               {step.label}
                             </span>
@@ -1092,16 +1087,13 @@ export default function Landing() {
                                 style={{ width: isActive ? `${heroProgress}%` : "0%" }}
                               />
                             </div>
-                            {/* Divider between tabs */}
-                            {i < steps.length - 1 && (
-                              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-px h-1/2 bg-[#1D1B1A]/[0.08] dark:bg-white/[0.07]" />
-                            )}
                           </button>
                         );
                       })}
                     </div>
 
-                    {/* Video */}
+                    {/* Video — subtle border, no shadow */}
+                    <div className="rounded-[16px] overflow-hidden border border-[#E2E1DA] dark:border-white/[0.08] bg-[#141414]">
                     <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                       <AnimatePresence mode="wait">
                         <motion.video
@@ -1118,6 +1110,7 @@ export default function Landing() {
                           className="absolute inset-0 w-full h-full object-cover origin-center"
                         />
                       </AnimatePresence>
+                    </div>
                     </div>
                   </div>
                 </motion.div>
