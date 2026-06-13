@@ -416,7 +416,7 @@ export default function Landing() {
     return () => clearInterval(interval);
   }, [isProcessing]);
 
-  const HERO_STEP_COUNT = 3;
+  const HERO_STEP_COUNT = 2;
   const HERO_STEP_DURATION = 5000;
   const HERO_TICK = 50;
 
@@ -1051,9 +1051,8 @@ export default function Landing() {
             {(() => {
               const CIRC = 2 * Math.PI * 7.5;
               const steps = [
-                { label: "Build a portfolio",   video: isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4" },
-                { label: "Find & Track Jobs",   video: "/landing-video/template-section.mp4" },
-                { label: "Improve your resume", video: "/landing-video/other-ai-tools.mp4" },
+                { label: "Build a portfolio", video: isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4" },
+                { label: "Find & Track Jobs", video: "/landing-video/template-section.mp4" },
               ];
               return (
                 <motion.div
