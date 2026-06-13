@@ -1061,44 +1061,47 @@ export default function Landing() {
                   transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
                   className="flex flex-col gap-5"
                 >
-                  {/* Step indicator — minimal tabs */}
-                  <div className="flex items-center justify-center gap-6 mx-auto">
-                    {steps.map((step, i) => {
-                      const isActive = heroStep === i;
-                      return (
-                        <button
-                          key={i}
-                          onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                          className="relative flex flex-col items-center gap-2 pb-2 cursor-pointer"
-                        >
-                          <span className={cn(
-                            "text-[13px] font-semibold leading-none transition-all duration-300 whitespace-nowrap",
-                            isActive
-                              ? "text-[#1D1B1A] dark:text-foreground"
-                              : "text-[#1D1B1A]/35 dark:text-foreground/35 hover:text-[#1D1B1A]/55 dark:hover:text-foreground/55"
-                          )}>
-                            {step.label}
-                          </span>
-                          <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/15 dark:bg-white/15 overflow-hidden">
-                            <div
-                              className="h-full rounded-full bg-[#FF553E] transition-none"
-                              style={{ width: isActive ? `${heroProgress}%` : "0%" }}
-                            />
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Video block */}
-                  <div className="relative rounded-[20px] overflow-hidden shadow-xl border border-[#E2E1DA] dark:border-border bg-[#141414]">
-                    {/* Step label overlay */}
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/10">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#FF553E] animate-pulse" />
-                      <span className="text-[11px] font-semibold text-white/90 tracking-tight">
-                        {steps[heroStep].label}
-                      </span>
+                  {/* Unified card: tab header + video */}
+                  <div className="rounded-[20px] overflow-hidden shadow-xl border border-[#E2E1DA] dark:border-border bg-[#141414]">
+                    {/* Tab header */}
+                    <div className="flex items-stretch bg-[#FDFCF8] dark:bg-[#1C1A19] border-b border-[#E2E1DA] dark:border-white/[0.07]">
+                      {steps.map((step, i) => {
+                        const isActive = heroStep === i;
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => { setHeroStep(i); setHeroProgress(0); }}
+                            className={cn(
+                              "relative flex-1 flex flex-col items-center justify-center gap-0 px-4 py-3.5 cursor-pointer transition-colors duration-200",
+                              isActive
+                                ? "bg-[#FDFCF8] dark:bg-[#1C1A19]"
+                                : "bg-[#F4F3EE] dark:bg-[#161412] hover:bg-[#EEEDE8] dark:hover:bg-[#1E1C1A]"
+                            )}
+                          >
+                            <span className={cn(
+                              "text-[13px] font-semibold leading-none mb-2.5 transition-colors duration-200 whitespace-nowrap",
+                              isActive
+                                ? "text-[#1D1B1A] dark:text-foreground"
+                                : "text-[#1D1B1A]/40 dark:text-foreground/40"
+                            )}>
+                              {step.label}
+                            </span>
+                            <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/10 dark:bg-white/10 overflow-hidden">
+                              <div
+                                className="h-full rounded-full bg-[#FF553E] transition-none"
+                                style={{ width: isActive ? `${heroProgress}%` : "0%" }}
+                              />
+                            </div>
+                            {/* Divider between tabs */}
+                            {i < steps.length - 1 && (
+                              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-px h-1/2 bg-[#1D1B1A]/[0.08] dark:bg-white/[0.07]" />
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
+
+                    {/* Video */}
                     <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                       <AnimatePresence mode="wait">
                         <motion.video
