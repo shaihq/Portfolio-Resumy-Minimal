@@ -1357,7 +1357,7 @@ export default function Landing() {
           <section id="how" className="w-full px-6 mb-16 mt-[48px] scroll-mt-24">
             <div className="w-full flex flex-col gap-12">
               {[
-                { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: isDark ? "/landing-video/video1dark.mp4" : "/landing-video/video1light.mp4" },
+                { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: isDark ? "/landing-video/video1dark.mp4" : "/landing-video/video1light.mp4", messages: [{ from: "viewer", text: "I don't have a portfolio. Just a bunch of work." }, { from: "shai", text: "That's enough." }] },
                 { title: "I can't afford to get rejected because of my resume.", sub: "Tailor your resume for every role.", video: isDark ? "/landing-video/video2dark.mp4" : "/landing-video/video2light.mp4" },
                 { title: "Why am I spending so much time looking for jobs?", sub: "Get a personal job board built around your experience.", video: isDark ? "/landing-video/video3dark.mp4" : "/landing-video/video3light.mp4" },
                 { title: "Can someone just tell me what to do next?", sub: "Access AI career tools whenever you need them.", video: "", cards: [
@@ -1370,12 +1370,30 @@ export default function Landing() {
                 ] },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground leading-snug tracking-tight">
-                      <ShimmerInView text={item.title} />
-                    </h3>
-                    <p className="text-[14px] font-medium text-[#1D1B1A]/45 dark:text-foreground/45">{item.sub}</p>
-                  </div>
+                  {(item as any).messages ? (
+                    <div className="flex flex-col gap-2">
+                      {(item as any).messages.map((msg: { from: string; text: string }, mi: number) => (
+                        <div key={mi} className={`flex ${msg.from === 'shai' ? 'justify-end' : 'justify-start'}`}>
+                          <div
+                            className={`max-w-[78%] px-4 py-2.5 rounded-[18px] text-[15px] font-medium leading-snug ${
+                              msg.from === 'shai'
+                                ? 'bg-[#007AFF] text-white rounded-br-[4px]'
+                                : 'bg-[#E5E5EA] dark:bg-[#3A3A3C] text-[#1D1B1A] dark:text-white rounded-bl-[4px]'
+                            }`}
+                          >
+                            {msg.text}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-1">
+                      <h3 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground leading-snug tracking-tight">
+                        <ShimmerInView text={item.title} />
+                      </h3>
+                      <p className="text-[14px] font-medium text-[#1D1B1A]/45 dark:text-foreground/45">{item.sub}</p>
+                    </div>
+                  )}
                   {(item as any).cards ? (
                     <div className="grid grid-cols-2 gap-3">
                       {(item as any).cards.map((card: any, ci: number) => (
