@@ -1251,7 +1251,6 @@ export default function Landing() {
           <section className="w-full px-6 pt-14 pb-10 flex flex-col items-center gap-6">
             {/* Label + Heading */}
             <div className="flex flex-col items-center gap-2 text-center">
-              <span className="text-[13px] font-medium text-[#1D1B1A]/45 dark:text-foreground/45">You're not the only one thinking...</span>
               <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">Job hunting already feels hard enough.</h2>
             </div>
 
