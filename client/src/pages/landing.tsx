@@ -519,22 +519,6 @@ export default function Landing() {
   }, [isProcessing]);
 
   const HERO_STEP_COUNT = 2;
-  const HERO_STEP_DURATION = 10000;
-  const HERO_TICK = 50;
-
-  useEffect(() => {
-    const increment = (HERO_TICK / HERO_STEP_DURATION) * 100;
-    const timer = setInterval(() => {
-      setHeroProgress(prev => {
-        if (prev + increment >= 100) {
-          setHeroStep(s => (s + 1) % HERO_STEP_COUNT);
-          return 0;
-        }
-        return prev + increment;
-      });
-    }, HERO_TICK);
-    return () => clearInterval(timer);
-  }, []);
 
 
   useEffect(() => {
@@ -1196,23 +1180,28 @@ export default function Landing() {
 
                     {/* Video — subtle border, no shadow */}
                     <div className="rounded-[16px] overflow-hidden border border-[#E2E1DA] dark:border-white/[0.08] bg-[#141414]">
-                    <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
                       <AnimatePresence mode="wait">
                         <motion.video
                           key={heroStep}
                           src={steps[heroStep].video}
                           autoPlay
-                          loop
                           muted
                           playsInline
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.45, ease: "easeInOut" }}
-                          className="absolute inset-0 w-full h-full object-cover origin-center"
+                          className="w-full block"
+                          onTimeUpdate={(e) => {
+                            const v = e.currentTarget;
+                            if (v.duration) setHeroProgress((v.currentTime / v.duration) * 100);
+                          }}
+                          onEnded={() => {
+                            setHeroStep(s => (s + 1) % HERO_STEP_COUNT);
+                            setHeroProgress(0);
+                          }}
                         />
                       </AnimatePresence>
-                    </div>
                     </div>
                   </div>
                 </motion.div>
