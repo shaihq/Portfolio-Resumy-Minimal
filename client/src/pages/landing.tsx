@@ -1278,7 +1278,7 @@ export default function Landing() {
               {[
                 { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: isDark ? "/landing-video/video1dark.mp4" : "/landing-video/video1light.mp4" },
                 { title: "I can't afford to get rejected because of my resume.", sub: "Tailor your resume for every role.", video: isDark ? "/landing-video/video2dark.mp4" : "/landing-video/video2light.mp4" },
-                { title: "Why am I spending so much time looking for jobs?", sub: "Get a personal job board built around your experience.", video: "/landing-video/jobs-section.mp4" },
+                { title: "Why am I spending so much time looking for jobs?", sub: "Get a personal job board built around your experience.", video: isDark ? "/landing-video/video3dark.mp4" : "/landing-video/video3light.mp4" },
                 { title: "Can someone just tell me what to do next?", sub: "Access AI career tools whenever you need them.", video: "", cards: [
                   { label: "Fix your resume",      icon: aiIconFixResume },
                   { label: "Salary Negotiation",   icon: aiIconSalary },
