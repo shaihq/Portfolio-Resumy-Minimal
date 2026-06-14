@@ -1277,7 +1277,6 @@ export default function Landing() {
             <div className="w-full flex flex-col gap-12">
               {[
                 { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: isDark ? "/landing-video/video1dark.mp4" : "/landing-video/video1light.mp4" },
-                { title: "What the hell am I supposed to write here?", sub: "Let AI write and improve your case studies.", video: "/landingvideo/analyzeai.mp4" },
                 { title: "I can't afford to get rejected because of my resume.", sub: "Tailor your resume for every role.", video: "", cards: [
                   { label: "Fix your resume",      icon: aiIconFixResume },
                   { label: "Salary Negotiation",   icon: aiIconSalary },
