@@ -1180,28 +1180,30 @@ export default function Landing() {
 
                     {/* Video — subtle border, no shadow */}
                     <div className="rounded-[16px] overflow-hidden border border-[#E2E1DA] dark:border-white/[0.08] bg-[#141414]">
-                      <AnimatePresence mode="wait">
-                        <motion.video
-                          key={heroStep}
-                          src={steps[heroStep].video}
-                          autoPlay
-                          muted
-                          playsInline
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.45, ease: "easeInOut" }}
-                          className="w-full block"
-                          onTimeUpdate={(e) => {
-                            const v = e.currentTarget;
-                            if (v.duration) setHeroProgress((v.currentTime / v.duration) * 100);
-                          }}
-                          onEnded={() => {
-                            setHeroStep(s => (s + 1) % HERO_STEP_COUNT);
-                            setHeroProgress(0);
-                          }}
-                        />
-                      </AnimatePresence>
+                      <div className="relative w-full" style={{ paddingTop: '78.75%' }}>
+                        <AnimatePresence mode="wait">
+                          <motion.video
+                            key={heroStep}
+                            src={steps[heroStep].video}
+                            autoPlay
+                            muted
+                            playsInline
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.45, ease: "easeInOut" }}
+                            className="absolute inset-0 w-full h-full object-cover block"
+                            onTimeUpdate={(e) => {
+                              const v = e.currentTarget;
+                              if (v.duration) setHeroProgress((v.currentTime / v.duration) * 100);
+                            }}
+                            onEnded={() => {
+                              setHeroStep(s => (s + 1) % HERO_STEP_COUNT);
+                              setHeroProgress(0);
+                            }}
+                          />
+                        </AnimatePresence>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
