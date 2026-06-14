@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Check, Scissors, CalendarDays, MessageCircle, Files, User } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, Mic, Mail, BarChart2, CheckCircle2, X, Check, User, LayoutTemplate, EyeOff, XCircle, PenLine } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -1338,11 +1338,11 @@ export default function Landing() {
             {/* Pain point chips — auto-wrap */}
             <div className="flex flex-wrap justify-center gap-2.5">
               {[
-                { icon: <BookOpen className="w-3.5 h-3.5 shrink-0" style={{ color: '#9B7FD4' }} />, label: "I don't have a portfolio." },
-                { icon: <Files className="w-3.5 h-3.5 shrink-0" style={{ color: '#5B9BD5' }} />, label: "I'm tired of applying blindly." },
-                { icon: <MessageCircle className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: "Why am I getting rejected?" },
-                { icon: <Scissors className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Maybe my resume is the problem." },
-                { icon: <CalendarDays className="w-3.5 h-3.5 shrink-0" style={{ color: '#7BAE7F' }} />, label: "I hate writing case studies." },
+                { icon: <LayoutTemplate className="w-3.5 h-3.5 shrink-0" style={{ color: '#9B7FD4' }} />, label: "I don't have a portfolio." },
+                { icon: <EyeOff className="w-3.5 h-3.5 shrink-0" style={{ color: '#5B9BD5' }} />, label: "I'm tired of applying blindly." },
+                { icon: <XCircle className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: "Why am I getting rejected?" },
+                { icon: <FileText className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Maybe my resume is the problem." },
+                { icon: <PenLine className="w-3.5 h-3.5 shrink-0" style={{ color: '#7BAE7F' }} />, label: "I hate writing case studies." },
                 { icon: <Mic className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: "I freeze during interviews." },
               ].map(({ icon, label }) => (
                 <div key={label} className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-card text-[13px] font-medium text-[#1D1B1A] dark:text-foreground whitespace-nowrap">
