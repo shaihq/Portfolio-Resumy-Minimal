@@ -1260,9 +1260,9 @@ export default function Landing() {
           <section id="how" className="w-full px-6 mb-16 mt-[48px] scroll-mt-24">
             <div className="w-full flex flex-col gap-12">
               {[
-                { title: "Mine doesn't look this good.", sub: "Start with a template you actually like.", video: "/landing-video/template-section.mp4" },
-                { title: "I have no idea what to write here.", sub: "Let AI write and improve your case studies.", video: "/landingvideo/analyzeai.mp4" },
-                { title: "I really want this interview.", sub: "Optimize your resume before you apply.", video: "", cards: [
+                { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: "/landing-video/template-section.mp4" },
+                { title: "What the hell am I supposed to write here?", sub: "Let AI write and improve your case studies.", video: "/landingvideo/analyzeai.mp4" },
+                { title: "I can't afford to get rejected because of my resume.", sub: "Tailor your resume for every role.", video: "", cards: [
                   { label: "Fix your resume",      icon: aiIconFixResume },
                   { label: "Salary Negotiation",   icon: aiIconSalary },
                   { label: "Case study generator", icon: aiIconCaseGen },
@@ -1270,7 +1270,15 @@ export default function Landing() {
                   { label: "AI email generator",   icon: aiIconEmail },
                   { label: "Analyze Case study",   icon: aiIconAnalyze },
                 ] },
-                { title: "There has to be a better way than LinkedIn.", sub: "Get jobs picked for you based on your experience.", video: "/landing-video/jobs-section.mp4" },
+                { title: "Why am I spending so much time looking for jobs?", sub: "Get a personal job board built around your experience.", video: "/landing-video/jobs-section.mp4" },
+                { title: "Can someone just tell me what to do next?", sub: "Access AI career tools whenever you need them.", video: "", cards: [
+                  { label: "Fix your resume",      icon: aiIconFixResume },
+                  { label: "Salary Negotiation",   icon: aiIconSalary },
+                  { label: "Case study generator", icon: aiIconCaseGen },
+                  { label: "AI mock interview",    icon: aiIconMock },
+                  { label: "AI email generator",   icon: aiIconEmail },
+                  { label: "Analyze Case study",   icon: aiIconAnalyze },
+                ] },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1">
