@@ -214,9 +214,9 @@ function PortfolioGallery() {
         {doubled.map((card, i) => (
           <div
             key={i}
-            className="group relative flex-shrink-0 w-[300px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
+            className="group relative flex-shrink-0 w-[360px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
           >
-            <div className="w-full h-[200px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
+            <div className="w-full h-[240px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
               <img
                 src={card.image}
                 alt={card.title}
@@ -224,15 +224,15 @@ function PortfolioGallery() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
-            <div className="p-4 flex flex-col gap-3">
-              <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
+            <div className="p-5 flex flex-col gap-3.5">
+              <p className="text-[17px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
                 {card.title}
               </p>
               <a
                 href="#"
-                className="self-start flex items-center gap-1.5 text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/25 dark:border-border rounded-full px-3 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
+                className="self-start flex items-center gap-1.5 text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/25 dark:border-border rounded-full px-3.5 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
               >
-                View Project <ArrowUpRight className="w-3 h-3" />
+                View Project <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
