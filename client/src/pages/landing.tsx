@@ -1254,9 +1254,7 @@ export default function Landing() {
               <span className="text-[13px] font-medium text-[#1D1B1A]/45 dark:text-foreground/45">
                 I know what you're thinking...
               </span>
-              <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">
-                How does it work?
-              </h2>
+              <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">Job hunting already feels hard enough.</h2>
             </div>
 
             {/* Pain point chips — auto-wrap */}
