@@ -1302,7 +1302,7 @@ export default function Landing() {
             {/* Label inset into a hairline rule */}
             <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-[#1D1B1A]/[0.07] dark:bg-white/[0.06]" />
-              <span className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#1D1B1A]/50 dark:text-foreground/50 whitespace-nowrap">31,000+ Designfolio users work at</span>
+              <span className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#9C8A7E] dark:text-foreground/40 whitespace-nowrap">31,000+ Designfolio users work at</span>
               <div className="flex-1 h-px bg-[#1D1B1A]/[0.07] dark:bg-white/[0.06]" />
             </div>
             {/* Marquee */}
