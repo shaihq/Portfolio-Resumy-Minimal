@@ -294,6 +294,9 @@ const testimonials = [
     image: "/testimonial images/ishita.png",
     logoSrc: "/testimonial/company/cisco.png",
     logoRaw: true,
+    highlights: ["completely changed that", "20 minutes"],
+    highlightBg: "#FFF5B1",
+    highlightDarkBg: "rgba(255,245,177,0.22)",
   },
   {
     name: "Ashutosh Vashishtha",
@@ -302,6 +305,9 @@ const testimonials = [
     image: "/testimonial/ashuthosh.png",
     logoSrc: "/testimonial/company/apple.png",
     logoRaw: true,
+    highlights: ["customisations are awesome", "GOATed portfolio builder"],
+    highlightBg: "#C8F7DC",
+    highlightDarkBg: "rgba(200,247,220,0.18)",
   },
   {
     name: "Suvigya Nijhawan",
@@ -310,6 +316,9 @@ const testimonials = [
     image: "/testimonial/suvigya.png",
     logoSrc: "/testimonial/company/google.png",
     logoRaw: true,
+    highlights: ["ideal launchpad", "every section recruiters care about"],
+    highlightBg: "#C8E4FF",
+    highlightDarkBg: "rgba(200,228,255,0.18)",
   },
   {
     name: "Aditya Krishna",
@@ -318,6 +327,9 @@ const testimonials = [
     image: "/testimonial/aditya.png",
     logoSrc: "/testimonial/company/jpmorgan.png",
     logoRaw: true,
+    highlights: ["clean, customizable format", "polished and professional"],
+    highlightBg: "#EAD4FF",
+    highlightDarkBg: "rgba(234,212,255,0.18)",
   }
 ];
 
@@ -332,7 +344,7 @@ function TestimonialCarousel() {
   };
 
   useEffect(() => {
-    const duration = 5000;
+    const duration = 10000;
     const interval = 50;
     const step = (interval / duration) * 100;
     
@@ -388,7 +400,28 @@ function TestimonialCarousel() {
             </div>
             
             <p className="text-[#1D1B1A]/75 dark:text-foreground/75 font-medium text-[15px] leading-[1.55]">
-              {testimonials[currentIndex].content}
+              {(() => {
+                const t = testimonials[currentIndex];
+                const phrases = t.highlights ?? [];
+                const bg = isDark ? t.highlightDarkBg : t.highlightBg;
+                if (!phrases.length || !bg) return t.content;
+                const parts: (string | JSX.Element)[] = [t.content];
+                for (const phrase of phrases) {
+                  const next: (string | JSX.Element)[] = [];
+                  for (const part of parts) {
+                    if (typeof part !== 'string') { next.push(part); continue; }
+                    const idx = part.indexOf(phrase);
+                    if (idx === -1) { next.push(part); continue; }
+                    if (idx > 0) next.push(part.slice(0, idx));
+                    next.push(
+                      <mark key={phrase} style={{ background: bg, borderRadius: '3px', padding: '1px 3px', color: 'inherit' }}>{phrase}</mark>
+                    );
+                    if (idx + phrase.length < part.length) next.push(part.slice(idx + phrase.length));
+                  }
+                  parts.splice(0, parts.length, ...next);
+                }
+                return parts;
+              })()}
             </p>
           </motion.div>
         </AnimatePresence>
@@ -486,7 +519,7 @@ export default function Landing() {
   }, [isProcessing]);
 
   const HERO_STEP_COUNT = 2;
-  const HERO_STEP_DURATION = 5000;
+  const HERO_STEP_DURATION = 10000;
   const HERO_TICK = 50;
 
   useEffect(() => {
