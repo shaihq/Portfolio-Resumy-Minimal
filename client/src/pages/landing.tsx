@@ -1358,9 +1358,9 @@ export default function Landing() {
             <div className="w-full flex flex-col gap-12">
               {[
                 { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: isDark ? "/landing-video/video1dark.mp4" : "/landing-video/video1light.mp4", messages: [{ from: "viewer", text: "I don't have a portfolio. Just a bunch of work." }, { from: "shai", text: "That's enough." }] },
-                { title: "I can't afford to get rejected because of my resume.", sub: "Tailor your resume for every role.", video: isDark ? "/landing-video/video2dark.mp4" : "/landing-video/video2light.mp4" },
-                { title: "Why am I spending so much time looking for jobs?", sub: "Get a personal job board built around your experience.", video: isDark ? "/landing-video/video3dark.mp4" : "/landing-video/video3light.mp4" },
-                { title: "Can someone just tell me what to do next?", sub: "Access AI career tools whenever you need them.", video: "", cards: [
+                { title: "I can't afford to get rejected because of my resume.", sub: "Tailor your resume for every role.", video: isDark ? "/landing-video/video2dark.mp4" : "/landing-video/video2light.mp4", messages: [{ from: "viewer", text: "I've applied to too many jobs to hear nothing back." }, { from: "shai", text: "Let's start with your resume." }] },
+                { title: "Why am I spending so much time looking for jobs?", sub: "Get a personal job board built around your experience.", video: isDark ? "/landing-video/video3dark.mp4" : "/landing-video/video3light.mp4", messages: [{ from: "viewer", text: "Finding jobs feels like a full-time job." }, { from: "shai", text: "It doesn't have to be." }] },
+                { title: "Can someone just tell me what to do next?", sub: "Access AI career tools whenever you need them.", video: "", messages: [{ from: "viewer", text: "I wish someone would just tell me what to do next." }, { from: "shai", text: "Start with these free tools." }], cards: [
                   { label: "Fix your resume",      icon: aiIconFixResume },
                   { label: "Salary Negotiation",   icon: aiIconSalary },
                   { label: "Case study generator", icon: aiIconCaseGen },
