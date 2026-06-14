@@ -1154,7 +1154,7 @@ export default function Landing() {
               const CIRC = 2 * Math.PI * 7.5;
               const steps = [
                 { label: "Build your portfolio", video: isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4" },
-                { label: "Find your next role", video: "/landing-video/template-section.mp4" },
+                { label: "Find your next role", video: isDark ? "/landing-video/hero-jobs-dark.mp4" : "/landing-video/hero-jobs-light.mp4" },
               ];
               return (
                 <motion.div
