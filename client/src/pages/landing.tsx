@@ -1152,7 +1152,7 @@ export default function Landing() {
                       )}
                     </AnimatePresence>
                     {!isProcessing && (
-                      <p className="text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium text-center">
+                      <p className="pt-2 text-[12px] text-[#1D1B1A]/55 dark:text-foreground/55 font-medium text-center">
                         See your portfolio before creating an account
                       </p>
                     )}
