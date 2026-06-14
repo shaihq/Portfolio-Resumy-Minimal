@@ -1259,33 +1259,20 @@ export default function Landing() {
               </h2>
             </div>
 
-            {/* Pain point chips — masonry 2-col */}
-            <div className="flex gap-2.5 w-full">
-              {/* Column A */}
-              <div className="flex flex-col gap-2.5 flex-1 items-end">
-                {[
-                  { icon: <BookOpen className="w-3.5 h-3.5 shrink-0" style={{ color: '#9B7FD4' }} />, label: "Learning Framer or Webflow" },
-                  { icon: <MessageCircle className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: '"Can you share your work?"' },
-                  { icon: <CalendarDays className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Weekends lost editing layouts" },
-                ].map(({ icon, label }) => (
-                  <div key={label} className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-card text-[13px] font-medium text-[#1D1B1A] dark:text-foreground whitespace-nowrap">
-                    {icon}
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-              {/* Column B — offset by pushing down half a chip */}
-              <div className="flex flex-col gap-2.5 flex-1 items-start mt-[22px]">
-                {[
-                  { icon: <Files className="w-3.5 h-3.5 shrink-0" style={{ color: '#5B9BD5' }} />, label: "Work scattered in Figma & PDFs" },
-                  { icon: <Scissors className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Storytelling recruiters don't get" },
-                ].map(({ icon, label }) => (
-                  <div key={label} className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-card text-[13px] font-medium text-[#1D1B1A] dark:text-foreground whitespace-nowrap">
-                    {icon}
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
+            {/* Pain point chips — auto-wrap */}
+            <div className="flex flex-wrap justify-center gap-2.5">
+              {[
+                { icon: <BookOpen className="w-3.5 h-3.5 shrink-0" style={{ color: '#9B7FD4' }} />, label: "Learning Framer or Webflow" },
+                { icon: <Files className="w-3.5 h-3.5 shrink-0" style={{ color: '#5B9BD5' }} />, label: "Work scattered in Figma & PDFs" },
+                { icon: <MessageCircle className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: '"Can you share your work?"' },
+                { icon: <Scissors className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Storytelling recruiters don't get" },
+                { icon: <CalendarDays className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Weekends lost editing layouts" },
+              ].map(({ icon, label }) => (
+                <div key={label} className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-card text-[13px] font-medium text-[#1D1B1A] dark:text-foreground whitespace-nowrap">
+                  {icon}
+                  <span>{label}</span>
+                </div>
+              ))}
             </div>
           </section>
 
