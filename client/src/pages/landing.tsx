@@ -1151,6 +1151,11 @@ export default function Landing() {
                         </motion.div>
                       )}
                     </AnimatePresence>
+                    {!isProcessing && (
+                      <p className="text-[11px] text-[#1D1B1A]/35 dark:text-foreground/35 font-medium text-center">
+                        See your portfolio before creating an account
+                      </p>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.div
