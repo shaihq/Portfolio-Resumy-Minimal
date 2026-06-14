@@ -1329,7 +1329,7 @@ export default function Landing() {
           </section>
 
           {/* Pain Points Intro Section */}
-          <section className="w-full px-6 pt-14 pb-10 flex flex-col items-center gap-6">
+          <section className="w-full px-6 pt-12 pb-4 flex flex-col items-center gap-6">
             {/* Label + Heading */}
             <div className="flex flex-col items-center gap-2 text-center">
               <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">You're not the only one thinking...</h2>
@@ -1354,7 +1354,7 @@ export default function Landing() {
           </section>
 
           {/* Steps Section */}
-          <section id="how" className="w-full px-6 mb-16 mt-[48px] scroll-mt-24">
+          <section id="how" className="w-full px-6 mb-16 mt-6 scroll-mt-24">
             <div className="w-full flex flex-col gap-12">
               {[
                 { title: "How do people make portfolios like this?", sub: "Start with a template you actually like.", video: isDark ? "/landing-video/video1dark.mp4" : "/landing-video/video1light.mp4", messages: [{ from: "viewer", text: "I don't have a portfolio. Just a bunch of work." }, { from: "shai", text: "That's enough." }] },
@@ -1372,9 +1372,11 @@ export default function Landing() {
                 <div key={i} className="flex flex-col gap-4">
                   {(item as any).messages ? (
                     <div className="flex flex-col gap-2.5">
-                      <div className="text-center">
-                        <span className="text-[11px] font-semibold tracking-widest uppercase text-[#1D1B1A]/25 dark:text-white/25">Today</span>
-                      </div>
+                      {i === 0 && (
+                        <div className="text-center">
+                          <span className="text-[11px] font-semibold tracking-widest uppercase text-[#1D1B1A]/25 dark:text-white/25">Today</span>
+                        </div>
+                      )}
 
                       {(item as any).messages.map((msg: { from: string; text: string }, mi: number) => (
                         <div key={mi} className={`flex items-end gap-2 ${msg.from === 'shai' ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -1394,7 +1396,7 @@ export default function Landing() {
 
                           {/* Bubble */}
                           <div
-                            className={`max-w-[72%] px-[14px] py-[9px] text-[15px] font-medium leading-snug ${
+                            className={`max-w-[72%] px-[14px] py-[10px] text-[17px] font-medium leading-snug ${
                               msg.from === 'shai'
                                 ? 'bg-[#007AFF] text-white rounded-[20px] rounded-br-[5px]'
                                 : 'bg-[#E8E7E2] dark:bg-[#2E2C2A] text-[#1D1B1A] dark:text-[#F0EDE7] rounded-[20px] rounded-bl-[5px]'
