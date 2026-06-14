@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Check } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Check, Scissors, CalendarDays, MessageCircle, Files } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -1245,6 +1245,38 @@ export default function Landing() {
           {/* Testimonial Section */}
           <section id="stories" className="w-full border-y border-[#EAE9E4] dark:border-border py-8 px-6 bg-[#F4F3E5] dark:bg-card overflow-hidden scroll-mt-[30vh]">
             <TestimonialCarousel />
+          </section>
+
+          {/* Pain Points Intro Section */}
+          <section className="w-full px-6 pt-14 pb-10 flex flex-col items-center gap-6">
+            {/* Label + Heading */}
+            <div className="flex flex-col items-center gap-2 text-center">
+              <span className="text-[13px] font-medium text-[#1D1B1A]/45 dark:text-foreground/45">
+                I know what you're thinking...
+              </span>
+              <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">
+                How does it work?
+              </h2>
+            </div>
+
+            {/* Pain point chips */}
+            <div className="flex flex-wrap justify-center gap-2.5 max-w-[600px]">
+              {[
+                { icon: <BookOpen className="w-3.5 h-3.5" style={{ color: '#9B7FD4' }} />, label: "Endless hours learning Framer or Webflow" },
+                { icon: <Files className="w-3.5 h-3.5" style={{ color: '#5B9BD5' }} />, label: "Projects scattered across Figma files and PDFs" },
+                { icon: <MessageCircle className="w-3.5 h-3.5" style={{ color: '#E8923A' }} />, label: '"Can you share your work?" in every interview' },
+                { icon: <Scissors className="w-3.5 h-3.5" style={{ color: '#E05C6A' }} />, label: "Storytelling that doesn't make sense to recruiters" },
+                { icon: <CalendarDays className="w-3.5 h-3.5" style={{ color: '#E05C6A' }} />, label: "Wasted weekends editing layouts instead of growing" },
+              ].map(({ icon, label }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-card text-[13px] font-medium text-[#1D1B1A] dark:text-foreground whitespace-nowrap"
+                >
+                  {icon}
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
           </section>
 
           {/* Steps Section */}
