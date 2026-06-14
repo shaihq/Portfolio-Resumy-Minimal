@@ -1053,7 +1053,7 @@ export default function Landing() {
               className="text-[17px] mb-8 max-w-[450px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
               {heroTab === 'resume'
-                ? "Upload your resume. We'll turn it into a portfolio and show you jobs worth applying for."
+                ? "Upload your resume. We'll turn it into a portfolio and find jobs that match your experience."
                 : "Pick your domain. AI helps you build a portfolio and powers your job search."}
             </motion.p>
             
