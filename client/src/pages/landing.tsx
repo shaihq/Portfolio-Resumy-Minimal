@@ -1260,21 +1260,25 @@ export default function Landing() {
           <section id="how" className="w-full px-6 mb-16 mt-[48px] scroll-mt-24">
             <div className="w-full flex flex-col gap-12">
               {[
-                { step: "1/", title: 'Choose a "template".', video: "/landing-video/template-section.mp4" },
-                { step: "2/", title: 'Use AI as a "co-pilot".', video: "/landingvideo/analyzeai.mp4" },
-                { step: "3/", title: 'And other "AI tools".', video: "", cards: [
+                { title: "Mine doesn't look this good.", sub: "Start with a template you actually like.", video: "/landing-video/template-section.mp4" },
+                { title: "I have no idea what to write here.", sub: "Let AI write and improve your case studies.", video: "/landingvideo/analyzeai.mp4" },
+                { title: "I really want this interview.", sub: "Optimize your resume before you apply.", video: "", cards: [
                   { label: "Fix your resume",      icon: aiIconFixResume },
                   { label: "Salary Negotiation",   icon: aiIconSalary },
                   { label: "Case study generator", icon: aiIconCaseGen },
                   { label: "AI mock interview",    icon: aiIconMock },
                   { label: "AI email generator",   icon: aiIconEmail },
                   { label: "Analyze Case study",   icon: aiIconAnalyze },
-                ] }
+                ] },
+                { title: "There has to be a better way than LinkedIn.", sub: "Get jobs picked for you based on your experience.", video: "/landing-video/jobs-section.mp4" },
               ].map((item, i) => (
-                <div key={i} className="flex flex-col gap-5">
-                  <h3 className="text-[20px] font-bold text-[#1D1B1A] dark:text-foreground">
-                    {item.step} <ShimmerInView text={item.title} />
-                  </h3>
+                <div key={i} className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground leading-snug tracking-tight">
+                      <ShimmerInView text={item.title} />
+                    </h3>
+                    <p className="text-[14px] font-medium text-[#1D1B1A]/45 dark:text-foreground/45">{item.sub}</p>
+                  </div>
                   {(item as any).cards ? (
                     <div className="grid grid-cols-2 gap-3">
                       {(item as any).cards.map((card: any, ci: number) => (
