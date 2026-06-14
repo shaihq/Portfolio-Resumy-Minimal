@@ -195,50 +195,131 @@ const portfolioCards = [
 
 function PortfolioGallery() {
   const [hovered, setHovered] = useState(false);
+  const [mobileIndex, setMobileIndex] = useState(0);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const doubled = [...portfolioCards, ...portfolioCards];
 
+  const navigateMobile = (dir: 1 | -1) => {
+    const next = Math.max(0, Math.min(portfolioCards.length - 1, mobileIndex + dir));
+    setMobileIndex(next);
+    if (mobileTrackRef.current) {
+      const card = mobileTrackRef.current.children[next] as HTMLElement;
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  };
+
+  const chevronStyle = isDark
+    ? { background: 'linear-gradient(to bottom, #2e2c2a, #252320)', boxShadow: '0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.07)' }
+    : { background: 'linear-gradient(to bottom, #ffffff, #ece9e3)', boxShadow: '0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.07)' };
+
   return (
-    <div
-      className="relative overflow-hidden"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div
-        className="flex gap-5 pl-6"
-        style={{
-          animation: `portfolioScroll 55s linear infinite`,
-          animationPlayState: hovered ? "paused" : "running",
-          width: "max-content",
-        }}
-      >
-        {doubled.map((card, i) => (
-          <div
-            key={i}
-            className="group relative flex-shrink-0 w-[360px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
+    <>
+      {/* Mobile: chevron carousel */}
+      <div className="sm:hidden">
+        <div
+          ref={mobileTrackRef}
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth px-[10%]"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          {portfolioCards.map((card, i) => (
+            <div
+              key={i}
+              className="group snap-center flex-shrink-0 w-[80%] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
+            >
+              <div className="w-full h-[200px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
+                <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-4 flex flex-col gap-3">
+                <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">{card.title}</p>
+                <a href="#" className="self-start flex items-center gap-1.5 text-[12px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/25 dark:border-border rounded-full px-3 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200">
+                  View Project <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center gap-4 mt-5 px-6">
+          <motion.button
+            onClick={() => navigateMobile(-1)}
+            disabled={mobileIndex === 0}
+            aria-label="Previous"
+            whileTap={{ y: 1 }}
+            transition={{ type: "spring", stiffness: 600, damping: 30 }}
+            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70 disabled:opacity-30"
+            style={chevronStyle}
           >
-            <div className="w-full h-[240px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
-              <img
-                src={card.image}
-                alt={card.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            <ChevronLeft className="size-3.5" />
+          </motion.button>
+
+          <div className="flex gap-1.5">
+            {portfolioCards.map((_, i) => (
+              <div
+                key={i}
+                className={cn("w-1.5 h-1.5 rounded-full transition-colors duration-200", i === mobileIndex ? "bg-[#1D1B1A] dark:bg-foreground" : "bg-[#1D1B1A]/20 dark:bg-foreground/20")}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <div className="p-5 flex flex-col gap-3.5">
-              <p className="text-[17px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
-                {card.title}
-              </p>
-              <a
-                href="#"
-                className="self-start flex items-center gap-1.5 text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/25 dark:border-border rounded-full px-3.5 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
-              >
-                View Project <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
+            ))}
           </div>
-        ))}
+
+          <motion.button
+            onClick={() => navigateMobile(1)}
+            disabled={mobileIndex === portfolioCards.length - 1}
+            aria-label="Next"
+            whileTap={{ y: 1 }}
+            transition={{ type: "spring", stiffness: 600, damping: 30 }}
+            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#1D1B1A]/40 dark:text-foreground/40 transition-colors duration-150 hover:text-[#1D1B1A]/70 dark:hover:text-foreground/70 disabled:opacity-30"
+            style={chevronStyle}
+          >
+            <ChevronRight className="size-3.5" />
+          </motion.button>
+        </div>
       </div>
-    </div>
+
+      {/* Desktop: auto-scrolling carousel */}
+      <div
+        className="hidden sm:block relative overflow-hidden"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <div
+          className="flex gap-5 pl-6"
+          style={{
+            animation: `portfolioScroll 55s linear infinite`,
+            animationPlayState: hovered ? "paused" : "running",
+            width: "max-content",
+          }}
+        >
+          {doubled.map((card, i) => (
+            <div
+              key={i}
+              className="group relative flex-shrink-0 w-[360px] rounded-2xl overflow-hidden bg-white dark:bg-card border border-[#E8E6DF] dark:border-border cursor-pointer"
+            >
+              <div className="w-full h-[240px] overflow-hidden bg-[#F0EFE9] dark:bg-muted relative">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-5 flex flex-col gap-3.5">
+                <p className="text-[17px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug line-clamp-2">
+                  {card.title}
+                </p>
+                <a
+                  href="#"
+                  className="self-start flex items-center gap-1.5 text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground border border-[#1D1B1A]/25 dark:border-border rounded-full px-3.5 py-1.5 hover:bg-[#1D1B1A] hover:text-white dark:hover:bg-foreground dark:hover:text-background transition-colors duration-200"
+                >
+                  View Project <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
