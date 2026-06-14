@@ -1296,14 +1296,14 @@ export default function Landing() {
                     </div>
                   ) : (
                     <div className="w-full rounded-[12px] overflow-hidden border border-[#E2E1DA] dark:border-border shadow-sm bg-[#141414]">
-                      <div className="relative w-full overflow-hidden" style={{ paddingTop: '65%' }}>
+                      <div className="relative w-full overflow-hidden" style={{ paddingTop: '78.75%' }}>
                         <video
                           src={item.video}
                           autoPlay
                           loop
                           muted
                           playsInline
-                          className="absolute inset-0 w-full h-full object-cover origin-center"
+                          className="absolute inset-0 w-full h-full object-cover"
                         />
                       </div>
                     </div>
