@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Check, Scissors, CalendarDays, MessageCircle, Files } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, BookOpen, Mic, Mail, BarChart2, CheckCircle2, X, Check, Scissors, CalendarDays, MessageCircle, Files, User } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -1371,20 +1371,43 @@ export default function Landing() {
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-4">
                   {(item as any).messages ? (
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2.5">
+                      <div className="text-center">
+                        <span className="text-[11px] font-semibold tracking-widest uppercase text-[#1D1B1A]/25 dark:text-white/25">Today</span>
+                      </div>
+
                       {(item as any).messages.map((msg: { from: string; text: string }, mi: number) => (
-                        <div key={mi} className={`flex ${msg.from === 'shai' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={mi} className={`flex items-end gap-2 ${msg.from === 'shai' ? 'flex-row-reverse' : 'flex-row'}`}>
+                          {/* Avatar */}
+                          {msg.from === 'viewer' ? (
+                            <div className="shrink-0 w-[30px] h-[30px] rounded-full bg-[#C8C6C2] dark:bg-[#48464A] flex items-center justify-center">
+                              <User className="w-[14px] h-[14px] text-white" strokeWidth={2.5} />
+                            </div>
+                          ) : (
+                            <div
+                              className="shrink-0 w-[30px] h-[30px] rounded-full flex items-center justify-center text-white text-[12px] font-bold"
+                              style={{ background: 'linear-gradient(135deg, #FF553E 0%, #FF8C42 100%)' }}
+                            >
+                              S
+                            </div>
+                          )}
+
+                          {/* Bubble */}
                           <div
-                            className={`max-w-[78%] px-4 py-2.5 rounded-[18px] text-[15px] font-medium leading-snug ${
+                            className={`max-w-[72%] px-[14px] py-[9px] text-[15px] font-medium leading-snug ${
                               msg.from === 'shai'
-                                ? 'bg-[#007AFF] text-white rounded-br-[4px]'
-                                : 'bg-[#E5E5EA] dark:bg-[#3A3A3C] text-[#1D1B1A] dark:text-white rounded-bl-[4px]'
+                                ? 'bg-[#007AFF] text-white rounded-[20px] rounded-br-[5px]'
+                                : 'bg-[#E8E7E2] dark:bg-[#2E2C2A] text-[#1D1B1A] dark:text-[#F0EDE7] rounded-[20px] rounded-bl-[5px]'
                             }`}
                           >
                             {msg.text}
                           </div>
                         </div>
                       ))}
+
+                      <div className="flex justify-end pr-[42px]">
+                        <span className="text-[11px] font-medium text-[#1D1B1A]/25 dark:text-white/25">Delivered</span>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex flex-col gap-1">
