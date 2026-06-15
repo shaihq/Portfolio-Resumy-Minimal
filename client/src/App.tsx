@@ -177,7 +177,7 @@ function ProButton() {
                 <div className="p-5">
                   {/* Header */}
                   <h2 className="text-[18px] font-bold text-foreground leading-snug tracking-tight mb-1">Career OS for Job Seekers</h2>
-                  <p className="text-[12.5px] text-foreground/50 leading-relaxed mb-4">Build a portfolio, tailor your resume, find jobs, and prep for interviews—all in one place.</p>
+                  <p className="text-[12.5px] text-foreground/50 leading-relaxed mb-4">Everything you need to stand out, apply smarter, and land more interviews.</p>
 
                   {/* Billing toggle */}
                   <div className="flex items-center bg-foreground/6 dark:bg-foreground/8 rounded-full p-[3px] mb-4 mt-3 overflow-visible">
