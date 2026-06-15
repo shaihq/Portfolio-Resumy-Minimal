@@ -242,6 +242,20 @@ function ProButton() {
                     </div>
                   )}
 
+                  {/* Quarterly social proof quote */}
+                  {billing === "quarterly" && (
+                    <div className="flex items-start gap-2.5 mb-3 px-3 py-2.5 rounded-xl border border-foreground/[0.07] bg-foreground/[0.025]">
+                      <span className="flex-shrink-0 mt-[1px] w-[22px] h-[22px] rounded-md flex items-center justify-center" style={{ background: "rgba(232,89,58,0.1)" }}>
+                        <Rocket className="w-3 h-3" style={{ color: "#E8593A" }} />
+                      </span>
+                      <p className="text-[11.5px] text-foreground/55 leading-snug">
+                        <span className="text-foreground/30 text-[15px] font-serif leading-none mr-0.5">"</span>
+                        Most members land a role within 3 months.
+                        <span className="text-foreground/30 text-[15px] font-serif leading-none ml-0.5">"</span>
+                      </p>
+                    </div>
+                  )}
+
                   {/* CTA */}
                   {billing === "lifetime" ? (
                     <div
@@ -290,20 +304,6 @@ function ProButton() {
                         <span className="text-[12.5px] text-foreground/75 leading-snug">{f}</span>
                       </div>
                     ))}
-                  </div>
-
-                  {/* Social proof quote */}
-                  <div className="flex items-start gap-2.5 mt-4 px-3 py-2.5 rounded-xl border border-foreground/[0.07] bg-foreground/[0.025]">
-                    <span className="flex-shrink-0 mt-[1px] w-[22px] h-[22px] rounded-md flex items-center justify-center" style={{ background: "rgba(232,89,58,0.1)" }}>
-                      <Rocket className="w-3 h-3" style={{ color: "#E8593A" }} />
-                    </span>
-                    <div>
-                      <p className="text-[11.5px] text-foreground/55 leading-snug">
-                        <span className="text-foreground/30 text-[15px] font-serif leading-none mr-0.5">"</span>
-                        Most members land a role within 3 months.
-                        <span className="text-foreground/30 text-[15px] font-serif leading-none ml-0.5">"</span>
-                      </p>
-                    </div>
                   </div>
 
                   {/* FAQ chip */}
