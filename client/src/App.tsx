@@ -238,7 +238,7 @@ function ProButton() {
                       </span>
                       <p className="text-[11.5px] text-foreground/55 leading-snug">
                         <span className="text-foreground/30 text-[15px] font-serif leading-none mr-0.5">"</span>
-                        Your next role won't be your last.
+                        78% choose Lifetime so they never have to start from scratch again.
                         <span className="text-foreground/30 text-[15px] font-serif leading-none ml-0.5">"</span>
                       </p>
                     </div>
