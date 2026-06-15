@@ -210,11 +210,11 @@ function ProButton() {
                       className="mb-4"
                     >
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-[30px] font-bold text-foreground tracking-tight leading-none">{plan.price}</span>
-                        <span className="text-[13px] text-foreground/50 font-normal">/ {plan.period}</span>
                         {plan.slashed && (
                           <span className="text-[13px] text-foreground/35 font-normal line-through">{plan.slashed}</span>
                         )}
+                        <span className="text-[30px] font-bold text-foreground tracking-tight leading-none">{plan.price}</span>
+                        <span className="text-[13px] text-foreground/50 font-normal">/ {plan.period}</span>
                       </div>
                       <p className="text-[11.5px] text-foreground/40 mt-1">{plan.sub}</p>
                     </motion.div>
