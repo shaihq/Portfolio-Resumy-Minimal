@@ -104,7 +104,7 @@ const FAQS = [
 
 function ProButton() {
   const [open, setOpen] = useState(false);
-  const [billing, setBilling] = useState<"monthly" | "quarterly" | "lifetime">("monthly");
+  const [billing, setBilling] = useState<"monthly" | "quarterly" | "lifetime">("lifetime");
   const [btnHovered, setBtnHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
