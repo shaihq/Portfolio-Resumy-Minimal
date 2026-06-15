@@ -140,7 +140,6 @@ function ProButton() {
       >
         <Sparkles className="w-4 h-4" />
       </button>
-
       {/* Modal */}
       <AnimatePresence>
         {open && (
@@ -230,9 +229,7 @@ function ProButton() {
                         <span className="absolute inset-0 rounded-full animate-ping opacity-40" style={{ backgroundColor: "#E8593A" }} />
                         <span className="relative block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#E8593A" }} />
                       </span>
-                      <p className="text-[11.5px] leading-none text-foreground/50 flex-1">
-                        Introductory price — reverts to ₹11,999 shortly
-                      </p>
+                      <p className="text-[11.5px] leading-none text-foreground/50 flex-1">Launch price — reverts to ₹11,999 shortly</p>
                       <TrendingUp className="w-3 h-3 text-foreground/25 flex-shrink-0" />
                     </div>
                   )}
