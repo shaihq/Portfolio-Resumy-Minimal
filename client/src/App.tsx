@@ -258,7 +258,7 @@ function ProButton() {
                           {billing === "quarterly" && <Rocket className="w-3 h-3" style={{ color: "#E8593A" }} />}
                         </span>
                         <p className="text-[11.5px] text-foreground/75 leading-snug">
-                          {billing === "lifetime" && "78% choose Lifetime because their next role won't be their last."}
+                          {billing === "lifetime" && "78% of paying members choose Lifetime."}
                           {billing === "monthly" && "Start building today. Upgrade anytime."}
                           {billing === "quarterly" && "Enough time to build, apply, interview, and get hired."}
                         </p>
