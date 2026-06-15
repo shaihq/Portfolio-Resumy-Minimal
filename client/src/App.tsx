@@ -175,7 +175,7 @@ function ProButton() {
                   </span>
                   <p className="text-[11px] leading-none text-foreground/50">
                     Current pricing ends next month.{" "}
-                    <span className="text-foreground/80 font-semibold">Lock in your plan today.</span>
+                    <span className="text-foreground/80 font-semibold">Lock in today's price.</span>
                   </p>
                 </div>
 
