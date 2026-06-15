@@ -184,19 +184,27 @@ function ProButton() {
                   </p>
 
                   {/* Billing toggle */}
-                  <div className="flex items-center bg-foreground/6 dark:bg-foreground/8 rounded-full p-[3px] mb-4">
+                  <div className="flex items-center bg-foreground/6 dark:bg-foreground/8 rounded-full p-[3px] mb-4 mt-3 overflow-visible">
                     {(["monthly", "quarterly", "lifetime"] as const).map((b) => (
-                      <button
-                        key={b}
-                        onClick={() => setBilling(b)}
-                        className={`flex-1 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 ${
-                          billing === b
-                            ? "bg-background text-foreground shadow-sm"
-                            : "text-foreground/50 hover:text-foreground/70"
-                        }`}
-                      >
-                        {b.charAt(0).toUpperCase() + b.slice(1)}
-                      </button>
+                      <span key={b} className="relative flex-1">
+                        {b === "lifetime" && (
+                          <span className="absolute -top-[18px] left-1/2 -translate-x-1/2 whitespace-nowrap px-1.5 py-[3px] rounded-full text-[9px] font-semibold tracking-wide uppercase"
+                            style={{ background: "#E8593A", color: "white", letterSpacing: "0.06em" }}
+                          >
+                            Best value
+                          </span>
+                        )}
+                        <button
+                          onClick={() => setBilling(b)}
+                          className={`w-full py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 ${
+                            billing === b
+                              ? "bg-background text-foreground shadow-sm"
+                              : "text-foreground/50 hover:text-foreground/70"
+                          }`}
+                        >
+                          {b.charAt(0).toUpperCase() + b.slice(1)}
+                        </button>
+                      </span>
                     ))}
                   </div>
 
