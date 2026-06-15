@@ -269,7 +269,7 @@ function ProButton() {
                       </span>
                       <p className="text-[11.5px] text-foreground/75 leading-snug">
                         <span className="text-foreground/35 text-[15px] font-serif leading-none mr-0.5">"</span>
-                        Most members land a role within 3 months.
+                        Enough time to build, apply, interview, and get hired.
                         <span className="text-foreground/35 text-[15px] font-serif leading-none ml-0.5">"</span>
                       </p>
                     </div>
