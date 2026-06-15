@@ -157,11 +157,11 @@ function ProButton() {
             <motion.div
               key="card"
               ref={ref}
-              initial={{ opacity: 0, y: 12, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1, width: showFaq ? 640 : 320 }}
-              exit={{ opacity: 0, y: 8, scale: 0.97 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1, width: showFaq ? 640 : 320 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed bottom-[160px] left-6 z-[120] bg-background border border-border rounded-2xl shadow-2xl overflow-hidden flex"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[120] bg-background border border-border rounded-2xl shadow-2xl overflow-hidden flex"
               style={{ width: 320 }}
             >
               {/* ── Left panel: pricing (always visible) ── */}
