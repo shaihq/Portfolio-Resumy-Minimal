@@ -250,9 +250,9 @@ function ProButton() {
                       initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.14 }}
                     >
-                      <div className="flex items-start gap-2.5 mb-3 px-3 py-2.5 rounded-xl border border-foreground/[0.1] bg-foreground/[0.04]"
+                      <div className="flex items-center gap-2.5 mb-3 px-3 py-2.5 rounded-xl border border-foreground/[0.1] bg-foreground/[0.04]"
                         style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.07), 0 1px 3px rgba(0,0,0,0.07)" }}>
-                        <span className="flex-shrink-0 mt-[1px] w-[22px] h-[22px] rounded-md flex items-center justify-center" style={{ background: "rgba(232,89,58,0.12)" }}>
+                        <span className="flex-shrink-0 w-[22px] h-[22px] rounded-md flex items-center justify-center" style={{ background: "rgba(232,89,58,0.12)" }}>
                           {billing === "lifetime" && <Gem className="w-3 h-3" style={{ color: "#E8593A" }} />}
                           {billing === "monthly" && <Sprout className="w-3 h-3" style={{ color: "#E8593A" }} />}
                           {billing === "quarterly" && <Rocket className="w-3 h-3" style={{ color: "#E8593A" }} />}
