@@ -10,7 +10,7 @@ import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
-import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, TrendingUp, Rocket, Gem } from "lucide-react";
+import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, TrendingUp, Rocket, Gem, Sprout } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PRO_KEYFRAMES = `
@@ -239,6 +239,20 @@ function ProButton() {
                       <p className="text-[11.5px] text-foreground/55 leading-snug">
                         <span className="text-foreground/30 text-[15px] font-serif leading-none mr-0.5">"</span>
                         78% choose Lifetime so they never have to start from scratch again.
+                        <span className="text-foreground/30 text-[15px] font-serif leading-none ml-0.5">"</span>
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Monthly quote banner */}
+                  {billing === "monthly" && (
+                    <div className="flex items-start gap-2.5 mb-3 px-3 py-2.5 rounded-xl border border-foreground/[0.07] bg-foreground/[0.025]">
+                      <span className="flex-shrink-0 mt-[1px] w-[22px] h-[22px] rounded-md flex items-center justify-center" style={{ background: "rgba(232,89,58,0.1)" }}>
+                        <Sprout className="w-3 h-3" style={{ color: "#E8593A" }} />
+                      </span>
+                      <p className="text-[11.5px] text-foreground/55 leading-snug">
+                        <span className="text-foreground/30 text-[15px] font-serif leading-none mr-0.5">"</span>
+                        Start building today. Upgrade anytime.
                         <span className="text-foreground/30 text-[15px] font-serif leading-none ml-0.5">"</span>
                       </p>
                     </div>
