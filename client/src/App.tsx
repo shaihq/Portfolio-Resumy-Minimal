@@ -74,8 +74,9 @@ const FEATURES = [
 ];
 
 const PLANS = {
-  quarterly: { price: "₹1,249", period: "per month", sub: "billed ₹3,749 quarterly", saving: null,        cta: "Get PRO" },
-  yearly:    { price: "₹917",   period: "per month", sub: "billed ₹10,999 yearly",   saving: "Save 28%",  cta: "Get PRO — Save 28% yearly" },
+  monthly:   { price: "₹999",   period: "month",    sub: "billed monthly",           slashed: null,       cta: "Get PRO" },
+  quarterly: { price: "₹2,499", period: "quarter",  sub: "₹833/month · billed quarterly", slashed: null,  cta: "Get PRO" },
+  lifetime:  { price: "₹8,999", period: "one-time", sub: "Pay once, own it forever", slashed: "₹11,999",  cta: "Get Lifetime Access" },
 };
 
 const FAQS = [
@@ -103,7 +104,7 @@ const FAQS = [
 
 function ProButton() {
   const [open, setOpen] = useState(false);
-  const [billing, setBilling] = useState<"quarterly" | "yearly">("yearly");
+  const [billing, setBilling] = useState<"monthly" | "quarterly" | "lifetime">("monthly");
   const [btnHovered, setBtnHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
@@ -185,11 +186,11 @@ function ProButton() {
 
                   {/* Billing toggle */}
                   <div className="flex items-center bg-foreground/6 dark:bg-foreground/8 rounded-full p-[3px] mb-4">
-                    {(["quarterly", "yearly"] as const).map((b) => (
+                    {(["monthly", "quarterly", "lifetime"] as const).map((b) => (
                       <button
                         key={b}
                         onClick={() => setBilling(b)}
-                        className={`flex-1 py-1.5 rounded-full text-[12px] font-medium transition-all duration-200 ${
+                        className={`flex-1 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 ${
                           billing === b
                             ? "bg-background text-foreground shadow-sm"
                             : "text-foreground/50 hover:text-foreground/70"
@@ -211,6 +212,9 @@ function ProButton() {
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-[30px] font-bold text-foreground tracking-tight leading-none">{plan.price}</span>
                         <span className="text-[13px] text-foreground/50 font-normal">/ {plan.period}</span>
+                        {plan.slashed && (
+                          <span className="text-[13px] text-foreground/35 font-normal line-through">{plan.slashed}</span>
+                        )}
                       </div>
                       <p className="text-[11.5px] text-foreground/40 mt-1">{plan.sub}</p>
                     </motion.div>
@@ -220,7 +224,7 @@ function ProButton() {
                   <style>{PRO_KEYFRAMES}</style>
 
                   {/* CTA */}
-                  {billing === "yearly" ? (
+                  {billing === "lifetime" ? (
                     <div
                       onMouseEnter={() => setBtnHovered(true)}
                       onMouseLeave={() => setBtnHovered(false)}
