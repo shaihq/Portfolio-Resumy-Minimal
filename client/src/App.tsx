@@ -76,7 +76,7 @@ const FEATURES = [
 const PLANS = {
   monthly:   { price: "₹999",   period: "month",    sub: "billed monthly",           slashed: null,       cta: "Get PRO" },
   quarterly: { price: "₹2,499", period: "quarter",  sub: "₹833/month · billed quarterly", slashed: null,  cta: "Get PRO" },
-  lifetime:  { price: "₹8,999", period: "one-time", sub: "Pay once, own it forever", slashed: "₹11,999",  cta: "Get Lifetime Access" },
+  lifetime:  { price: "₹8,999", period: "one-time", sub: "One payment. Lifetime access.", slashed: "₹11,999",  cta: "Get Lifetime Access" },
 };
 
 const FAQS = [
