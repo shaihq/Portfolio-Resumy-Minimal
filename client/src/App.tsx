@@ -10,7 +10,7 @@ import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
-import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, TrendingUp, Rocket } from "lucide-react";
+import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, TrendingUp, Rocket, Gem } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PRO_KEYFRAMES = `
@@ -230,15 +230,17 @@ function ProButton() {
                   {/* Keyframes injection */}
                   <style>{PRO_KEYFRAMES}</style>
 
-                  {/* Lifetime urgency banner */}
+                  {/* Lifetime quote banner */}
                   {billing === "lifetime" && (
-                    <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg border border-foreground/[0.08] bg-foreground/[0.03]">
-                      <span className="relative flex-shrink-0 w-1.5 h-1.5">
-                        <span className="absolute inset-0 rounded-full animate-ping opacity-40" style={{ backgroundColor: "#E8593A" }} />
-                        <span className="relative block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#E8593A" }} />
+                    <div className="flex items-start gap-2.5 mb-3 px-3 py-2.5 rounded-xl border border-foreground/[0.07] bg-foreground/[0.025]">
+                      <span className="flex-shrink-0 mt-[1px] w-[22px] h-[22px] rounded-md flex items-center justify-center" style={{ background: "rgba(232,89,58,0.1)" }}>
+                        <Gem className="w-3 h-3" style={{ color: "#E8593A" }} />
                       </span>
-                      <p className="text-[11.5px] leading-none text-foreground/50 flex-1">Launch price — reverts to ₹11,999 shortly</p>
-                      <TrendingUp className="w-3 h-3 text-foreground/25 flex-shrink-0" />
+                      <p className="text-[11.5px] text-foreground/55 leading-snug">
+                        <span className="text-foreground/30 text-[15px] font-serif leading-none mr-0.5">"</span>
+                        Your next role won't be your last.
+                        <span className="text-foreground/30 text-[15px] font-serif leading-none ml-0.5">"</span>
+                      </p>
                     </div>
                   )}
 
