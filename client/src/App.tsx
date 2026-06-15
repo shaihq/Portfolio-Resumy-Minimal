@@ -192,9 +192,7 @@ function ProButton() {
                               letterSpacing: "0.09em",
                               boxShadow: "inset 0 1px 0 rgba(255,255,255,0.13), 0 2px 5px rgba(0,0,0,0.28), 0 0 0 0.5px rgba(0,0,0,0.35)",
                             }}
-                          >
-                            Best value
-                          </span>
+                          >MOST POPULAR</span>
                         )}
                         <button
                           onClick={() => setBilling(b)}
