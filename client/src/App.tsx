@@ -192,7 +192,7 @@ function ProButton() {
                               letterSpacing: "0.09em",
                               boxShadow: "inset 0 1px 0 rgba(255,255,255,0.13), 0 2px 5px rgba(0,0,0,0.28), 0 0 0 0.5px rgba(0,0,0,0.35)",
                             }}
-                          >MOST POPULAR</span>
+                          >Best Value</span>
                         )}
                         <button
                           onClick={() => setBilling(b)}
@@ -239,7 +239,7 @@ function ProButton() {
                       </span>
                       <p className="text-[11.5px] text-foreground/75 leading-snug">
                         <span className="text-foreground/35 text-[15px] font-serif leading-none mr-0.5">"</span>
-                        78% choose Lifetime so they never have to start from scratch again.
+                        78% choose Lifetime because their next role won't be their last.
                         <span className="text-foreground/35 text-[15px] font-serif leading-none ml-0.5">"</span>
                       </p>
                     </div>
