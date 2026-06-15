@@ -225,15 +225,15 @@ function ProButton() {
 
                   {/* Lifetime urgency banner */}
                   {billing === "lifetime" && (
-                    <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg border border-amber-500/20 bg-amber-500/[0.06]">
+                    <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg border border-foreground/[0.08] bg-foreground/[0.03]">
                       <span className="relative flex-shrink-0 w-1.5 h-1.5">
-                        <span className="absolute inset-0 rounded-full bg-amber-400 animate-ping opacity-60" />
-                        <span className="relative block w-1.5 h-1.5 rounded-full bg-amber-400" />
+                        <span className="absolute inset-0 rounded-full animate-ping opacity-40" style={{ backgroundColor: "#E8593A" }} />
+                        <span className="relative block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#E8593A" }} />
                       </span>
-                      <p className="text-[11.5px] leading-none text-amber-600/80 dark:text-amber-400/75 flex-1">
+                      <p className="text-[11.5px] leading-none text-foreground/50 flex-1">
                         Introductory price — reverts to ₹11,999 shortly
                       </p>
-                      <TrendingUp className="w-3 h-3 text-amber-500/50 flex-shrink-0" />
+                      <TrendingUp className="w-3 h-3 text-foreground/25 flex-shrink-0" />
                     </div>
                   )}
 
