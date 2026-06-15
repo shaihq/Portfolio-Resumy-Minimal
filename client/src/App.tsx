@@ -166,14 +166,6 @@ function ProButton() {
             >
               {/* ── Left panel: pricing (always visible) ── */}
               <div className="w-[320px] flex-shrink-0">
-                {/* Close */}
-                <button
-                  onClick={() => setOpen(false)}
-                  className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center rounded-full text-foreground/40 hover:text-foreground hover:bg-foreground/8 transition-colors z-10"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-
                 {/* Urgency banner */}
                 <div className="px-4 py-2.5 flex items-center gap-2.5 border-b border-foreground/[0.07]"
                   style={{ background: "linear-gradient(90deg, rgba(232,89,58,0.08) 0%, rgba(255,154,60,0.05) 60%, transparent 100%)" }}>
@@ -187,10 +179,18 @@ function ProButton() {
                   </p>
                 </div>
 
-                <div className="p-5">
+                <div className="p-5 relative">
+                  {/* Close */}
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center rounded-full text-foreground/40 hover:text-foreground hover:bg-foreground/8 transition-colors z-10"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+
                   {/* Header */}
                   <h2 className="text-[18px] font-bold text-foreground leading-snug tracking-tight mb-1">Career OS for Job Seekers</h2>
-                  <p className="text-[12.5px] text-foreground/50 leading-relaxed mb-4">Everything you need to stand out, apply smarter, and land more interviews.</p>
+                  <p className="text-[12.5px] text-foreground/50 leading-relaxed mb-4">Build your portfolio, tailor every application, find jobs, and prepare for interviews—all in one place.</p>
 
                   {/* Billing toggle */}
                   <div className="flex items-center bg-foreground/6 dark:bg-foreground/8 rounded-full p-[3px] mb-4 mt-3 overflow-visible">
@@ -258,11 +258,9 @@ function ProButton() {
                           {billing === "quarterly" && <Rocket className="w-3 h-3" style={{ color: "#E8593A" }} />}
                         </span>
                         <p className="text-[11.5px] text-foreground/75 leading-snug">
-                          <span className="text-foreground/35 text-[15px] font-serif leading-none mr-0.5">"</span>
                           {billing === "lifetime" && "78% choose Lifetime because their next role won't be their last."}
                           {billing === "monthly" && "Start building today. Upgrade anytime."}
                           {billing === "quarterly" && "Enough time to build, apply, interview, and get hired."}
-                          <span className="text-foreground/35 text-[15px] font-serif leading-none ml-0.5">"</span>
                         </p>
                       </div>
                     </motion.div>
