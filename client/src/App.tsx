@@ -188,8 +188,14 @@ function ProButton() {
                     {(["monthly", "quarterly", "lifetime"] as const).map((b) => (
                       <span key={b} className="relative flex-1">
                         {b === "lifetime" && (
-                          <span className="absolute -top-[18px] left-1/2 -translate-x-1/2 whitespace-nowrap px-1.5 py-[3px] rounded-full text-[9px] font-semibold tracking-wide uppercase"
-                            style={{ background: "#E8593A", color: "white", letterSpacing: "0.06em" }}
+                          <span
+                            className="absolute -top-[18px] left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-[3.5px] rounded-full text-[8.5px] font-semibold uppercase select-none"
+                            style={{
+                              background: "linear-gradient(180deg, #383838 0%, #1c1c1c 100%)",
+                              color: "rgba(255,255,255,0.82)",
+                              letterSpacing: "0.09em",
+                              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.13), 0 2px 5px rgba(0,0,0,0.28), 0 0 0 0.5px rgba(0,0,0,0.35)",
+                            }}
                           >
                             Best value
                           </span>
