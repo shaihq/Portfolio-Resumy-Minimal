@@ -1334,27 +1334,9 @@ export default function Landing() {
           </section>
 
           {/* Pain Points Intro Section */}
-          <section className="w-full px-6 pt-12 pb-4 flex flex-col items-center gap-6">
-            {/* Label + Heading */}
+          <section className="w-full px-6 pt-12 pb-4 flex flex-col items-center">
             <div className="flex flex-col items-center gap-2 text-center">
-              <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">You're not the only one thinking...</h2>
-            </div>
-
-            {/* Pain point chips — auto-wrap */}
-            <div className="flex flex-wrap justify-center gap-2.5">
-              {[
-                { icon: <LayoutTemplate className="w-3.5 h-3.5 shrink-0" style={{ color: '#9B7FD4' }} />, label: "I don't have a portfolio." },
-                { icon: <EyeOff className="w-3.5 h-3.5 shrink-0" style={{ color: '#5B9BD5' }} />, label: "I'm tired of applying blindly." },
-                { icon: <XCircle className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: "Why am I getting rejected?" },
-                { icon: <FileText className="w-3.5 h-3.5 shrink-0" style={{ color: '#E05C6A' }} />, label: "Maybe my resume is the problem." },
-                { icon: <PenLine className="w-3.5 h-3.5 shrink-0" style={{ color: '#7BAE7F' }} />, label: "I hate writing case studies." },
-                { icon: <Mic className="w-3.5 h-3.5 shrink-0" style={{ color: '#E8923A' }} />, label: "I freeze during interviews." },
-              ].map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#E2E1DA] dark:border-border bg-[#FFFEF2] dark:bg-card text-[13px] font-medium text-[#1D1B1A] dark:text-foreground whitespace-nowrap">
-                  {icon}
-                  <span>{label}</span>
-                </div>
-              ))}
+              <h2 className="text-[28px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight leading-tight">If you and Designfolio ever talked....</h2>
             </div>
           </section>
 
