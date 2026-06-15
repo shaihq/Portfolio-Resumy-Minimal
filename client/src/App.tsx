@@ -174,6 +174,19 @@ function ProButton() {
                   <X className="w-3.5 h-3.5" />
                 </button>
 
+                {/* Urgency banner */}
+                <div className="px-4 py-2.5 flex items-center gap-2.5 border-b border-foreground/[0.07]"
+                  style={{ background: "linear-gradient(90deg, rgba(232,89,58,0.08) 0%, rgba(255,154,60,0.05) 60%, transparent 100%)" }}>
+                  <span className="relative flex-shrink-0 flex h-[7px] w-[7px]">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-55" style={{ backgroundColor: "#E8593A" }} />
+                    <span className="relative inline-flex rounded-full h-[7px] w-[7px]" style={{ backgroundColor: "#E8593A" }} />
+                  </span>
+                  <p className="text-[11px] leading-none text-foreground/50">
+                    Current pricing ends next month.{" "}
+                    <span className="text-foreground/80 font-semibold">Lock in your plan today.</span>
+                  </p>
+                </div>
+
                 <div className="p-5">
                   {/* Header */}
                   <h2 className="text-[18px] font-bold text-foreground leading-snug tracking-tight mb-1">Career OS for Job Seekers</h2>
