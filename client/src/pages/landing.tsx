@@ -1377,7 +1377,7 @@ export default function Landing() {
                               className="shrink-0 w-[30px] h-[30px] rounded-full flex items-center justify-center text-white text-[12px] font-bold"
                               style={{ background: 'linear-gradient(135deg, #FF553E 0%, #FF8C42 100%)' }}
                             >
-                              S
+                              D
                             </div>
                           )}
 
