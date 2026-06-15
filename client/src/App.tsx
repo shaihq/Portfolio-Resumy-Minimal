@@ -10,7 +10,7 @@ import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
-import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle } from "lucide-react";
+import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, TrendingUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PRO_KEYFRAMES = `
@@ -222,6 +222,20 @@ function ProButton() {
 
                   {/* Keyframes injection */}
                   <style>{PRO_KEYFRAMES}</style>
+
+                  {/* Lifetime urgency banner */}
+                  {billing === "lifetime" && (
+                    <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg border border-amber-500/20 bg-amber-500/[0.06]">
+                      <span className="relative flex-shrink-0 w-1.5 h-1.5">
+                        <span className="absolute inset-0 rounded-full bg-amber-400 animate-ping opacity-60" />
+                        <span className="relative block w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      </span>
+                      <p className="text-[11.5px] leading-none text-amber-600/80 dark:text-amber-400/75 flex-1">
+                        Introductory price — reverts to ₹11,999 shortly
+                      </p>
+                      <TrendingUp className="w-3 h-3 text-amber-500/50 flex-shrink-0" />
+                    </div>
+                  )}
 
                   {/* CTA */}
                   {billing === "lifetime" ? (
