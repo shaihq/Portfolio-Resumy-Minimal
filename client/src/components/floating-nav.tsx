@@ -1,10 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { useRef } from "react";
-import {
-  LayoutGridIcon, type LayoutGridIconHandle,
-  BriefcaseBusinessIcon, type BriefcaseBusinessIconHandle,
-  SparklesIcon, type SparklesIconHandle,
-} from "lucide-animated";
+import { LayoutGrid, BriefcaseBusiness, Sparkles } from "lucide-react";
 import { AvatarDropdown } from "@/components/ui/avatar-dropdown";
 
 function DesignfolioLogo() {
@@ -39,23 +34,17 @@ function NavItem({
   label,
   isActive,
   children,
-  onMouseEnter,
-  onMouseLeave,
 }: {
   href: string;
   label: string;
   isActive: boolean;
   children: React.ReactNode;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
 }) {
   return (
     <Link href={href} className="w-full">
       <button
         data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
         className="w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group"
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
       >
         <span
           className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
@@ -83,15 +72,11 @@ function NavItem({
 export function FloatingNav() {
   const [location] = useLocation();
 
-  const portfolioRef = useRef<LayoutGridIconHandle>(null);
-  const jobsRef = useRef<BriefcaseBusinessIconHandle>(null);
-  const toolsRef = useRef<SparklesIconHandle>(null);
-
   const iconClass = (active: boolean) =>
     `transition-colors duration-200 ${
       active
         ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
-        : "text-[#777777] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
+        : "text-[#888888] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
     }`;
 
   return (
@@ -105,34 +90,28 @@ export function FloatingNav() {
 
       {/* Nav items */}
       <nav className="flex flex-col items-center gap-0.5 w-full pt-2 px-2">
-        <NavItem
-          href="/"
-          label="Portfolio"
-          isActive={location === "/"}
-          onMouseEnter={() => portfolioRef.current?.startAnimation()}
-          onMouseLeave={() => portfolioRef.current?.stopAnimation()}
-        >
-          <LayoutGridIcon ref={portfolioRef} size={22} className={iconClass(location === "/")} />
+        <NavItem href="/" label="Portfolio" isActive={location === "/"}>
+          <LayoutGrid
+            size={20}
+            strokeWidth={1.5}
+            className={iconClass(location === "/")}
+          />
         </NavItem>
 
-        <NavItem
-          href="/jobs"
-          label="Jobs"
-          isActive={location.startsWith("/jobs")}
-          onMouseEnter={() => jobsRef.current?.startAnimation()}
-          onMouseLeave={() => jobsRef.current?.stopAnimation()}
-        >
-          <BriefcaseBusinessIcon ref={jobsRef} size={22} className={iconClass(location.startsWith("/jobs"))} />
+        <NavItem href="/jobs" label="Jobs" isActive={location.startsWith("/jobs")}>
+          <BriefcaseBusiness
+            size={20}
+            strokeWidth={1.5}
+            className={iconClass(location.startsWith("/jobs"))}
+          />
         </NavItem>
 
-        <NavItem
-          href="/tools"
-          label="AI Tools"
-          isActive={location.startsWith("/tools")}
-          onMouseEnter={() => toolsRef.current?.startAnimation()}
-          onMouseLeave={() => toolsRef.current?.stopAnimation()}
-        >
-          <SparklesIcon ref={toolsRef} size={22} className={iconClass(location.startsWith("/tools"))} />
+        <NavItem href="/tools" label="AI Tools" isActive={location.startsWith("/tools")}>
+          <Sparkles
+            size={20}
+            strokeWidth={1.5}
+            className={iconClass(location.startsWith("/tools"))}
+          />
         </NavItem>
       </nav>
 
