@@ -21,7 +21,7 @@ export function FloatingNav() {
 
   return (
     <div
-      className="fixed top-5 left-5 z-[200] flex flex-col items-center gap-0.5 py-2.5 px-1.5 rounded-[18px]"
+      className="fixed top-5 left-5 z-[200] flex flex-col items-center gap-1 py-3 px-2 rounded-[18px]"
       style={{
         background: "rgba(255,255,255,0.88)",
         backdropFilter: "blur(12px)",
@@ -30,7 +30,7 @@ export function FloatingNav() {
       }}
     >
       {/* Logo */}
-      <div className="mb-1.5 mt-0.5" data-testid="nav-logo">
+      <div className="mb-2 mt-0.5" data-testid="nav-logo">
         <DesignfolioLogo />
       </div>
 
@@ -42,15 +42,15 @@ export function FloatingNav() {
             <button
               data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
               style={isActive ? {
-                background: "rgba(0,0,0,0.06)",
-                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.1), inset 0 0.5px 1px rgba(0,0,0,0.07)",
+                background: "rgba(0,0,0,0.07)",
+                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.11), inset 0 0.5px 1px rgba(0,0,0,0.07)",
               } : undefined}
-              className={`flex flex-col items-center gap-1 w-[52px] py-2 rounded-xl transition-all duration-150 group ${
-                isActive ? "" : "hover:bg-black/[0.04]"
+              className={`flex flex-col items-center gap-1.5 w-[56px] py-2.5 rounded-xl transition-all duration-150 group ${
+                isActive ? "" : "hover:bg-black/[0.05]"
               }`}
             >
-              <Icon className={`w-[15px] h-[15px] transition-colors duration-150 ${isActive ? "text-foreground/75" : "text-foreground/35 group-hover:text-foreground/60"}`} />
-              <span className={`text-[9.5px] font-medium tracking-wide transition-colors duration-150 ${isActive ? "text-foreground/60" : "text-foreground/30 group-hover:text-foreground/50"}`}>
+              <Icon className={`w-[17px] h-[17px] transition-colors duration-150 ${isActive ? "text-foreground/80" : "text-foreground/50 group-hover:text-foreground/70"}`} />
+              <span className={`text-[10px] font-medium tracking-wide transition-colors duration-150 ${isActive ? "text-foreground/65" : "text-foreground/40 group-hover:text-foreground/60"}`}>
                 {label}
               </span>
             </button>
@@ -59,7 +59,7 @@ export function FloatingNav() {
       })}
 
       {/* Avatar */}
-      <div className="mt-1.5">
+      <div className="mt-2">
         <AvatarDropdown side="right" />
       </div>
     </div>
