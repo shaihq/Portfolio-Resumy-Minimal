@@ -51,8 +51,8 @@ function NavItem({
         <span
           className={`text-[11px] font-medium leading-none font-['Inter'] transition-colors duration-200 ${
             isActive
-              ? "text-foreground/70 dark:text-foreground/60"
-              : "text-muted-foreground group-hover:text-foreground"
+              ? "text-[#2C2420] dark:text-[#E8E0D5]"
+              : "text-[#8C7B72] dark:text-[#7A6E65] group-hover:text-[#2C2420] dark:group-hover:text-[#E8E0D5]"
           }`}
         >
           {label}
@@ -70,7 +70,11 @@ export function FloatingNav() {
   const toolsRef = useRef<SparklesIconHandle>(null);
 
   const iconClass = (active: boolean) =>
-    `transition-colors duration-200 ${active ? "text-foreground" : "text-muted-foreground"}`;
+    `transition-colors duration-200 ${
+      active
+        ? "text-[#2C2420] dark:text-[#E8E0D5]"
+        : "text-[#8C7B72] dark:text-[#7A6E65]"
+    }`;
 
   return (
     <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#141414] border-r border-black/[0.07] dark:border-white/[0.06]">
