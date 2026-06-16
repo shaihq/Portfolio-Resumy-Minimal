@@ -95,7 +95,7 @@ export function FloatingNav() {
     }`;
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#1C1C1C] border-r border-black/[0.07] dark:border-white/[0.07]">
+    <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#1C1C1C]">
       {/* Logo */}
       <div className="flex items-center justify-center w-full py-5 flex-shrink-0">
         <div data-testid="nav-logo">

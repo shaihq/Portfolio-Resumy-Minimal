@@ -412,7 +412,7 @@ function Router() {
       <div
         className={
           showFloatingNav
-            ? "ml-[72px] min-h-screen rounded-tl-[20px] rounded-bl-[20px] bg-background overflow-hidden"
+            ? "ml-[72px] min-h-screen rounded-tl-[32px] rounded-bl-[32px] bg-background overflow-hidden"
             : ""
         }
       >
