@@ -385,17 +385,25 @@ function Router() {
 
   return (
     <>
-      <Switch>
-        <Route path="/" component={Home}/>
-        <Route path="/jobs" component={Jobs}/>
-        <Route path="/job/:id" component={PublicJob}/>
-        <Route path="/landing" component={Landing}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/privacy-policy" component={PrivacyPolicy}/>
-        <Route path="/project/:id" component={Project}/>
-        <Route component={NotFound} />
-      </Switch>
       {showFloatingNav && <FloatingNav />}
+      <div
+        className={
+          showFloatingNav
+            ? "ml-[72px] min-h-screen rounded-tl-[20px] rounded-bl-[20px] bg-background overflow-hidden"
+            : ""
+        }
+      >
+        <Switch>
+          <Route path="/" component={Home}/>
+          <Route path="/jobs" component={Jobs}/>
+          <Route path="/job/:id" component={PublicJob}/>
+          <Route path="/landing" component={Landing}/>
+          <Route path="/signup" component={Signup}/>
+          <Route path="/privacy-policy" component={PrivacyPolicy}/>
+          <Route path="/project/:id" component={Project}/>
+          <Route component={NotFound} />
+        </Switch>
+      </div>
       <DevNav />
       <ProButton />
     </>
