@@ -35,11 +35,8 @@ export function FloatingNav() {
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="w-8 h-px bg-black/[0.07] dark:bg-white/[0.07] flex-shrink-0" />
-
       {/* Nav items */}
-      <nav className="flex flex-col items-center gap-1 w-full pt-3 px-2">
+      <nav className="flex flex-col items-center gap-0.5 w-full pt-2 px-2">
         {navItems.map(({ icon: Icon, label, href }) => {
           const isActive =
             href === "/" ? location === "/" : location.startsWith(href);
