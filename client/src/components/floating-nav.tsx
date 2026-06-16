@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { LayoutTemplate, Briefcase } from "lucide-react";
+import { AvatarDropdown } from "@/components/ui/avatar-dropdown";
 
 const navItems = [
   {
@@ -76,6 +77,11 @@ export function FloatingNav() {
           );
         })}
       </nav>
+
+      {/* Profile avatar pinned to bottom */}
+      <div className="mt-auto pb-4 flex items-center justify-center">
+        <AvatarDropdown variant="sidebar" />
+      </div>
     </aside>
   );
 }

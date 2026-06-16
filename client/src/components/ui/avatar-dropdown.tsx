@@ -28,7 +28,7 @@ const menuItems = [
   { id: "logout", label: "Logout", icon: LogOut },
 ]
 
-export function AvatarDropdown() {
+export function AvatarDropdown({ variant = "navbar" }: { variant?: "navbar" | "sidebar" }) {
   const [isOpen, setIsOpen] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null) as any
@@ -41,16 +41,24 @@ export function AvatarDropdown() {
     }
   }
 
+  const isSidebar = variant === "sidebar"
+
   return (
     <MotionConfig reducedMotion="user">
       <div className="relative" ref={dropdownRef}>
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-full focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition-all cursor-pointer block"
+          className={cn(
+            "focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition-all cursor-pointer block",
+            isSidebar ? "rounded-xl" : "rounded-full"
+          )}
           aria-expanded={isOpen}
           aria-haspopup="true"
         >
-          <Avatar className="h-10 w-10 border border-black/10 dark:border-white/10 flex-shrink-0 transition-transform hover:scale-105">
+          <Avatar className={cn(
+            "border border-black/10 dark:border-white/10 flex-shrink-0 transition-transform hover:scale-105",
+            isSidebar ? "h-9 w-9 rounded-xl" : "h-10 w-10"
+          )}>
             <AvatarImage src={profileImg} alt="Profile" />
             <AvatarFallback>MB</AvatarFallback>
           </Avatar>
@@ -59,20 +67,26 @@ export function AvatarDropdown() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -4 }}
+              initial={isSidebar ? { opacity: 0, x: -4 } : { opacity: 0, y: -4 }}
               animate={{
                 opacity: 1,
+                x: 0,
                 y: 0,
                 transition: { duration: 0.15, ease: "easeOut" },
               }}
               exit={{
                 opacity: 0,
-                y: -4,
+                ...(isSidebar ? { x: -4 } : { y: -4 }),
                 transition: { duration: 0.15, ease: "easeIn" },
               }}
-              className="absolute right-0 top-full mt-2 z-50 min-w-[280px]"
+              className={cn(
+                "absolute z-50 min-w-[280px]",
+                isSidebar
+                  ? "left-full bottom-0 ml-3"
+                  : "right-0 top-full mt-2"
+              )}
               onKeyDown={handleKeyDown}
-              style={{ transformOrigin: "top right" }}
+              style={{ transformOrigin: isSidebar ? "bottom left" : "top right" }}
             >
               <div className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-1.5 shadow-lg overflow-hidden">
                 <div className="relative flex flex-col" onMouseLeave={() => setHoveredId(null)}>
