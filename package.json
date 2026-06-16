@@ -61,7 +61,7 @@
     "framer-motion": "^12.36.0",
     "input-otp": "^1.4.2",
     "lottie-react": "^2.4.1",
-    "lucide-animated": "^1.0.0",
+    "lucide-animated": "^1.0.4",
     "lucide-react": "^0.545.0",
     "memorystore": "^1.6.7",
     "motion": "^12.35.2",

@@ -1,24 +1,11 @@
 import { Link, useLocation } from "wouter";
-import { LayoutTemplate, Briefcase, Sparkles } from "lucide-react";
+import { useRef } from "react";
+import {
+  LayoutGridIcon, type LayoutGridIconHandle,
+  BriefcaseBusinessIcon, type BriefcaseBusinessIconHandle,
+  SparklesIcon, type SparklesIconHandle,
+} from "lucide-animated";
 import { AvatarDropdown } from "@/components/ui/avatar-dropdown";
-
-const navItems = [
-  {
-    icon: LayoutTemplate,
-    label: "Portfolio",
-    href: "/",
-  },
-  {
-    icon: Briefcase,
-    label: "Jobs",
-    href: "/jobs",
-  },
-  {
-    icon: Sparkles,
-    label: "AI Tools",
-    href: "/tools",
-  },
-];
 
 function DesignfolioLogo() {
   return (
@@ -29,8 +16,61 @@ function DesignfolioLogo() {
   );
 }
 
+function NavItem({
+  href,
+  label,
+  isActive,
+  children,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+  children: React.ReactNode;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
+  return (
+    <Link href={href} className="w-full">
+      <button
+        data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
+        className="w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <span
+          className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
+            isActive
+              ? "bg-[#D6CDBF] dark:bg-[#242424]"
+              : "group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.05]"
+          }`}
+        >
+          {children}
+        </span>
+        <span
+          className={`text-[11px] font-medium leading-none font-['Inter'] transition-colors duration-200 ${
+            isActive
+              ? "text-foreground/70 dark:text-foreground/60"
+              : "text-muted-foreground group-hover:text-foreground"
+          }`}
+        >
+          {label}
+        </span>
+      </button>
+    </Link>
+  );
+}
+
 export function FloatingNav() {
   const [location] = useLocation();
+
+  const portfolioRef = useRef<LayoutGridIconHandle>(null);
+  const jobsRef = useRef<BriefcaseBusinessIconHandle>(null);
+  const toolsRef = useRef<SparklesIconHandle>(null);
+
+  const iconClass = (active: boolean) =>
+    `transition-colors duration-200 ${active ? "text-foreground" : "text-muted-foreground"}`;
 
   return (
     <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#141414] border-r border-black/[0.07] dark:border-white/[0.06]">
@@ -43,44 +83,35 @@ export function FloatingNav() {
 
       {/* Nav items */}
       <nav className="flex flex-col items-center gap-0.5 w-full pt-2 px-2">
-        {navItems.map(({ icon: Icon, label, href }) => {
-          const isActive =
-            href === "/" ? location === "/" : location.startsWith(href);
+        <NavItem
+          href="/"
+          label="Portfolio"
+          isActive={location === "/"}
+          onMouseEnter={() => portfolioRef.current?.startAnimation()}
+          onMouseLeave={() => portfolioRef.current?.stopAnimation()}
+        >
+          <LayoutGridIcon ref={portfolioRef} size={18} className={iconClass(location === "/")} />
+        </NavItem>
 
-          return (
-            <Link key={href} href={href} className="w-full">
-              <button
-                data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
-                className="w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group"
-              >
-                <span
-                  className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
-                    isActive
-                      ? "bg-[#D6CDBF] dark:bg-[#242424]"
-                      : "group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.05]"
-                  }`}
-                >
-                  <Icon
-                    className={`w-[18px] h-[18px] transition-colors duration-200 ${
-                      isActive
-                        ? "text-foreground"
-                        : "text-muted-foreground group-hover:text-foreground"
-                    }`}
-                  />
-                </span>
-                <span
-                  className={`text-[11px] font-medium leading-none font-['Inter'] transition-colors duration-200 ${
-                    isActive
-                      ? "text-foreground/70 dark:text-foreground/60"
-                      : "text-muted-foreground group-hover:text-foreground"
-                  }`}
-                >
-                  {label}
-                </span>
-              </button>
-            </Link>
-          );
-        })}
+        <NavItem
+          href="/jobs"
+          label="Jobs"
+          isActive={location.startsWith("/jobs")}
+          onMouseEnter={() => jobsRef.current?.startAnimation()}
+          onMouseLeave={() => jobsRef.current?.stopAnimation()}
+        >
+          <BriefcaseBusinessIcon ref={jobsRef} size={18} className={iconClass(location.startsWith("/jobs"))} />
+        </NavItem>
+
+        <NavItem
+          href="/tools"
+          label="AI Tools"
+          isActive={location.startsWith("/tools")}
+          onMouseEnter={() => toolsRef.current?.startAnimation()}
+          onMouseLeave={() => toolsRef.current?.stopAnimation()}
+        >
+          <SparklesIcon ref={toolsRef} size={18} className={iconClass(location.startsWith("/tools"))} />
+        </NavItem>
       </nav>
 
       {/* Profile avatar pinned to bottom */}
