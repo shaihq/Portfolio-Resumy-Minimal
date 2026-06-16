@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Copy, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence, MotionConfig } from "framer-motion"
+import { ZapIcon, type ZapIconHandle } from "lucide-animated"
 
 function useClickAway(ref: React.RefObject<HTMLElement>, handler: (event: MouseEvent | TouchEvent) => void) {
   React.useEffect(() => {
@@ -26,6 +27,7 @@ export function PublishDropdown() {
   const [isOpen, setIsOpen] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null) as any
+  const zapRef = useRef<ZapIconHandle>(null)
 
   useClickAway(dropdownRef, () => setIsOpen(false))
 
@@ -54,11 +56,14 @@ export function PublishDropdown() {
       <div className="relative" ref={dropdownRef}>
         <Button 
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium px-6 h-9 text-[13px] rounded-full hover:cursor-pointer transition-colors"
+          onMouseEnter={() => zapRef.current?.startAnimation()}
+          onMouseLeave={() => zapRef.current?.stopAnimation()}
+          className="bg-black hover:bg-[#2A2A2A] dark:bg-white dark:hover:bg-[#E8E8E8] text-white dark:text-black font-medium pl-4 pr-5 h-9 text-[13px] rounded-full hover:cursor-pointer transition-colors gap-1.5 inline-flex items-center"
           data-testid="button-publish"
           aria-expanded={isOpen}
           aria-haspopup="true"
         >
+          <ZapIcon ref={zapRef} size={14} />
           Publish
         </Button>
 
