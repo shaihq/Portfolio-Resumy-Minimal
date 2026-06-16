@@ -42,7 +42,7 @@ function NavItem({
         <span
           className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
             isActive
-              ? "bg-[#D6CDBF] dark:bg-[#242424]"
+              ? "bg-[#E2DBD1] dark:bg-[#1E1E1E] shadow-[inset_0_1px_5px_rgba(0,0,0,0.10),inset_0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_5px_rgba(0,0,0,0.35),inset_0_2px_10px_rgba(0,0,0,0.20)]"
               : "group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.05]"
           }`}
         >
