@@ -10,7 +10,7 @@ import Project from "@/pages/project";
 import Jobs from "@/pages/jobs";
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
-import { Home as HomeIcon, MonitorPlay, Sun, Moon, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, TrendingUp, Rocket, Gem, Sprout } from "lucide-react";
+import { Home as HomeIcon, MonitorPlay, Sparkles, Check, X, Zap, ChevronDown, HelpCircle, Rocket, Gem, Sprout } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PRO_KEYFRAMES = `
@@ -30,22 +30,6 @@ import PrivacyPolicy from "@/pages/privacy-policy";
 import PublicJob from "@/pages/public-job";
 import { FloatingNav } from "@/components/floating-nav";
 
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  return (
-    <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="fixed bottom-[60px] left-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-white/70 hover:text-white transition-colors"
-      aria-label="Toggle light/dark mode"
-    >
-      {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-    </button>
-  );
-}
 
 // Temporary dev navigation to easily switch pages in the Replit preview
 function DevNav() {
@@ -55,7 +39,7 @@ function DevNav() {
   return (
     <Link
       href={isHome ? "/landing" : "/"}
-      className="fixed bottom-6 left-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-white/70 hover:text-white transition-colors"
+      className="fixed bottom-6 right-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-white/70 hover:text-white transition-colors"
     >
       {isHome ? <MonitorPlay className="w-4 h-4" /> : <HomeIcon className="w-4 h-4" />}
     </Link>
@@ -135,7 +119,7 @@ function ProButton() {
       {/* Trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-[114px] left-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-amber-400 hover:text-amber-300 transition-colors"
+        className="fixed bottom-[60px] right-6 z-[100] w-9 h-9 flex items-center justify-center bg-[#1A1A1A] rounded-full shadow-xl border border-white/10 text-amber-400 hover:text-amber-300 transition-colors"
         aria-label="Upgrade to Pro"
       >
         <Sparkles className="w-4 h-4" />
@@ -412,7 +396,6 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       {showFloatingNav && <FloatingNav />}
-      <ThemeToggle />
       <DevNav />
       <ProButton />
     </>
