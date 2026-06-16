@@ -50,8 +50,8 @@ export function FloatingNav() {
                 data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group ${
                   isActive
-                    ? "bg-[#FF553E]/[0.09] dark:bg-[#FF553E]/[0.14]"
-                    : "hover:bg-black/[0.05] dark:hover:bg-white/[0.06]"
+                    ? "bg-[hsl(30,12%,91%)] dark:bg-[#2a2724] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.08),inset_-1px_-1px_3px_rgba(255,255,255,0.7)] dark:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.35),inset_-1px_-1px_3px_rgba(255,255,255,0.05)]"
+                    : "hover:bg-black/[0.04] dark:hover:bg-white/[0.05]"
                 }`}
               >
                 <Icon
@@ -64,7 +64,7 @@ export function FloatingNav() {
                 <span
                   className={`text-[10px] font-medium leading-none transition-colors duration-200 ${
                     isActive
-                      ? "text-[#FF553E] dark:text-[#FF7A62]"
+                      ? "text-foreground/70 dark:text-foreground/60"
                       : "text-muted-foreground group-hover:text-foreground"
                   }`}
                 >
