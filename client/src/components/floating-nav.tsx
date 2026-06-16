@@ -42,8 +42,8 @@ function NavItem({
         <span
           className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
             isActive
-              ? "bg-[#E2DBD1] dark:bg-[#1E1E1E] shadow-[inset_0_1px_5px_rgba(0,0,0,0.10),inset_0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_5px_rgba(0,0,0,0.35),inset_0_2px_10px_rgba(0,0,0,0.20)]"
-              : "group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.05]"
+              ? "bg-[#E2DBD1] dark:bg-[#2E2E2E] shadow-[inset_0_1px_5px_rgba(0,0,0,0.10),inset_0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.55),inset_0_1px_3px_rgba(0,0,0,0.40)]"
+              : "group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.08]"
           }`}
         >
           {children}
@@ -51,8 +51,8 @@ function NavItem({
         <span
           className={`text-[11px] font-medium leading-none font-['Inter'] transition-colors duration-200 ${
             isActive
-              ? "text-[#2C2420] dark:text-[#E8E0D5]"
-              : "text-[#8C7B72] dark:text-[#7A6E65] group-hover:text-[#2C2420] dark:group-hover:text-[#E8E0D5]"
+              ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
+              : "text-[#ABABAB] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
           }`}
         >
           {label}
@@ -72,12 +72,12 @@ export function FloatingNav() {
   const iconClass = (active: boolean) =>
     `transition-colors duration-200 ${
       active
-        ? "text-[#2C2420] dark:text-[#E8E0D5]"
-        : "text-[#8C7B72] dark:text-[#7A6E65]"
+        ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
+        : "text-[#ABABAB] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
     }`;
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#141414] border-r border-black/[0.07] dark:border-white/[0.06]">
+    <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#1C1C1C] border-r border-black/[0.07] dark:border-white/[0.07]">
       {/* Logo */}
       <div className="flex items-center justify-center w-full py-5 flex-shrink-0">
         <div data-testid="nav-logo">
