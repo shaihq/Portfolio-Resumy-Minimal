@@ -428,6 +428,21 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </div>
+      {/* Fixed viewport-pinned bottom corner masks — always visible at viewport bottom */}
+      {showFloatingNav && (
+        <>
+          <div
+            aria-hidden="true"
+            className="fixed bottom-2 left-[72px] w-8 h-8 bg-[#E9E3DB] dark:bg-[#1C1C1C] pointer-events-none z-[190]"
+            style={{ clipPath: 'path("M 0 0 A 32 32 0 0 0 32 32 L 0 32 Z")' }}
+          />
+          <div
+            aria-hidden="true"
+            className="fixed bottom-2 right-2 w-8 h-8 bg-[#E9E3DB] dark:bg-[#1C1C1C] pointer-events-none z-[190]"
+            style={{ clipPath: 'path("M 32 0 A 32 32 0 0 1 0 32 L 32 32 Z")' }}
+          />
+        </>
+      )}
       <UpgradeButton />
       <DevNav />
       <ProButton />
