@@ -412,7 +412,7 @@ function Router() {
       <div
         className={
           showFloatingNav
-            ? "ml-[72px] min-h-screen bg-background overflow-hidden"
+            ? "ml-[72px] min-h-screen bg-background overflow-hidden py-1"
             : ""
         }
       >
@@ -442,6 +442,18 @@ function Router() {
             aria-hidden="true"
             className="fixed bottom-0 left-[72px] w-8 h-8 bg-[#E9E3DB] dark:bg-[#1C1C1C] pointer-events-none z-[190]"
             style={{ clipPath: 'path("M 0 0 A 32 32 0 0 0 32 32 L 0 32 Z")' }}
+          />
+          {/* Top-right convex corner: body color in upper-right quarter circle */}
+          <div
+            aria-hidden="true"
+            className="fixed top-0 right-0 w-8 h-8 bg-[#E9E3DB] dark:bg-[#1C1C1C] pointer-events-none z-[190]"
+            style={{ clipPath: 'path("M 0 0 A 32 32 0 0 1 32 32 L 32 0 Z")' }}
+          />
+          {/* Bottom-right convex corner: body color in lower-right quarter circle */}
+          <div
+            aria-hidden="true"
+            className="fixed bottom-0 right-0 w-8 h-8 bg-[#E9E3DB] dark:bg-[#1C1C1C] pointer-events-none z-[190]"
+            style={{ clipPath: 'path("M 32 0 A 32 32 0 0 1 0 32 L 32 32 Z")' }}
           />
         </>
       )}
