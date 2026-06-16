@@ -412,7 +412,7 @@ function Router() {
       <div
         className={
           showFloatingNav
-            ? "fixed top-2 bottom-2 left-[72px] right-2 bg-background overflow-y-auto rounded-[32px]"
+            ? "fixed top-2 bottom-2 left-[72px] right-2 bg-background overflow-y-auto rounded-[32px] border border-black/[0.07] dark:border-white/[0.07]"
             : ""
         }
       >
