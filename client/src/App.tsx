@@ -412,7 +412,7 @@ function Router() {
       <div
         className={
           showFloatingNav
-            ? "ml-[72px] min-h-screen rounded-tl-[32px] rounded-bl-[32px] bg-background overflow-hidden"
+            ? "ml-[72px] min-h-screen rounded-tl-[32px] bg-background overflow-hidden"
             : ""
         }
       >
@@ -428,6 +428,17 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </div>
+      {/* Fixed viewport-pinned corner masks — always visible regardless of scroll depth */}
+      {showFloatingNav && (
+        <>
+          {/* Bottom-left corner mask */}
+          <div
+            aria-hidden="true"
+            className="fixed bottom-0 left-[72px] w-8 h-8 bg-[#E9E3DB] dark:bg-[#1C1C1C] pointer-events-none z-[190]"
+            style={{ borderTopRightRadius: 32 }}
+          />
+        </>
+      )}
       <UpgradeButton />
       <DevNav />
       <ProButton />
