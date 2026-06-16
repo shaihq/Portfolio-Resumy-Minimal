@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutTemplate, Briefcase } from "lucide-react";
+import { LayoutTemplate, Briefcase, Sparkles } from "lucide-react";
 import { AvatarDropdown } from "@/components/ui/avatar-dropdown";
 
 const navItems = [
@@ -12,6 +12,11 @@ const navItems = [
     icon: Briefcase,
     label: "Jobs",
     href: "/jobs",
+  },
+  {
+    icon: Sparkles,
+    label: "AI Tools",
+    href: "/tools",
   },
 ];
 
