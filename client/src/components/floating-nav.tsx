@@ -27,7 +27,7 @@ export function FloatingNav() {
   const [location] = useLocation();
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-white dark:bg-[#2A2520] border-r border-black/[0.08] dark:border-white/10">
+    <aside className="fixed top-0 left-0 h-screen w-[72px] z-[200] flex flex-col items-center bg-[#E9E3DB] dark:bg-[#141414] border-r border-black/[0.07] dark:border-white/[0.06]">
       {/* Logo */}
       <div className="flex items-center justify-center w-full py-5 flex-shrink-0">
         <div data-testid="nav-logo">
@@ -50,8 +50,8 @@ export function FloatingNav() {
                 data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group ${
                   isActive
-                    ? "bg-black/[0.07] dark:bg-white/[0.09]"
-                    : "hover:bg-black/[0.04] dark:hover:bg-white/[0.05]"
+                    ? "bg-[#D6CDBF] dark:bg-[#242424]"
+                    : "hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
                 }`}
               >
                 <Icon
