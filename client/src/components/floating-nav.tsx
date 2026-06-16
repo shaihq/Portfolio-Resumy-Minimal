@@ -63,7 +63,7 @@ export function FloatingNav() {
                   />
                 </span>
                 <span
-                  className={`text-[10px] font-medium leading-none transition-colors duration-200 ${
+                  className={`text-[11px] font-medium leading-none font-['Inter'] transition-colors duration-200 ${
                     isActive
                       ? "text-foreground/70 dark:text-foreground/60"
                       : "text-muted-foreground group-hover:text-foreground"
