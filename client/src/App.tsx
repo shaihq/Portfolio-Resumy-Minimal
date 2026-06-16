@@ -93,14 +93,14 @@ function UpgradeButton() {
   return (
     <button
       className="fixed top-[18px] right-5 z-40 flex items-center gap-1.5 px-3.5 py-[7px] rounded-full text-[12px] font-semibold tracking-wide cursor-pointer select-none
-        bg-gradient-to-b from-white to-[#EDE8E2] dark:from-[#2C2C2C] dark:to-[#222222]
-        border border-black/[0.10] dark:border-white/[0.10]
-        shadow-[0_2px_0_rgba(0,0,0,0.08),0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.95)]
-        dark:shadow-[0_2px_0_rgba(0,0,0,0.30),0_4px_12px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.07)]
+        bg-gradient-to-b from-white to-[#EDE8E2] dark:from-[#2A2A2A] dark:to-[#202020]
+        border border-black/[0.08] dark:border-white/[0.08]
+        shadow-[0_2px_10px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.75)]
+        dark:shadow-[0_2px_10px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.05)]
         text-[#1A1A1A] dark:text-[#EFEFEF]
-        hover:shadow-[0_3px_0_rgba(0,0,0,0.10),0_6px_18px_rgba(0,0,0,0.11),inset_0_1px_0_rgba(255,255,255,1)]
-        dark:hover:shadow-[0_3px_0_rgba(0,0,0,0.35),0_6px_18px_rgba(0,0,0,0.30),inset_0_1px_0_rgba(255,255,255,0.10)]
-        active:shadow-[0_1px_0_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(0,0,0,0.06)]
+        hover:shadow-[0_4px_16px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.85)]
+        dark:hover:shadow-[0_4px_16px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.07)]
+        active:shadow-[0_1px_4px_rgba(0,0,0,0.05),inset_0_1px_3px_rgba(0,0,0,0.06)]
         hover:-translate-y-[1px] active:translate-y-0 transition-all duration-150"
     >
       <Gem size={12} className="text-violet-500 dark:text-violet-400 flex-shrink-0" />
