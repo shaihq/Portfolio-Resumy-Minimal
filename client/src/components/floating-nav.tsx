@@ -28,7 +28,7 @@ export function FloatingNav() {
   const [location] = useLocation();
 
   return (
-    <div className="fixed top-1/2 -translate-y-1/2 left-4 z-[200] flex flex-col items-center gap-1 bg-white dark:bg-[#1E1C1A] border border-black/[0.08] dark:border-white/[0.08] px-2 py-3 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
+    <div className="fixed top-4 left-4 z-[200] flex flex-col items-center gap-1 bg-white dark:bg-[#1E1C1A] border border-black/[0.08] dark:border-white/[0.08] px-2 py-3 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
 
       {/* Logo */}
       <div className="flex items-center justify-center mb-1 px-1" data-testid="nav-logo">
