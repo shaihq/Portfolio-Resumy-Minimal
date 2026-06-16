@@ -48,23 +48,27 @@ export function FloatingNav() {
             <Link key={href} href={href} className="w-full">
               <button
                 data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
+                style={isActive ? {
+                  background: "rgba(0,0,0,0.055)",
+                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.13), inset 0 0.5px 1px rgba(0,0,0,0.09)",
+                } : undefined}
                 className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group ${
                   isActive
-                    ? "bg-[#FF553E]/[0.09] dark:bg-[#FF553E]/[0.14]"
-                    : "hover:bg-black/[0.05] dark:hover:bg-white/[0.06]"
+                    ? "dark:[background:rgba(255,255,255,0.06)] dark:[box-shadow:inset_0_1px_3px_rgba(0,0,0,0.35),inset_0_0.5px_1px_rgba(0,0,0,0.25)]"
+                    : "hover:bg-black/[0.04] dark:hover:bg-white/[0.05]"
                 }`}
               >
                 <Icon
                   className={`w-[18px] h-[18px] transition-colors duration-200 ${
                     isActive
-                      ? "text-[#FF553E] dark:text-[#FF7A62]"
+                      ? "text-foreground/80"
                       : "text-muted-foreground group-hover:text-foreground"
                   }`}
                 />
                 <span
                   className={`text-[10px] font-medium leading-none transition-colors duration-200 ${
                     isActive
-                      ? "text-[#FF553E] dark:text-[#FF7A62]"
+                      ? "text-foreground/70"
                       : "text-muted-foreground group-hover:text-foreground"
                   }`}
                 >
