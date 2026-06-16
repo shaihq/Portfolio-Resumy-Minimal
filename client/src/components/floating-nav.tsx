@@ -52,7 +52,7 @@ function NavItem({
           className={`text-[11px] font-medium leading-none font-['Inter'] transition-colors duration-200 ${
             isActive
               ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
-              : "text-[#ABABAB] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
+              : "text-[#777777] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
           }`}
         >
           {label}
@@ -73,7 +73,7 @@ export function FloatingNav() {
     `transition-colors duration-200 ${
       active
         ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
-        : "text-[#ABABAB] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
+        : "text-[#777777] dark:text-[#666666] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0F0F0]"
     }`;
 
   return (
