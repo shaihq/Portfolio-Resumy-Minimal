@@ -48,19 +48,23 @@ export function FloatingNav() {
             <Link key={href} href={href} className="w-full">
               <button
                 data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
-                className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group ${
-                  isActive
-                    ? "bg-[#D6CDBF] dark:bg-[#242424]"
-                    : "hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
-                }`}
+                className="w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl transition-all duration-200 group"
               >
-                <Icon
-                  className={`w-[18px] h-[18px] transition-colors duration-200 ${
+                <span
+                  className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
                     isActive
-                      ? "text-foreground"
-                      : "text-muted-foreground group-hover:text-foreground"
+                      ? "bg-[#D6CDBF] dark:bg-[#242424]"
+                      : "group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.05]"
                   }`}
-                />
+                >
+                  <Icon
+                    className={`w-[18px] h-[18px] transition-colors duration-200 ${
+                      isActive
+                        ? "text-foreground"
+                        : "text-muted-foreground group-hover:text-foreground"
+                    }`}
+                  />
+                </span>
                 <span
                   className={`text-[10px] font-medium leading-none transition-colors duration-200 ${
                     isActive
