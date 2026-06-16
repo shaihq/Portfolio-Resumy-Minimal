@@ -28,7 +28,7 @@ const menuItems = [
   { id: "logout", label: "Logout", icon: LogOut },
 ]
 
-export function AvatarDropdown({ side = "bottom" }: { side?: "bottom" | "right" }) {
+export function AvatarDropdown() {
   const [isOpen, setIsOpen] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null) as any
@@ -40,24 +40,6 @@ export function AvatarDropdown({ side = "bottom" }: { side?: "bottom" | "right" 
       setIsOpen(false)
     }
   }
-
-  const dropdownPositionClass = side === "right"
-    ? "left-full ml-3 bottom-0 top-auto"
-    : "right-0 top-full mt-2"
-
-  const motionProps = side === "right"
-    ? {
-        initial: { opacity: 0, x: -6 },
-        animate: { opacity: 1, x: 0, transition: { duration: 0.15, ease: "easeOut" } },
-        exit: { opacity: 0, x: -6, transition: { duration: 0.15, ease: "easeIn" } },
-        style: { transformOrigin: "bottom left" },
-      }
-    : {
-        initial: { opacity: 0, y: -4 },
-        animate: { opacity: 1, y: 0, transition: { duration: 0.15, ease: "easeOut" } },
-        exit: { opacity: 0, y: -4, transition: { duration: 0.15, ease: "easeIn" } },
-        style: { transformOrigin: "top right" },
-      }
 
   return (
     <MotionConfig reducedMotion="user">
@@ -77,9 +59,20 @@ export function AvatarDropdown({ side = "bottom" }: { side?: "bottom" | "right" 
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              {...motionProps}
-              className={`absolute z-50 min-w-[280px] ${dropdownPositionClass}`}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.15, ease: "easeOut" },
+              }}
+              exit={{
+                opacity: 0,
+                y: -4,
+                transition: { duration: 0.15, ease: "easeIn" },
+              }}
+              className="absolute right-0 top-full mt-2 z-50 min-w-[280px]"
               onKeyDown={handleKeyDown}
+              style={{ transformOrigin: "top right" }}
             >
               <div className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-1.5 shadow-lg overflow-hidden">
                 <div className="relative flex flex-col" onMouseLeave={() => setHoveredId(null)}>

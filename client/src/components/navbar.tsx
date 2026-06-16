@@ -288,6 +288,7 @@ export default function Navbar() {
               <TooltipContent side="bottom" className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-xs px-2 py-1 rounded">Preview</TooltipContent>
             </Tooltip>
             <PublishDropdown />
+            <AvatarDropdown />
           </div>
         </div>
       </nav>
