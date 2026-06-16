@@ -26,7 +26,7 @@ export function FloatingNav() {
         background: "rgba(255,255,255,0.88)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        boxShadow: "0 1px 2px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.07), inset 0 0 0 0.5px rgba(0,0,0,0.08)",
+        boxShadow: "0 0 0 0.5px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06), 0 8px 20px rgba(0,0,0,0.10), 0 28px 48px rgba(0,0,0,0.07)",
       }}
     >
       {/* Logo */}
