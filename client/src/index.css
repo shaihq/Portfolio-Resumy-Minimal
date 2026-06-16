@@ -30,6 +30,7 @@
 }
 
 :root {
+  --page-bg: #E9E3DB;
   --background: 42 16% 92%;
   --foreground: 20 10% 15%;
   --card: 46 29% 94%;
@@ -53,6 +54,7 @@
 }
 
 .dark {
+  --page-bg: #1C1C1C;
   --background: 20 10% 10%;
   --foreground: 46 29% 94%;
   --card: 20 10% 12%;
