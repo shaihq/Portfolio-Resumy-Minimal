@@ -798,8 +798,8 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[28px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
-              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base" style={{ fontWeight: 450 }}>Product Designer</p>
+              <h1 className="text-[34px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
+              <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px]" style={{ fontWeight: 500 }}>Product Designer</p>
             </div>
             <a 
               href="#" 
@@ -868,8 +868,8 @@ export default function Home() {
               </Button>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-5">Intro</h2>
-          <p className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Intro</h2>
+          <p className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-[17px]" style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
         </motion.div>
@@ -935,7 +935,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-5">Experience</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
               <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05] -mx-3 px-3 relative group/item">
@@ -965,7 +965,7 @@ export default function Home() {
                       {exp.company}
                     </span>
                   </div>
-                  <span className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-colors">{exp.role}</span>
+                  <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium group-hover:opacity-70 transition-opacity">{exp.role}</span>
                 </button>
                 <AnimatePresence>
                   {expandedIndex === index && (
@@ -1193,7 +1193,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-5">Projects</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Projects</h2>
           
           {projects.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-2xl border border-dashed border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 backdrop-blur-sm">
@@ -1402,7 +1402,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Recommendations</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Recommendations</h2>
           
           {recommendations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-2xl border border-dashed border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 backdrop-blur-sm">
@@ -1576,7 +1576,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">My Story</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">My Story</h2>
           
           <div className="relative mb-8 h-56 flex items-center justify-center">
             <motion.div 
@@ -1709,7 +1709,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Stack</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Stack</h2>
           <div className="flex flex-wrap gap-6 items-center">
             {activeTools.map((tool, i) => (
               <motion.div
@@ -1847,7 +1847,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Contact</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Contact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
             <motion.div whileHover="hover" initial="rest" className="w-full">
               <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
