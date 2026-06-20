@@ -521,7 +521,7 @@ export default function Project() {
           background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
         }
       `}} />
-      <div className="w-full max-w-[720px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
+      <div className="w-full max-w-[820px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
         
         {/* Header */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8 flex items-center gap-3">
