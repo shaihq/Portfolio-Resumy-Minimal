@@ -2612,33 +2612,11 @@ export default function Home() {
           </div>
         ) : activeTemplate === "Creative" ? (
           <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-4 md:px-0 max-w-[800px] mx-auto">
-            {/* Header / Date */}
-            <motion.div 
-              initial={{ opacity: 0, y: -40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full"
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Mon, Mar 9</span>
-                <div className="w-2 h-2 bg-[#E37941] rotate-45"></div>
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <SwitchButton
-                  value={isDark}
-                  onToggle={toggleTheme}
-                  iconOn={<Moon className="size-4" />}
-                  iconOff={<Sun className="size-4" />}
-                />
-              </div>
-            </motion.div>
-
             {/* Intro Profile Card */}
             <motion.div 
               initial={{ opacity: 0, y: -40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.15 }}
+              transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0 }}
               className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 w-full relative group overflow-hidden flex flex-col"
             >
               {isEditing && (
@@ -2648,6 +2626,20 @@ export default function Home() {
                   </Button>
                 </div>
               )}
+              {/* Date + theme toggle — decorative corner detail */}
+              <div className="absolute top-4 right-5 flex items-center gap-2.5 z-10">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[#7A736C] dark:text-[#9E9893] text-[11px] font-medium tracking-wide">Mon, Mar 9</span>
+                  <div className="w-1.5 h-1.5 bg-[#E37941] rotate-45 shrink-0"></div>
+                  <span className="text-[#7A736C] dark:text-[#9E9893] text-[11px] font-medium tabular-nums">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</span>
+                </div>
+                <SwitchButton
+                  value={isDark}
+                  onToggle={toggleTheme}
+                  iconOn={<Moon className="size-4" />}
+                  iconOff={<Sun className="size-4" />}
+                />
+              </div>
               {/* Profile content */}
               <div className="p-5 md:p-6 flex flex-col md:flex-row gap-8 items-start md:items-center">
                 <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
