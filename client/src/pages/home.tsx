@@ -2620,9 +2620,9 @@ export default function Home() {
               className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full"
             >
               <div className="flex items-center gap-2">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Mon, Mar 9</span>
+                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[16px]">Mon, Mar 9</span>
                 <div className="w-2 h-2 bg-[#E37941] rotate-45"></div>
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</span>
+                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-[16px]">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</span>
               </div>
               <div className="flex items-center gap-3">
                 <SwitchButton
@@ -2654,8 +2654,8 @@ export default function Home() {
                   <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
-                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[480px]">
+                  <h1 className="text-[27px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
+                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[18px] leading-relaxed max-w-[480px]">
                     I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code.
                   </p>
                 </div>
@@ -2674,19 +2674,19 @@ export default function Home() {
                 >
                   {[...Array(2)].map((_, i) => (
                     <div key={i} className="flex gap-4 items-center">
-                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">Interaction Design</span>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[13px] uppercase tracking-wider">Interaction Design</span>
                       <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                       </div>
-                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">3D Design</span>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[13px] uppercase tracking-wider">3D Design</span>
                       <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                       </div>
-                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">User Research</span>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[13px] uppercase tracking-wider">User Research</span>
                       <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                       </div>
-                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">UI/UX Design</span>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[13px] uppercase tracking-wider">UI/UX Design</span>
                       <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
                       </div>
@@ -2713,7 +2713,7 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-3" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECTS</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-3" style={{ fontFamily: 'DM Mono, monospace', fontSize: '16px', fontWeight: '500' }}>PROJECTS</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Project 1 */}
@@ -2732,10 +2732,10 @@ export default function Home() {
                     <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
+                    <h3 className="text-[18px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
                       Redesigning Quote Builder at Freshworks for 1,900+ Enterprise U...
                     </h3>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm leading-relaxed line-clamp-2">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed line-clamp-2">
                       A sleek and responsive landing page designed for modern startups to showca...
                     </p>
                   </div>
@@ -2757,10 +2757,10 @@ export default function Home() {
                     <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
+                    <h3 className="text-[18px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mb-2 leading-snug line-clamp-2">
                       Designfolio: No-Code Portfolio Builder for 9,000+ Users
                     </h3>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm leading-relaxed line-clamp-2">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed line-clamp-2">
                       Helping Product folks build bragworthy portfolio websites.
                     </p>
                   </div>
@@ -2784,7 +2784,7 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '16px', fontWeight: '500' }}>CAREER LADDER</h2>
               
               <div ref={ladderContainerRef} className="relative flex">
                 {/* Character climbing ladder */}
@@ -2812,12 +2812,12 @@ export default function Home() {
                       </div>
                     )}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
-                      <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                      <h3 className="text-[20px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
+                      <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[15px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-relaxed">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
                     <motion.div
@@ -2827,7 +2827,7 @@ export default function Home() {
                       transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                     >
                       <div className="pt-4">
-                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
+                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[17px]">
                           <li className="flex items-start gap-2">
                             <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
                             <span>AI agents for recruiters</span>
@@ -2848,7 +2848,7 @@ export default function Home() {
                         e.stopPropagation();
                         setExpandedCareer(prev => ({ ...prev, [0]: !prev[0] }));
                       }}
-                      className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+                      className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
                     >
                       {expandedCareer[0] ? 'View less' : 'View more'}
                       <motion.svg 
@@ -2874,12 +2874,12 @@ export default function Home() {
                       </div>
                     )}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
-                      <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                      <h3 className="text-[20px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
+                      <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[15px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-relaxed">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
                     <motion.div
@@ -2889,8 +2889,8 @@ export default function Home() {
                       transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                     >
                       <div className="pt-4">
-                        <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
-                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
+                        <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] mb-3">Focus areas:</div>
+                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[17px]">
                           <li className="flex items-start gap-2">
                             <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
                             <span>AI agents for recruiters</span>
@@ -2911,7 +2911,7 @@ export default function Home() {
                         e.stopPropagation();
                         setExpandedCareer(prev => ({ ...prev, [1]: !prev[1] }));
                       }}
-                      className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+                      className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
                     >
                       {expandedCareer[1] ? 'View less' : 'View more'}
                       <motion.svg 
@@ -2937,12 +2937,12 @@ export default function Home() {
                       </div>
                     )}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 sm:gap-0">
-                      <h3 className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
-                      <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
+                      <h3 className="text-[20px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Product Designer @ Sense Hq</h3>
+                      <div className="bg-[#F0EDE7] dark:bg-[#3A352E] px-3 py-1 rounded-full text-[15px] text-[#1A1A1A] dark:text-[#F0EDE7] w-fit whitespace-nowrap">
                         2025 — Present
                       </div>
                     </div>
-                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed">
+                    <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-relaxed">
                       Currently designing AI-powered recruiter tools that help HR teams create conversational talent workflows and automate engagement.
                     </p>
                     <motion.div
@@ -2952,8 +2952,8 @@ export default function Home() {
                       transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                     >
                       <div className="pt-4">
-                        <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] mb-3">Focus areas:</div>
-                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[15px]">
+                        <div className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] mb-3">Focus areas:</div>
+                        <ul className="space-y-2.5 text-[#7A736C] dark:text-[#B5AFA5] text-[17px]">
                           <li className="flex items-start gap-2">
                             <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#7A736C] dark:bg-[#B5AFA5] shrink-0"></span>
                             <span>AI agents for recruiters</span>
@@ -2974,7 +2974,7 @@ export default function Home() {
                         e.stopPropagation();
                         setExpandedCareer(prev => ({ ...prev, [2]: !prev[2] }));
                       }}
-                      className="text-[13px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+                      className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] mt-3 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
                     >
                       {expandedCareer[2] ? 'View less' : 'View more'}
                       <motion.svg 
