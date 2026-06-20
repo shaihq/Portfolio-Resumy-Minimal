@@ -1609,11 +1609,11 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="space-y-6 text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]">
-            <p>
+          <div className="space-y-6">
+            <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]" style={{ fontWeight: 450 }}>
               I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design.
             </p>
-            <p>
+            <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]" style={{ fontWeight: 450 }}>
               I thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use.
             </p>
           </div>
