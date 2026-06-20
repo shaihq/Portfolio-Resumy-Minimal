@@ -171,7 +171,7 @@ export default function Project() {
                   
                   <div className="grid grid-cols-2 gap-y-4 gap-x-6">
                     {Object.entries(project.details).map(([key, value]) => (
-                      <div key={key} className="flex flex-col gap-1">
+                      <div key={key} className="flex flex-col gap-2">
                         <span className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wide">{key}</span>
                         <span className="text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{value as string}</span>
                       </div>
@@ -397,8 +397,8 @@ export default function Project() {
 
           {/* Project Header & Featured Image */}
           <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-2 md:p-3 w-full">
-            <div className="p-4 md:p-5 pb-6 md:pb-8">
-              <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight mb-4">{project.title}</h1>
+            <div className="p-5 md:p-6 pb-7 md:pb-10">
+              <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight mb-5">{project.title}</h1>
               <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[600px]">
                 {project.subtitle}
               </p>
@@ -413,13 +413,13 @@ export default function Project() {
           </motion.div>
 
           {/* Project Details */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
-            <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECT DETAILS</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-7 md:p-9 w-full">
+            <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECT DETAILS</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {Object.entries(project.details).map(([key, value]) => {
                 const isEditable = key === 'industry' || key === 'platform';
                 return (
-                  <div key={key} className="flex flex-col gap-1">
+                  <div key={key} className="flex flex-col gap-2">
                     <span className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] uppercase tracking-wide">{key}</span>
                     {isEditable ? (
                       <input 
@@ -438,9 +438,9 @@ export default function Project() {
           </motion.div>
 
           {/* Overview */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
-            <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>OVERVIEW</h2>
-            <div className="space-y-4 max-w-3xl">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-7 md:p-9 w-full">
+            <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>OVERVIEW</h2>
+            <div className="space-y-6 max-w-3xl">
               {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
                 <p key={idx} className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[16px] leading-relaxed">
                   {paragraph}
@@ -461,9 +461,9 @@ export default function Project() {
           </motion.div>
 
           {/* Next Steps / Contact CTA */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full text-center flex flex-col items-center">
-            <h2 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-6">Let's build something great.</h2>
-            <div className="flex gap-4">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-7 md:p-10 w-full text-center flex flex-col items-center">
+            <h2 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-8">Let's build something great.</h2>
+            <div className="flex gap-5">
               <Button variant="outline" className="rounded-xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#2A2520] hover:bg-gray-50 dark:hover:bg-[#35302A] h-12 px-6">
                 Copy Email
               </Button>
