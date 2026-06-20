@@ -64,6 +64,12 @@ export default function Home() {
   const [characterPosition, setCharacterPosition] = useState(0);
   const [isEditing, setIsEditing] = useState(true);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
+  const handleCopy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedItem(key);
+    setTimeout(() => setCopiedItem(null), 2000);
+  };
   const [isStackPanelOpen, setIsStackPanelOpen] = useState(false);
   const [isRecommendationsPanelOpen, setIsRecommendationsPanelOpen] = useState(false);
   const [isRecommendationsRearrangeOpen, setIsRecommendationsRearrangeOpen] = useState(false);
@@ -1868,11 +1874,16 @@ export default function Home() {
                   <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">email</span>
                 </div>
                 <button
-                  onClick={() => navigator.clipboard.writeText("matt@gmail.com")}
+                  onClick={() => handleCopy("matt@gmail.com", "email")}
                   className="group flex items-center gap-2.5 ml-4"
                 >
-                  <span className="text-[17px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] border-b border-dashed border-[#1A1A1A]/20 dark:border-[#F0EDE7]/20 group-hover:border-solid group-hover:border-[#463B34]/60 dark:group-hover:border-[#C4B5A0]/60 transition-all duration-200 pb-px leading-snug">matt@gmail.com</span>
-                  <span className="text-[10px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-150">copy</span>
+                  <span className="text-[17px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug">matt@gmail.com</span>
+                  <span className="text-[10px] uppercase tracking-widest transition-all duration-150 opacity-0 group-hover:opacity-100">
+                    {copiedItem === "email"
+                      ? <span className="text-[#463B34] dark:text-[#C4B5A0]">copied</span>
+                      : <span className="text-[#7A736C] dark:text-[#9E9893]">copy</span>
+                    }
+                  </span>
                 </button>
               </div>
 
@@ -1883,11 +1894,16 @@ export default function Home() {
                   <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">phone</span>
                 </div>
                 <button
-                  onClick={() => navigator.clipboard.writeText("+91 98765 43210")}
+                  onClick={() => handleCopy("+91 98765 43210", "phone")}
                   className="group flex items-center gap-2.5 ml-4"
                 >
-                  <span className="text-[15px] text-[#1A1A1A] dark:text-[#F0EDE7] border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug">+91 98765 43210</span>
-                  <span className="text-[10px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-150">copy</span>
+                  <span className="text-[15px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug">+91 98765 43210</span>
+                  <span className="text-[10px] uppercase tracking-widest transition-all duration-150 opacity-0 group-hover:opacity-100">
+                    {copiedItem === "phone"
+                      ? <span className="text-[#463B34] dark:text-[#C4B5A0]">copied</span>
+                      : <span className="text-[#7A736C] dark:text-[#9E9893]">copy</span>
+                    }
+                  </span>
                 </button>
               </div>
 
@@ -1915,16 +1931,8 @@ export default function Home() {
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     className="group flex items-center gap-1.5 w-fit"
                   >
-                    <span className={`border-b border-dashed transition-all duration-200 pb-px leading-snug ${
-                      primary
-                        ? "text-[16px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] border-[#1A1A1A]/25 dark:border-[#F0EDE7]/25 group-hover:border-solid group-hover:border-[#1A1A1A]/70 dark:group-hover:border-[#F0EDE7]/70"
-                        : "text-[15px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-[#1A1A1A]/12 dark:border-[#F0EDE7]/12 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
-                    }`}>{label}</span>
-                    <span className={`transition-all duration-200 group-hover:translate-x-0.5 ${
-                      primary
-                        ? "text-[13px] text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40 group-hover:text-[#1A1A1A]/80 dark:group-hover:text-[#F0EDE7]/80"
-                        : "text-[12px] text-[#7A736C]/60 dark:text-[#9E9893]/60 group-hover:text-[#7A736C] dark:group-hover:text-[#9E9893]"
-                    }`}>↗</span>
+                    <span className="text-[15px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-all duration-200 pb-px leading-snug">{label}</span>
+                    <span className="text-[12px] text-[#7A736C]/60 dark:text-[#9E9893]/60 group-hover:text-[#7A736C] dark:group-hover:text-[#9E9893] group-hover:translate-x-0.5 transition-all duration-200">↗</span>
                   </motion.a>
                 ))}
               </div>
