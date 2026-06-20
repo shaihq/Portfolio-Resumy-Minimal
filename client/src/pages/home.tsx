@@ -2639,7 +2639,7 @@ export default function Home() {
               initial={{ opacity: 0, y: -40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.15 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 flex flex-col md:flex-row gap-6 items-start md:items-center w-full relative group"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 w-full relative group overflow-hidden flex flex-col"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10">
@@ -2648,52 +2648,49 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
-                <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+              {/* Profile content */}
+              <div className="p-4 flex flex-col md:flex-row gap-6 items-start md:items-center">
+                <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
+                  <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
+                  <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[480px]">
+                    I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code.
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight">Hey I'm Matt.</h1>
-                <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[480px]">
-                  I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code.
-                </p>
+              {/* Skills marquee — flush bottom edge */}
+              <div className="border-t border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full">
+                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
+                <motion.div 
+                  className="flex gap-4 whitespace-nowrap"
+                  animate={{ x: [0, "-50%"] }}
+                  transition={{ ease: "linear", duration: 20, repeat: Infinity }}
+                >
+                  {[...Array(2)].map((_, i) => (
+                    <div key={i} className="flex gap-4 items-center">
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">Interaction Design</span>
+                      <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
+                      </div>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">3D Design</span>
+                      <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
+                      </div>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">User Research</span>
+                      <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
+                      </div>
+                      <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">UI/UX Design</span>
+                      <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
               </div>
-            </motion.div>
-
-            {/* Marquee Tags */}
-            <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.3 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full"
-            >
-              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
-              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
-              <motion.div 
-                className="flex gap-4 whitespace-nowrap"
-                animate={{ x: [0, "-50%"] }}
-                transition={{ ease: "linear", duration: 20, repeat: Infinity }}
-              >
-                {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex gap-4 items-center">
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">Interaction Design</span>
-                    <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
-                    </div>
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">3D Design</span>
-                    <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
-                    </div>
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">User Research</span>
-                    <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
-                    </div>
-                    <span className="text-[#7A736C] dark:text-[#B5AFA5] font-medium text-[12px] uppercase tracking-wider">UI/UX Design</span>
-                    <div className="w-3 h-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2 9 9 2-9 2-2 9-2-9-9-2 9-2 2-9z"/></svg>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
             </motion.div>
 
             {/* Projects Container */}
