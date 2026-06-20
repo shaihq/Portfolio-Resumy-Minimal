@@ -2617,7 +2617,7 @@ export default function Home() {
               initial={{ opacity: 0, y: -40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 w-full relative group overflow-hidden flex flex-col"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 w-full relative group flex flex-col"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10">
@@ -2626,13 +2626,8 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              {/* Date + theme toggle — decorative corner detail */}
-              <div className="absolute top-4 right-5 flex items-center gap-2.5 z-10">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[#7A736C] dark:text-[#9E9893] text-[11px] font-medium tracking-wide">Mon, Mar 9</span>
-                  <div className="w-1.5 h-1.5 bg-[#E37941] rotate-45 shrink-0"></div>
-                  <span className="text-[#7A736C] dark:text-[#9E9893] text-[11px] font-medium tabular-nums">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</span>
-                </div>
+              {/* Theme toggle — quiet corner detail */}
+              <div className="absolute top-4 right-5 z-10" style={{ transform: 'scale(0.87)', transformOrigin: 'top right' }}>
                 <SwitchButton
                   value={isDark}
                   onToggle={toggleTheme}
@@ -2654,7 +2649,7 @@ export default function Home() {
               </div>
               {/* Skills marquee — flush bottom edge */}
               <div
-                className="border-t border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full bg-gradient-to-b from-[#EEE9E3] to-[#F4F1EC] dark:from-[#252119] dark:to-[#2B2620]"
+                className="border-t border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full bg-gradient-to-b from-[#EEE9E3] to-[#F4F1EC] dark:from-[#252119] dark:to-[#2B2620] rounded-b-[26px]"
                 style={{ boxShadow: "inset 0 1px 3px rgba(0,0,0,0.04), inset 0 -1px 1px rgba(255,255,255,0.45)" }}
               >
                 <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#F0EBE5] dark:from-[#272219] to-transparent z-10"></div>
