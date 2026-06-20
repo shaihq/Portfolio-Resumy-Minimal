@@ -538,8 +538,8 @@ export default function Project() {
 
         {/* Project Title & Intro */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8">
-          <h1 className="text-[28px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
-          <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base mb-4" style={{ fontWeight: 450 }}>{project.subtitle}</p>
+          <h1 className="text-[34px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
+          <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px] mb-4" style={{ fontWeight: 500 }}>{project.subtitle}</p>
         </motion.div>
 
         {/* Featured Image */}
@@ -557,7 +557,7 @@ export default function Project() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34] dark:text-[#D4C9BC]">
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest">Project Details</h2>
+            <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider">Project Details</h2>
           </div>
           <div className="border border-[#C8C4BD] dark:border-[#3A352E] rounded-lg overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
             {Object.entries(project.details).map(([key, value], index) => (
@@ -573,10 +573,10 @@ export default function Project() {
 
         {/* Introduction */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 py-10">
-          <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
+          <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Introduction</h2>
           <div className="space-y-4 mb-6">
             {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
-              <p key={idx} className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
+              <p key={idx} className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-[17px]" style={{ fontWeight: 450 }}>
                 {paragraph}
               </p>
             ))}
