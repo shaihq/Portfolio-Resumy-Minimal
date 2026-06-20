@@ -288,7 +288,7 @@ function TransitionScreen({ onVoice, onType, onSkip }: { onVoice: () => void; on
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6"
+      className="absolute inset-0 flex flex-col items-center justify-center bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}
     >
       {/* Background glow */}
@@ -362,7 +362,7 @@ function VoiceRoom({ onDone, onReset }: { onDone: () => void; onReset: () => voi
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
 
   return (
-    <motion.div className="fixed inset-0 flex flex-col items-center justify-between bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+    <motion.div className="absolute inset-0 flex flex-col items-center justify-between bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="absolute inset-0 pointer-events-none">
         <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full blur-[140px] opacity-0 dark:opacity-100" animate={{ backgroundColor: listening ? "rgba(255,85,62,0.12)" : "rgba(255,85,62,0.06)" }} transition={{ duration: 0.8 }} />
       </div>
@@ -451,7 +451,7 @@ function TypeRoom({ onDone, onReset }: { onDone: () => void; onReset: () => void
   const isLastStep = current === questions.length - 1;
 
   return (
-    <motion.div className="fixed inset-0 flex flex-col items-center justify-between bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+    <motion.div className="absolute inset-0 flex flex-col items-center justify-between bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full dark:bg-[#FF553E]/6 blur-[120px]" />
       </div>
@@ -687,7 +687,7 @@ function ThinkingScreen({ onComplete }: { onComplete: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6"
+      className="absolute inset-0 flex flex-col items-center justify-center bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
     >
       <style>{`
@@ -4494,7 +4494,7 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col bg-[#F0EDE7] dark:bg-[#1A1A1A]"
+      className="absolute inset-0 flex flex-col bg-[#F0EDE7] dark:bg-[#1A1A1A]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -4777,7 +4777,7 @@ function AhaMomentModal({ onConfirm }: { onConfirm: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[300] flex items-center justify-center p-6"
+      className="absolute inset-0 z-[300] flex items-center justify-center p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
