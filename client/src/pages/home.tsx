@@ -798,7 +798,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[34px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
+              <h1 className="text-[30px] font-semibold mb-0.5 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
               <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px]" style={{ fontWeight: 500 }}>Product Designer</p>
             </div>
             <a 

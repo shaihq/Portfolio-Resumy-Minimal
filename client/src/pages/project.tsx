@@ -538,7 +538,7 @@ export default function Project() {
 
         {/* Project Title & Intro */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8">
-          <h1 className="text-[34px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
+          <h1 className="text-[30px] font-semibold mb-3 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
           <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px] mb-4" style={{ fontWeight: 500 }}>{project.subtitle}</p>
         </motion.div>
 
