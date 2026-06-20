@@ -334,7 +334,7 @@ export default function Project() {
           className="w-full max-w-[750px] flex flex-col gap-3 pb-20 pt-0"
         >
           {/* Header */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full">
             <button
               onClick={() => navigate("/")}
               className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
@@ -396,14 +396,14 @@ export default function Project() {
           </motion.div>
 
           {/* Project Header & Featured Image */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-2 md:p-3 w-full">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-2 md:p-3 w-full">
             <div className="p-4 md:p-5 pb-6 md:pb-8">
               <h1 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] tracking-tight leading-tight mb-4">{project.title}</h1>
               <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed max-w-[600px]">
                 {project.subtitle}
               </p>
             </div>
-            <div className="w-full rounded-[24px] overflow-hidden bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+            <div className="w-full rounded-[20px] overflow-hidden bg-[#F5F5F5] dark:bg-[#1A1A1A]">
               <img 
                 src={project.image} 
                 alt={project.title}
@@ -413,7 +413,7 @@ export default function Project() {
           </motion.div>
 
           {/* Project Details */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
             <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECT DETAILS</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {Object.entries(project.details).map(([key, value]) => {
@@ -438,7 +438,7 @@ export default function Project() {
           </motion.div>
 
           {/* Overview */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full">
             <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>OVERVIEW</h2>
             <div className="space-y-4 max-w-3xl">
               {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
@@ -450,8 +450,8 @@ export default function Project() {
           </motion.div>
 
           {/* Content Visual */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-2 md:p-3 w-full">
-            <div className="w-full rounded-[24px] overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-2 md:p-3 w-full">
+            <div className="w-full rounded-[20px] overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
               <img 
                 src={contentImage} 
                 alt="Project context"
@@ -461,7 +461,7 @@ export default function Project() {
           </motion.div>
 
           {/* Next Steps / Contact CTA */}
-          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full text-center flex flex-col items-center">
+          <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 md:p-8 w-full text-center flex flex-col items-center">
             <h2 className="text-[24px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-6">Let's build something great.</h2>
             <div className="flex gap-4">
               <Button variant="outline" className="rounded-xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#2A2520] hover:bg-gray-50 dark:hover:bg-[#35302A] h-12 px-6">
