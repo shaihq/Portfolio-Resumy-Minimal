@@ -1855,67 +1855,71 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Contact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-            <motion.div whileHover="hover" initial="rest" className="w-full">
-              <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy mail</span>
-                <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: 15 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                  <AtSignIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-                </motion.div>
-              </Button>
-            </motion.div>
-            <motion.div whileHover="hover" initial="rest" className="w-full">
-              <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy phone</span>
-                <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: -15 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                  <Phone size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-                </motion.div>
-              </Button>
-            </motion.div>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-8">Contact</h2>
+          <div className="font-['DM_Mono'] space-y-7">
+
+            {/* email */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[12px]">&#62;</span>
+                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">email</span>
+              </div>
+              <button
+                onClick={() => navigator.clipboard.writeText("matt@gmail.com")}
+                className="group flex items-center gap-2 ml-4 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#463B34] dark:hover:text-[#C4B5A0] transition-colors"
+              >
+                <span className="border-b border-transparent group-hover:border-[#463B34]/40 dark:group-hover:border-[#C4B5A0]/40 transition-all duration-300 pb-px">matt@gmail.com</span>
+                <span className="text-[10px] text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-200 tracking-wide">copy</span>
+              </button>
+            </div>
+
+            {/* phone */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[12px]">&#62;</span>
+                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">phone</span>
+              </div>
+              <button
+                onClick={() => navigator.clipboard.writeText("+91 98765 43210")}
+                className="group flex items-center gap-2 ml-4 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#463B34] dark:hover:text-[#C4B5A0] transition-colors"
+              >
+                <span className="border-b border-transparent group-hover:border-[#463B34]/40 dark:group-hover:border-[#C4B5A0]/40 transition-all duration-300 pb-px">+91 98765 43210</span>
+                <span className="text-[10px] text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-200 tracking-wide">copy</span>
+              </button>
+            </div>
+
+            {/* links */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[12px]">&#62;</span>
+                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">links</span>
+              </div>
+              <div className="ml-4 space-y-2">
+                {[
+                  { label: "LinkedIn", href: "#" },
+                  { label: "Dribbble", href: "#" },
+                  { label: "Medium",   href: "#" },
+                  { label: "Resume",   href: "#" },
+                ].map(({ label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-1.5 w-fit text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#463B34] dark:hover:text-[#C4B5A0] transition-colors"
+                  >
+                    <span className="border-b border-transparent group-hover:border-[#463B34]/40 dark:group-hover:border-[#C4B5A0]/40 transition-all duration-300 pb-px">{label}</span>
+                    <motion.span
+                      initial={{ x: -4, opacity: 0 }}
+                      whileHover={{ x: 0, opacity: 1 }}
+                      className="text-[11px] text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-all duration-200"
+                    >↗</motion.span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
-            <motion.div whileHover="hover" initial="rest" className="w-full">
-              <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Linkedin</span>
-                <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: -10 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                  <Linkedin size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-                </motion.div>
-              </Button>
-            </motion.div>
-            <motion.div whileHover="hover" initial="rest" className="w-full">
-              <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Dribbble</span>
-                <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: 20 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                  <DribbbleIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-                </motion.div>
-              </Button>
-            </motion.div>
-            <motion.div whileHover="hover" initial="rest" className="w-full">
-              <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">X</span>
-                <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: -20 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                  <TwitterIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-                </motion.div>
-              </Button>
-            </motion.div>
-            <motion.div whileHover="hover" initial="rest" className="w-full">
-              <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-                <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Medium</span>
-                <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: 15 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                  <Globe size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-                </motion.div>
-              </Button>
-            </motion.div>
-          </div>
-          <motion.div whileHover="hover" initial="rest" className="w-full">
-            <Button variant="outline" size="sm" className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto">
-              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">View resume</span>
-              <motion.div variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.3, rotate: -15 } }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                <FileText size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
-              </motion.div>
-            </Button>
-          </motion.div>
         </motion.div>
 
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
