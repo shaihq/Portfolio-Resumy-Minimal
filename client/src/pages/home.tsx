@@ -2617,7 +2617,7 @@ export default function Home() {
               initial={{ opacity: 0, y: -40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[20px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full"
             >
               <div className="flex items-center gap-2">
                 <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Mon, Mar 9</span>
@@ -2639,7 +2639,7 @@ export default function Home() {
               initial={{ opacity: 0, y: -40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.15 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 w-full relative group overflow-hidden flex flex-col"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 w-full relative group overflow-hidden flex flex-col"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10">
@@ -2701,7 +2701,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.45 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -2728,7 +2728,7 @@ export default function Home() {
                       </Button>
                     </div>
                   )}
-                  <div className="rounded-2xl overflow-hidden aspect-[3/2] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+                  <div className="rounded-xl overflow-hidden aspect-[3/2] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
@@ -2753,7 +2753,7 @@ export default function Home() {
                       </Button>
                     </div>
                   )}
-                  <div className="rounded-2xl overflow-hidden aspect-[3/2] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+                  <div className="rounded-xl overflow-hidden aspect-[3/2] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
@@ -2774,7 +2774,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.6 }}
               ref={careerLadderRef} 
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2 relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2 relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -2995,7 +2995,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.75 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 py-2 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 py-2 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3005,7 +3005,7 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <div className="overflow-hidden relative w-full rounded-[32px]">
+              <div className="overflow-hidden relative w-full rounded-[26px]">
                 <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
                 <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 dark:from-[#2A2520]/80 to-transparent z-10"></div>
                 
@@ -3045,7 +3045,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.9 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3058,18 +3058,18 @@ export default function Home() {
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
-              <div className="relative w-full mb-8 rounded-[32px] border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
+              <div className="relative w-full mb-8 rounded-[26px] border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
                 {/* Invisible larger boundary for drag constraints allowing slight overflow */}
                 <div className="absolute -inset-6 md:-inset-10 pointer-events-none" ref={pegboardRef}></div>
                 
                 {/* Light Mode Grid */}
-                <div className="absolute inset-0 dark:hidden pointer-events-none rounded-[32px] overflow-hidden" style={{
+                <div className="absolute inset-0 dark:hidden pointer-events-none rounded-[26px] overflow-hidden" style={{
                   backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
                   backgroundSize: '40px 40px',
                   backgroundPosition: 'center center'
                 }}></div>
                 {/* Dark Mode Grid */}
-                <div className="absolute inset-0 hidden dark:block pointer-events-none rounded-[32px] overflow-hidden" style={{
+                <div className="absolute inset-0 hidden dark:block pointer-events-none rounded-[26px] overflow-hidden" style={{
                   backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
                   backgroundSize: '40px 40px',
                   backgroundPosition: 'center center'
@@ -3150,10 +3150,10 @@ export default function Home() {
                       </div>
                     )}
                     <div className="w-full h-full pointer-events-none relative" style={{ transform: 'rotate(6deg)' }}>
-                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-1.5 md:p-2 rounded-[24px] md:rounded-[32px] shadow-md border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-lg transition-shadow">
+                      <div className="w-full h-full bg-white dark:bg-[#2A2520] p-1.5 md:p-2 rounded-[20px] md:rounded-[26px] shadow-md border border-black/5 dark:border-white/10 flex flex-col relative group-hover:shadow-lg transition-shadow">
                         <div className="relative w-full h-full">
-                          <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[16px] md:rounded-[24px]" draggable="false" />
-                          <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[16px] md:rounded-[24px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+                          <img src={story2} alt="Designing" className="w-full h-full object-cover rounded-[14px] md:rounded-[20px]" draggable="false" />
+                          <div className="absolute inset-0 bg-black/5 dark:bg-black/20 rounded-[14px] md:rounded-[20px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
                             <div className="bg-white/80 dark:bg-black/60 backdrop-blur-md p-2 md:p-2.5 rounded-full shadow-sm scale-90 group-hover:scale-100 transition-transform duration-300">
                               <Move className="w-5 h-5 md:w-6 md:h-6 text-gray-800 dark:text-gray-200" />
                             </div>
@@ -3232,7 +3232,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.95 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3346,7 +3346,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 1.05 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[32px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
