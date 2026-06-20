@@ -769,7 +769,7 @@ export default function Home() {
           right: 0;
         }
       `}} />
-      <div className={cn("w-full max-w-[640px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
+      <div className={cn("w-full max-w-[720px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
         activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
@@ -778,7 +778,7 @@ export default function Home() {
           <>
             <SmoothCursor type="minimal" />
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-5 md:px-8 pt-12 md:pt-16 pb-6 relative group/section">
+            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-12 md:pt-16 pb-8 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -787,7 +787,7 @@ export default function Home() {
             </div>
           )}
           <div className="flex items-start justify-between gap-4 mb-6">
-            <Avatar className="w-[80px] h-[80px] rounded-2xl">
+            <Avatar className="w-[96px] h-[96px] rounded-2xl">
               <AvatarImage src={profileImg} className="object-cover" />
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
@@ -798,7 +798,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[24px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
+              <h1 className="text-[28px] font-semibold mb-0.5 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
               <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base" style={{ fontWeight: 450 }}>Product Designer</p>
             </div>
             <a 
@@ -815,7 +815,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 flex justify-between items-center relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-5 flex justify-between items-center relative group/section">
           {isEditing && (
             <div className="absolute top-1/2 -translate-y-1/2 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -860,7 +860,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Intro Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -868,7 +868,7 @@ export default function Home() {
               </Button>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Intro</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-5">Intro</h2>
           <p className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-base" style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
@@ -877,7 +877,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Experience Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
               <Sheet modal={false} open={isExperiencePanelOpen} onOpenChange={setIsExperiencePanelOpen}>
@@ -935,7 +935,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Experience</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-5">Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
               <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05] -mx-3 px-3 relative group/item">
@@ -1031,7 +1031,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Projects Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
           {isEditing && (
             <div className={`absolute top-4 right-4 z-10 transition-opacity flex gap-2 ${isProjectsAddDropdownOpen ? 'opacity-100' : 'opacity-100 md:opacity-0 md:group-hover/section:opacity-100'}`}>
               <Sheet modal={false} open={isProjectsRearrangeOpen} onOpenChange={setIsProjectsRearrangeOpen}>
@@ -1193,7 +1193,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-4">Projects</h2>
+          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-5">Projects</h2>
           
           {projects.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-2xl border border-dashed border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 backdrop-blur-sm">
@@ -1289,7 +1289,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Recommendations Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
               <Sheet modal={false} open={isRecommendationsRearrangeOpen} onOpenChange={setIsRecommendationsRearrangeOpen}>
@@ -1493,7 +1493,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* My Story Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 pb-16 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Sheet modal={false} open={isMyStoryPanelOpen} onOpenChange={setIsMyStoryPanelOpen}>
@@ -1622,7 +1622,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Stack Section */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Sheet modal={false} open={isStackPanelOpen} onOpenChange={setIsStackPanelOpen}>
@@ -1733,7 +1733,7 @@ export default function Home() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section (Grid) */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8 relative group/section">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Sheet modal={false} open={isContactPanelOpen} onOpenChange={setIsContactPanelOpen}>
