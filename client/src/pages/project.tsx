@@ -521,10 +521,10 @@ export default function Project() {
           background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
         }
       `}} />
-      <div className="w-full max-w-[640px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
+      <div className="w-full max-w-[720px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
         
         {/* Header */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6 flex items-center gap-3">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8 flex items-center gap-3">
           <button
             onClick={() => navigate("/")}
             className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
@@ -537,13 +537,13 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Project Title & Intro */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pt-8 pb-6">
-          <h1 className="text-[24px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
+        <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8">
+          <h1 className="text-[28px] font-semibold mb-3 tracking-tight text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
           <p className="text-[#7A736C] dark:text-[#B5AFA5] text-base mb-4" style={{ fontWeight: 450 }}>{project.subtitle}</p>
         </motion.div>
 
         {/* Featured Image */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pb-4">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 pb-5">
           <img 
             src={project.image} 
             alt={project.title}
@@ -552,7 +552,7 @@ export default function Project() {
         </motion.div>
 
         {/* Project Details */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-5">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-6">
           <div className="flex items-center gap-2 mb-6">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34] dark:text-[#D4C9BC]">
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -572,7 +572,7 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Introduction */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-8">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10">
           <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-widest mb-6">Introduction</h2>
           <div className="space-y-4 mb-6">
             {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
@@ -584,7 +584,7 @@ export default function Project() {
         </motion.div>
 
         {/* Introduction Image */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 pb-8">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 pb-10">
           <img 
             src={contentImage} 
             alt="Introduction visual"
@@ -595,9 +595,9 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact CTA / Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-5 flex flex-col items-center text-center">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-8 flex flex-col items-center text-center">
           <h1 className="text-[23px] font-['Cedarville_Cursive'] text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Mike Starves</h1>
-          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4 text-[24px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
+          <p className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4 text-[28px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer">
               <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy mail</span>
@@ -613,7 +613,7 @@ export default function Project() {
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Footer */}
-        <motion.div variants={itemVariants} className="px-5 md:px-8 py-4 text-center">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-5 text-center">
           <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893]" style={{ fontWeight: 450 }}>© ALL RIGHTS RESERVED.</p>
         </motion.div>
       </div>
