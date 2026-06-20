@@ -717,7 +717,7 @@ export default function Home() {
           top: 0;
           bottom: 0;
           width: 1px;
-          background-image: linear-gradient(to bottom, #C4A882 50%, transparent 50%);
+          background-image: linear-gradient(to bottom, #D4CEC6 50%, transparent 50%);
           background-size: 1px 10px;
           z-index: 0;
           pointer-events: none;
@@ -734,7 +734,7 @@ export default function Home() {
         .custom-dashed-t {
           height: 1px;
           width: 100%;
-          background-image: linear-gradient(to right, #C4A882 50%, transparent 50%);
+          background-image: linear-gradient(to right, #D4CEC6 50%, transparent 50%);
           background-size: 10px 1px;
         }
         .dark .custom-dashed-t {
