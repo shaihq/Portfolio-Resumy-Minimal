@@ -2661,9 +2661,12 @@ export default function Home() {
                 </div>
               </div>
               {/* Skills marquee — flush bottom edge */}
-              <div className="border-t border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full bg-[#EDE8E1] dark:bg-[#201D1A]">
-                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#EDE8E1] dark:from-[#201D1A] to-transparent z-10"></div>
-                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#EDE8E1] dark:from-[#201D1A] to-transparent z-10"></div>
+              <div
+                className="border-t border-[#E5D7C4] dark:border-white/10 py-2 overflow-hidden relative w-full bg-gradient-to-b from-[#E3DDD5] to-[#EDE8E1] dark:from-[#191613] dark:to-[#201D1A]"
+                style={{ boxShadow: "inset 0 2px 5px rgba(0,0,0,0.07), inset 0 -1px 2px rgba(255,255,255,0.3)" }}
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#E5DFD8] dark:from-[#1C1814] to-transparent z-10"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#E5DFD8] dark:from-[#1C1814] to-transparent z-10"></div>
                 <motion.div 
                   className="flex gap-4 whitespace-nowrap"
                   animate={{ x: [0, "-50%"] }}
