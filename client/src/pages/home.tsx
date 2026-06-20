@@ -1710,12 +1710,12 @@ export default function Home() {
             </div>
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Stack</h2>
-          <div className="flex flex-wrap gap-6 items-center">
+          <div className="flex flex-wrap gap-8 items-center">
             {activeTools.map((tool, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -4 }}
-                className="w-8 h-8 flex items-center justify-center cursor-pointer relative group/tool"
+                className="w-10 h-10 flex items-center justify-center cursor-pointer relative group/tool"
               >
                 {isEditing && (
                   <div className="absolute -top-3 -right-3 z-20 transition-opacity flex gap-1 opacity-100 md:opacity-0 md:group-hover/tool:opacity-100">
