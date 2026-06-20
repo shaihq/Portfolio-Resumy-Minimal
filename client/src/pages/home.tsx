@@ -2728,7 +2728,7 @@ export default function Home() {
                       </Button>
                     </div>
                   )}
-                  <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+                  <div className="rounded-2xl overflow-hidden aspect-[3/2] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project1} alt="Project 1" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
@@ -2753,7 +2753,7 @@ export default function Home() {
                       </Button>
                     </div>
                   )}
-                  <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+                  <div className="rounded-2xl overflow-hidden aspect-[3/2] border border-black/5 dark:border-white/10 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
                     <img src={project2} alt="Project 2" className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105" />
                   </div>
                   <div>
