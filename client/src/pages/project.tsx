@@ -238,7 +238,7 @@ export default function Project() {
         variants={containerVariants}
         className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#E37941] selection:text-white transition-colors duration-700"
       >
-        <div className="w-full max-w-[640px] relative min-h-screen bg-[#EFECE6] dark:bg-[#1A1A1A] flex flex-col transition-colors duration-700 border-x border-[#D5D0C6] dark:border-[#3A352E]">
+        <div className="w-full max-w-[750px] relative min-h-screen bg-[#EFECE6] dark:bg-[#1A1A1A] flex flex-col transition-colors duration-700 border-x border-[#D5D0C6] dark:border-[#3A352E]">
           
           {/* Header */}
           <motion.div variants={itemVariants} className="border-b border-[#D5D0C6] dark:border-[#3A352E] flex justify-between items-center px-4 py-3 font-['JetBrains_Mono'] text-[13px] uppercase tracking-wide text-[#1A1A1A] dark:text-[#B5AFA5] bg-[#EFECE6] dark:bg-[#1A1A1A] sticky top-0 z-50">
@@ -331,7 +331,7 @@ export default function Project() {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="w-full max-w-[640px] flex flex-col gap-3 pb-20 pt-0"
+          className="w-full max-w-[750px] flex flex-col gap-3 pb-20 pt-0"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[24px] border border-[#E5D7C4] dark:border-white/10 py-2 px-4 flex justify-between items-center w-full">
@@ -521,7 +521,7 @@ export default function Project() {
           background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
         }
       `}} />
-      <div className="w-full max-w-[820px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
+      <div className="w-full max-w-[960px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
         
         {/* Header */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8 flex items-center gap-3">

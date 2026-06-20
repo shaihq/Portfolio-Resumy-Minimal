@@ -775,7 +775,7 @@ export default function Home() {
           right: 0;
         }
       `}} />
-      <div className={cn("w-full max-w-[820px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
+      <div className={cn("w-full max-w-[960px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
         activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
@@ -2611,7 +2611,7 @@ export default function Home() {
             </div>
           </div>
         ) : activeTemplate === "Creative" ? (
-          <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-4 md:px-0 max-w-[640px] mx-auto">
+          <div className="w-full flex-1 flex flex-col gap-3 pb-20 pt-0 px-4 md:px-0 max-w-[750px] mx-auto">
             {/* Header / Date */}
             <motion.div 
               initial={{ opacity: 0, y: -40 }}
