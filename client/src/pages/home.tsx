@@ -989,7 +989,7 @@ export default function Home() {
                           }}
                           initial="hidden"
                           animate="show"
-                          className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed break-words whitespace-normal"
+                          className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7] break-words whitespace-normal"
                         >
                           {exp.description.split(" ").map((word, wordIndex) => (
                             <span key={wordIndex} className="inline-block whitespace-nowrap">
@@ -1270,8 +1270,8 @@ export default function Home() {
                     <div className="rounded-xl overflow-hidden mb-4 aspect-[4/3] bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors">
                       <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     </div>
-                    <h3 className="font-medium text-base mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
-                    <p className="text-base text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
+                    <h3 className="font-semibold text-[17px] mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
+                    <p className="text-[15px] text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
                       {project.description}
                     </p>
                   </div>
@@ -1479,7 +1479,7 @@ export default function Home() {
                   </div>
                   <div className="p-0">
                     <div className="border border-dashed border-[#E5D7C4] dark:border-[#3A352E] rounded-[12px] p-4">
-                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-sm md:text-[15px] leading-relaxed" style={{ fontWeight: 450 }}>
+                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]" style={{ fontWeight: 450 }}>
                         {rec.content}
                       </p>
                     </div>
@@ -1609,7 +1609,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="space-y-6 text-[#7A736C] dark:text-[#B5AFA5] text-base leading-[1.7]">
+          <div className="space-y-6 text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]">
             <p>
               I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design.
             </p>
