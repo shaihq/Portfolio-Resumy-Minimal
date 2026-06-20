@@ -1856,65 +1856,76 @@ export default function Home() {
             </div>
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-8">Contact</h2>
-          <div className="font-['DM_Mono'] space-y-7">
+          <div className="font-['DM_Mono'] grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
 
-            {/* email */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[12px]">&#62;</span>
-                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">email</span>
+            {/* LEFT: email + phone */}
+            <div className="space-y-5">
+
+              {/* email */}
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[#463B34] dark:text-[#C4B5A0] text-[11px]">&#62;</span>
+                  <span className="text-[10px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">email</span>
+                </div>
+                <button
+                  onClick={() => navigator.clipboard.writeText("matt@gmail.com")}
+                  className="group flex items-center gap-2.5 ml-3.5"
+                >
+                  <span className="text-[15px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] border-b border-dashed border-[#1A1A1A]/20 dark:border-[#F0EDE7]/20 group-hover:border-solid group-hover:border-[#463B34]/60 dark:group-hover:border-[#C4B5A0]/60 transition-all duration-200 pb-px leading-snug">matt@gmail.com</span>
+                  <span className="text-[9px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-150">copy</span>
+                </button>
               </div>
-              <button
-                onClick={() => navigator.clipboard.writeText("matt@gmail.com")}
-                className="group flex items-center gap-2 ml-4 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#463B34] dark:hover:text-[#C4B5A0] transition-colors"
-              >
-                <span className="border-b border-transparent group-hover:border-[#463B34]/40 dark:group-hover:border-[#C4B5A0]/40 transition-all duration-300 pb-px">matt@gmail.com</span>
-                <span className="text-[10px] text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-200 tracking-wide">copy</span>
-              </button>
+
+              {/* phone */}
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[#463B34] dark:text-[#C4B5A0] text-[11px]">&#62;</span>
+                  <span className="text-[10px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">phone</span>
+                </div>
+                <button
+                  onClick={() => navigator.clipboard.writeText("+91 98765 43210")}
+                  className="group flex items-center gap-2.5 ml-3.5"
+                >
+                  <span className="text-[13px] text-[#1A1A1A] dark:text-[#F0EDE7] border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug">+91 98765 43210</span>
+                  <span className="text-[9px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-150">copy</span>
+                </button>
+              </div>
+
             </div>
 
-            {/* phone */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[12px]">&#62;</span>
-                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">phone</span>
+            {/* RIGHT: links */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 mb-2">
+                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[11px]">&#62;</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">links</span>
               </div>
-              <button
-                onClick={() => navigator.clipboard.writeText("+91 98765 43210")}
-                className="group flex items-center gap-2 ml-4 text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#463B34] dark:hover:text-[#C4B5A0] transition-colors"
-              >
-                <span className="border-b border-transparent group-hover:border-[#463B34]/40 dark:group-hover:border-[#C4B5A0]/40 transition-all duration-300 pb-px">+91 98765 43210</span>
-                <span className="text-[10px] text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-opacity duration-200 tracking-wide">copy</span>
-              </button>
-            </div>
-
-            {/* links */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[12px]">&#62;</span>
-                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">links</span>
-              </div>
-              <div className="ml-4 space-y-2">
+              <div className="ml-3.5 space-y-1.5">
                 {[
-                  { label: "LinkedIn", href: "#" },
-                  { label: "Dribbble", href: "#" },
-                  { label: "Medium",   href: "#" },
-                  { label: "Resume",   href: "#" },
-                ].map(({ label, href }) => (
-                  <a
+                  { label: "LinkedIn", primary: false },
+                  { label: "Dribbble", primary: false },
+                  { label: "Medium",   primary: false },
+                  { label: "Resume",   primary: true  },
+                ].map(({ label, primary }) => (
+                  <motion.a
                     key={label}
-                    href={href}
+                    href="#"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-1.5 w-fit text-[14px] text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#463B34] dark:hover:text-[#C4B5A0] transition-colors"
+                    whileHover={{ x: 3 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="group flex items-center gap-1.5 w-fit"
                   >
-                    <span className="border-b border-transparent group-hover:border-[#463B34]/40 dark:group-hover:border-[#C4B5A0]/40 transition-all duration-300 pb-px">{label}</span>
-                    <motion.span
-                      initial={{ x: -4, opacity: 0 }}
-                      whileHover={{ x: 0, opacity: 1 }}
-                      className="text-[11px] text-[#7A736C] dark:text-[#9E9893] opacity-0 group-hover:opacity-100 transition-all duration-200"
-                    >↗</motion.span>
-                  </a>
+                    <span className={`border-b border-dashed transition-all duration-200 pb-px leading-snug ${
+                      primary
+                        ? "text-[14px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7] border-[#1A1A1A]/25 dark:border-[#F0EDE7]/25 group-hover:border-solid group-hover:border-[#1A1A1A]/70 dark:group-hover:border-[#F0EDE7]/70"
+                        : "text-[13px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-[#1A1A1A]/12 dark:border-[#F0EDE7]/12 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]"
+                    }`}>{label}</span>
+                    <span className={`transition-all duration-200 translate-x-0 group-hover:translate-x-0.5 ${
+                      primary
+                        ? "text-[11px] text-[#1A1A1A]/40 dark:text-[#F0EDE7]/40 group-hover:text-[#1A1A1A]/80 dark:group-hover:text-[#F0EDE7]/80"
+                        : "text-[10px] text-[#7A736C]/60 dark:text-[#9E9893]/60 group-hover:text-[#7A736C] dark:group-hover:text-[#9E9893]"
+                    }`}>↗</span>
+                  </motion.a>
                 ))}
               </div>
             </div>
