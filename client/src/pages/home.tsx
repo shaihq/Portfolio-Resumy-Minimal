@@ -2649,7 +2649,7 @@ export default function Home() {
                 </div>
               )}
               {/* Profile content */}
-              <div className="p-4 flex flex-col md:flex-row gap-6 items-start md:items-center">
+              <div className="p-5 md:p-6 flex flex-col md:flex-row gap-8 items-start md:items-center">
                 <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-black/5 dark:border-white/10 shadow-sm bg-[#A1C2D8]">
                   <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
                 </div>
@@ -2701,7 +2701,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.45 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-4 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-5 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -2713,11 +2713,11 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-3" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECTS</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-5" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>PROJECTS</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Project 1 */}
-                <div className="flex flex-col gap-4 group/card cursor-pointer relative" onClick={() => handleProjectClick("slate")}>
+                <div className="flex flex-col gap-5 group/card cursor-pointer relative" onClick={() => handleProjectClick("slate")}>
                   {isEditing && (
                     <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                       <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
@@ -2742,7 +2742,7 @@ export default function Home() {
                 </div>
 
                 {/* Project 2 */}
-                <div className="flex flex-col gap-4 group/card cursor-pointer relative" onClick={() => handleProjectClick("antimetal")}>
+                <div className="flex flex-col gap-5 group/card cursor-pointer relative" onClick={() => handleProjectClick("antimetal")}>
                   {isEditing && (
                     <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                       <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
@@ -2774,7 +2774,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.6 }}
               ref={careerLadderRef} 
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-4 md:p-6 w-full mt-2 relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-5 md:p-7 w-full mt-2 relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -2784,7 +2784,7 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CAREER LADDER</h2>
               
               <div ref={ladderContainerRef} className="relative flex">
                 {/* Character climbing ladder */}
@@ -2798,9 +2798,9 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="space-y-12 pl-16 relative z-10 w-full pt-1 pb-2">
+                <div className="space-y-14 pl-16 relative z-10 w-full pt-1 pb-2">
                   {/* Experience 1 */}
-                  <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-4 -mx-4 rounded-2xl transition-colors">
+                  <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-5 -mx-5 rounded-2xl transition-colors">
                     {isEditing && (
                       <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                         <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
@@ -2862,7 +2862,7 @@ export default function Home() {
                   </div>
 
                   {/* Experience 2 */}
-                  <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-4 -mx-4 rounded-2xl transition-colors">
+                  <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-5 -mx-5 rounded-2xl transition-colors">
                     {isEditing && (
                       <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                         <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
@@ -2925,7 +2925,7 @@ export default function Home() {
                   </div>
 
                   {/* Experience 3 */}
-                  <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-4 -mx-4 rounded-2xl transition-colors">
+                  <div className="relative group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-5 -mx-5 rounded-2xl transition-colors">
                     {isEditing && (
                       <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                         <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-[#E5D7C4] dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A]" onClick={(e) => { e.stopPropagation(); }}>
@@ -2995,7 +2995,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.75 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 py-2 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 py-3 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3033,7 +3033,7 @@ export default function Home() {
                       key={i}
                       src={tool.image} 
                       alt={tool.name} 
-                      className="flex-shrink-0 w-9 h-9 hover:scale-110 transition-transform cursor-pointer" 
+                      className="flex-shrink-0 w-10 h-10 hover:scale-110 transition-transform cursor-pointer" 
                     />
                   ))}
                 </motion.div>
@@ -3045,7 +3045,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.9 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-7 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3055,10 +3055,10 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
               {/* Pegboard Grid Background */}
-              <div className="relative w-full mb-8 rounded-[26px] border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
+              <div className="relative w-full mb-10 rounded-[26px] border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
                 {/* Invisible larger boundary for drag constraints allowing slight overflow */}
                 <div className="absolute -inset-6 md:-inset-10 pointer-events-none" ref={pegboardRef}></div>
                 
@@ -3217,7 +3217,7 @@ export default function Home() {
               </div>
 
               {/* Story Text */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[16px] leading-relaxed">
                   I'm Matt Chen, a passionate Design Engineer focused on crafting meaningful digital experiences where design meets code. Currently exploring new ways to create intuitive interfaces that users love, I'm driven by curiosity and a deep appreciation for thoughtful, purposeful design.
                 </p>
@@ -3232,7 +3232,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.95 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-7 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3242,9 +3242,9 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>TESTIMONIALS</h2>
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>TESTIMONIALS</h2>
               
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="relative w-full">
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -3255,7 +3255,7 @@ export default function Home() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       onMouseEnter={() => setIsHoveringTestimonial(true)}
                       onMouseLeave={() => setIsHoveringTestimonial(false)}
-                      className="group border border-[#E5D7C4] dark:border-white/10 p-6 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative"
+                      className="group border border-[#E5D7C4] dark:border-white/10 p-7 rounded-2xl bg-white/50 dark:bg-[#2A2520]/50 hover:bg-white dark:hover:bg-[#35302A] transition-colors relative"
                     >
                       {isEditing && (
                         <div className="absolute top-4 right-4 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100">
@@ -3267,11 +3267,11 @@ export default function Home() {
                           </Button>
                         </div>
                       )}
-                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-6 relative z-10">
+                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[15px] leading-relaxed mb-8 relative z-10">
                         "{creativeTestimonials[currentTestimonialIndex].text}"
                       </p>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-5">
                           <div className="w-10 h-10 rounded-xl bg-[#E5D7C4] dark:bg-white/10 overflow-hidden shrink-0">
                             <img src={creativeTestimonials[currentTestimonialIndex].image} alt={creativeTestimonials[currentTestimonialIndex].name} className="w-full h-full object-cover" />
                           </div>
@@ -3346,7 +3346,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 12, delay: 1.05 }}
-              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-6 w-full relative group/section"
+              className="bg-white/80 dark:bg-[#2A2520]/80 backdrop-blur-md rounded-[26px] border border-[#E5D7C4] dark:border-white/10 p-7 w-full relative group/section"
             >
               {isEditing && (
                 <div className="absolute -top-3 -right-3 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 transition-opacity z-10 flex gap-2">
@@ -3356,8 +3356,8 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-6" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CONTACT</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+              <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>CONTACT</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <motion.div whileHover="hover" initial="rest" className="w-full relative group/link">
                   {isEditing && (
                     <div className="absolute top-1/2 -translate-y-1/2 right-4 z-40 transition-opacity flex gap-1.5 opacity-100 md:opacity-0 md:group-hover/link:opacity-100">
@@ -3395,7 +3395,7 @@ export default function Home() {
                   </Button>
                 </motion.div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <motion.div whileHover="hover" initial="rest" className="w-full relative group/link">
                   {isEditing && (
                     <div className="absolute top-1/2 -translate-y-1/2 right-4 z-40 transition-opacity flex gap-1.5 opacity-100 md:opacity-0 md:group-hover/link:opacity-100">
