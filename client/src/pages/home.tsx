@@ -775,7 +775,7 @@ export default function Home() {
           right: 0;
         }
       `}} />
-      <div className={cn("w-full max-w-[960px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
+      <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
         activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
