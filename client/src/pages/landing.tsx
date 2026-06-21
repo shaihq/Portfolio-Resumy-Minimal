@@ -828,7 +828,7 @@ export default function Landing() {
 
   return (
     <div id="overview" className="min-h-screen bg-[#FFFEF2] dark:bg-background text-[#1D1B1A] dark:text-foreground antialiased overflow-x-clip flex justify-center" style={{ fontFamily: '"Manrope", sans-serif' }}>
-      <div className="w-full max-w-[720px] bg-[#FFFEF2] dark:bg-background min-h-screen border-x border-[#EAE9E4] dark:border-border relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
+      <div className="w-full max-w-[792px] bg-[#FFFEF2] dark:bg-background min-h-screen border-x border-[#EAE9E4] dark:border-border relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.02)]">
         
         {/* Left Floating Nav */}
         <div className="hidden lg:block absolute right-full top-0 bottom-0 z-40">
