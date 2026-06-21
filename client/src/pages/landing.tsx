@@ -1040,7 +1040,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-              className="text-[35px] sm:text-[45px] lg:text-[58px] leading-[1.1] tracking-[-0.02em] max-w-[660px] mb-5 text-[#463B34] dark:text-foreground text-center"
+              className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[660px] mb-5 text-[#463B34] dark:text-foreground text-center"
               style={{ fontWeight: 650 }}
             >Build your Portfolio.<br />Land 10x more Interviews.</motion.h1>
             
@@ -1051,7 +1051,7 @@ export default function Landing() {
               className="text-[17px] mb-8 max-w-[572px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
               {heroTab === 'resume'
-                ? "Upload your resume. We'll turn it into a portfolio website and match you with relevant jobs."
+                ? "Upload your resume. We'll turn it into a portfolio website and match you with jobs that fit your experience."
                 : "Pick your domain. AI helps you build a portfolio and powers your job search."}
             </motion.p>
             
