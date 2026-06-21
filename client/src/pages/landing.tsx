@@ -55,11 +55,10 @@ function BuiltForTypewriter() {
 
   return (
     <div className="inline-flex items-center gap-[0.5em] whitespace-nowrap">
-      <Sun className="w-[13px] h-[13px] text-yellow-500 flex-shrink-0" />
+      <Sun className="w-[13px] h-[13px] text-yellow-500 flex-shrink-0" fill="currentColor" />
       <span className="text-[#1D1B1A]/50 dark:text-foreground/50 font-semibold">BUILT FOR</span>
       <span className="font-bold text-[#1D1B1A] dark:text-foreground">
-        {displayed}
-        <span className="inline-block w-[2px] h-[1em] bg-current align-middle ml-[1px] animate-pulse" />
+        {displayed}<span className="animate-pulse">_</span>
       </span>
     </div>
   );
@@ -964,7 +963,7 @@ export default function Landing() {
               <span className="text-[14px] font-bold tracking-tight text-[#1D1B1A] dark:text-foreground">/designfolio</span>
             </div>
             {/* Desktop: stats */}
-            <div className="hidden md:flex text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
+            <div className="hidden md:flex text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] items-center min-w-[200px]">
               <BuiltForTypewriter />
             </div>
             <div className="flex items-center">
