@@ -23,46 +23,44 @@ import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
 
-function BlurHoverText({ defaultText, hoverText, scrollActive }: { defaultText: string, hoverText: string, scrollActive?: boolean }) {
-  const [isHovered, setIsHovered] = useState(false);
-  // Show hoverText when: (hovered and not scrolled) OR (scrolled and not hovered)
-  const showHoverText = isHovered !== !!scrollActive;
+function BuiltForTypewriter() {
+  const roles = ["PRODUCT DESIGNERS", "DEVS", "PRODUCT MANAGERS"];
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayed, setDisplayed] = useState("");
+  const [phase, setPhase] = useState<"typing" | "pausing" | "deleting">("typing");
+
+  useEffect(() => {
+    const target = roles[roleIndex];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (phase === "typing") {
+      if (displayed.length < target.length) {
+        timeout = setTimeout(() => setDisplayed(target.slice(0, displayed.length + 1)), 55);
+      } else {
+        timeout = setTimeout(() => setPhase("pausing"), 1600);
+      }
+    } else if (phase === "pausing") {
+      timeout = setTimeout(() => setPhase("deleting"), 0);
+    } else {
+      if (displayed.length > 0) {
+        timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35);
+      } else {
+        setRoleIndex((i) => (i + 1) % roles.length);
+        setPhase("typing");
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayed, phase, roleIndex]);
 
   return (
-    <div
-      className="relative cursor-default inline-flex h-full items-center"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="flex gap-[0.3em] items-center whitespace-nowrap">
-        {defaultText.split(" ").map((word, i) => (
-          <motion.span
-            key={i}
-            animate={{
-              opacity: showHoverText ? 0 : 1,
-              filter: showHoverText ? "blur(4px)" : "blur(0px)",
-            }}
-            transition={{ duration: 0.3, delay: showHoverText ? 0 : i * 0.08 }}
-          >
-            {word}
-          </motion.span>
-        ))}
-      </div>
-
-      <div className="absolute left-0 flex gap-[0.3em] whitespace-nowrap pointer-events-none">
-        {hoverText.split(" ").map((word, i) => (
-          <motion.span
-            key={i}
-            animate={{
-              opacity: showHoverText ? 1 : 0,
-              filter: showHoverText ? "blur(0px)" : "blur(4px)",
-            }}
-            transition={{ duration: 0.3, delay: showHoverText ? i * 0.08 : 0 }}
-          >
-            {word}
-          </motion.span>
-        ))}
-      </div>
+    <div className="inline-flex items-center gap-[0.5em] whitespace-nowrap">
+      <Sun className="w-[13px] h-[13px] text-yellow-500 flex-shrink-0" />
+      <span className="text-[#1D1B1A]/50 dark:text-foreground/50 font-semibold">BUILT FOR</span>
+      <span className="font-bold text-[#1D1B1A] dark:text-foreground">
+        {displayed}
+        <span className="inline-block w-[2px] h-[1em] bg-current align-middle ml-[1px] animate-pulse" />
+      </span>
     </div>
   );
 }
@@ -967,7 +965,7 @@ export default function Landing() {
             </div>
             {/* Desktop: stats */}
             <div className="hidden md:flex text-[13px] font-semibold tracking-wide text-[#1D1B1A]/70 dark:text-foreground/70 uppercase h-[20px] items-center min-w-[200px]" style={{ fontFamily: '"Geist Mono", monospace' }}>
-              <BlurHoverText defaultText="25000+ USERS" hoverText="5000+ PORTFOLIOS LAUNCHED" scrollActive={showNavCTA} />
+              <BuiltForTypewriter />
             </div>
             <div className="flex items-center">
               <Button variant="outline" className="rounded-full px-5 h-8 text-[13px] font-medium border-black/10 dark:border-border hover:bg-black/5 dark:hover:bg-white/5 bg-transparent text-[#1D1B1A] dark:text-foreground">
