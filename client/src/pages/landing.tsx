@@ -56,7 +56,7 @@ function BuiltForTypewriter() {
   return (
     <div className="inline-flex items-center gap-[0.5em] whitespace-nowrap">
       <Sun className="w-[13px] h-[13px] text-yellow-500 flex-shrink-0" fill="currentColor" />
-      <span className="text-[#1D1B1A]/70 dark:text-foreground/30 font-semibold">BUILT FOR</span>
+      <span className="text-[#1D1B1A]/70 dark:text-foreground/45 font-semibold">BUILT FOR</span>
       <span className="font-bold text-[#1D1B1A] dark:text-foreground">
         {displayed}<span className="animate-pulse">_</span>
       </span>
@@ -128,7 +128,7 @@ function MasonryScrollCard({ t }: { t: ScrollTestimonial }) {
           <img src={t.image} alt={t.name} className="h-8 w-8 rounded-full object-cover flex-shrink-0" />
           <div className="flex flex-col min-w-0 gap-0.5">
             <span className="text-[13px] font-semibold text-[#1D1B1A] dark:text-foreground leading-none truncate">{t.name}</span>
-            <span className="text-[11.5px] text-[#1D1B1A]/70 dark:text-foreground/30 leading-tight truncate">{t.role}</span>
+            <span className="text-[11.5px] text-[#1D1B1A]/70 dark:text-foreground/45 leading-tight truncate">{t.role}</span>
           </div>
         </div>
         {t.logoSrc && (
@@ -462,7 +462,7 @@ function TestimonialCarousel() {
                 </div>
                 <div className="flex flex-col min-w-0">
                   <div className="text-[#1D1B1A] dark:text-foreground text-[15px] font-bold leading-tight mb-0.5">{testimonials[currentIndex].name}</div>
-                  <div className="text-[13px] font-medium text-[#1D1B1A]/70 dark:text-foreground/30 leading-tight">{testimonials[currentIndex].role}</div>
+                  <div className="text-[13px] font-medium text-[#1D1B1A]/70 dark:text-foreground/45 leading-tight">{testimonials[currentIndex].role}</div>
                 </div>
               </div>
               {testimonials[currentIndex].logoSrc && (
@@ -922,7 +922,7 @@ export default function Landing() {
                 </span>
               </div>
 
-              <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/70 dark:text-foreground/30 pb-4 bg-[#FFFEF2] dark:bg-background">
+              <nav className="flex flex-col gap-2.5 text-[15px] font-medium text-[#1D1B1A]/70 dark:text-foreground/45 pb-4 bg-[#FFFEF2] dark:bg-background">
                 <a href="#overview" onClick={(e) => { e.preventDefault(); scrollToSection('overview'); }} className={cn("transition-colors", activeSection === 'overview' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Start here</a>
                 <a href="#stories" onClick={(e) => { e.preventDefault(); scrollToSection('stories', 'center'); }} className={cn("transition-colors", activeSection === 'stories' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>Success stories</a>
                 <a href="#how" onClick={(e) => { e.preventDefault(); scrollToSection('how', 'start'); }} className={cn("transition-colors", activeSection === 'how' ? "text-[#E54D2E] font-semibold" : "hover:text-[#1D1B1A] dark:hover:text-foreground")}>How it works</a>
@@ -1444,7 +1444,7 @@ export default function Landing() {
           <section className="w-full border-t border-[#EAE9E4] dark:border-border pt-10 pb-10 overflow-hidden bg-[#F4F3E5] dark:bg-card">
             <div className="px-6 mb-6 text-center">
               <h2 className="text-[22px] font-bold text-[#1D1B1A] dark:text-foreground tracking-tight">See what people are building</h2>
-              <p className="mt-1.5 text-[14px] text-[#1D1B1A]/70 dark:text-foreground/30 font-medium">Over 1000+ portfolios are published every week.</p>
+              <p className="mt-1.5 text-[14px] text-[#1D1B1A]/70 dark:text-foreground/45 font-medium">Over 1000+ portfolios are published every week.</p>
             </div>
             <PortfolioGallery />
           </section>
@@ -1528,7 +1528,7 @@ export default function Landing() {
 
           {/* Footer */}
           <footer className="w-full border-t border-[#EAE9E4] dark:border-border">
-            <div className="px-6 py-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[13px] font-medium text-[#1D1B1A]/70 dark:text-foreground/30 bg-[#F4F3E5] dark:bg-card">
+            <div className="px-6 py-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[13px] font-medium text-[#1D1B1A]/70 dark:text-foreground/45 bg-[#F4F3E5] dark:bg-card">
               <a href="/privacy-policy" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Terms & Conditions</a>
               <a href="#" className="hover:text-[#1D1B1A] dark:text-foreground transition-colors">Refund Policy</a>
@@ -1564,7 +1564,7 @@ export default function Landing() {
               {/* Close */}
               <button
                 onClick={() => setShowUploadModal(false)}
-                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08] text-[#1D1B1A]/70 dark:text-foreground/30 hover:bg-[#1D1B1A]/[0.12] dark:hover:bg-white/[0.14] hover:text-[#1D1B1A] dark:hover:text-foreground transition-all duration-150"
+                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-[#1D1B1A]/[0.06] dark:bg-white/[0.08] text-[#1D1B1A]/70 dark:text-foreground/45 hover:bg-[#1D1B1A]/[0.12] dark:hover:bg-white/[0.14] hover:text-[#1D1B1A] dark:hover:text-foreground transition-all duration-150"
               >
                 <X className="w-3.5 h-3.5" strokeWidth={2.5} />
               </button>
@@ -1694,7 +1694,7 @@ export default function Landing() {
                         />
                         <div>
                           <p className="text-[15px] font-semibold text-[#1D1B1A] dark:text-foreground leading-snug mb-1">{title}</p>
-                          <p className="text-[13px] text-[#1D1B1A]/70 dark:text-foreground/30 leading-relaxed">{desc}</p>
+                          <p className="text-[13px] text-[#1D1B1A]/70 dark:text-foreground/45 leading-relaxed">{desc}</p>
                         </div>
                       </div>
                     ))}
