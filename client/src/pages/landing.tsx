@@ -1043,7 +1043,7 @@ export default function Landing() {
               className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[520px] mb-5 text-[#463B34] dark:text-foreground text-center"
               style={{ fontWeight: 650 }}
             >Build Your Portfolio. 
-            Land 10× More Interviews.</motion.h1>
+            Land 10x More Interviews.</motion.h1>
             
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
