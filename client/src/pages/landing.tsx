@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, Mic, Mail, BarChart2, CheckCircle2, X, Check, User, LayoutTemplate, EyeOff, XCircle, PenLine } from "lucide-react";
+import { ArrowUpRight, Sun, Moon, ChevronLeft, ChevronRight, FileText, TrendingUp, Mic, Mail, BarChart2, CheckCircle2, X, Check, User, LayoutTemplate, EyeOff, XCircle, PenLine, Sparkles } from "lucide-react";
 import { ColorOrb } from "@/components/ui/color-orb";
 import { Folder } from "@/components/ui/folder";
 import mockupImg from "@assets/image_1773592620611.png";
@@ -1218,8 +1218,8 @@ export default function Landing() {
             {(() => {
               const CIRC = 2 * Math.PI * 7.5;
               const steps = [
-                { label: "Build your portfolio", video: isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4" },
-                { label: "Find your next role", video: isDark ? "/landing-video/hero-jobs-dark.mp4" : "/landing-video/hero-jobs-light.mp4" },
+                { label: "Portfolio Builder", video: isDark ? "/landing-video/hero-dark.mp4" : "/landing-video/hero-light.mp4" },
+                { label: "AI Job Matching", video: isDark ? "/landing-video/hero-jobs-dark.mp4" : "/landing-video/hero-jobs-light.mp4" },
               ];
               return (
                 <motion.div
@@ -1231,21 +1231,25 @@ export default function Landing() {
                   {/* Unified card: tab header + video */}
                   <div className="overflow-hidden">
                     {/* Tab header — sits on page background, hairline bottom border */}
-                    <div className="flex items-end pb-4 gap-8 px-1">
+                    <div className="flex items-end justify-center pb-4 gap-8 px-1">
                       {steps.map((step, i) => {
                         const isActive = heroStep === i;
                         return (
                           <button
                             key={i}
                             onClick={() => { setHeroStep(i); setHeroProgress(0); }}
-                            className="relative flex flex-col items-start gap-2 cursor-pointer group"
+                            className="relative flex flex-col items-center gap-2 cursor-pointer group"
                           >
                             <span className={cn(
-                              "text-[13px] font-semibold leading-none transition-colors duration-200 whitespace-nowrap",
+                              "flex items-center gap-1.5 text-[14.5px] font-semibold leading-none transition-colors duration-200 whitespace-nowrap",
                               isActive
                                 ? "text-[#1D1B1A] dark:text-foreground"
                                 : "text-[#1D1B1A]/35 dark:text-foreground/35 group-hover:text-[#1D1B1A]/55 dark:group-hover:text-foreground/55"
                             )}>
+                              {i === 0
+                                ? <LayoutTemplate className="w-[13px] h-[13px] shrink-0" strokeWidth={2} />
+                                : <Sparkles className="w-[13px] h-[13px] shrink-0" strokeWidth={2} />
+                              }
                               {step.label}
                             </span>
                             <div className="w-full h-[2px] rounded-full bg-[#1D1B1A]/10 dark:bg-white/10 overflow-hidden">
