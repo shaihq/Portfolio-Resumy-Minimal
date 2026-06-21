@@ -1040,7 +1040,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-              className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[520px] mb-5 text-[#463B34] dark:text-foreground text-center"
+              className="text-[35px] sm:text-[45px] leading-[1.1] tracking-[-0.02em] max-w-[600px] mb-5 text-[#463B34] dark:text-foreground text-center"
               style={{ fontWeight: 650 }}
             >Build your Portfolio.<br />Land 10x more Interviews.</motion.h1>
             
@@ -1048,7 +1048,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              className="text-[17px] mb-8 max-w-[450px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
+              className="text-[17px] mb-8 max-w-[520px] leading-relaxed font-semibold text-[#1d1b1ab3] dark:text-foreground/70"
             >
               {heroTab === 'resume'
                 ? "Upload your resume. We'll turn it into a portfolio website and match you with relevant jobs."
@@ -1059,7 +1059,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-              className="w-full max-w-[450px] flex flex-col items-center gap-4"
+              className="w-full max-w-[520px] flex flex-col items-center gap-4"
             >
               {/* Tab content */}
               <AnimatePresence mode="wait">
