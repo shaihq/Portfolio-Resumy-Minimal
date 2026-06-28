@@ -2214,7 +2214,7 @@ export default function Home() {
         <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Dino Game Section */}
-        <motion.div variants={sectionVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-sm">
+        <motion.div variants={sectionVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
           <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34] dark:text-[#C4B5A0] pointer-events-none">
             <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
             <div className="flex gap-4">
@@ -2226,7 +2226,7 @@ export default function Home() {
           <div 
             ref={gameRef}
             onClick={jump}
-            className="w-full h-48 relative flex items-end overflow-hidden cursor-pointer select-none bg-black/[0.015] dark:bg-white/[0.03] transition-colors hover:bg-black/[0.025] dark:hover:bg-white/[0.05]"
+            className="w-full h-48 relative flex items-end overflow-hidden cursor-pointer select-none bg-[#F5F0E8]/60 dark:bg-white/[0.04] backdrop-blur-sm transition-colors hover:bg-[#F5F0E8]/80 dark:hover:bg-white/[0.06]"
           >
             {/* Ground Line */}
             <div className="absolute bottom-12 left-0 w-full h-[1px] bg-[#E5D7C4] dark:bg-[#3A352E]"></div>
