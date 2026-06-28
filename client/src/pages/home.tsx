@@ -580,6 +580,8 @@ export default function Home() {
   };
 
   const { activeTemplate, activeBackground } = useTemplate();
+
+  const sectionVariants = activeTemplate === "Minimal" ? {} : itemVariants;
   const bgColor = useImageColor(activeTemplate === "Minimal" ? activeBackground : "");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("Projects");
@@ -1016,7 +1018,7 @@ export default function Home() {
         {activeTemplate === "Minimal" ? (
           <>
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8 relative group/section bg-white dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
+            <motion.div variants={sectionVariants} className="px-6 md:px-10 pt-8 pb-8 relative group/section bg-white dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1067,10 +1069,10 @@ export default function Home() {
         </motion.div>
 
         <div className="bg-white dark:bg-[#1A1A1A] flex flex-col flex-1">
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-5 flex justify-between items-center relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-5 flex justify-between items-center relative group/section">
           {isEditing && (
             <div className="absolute top-1/2 -translate-y-1/2 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1112,10 +1114,10 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Intro Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1129,10 +1131,10 @@ export default function Home() {
           </p>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Experience Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
               <Sheet modal={false} open={isExperiencePanelOpen} onOpenChange={setIsExperiencePanelOpen}>
@@ -1283,10 +1285,10 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Projects Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
           {isEditing && (
             <div className={`absolute top-4 right-4 z-10 transition-opacity flex gap-2 ${isProjectsAddDropdownOpen ? 'opacity-100' : 'opacity-100 md:opacity-0 md:group-hover/section:opacity-100'}`}>
               <Sheet modal={false} open={isProjectsRearrangeOpen} onOpenChange={setIsProjectsRearrangeOpen}>
@@ -1541,10 +1543,10 @@ export default function Home() {
           )}
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Recommendations Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100 flex gap-2">
               <Sheet modal={false} open={isRecommendationsRearrangeOpen} onOpenChange={setIsRecommendationsRearrangeOpen}>
@@ -1745,10 +1747,10 @@ export default function Home() {
           )}
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* My Story Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Sheet modal={false} open={isMyStoryPanelOpen} onOpenChange={setIsMyStoryPanelOpen}>
@@ -1874,10 +1876,10 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Stack Section */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Sheet modal={false} open={isStackPanelOpen} onOpenChange={setIsStackPanelOpen}>
@@ -1993,10 +1995,10 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section (Grid) */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10 relative group/section">
+        <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Sheet modal={false} open={isContactPanelOpen} onOpenChange={setIsContactPanelOpen}>
@@ -2190,10 +2192,10 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Dino Game Section */}
-        <motion.div variants={itemVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
+        <motion.div variants={sectionVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
           <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34] dark:text-[#C4B5A0] pointer-events-none">
             <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
             <div className="flex gap-4">
@@ -2272,7 +2274,7 @@ export default function Home() {
         ) : activeTemplate === "Professional" ? (
           <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden">
             {/* Top section: Avatar, Title, Subtitle */}
-            <motion.div variants={itemVariants} className="flex flex-col items-center w-full relative group/section">
+            <motion.div variants={sectionVariants} className="flex flex-col items-center w-full relative group/section">
               <div className="absolute top-4 left-4 z-50 transition-opacity opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
                 <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
                   <Pencil className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" />
