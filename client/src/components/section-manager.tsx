@@ -105,6 +105,32 @@ function ThreeColPreview() {
   );
 }
 
+function MoreLayoutsPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {/* Top row: 3 mini thumbnails */}
+      <rect x="8"  y="8"  width="50" height="38" rx="4" fill="currentColor" opacity="0.10" />
+      <rect x="18" y="18" width="14" height="11" rx="2" fill="currentColor" opacity="0.20" />
+      <rect x="65" y="8"  width="50" height="38" rx="4" fill="currentColor" opacity="0.10" />
+      <rect x="75" y="18" width="14" height="11" rx="2" fill="currentColor" opacity="0.20" />
+      <rect x="122" y="8"  width="50" height="38" rx="4" fill="currentColor" opacity="0.10" />
+      <rect x="132" y="18" width="14" height="11" rx="2" fill="currentColor" opacity="0.20" />
+      {/* Bottom row: 2 wider thumbnails */}
+      <rect x="8"  y="54" width="76" height="58" rx="4" fill="currentColor" opacity="0.10" />
+      <rect x="28" y="70" width="24" height="18" rx="2" fill="currentColor" opacity="0.20" />
+      <rect x="8"  y="98" width="50" height="4"  rx="2" fill="currentColor" opacity="0.22" />
+      <rect x="96" y="54" width="76" height="58" rx="4" fill="currentColor" opacity="0.10" />
+      <rect x="106" y="62" width="56" height="20" rx="3" fill="currentColor" opacity="0.13" />
+      <rect x="126" y="70" width="16" height="12" rx="2" fill="currentColor" opacity="0.20" />
+      <rect x="96"  y="98" width="50" height="4"  rx="2" fill="currentColor" opacity="0.22" />
+      {/* Plus badge centre */}
+      <circle cx="90" cy="83" r="10" fill="currentColor" opacity="0.12" />
+      <rect x="87" y="82" width="6" height="2" rx="1" fill="currentColor" opacity="0.50" />
+      <rect x="89" y="80" width="2" height="6" rx="1" fill="currentColor" opacity="0.50" />
+    </svg>
+  );
+}
+
 function ImageTextLeftPreview() {
   return (
     <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
@@ -312,10 +338,10 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
       action: () => onAdd("image-grid-2"),
     },
     {
-      label: "3-Column",
-      sub: "Three image + caption cards",
-      Preview: ThreeColPreview,
-      action: () => onAdd("image-grid-3"),
+      label: "More layouts",
+      sub: "Image grid, image + text & more",
+      Preview: MoreLayoutsPreview,
+      action: () => setModalOpen(true),
     },
   ];
 
@@ -356,15 +382,6 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
             </motion.button>
           ))}
         </div>
-
-        {/* More layouts link */}
-        <button
-          onClick={() => setModalOpen(true)}
-          className="mt-5 flex items-center gap-1.5 text-[11.5px] text-[#9E9893] dark:text-[#5A5450] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors duration-150 font-medium"
-        >
-          <Plus size={12} />
-          More layouts
-        </button>
       </motion.div>
 
       <AnimatePresence>
