@@ -880,8 +880,8 @@ export default function Home() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.92, y: 3 }}
                   transition={{ type: "spring", stiffness: 440, damping: 28 }}
-                  className="fixed pointer-events-none z-[300]"
-                  style={{ top: 82, left: 'calc(50% + 36px)', transform: 'translateX(-50%)' }}
+                  className="fixed left-[72px] right-0 flex justify-center pointer-events-none z-[300]"
+                  style={{ top: 82 }}
                 >
                   <div className="flex items-center gap-2 bg-[#0D0D0D]/92 backdrop-blur-md border border-white/[0.1] text-white rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/40">
                     <span className="relative flex h-[7px] w-[7px] flex-shrink-0">
@@ -903,10 +903,10 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  className="fixed pointer-events-auto z-[300]"
-                  style={{ top: 82, left: 'calc(50% + 36px)', transform: 'translateX(-50%)' }}
+                  className="fixed left-[72px] right-0 flex justify-center pointer-events-none z-[300]"
+                  style={{ top: 82 }}
                 >
-                  <div className="flex items-center gap-px bg-[#0D0D0D]/82 backdrop-blur-md border border-white/[0.08] rounded-full px-1.5 py-1.5 shadow-2xl shadow-black/30">
+                  <div className="flex items-center gap-px bg-[#0D0D0D]/82 backdrop-blur-md border border-white/[0.08] rounded-full px-1.5 py-1.5 shadow-2xl shadow-black/30 pointer-events-auto">
                     {[640, 880, 1024, 1200, 1440].map((w) => (
                       <button
                         key={w}
