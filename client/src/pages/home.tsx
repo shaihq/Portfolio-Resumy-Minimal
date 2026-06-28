@@ -726,12 +726,12 @@ export default function Home() {
             {/* Light mode: fade image into page bg at bottom */}
             <div
               className="absolute inset-0 dark:hidden"
-              style={{ background: 'linear-gradient(to bottom, rgba(240,237,231,0.08) 0%, rgba(240,237,231,0.15) 40%, rgba(240,237,231,0.7) 75%, #F0EDE7 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 65%, #F0EDE7 100%)' }}
             />
             {/* Dark mode */}
             <div
               className="absolute inset-0 hidden dark:block"
-              style={{ background: 'linear-gradient(to bottom, rgba(26,26,26,0.08) 0%, rgba(26,26,26,0.15) 40%, rgba(26,26,26,0.7) 75%, #1A1A1A 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 65%, #1A1A1A 100%)' }}
             />
           </div>
         )}
@@ -796,7 +796,7 @@ export default function Home() {
         }
       `}} />
       <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
-        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x mt-[200px] rounded-t-2xl overflow-hidden" : 
+        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x mt-[200px] rounded-t-2xl" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
