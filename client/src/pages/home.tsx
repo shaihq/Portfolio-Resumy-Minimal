@@ -2214,7 +2214,7 @@ export default function Home() {
         <motion.div variants={sectionVariants} className="custom-dashed-t"></motion.div>
 
         {/* Dino Game Section */}
-        <motion.div variants={sectionVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50">
+        <motion.div variants={sectionVariants} className="relative flex flex-col items-center justify-center overflow-hidden border-b border-[#E5D7C4]/50 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-sm">
           <div className="absolute top-6 left-8 right-8 flex justify-between z-10 font-['DM_Mono'] text-[10px] uppercase tracking-widest text-[#463B34] dark:text-[#C4B5A0] pointer-events-none">
             <span>{isGameOver ? "Game Over" : isPlaying ? "Playing" : "Tap to play"}</span>
             <div className="flex gap-4">
