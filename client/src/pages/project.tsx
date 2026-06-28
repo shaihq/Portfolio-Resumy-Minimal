@@ -482,99 +482,78 @@ export default function Project() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
+      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
     >
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
       `}} />
-      <style dangerouslySetInnerHTML={{ __html: `
-        .custom-dashed-x {
-          position: relative;
-        }
-        .custom-dashed-x::before, .custom-dashed-x::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 1px;
-          background-image: linear-gradient(to bottom, #C8C2BA 50%, transparent 50%);
-          background-size: 1px 10px;
-          z-index: 0;
-          pointer-events: none;
-        }
-        .dark .custom-dashed-x::before, .dark .custom-dashed-x::after {
-          background-image: linear-gradient(to bottom, #3A352E 50%, transparent 50%);
-        }
-        .custom-dashed-x::before {
-          left: 0;
-        }
-        .custom-dashed-x::after {
-          right: 0;
-        }
-        .custom-dashed-t {
-          height: 1px;
-          width: 100%;
-          background-image: linear-gradient(to right, #C8C2BA 50%, transparent 50%);
-          background-size: 10px 1px;
-        }
-        .dark .custom-dashed-t {
-          background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
-        }
-      `}} />
-      <div className="w-full max-w-[880px] custom-dashed-x relative min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col font-['Inter'] transition-colors duration-700">
-        
-        {/* Header */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8 flex items-center gap-3">
+
+      {/* ── FULL-BLEED HERO ── */}
+      <motion.div variants={itemVariants} className="relative w-full" style={{ minHeight: '92vh' }}>
+        {/* Background thumbnail */}
+        <img
+          src={project.image}
+          alt={project.title}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Dark gradient overlay — stronger at bottom for legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
+
+        {/* Nav bar — top overlay */}
+        <div className="relative z-10 flex items-center justify-between px-8 md:px-12 pt-7">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
+            className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors group"
           >
-            <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-1" />
-            Go back
+            <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+            Go Back
           </button>
-        </motion.div>
-
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
-
-        {/* Project Title & Intro */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8">
-          <h1 className="text-[30px] font-semibold mb-3 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h1>
-          <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px] mb-4" style={{ fontWeight: 500 }}>{project.subtitle}</p>
-        </motion.div>
-
-        {/* Featured Image */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 pb-5">
-          <img 
-            src={project.image} 
-            alt={project.title}
-            className="w-full rounded-xl overflow-hidden drop-shadow-sm border border-black/5 dark:border-white/10"
-          />
-        </motion.div>
-
-        {/* Project Details */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-6">
-          <div className="flex items-center gap-2 mb-6">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#463B34] dark:text-[#D4C9BC]">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider">Project Details</h2>
+          <div className="flex items-center gap-6 text-[13px] font-medium text-white/80">
+            <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
+            <button className="flex items-center gap-1 hover:text-white transition-colors">
+              <span className="text-[10px]">✦</span> Resume
+            </button>
           </div>
-          <div className="border border-[#C8C4BD] dark:border-[#3A352E] rounded-lg overflow-hidden bg-[#E7E3D9] dark:bg-[#2A2520]">
-            {Object.entries(project.details).map(([key, value], index) => (
-              <div key={key} className={`flex justify-between items-center px-4 py-3 ${index !== Object.entries(project.details).length - 1 ? 'border-b border-[#C8C4BD] dark:border-[#3A352E]' : ''}`}>
-                <span className="text-[12px] font-medium text-[#463B34] dark:text-[#D4C9BC] uppercase tracking-wide">{key}</span>
-                <span className="text-base text-[#7A736C] dark:text-[#B5AFA5]" style={{ fontWeight: 450 }}>{value as any}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
 
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
+        {/* Bottom content — title + metadata */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 px-8 md:px-12 pb-10">
+          {/* Title */}
+          <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 max-w-3xl">
+            {project.title}
+          </h1>
+
+          {/* Metadata row */}
+          <div className="flex flex-wrap gap-x-12 gap-y-4">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Role</span>
+              <span className="text-[13px] font-medium text-white">{project.details.client}</span>
+              <span className="text-[13px] text-white/80">{project.details.role}</span>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Timeline</span>
+              <span className="text-[13px] text-white">{project.details.industry}</span>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Tools</span>
+              <span className="text-[13px] text-white">{project.details.platform}</span>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Team</span>
+              <span className="text-[13px] font-medium text-white">Designer: Me</span>
+              <span className="text-[13px] text-white/80">Collaborators: PMs, Devs</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ── BODY ── */}
+      <div className="w-full max-w-[880px] mx-auto flex flex-col font-['Inter']">
 
         {/* Introduction */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-10">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 py-14">
           <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Introduction</h2>
-          <div className="space-y-4 mb-6">
+          <div className="space-y-4">
             {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
               <p key={idx} className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-[17px]" style={{ fontWeight: 450 }}>
                 {paragraph}
@@ -584,33 +563,29 @@ export default function Project() {
         </motion.div>
 
         {/* Introduction Image */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 pb-10">
+        <motion.div variants={itemVariants} className="px-6 md:px-10 pb-16">
           <img 
             src={contentImage} 
             alt="Introduction visual"
-            className="w-full rounded-lg overflow-hidden drop-shadow-md border border-black/5 dark:border-white/10"
+            className="w-full rounded-lg overflow-hidden"
           />
         </motion.div>
-
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact CTA / Footer */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 py-8 flex flex-col items-center text-center">
           <h1 className="text-[23px] font-['Cedarville_Cursive'] text-[#1A1A1A] dark:text-[#F0EDE7] mb-2">Mike Starves</h1>
           <p className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4 text-[28px] font-semibold max-w-sm leading-tight">Got a project in mind or just curious? Let's talk.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer border-0">
               <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy mail</span>
               <AtSignIcon size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
             </Button>
-            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl border border-black/5 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer">
+            <Button variant="outline" size="sm" className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#2A2520] rounded-xl shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors group h-auto hover:cursor-pointer border-0">
               <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium text-sm">Copy phone</span>
               <Phone size={14} className="text-[#7A736C] dark:text-[#9E9893] group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7]" />
             </Button>
           </div>
         </motion.div>
-
-        <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Footer */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 py-5 text-center">
