@@ -490,18 +490,21 @@ export default function Project() {
 
       {/* ── FULL-BLEED HERO ── */}
       <motion.div variants={itemVariants} className="relative w-full" style={{ minHeight: '92vh' }}>
-        {/* Background thumbnail */}
-        <img
+        {/* Background thumbnail — subtle zoom-in on mount */}
+        <motion.img
           src={project.image}
           alt={project.title}
           className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
         {/* Dark gradient overlay — stronger at bottom for legibility */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
 
         {/* Nav bar — top overlay */}
         <div className="relative z-10 flex justify-center pt-7">
-          <div className="w-full max-w-[880px] px-6 md:px-10 flex items-center justify-between">
+          <div className="w-full max-w-[1100px] px-6 md:px-12 flex items-center justify-between">
             <button
               onClick={() => navigate("/")}
               className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors group"
@@ -520,7 +523,7 @@ export default function Project() {
 
         {/* Bottom content — title + metadata */}
         <div className="absolute bottom-0 left-0 right-0 z-10 flex justify-center pb-10">
-        <div className="w-full max-w-[880px] px-6 md:px-10">
+        <div className="w-full max-w-[1100px] px-6 md:px-12">
           {/* Title */}
           <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 max-w-3xl">
             {project.title}
