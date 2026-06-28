@@ -711,8 +711,30 @@ export default function Home() {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24"
+        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative"
       >
+        {/* Full-bleed wallpaper — Minimal template only, sits behind the card */}
+        {activeTemplate === "Minimal" && (
+          <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 340 }}>
+            <img
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80"
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+            />
+            {/* Light mode: fade image into page bg at bottom */}
+            <div
+              className="absolute inset-0 dark:hidden"
+              style={{ background: 'linear-gradient(to bottom, rgba(240,237,231,0.08) 0%, rgba(240,237,231,0.15) 40%, rgba(240,237,231,0.7) 75%, #F0EDE7 100%)' }}
+            />
+            {/* Dark mode */}
+            <div
+              className="absolute inset-0 hidden dark:block"
+              style={{ background: 'linear-gradient(to bottom, rgba(26,26,26,0.08) 0%, rgba(26,26,26,0.15) 40%, rgba(26,26,26,0.7) 75%, #1A1A1A 100%)' }}
+            />
+          </div>
+        )}
         <style dangerouslySetInnerHTML={{ __html: `
         .custom-dashed-x {
           position: relative;
@@ -775,36 +797,16 @@ export default function Home() {
           right: 0;
         }
       `}} />
-      <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700", 
-        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x" : 
+      <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
+        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x mt-[200px]" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
         {activeTemplate === "Minimal" ? (
           <>
             <SmoothCursor type="minimal" />
-            {/* Wallpaper Banner */}
-            <div className="relative w-full overflow-hidden" style={{ height: 210 }}>
-              <img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80"
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover object-center"
-                loading="eager"
-              />
-              {/* Light mode fade overlay */}
-              <div
-                className="absolute inset-0 dark:hidden"
-                style={{ background: 'linear-gradient(to bottom, rgba(240,237,231,0.05) 0%, rgba(240,237,231,0.45) 55%, #F0EDE7 100%)' }}
-              />
-              {/* Dark mode fade overlay */}
-              <div
-                className="absolute inset-0 hidden dark:block"
-                style={{ background: 'linear-gradient(to bottom, rgba(26,26,26,0.05) 0%, rgba(26,26,26,0.45) 55%, #1A1A1A 100%)' }}
-              />
-            </div>
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 md:pt-10 pb-8 relative group/section">
+            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -813,7 +815,7 @@ export default function Home() {
             </div>
           )}
           <div className="flex items-start justify-between gap-4 mb-6">
-            <Avatar className="w-[96px] h-[96px] rounded-2xl">
+            <Avatar className="w-[96px] h-[96px] rounded-2xl -mt-14 ring-[3px] ring-[#F0EDE7] dark:ring-[#1A1A1A] shadow-lg">
               <AvatarImage src={profileImg} className="object-cover" />
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
