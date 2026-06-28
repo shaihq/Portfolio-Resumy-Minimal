@@ -84,6 +84,7 @@ export default function Home() {
   const [isProjectsRearrangeOpen, setIsProjectsRearrangeOpen] = useState(false);
   const [isProjectsPanelOpen, setIsProjectsPanelOpen] = useState(false);
   const [isProjectsAddDropdownOpen, setIsProjectsAddDropdownOpen] = useState(false);
+  const [projectsLayout, setProjectsLayout] = useState<'grid' | 'list'>('grid');
   const [isExperiencePanelOpen, setIsExperiencePanelOpen] = useState(false);
   const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
   const [projects, setProjects] = useState([
@@ -1291,6 +1292,29 @@ export default function Home() {
         <motion.div variants={sectionVariants} className="px-6 md:px-10 py-10 pb-20 relative group/section">
           {isEditing && (
             <div className={`absolute top-4 right-4 z-10 transition-opacity flex gap-2 ${isProjectsAddDropdownOpen ? 'opacity-100' : 'opacity-100 md:opacity-0 md:group-hover/section:opacity-100'}`}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors"
+                onClick={() => setProjectsLayout(projectsLayout === 'grid' ? 'list' : 'grid')}
+                title={projectsLayout === 'grid' ? 'Switch to single column' : 'Switch to 2-column grid'}
+              >
+                {projectsLayout === 'grid' ? (
+                  <svg className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" viewBox="0 0 16 16" fill="currentColor">
+                    <rect x="1" y="1" width="6" height="6" rx="1.2"/>
+                    <rect x="9" y="1" width="6" height="6" rx="1.2"/>
+                    <rect x="1" y="9" width="6" height="6" rx="1.2"/>
+                    <rect x="9" y="9" width="6" height="6" rx="1.2"/>
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" viewBox="0 0 16 16" fill="currentColor">
+                    <rect x="1" y="2" width="14" height="3.5" rx="1.2"/>
+                    <rect x="1" y="6.25" width="14" height="3.5" rx="1.2"/>
+                    <rect x="1" y="10.5" width="14" height="3.5" rx="1.2"/>
+                  </svg>
+                )}
+              </Button>
+
               <Sheet modal={false} open={isProjectsRearrangeOpen} onOpenChange={setIsProjectsRearrangeOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1485,7 +1509,7 @@ export default function Home() {
             </div>
           ) : (
             <CursorProvider>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-8">
+              <div className={`grid gap-x-5 gap-y-8 ${projectsLayout === 'grid' ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
                 {projects.map((project) => (
                   <div key={project.id} onClick={() => handleProjectClick(project.slug)} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-2xl hover:bg-black/[0.05] dark:hover:bg-white/[0.05] transition-all duration-300 relative">
                     {isEditing && (
