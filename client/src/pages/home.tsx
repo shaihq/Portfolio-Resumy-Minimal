@@ -1019,7 +1019,7 @@ export default function Home() {
         {activeTemplate === "Minimal" ? (
           <>
             {/* Header Section */}
-            <motion.div variants={sectionVariants} className="px-6 md:px-10 pt-8 pb-8 relative group/section bg-white/75 dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
+            <motion.div variants={sectionVariants} className="px-6 md:px-10 pt-8 pb-8 relative group/section bg-white/83 dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
