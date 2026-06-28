@@ -1,6 +1,7 @@
 import { Node, mergeAttributes } from "@tiptap/core";
 import { ReactNodeViewRenderer, NodeViewWrapper } from "@tiptap/react";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
+import { RefreshCw } from "lucide-react";
 
 // ─── React node view ──────────────────────────────────────────────────────────
 
@@ -14,31 +15,55 @@ function ResizableImageView({
   selected: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
   const widthPct: number = node.attrs.width ?? 100;
 
-  const startResize = useCallback(
+  const visible = isHovered || selected;
+
+  // ── Replace image ──────────────────────────────────────────────────────────
+  const handleReplace = (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const src = e.target?.result as string;
+      if (src) updateAttributes({ src, alt: file.name });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // ── Right-handle resize ────────────────────────────────────────────────────
+  const startResizeRight = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-
       const startX = e.clientX;
       const startWidth = widthPct;
-      const containerEl = containerRef.current?.parentElement;
-      const containerWidth = containerEl?.offsetWidth ?? 800;
-
+      const containerWidth = containerRef.current?.parentElement?.offsetWidth ?? 800;
       const onMove = (ev: MouseEvent) => {
-        const dx = ev.clientX - startX;
-        // Moving right → wider, left → narrower. ×2 because image is centered (both sides move).
-        const delta = (dx / containerWidth) * 100 * 2;
-        const next = Math.min(100, Math.max(20, Math.round(startWidth + delta)));
-        updateAttributes({ width: next });
+        const delta = ((ev.clientX - startX) / containerWidth) * 100 * 2;
+        updateAttributes({ width: Math.min(100, Math.max(20, Math.round(startWidth + delta))) });
       };
+      const onUp = () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
+    },
+    [widthPct, updateAttributes]
+  );
 
-      const onUp = () => {
-        window.removeEventListener("mousemove", onMove);
-        window.removeEventListener("mouseup", onUp);
+  // ── Left-handle resize ─────────────────────────────────────────────────────
+  const startResizeLeft = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const startX = e.clientX;
+      const startWidth = widthPct;
+      const containerWidth = containerRef.current?.parentElement?.offsetWidth ?? 800;
+      const onMove = (ev: MouseEvent) => {
+        const delta = ((ev.clientX - startX) / containerWidth) * 100 * -2;
+        updateAttributes({ width: Math.min(100, Math.max(20, Math.round(startWidth + delta))) });
       };
-
+      const onUp = () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
       window.addEventListener("mousemove", onMove);
       window.addEventListener("mouseup", onUp);
     },
@@ -49,88 +74,88 @@ function ResizableImageView({
     <NodeViewWrapper>
       <div
         ref={containerRef}
-        className="relative my-5 select-none group/resizimg"
-        style={{
-          width: `${widthPct}%`,
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-        data-drag-handle
+        className="relative my-5 select-none"
+        style={{ width: `${widthPct}%`, marginLeft: "auto", marginRight: "auto" }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* The image */}
+        {/* Image */}
         <img
           src={node.attrs.src}
           alt={node.attrs.alt ?? ""}
           draggable={false}
           className="w-full h-auto rounded-xl block pointer-events-none"
-          style={{ display: "block" }}
         />
 
-        {/* Selection ring */}
-        {selected && (
-          <div className="absolute inset-0 rounded-xl ring-2 ring-[#1A1A1A]/30 dark:ring-[#F0EDE7]/30 pointer-events-none" />
+        {/* Selection / hover ring */}
+        {visible && (
+          <div className="absolute inset-0 rounded-xl ring-2 ring-[#1A1A1A]/25 dark:ring-[#F0EDE7]/25 pointer-events-none transition-opacity" />
         )}
 
-        {/* Width badge */}
-        {selected && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-black/60 text-white text-[10px] font-medium tabular-nums select-none pointer-events-none">
+        {/* Replace button — top-right corner on hover */}
+        {visible && (
+          <button
+            onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); fileInputRef.current?.click(); }}
+            className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5
+              px-3 py-1.5 rounded-full
+              bg-black/60 backdrop-blur-sm
+              text-white text-[11.5px] font-medium
+              hover:bg-black/80 transition-colors"
+          >
+            <RefreshCw size={11} strokeWidth={2.5} />
+            Replace
+          </button>
+        )}
+
+        {/* Width badge — bottom center on hover */}
+        {visible && (
+          <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-black/55 backdrop-blur-sm text-white text-[10px] font-medium tabular-nums pointer-events-none">
             {widthPct}%
           </div>
         )}
 
-        {/* Left handle */}
-        {selected && (
+        {/* Left resize handle */}
+        {visible && (
           <div
-            onMouseDown={(e) => {
-              // Left handle: invert direction
-              e.preventDefault();
-              e.stopPropagation();
-              const startX = e.clientX;
-              const startWidth = widthPct;
-              const containerEl = containerRef.current?.parentElement;
-              const containerWidth = containerEl?.offsetWidth ?? 800;
-              const onMove = (ev: MouseEvent) => {
-                const dx = ev.clientX - startX;
-                const delta = (dx / containerWidth) * 100 * -2;
-                const next = Math.min(100, Math.max(20, Math.round(startWidth + delta)));
-                updateAttributes({ width: next });
-              };
-              const onUp = () => {
-                window.removeEventListener("mousemove", onMove);
-                window.removeEventListener("mouseup", onUp);
-              };
-              window.addEventListener("mousemove", onMove);
-              window.addEventListener("mouseup", onUp);
-            }}
+            onMouseDown={startResizeLeft}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10
               w-3 h-10 rounded-full cursor-ew-resize
               bg-white dark:bg-[#2A2520]
               border border-black/15 dark:border-white/15
-              shadow-[0_2px_6px_rgba(0,0,0,0.15)]
+              shadow-[0_2px_8px_rgba(0,0,0,0.18)]
               flex items-center justify-center"
           >
-            <div className="flex flex-col gap-[3px]">
-              <div className="w-[1.5px] h-2 rounded-full bg-[#9E9893] dark:bg-[#7A736C]" />
-            </div>
+            <div className="w-[1.5px] h-3 rounded-full bg-[#9E9893]" />
           </div>
         )}
 
-        {/* Right handle */}
-        {selected && (
+        {/* Right resize handle */}
+        {visible && (
           <div
-            onMouseDown={startResize}
+            onMouseDown={startResizeRight}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10
               w-3 h-10 rounded-full cursor-ew-resize
               bg-white dark:bg-[#2A2520]
               border border-black/15 dark:border-white/15
-              shadow-[0_2px_6px_rgba(0,0,0,0.15)]
+              shadow-[0_2px_8px_rgba(0,0,0,0.18)]
               flex items-center justify-center"
           >
-            <div className="flex flex-col gap-[3px]">
-              <div className="w-[1.5px] h-2 rounded-full bg-[#9E9893] dark:bg-[#7A736C]" />
-            </div>
+            <div className="w-[1.5px] h-3 rounded-full bg-[#9E9893]" />
           </div>
         )}
+
+        {/* Hidden file input for replace */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) handleReplace(f);
+            e.target.value = "";
+          }}
+        />
       </div>
     </NodeViewWrapper>
   );
@@ -148,7 +173,7 @@ export const ResizableImage = Node.create({
     return {
       src: { default: null },
       alt: { default: null },
-      width: { default: 100 }, // percentage 20–100
+      width: { default: 100 },
     };
   },
 
@@ -158,13 +183,8 @@ export const ResizableImage = Node.create({
         tag: 'img[src]:not([src=""])',
         getAttrs: (el) => {
           const img = el as HTMLImageElement;
-          const styleWidth = img.style.width;
-          const pct = styleWidth ? parseInt(styleWidth) : 100;
-          return {
-            src: img.getAttribute("src"),
-            alt: img.getAttribute("alt"),
-            width: isNaN(pct) ? 100 : pct,
-          };
+          const pct = parseInt(img.style.width);
+          return { src: img.getAttribute("src"), alt: img.getAttribute("alt"), width: isNaN(pct) ? 100 : pct };
         },
       },
     ];
