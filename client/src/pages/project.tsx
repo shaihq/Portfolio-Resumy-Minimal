@@ -525,7 +525,7 @@ export default function Project() {
         <div className="absolute bottom-0 left-0 right-0 z-10 flex justify-center pb-10">
         <div className="w-full max-w-[1100px] px-6 md:px-12">
           {/* Title */}
-          <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 max-w-3xl">
+          <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 w-full">
             {project.title}
           </h1>
 
