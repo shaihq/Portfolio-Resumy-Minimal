@@ -132,7 +132,8 @@ export default function Project() {
   const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
   const [heroView, setHeroView] = useState<"immersive" | "editorial">("immersive");
   const [thumbnailWidth, setThumbnailWidth] = useState<"full" | "contained">("full");
-  const [thumbnailHeight, setThumbnailHeight] = useState(500);
+  const [thumbnailHeight, setThumbnailHeight] = useState<number | null>(null);
+  const thumbnailImgRef = useRef<HTMLDivElement>(null);
   const [showHeightHandle, setShowHeightHandle] = useState(false);
   const [isResizingHeight, setIsResizingHeight] = useState(false);
   const [heightHandleHovered, setHeightHandleHovered] = useState(false);
@@ -776,8 +777,8 @@ export default function Project() {
                   <ThumbnailUpload imageUrl={meta.imageUrl} onUpload={(url) => updateMeta({ imageUrl: url })}
                     className="w-full">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
-                      <div style={{ height: thumbnailHeight }}>
-                        <img src={meta.imageUrl} alt={meta.title} className="w-full h-full object-cover" />
+                      <div ref={thumbnailImgRef} style={thumbnailHeight !== null ? { height: thumbnailHeight } : undefined}>
+                        <img src={meta.imageUrl} alt={meta.title} className={thumbnailHeight !== null ? "w-full h-full object-cover" : "w-full"} />
                       </div>
                     </motion.div>
                   </ThumbnailUpload>
@@ -800,7 +801,7 @@ export default function Project() {
                         e.preventDefault();
                         e.stopPropagation();
                         const startY = e.clientY;
-                        const startH = thumbnailHeight;
+                        const startH = thumbnailImgRef.current?.offsetHeight ?? thumbnailHeight ?? 0;
                         setIsResizingHeight(true);
                         const onMove = (ev: MouseEvent) => {
                           ev.preventDefault();
