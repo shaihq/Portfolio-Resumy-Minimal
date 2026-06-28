@@ -132,6 +132,7 @@ export default function Project() {
   const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
   const [heroView, setHeroView] = useState<"immersive" | "editorial">("immersive");
   const [thumbnailWidth, setThumbnailWidth] = useState<"full" | "contained">("full");
+  const [thumbnailHeight, setThumbnailHeight] = useState(500);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const heroImageY = useTransform(scrollY, [0, 600], ["0%", "30%"]);
@@ -749,12 +750,51 @@ export default function Project() {
                 </div>
               </div>
 
-              <ThumbnailUpload imageUrl={meta.imageUrl} onUpload={(url) => updateMeta({ imageUrl: url })}
-                className="w-full overflow-hidden">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
-                  <img src={meta.imageUrl} alt={meta.title} className="w-full object-cover" style={{ maxHeight: "70vh" }} />
+              {/* Image + resize handle — separate from overflow clip so handle isn't cropped by border radius */}
+              <div className="relative">
+                {/* Border-radius clip layer (contains the image) */}
+                <motion.div
+                  style={{ overflow: "hidden" }}
+                  animate={{ borderRadius: thumbnailWidth === "contained" ? 16 : 0 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                  <ThumbnailUpload imageUrl={meta.imageUrl} onUpload={(url) => updateMeta({ imageUrl: url })}
+                    className="w-full">
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
+                      <div style={{ height: thumbnailHeight }}>
+                        <img src={meta.imageUrl} alt={meta.title} className="w-full h-full object-cover" />
+                      </div>
+                    </motion.div>
+                  </ThumbnailUpload>
                 </motion.div>
-              </ThumbnailUpload>
+
+                {/* Resize handle — outside overflow-hidden so it's never clipped */}
+                <div
+                  className="absolute inset-x-0 bottom-0 flex justify-center items-end pb-2.5 h-10 z-30 cursor-ns-resize opacity-0 group-hover/widthpicker:opacity-100 transition-opacity duration-200"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const startY = e.clientY;
+                    const startH = thumbnailHeight;
+                    const onMove = (ev: MouseEvent) => {
+                      ev.preventDefault();
+                      setThumbnailHeight(Math.max(120, Math.min(window.innerHeight * 0.95, startH + (ev.clientY - startY))));
+                    };
+                    const onUp = () => {
+                      document.removeEventListener("mousemove", onMove);
+                      document.removeEventListener("mouseup", onUp);
+                    };
+                    document.addEventListener("mousemove", onMove);
+                    document.addEventListener("mouseup", onUp);
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex flex-col items-center gap-[3px]">
+                    <div className="w-8 h-[3px] rounded-full bg-white/70 shadow-sm" />
+                    <div className="w-5 h-[3px] rounded-full bg-white/40" />
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
