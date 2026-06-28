@@ -852,13 +852,28 @@ export default function Home() {
         onMouseLeave={() => { if (!isResizing) { setShowHandles(false); setHandleHovered(false); } }}
       >
 
-        {/* ── Sticky sentinel: handles + toolbar scroll with the user ── */}
+        <div
+          className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
+            activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" :
+            activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
+          )}
+          style={activeTemplate === "Minimal" ? {
+            boxShadow: (handleHovered || isResizing)
+              ? (isResizing
+                  ? '0 0 0 2px rgba(99,102,241,0.45), 0 0 40px rgba(99,102,241,0.1)'
+                  : '0 0 0 1.5px rgba(99,102,241,0.28), 0 0 24px rgba(99,102,241,0.08)')
+              : undefined,
+            transition: 'box-shadow 0.2s ease',
+          } : undefined}
+        >
+
+        {/* ── Sticky sentinel: lives INSIDE the card so handles start at the card's top corners ── */}
         {activeTemplate === "Minimal" && (
           <div
             className="sticky z-[200] overflow-visible pointer-events-none"
-            style={{ top: 96, height: 0 }}
+            style={{ top: 80, height: 0 }}
           >
-            {/* Width badge during resize — floats at handle level */}
+            {/* Width badge during resize — centered between handles */}
             <AnimatePresence>
               {isResizing && (
                 <motion.div
@@ -868,7 +883,7 @@ export default function Home() {
                   exit={{ opacity: 0, scale: 0.92, y: 3 }}
                   transition={{ type: "spring", stiffness: 440, damping: 28 }}
                   className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{ top: -64 }}
+                  style={{ top: 34 }}
                 >
                   <div className="flex items-center gap-2 bg-[#0D0D0D]/92 backdrop-blur-md border border-white/[0.1] text-white rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/40">
                     <span className="relative flex h-[7px] w-[7px] flex-shrink-0">
@@ -881,7 +896,7 @@ export default function Home() {
               )}
             </AnimatePresence>
 
-            {/* Viewport preset toolbar — appears BELOW the handles, no overlap with navbar */}
+            {/* Viewport preset toolbar — appears below the handles */}
             <AnimatePresence>
               {showHandles && !isResizing && (
                 <motion.div
@@ -891,7 +906,7 @@ export default function Home() {
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
                   className="absolute left-1/2 -translate-x-1/2 pointer-events-auto"
-                  style={{ top: 56 }}
+                  style={{ top: 104 }}
                 >
                   {showMaxEditor ? (
                     <motion.div
@@ -949,7 +964,7 @@ export default function Home() {
               )}
             </AnimatePresence>
 
-            {/* Left handle */}
+            {/* Left handle — aligned to card's top-left corner */}
             <AnimatePresence>
               {(showHandles || isResizing) && (
                 <motion.div
@@ -959,7 +974,7 @@ export default function Home() {
                   exit={{ opacity: 0, x: 6, scale: 0.88 }}
                   transition={{ type: "spring", stiffness: 500, damping: 32 }}
                   className="absolute flex items-center justify-center cursor-ew-resize select-none pointer-events-auto group/lh"
-                  style={{ left: -28, top: -48, width: 28, height: 96 }}
+                  style={{ left: -28, top: 0, width: 28, height: 96 }}
                   onMouseEnter={() => setHandleHovered(true)}
                   onMouseLeave={() => setHandleHovered(false)}
                   onMouseDown={(e) => handleResizeMouseDown(e, 'left')}
@@ -981,7 +996,7 @@ export default function Home() {
               )}
             </AnimatePresence>
 
-            {/* Right handle */}
+            {/* Right handle — aligned to card's top-right corner */}
             <AnimatePresence>
               {(showHandles || isResizing) && (
                 <motion.div
@@ -991,7 +1006,7 @@ export default function Home() {
                   exit={{ opacity: 0, x: -6, scale: 0.88 }}
                   transition={{ type: "spring", stiffness: 500, damping: 32 }}
                   className="absolute flex items-center justify-center cursor-ew-resize select-none pointer-events-auto group/rh"
-                  style={{ right: -28, top: -48, width: 28, height: 96 }}
+                  style={{ right: -28, top: 0, width: 28, height: 96 }}
                   onMouseEnter={() => setHandleHovered(true)}
                   onMouseLeave={() => setHandleHovered(false)}
                   onMouseDown={(e) => handleResizeMouseDown(e, 'right')}
@@ -1015,21 +1030,6 @@ export default function Home() {
           </div>
         )}
 
-        <div
-          className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
-            activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" :
-            activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
-          )}
-          style={activeTemplate === "Minimal" ? {
-            boxShadow: (handleHovered || isResizing)
-              ? (isResizing
-                  ? '0 0 0 2px rgba(99,102,241,0.45), 0 0 40px rgba(99,102,241,0.1)'
-                  : '0 0 0 1.5px rgba(99,102,241,0.28), 0 0 24px rgba(99,102,241,0.08)')
-              : undefined,
-            transition: 'box-shadow 0.2s ease',
-          } : undefined}
-        >
-        
         {activeTemplate === "Minimal" ? (
           <>
             {/* Header Section */}
