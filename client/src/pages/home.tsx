@@ -68,8 +68,6 @@ export default function Home() {
   const [isResizing, setIsResizing] = useState(false);
   const [showHandles, setShowHandles] = useState(false);
   const [handleHovered, setHandleHovered] = useState(false);
-  const [showMaxEditor, setShowMaxEditor] = useState(false);
-  const [maxInputVal, setMaxInputVal] = useState("1200");
   const dragRef = useRef<{ startX: number; startWidth: number; side: 'left' | 'right' } | null>(null);
   const maxWidthRef = useRef(1200);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
@@ -883,7 +881,7 @@ export default function Home() {
                   exit={{ opacity: 0, scale: 0.92, y: 3 }}
                   transition={{ type: "spring", stiffness: 440, damping: 28 }}
                   className="fixed left-1/2 -translate-x-1/2 pointer-events-none z-[300]"
-                  style={{ top: 68 }}
+                  style={{ top: 82 }}
                 >
                   <div className="flex items-center gap-2 bg-[#0D0D0D]/92 backdrop-blur-md border border-white/[0.1] text-white rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/40">
                     <span className="relative flex h-[7px] w-[7px] flex-shrink-0">
@@ -906,60 +904,45 @@ export default function Home() {
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
                   className="fixed left-1/2 -translate-x-1/2 pointer-events-auto z-[300]"
-                  style={{ top: 68 }}
+                  style={{ top: 82 }}
                 >
-                  {showMaxEditor ? (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex items-center gap-2 bg-[#0D0D0D]/92 backdrop-blur-md border border-white/[0.1] rounded-full px-4 py-1.5 shadow-2xl shadow-black/30"
-                    >
-                      <span className="text-[10px] text-white/40 font-medium whitespace-nowrap uppercase tracking-wider">Max width</span>
-                      <input
-                        type="number"
-                        value={maxInputVal}
-                        onChange={(e) => setMaxInputVal(e.target.value)}
-                        onBlur={() => {
-                          const v = Math.min(1600, Math.max(600, parseInt(maxInputVal) || 1200));
+                  <div className="flex items-center gap-px bg-[#0D0D0D]/82 backdrop-blur-md border border-white/[0.08] rounded-full px-1.5 py-1.5 shadow-2xl shadow-black/30">
+                    {[640, 880, 1024, 1200, 1440].map((w) => (
+                      <button
+                        key={w}
+                        onClick={() => setContainerWidth(Math.min(maxContainerWidth, Math.max(400, w)))}
+                        className={cn(
+                          "px-3 py-[5px] rounded-full text-[11px] font-semibold transition-all duration-200 whitespace-nowrap select-none",
+                          containerWidth === w
+                            ? "bg-white text-[#0D0D0D] shadow-sm"
+                            : "text-white/45 hover:text-white/80 hover:bg-white/[0.07]"
+                        )}
+                      >
+                        {w >= 1000 ? `${w / 1000}k` : w}
+                      </button>
+                    ))}
+                    <div className="w-px h-4 bg-white/[0.08] mx-1" />
+                    <div className="relative flex items-center">
+                      <span className="pointer-events-none absolute left-2.5 text-[11px] text-white/35 font-medium">max</span>
+                      <select
+                        value={maxContainerWidth}
+                        onChange={(e) => {
+                          const v = parseInt(e.target.value);
                           setMaxContainerWidth(v);
                           maxWidthRef.current = v;
-                          setMaxInputVal(String(v));
                           if (containerWidth > v) setContainerWidth(v);
-                          setShowMaxEditor(false);
                         }}
-                        onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); if (e.key === 'Escape') setShowMaxEditor(false); }}
-                        autoFocus
-                        className="w-16 bg-transparent text-white text-[12px] font-semibold outline-none text-right"
-                        style={{ fontFamily: 'Geist Mono, DM Mono, monospace' }}
-                      />
-                      <span className="text-[10px] text-white/30">px</span>
-                    </motion.div>
-                  ) : (
-                    <div className="flex items-center gap-px bg-[#0D0D0D]/82 backdrop-blur-md border border-white/[0.08] rounded-full px-1.5 py-1.5 shadow-2xl shadow-black/30">
-                      {[640, 880, 1024, 1200, 1440].map((w) => (
-                        <button
-                          key={w}
-                          onClick={() => setContainerWidth(Math.min(maxContainerWidth, Math.max(400, w)))}
-                          className={cn(
-                            "px-3 py-[5px] rounded-full text-[11px] font-semibold transition-all duration-200 whitespace-nowrap select-none",
-                            containerWidth === w
-                              ? "bg-white text-[#0D0D0D] shadow-sm"
-                              : "text-white/45 hover:text-white/80 hover:bg-white/[0.07]"
-                          )}
-                        >
-                          {w >= 1000 ? `${w / 1000}k` : w}
-                        </button>
-                      ))}
-                      <div className="w-px h-4 bg-white/[0.08] mx-1" />
-                      <button
-                        onClick={() => setShowMaxEditor(true)}
+                        className="appearance-none bg-transparent text-transparent text-[11px] font-medium pl-8 pr-2 py-[5px] rounded-full cursor-pointer outline-none hover:bg-white/[0.07] transition-all duration-200"
                         title={`Max: ${maxContainerWidth}px`}
-                        className="px-2.5 py-[5px] rounded-full text-[11px] text-white/35 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-200 font-medium"
                       >
-                        max
-                      </button>
+                        {[880, 1024, 1200, 1440, 1600].map((v) => (
+                          <option key={v} value={v} className="bg-[#1a1a1a] text-white">
+                            {v}px
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                  )}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
