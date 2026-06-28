@@ -508,9 +508,15 @@ export function SectionManager({ projectId }: { projectId: string }) {
     }
   };
 
-  const addSection = (type: SectionTypeKey) => {
+  const addSection = (type: SectionTypeKey, afterIndex?: number) => {
     const section = makeSection(type);
-    updateSections([...sections, section]);
+    if (afterIndex === undefined || afterIndex >= sections.length - 1) {
+      updateSections([...sections, section]);
+    } else {
+      const next = [...sections];
+      next.splice(afterIndex + 1, 0, section);
+      updateSections(next);
+    }
   };
 
   const updateSection = (id: string, updated: Section) => {
@@ -531,7 +537,7 @@ export function SectionManager({ projectId }: { projectId: string }) {
           ) : (
             <motion.div key="sections" className="relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }}>
               <AnimatePresence>
-                {sections.map((section) => (
+                {sections.map((section, index) => (
                   <div key={section.id}>
                     <SortableSection
                       section={section}
@@ -540,7 +546,7 @@ export function SectionManager({ projectId }: { projectId: string }) {
                       onDelete={() => deleteSection(section.id)}
                       isOnly={sections.length === 1}
                     />
-                    <AddSectionButton onAdd={addSection} />
+                    <AddSectionButton onAdd={(type) => addSection(type, index)} />
                   </div>
                 ))}
               </AnimatePresence>
