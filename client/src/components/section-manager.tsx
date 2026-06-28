@@ -404,8 +404,9 @@ function AddSectionButton({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) 
 
   return (
     <div className="relative w-full py-4 flex items-center justify-center group/addbtn" ref={ref}>
-      {/* Full-width divider line */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-black/8 dark:bg-white/8" />
+      {/* Full-viewport-width divider line — breaks out of the max-w container */}
+      <div className="absolute top-1/2 -translate-y-1/2 h-px bg-black/[0.08] dark:bg-white/[0.08]"
+           style={{ left: "50%", transform: "translateX(-50%) translateY(-50%)", width: "100vw" }} />
 
       {/* Centered pill trigger */}
       <button
