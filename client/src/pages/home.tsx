@@ -1018,7 +1018,7 @@ export default function Home() {
             </div>
           )}
           <div className="flex items-start justify-between gap-4 mb-6">
-            <Avatar className="w-[96px] h-[96px] rounded-2xl -mt-14 ring-[3px] ring-white dark:ring-[#1A1A1A] shadow-lg">
+            <Avatar className="w-[120px] h-[120px] rounded-2xl -mt-16 ring-[3px] ring-white dark:ring-[#1A1A1A] shadow-lg">
               <AvatarImage src={profileImg} className="object-cover" />
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
