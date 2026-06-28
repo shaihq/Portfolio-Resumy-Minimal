@@ -809,14 +809,14 @@ export default function Home() {
         }
       `}} />
       <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
-        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] minimal-card-border mt-[200px] rounded-t-2xl" : 
+        activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
         {activeTemplate === "Minimal" ? (
           <>
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible">
+            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible bg-[#F0EDE7]/75 dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -850,6 +850,7 @@ export default function Home() {
           </div>
         </motion.div>
 
+        <div className="bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col flex-1">
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section */}
@@ -2050,6 +2051,7 @@ export default function Home() {
             )}
           </div>
         </motion.div>
+        </div>
           </>
         ) : activeTemplate === "Professional" ? (
           <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden">
