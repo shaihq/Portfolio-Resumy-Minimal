@@ -846,88 +846,184 @@ export default function Home() {
       {/* Resize wrapper — only active for Minimal template */}
       <div
         className="relative"
-        style={activeTemplate === "Minimal" ? { width: containerWidth, transition: isResizing ? 'none' : 'width 0.15s ease' } : undefined}
+        style={activeTemplate === "Minimal" ? { width: containerWidth, transition: isResizing ? 'none' : 'width 0.2s cubic-bezier(0.23,1,0.32,1)' } : undefined}
         onMouseEnter={() => activeTemplate === "Minimal" && setShowHandles(true)}
         onMouseLeave={() => { if (!isResizing) setShowHandles(false); }}
       >
-        {/* ── Width indicator pill (shown while resizing) ── */}
-        {activeTemplate === "Minimal" && isResizing && (
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-1.5 bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
-            {containerWidth}px
-          </div>
-        )}
 
-        {/* ── Max width controller (shown on hover) ── */}
-        {activeTemplate === "Minimal" && (showHandles || isResizing) && !isResizing && (
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-1.5">
-            {showMaxEditor ? (
-              <div className="flex items-center gap-1.5 bg-[#1A1A1A] dark:bg-[#2A2520] border border-white/10 rounded-full px-3 py-1 shadow-lg">
-                <span className="text-[10px] text-white/50 font-medium whitespace-nowrap">Max&nbsp;width</span>
-                <input
-                  type="number"
-                  value={maxInputVal}
-                  onChange={(e) => setMaxInputVal(e.target.value)}
-                  onBlur={() => {
-                    const v = Math.min(1600, Math.max(600, parseInt(maxInputVal) || 1200));
-                    setMaxContainerWidth(v);
-                    maxWidthRef.current = v;
-                    setMaxInputVal(String(v));
-                    if (containerWidth > v) setContainerWidth(v);
-                    setShowMaxEditor(false);
-                  }}
-                  onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); if (e.key === 'Escape') setShowMaxEditor(false); }}
-                  autoFocus
-                  className="w-16 bg-transparent text-white text-[11px] font-semibold outline-none text-right"
-                />
-                <span className="text-[10px] text-white/40">px</span>
+        {/* ── Width badge (shown while resizing) ── */}
+        <AnimatePresence>
+          {activeTemplate === "Minimal" && isResizing && (
+            <motion.div
+              key="width-badge"
+              initial={{ opacity: 0, y: 8, scale: 0.88 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 5, scale: 0.92 }}
+              transition={{ type: "spring", stiffness: 420, damping: 26 }}
+              className="absolute -top-11 left-1/2 -translate-x-1/2 z-[200] pointer-events-none"
+            >
+              <div className="flex items-center gap-2 bg-[#0D0D0D]/90 backdrop-blur-md border border-white/[0.1] text-white rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/40">
+                <span className="relative flex h-[7px] w-[7px] flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-60" />
+                  <span className="relative inline-flex rounded-full h-[7px] w-[7px] bg-indigo-400" />
+                </span>
+                <span className="text-[12px] font-semibold tracking-wide" style={{ fontFamily: 'Geist Mono, DM Mono, monospace' }}>{containerWidth}px</span>
               </div>
-            ) : (
-              <button
-                onClick={() => setShowMaxEditor(true)}
-                className="flex items-center gap-1.5 bg-[#1A1A1A]/80 dark:bg-[#2A2520]/90 border border-white/10 text-white/60 hover:text-white text-[10px] font-medium px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm transition-colors whitespace-nowrap"
-              >
-                Max: {maxContainerWidth}px
-              </button>
-            )}
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── Viewport size toolbar (shown on hover, hidden while resizing) ── */}
+        <AnimatePresence>
+          {activeTemplate === "Minimal" && showHandles && !isResizing && (
+            <motion.div
+              key="viewport-toolbar"
+              initial={{ opacity: 0, y: 8, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 5, scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 28 }}
+              className="absolute -top-12 left-1/2 -translate-x-1/2 z-[200]"
+            >
+              {showMaxEditor ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-2 bg-[#0D0D0D]/90 backdrop-blur-md border border-white/[0.1] rounded-full px-4 py-1.5 shadow-2xl shadow-black/30"
+                >
+                  <span className="text-[10px] text-white/40 font-medium whitespace-nowrap uppercase tracking-wider">Max width</span>
+                  <input
+                    type="number"
+                    value={maxInputVal}
+                    onChange={(e) => setMaxInputVal(e.target.value)}
+                    onBlur={() => {
+                      const v = Math.min(1600, Math.max(600, parseInt(maxInputVal) || 1200));
+                      setMaxContainerWidth(v);
+                      maxWidthRef.current = v;
+                      setMaxInputVal(String(v));
+                      if (containerWidth > v) setContainerWidth(v);
+                      setShowMaxEditor(false);
+                    }}
+                    onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); if (e.key === 'Escape') setShowMaxEditor(false); }}
+                    autoFocus
+                    className="w-16 bg-transparent text-white text-[12px] font-semibold outline-none text-right"
+                    style={{ fontFamily: 'Geist Mono, DM Mono, monospace' }}
+                  />
+                  <span className="text-[10px] text-white/30">px</span>
+                </motion.div>
+              ) : (
+                <div className="flex items-center gap-px bg-[#0D0D0D]/85 backdrop-blur-md border border-white/[0.08] rounded-full px-1.5 py-1.5 shadow-2xl shadow-black/30">
+                  {[640, 880, 1024, 1200, 1440].map((w, i) => {
+                    const isActive = containerWidth === w;
+                    return (
+                      <button
+                        key={w}
+                        onClick={() => {
+                          const clamped = Math.min(maxContainerWidth, Math.max(400, w));
+                          setContainerWidth(clamped);
+                        }}
+                        className={cn(
+                          "relative px-3 py-[5px] rounded-full text-[11px] font-semibold transition-all duration-200 whitespace-nowrap select-none",
+                          isActive
+                            ? "bg-white text-[#0D0D0D] shadow-sm"
+                            : "text-white/45 hover:text-white/80 hover:bg-white/[0.07]"
+                        )}
+                      >
+                        {w >= 1000 ? `${w / 1000}k` : w}
+                      </button>
+                    );
+                  })}
+                  <div className="w-px h-4 bg-white/[0.08] mx-1" />
+                  <button
+                    onClick={() => setShowMaxEditor(true)}
+                    title={`Max: ${maxContainerWidth}px`}
+                    className="px-2.5 py-[5px] rounded-full text-[11px] text-white/35 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-200 font-medium"
+                  >
+                    max
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ── Left resize handle ── */}
         {activeTemplate === "Minimal" && (
-          <div
-            className={cn(
-              "absolute -left-4 top-[220px] z-[200] flex flex-col items-center justify-center gap-[3px] w-2.5 h-20 rounded-full cursor-ew-resize transition-all duration-200",
-              "bg-[#1A1A1A]/12 dark:bg-white/12 hover:bg-[#1A1A1A]/22 dark:hover:bg-white/22 backdrop-blur-sm",
-              showHandles || isResizing ? "opacity-100 scale-100" : "opacity-0 scale-90"
+          <AnimatePresence>
+            {(showHandles || isResizing) && (
+              <motion.div
+                key="left-handle"
+                initial={{ opacity: 0, x: 8, scale: 0.82 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 6, scale: 0.88 }}
+                transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                className="absolute -left-7 top-[196px] z-[200] flex items-center justify-center cursor-ew-resize select-none group/lh"
+                style={{ width: 28, height: 96 }}
+                onMouseDown={(e) => handleResizeMouseDown(e, 'left')}
+              >
+                <div
+                  className={cn(
+                    "h-full rounded-full flex flex-col items-center justify-center gap-[5px] transition-all duration-200",
+                    "border border-white/[0.15]",
+                    isResizing
+                      ? "bg-white/[0.22] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_16px_rgba(255,255,255,0.18)] scale-105"
+                      : "bg-[#0D0D0D]/50 backdrop-blur-sm group-hover/lh:bg-white/[0.16] group-hover/lh:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_12px_rgba(255,255,255,0.14)] group-hover/lh:scale-105"
+                  )}
+                  style={{ width: 7 }}
+                >
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className={cn("rounded-full transition-colors duration-200", isResizing ? "bg-white/90" : "bg-white/50 group-hover/lh:bg-white/80")} style={{ width: 3, height: 3 }} />
+                  ))}
+                </div>
+              </motion.div>
             )}
-            onMouseDown={(e) => handleResizeMouseDown(e, 'left')}
-          >
-            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
-            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
-            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
-          </div>
+          </AnimatePresence>
         )}
 
         {/* ── Right resize handle ── */}
         {activeTemplate === "Minimal" && (
-          <div
-            className={cn(
-              "absolute -right-4 top-[220px] z-[200] flex flex-col items-center justify-center gap-[3px] w-2.5 h-20 rounded-full cursor-ew-resize transition-all duration-200",
-              "bg-[#1A1A1A]/12 dark:bg-white/12 hover:bg-[#1A1A1A]/22 dark:hover:bg-white/22 backdrop-blur-sm",
-              showHandles || isResizing ? "opacity-100 scale-100" : "opacity-0 scale-90"
+          <AnimatePresence>
+            {(showHandles || isResizing) && (
+              <motion.div
+                key="right-handle"
+                initial={{ opacity: 0, x: -8, scale: 0.82 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -6, scale: 0.88 }}
+                transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                className="absolute -right-7 top-[196px] z-[200] flex items-center justify-center cursor-ew-resize select-none group/rh"
+                style={{ width: 28, height: 96 }}
+                onMouseDown={(e) => handleResizeMouseDown(e, 'right')}
+              >
+                <div
+                  className={cn(
+                    "h-full rounded-full flex flex-col items-center justify-center gap-[5px] transition-all duration-200",
+                    "border border-white/[0.15]",
+                    isResizing
+                      ? "bg-white/[0.22] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_16px_rgba(255,255,255,0.18)] scale-105"
+                      : "bg-[#0D0D0D]/50 backdrop-blur-sm group-hover/rh:bg-white/[0.16] group-hover/rh:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_12px_rgba(255,255,255,0.14)] group-hover/rh:scale-105"
+                  )}
+                  style={{ width: 7 }}
+                >
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className={cn("rounded-full transition-colors duration-200", isResizing ? "bg-white/90" : "bg-white/50 group-hover/rh:bg-white/80")} style={{ width: 3, height: 3 }} />
+                  ))}
+                </div>
+              </motion.div>
             )}
-            onMouseDown={(e) => handleResizeMouseDown(e, 'right')}
-          >
-            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
-            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
-            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
-          </div>
+          </AnimatePresence>
         )}
 
-        <div className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
-        activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" : 
-        activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
-      )}>
+        <div
+          className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
+            activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" :
+            activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
+          )}
+          style={activeTemplate === "Minimal" ? {
+            boxShadow: isResizing
+              ? '0 0 0 2px rgba(99,102,241,0.45), 0 0 40px rgba(99,102,241,0.1)'
+              : (showHandles ? '0 0 0 1.5px rgba(99,102,241,0.22), 0 0 20px rgba(99,102,241,0.06)' : undefined),
+            transition: 'box-shadow 0.25s ease',
+          } : undefined}
+        >
         
         {activeTemplate === "Minimal" ? (
           <>
