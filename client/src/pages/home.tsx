@@ -862,7 +862,7 @@ export default function Home() {
 
         <div
           className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
-            activeTemplate === "Minimal" ? "mt-[200px] rounded-t-2xl" :
+            activeTemplate === "Minimal" ? "mt-[200px] rounded-t-2xl dark:border dark:border-[rgba(58,53,46,0.7)]" :
             activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
           )}
           style={activeTemplate === "Minimal" ? {
