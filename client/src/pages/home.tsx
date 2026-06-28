@@ -63,6 +63,14 @@ export default function Home() {
   const [zIndexes, setZIndexes] = useState({ 1: 10, 2: 20, 3: 10 });
   const [characterPosition, setCharacterPosition] = useState(0);
   const [isEditing, setIsEditing] = useState(true);
+  const [containerWidth, setContainerWidth] = useState(880);
+  const [maxContainerWidth, setMaxContainerWidth] = useState(1200);
+  const [isResizing, setIsResizing] = useState(false);
+  const [showHandles, setShowHandles] = useState(false);
+  const [showMaxEditor, setShowMaxEditor] = useState(false);
+  const [maxInputVal, setMaxInputVal] = useState("1200");
+  const dragRef = useRef<{ startX: number; startWidth: number; side: 'left' | 'right' } | null>(null);
+  const maxWidthRef = useRef(1200);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const handleCopy = (text: string, key: string) => {
@@ -704,6 +712,33 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  const handleResizeMouseDown = useCallback((e: React.MouseEvent, side: 'left' | 'right') => {
+    e.preventDefault();
+    e.stopPropagation();
+    const startWidth = containerWidth;
+    dragRef.current = { startX: e.clientX, startWidth, side };
+    setIsResizing(true);
+
+    const onMouseMove = (ev: MouseEvent) => {
+      if (!dragRef.current) return;
+      const { startX, startWidth: sw, side: s } = dragRef.current;
+      const delta = ev.clientX - startX;
+      const raw = s === 'right' ? sw + delta : sw - delta;
+      const clamped = Math.min(maxWidthRef.current, Math.max(400, raw));
+      setContainerWidth(Math.round(clamped));
+    };
+
+    const onMouseUp = () => {
+      dragRef.current = null;
+      setIsResizing(false);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }, [containerWidth]);
+
   return (
     <>
       <Navbar />
@@ -808,9 +843,90 @@ export default function Home() {
           right: 0;
         }
       `}} />
-      <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
+      {/* Resize wrapper — only active for Minimal template */}
+      <div
+        className="relative"
+        style={activeTemplate === "Minimal" ? { width: containerWidth, transition: isResizing ? 'none' : 'width 0.15s ease' } : undefined}
+        onMouseEnter={() => activeTemplate === "Minimal" && setShowHandles(true)}
+        onMouseLeave={() => { if (!isResizing) setShowHandles(false); }}
+      >
+        {/* ── Width indicator pill (shown while resizing) ── */}
+        {activeTemplate === "Minimal" && isResizing && (
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-1.5 bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
+            {containerWidth}px
+          </div>
+        )}
+
+        {/* ── Max width controller (shown on hover) ── */}
+        {activeTemplate === "Minimal" && (showHandles || isResizing) && !isResizing && (
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-1.5">
+            {showMaxEditor ? (
+              <div className="flex items-center gap-1.5 bg-[#1A1A1A] dark:bg-[#2A2520] border border-white/10 rounded-full px-3 py-1 shadow-lg">
+                <span className="text-[10px] text-white/50 font-medium whitespace-nowrap">Max&nbsp;width</span>
+                <input
+                  type="number"
+                  value={maxInputVal}
+                  onChange={(e) => setMaxInputVal(e.target.value)}
+                  onBlur={() => {
+                    const v = Math.min(1600, Math.max(600, parseInt(maxInputVal) || 1200));
+                    setMaxContainerWidth(v);
+                    maxWidthRef.current = v;
+                    setMaxInputVal(String(v));
+                    if (containerWidth > v) setContainerWidth(v);
+                    setShowMaxEditor(false);
+                  }}
+                  onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); if (e.key === 'Escape') setShowMaxEditor(false); }}
+                  autoFocus
+                  className="w-16 bg-transparent text-white text-[11px] font-semibold outline-none text-right"
+                />
+                <span className="text-[10px] text-white/40">px</span>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowMaxEditor(true)}
+                className="flex items-center gap-1.5 bg-[#1A1A1A]/80 dark:bg-[#2A2520]/90 border border-white/10 text-white/60 hover:text-white text-[10px] font-medium px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm transition-colors whitespace-nowrap"
+              >
+                Max: {maxContainerWidth}px
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* ── Left resize handle ── */}
+        {activeTemplate === "Minimal" && (
+          <div
+            className={cn(
+              "absolute -left-4 top-[220px] z-[200] flex flex-col items-center justify-center gap-[3px] w-2.5 h-20 rounded-full cursor-ew-resize transition-all duration-200",
+              "bg-[#1A1A1A]/12 dark:bg-white/12 hover:bg-[#1A1A1A]/22 dark:hover:bg-white/22 backdrop-blur-sm",
+              showHandles || isResizing ? "opacity-100 scale-100" : "opacity-0 scale-90"
+            )}
+            onMouseDown={(e) => handleResizeMouseDown(e, 'left')}
+          >
+            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
+            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
+            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
+          </div>
+        )}
+
+        {/* ── Right resize handle ── */}
+        {activeTemplate === "Minimal" && (
+          <div
+            className={cn(
+              "absolute -right-4 top-[220px] z-[200] flex flex-col items-center justify-center gap-[3px] w-2.5 h-20 rounded-full cursor-ew-resize transition-all duration-200",
+              "bg-[#1A1A1A]/12 dark:bg-white/12 hover:bg-[#1A1A1A]/22 dark:hover:bg-white/22 backdrop-blur-sm",
+              showHandles || isResizing ? "opacity-100 scale-100" : "opacity-0 scale-90"
+            )}
+            onMouseDown={(e) => handleResizeMouseDown(e, 'right')}
+          >
+            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
+            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
+            <div className="w-[2px] h-3 rounded-full bg-[#1A1A1A]/40 dark:bg-white/40" />
+          </div>
+        )}
+
+        <div className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
         activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" : 
-        activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
+        activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
         {activeTemplate === "Minimal" ? (
@@ -4495,6 +4611,7 @@ export default function Home() {
           </div>
         ) : null}
       </div>
+      </div>{/* end resize wrapper */}
       </motion.div>
     </>
   );
