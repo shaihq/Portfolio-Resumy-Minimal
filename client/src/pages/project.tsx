@@ -677,37 +677,6 @@ export default function Project() {
                   className="text-[#7A736C] dark:text-[#B5AFA5] text-[18px] leading-relaxed max-w-2xl block font-[450]" />
               </div>
 
-              {/* Metadata row */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 pb-12">
-                <div className="flex flex-col gap-1.5">
-                  <EditableField value={meta.roleLabel} onChange={(v) => updateMeta({ roleLabel: v })}
-                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
-                  <EditableField value={meta.rolePrimary} onChange={(v) => updateMeta({ rolePrimary: v })}
-                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
-                  <EditableField value={meta.roleSecondary} onChange={(v) => updateMeta({ roleSecondary: v })}
-                    className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5] block" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <EditableField value={meta.timelineLabel} onChange={(v) => updateMeta({ timelineLabel: v })}
-                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
-                  <EditableField value={meta.timeline} onChange={(v) => updateMeta({ timeline: v })}
-                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <EditableField value={meta.toolsLabel} onChange={(v) => updateMeta({ toolsLabel: v })}
-                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
-                  <EditableField value={meta.tools} onChange={(v) => updateMeta({ tools: v })}
-                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <EditableField value={meta.teamLabel} onChange={(v) => updateMeta({ teamLabel: v })}
-                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
-                  <EditableField value={meta.teamPrimary} onChange={(v) => updateMeta({ teamPrimary: v })}
-                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
-                  <EditableField value={meta.teamSecondary} onChange={(v) => updateMeta({ teamSecondary: v })}
-                    className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5] block" />
-                </div>
-              </div>
             </div>
 
             {/* Full-width thumbnail with width toggle */}
@@ -835,6 +804,41 @@ export default function Project() {
                 </AnimatePresence>
               </div>
             </motion.div>
+
+            {/* Metadata + divider — below thumbnail */}
+            <div className="w-full max-w-[880px] mx-auto px-6 md:px-10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 pt-10 pb-10">
+                <div className="flex flex-col gap-1.5">
+                  <EditableField value={meta.roleLabel} onChange={(v) => updateMeta({ roleLabel: v })}
+                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
+                  <EditableField value={meta.rolePrimary} onChange={(v) => updateMeta({ rolePrimary: v })}
+                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
+                  <EditableField value={meta.roleSecondary} onChange={(v) => updateMeta({ roleSecondary: v })}
+                    className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5] block" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <EditableField value={meta.timelineLabel} onChange={(v) => updateMeta({ timelineLabel: v })}
+                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
+                  <EditableField value={meta.timeline} onChange={(v) => updateMeta({ timeline: v })}
+                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <EditableField value={meta.toolsLabel} onChange={(v) => updateMeta({ toolsLabel: v })}
+                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
+                  <EditableField value={meta.tools} onChange={(v) => updateMeta({ tools: v })}
+                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <EditableField value={meta.teamLabel} onChange={(v) => updateMeta({ teamLabel: v })}
+                    className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest block" />
+                  <EditableField value={meta.teamPrimary} onChange={(v) => updateMeta({ teamPrimary: v })}
+                    className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug block" />
+                  <EditableField value={meta.teamSecondary} onChange={(v) => updateMeta({ teamSecondary: v })}
+                    className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5] block" />
+                </div>
+              </div>
+              <div className="border-t border-black/[0.07] dark:border-white/[0.07]" />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
