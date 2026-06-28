@@ -707,6 +707,9 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      {/* Cursor hoisted to top level — outside all stacking contexts so it overlays everywhere */}
+      {activeTemplate === "Minimal" && <SmoothCursor type="minimal" />}
+      {activeTemplate === "Professional" && <SmoothCursor type="professional" />}
       <motion.div 
         initial="hidden"
         animate="visible"
@@ -812,7 +815,6 @@ export default function Home() {
         
         {activeTemplate === "Minimal" ? (
           <>
-            <SmoothCursor type="minimal" />
             {/* Header Section */}
             <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible">
           {isEditing && (
@@ -2051,8 +2053,6 @@ export default function Home() {
           </>
         ) : activeTemplate === "Professional" ? (
           <div className="w-full flex-1 flex flex-col pt-12 overflow-hidden">
-            <SmoothCursor type="professional" />
-            
             {/* Top section: Avatar, Title, Subtitle */}
             <motion.div variants={itemVariants} className="flex flex-col items-center w-full relative group/section">
               <div className="absolute top-4 left-4 z-50 transition-opacity opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
