@@ -840,7 +840,8 @@ function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSecti
   const xRef         = useRef(0);
   const pausedRef    = useRef(false);
   const animRef      = useRef<number>(0);
-  const SPEED        = 0.7; // px per frame
+  const SPEED        = 0.3; // px per frame — slow, cinematic
+  const GAP          = 20; // must match gap-5 below
 
   const updateItem = (i: number, imageUrl: string | null) =>
     onUpdate({ ...section, items: section.items.map((it, j) => j === i ? { ...it, imageUrl } : it) });
@@ -859,9 +860,8 @@ function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSecti
     const tick = () => {
       if (!pausedRef.current && trackRef.current && firstCopyRef.current) {
         xRef.current -= SPEED;
-        const boundary = firstCopyRef.current.offsetWidth;
-        // once we've panned past the whole first copy, reset — seamless because
-        // the second copy starts with identical content
+        // boundary = first copy width + one inter-copy gap so the seam is pixel-perfect
+        const boundary = firstCopyRef.current.offsetWidth + GAP;
         if (xRef.current <= -boundary) xRef.current = 0;
         trackRef.current.style.transform = `translateX(${xRef.current}px)`;
       }
@@ -892,8 +892,8 @@ function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSecti
     return (
       <SlotLabel idx={idx}>
         {item.imageUrl ? (
-          <div className="relative group/img w-72 rounded-xl overflow-hidden">
-            <img src={item.imageUrl} alt="" className="w-72 h-auto block" />
+          <div className="relative group/img w-[380px] rounded-xl overflow-hidden">
+            <img src={item.imageUrl} alt="" className="w-[380px] h-auto block" />
             <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-all flex items-center justify-center">
               <span className="opacity-0 group-hover/img:opacity-100 text-white text-xs font-medium bg-black/50 px-3 py-1.5 rounded-full transition-all">
                 Replace image
@@ -902,7 +902,7 @@ function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSecti
           </div>
         ) : (
           <div
-            className="w-72 h-52 rounded-xl bg-[#F0EDE7] dark:bg-[#2A2520] border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530] hover:border-[#9E9893] dark:hover:border-[#5A5450] focus-within:border-[#9E9893] dark:focus-within:border-[#5A5450] transition-colors flex flex-col items-center justify-center gap-3"
+            className="w-[380px] h-60 rounded-xl bg-[#F0EDE7] dark:bg-[#2A2520] border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530] hover:border-[#9E9893] dark:hover:border-[#5A5450] focus-within:border-[#9E9893] dark:focus-within:border-[#5A5450] transition-colors flex flex-col items-center justify-center gap-3"
             onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f?.type.startsWith("image/")) readFile(f, (u) => updateItem(idx, u)); }}
             onDragOver={(e) => e.preventDefault()}
           >
@@ -927,17 +927,17 @@ function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSecti
         onMouseLeave={() => { pausedRef.current = false; }}
       >
         {/* transform track — holds two copies for seamless loop */}
-        <div ref={trackRef} className="flex gap-4 px-6 w-max" style={{ willChange: "transform" }}>
+        <div ref={trackRef} className="flex gap-5 px-6 w-max" style={{ willChange: "transform" }}>
           {/* first copy — measured for loop boundary */}
-          <div ref={firstCopyRef} className="flex gap-4">
+          <div ref={firstCopyRef} className="flex gap-5">
             {section.items.map((item, i) => <ScrollCard key={i} item={item} idx={i} />)}
           </div>
           {/* second copy — display-only mirror */}
-          <div className="flex gap-4" aria-hidden="true">
+          <div className="flex gap-5" aria-hidden="true">
             {section.items.map((item, i) =>
               item.imageUrl
-                ? <img key={i} src={item.imageUrl} alt="" className="shrink-0 w-72 h-auto block rounded-xl" />
-                : <div key={i} className="shrink-0 w-72 h-52 rounded-xl bg-[#F0EDE7] dark:bg-[#2A2520] border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530]" />
+                ? <img key={i} src={item.imageUrl} alt="" className="shrink-0 w-[380px] h-auto block rounded-xl" />
+                : <div key={i} className="shrink-0 w-[380px] h-60 rounded-xl bg-[#F0EDE7] dark:bg-[#2A2520] border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530]" />
             )}
           </div>
         </div>
