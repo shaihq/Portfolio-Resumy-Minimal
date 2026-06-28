@@ -1,9 +1,9 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import Image from "@tiptap/extension-image";
 import { Bold, Italic, Heading2, Heading3, List, ListOrdered, Quote, ImageIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { ResizableImage } from "./resizable-image";
 
 interface CaseStudyEditorProps {
   initialContent: string;
@@ -32,12 +32,7 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
       Placeholder.configure({
         placeholder: "Write your case study here…",
       }),
-      Image.configure({
-        inline: false,
-        HTMLAttributes: {
-          class: "rounded-xl w-full my-4",
-        },
-      }),
+      ResizableImage,
     ],
     content: saved ?? paragraphsToHtml(initialContent),
     editorProps: {
@@ -47,7 +42,11 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
       },
     },
     onUpdate({ editor }) {
-      localStorage.setItem(storageKey, editor.getHTML());
+      try {
+        localStorage.setItem(storageKey, editor.getHTML());
+      } catch {
+        // localStorage quota exceeded (e.g. large base64 images) — skip silently
+      }
     },
   });
 
@@ -63,7 +62,10 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
     reader.onload = (e) => {
       const src = e.target?.result as string;
       if (src && editor) {
-        editor.chain().focus().setImage({ src }).run();
+        editor.chain().focus().insertContent({
+          type: "resizableImage",
+          attrs: { src, alt: file.name, width: 100 },
+        }).run();
       }
     };
     reader.readAsDataURL(file);
