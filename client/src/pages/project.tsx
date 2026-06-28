@@ -709,7 +709,7 @@ export default function Project() {
       </AnimatePresence>
 
       {/* ── BODY (shared between both views) ── */}
-      <div className="w-full max-w-[880px] mx-auto flex flex-col font-['Inter'] px-6 md:px-10">
+      <div className="w-full max-w-[1100px] mx-auto flex flex-col font-['Inter'] px-6 md:px-12">
 
         {/* Sections */}
         <SectionManager projectId={project.id} />

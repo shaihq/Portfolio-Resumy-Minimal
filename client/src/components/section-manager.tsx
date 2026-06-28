@@ -357,15 +357,15 @@ function SortableSection({
       {/* Drag + delete controls */}
       <div className="absolute -left-10 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover/section:opacity-100 transition-opacity">
         <button {...attributes} {...listeners}
-          className="w-7 h-7 flex items-center justify-center rounded-lg text-[#C5BEB8] hover:text-[#7A736C] hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing"
+          className="w-9 h-9 flex items-center justify-center rounded-xl text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-black/8 dark:hover:bg-white/8 transition-colors cursor-grab active:cursor-grabbing shadow-sm bg-white/80 dark:bg-[#2A2520]/80 border border-black/8 dark:border-white/8"
           title="Drag to reorder" aria-label="Drag to reorder section">
-          <GripVertical size={14} />
+          <GripVertical size={17} />
         </button>
         {!isOnly && (
           <button onClick={onDelete}
-            className="w-7 h-7 flex items-center justify-center rounded-lg text-[#C5BEB8] hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-[#9E9893] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors shadow-sm bg-white/80 dark:bg-[#2A2520]/80 border border-black/8 dark:border-white/8"
             title="Delete section" aria-label="Delete section">
-            <Trash2 size={13} />
+            <Trash2 size={16} />
           </button>
         )}
       </div>
