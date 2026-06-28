@@ -133,6 +133,9 @@ export default function Project() {
   const [heroView, setHeroView] = useState<"immersive" | "editorial">("immersive");
   const [thumbnailWidth, setThumbnailWidth] = useState<"full" | "contained">("full");
   const [thumbnailHeight, setThumbnailHeight] = useState(500);
+  const [showHeightHandle, setShowHeightHandle] = useState(false);
+  const [isResizingHeight, setIsResizingHeight] = useState(false);
+  const [heightHandleHovered, setHeightHandleHovered] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const heroImageY = useTransform(scrollY, [0, 600], ["0%", "30%"]);
@@ -750,13 +753,25 @@ export default function Project() {
                 </div>
               </div>
 
-              {/* Image + resize handle — separate from overflow clip so handle isn't cropped by border radius */}
-              <div className="relative">
-                {/* Border-radius clip layer (contains the image) */}
+              {/* Image + resize handle — handle lives outside the overflow clip so border-radius never crops it */}
+              <div
+                className="relative"
+                onMouseEnter={() => setShowHeightHandle(true)}
+                onMouseLeave={() => { if (!isResizingHeight) { setShowHeightHandle(false); setHeightHandleHovered(false); } }}
+              >
+                {/* Border-radius + overflow clip layer */}
                 <motion.div
-                  style={{ overflow: "hidden" }}
                   animate={{ borderRadius: thumbnailWidth === "contained" ? 16 : 0 }}
                   transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  style={{
+                    overflow: "hidden",
+                    boxShadow: (heightHandleHovered || isResizingHeight)
+                      ? (isResizingHeight
+                          ? "0 0 0 2px rgba(99,102,241,0.45), 0 0 40px rgba(99,102,241,0.1)"
+                          : "0 0 0 1.5px rgba(99,102,241,0.28), 0 0 24px rgba(99,102,241,0.08)")
+                      : undefined,
+                    transition: "box-shadow 0.2s ease",
+                  }}
                 >
                   <ThumbnailUpload imageUrl={meta.imageUrl} onUpload={(url) => updateMeta({ imageUrl: url })}
                     className="w-full">
@@ -768,32 +783,55 @@ export default function Project() {
                   </ThumbnailUpload>
                 </motion.div>
 
-                {/* Resize handle — outside overflow-hidden so it's never clipped */}
-                <div
-                  className="absolute inset-x-0 bottom-0 flex justify-center items-end pb-2.5 h-10 z-30 cursor-ns-resize opacity-0 group-hover/widthpicker:opacity-100 transition-opacity duration-200"
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const startY = e.clientY;
-                    const startH = thumbnailHeight;
-                    const onMove = (ev: MouseEvent) => {
-                      ev.preventDefault();
-                      setThumbnailHeight(Math.max(120, Math.min(window.innerHeight * 0.95, startH + (ev.clientY - startY))));
-                    };
-                    const onUp = () => {
-                      document.removeEventListener("mousemove", onMove);
-                      document.removeEventListener("mouseup", onUp);
-                    };
-                    document.addEventListener("mousemove", onMove);
-                    document.addEventListener("mouseup", onUp);
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="flex flex-col items-center gap-[3px]">
-                    <div className="w-8 h-[3px] rounded-full bg-white/70 shadow-sm" />
-                    <div className="w-5 h-[3px] rounded-full bg-white/40" />
-                  </div>
-                </div>
+                {/* Height resize handle — same style as minimal template side handles, rotated horizontal */}
+                <AnimatePresence>
+                  {(showHeightHandle || isResizingHeight) && (
+                    <motion.div
+                      key="height-handle"
+                      initial={{ opacity: 0, y: -8, scale: 0.82 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -6, scale: 0.88 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                      className="absolute flex items-center justify-center cursor-ns-resize select-none pointer-events-auto group/hh"
+                      style={{ bottom: -14, left: "50%", transform: "translateX(-50%)", width: 96, height: 28 }}
+                      onMouseEnter={() => setHeightHandleHovered(true)}
+                      onMouseLeave={() => setHeightHandleHovered(false)}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const startY = e.clientY;
+                        const startH = thumbnailHeight;
+                        setIsResizingHeight(true);
+                        const onMove = (ev: MouseEvent) => {
+                          ev.preventDefault();
+                          setThumbnailHeight(Math.max(120, Math.min(window.innerHeight * 0.95, startH + (ev.clientY - startY))));
+                        };
+                        const onUp = () => {
+                          setIsResizingHeight(false);
+                          document.removeEventListener("mousemove", onMove);
+                          document.removeEventListener("mouseup", onUp);
+                        };
+                        document.addEventListener("mousemove", onMove);
+                        document.addEventListener("mouseup", onUp);
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div
+                        className={cn(
+                          "w-full rounded-full flex flex-row items-center justify-center gap-[5px] transition-all duration-200 border border-white/[0.15]",
+                          isResizingHeight
+                            ? "bg-white/[0.22] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_16px_rgba(255,255,255,0.18)] scale-105"
+                            : "bg-[#0D0D0D]/50 backdrop-blur-sm group-hover/hh:bg-white/[0.16] group-hover/hh:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_12px_rgba(255,255,255,0.14)] group-hover/hh:scale-105"
+                        )}
+                        style={{ height: 7 }}
+                      >
+                        {[0, 1, 2].map((i) => (
+                          <div key={i} className={cn("rounded-full transition-colors duration-200", isResizingHeight ? "bg-white/90" : "bg-white/50 group-hover/hh:bg-white/80")} style={{ width: 3, height: 3 }} />
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </motion.div>
