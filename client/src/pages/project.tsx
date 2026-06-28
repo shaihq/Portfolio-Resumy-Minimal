@@ -11,10 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTemplate } from "@/hooks/use-template";
+import { cn } from "@/lib/utils";
 import profileImg from "@/assets/images/profile.png";
 import project2 from "@/assets/images/project2.png";
-import slateImage from "@assets/image_1772894732476.png";
-import contentImage from "@assets/image_1772895554431.png";
+import slateImage from "@/assets/images/image_1772894732476.png";
+import contentImage from "@/assets/images/image_1772895554431.png";
 
 const projectsData: Record<string, any> = {
   slate: {
@@ -105,7 +106,7 @@ function ThumbnailUpload({ imageUrl, onUpload, children, className }: {
   };
   return (
     <div
-      className={`relative group/thumb cursor-pointer ${className ?? ""}`}
+      className={cn("relative group/thumb cursor-pointer", className)}
       onClick={() => inputRef.current?.click()}
       onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f?.type.startsWith("image/")) readFile(f); }}
       onDragOver={(e) => e.preventDefault()}
@@ -164,11 +165,23 @@ export default function Project() {
     teamSecondary: "Collaborators: PMs, Devs",
   };
 
+  // Only user-uploaded images (base64 or http/https) should be restored from
+  // localStorage. Vite-bundled asset URLs are hashed at build time and become
+  // stale after every rebuild, causing the hero image to disappear silently.
+  const isUserImage = (url: string) =>
+    url.startsWith("data:") || url.startsWith("http://") || url.startsWith("https://");
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [meta, setMetaState] = useState<typeof defaultMeta>(() => {
     try {
       const saved = localStorage.getItem(metaKey);
-      if (saved) return { ...defaultMeta, ...JSON.parse(saved) };
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Discard any stale bundled-asset imageUrl; always use the fresh import.
+        const { imageUrl: savedImg, ...restParsed } = parsed;
+        const mergedImage = savedImg && isUserImage(savedImg) ? { imageUrl: savedImg } : {};
+        return { ...defaultMeta, ...restParsed, ...mergedImage };
+      }
     } catch {}
     return defaultMeta;
   });
@@ -177,7 +190,17 @@ export default function Project() {
   const updateMeta = useCallback((patch: Partial<typeof defaultMeta>) => {
     setMetaState(prev => {
       const next = { ...prev, ...patch };
-      try { localStorage.setItem(metaKey, JSON.stringify(next)); } catch {}
+      try {
+        // Never persist bundled asset URLs — only user-supplied images survive
+        // across rebuilds. Strip imageUrl from the persisted value when it is
+        // not a user-uploaded file so the fresh import is always used on load.
+        // Never persist bundled asset URLs. Only user-uploaded data:/http(s)
+        // images survive across rebuilds. Omit imageUrl when it is a Vite
+        // hashed URL so the fresh import is always used on the next load.
+        const { imageUrl: _img, ...rest } = next;
+        const toSave = isUserImage(_img) ? { ...rest, imageUrl: _img } : rest;
+        localStorage.setItem(metaKey, JSON.stringify(toSave));
+      } catch {}
       return next;
     });
   }, [metaKey]);

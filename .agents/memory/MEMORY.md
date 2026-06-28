@@ -1,0 +1,3 @@
+- [ThumbnailUpload relative/absolute conflict](thumbnail-upload-position.md) — cn() required; template literal className lets `relative` silently override `absolute` in Tailwind cascade.
+- [Static image imports outside Vite root](vite-static-assets.md) — images must live inside `client/src/assets/` not `attached_assets/` to be reliably served in dev and prod.
+- [localStorage stale Vite image URLs](localstorage-image-urls.md) — only persist user-uploaded (data:/http/https) imageUrls; discard bundled asset URLs which break after rebuild.
