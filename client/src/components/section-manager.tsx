@@ -395,36 +395,45 @@ function AddSectionButton({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) 
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
   return (
-    <div className="relative flex justify-center my-1" ref={ref}>
+    <div className="relative w-full py-4 flex items-center justify-center group/addbtn" ref={ref}>
+      {/* Full-width divider line */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-black/8 dark:bg-white/8" />
+
+      {/* Centered pill trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-[11px] font-medium text-[#C5BEB8] hover:text-[#7A736C] dark:text-[#4A4440] dark:hover:text-[#9E9893] px-3 py-1.5 rounded-full transition-all group"
+        className="relative z-10 flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[12.5px] font-medium shadow-sm hover:opacity-80 active:scale-95 transition-all duration-150"
         aria-label="Add section"
       >
-        <Plus size={12} className="transition-transform group-hover:rotate-90 duration-200" />
+        <Plus size={13} className={`transition-transform duration-200 ${open ? "rotate-45" : ""}`} />
         Add section
       </button>
 
+      {/* Picker dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            initial={{ opacity: 0, y: 6, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.97 }}
+            exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full mt-2 z-50 bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/8 rounded-2xl shadow-xl p-1.5 flex gap-1"
+            className="absolute top-full mt-2 z-50 bg-white dark:bg-[#1E1C1A] border border-black/8 dark:border-white/8 rounded-2xl shadow-2xl p-1.5 flex gap-1"
           >
             {SECTION_TYPES.map(({ key, icon: Icon, label, description }) => (
-              <button key={key} onClick={() => { onAdd(key); setOpen(false); }}
-                className="flex flex-col items-center gap-2 px-4 py-3 rounded-xl hover:bg-black/4 dark:hover:bg-white/4 transition-colors text-center min-w-[88px] group/pick"
+              <button
+                key={key}
+                onClick={() => { onAdd(key); setOpen(false); }}
+                className="flex flex-col items-center gap-2 px-4 py-3 rounded-xl hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors text-center min-w-[90px] group/pick"
               >
-                <div className="w-8 h-8 rounded-xl bg-[#F0EDE7] dark:bg-[#1A1A1A] flex items-center justify-center text-[#7A736C] dark:text-[#9E9893] group-hover/pick:text-[#1A1A1A] dark:group-hover/pick:text-[#F0EDE7] transition-colors">
+                <div className="w-8 h-8 rounded-xl bg-black/5 dark:bg-white/8 flex items-center justify-center text-[#7A736C] dark:text-[#9E9893] group-hover/pick:text-[#1A1A1A] dark:group-hover/pick:text-white transition-colors">
                   <Icon size={14} />
                 </div>
                 <div>
