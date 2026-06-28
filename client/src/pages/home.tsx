@@ -715,7 +715,7 @@ export default function Home() {
       >
         {/* Full-bleed wallpaper — Minimal template only, sits behind the card */}
         {activeTemplate === "Minimal" && (
-          <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 340 }}>
+          <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 480 }}>
             <img
               src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80"
               alt=""
@@ -745,13 +745,12 @@ export default function Home() {
           top: 0;
           bottom: 0;
           width: 1px;
-          background-image: linear-gradient(to bottom, #C8C2BA 50%, transparent 50%);
-          background-size: 1px 10px;
+          background-color: rgba(200, 194, 186, 0.55);
           z-index: 0;
           pointer-events: none;
         }
         .dark .custom-dashed-x::before, .dark .custom-dashed-x::after {
-          background-image: linear-gradient(to bottom, #3A352E 50%, transparent 50%);
+          background-color: rgba(58, 53, 46, 0.7);
         }
         .custom-dashed-x::before {
           left: 0;
@@ -762,11 +761,10 @@ export default function Home() {
         .custom-dashed-t {
           height: 1px;
           width: 100%;
-          background-image: linear-gradient(to right, #C8C2BA 50%, transparent 50%);
-          background-size: 10px 1px;
+          background-color: rgba(200, 194, 186, 0.55);
         }
         .dark .custom-dashed-t {
-          background-image: linear-gradient(to right, #3A352E 50%, transparent 50%);
+          background-color: rgba(58, 53, 46, 0.7);
         }
         .dino-color {
           fill: #535353;
@@ -798,7 +796,7 @@ export default function Home() {
         }
       `}} />
       <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
-        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x mt-[200px]" : 
+        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x mt-[200px] rounded-t-2xl overflow-hidden" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
