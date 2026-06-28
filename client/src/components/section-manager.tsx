@@ -286,9 +286,9 @@ function ImageSlot({
           </div>
         </>
       ) : (
-        <div className="w-full h-full bg-[#F0EDE7] dark:bg-[#2A2520] flex flex-col items-center justify-center gap-2 border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530] group-hover/img:border-[#9E9893] dark:group-hover/img:border-[#5A5450] transition-colors rounded-xl">
-          <Upload size={18} className="text-[#B5AFA5] dark:text-[#5A5450]" />
-          <span className="text-[12px] text-[#B5AFA5] dark:text-[#5A5450]">Click or drop image</span>
+        <div className="w-full h-full bg-[#F0EDE7] dark:bg-[#2A2520] flex flex-col items-center justify-center gap-3 border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530] group-hover/img:border-[#9E9893] dark:group-hover/img:border-[#5A5450] transition-colors rounded-xl">
+          <Upload size={20} className="text-[#B5AFA5] dark:text-[#5A5450]" />
+          <span className="text-[13px] font-medium text-center text-[#9E9893] dark:text-[#5A5450] leading-snug">Click or drop image</span>
         </div>
       )}
       <input ref={inputRef} type="file" accept="image/*" className="hidden"
