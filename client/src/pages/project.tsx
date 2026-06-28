@@ -709,7 +709,7 @@ export default function Project() {
       </AnimatePresence>
 
       {/* ── BODY (shared between both views) ── */}
-      <div className="w-full max-w-[1100px] mx-auto flex flex-col font-['Inter'] px-6 md:px-12">
+      <div className={`w-full mx-auto flex flex-col font-['Inter'] ${heroView === 'immersive' ? 'max-w-[1100px] px-6 md:px-12' : 'max-w-[880px] px-6 md:px-10'}`}>
 
         {/* Sections */}
         <SectionManager projectId={project.id} />
