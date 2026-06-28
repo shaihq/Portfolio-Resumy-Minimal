@@ -2,6 +2,7 @@
 
 import { motion, useSpring } from "motion/react";
 import { FC, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface Position {
   x: number;
@@ -229,7 +230,7 @@ export function SmoothCursor({
     };
   }, [cursorX, cursorY, rotation, scale, type]);
 
-  return (
+  return createPortal(
     <motion.div
       style={{
         position: "fixed",
@@ -241,7 +242,7 @@ export function SmoothCursor({
           rotate: rotation,
           scale: scale,
         } : {}),
-        zIndex: 9999,
+        zIndex: 999999,
         pointerEvents: "none",
         willChange: "transform",
       }}
@@ -258,6 +259,7 @@ export function SmoothCursor({
       ) : (
         <ProfessionalCursor isHovering={isHovering} />
       )}
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
