@@ -500,24 +500,27 @@ export default function Project() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
 
         {/* Nav bar — top overlay */}
-        <div className="relative z-10 flex items-center justify-between px-8 md:px-12 pt-7">
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors group"
-          >
-            <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-            Go Back
-          </button>
-          <div className="flex items-center gap-6 text-[13px] font-medium text-white/80">
-            <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
-            <button className="flex items-center gap-1 hover:text-white transition-colors">
-              <span className="text-[10px]">✦</span> Resume
+        <div className="relative z-10 flex justify-center pt-7">
+          <div className="w-full max-w-[880px] px-6 md:px-10 flex items-center justify-between">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors group"
+            >
+              <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+              Go Back
             </button>
+            <div className="flex items-center gap-6 text-[13px] font-medium text-white/80">
+              <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
+              <button className="flex items-center gap-1 hover:text-white transition-colors">
+                <span className="text-[10px]">✦</span> Resume
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Bottom content — title + metadata */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 px-8 md:px-12 pb-10">
+        <div className="absolute bottom-0 left-0 right-0 z-10 flex justify-center pb-10">
+        <div className="w-full max-w-[880px] px-6 md:px-10">
           {/* Title */}
           <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 max-w-3xl">
             {project.title}
@@ -544,6 +547,7 @@ export default function Project() {
               <span className="text-[13px] text-white/80">Collaborators: PMs, Devs</span>
             </div>
           </div>
+        </div>
         </div>
       </motion.div>
 
