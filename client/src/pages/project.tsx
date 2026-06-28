@@ -488,7 +488,7 @@ export default function Project() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
+      className="min-h-screen bg-white dark:bg-[#1A1A1A] font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700"
     >
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
@@ -594,7 +594,7 @@ export default function Project() {
           {/* ── EDITORIAL HEADER ── */}
 
           {/* Sticky nav */}
-          <div className="sticky top-0 z-50 flex justify-center bg-[#F0EDE7]/90 dark:bg-[#1A1A1A]/90 backdrop-blur-md border-b border-black/5 dark:border-white/5">
+          <div className="sticky top-0 z-50 flex justify-center bg-white/90 dark:bg-[#1A1A1A]/90 backdrop-blur-md border-b border-black/5 dark:border-white/5">
             <div className="w-full max-w-[880px] px-6 md:px-10 flex items-center justify-between py-4">
               <button onClick={() => navigate("/")} className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group">
                 <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
