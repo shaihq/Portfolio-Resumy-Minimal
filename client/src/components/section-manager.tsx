@@ -171,21 +171,12 @@ function ImageSlot({
 function FreeformBlock({
   section,
   projectId,
-  onUpdateTitle,
 }: {
   section: FreeformSection;
   projectId: string;
-  onUpdateTitle: (title: string) => void;
 }) {
   return (
     <div className="py-14">
-      <EditableText
-        value={section.title}
-        onChange={onUpdateTitle}
-        tag="h2"
-        placeholder="Section title"
-        className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6"
-      />
       <CaseStudyEditor
         initialContent=""
         storageKey={sectionContentKey(projectId, section.id)}
@@ -298,7 +289,6 @@ function SortableSection({
           <FreeformBlock
             section={section}
             projectId={projectId}
-            onUpdateTitle={(title) => onUpdate({ ...section, title })}
           />
         ) : (
           <ImageGridBlock
