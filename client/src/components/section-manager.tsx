@@ -17,7 +17,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { motion, AnimatePresence } from "framer-motion";
-import { GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload } from "lucide-react";
+import { GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload, ImageIcon } from "lucide-react";
 import { CaseStudyEditor } from "./case-study-editor";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -259,6 +259,7 @@ function ImageSlot({
   onUpload: (url: string) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleFile = (file: File) => {
     const reader = new FileReader();
@@ -271,25 +272,86 @@ function ImageSlot({
 
   return (
     <div
-      className="relative w-full aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group/img"
-      onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f?.type.startsWith("image/")) handleFile(f); }}
-      onDragOver={(e) => e.preventDefault()}
+      className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group/img"
+      onDrop={(e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+        const f = e.dataTransfer.files[0];
+        if (f?.type.startsWith("image/")) handleFile(f);
+      }}
+      onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+      onDragLeave={() => setIsDragOver(false)}
       onClick={() => inputRef.current?.click()}
     >
       {imageUrl ? (
         <>
           <img src={imageUrl} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-all flex items-center justify-center">
-            <span className="opacity-0 group-hover/img:opacity-100 text-white text-xs font-medium bg-black/50 px-3 py-1.5 rounded-full transition-all">
-              Replace image
+          <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/35 transition-all duration-300 flex items-center justify-center">
+            <span className="opacity-0 group-hover/img:opacity-100 text-white text-[12px] font-medium bg-black/55 backdrop-blur-sm px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5">
+              <Upload size={11} />
+              Replace
             </span>
           </div>
         </>
       ) : (
-        <div className="w-full h-full bg-[#F0EDE7] dark:bg-[#2A2520] flex flex-col items-center justify-center gap-2 border-2 border-dashed border-black/10 dark:border-white/10 group-hover/img:border-black/25 dark:group-hover/img:border-white/25 transition-colors">
-          <Upload size={18} className="text-[#B5AFA5] dark:text-[#5A5450]" />
-          <span className="text-[12px] text-[#B5AFA5] dark:text-[#5A5450]">Click or drop image</span>
-        </div>
+        <motion.div
+          animate={{
+            backgroundColor: isDragOver ? "rgba(26,26,26,0.03)" : "rgba(247,244,240,1)",
+            borderColor: isDragOver ? "rgba(26,26,26,0.25)" : "rgba(26,26,26,0.07)",
+            scale: isDragOver ? 1.01 : 1,
+          }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          className="w-full h-full flex flex-col items-center justify-center gap-4
+            dark:bg-[#1E1C1A] border-2 border-dashed
+            group-hover/img:border-black/18 dark:group-hover/img:border-white/15
+            transition-colors duration-200 rounded-2xl"
+        >
+          {/* Floating icon card */}
+          <motion.div
+            animate={{ y: isDragOver ? -4 : 0, scale: isDragOver ? 1.1 : 1 }}
+            whileHover={{ y: -2, scale: 1.04 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="w-14 h-14 rounded-2xl
+              bg-white dark:bg-[#2A2520]
+              shadow-[0_4px_16px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.05)]
+              dark:shadow-[0_4px_16px_rgba(0,0,0,0.35)]
+              flex items-center justify-center
+              border border-black/[0.05] dark:border-white/[0.07]"
+          >
+            <ImageIcon
+              size={22}
+              className={`transition-colors duration-200 ${isDragOver ? "text-[#7A736C] dark:text-[#9E9893]" : "text-[#C5BEB8] dark:text-[#5A5450]"}`}
+            />
+          </motion.div>
+
+          {/* Labels */}
+          <div className="flex flex-col items-center gap-1 text-center select-none">
+            <p className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] transition-all duration-150">
+              {isDragOver ? "Drop to upload" : "Upload image"}
+            </p>
+            <p className="text-[11px] text-[#C5BEB8] dark:text-[#5A5450]">
+              PNG, JPG or WebP
+            </p>
+          </div>
+
+          {/* Browse pill — appears on hover */}
+          <AnimatePresence>
+            {!isDragOver && (
+              <motion.span
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 0, y: 0 }}
+                whileHover={{ opacity: 1 }}
+                className="group-hover/img:opacity-100 opacity-0 transition-opacity duration-200
+                  px-4 py-1.5 rounded-full
+                  bg-[#1A1A1A] dark:bg-[#F0EDE7]
+                  text-white dark:text-[#1A1A1A]
+                  text-[11.5px] font-medium"
+              >
+                Browse files
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.div>
       )}
       <input ref={inputRef} type="file" accept="image/*" className="hidden"
         onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
