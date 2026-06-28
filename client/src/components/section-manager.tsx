@@ -224,11 +224,15 @@ function EditableText({
   tag?: "p" | "h2" | "h3" | "span";
 }) {
   const ref = useRef<HTMLElement>(null);
-  const [localVal, setLocalVal] = useState(value);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.innerText = value;
+    }
+  }, []); // set initial content once on mount only
 
   const handleInput = () => {
     const t = ref.current?.innerText ?? "";
-    setLocalVal(t);
     onChange(t);
   };
 
@@ -241,7 +245,6 @@ function EditableText({
       onBlur={handleInput}
       className={`outline-none empty:before:content-[attr(data-placeholder)] empty:before:text-[#C5BEB8] dark:empty:before:text-[#5A5450] cursor-text ${className ?? ""}`}
       data-placeholder={placeholder}
-      dangerouslySetInnerHTML={{ __html: localVal }}
     />
   );
 }
