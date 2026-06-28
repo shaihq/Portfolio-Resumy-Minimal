@@ -788,12 +788,12 @@ export default function Project() {
                   {(showHeightHandle || isResizingHeight) && (
                     <motion.div
                       key="height-handle"
-                      initial={{ opacity: 0, y: -8, scale: 0.82 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -6, scale: 0.88 }}
+                      initial={{ opacity: 0, y: -8, scale: 0.82, x: "-50%" }}
+                      animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+                      exit={{ opacity: 0, y: -6, scale: 0.88, x: "-50%" }}
                       transition={{ type: "spring", stiffness: 500, damping: 32 }}
                       className="absolute flex items-center justify-center cursor-ns-resize select-none pointer-events-auto group/hh"
-                      style={{ bottom: -14, left: "50%", transform: "translateX(-50%)", width: 96, height: 28 }}
+                      style={{ bottom: -18, left: "50%", width: 128, height: 36 }}
                       onMouseEnter={() => setHeightHandleHovered(true)}
                       onMouseLeave={() => setHeightHandleHovered(false)}
                       onMouseDown={(e) => {
@@ -823,10 +823,10 @@ export default function Project() {
                             ? "bg-white/[0.22] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_16px_rgba(255,255,255,0.18)] scale-105"
                             : "bg-[#0D0D0D]/50 backdrop-blur-sm group-hover/hh:bg-white/[0.16] group-hover/hh:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_12px_rgba(255,255,255,0.14)] group-hover/hh:scale-105"
                         )}
-                        style={{ height: 7 }}
+                        style={{ height: 9 }}
                       >
                         {[0, 1, 2].map((i) => (
-                          <div key={i} className={cn("rounded-full transition-colors duration-200", isResizingHeight ? "bg-white/90" : "bg-white/50 group-hover/hh:bg-white/80")} style={{ width: 3, height: 3 }} />
+                          <div key={i} className={cn("rounded-full transition-colors duration-200", isResizingHeight ? "bg-white/90" : "bg-white/50 group-hover/hh:bg-white/80")} style={{ width: 3.5, height: 3.5 }} />
                         ))}
                       </div>
                     </motion.div>
