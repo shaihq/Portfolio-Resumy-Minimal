@@ -712,10 +712,7 @@ export default function Project() {
       <div className="w-full max-w-[880px] mx-auto flex flex-col font-['Inter'] pl-10">
 
         {/* Sections */}
-        <SectionManager
-          projectId={project.id}
-          initialIntroContent={project.introduction}
-        />
+        <SectionManager projectId={project.id} />
 
         {/* Contact CTA / Footer */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 py-8 flex flex-col items-center text-center">
