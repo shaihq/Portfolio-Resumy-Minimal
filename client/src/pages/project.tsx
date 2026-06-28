@@ -503,8 +503,13 @@ export default function Project() {
           transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           style={{ y: heroImageY, height: "130%", top: "-15%" }}
         />
-        {/* Dark gradient overlay — stronger at bottom for legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
+        {/* Flat dark overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+        {/* Grain texture */}
+        <div
+          className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none"
+          style={{ backgroundImage: "url('/backgrounds/grainsnow.avif')", backgroundSize: "200px 200px", backgroundRepeat: "repeat" }}
+        />
 
         {/* Nav bar — top overlay */}
         <div className="relative z-10 flex justify-center pt-7">
