@@ -715,7 +715,7 @@ export default function Home() {
       >
         {/* Full-bleed wallpaper — Minimal template only, sits behind the card */}
         {activeTemplate === "Minimal" && (
-          <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 480 }}>
+          <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 580 }}>
             <img
               src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80"
               alt=""
@@ -758,6 +758,16 @@ export default function Home() {
         .custom-dashed-x::after {
           right: 0;
         }
+        .minimal-card-border {
+          border-left: 1px solid rgba(200, 194, 186, 0.55);
+          border-right: 1px solid rgba(200, 194, 186, 0.55);
+          border-top: 1px solid rgba(200, 194, 186, 0.55);
+        }
+        .dark .minimal-card-border {
+          border-left: 1px solid rgba(58, 53, 46, 0.7);
+          border-right: 1px solid rgba(58, 53, 46, 0.7);
+          border-top: 1px solid rgba(58, 53, 46, 0.7);
+        }
         .custom-dashed-t {
           height: 1px;
           width: 100%;
@@ -796,7 +806,7 @@ export default function Home() {
         }
       `}} />
       <div className={cn("w-full max-w-[880px] relative min-h-screen flex flex-col font-['Inter'] transition-colors duration-700 z-10", 
-        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] custom-dashed-x mt-[200px] rounded-t-2xl" : 
+        activeTemplate === "Minimal" ? "bg-[#F0EDE7] dark:bg-[#1A1A1A] minimal-card-border mt-[200px] rounded-t-2xl" : 
         activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
       )}>
         
