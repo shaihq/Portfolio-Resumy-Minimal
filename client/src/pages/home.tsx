@@ -783,8 +783,28 @@ export default function Home() {
         {activeTemplate === "Minimal" ? (
           <>
             <SmoothCursor type="minimal" />
+            {/* Wallpaper Banner */}
+            <div className="relative w-full overflow-hidden" style={{ height: 210 }}>
+              <img
+                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+                loading="eager"
+              />
+              {/* Light mode fade overlay */}
+              <div
+                className="absolute inset-0 dark:hidden"
+                style={{ background: 'linear-gradient(to bottom, rgba(240,237,231,0.05) 0%, rgba(240,237,231,0.45) 55%, #F0EDE7 100%)' }}
+              />
+              {/* Dark mode fade overlay */}
+              <div
+                className="absolute inset-0 hidden dark:block"
+                style={{ background: 'linear-gradient(to bottom, rgba(26,26,26,0.05) 0%, rgba(26,26,26,0.45) 55%, #1A1A1A 100%)' }}
+              />
+            </div>
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-12 md:pt-16 pb-8 relative group/section">
+            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 md:pt-10 pb-8 relative group/section">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
