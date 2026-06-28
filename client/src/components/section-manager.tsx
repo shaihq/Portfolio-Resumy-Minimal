@@ -46,16 +46,12 @@ type SectionTypeKey = "freeform" | "image-grid-2" | "image-grid-3";
 
 // ─── Storage helpers ──────────────────────────────────────────────────────────
 
-function loadSections(projectId: string): Section[] {
-  try {
-    const saved = localStorage.getItem(`sections-${projectId}`);
-    if (saved) return JSON.parse(saved);
-  } catch {}
+function loadSections(_projectId: string): Section[] {
   return [];
 }
 
-function saveSections(projectId: string, sections: Section[]) {
-  localStorage.setItem(`sections-${projectId}`, JSON.stringify(sections));
+function saveSections(_projectId: string, _sections: Section[]) {
+  // persistence disabled — always starts fresh
 }
 
 function sectionContentKey(projectId: string, sectionId: string) {
