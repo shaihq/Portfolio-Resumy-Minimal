@@ -67,14 +67,19 @@ function uid() {
 function FreeformPreview() {
   return (
     <svg viewBox="0 0 160 120" fill="none" className="w-full h-full">
-      <rect x="12" y="14" width="80" height="8" rx="3" fill="currentColor" opacity="0.35" />
-      <rect x="12" y="30" width="136" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="41" width="136" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="52" width="120" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="68" width="136" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="79" width="100" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="95" width="136" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="106" width="76" height="5" rx="2.5" fill="currentColor" opacity="0.18" />
+      {/* Heading */}
+      <rect x="12" y="10" width="72" height="7" rx="3" fill="currentColor" opacity="0.35" />
+      {/* Text lines */}
+      <rect x="12" y="24" width="136" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="33" width="120" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      {/* Image block */}
+      <rect x="12" y="46" width="136" height="38" rx="4" fill="currentColor" opacity="0.12" />
+      {/* Image icon hint */}
+      <rect x="68" y="58" width="24" height="16" rx="2" fill="currentColor" opacity="0.2" />
+      {/* More text */}
+      <rect x="12" y="92" width="136" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="101" width="100" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="110" width="60" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
     </svg>
   );
 }
@@ -131,7 +136,7 @@ const LAYOUT_OPTIONS: {
   {
     key: "freeform",
     label: "Freeform",
-    sub: "Rich text, headings, lists",
+    sub: "Text, headings, images",
     Preview: FreeformPreview,
   },
   {

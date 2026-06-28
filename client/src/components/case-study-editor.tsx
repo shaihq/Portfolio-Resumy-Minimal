@@ -1,8 +1,9 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import { Bold, Italic, Heading2, Heading3, List, ListOrdered, Quote } from "lucide-react";
-import { useEffect, useState } from "react";
+import Image from "@tiptap/extension-image";
+import { Bold, Italic, Heading2, Heading3, List, ListOrdered, Quote, ImageIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 interface CaseStudyEditorProps {
   initialContent: string;
@@ -19,7 +20,7 @@ function paragraphsToHtml(text: string): string {
 
 export function CaseStudyEditor({ initialContent, storageKey, className }: CaseStudyEditorProps) {
   const saved = typeof window !== "undefined" ? localStorage.getItem(storageKey) : null;
-  const [focused, setFocused] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
     extensions: [
@@ -30,6 +31,12 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
       }),
       Placeholder.configure({
         placeholder: "Write your case study here…",
+      }),
+      Image.configure({
+        inline: false,
+        HTMLAttributes: {
+          class: "rounded-xl w-full my-4",
+        },
       }),
     ],
     content: saved ?? paragraphsToHtml(initialContent),
@@ -42,12 +49,6 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
     onUpdate({ editor }) {
       localStorage.setItem(storageKey, editor.getHTML());
     },
-    onFocus() {
-      setFocused(true);
-    },
-    onBlur() {
-      setFocused(false);
-    },
   });
 
   useEffect(() => {
@@ -55,6 +56,18 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
       editor?.destroy();
     };
   }, [editor]);
+
+  const handleImageFile = (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const src = e.target?.result as string;
+      if (src && editor) {
+        editor.chain().focus().setImage({ src }).run();
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   if (!editor) return null;
 
@@ -84,12 +97,8 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
 
   return (
     <div className={`relative ${className ?? ""}`}>
-      {/* Floating toolbar — appears on focus */}
-      <div
-        className={`flex items-center gap-0.5 mb-4 px-1.5 py-1.5 bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/8 rounded-xl shadow-sm w-fit transition-all duration-200 ${
-          focused ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1 pointer-events-none"
-        }`}
-      >
+      {/* Toolbar */}
+      <div className="flex items-center gap-0.5 mb-4 px-1.5 py-1.5 bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/8 rounded-xl shadow-sm w-fit">
         <ToolbarBtn
           active={editor.isActive("bold")}
           onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleBold().run(); }}
@@ -141,7 +150,27 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
         >
           <Quote size={13} strokeWidth={2.5} />
         </ToolbarBtn>
+        <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-0.5" />
+        <ToolbarBtn
+          onMouseDown={(e) => { e.preventDefault(); fileInputRef.current?.click(); }}
+          title="Insert image"
+        >
+          <ImageIcon size={13} strokeWidth={2.5} />
+        </ToolbarBtn>
       </div>
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) handleImageFile(f);
+          e.target.value = "";
+        }}
+      />
 
       <EditorContent
         editor={editor}
@@ -155,6 +184,7 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
           [&_.tiptap_li]:text-[#7A736C] [&_.tiptap_li]:dark:text-[#B5AFA5] [&_.tiptap_li]:text-[17px] [&_.tiptap_li]:leading-[1.7] [&_.tiptap_li]:[font-weight:450]
           [&_.tiptap_blockquote]:border-l-2 [&_.tiptap_blockquote]:border-[#1A1A1A]/20 [&_.tiptap_blockquote]:dark:border-[#F0EDE7]/20 [&_.tiptap_blockquote]:pl-4 [&_.tiptap_blockquote]:italic [&_.tiptap_blockquote]:text-[#9E9893] [&_.tiptap_blockquote]:dark:text-[#7A736C] [&_.tiptap_blockquote]:mb-4
           [&_.tiptap_strong]:font-semibold [&_.tiptap_strong]:text-[#1A1A1A] [&_.tiptap_strong]:dark:text-[#F0EDE7]
+          [&_.tiptap_img]:rounded-xl [&_.tiptap_img]:w-full [&_.tiptap_img]:my-4 [&_.tiptap_img]:object-cover
           [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_.is-editor-empty:first-child::before]:text-[#C5BEB8] [&_.tiptap_.is-editor-empty:first-child::before]:dark:text-[#5A5450] [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:h-0
           cursor-text
         "
