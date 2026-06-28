@@ -2,7 +2,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import { Bold, Italic, Heading2, Heading3, List, ListOrdered, Quote, ImageIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ResizableImage } from "./resizable-image";
 
 interface CaseStudyEditorProps {
@@ -21,6 +21,7 @@ function paragraphsToHtml(text: string): string {
 export function CaseStudyEditor({ initialContent, storageKey, className }: CaseStudyEditorProps) {
   const saved = typeof window !== "undefined" ? localStorage.getItem(storageKey) : null;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -41,6 +42,8 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
         spellcheck: "true",
       },
     },
+    onFocus() { setIsFocused(true); },
+    onBlur() { setIsFocused(false); },
     onUpdate({ editor }) {
       try {
         localStorage.setItem(storageKey, editor.getHTML());
@@ -51,9 +54,7 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
   });
 
   useEffect(() => {
-    return () => {
-      editor?.destroy();
-    };
+    return () => { editor?.destroy(); };
   }, [editor]);
 
   const handleImageFile = (file: File) => {
@@ -99,8 +100,15 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
 
   return (
     <div className={`relative ${className ?? ""}`}>
-      {/* Toolbar */}
-      <div className="flex items-center gap-0.5 mb-4 px-1.5 py-1.5 bg-white dark:bg-[#2A2520] border border-black/8 dark:border-white/8 rounded-xl shadow-sm w-fit">
+      {/* Toolbar — only visible while editor is focused */}
+      <div
+        className={`flex items-center gap-0.5 mb-4 px-1.5 py-1.5
+          bg-white dark:bg-[#2A2520]
+          border border-black/8 dark:border-white/8
+          rounded-xl shadow-sm w-fit
+          transition-all duration-200 ease-out
+          ${isFocused ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"}`}
+      >
         <ToolbarBtn
           active={editor.isActive("bold")}
           onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleBold().run(); }}
