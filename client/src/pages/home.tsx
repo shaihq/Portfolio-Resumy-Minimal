@@ -2226,7 +2226,7 @@ export default function Home() {
           <div 
             ref={gameRef}
             onClick={jump}
-            className="w-full h-48 relative flex items-end overflow-hidden cursor-pointer select-none bg-[#F5F0E8]/60 dark:bg-white/[0.04] backdrop-blur-sm transition-colors hover:bg-[#F5F0E8]/80 dark:hover:bg-white/[0.06]"
+            className="w-full h-48 relative flex items-end overflow-hidden cursor-pointer select-none bg-black/[0.015] dark:bg-white/[0.03] transition-colors hover:bg-black/[0.025] dark:hover:bg-white/[0.05]"
           >
             {/* Ground Line */}
             <div className="absolute bottom-12 left-0 w-full h-[1px] bg-[#E5D7C4] dark:bg-[#3A352E]"></div>
