@@ -1558,11 +1558,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <CursorFollow>
-                <div className="bg-[#1A1A1A] dark:bg-[#F0EDE7] text-[#F0EDE7] dark:text-[#1A1A1A] px-3 py-1.5 rounded-full text-[13px] font-medium shadow-2xl flex items-center gap-1.5">
-                  View Project <ArrowUpRight size={14} />
-                </div>
-              </CursorFollow>
             </CursorProvider>
           )}
         </motion.div>
