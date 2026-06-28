@@ -64,6 +64,7 @@ export default function Project() {
   const [, navigate] = useLocation();
   const { activeTemplate } = useTemplate();
   const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
+  const [heroView, setHeroView] = useState<'immersive' | 'editorial'>('immersive');
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const heroImageY = useTransform(scrollY, [0, 600], ["0%", "30%"]);
@@ -491,81 +492,200 @@ export default function Project() {
         @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
       `}} />
 
-      {/* ── FULL-BLEED HERO ── */}
-      <motion.div ref={heroRef} variants={itemVariants} className="relative w-full overflow-hidden" style={{ minHeight: '92vh' }}>
-        {/* Background thumbnail — zoom-in on mount + parallax scroll */}
-        <motion.img
-          src={project.image}
-          alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover"
-          initial={{ scale: 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ y: heroImageY, height: "130%", top: "-15%" }}
-        />
-        {/* Flat dark overlay */}
-        <div className="absolute inset-0 bg-black/25" />
-        {/* Bottom gradient for text legibility */}
-        <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none" />
-        {/* Grain texture */}
-        <div
-          className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
-          style={{ backgroundImage: "url('/backgrounds/grainsnow.avif')", backgroundSize: "200px 200px", backgroundRepeat: "repeat" }}
-        />
+      {/* ── SHARED: view toggle pill (reused in both layouts) ── */}
+      {/* rendered inside each nav */}
 
-        {/* Nav bar — top overlay */}
-        <div className="relative z-10 flex justify-center pt-7">
-          <div className="w-full max-w-[1100px] px-6 md:px-12 flex items-center justify-between">
-            <button
-              onClick={() => navigate("/")}
-              className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors group"
-            >
-              <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-              Go Back
-            </button>
-            <div className="flex items-center gap-6 text-[13px] font-medium text-white/80">
-              <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
-              <button className="flex items-center gap-1 hover:text-white transition-colors">
-                <span className="text-[10px]">✦</span> Resume
+      <AnimatePresence mode="wait">
+      {heroView === 'immersive' ? (
+        <motion.div key="immersive" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+          {/* ── IMMERSIVE HERO ── */}
+          <div ref={heroRef} className="relative w-full overflow-hidden" style={{ minHeight: '92vh' }}>
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ scale: 1.08 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{ y: heroImageY, height: "130%", top: "-15%" }}
+            />
+            <div className="absolute inset-0 bg-black/25" />
+            <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none" />
+            <div
+              className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
+              style={{ backgroundImage: "url('/backgrounds/grainsnow.avif')", backgroundSize: "200px 200px", backgroundRepeat: "repeat" }}
+            />
+
+            {/* Nav */}
+            <div className="relative z-10 flex justify-center pt-7">
+              <div className="w-full max-w-[1100px] px-6 md:px-12 flex items-center justify-between">
+                <button onClick={() => navigate("/")} className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors group">
+                  <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+                  Go Back
+                </button>
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-5 text-[13px] font-medium text-white/80">
+                    <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
+                    <button className="flex items-center gap-1 hover:text-white transition-colors">
+                      <span className="text-[10px]">✦</span> Resume
+                    </button>
+                  </div>
+                  {/* Toggle */}
+                  <div className="flex items-center gap-0.5 bg-white/10 backdrop-blur-sm rounded-lg p-1 ml-2">
+                    <button
+                      onClick={() => setHeroView('immersive')}
+                      title="Immersive view"
+                      className="w-7 h-7 rounded-md flex items-center justify-center transition-all bg-white/20"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <rect x="1" y="1" width="12" height="12" rx="1.5" fill="white" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => setHeroView('editorial')}
+                      title="Editorial view"
+                      className="w-7 h-7 rounded-md flex items-center justify-center transition-all hover:bg-white/10"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <rect x="1" y="1" width="12" height="5" rx="1" fill="white" fillOpacity="0.5" />
+                        <rect x="1" y="8" width="7" height="1.5" rx="0.75" fill="white" fillOpacity="0.5" />
+                        <rect x="1" y="11" width="5" height="1.5" rx="0.75" fill="white" fillOpacity="0.5" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom: title + metadata */}
+            <div className="absolute bottom-0 left-0 right-0 z-10 flex justify-center pb-10">
+              <div className="w-full max-w-[1100px] px-6 md:px-12">
+                <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 w-full">
+                  {project.title}
+                </h1>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-5">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Role</span>
+                    <span className="text-[15px] font-semibold text-white leading-snug">{project.details.client}</span>
+                    <span className="text-[14px] text-white/75">{project.details.role}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Timeline</span>
+                    <span className="text-[15px] font-semibold text-white leading-snug">{project.details.industry}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Tools</span>
+                    <span className="text-[15px] font-semibold text-white leading-snug">{project.details.platform}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Team</span>
+                    <span className="text-[15px] font-semibold text-white leading-snug">Designer: Me</span>
+                    <span className="text-[14px] text-white/75">Collaborators: PMs, Devs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div key="editorial" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+          {/* ── EDITORIAL HEADER ── */}
+
+          {/* Sticky nav */}
+          <div className="sticky top-0 z-50 flex justify-center bg-[#F0EDE7]/90 dark:bg-[#1A1A1A]/90 backdrop-blur-md border-b border-black/5 dark:border-white/5">
+            <div className="w-full max-w-[880px] px-6 md:px-10 flex items-center justify-between py-4">
+              <button onClick={() => navigate("/")} className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group">
+                <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+                Go Back
               </button>
+              <div className="flex items-center gap-5">
+                <div className="flex items-center gap-5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893]">
+                  <button onClick={() => navigate("/")} className="hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors">Work</button>
+                  <button className="flex items-center gap-1 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors">
+                    <span className="text-[10px]">✦</span> Resume
+                  </button>
+                </div>
+                {/* Toggle */}
+                <div className="flex items-center gap-0.5 bg-black/5 dark:bg-white/5 rounded-lg p-1 ml-2">
+                  <button
+                    onClick={() => setHeroView('immersive')}
+                    title="Immersive view"
+                    className="w-7 h-7 rounded-md flex items-center justify-center transition-all hover:bg-black/5 dark:hover:bg-white/5"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <rect x="1" y="1" width="12" height="12" rx="1.5" fill="currentColor" className="text-[#7A736C] dark:text-[#9E9893]" fillOpacity="0.5" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setHeroView('editorial')}
+                    title="Editorial view"
+                    className="w-7 h-7 rounded-md flex items-center justify-center transition-all bg-white dark:bg-[#2A2520] shadow-sm"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <rect x="1" y="1" width="12" height="5" rx="1" fill="#1A1A1A" className="dark:fill-[#F0EDE7]" />
+                      <rect x="1" y="8" width="7" height="1.5" rx="0.75" fill="#1A1A1A" className="dark:fill-[#F0EDE7]" fillOpacity="0.4" />
+                      <rect x="1" y="11" width="5" height="1.5" rx="0.75" fill="#1A1A1A" className="dark:fill-[#F0EDE7]" fillOpacity="0.4" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom content — title + metadata */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 flex justify-center pb-10">
-        <div className="w-full max-w-[1100px] px-6 md:px-12">
-          {/* Title */}
-          <h1 className="text-[36px] md:text-[52px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-8 w-full">
-            {project.title}
-          </h1>
+          {/* Editorial header content */}
+          <div className="w-full max-w-[880px] mx-auto px-6 md:px-10">
+            {/* Title block */}
+            <div className="pt-14 pb-10">
+              <h1 className="text-[38px] md:text-[52px] font-bold text-[#1A1A1A] dark:text-[#F0EDE7] leading-[1.05] tracking-[-0.02em] mb-5">
+                {project.title}
+              </h1>
+              <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[18px] leading-relaxed max-w-2xl" style={{ fontWeight: 450 }}>
+                {project.subtitle}
+              </p>
+            </div>
 
-          {/* Metadata row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-5">
-            <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Role</span>
-              <span className="text-[15px] font-semibold text-white leading-snug">{project.details.client}</span>
-              <span className="text-[14px] text-white/75">{project.details.role}</span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Timeline</span>
-              <span className="text-[15px] font-semibold text-white leading-snug">{project.details.industry}</span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Tools</span>
-              <span className="text-[15px] font-semibold text-white leading-snug">{project.details.platform}</span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Team</span>
-              <span className="text-[15px] font-semibold text-white leading-snug">Designer: Me</span>
-              <span className="text-[14px] text-white/75">Collaborators: PMs, Devs</span>
+            {/* Metadata row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 pb-12">
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest">Role</span>
+                <span className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">{project.details.client}</span>
+                <span className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5]">{project.details.role}</span>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest">Timeline</span>
+                <span className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">{project.details.industry}</span>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest">Tools</span>
+                <span className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">{project.details.platform}</span>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] font-semibold text-[#9E9893] uppercase tracking-widest">Team</span>
+                <span className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug">Designer: Me</span>
+                <span className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5]">Collaborators: PMs, Devs</span>
+              </div>
             </div>
           </div>
-        </div>
-        </div>
-      </motion.div>
 
-      {/* ── BODY ── */}
+          {/* Full-width thumbnail */}
+          <motion.div
+            className="w-full overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full object-cover"
+              style={{ maxHeight: '70vh' }}
+            />
+          </motion.div>
+        </motion.div>
+      )}
+      </AnimatePresence>
+
+      {/* ── BODY (shared between both views) ── */}
       <div className="w-full max-w-[880px] mx-auto flex flex-col font-['Inter']">
 
         {/* Introduction */}
@@ -582,11 +702,7 @@ export default function Project() {
 
         {/* Introduction Image */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 pb-16">
-          <img 
-            src={contentImage} 
-            alt="Introduction visual"
-            className="w-full rounded-lg overflow-hidden"
-          />
+          <img src={contentImage} alt="Introduction visual" className="w-full rounded-lg overflow-hidden" />
         </motion.div>
 
         {/* Contact CTA / Footer */}
