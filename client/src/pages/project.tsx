@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRoute, useLocation } from "wouter";
 import { ChevronLeft, Phone } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -64,6 +64,9 @@ export default function Project() {
   const [, navigate] = useLocation();
   const { activeTemplate } = useTemplate();
   const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+  const heroImageY = useTransform(scrollY, [0, 600], ["0%", "30%"]);
 
   const projectId = (params?.id as string)?.toLowerCase();
 
@@ -489,8 +492,8 @@ export default function Project() {
       `}} />
 
       {/* ── FULL-BLEED HERO ── */}
-      <motion.div variants={itemVariants} className="relative w-full overflow-hidden" style={{ minHeight: '92vh' }}>
-        {/* Background thumbnail — subtle zoom-in on mount */}
+      <motion.div ref={heroRef} variants={itemVariants} className="relative w-full overflow-hidden" style={{ minHeight: '92vh' }}>
+        {/* Background thumbnail — zoom-in on mount + parallax scroll */}
         <motion.img
           src={project.image}
           alt={project.title}
@@ -498,6 +501,7 @@ export default function Project() {
           initial={{ scale: 1.08 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          style={{ y: heroImageY, height: "130%", top: "-15%" }}
         />
         {/* Dark gradient overlay — stronger at bottom for legibility */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
