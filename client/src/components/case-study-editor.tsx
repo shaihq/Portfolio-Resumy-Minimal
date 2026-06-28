@@ -146,7 +146,7 @@ export function CaseStudyEditor({ initialContent, storageKey, className }: CaseS
       <EditorContent
         editor={editor}
         className="
-          [&_.tiptap]:outline-none
+          [&_.tiptap]:outline-none [&_.tiptap]:min-h-[120px] [&_.tiptap]:cursor-text
           [&_.tiptap_p]:text-[#7A736C] [&_.tiptap_p]:dark:text-[#B5AFA5] [&_.tiptap_p]:leading-[1.7] [&_.tiptap_p]:text-[17px] [&_.tiptap_p]:mb-4 [&_.tiptap_p]:[font-weight:450]
           [&_.tiptap_h2]:text-[22px] [&_.tiptap_h2]:font-bold [&_.tiptap_h2]:text-[#1A1A1A] [&_.tiptap_h2]:dark:text-[#F0EDE7] [&_.tiptap_h2]:tracking-tight [&_.tiptap_h2]:mb-3 [&_.tiptap_h2]:mt-8 [&_.tiptap_h2]:leading-snug
           [&_.tiptap_h3]:text-[17px] [&_.tiptap_h3]:font-semibold [&_.tiptap_h3]:text-[#1A1A1A] [&_.tiptap_h3]:dark:text-[#F0EDE7] [&_.tiptap_h3]:mb-2 [&_.tiptap_h3]:mt-6 [&_.tiptap_h3]:leading-snug
