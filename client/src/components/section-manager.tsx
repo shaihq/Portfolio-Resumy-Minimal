@@ -17,107 +17,68 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { motion, AnimatePresence } from "framer-motion";
-import { GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload, ImageIcon } from "lucide-react";
+import { createPortal } from "react-dom";
+import {
+  GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload, X,
+} from "lucide-react";
 import { CaseStudyEditor } from "./case-study-editor";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type ImageCard = {
+type ImageCard = { imageUrl: string | null; heading: string; body: string };
+
+type FreeformSection   = { id: string; type: "freeform"; title: string };
+type ImageGridSection  = { id: string; type: "image-grid"; columns: 2 | 3; items: ImageCard[] };
+type ImageTextSection  = {
+  id: string;
+  type: "image-text";
+  layout: "image-left" | "image-right" | "image-top";
   imageUrl: string | null;
   heading: string;
   body: string;
 };
 
-type FreeformSection = {
-  id: string;
-  type: "freeform";
-  title: string;
-};
-
-type ImageGridSection = {
-  id: string;
-  type: "image-grid";
-  columns: 2 | 3;
-  items: ImageCard[];
-};
-
-type Section = FreeformSection | ImageGridSection;
-type SectionTypeKey = "freeform" | "image-grid-2" | "image-grid-3";
+type Section = FreeformSection | ImageGridSection | ImageTextSection;
+type SectionTypeKey = "freeform" | "image-grid-2" | "image-grid-3" | "image-text-left" | "image-text-right" | "image-text-top";
 
 // ─── Storage helpers ──────────────────────────────────────────────────────────
 
-function loadSections(_projectId: string): Section[] {
-  return [];
-}
-
-function saveSections(_projectId: string, _sections: Section[]) {
-  // persistence disabled — always starts fresh
-}
-
+function loadSections(_projectId: string): Section[] { return []; }
+function saveSections(_projectId: string, _sections: Section[]) {}
 function sectionContentKey(projectId: string, sectionId: string) {
   return `section-content-${projectId}-${sectionId}`;
 }
+function uid() { return Math.random().toString(36).slice(2, 9); }
 
-function uid() {
-  return Math.random().toString(36).slice(2, 9);
-}
-
-// ─── Wireframe SVGs for empty state cards ────────────────────────────────────
+// ─── Wireframe SVG previews ───────────────────────────────────────────────────
 
 function FreeformPreview() {
   return (
-    <svg viewBox="0 0 160 120" fill="none" className="w-full h-full">
-      {/* Heading */}
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
       <rect x="12" y="10" width="72" height="7" rx="3" fill="currentColor" opacity="0.35" />
-      {/* Text lines */}
-      <rect x="12" y="24" width="136" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="33" width="120" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
-      {/* Image block */}
-      <rect x="12" y="46" width="136" height="38" rx="4" fill="currentColor" opacity="0.12" />
-      {/* Image icon hint */}
-      <rect x="68" y="58" width="24" height="16" rx="2" fill="currentColor" opacity="0.2" />
-      {/* More text */}
-      <rect x="12" y="92" width="136" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="101" width="100" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
-      <rect x="12" y="110" width="60" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="24" width="156" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="33" width="136" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="46" width="156" height="38" rx="4" fill="currentColor" opacity="0.12" />
+      <rect x="74" y="58" width="24" height="16" rx="2" fill="currentColor" opacity="0.2" />
+      <rect x="12" y="92" width="156" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="12" y="101" width="110" height="4.5" rx="2" fill="currentColor" opacity="0.18" />
     </svg>
   );
 }
 
 function TwoColPreview() {
   return (
-    <svg viewBox="0 0 160 120" fill="none" className="w-full h-full">
-      {/* Left card */}
-      <rect x="10" y="10" width="66" height="44" rx="4" fill="currentColor" opacity="0.12" />
-      <rect x="18" y="22" width="24" height="20" rx="2" fill="currentColor" opacity="0.2" />
-      <rect x="10" y="60" width="52" height="6" rx="3" fill="currentColor" opacity="0.35" />
-      <rect x="10" y="72" width="66" height="4" rx="2" fill="currentColor" opacity="0.15" />
-      <rect x="10" y="81" width="56" height="4" rx="2" fill="currentColor" opacity="0.15" />
-      <rect x="10" y="90" width="48" height="4" rx="2" fill="currentColor" opacity="0.15" />
-      {/* Right card */}
-      <rect x="84" y="10" width="66" height="44" rx="4" fill="currentColor" opacity="0.12" />
-      <rect x="92" y="22" width="24" height="20" rx="2" fill="currentColor" opacity="0.2" />
-      <rect x="84" y="60" width="52" height="6" rx="3" fill="currentColor" opacity="0.35" />
-      <rect x="84" y="72" width="66" height="4" rx="2" fill="currentColor" opacity="0.15" />
-      <rect x="84" y="81" width="56" height="4" rx="2" fill="currentColor" opacity="0.15" />
-      <rect x="84" y="90" width="48" height="4" rx="2" fill="currentColor" opacity="0.15" />
-    </svg>
-  );
-}
-
-function ThreeColPreview() {
-  return (
-    <svg viewBox="0 0 160 120" fill="none" className="w-full h-full">
-      {[0, 1, 2].map((i) => {
-        const x = 8 + i * 50;
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {[0, 1].map(i => {
+        const x = 10 + i * 90;
         return (
           <g key={i}>
-            <rect x={x} y="10" width="42" height="34" rx="3" fill="currentColor" opacity="0.12" />
-            <rect x={x + 8} y="18" width="14" height="14" rx="2" fill="currentColor" opacity="0.22" />
-            <rect x={x} y="50" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.35" />
-            <rect x={x} y="61" width="42" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
-            <rect x={x} y="69" width="36" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
-            <rect x={x} y="77" width="30" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
+            <rect x={x} y="10" width="76" height="48" rx="4" fill="currentColor" opacity="0.12" />
+            <rect x={x + 26} y="24" width="24" height="18" rx="2" fill="currentColor" opacity="0.22" />
+            <rect x={x} y="64" width="55" height="5" rx="2.5" fill="currentColor" opacity="0.35" />
+            <rect x={x} y="74" width="76" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
+            <rect x={x} y="82" width="64" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
+            <rect x={x} y="90" width="52" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
           </g>
         );
       })}
@@ -125,129 +86,264 @@ function ThreeColPreview() {
   );
 }
 
-// ─── Empty state ──────────────────────────────────────────────────────────────
+function ThreeColPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {[0, 1, 2].map(i => {
+        const x = 8 + i * 58;
+        return (
+          <g key={i}>
+            <rect x={x} y="10" width="50" height="38" rx="3" fill="currentColor" opacity="0.12" />
+            <rect x={x + 13} y="20" width="14" height="14" rx="2" fill="currentColor" opacity="0.22" />
+            <rect x={x} y="54" width="36" height="5" rx="2.5" fill="currentColor" opacity="0.35" />
+            <rect x={x} y="64" width="50" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
+            <rect x={x} y="72" width="42" height="3.5" rx="1.75" fill="currentColor" opacity="0.15" />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
 
-const LAYOUT_OPTIONS: {
-  key: SectionTypeKey;
-  label: string;
-  sub: string;
-  Preview: React.FC;
-}[] = [
+function ImageTextLeftPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      <rect x="10" y="12" width="80" height="96" rx="5" fill="currentColor" opacity="0.13" />
+      <rect x="30" y="40" width="40" height="32" rx="3" fill="currentColor" opacity="0.22" />
+      <rect x="100" y="28" width="70" height="8" rx="3" fill="currentColor" opacity="0.35" />
+      <rect x="100" y="44" width="70" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="100" y="53" width="60" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="100" y="62" width="68" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="100" y="71" width="50" height="4" rx="2" fill="currentColor" opacity="0.16" />
+    </svg>
+  );
+}
+
+function ImageTextRightPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      <rect x="10" y="28" width="70" height="8" rx="3" fill="currentColor" opacity="0.35" />
+      <rect x="10" y="44" width="70" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="10" y="53" width="60" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="10" y="62" width="68" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="10" y="71" width="50" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="90" y="12" width="80" height="96" rx="5" fill="currentColor" opacity="0.13" />
+      <rect x="110" y="40" width="40" height="32" rx="3" fill="currentColor" opacity="0.22" />
+    </svg>
+  );
+}
+
+function ImageTextTopPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      <rect x="10" y="8" width="160" height="60" rx="5" fill="currentColor" opacity="0.13" />
+      <rect x="70" y="26" width="40" height="28" rx="3" fill="currentColor" opacity="0.22" />
+      <rect x="10" y="78" width="90" height="7" rx="3" fill="currentColor" opacity="0.35" />
+      <rect x="10" y="91" width="160" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="10" y="100" width="130" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="10" y="109" width="100" height="4" rx="2" fill="currentColor" opacity="0.16" />
+    </svg>
+  );
+}
+
+// ─── Modal categories & layouts ───────────────────────────────────────────────
+
+const MODAL_CATEGORIES = [
   {
-    key: "freeform",
-    label: "Freeform",
-    sub: "Text, headings, images",
-    Preview: FreeformPreview,
+    key: "text",
+    label: "Text",
+    icon: AlignLeft,
+    layouts: [
+      { key: "freeform" as SectionTypeKey, label: "Freeform", sub: "Text, headings, images", Preview: FreeformPreview },
+    ],
   },
   {
-    key: "image-grid-2",
-    label: "2-Column",
-    sub: "Image + caption, side by side",
-    Preview: TwoColPreview,
+    key: "image-text",
+    label: "Image & text",
+    icon: LayoutGrid,
+    layouts: [
+      { key: "image-text-left"  as SectionTypeKey, label: "Image left",  sub: "Image on the left, text on the right", Preview: ImageTextLeftPreview },
+      { key: "image-text-right" as SectionTypeKey, label: "Image right", sub: "Text on the left, image on the right", Preview: ImageTextRightPreview },
+      { key: "image-text-top"   as SectionTypeKey, label: "Image top",   sub: "Full-width image above the text",      Preview: ImageTextTopPreview },
+    ],
   },
   {
-    key: "image-grid-3",
-    label: "3-Column",
-    sub: "Three image + caption cards",
-    Preview: ThreeColPreview,
+    key: "gallery",
+    label: "Gallery & media",
+    icon: Columns3,
+    layouts: [
+      { key: "image-grid-2" as SectionTypeKey, label: "2-Column", sub: "Two image + caption cards", Preview: TwoColPreview },
+      { key: "image-grid-3" as SectionTypeKey, label: "3-Column", sub: "Three image + caption cards", Preview: ThreeColPreview },
+    ],
   },
 ];
 
-function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
-  return (
+// ─── Add section modal ────────────────────────────────────────────────────────
+
+function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => void; onClose: () => void }) {
+  const [activeCategory, setActiveCategory] = useState("image-text");
+
+  const currentLayouts = MODAL_CATEGORIES.find(c => c.key === activeCategory)?.layouts ?? [];
+
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  return createPortal(
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="flex flex-col items-center justify-center py-24 select-none"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}
+      onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      {/* Label */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
-        className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#B5AFA5] dark:text-[#5A5450] font-['DM_Mono'] mb-5"
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 8 }}
+        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        className="relative flex w-full max-w-3xl h-[520px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-[#18160F]"
+        onMouseDown={(e) => e.stopPropagation()}
       >
-        Choose a section type to begin
-      </motion.p>
+        {/* Left sidebar */}
+        <div className="w-52 shrink-0 flex flex-col border-r border-black/8 dark:border-white/8 bg-[#F7F5F0] dark:bg-[#1C1A13] py-5 px-3 gap-1">
+          <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#B5AFA5] dark:text-[#5A5450] px-2 mb-2">
+            Add section
+          </p>
+          {MODAL_CATEGORIES.map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => setActiveCategory(key)}
+              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors text-left w-full
+                ${activeCategory === key
+                  ? "bg-white dark:bg-[#2A2720] text-[#1A1A1A] dark:text-[#F0EDE7] shadow-sm"
+                  : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-white/60 dark:hover:bg-white/5"
+                }`}
+            >
+              <Icon size={14} strokeWidth={2} />
+              {label}
+            </button>
+          ))}
+        </div>
 
-      {/* Cards */}
-      <div className="grid grid-cols-3 gap-3 w-full">
-        {LAYOUT_OPTIONS.map(({ key, label, sub, Preview }, i) => (
-          <motion.button
-            key={key}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 + i * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            onClick={() => onAdd(key)}
-            className="
-              group flex flex-col rounded-2xl overflow-hidden
-              bg-white dark:bg-[#232020]
-              border border-black/[0.06] dark:border-white/[0.06]
-              shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)]
-              hover:shadow-[0_8px_24px_rgba(0,0,0,0.1),0_2px_8px_rgba(0,0,0,0.06)]
-              hover:-translate-y-0.5
-              transition-all duration-200 ease-out
-              cursor-pointer text-left
-            "
-            aria-label={`Add ${label} section`}
-          >
-            {/* Preview area */}
-            <div className="w-full aspect-[5/3] bg-[#F7F4F0] dark:bg-[#1E1B1B] flex items-center justify-center p-4 text-[#1A1A1A] dark:text-[#F0EDE7] transition-colors">
-              <Preview />
-            </div>
+        {/* Right content */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-black/8 dark:border-white/8">
+            <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">
+              {MODAL_CATEGORIES.find(c => c.key === activeCategory)?.label}
+            </p>
+            <button
+              onClick={onClose}
+              className="w-7 h-7 flex items-center justify-center rounded-lg text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            >
+              <X size={15} />
+            </button>
+          </div>
 
-            {/* Labels */}
-            <div className="px-3.5 py-3 border-t border-black/[0.05] dark:border-white/[0.05]">
-              <p className="text-[13px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight">
-                {label}
-              </p>
-              <p className="text-[11px] text-[#9E9893] dark:text-[#6A6460] mt-0.5 leading-tight">
-                {sub}
-              </p>
-            </div>
-          </motion.button>
-        ))}
-      </div>
-    </motion.div>
+          {/* Layout cards */}
+          <div className="flex-1 overflow-y-auto p-5">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.16 }}
+                className="grid grid-cols-2 gap-3"
+              >
+                {currentLayouts.map(({ key, label, sub, Preview }) => (
+                  <button
+                    key={key}
+                    onClick={() => { onAdd(key); onClose(); }}
+                    className="
+                      group flex flex-col rounded-xl overflow-hidden text-left
+                      bg-[#F7F5F0] dark:bg-[#221F18]
+                      border border-black/[0.07] dark:border-white/[0.07]
+                      hover:border-black/20 dark:hover:border-white/15
+                      hover:shadow-md
+                      transition-all duration-200 cursor-pointer
+                    "
+                  >
+                    <div className="w-full aspect-[16/9] flex items-center justify-center p-5 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                      <Preview />
+                    </div>
+                    <div className="px-4 py-3 border-t border-black/[0.05] dark:border-white/[0.05] bg-white dark:bg-[#1C1A13]">
+                      <p className="text-[13px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight">
+                        {label}
+                      </p>
+                      <p className="text-[11px] text-[#9E9893] dark:text-[#6A6460] mt-0.5 leading-tight">
+                        {sub}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>,
+    document.body
+  );
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+
+function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="flex flex-col items-center justify-center py-28 select-none"
+      >
+        <p className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#B5AFA5] dark:text-[#5A5450] font-['DM_Mono'] mb-5">
+          No sections yet
+        </p>
+        <button
+          onClick={() => setModalOpen(true)}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[13px] font-medium shadow-sm hover:opacity-80 active:scale-95 transition-all duration-150"
+        >
+          <Plus size={14} />
+          Add first section
+        </button>
+      </motion.div>
+
+      <AnimatePresence>
+        {modalOpen && <AddSectionModal onAdd={onAdd} onClose={() => setModalOpen(false)} />}
+      </AnimatePresence>
+    </>
   );
 }
 
 // ─── Inline editable text ─────────────────────────────────────────────────────
 
 function EditableText({
-  value,
-  onChange,
-  className,
-  placeholder,
-  tag: Tag = "p",
+  value, onChange, className, placeholder, tag: Tag = "p",
 }: {
-  value: string;
-  onChange: (v: string) => void;
-  className?: string;
-  placeholder?: string;
+  value: string; onChange: (v: string) => void;
+  className?: string; placeholder?: string;
   tag?: "p" | "h2" | "h3" | "span";
 }) {
   const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.innerText = value;
-    }
-  }, []); // set initial content once on mount only
-
-  const handleInput = () => {
-    const t = ref.current?.innerText ?? "";
-    onChange(t);
-  };
+  useEffect(() => { if (ref.current) ref.current.innerText = value; }, []);
 
   return (
     <Tag
       ref={ref as any}
       contentEditable
       suppressContentEditableWarning
-      onInput={handleInput}
-      onBlur={handleInput}
+      onInput={() => onChange(ref.current?.innerText ?? "")}
+      onBlur={() => onChange(ref.current?.innerText ?? "")}
       className={`outline-none empty:before:content-[attr(data-placeholder)] empty:before:text-[#C5BEB8] dark:empty:before:text-[#5A5450] cursor-text ${className ?? ""}`}
       data-placeholder={placeholder}
     />
@@ -256,27 +352,17 @@ function EditableText({
 
 // ─── Image upload slot ────────────────────────────────────────────────────────
 
-function ImageSlot({
-  imageUrl,
-  onUpload,
-}: {
-  imageUrl: string | null;
-  onUpload: (url: string) => void;
-}) {
+function ImageSlot({ imageUrl, onUpload, className }: { imageUrl: string | null; onUpload: (url: string) => void; className?: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
-
   const handleFile = (file: File) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      if (result) onUpload(result);
-    };
+    reader.onload = (e) => { const r = e.target?.result as string; if (r) onUpload(r); };
     reader.readAsDataURL(file);
   };
 
   return (
     <div
-      className="relative w-full aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group/img"
+      className={`relative rounded-xl overflow-hidden cursor-pointer group/img ${className ?? "w-full aspect-[4/3]"}`}
       onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f?.type.startsWith("image/")) handleFile(f); }}
       onDragOver={(e) => e.preventDefault()}
       onClick={() => inputRef.current?.click()}
@@ -314,10 +400,9 @@ function FreeformBlock({ section, projectId }: { section: FreeformSection; proje
 
 // ─── Image grid section ───────────────────────────────────────────────────────
 
-function ImageGridBlock({ section, onUpdate }: { section: ImageGridSection; onUpdate: (updated: ImageGridSection) => void }) {
+function ImageGridBlock({ section, onUpdate }: { section: ImageGridSection; onUpdate: (u: ImageGridSection) => void }) {
   const updateItem = (idx: number, patch: Partial<ImageCard>) => {
-    const items = section.items.map((item, i) => i === idx ? { ...item, ...patch } : item);
-    onUpdate({ ...section, items });
+    onUpdate({ ...section, items: section.items.map((item, i) => i === idx ? { ...item, ...patch } : item) });
   };
 
   return (
@@ -339,11 +424,59 @@ function ImageGridBlock({ section, onUpdate }: { section: ImageGridSection; onUp
   );
 }
 
+// ─── Image + text section ─────────────────────────────────────────────────────
+
+function ImageTextBlock({ section, onUpdate }: { section: ImageTextSection; onUpdate: (u: ImageTextSection) => void }) {
+  const isTop = section.layout === "image-top";
+  const isLeft = section.layout === "image-left";
+
+  const imageSlot = (
+    <ImageSlot
+      imageUrl={section.imageUrl}
+      onUpload={(url) => onUpdate({ ...section, imageUrl: url })}
+      className={isTop ? "w-full aspect-[21/9]" : "w-full h-full min-h-[260px]"}
+    />
+  );
+
+  const textBlock = (
+    <div className="flex flex-col gap-4 justify-center">
+      <EditableText
+        value={section.heading}
+        onChange={(v) => onUpdate({ ...section, heading: v })}
+        tag="h2"
+        placeholder="Write your important statement here"
+        className="text-[26px] sm:text-[30px] font-bold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight tracking-tight"
+      />
+      <EditableText
+        value={section.body}
+        onChange={(v) => onUpdate({ ...section, body: v })}
+        tag="p"
+        placeholder="You can write here as much as you want. This text will always look nice, whether you write longer paragraphs or just a few words."
+        className="text-[16px] text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] [font-weight:450]"
+      />
+    </div>
+  );
+
+  if (isTop) {
+    return (
+      <div className="py-10 flex flex-col gap-8">
+        {imageSlot}
+        {textBlock}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`py-10 flex flex-col sm:flex-row gap-10 items-start ${isLeft ? "" : "sm:flex-row-reverse"}`}>
+      <div className="w-full sm:w-1/2 shrink-0">{imageSlot}</div>
+      <div className="w-full sm:w-1/2">{textBlock}</div>
+    </div>
+  );
+}
+
 // ─── Sortable section wrapper ─────────────────────────────────────────────────
 
-function SortableSection({
-  section, projectId, onUpdate, onDelete, isOnly,
-}: {
+function SortableSection({ section, projectId, onUpdate, onDelete, isOnly }: {
   section: Section; projectId: string;
   onUpdate: (updated: Section) => void;
   onDelete: () => void; isOnly: boolean;
@@ -362,7 +495,6 @@ function SortableSection({
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="relative group/section"
     >
-      {/* Drag + delete controls */}
       <div className="absolute -left-10 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover/section:opacity-100 transition-opacity">
         <button {...attributes} {...listeners}
           className="w-9 h-9 flex items-center justify-center rounded-xl text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-black/8 dark:hover:bg-white/8 transition-colors cursor-grab active:cursor-grabbing shadow-sm bg-white/80 dark:bg-[#2A2520]/80 border border-black/8 dark:border-white/8"
@@ -379,82 +511,40 @@ function SortableSection({
       </div>
 
       <div>
-        {section.type === "freeform" ? (
-          <FreeformBlock section={section} projectId={projectId} />
-        ) : (
-          <ImageGridBlock section={section} onUpdate={(updated) => onUpdate(updated)} />
-        )}
+        {section.type === "freeform" && <FreeformBlock section={section} projectId={projectId} />}
+        {section.type === "image-grid" && <ImageGridBlock section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "image-text" && <ImageTextBlock section={section} onUpdate={(u) => onUpdate(u)} />}
       </div>
     </motion.div>
   );
 }
 
-// ─── Add section button (between existing sections) ────────────────────────────
-
-const SECTION_TYPES = [
-  { key: "freeform" as SectionTypeKey, icon: AlignLeft, label: "Freeform", description: "Rich text content" },
-  { key: "image-grid-2" as SectionTypeKey, icon: LayoutGrid, label: "2-Column", description: "Image + caption" },
-  { key: "image-grid-3" as SectionTypeKey, icon: Columns3, label: "3-Column", description: "Three image cards" },
-];
+// ─── Add section button (between sections) ─────────────────────────────────────
 
 function AddSectionButton({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
 
   return (
-    <div className="relative w-full py-4 flex items-center justify-center group/addbtn" ref={ref}>
-      {/* Full-viewport-width divider line — breaks out of the max-w container */}
-      <div className="absolute top-1/2 -translate-y-1/2 h-px bg-black/[0.08] dark:bg-white/[0.08]"
-           style={{ left: "50%", transform: "translateX(-50%) translateY(-50%)", width: "100vw" }} />
+    <>
+      <div className="relative w-full py-4 flex items-center justify-center">
+        <div
+          className="absolute top-1/2 -translate-y-1/2 h-px bg-black/[0.08] dark:bg-white/[0.08]"
+          style={{ left: "50%", transform: "translateX(-50%) translateY(-50%)", width: "100vw" }}
+        />
+        <button
+          onClick={() => setOpen(true)}
+          className="relative z-10 flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[12.5px] font-medium shadow-sm hover:opacity-80 active:scale-95 transition-all duration-150"
+          aria-label="Add section"
+        >
+          <Plus size={13} />
+          Add section
+        </button>
+      </div>
 
-      {/* Centered pill trigger */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="relative z-10 flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[12.5px] font-medium shadow-sm hover:opacity-80 active:scale-95 transition-all duration-150"
-        aria-label="Add section"
-      >
-        <Plus size={13} className={`transition-transform duration-200 ${open ? "rotate-45" : ""}`} />
-        Add section
-      </button>
-
-      {/* Picker dropdown */}
       <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 6, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.97 }}
-            transition={{ duration: 0.15 }}
-            className="absolute top-full mt-2 z-50 bg-white dark:bg-[#1E1C1A] border border-black/8 dark:border-white/8 rounded-2xl shadow-2xl p-1.5 flex gap-1"
-          >
-            {SECTION_TYPES.map(({ key, icon: Icon, label, description }) => (
-              <button
-                key={key}
-                onClick={() => { onAdd(key); setOpen(false); }}
-                className="flex flex-col items-center gap-2 px-4 py-3 rounded-xl hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors text-center min-w-[90px] group/pick"
-              >
-                <div className="w-8 h-8 rounded-xl bg-black/5 dark:bg-white/8 flex items-center justify-center text-[#7A736C] dark:text-[#9E9893] group-hover/pick:text-[#1A1A1A] dark:group-hover/pick:text-white transition-colors">
-                  <Icon size={14} />
-                </div>
-                <div>
-                  <div className="text-[11px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">{label}</div>
-                  <div className="text-[10px] text-[#9E9893] dark:text-[#7A736C] leading-tight mt-0.5">{description}</div>
-                </div>
-              </button>
-            ))}
-          </motion.div>
-        )}
+        {open && <AddSectionModal onAdd={onAdd} onClose={() => setOpen(false)} />}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 
@@ -466,17 +556,30 @@ function makeSection(type: SectionTypeKey): Section {
   if (type === "image-grid-2") return {
     id, type: "image-grid", columns: 2,
     items: [
-      { imageUrl: null, heading: "This is your heading", body: "You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words." },
-      { imageUrl: null, heading: "This is your heading", body: "You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words." },
+      { imageUrl: null, heading: "This is your heading", body: "You can write here as much as you want, this text will always look nice." },
+      { imageUrl: null, heading: "This is your heading", body: "You can write here as much as you want, this text will always look nice." },
     ],
   };
-  return {
+  if (type === "image-grid-3") return {
     id, type: "image-grid", columns: 3,
     items: [
-      { imageUrl: null, heading: "Step 1", body: "You can write here as much as you want, this text will always look nice." },
-      { imageUrl: null, heading: "Step 2", body: "You can write here as much as you want, this text will always look nice." },
-      { imageUrl: null, heading: "Step 3", body: "You can write here as much as you want, this text will always look nice." },
+      { imageUrl: null, heading: "Step 1", body: "You can write here as much as you want." },
+      { imageUrl: null, heading: "Step 2", body: "You can write here as much as you want." },
+      { imageUrl: null, heading: "Step 3", body: "You can write here as much as you want." },
     ],
+  };
+  // image-text layouts
+  const layoutMap: Record<string, ImageTextSection["layout"]> = {
+    "image-text-left": "image-left",
+    "image-text-right": "image-right",
+    "image-text-top": "image-top",
+  };
+  return {
+    id, type: "image-text",
+    layout: layoutMap[type] ?? "image-left",
+    imageUrl: null,
+    heading: "Write your important statement here",
+    body: "You can write here as much as you want. This text will always look nice, whether you write longer paragraphs or just a few words.",
   };
 }
 
