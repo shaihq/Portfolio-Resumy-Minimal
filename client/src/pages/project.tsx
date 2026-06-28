@@ -131,6 +131,7 @@ export default function Project() {
   const { activeTemplate } = useTemplate();
   const [isProjectPasswordEnabled, setIsProjectPasswordEnabled] = useState(false);
   const [heroView, setHeroView] = useState<"immersive" | "editorial">("immersive");
+  const [thumbnailWidth, setThumbnailWidth] = useState<"full" | "contained">("full");
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const heroImageY = useTransform(scrollY, [0, 600], ["0%", "30%"]);
@@ -704,13 +705,57 @@ export default function Project() {
               </div>
             </div>
 
-            {/* Full-width thumbnail */}
-            <ThumbnailUpload imageUrl={meta.imageUrl} onUpload={(url) => updateMeta({ imageUrl: url })}
-              className="w-full overflow-hidden">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
-                <img src={meta.imageUrl} alt={meta.title} className="w-full object-cover" style={{ maxHeight: "70vh" }} />
-              </motion.div>
-            </ThumbnailUpload>
+            {/* Full-width thumbnail with width toggle */}
+            <motion.div
+              className="relative mx-auto group/widthpicker"
+              animate={{ maxWidth: thumbnailWidth === "full" ? 10000 : 880 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              {/* Width toggle — slides in from left on hover */}
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-30 opacity-0 -translate-x-2 group-hover/widthpicker:opacity-100 group-hover/widthpicker:translate-x-0 transition-all duration-200 ease-out pointer-events-none group-hover/widthpicker:pointer-events-auto">
+                <div className="flex flex-col gap-0.5 bg-white dark:bg-[#2A2520] rounded-xl shadow-lg border border-black/[0.06] dark:border-white/10 p-1">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setThumbnailWidth("full"); }}
+                    title="Full width"
+                    className={cn(
+                      "w-7 h-7 rounded-lg flex items-center justify-center transition-colors",
+                      thumbnailWidth === "full"
+                        ? "bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A]"
+                        : "text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5"
+                    )}
+                  >
+                    {/* Full-width icon: rectangle edge-to-edge */}
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <rect x="1" y="4" width="12" height="6" rx="1" fill="currentColor" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setThumbnailWidth("contained"); }}
+                    title="Contained width"
+                    className={cn(
+                      "w-7 h-7 rounded-lg flex items-center justify-center transition-colors",
+                      thumbnailWidth === "contained"
+                        ? "bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A]"
+                        : "text-[#7A736C] dark:text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5"
+                    )}
+                  >
+                    {/* Contained icon: smaller centered rectangle with margin bars */}
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <rect x="3.5" y="4" width="7" height="6" rx="1" fill="currentColor" />
+                      <rect x="1" y="5" width="1.5" height="4" rx="0.5" fill="currentColor" opacity="0.35" />
+                      <rect x="11.5" y="5" width="1.5" height="4" rx="0.5" fill="currentColor" opacity="0.35" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <ThumbnailUpload imageUrl={meta.imageUrl} onUpload={(url) => updateMeta({ imageUrl: url })}
+                className="w-full overflow-hidden">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
+                  <img src={meta.imageUrl} alt={meta.title} className="w-full object-cover" style={{ maxHeight: "70vh" }} />
+                </motion.div>
+              </ThumbnailUpload>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
