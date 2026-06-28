@@ -637,7 +637,28 @@ export default function Project() {
             {/* Title block */}
             <div className="pt-14 pb-10">
               <h1 className="text-[38px] md:text-[52px] font-bold text-[#1A1A1A] dark:text-[#F0EDE7] leading-[1.05] tracking-[-0.02em] mb-5">
-                {project.title}
+                <motion.span
+                  className="inline"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
+                  }}
+                >
+                  {project.title.split(" ").map((word: string, i: number) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block mr-[0.25em]"
+                      variants={{
+                        hidden: { opacity: 0, filter: "blur(12px)", y: 6 },
+                        visible: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.span>
               </h1>
               <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[18px] leading-relaxed max-w-2xl" style={{ fontWeight: 450 }}>
                 {project.subtitle}
