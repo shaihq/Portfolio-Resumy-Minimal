@@ -835,19 +835,112 @@ function GalleryCarouselBlock({ section, onUpdate }: { section: GalleryCarouselS
 }
 
 function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSection; onUpdate: (u: GalleryScrollSection) => void }) {
+  const trackRef     = useRef<HTMLDivElement>(null);
+  const firstCopyRef = useRef<HTMLDivElement>(null);
+  const xRef         = useRef(0);
+  const pausedRef    = useRef(false);
+  const animRef      = useRef<number>(0);
+  const SPEED        = 0.7; // px per frame
+
   const updateItem = (i: number, imageUrl: string | null) =>
     onUpdate({ ...section, items: section.items.map((it, j) => j === i ? { ...it, imageUrl } : it) });
 
-  return (
-    <div className="py-10">
-      <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-none -mx-6 px-6">
-        {section.items.map((item, i) => (
-          <div key={i}
-            className={`snap-center shrink-0 rounded-xl overflow-hidden transition-all duration-200 ${i === 1 ? "w-[55%]" : "w-[30%] opacity-70"}`}
-          >
-            <ImageSlot imageUrl={item.imageUrl} onUpload={(url) => updateItem(i, url)} className="w-full aspect-[4/3]" />
+  const readFile = (file: File, cb: (url: string) => void) => {
+    const r = new FileReader();
+    r.onload = (e) => { const u = e.target?.result as string; if (u) cb(u); };
+    r.readAsDataURL(file);
+  };
+
+  // Transform-based infinite scroll — no scrollLeft resets, no jitter.
+  // Moves the track leftward; once we've travelled exactly firstCopyWidth, snap back to 0.
+  useEffect(() => {
+    const shouldAnimate = section.items.length >= 2;
+    if (!shouldAnimate) return;
+    const tick = () => {
+      if (!pausedRef.current && trackRef.current && firstCopyRef.current) {
+        xRef.current -= SPEED;
+        const boundary = firstCopyRef.current.offsetWidth;
+        // once we've panned past the whole first copy, reset — seamless because
+        // the second copy starts with identical content
+        if (xRef.current <= -boundary) xRef.current = 0;
+        trackRef.current.style.transform = `translateX(${xRef.current}px)`;
+      }
+      animRef.current = requestAnimationFrame(tick);
+    };
+    animRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animRef.current);
+  }, [section.items.length]);
+
+  /** A single upload slot — `label` makes it keyboard & screen-reader accessible */
+  function SlotLabel({ idx, children }: { idx: number; children: React.ReactNode }) {
+    const inputId = `gs-inp-${section.id}-${idx}`;
+    return (
+      <label htmlFor={inputId} className="block cursor-pointer">
+        {children}
+        <input
+          id={inputId}
+          type="file"
+          accept="image/*"
+          className="sr-only"
+          onChange={(e) => { const f = e.target.files?.[0]; if (f) readFile(f, (u) => updateItem(idx, u)); }}
+        />
+      </label>
+    );
+  }
+
+  function ScrollCard({ item, idx }: { item: { imageUrl: string | null }; idx: number }) {
+    return (
+      <SlotLabel idx={idx}>
+        {item.imageUrl ? (
+          <div className="relative group/img w-72 rounded-xl overflow-hidden">
+            <img src={item.imageUrl} alt="" className="w-72 h-auto block" />
+            <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-all flex items-center justify-center">
+              <span className="opacity-0 group-hover/img:opacity-100 text-white text-xs font-medium bg-black/50 px-3 py-1.5 rounded-full transition-all">
+                Replace image
+              </span>
+            </div>
           </div>
-        ))}
+        ) : (
+          <div
+            className="w-72 h-52 rounded-xl bg-[#F0EDE7] dark:bg-[#2A2520] border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530] hover:border-[#9E9893] dark:hover:border-[#5A5450] focus-within:border-[#9E9893] dark:focus-within:border-[#5A5450] transition-colors flex flex-col items-center justify-center gap-3"
+            onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f?.type.startsWith("image/")) readFile(f, (u) => updateItem(idx, u)); }}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            <Upload size={20} className="text-[#B5AFA5] dark:text-[#5A5450]" />
+            <span className="text-[13px] font-medium text-[#9E9893] dark:text-[#5A5450]">Click or drop image</span>
+          </div>
+        )}
+      </SlotLabel>
+    );
+  }
+
+  return (
+    <div className="py-10 -mx-6">
+      {/* overflow-hidden + mask gives edge fades — background-agnostic */}
+      <div
+        className="overflow-hidden"
+        style={{
+          maskImage: "linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent)",
+        }}
+        onMouseEnter={() => { pausedRef.current = true; }}
+        onMouseLeave={() => { pausedRef.current = false; }}
+      >
+        {/* transform track — holds two copies for seamless loop */}
+        <div ref={trackRef} className="flex gap-4 px-6 w-max" style={{ willChange: "transform" }}>
+          {/* first copy — measured for loop boundary */}
+          <div ref={firstCopyRef} className="flex gap-4">
+            {section.items.map((item, i) => <ScrollCard key={i} item={item} idx={i} />)}
+          </div>
+          {/* second copy — display-only mirror */}
+          <div className="flex gap-4" aria-hidden="true">
+            {section.items.map((item, i) =>
+              item.imageUrl
+                ? <img key={i} src={item.imageUrl} alt="" className="shrink-0 w-72 h-auto block rounded-xl" />
+                : <div key={i} className="shrink-0 w-72 h-52 rounded-xl bg-[#F0EDE7] dark:bg-[#2A2520] border-2 border-dashed border-[#C5BEB8] dark:border-[#3A3530]" />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
