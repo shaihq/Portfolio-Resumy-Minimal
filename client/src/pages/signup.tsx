@@ -19,7 +19,7 @@ const AI_PICKS = [
   { id: "6", company: "Stripe", role: "Product Designer", match: 79, reason: "High craft bar, complex systems, strong fintech brand", logoColor: "#6772E5", logoLetter: "S", type: "Full-Time", workMode: "Hybrid", yearsExp: "4+ yrs", location: "Seattle, WA" },
 ];
 
-function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivElement> }) {
+function CreativePortfolioPreview({ scrollRef }: { scrollRef: RefObject<HTMLDivElement | null> }) {
   const [tick, setTick] = useState(new Date());
   const [expandedCareer, setExpandedCareer] = useState<Record<number, boolean>>({});
   const [characterPosition, setCharacterPosition] = useState(0);

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, type ReactElement } from "react";
 import { useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "framer-motion";
@@ -483,9 +483,9 @@ function TestimonialCarousel() {
                 const phrases = t.highlights ?? [];
                 const bg = isDark ? t.highlightDarkBg : t.highlightBg;
                 if (!phrases.length || !bg) return t.content;
-                const parts: (string | JSX.Element)[] = [t.content];
+                const parts: (string | ReactElement)[] = [t.content];
                 for (const phrase of phrases) {
-                  const next: (string | JSX.Element)[] = [];
+                  const next: (string | ReactElement)[] = [];
                   for (const part of parts) {
                     if (typeof part !== 'string') { next.push(part); continue; }
                     const idx = part.indexOf(phrase);

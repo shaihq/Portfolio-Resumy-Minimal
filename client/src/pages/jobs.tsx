@@ -1674,8 +1674,8 @@ function MatchBreakdown({ job, open }: { job: Job; open: boolean }) {
     { label: "Qualification Match", target: 80, aligns: [], gaps: [] },
   ];
 
-  const allGaps   = [...new Set(subs.flatMap(s => s.gaps))].slice(0, 3);
-  const allAligns = [...new Set(subs.flatMap(s => s.aligns))].slice(0, 3);
+  const allGaps   = Array.from(new Set(subs.flatMap(s => s.gaps))).slice(0, 3);
+  const allAligns = Array.from(new Set(subs.flatMap(s => s.aligns))).slice(0, 3);
   const s = job.match;
 
   const headline =
@@ -3365,8 +3365,8 @@ function JobCard({ job, onShortlist, onOpen, onMockInterview, onAskScout }: { jo
   const dismissRef = useRef<HTMLDivElement>(null);
   const [gaugeHovered, setGaugeHovered] = useState(false);
 
-  const gaugeAligns = [...new Set((BREAKDOWNS[job.id] ?? []).flatMap(s => s.aligns))].slice(0, 3);
-  const gaugeGaps   = [...new Set((BREAKDOWNS[job.id] ?? []).flatMap(s => s.gaps))].slice(0, 2);
+  const gaugeAligns = Array.from(new Set((BREAKDOWNS[job.id] ?? []).flatMap(s => s.aligns))).slice(0, 3);
+  const gaugeGaps   = Array.from(new Set((BREAKDOWNS[job.id] ?? []).flatMap(s => s.gaps))).slice(0, 2);
 
   useEffect(() => {
     if (!dismissOpen) return;

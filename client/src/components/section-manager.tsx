@@ -298,51 +298,73 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
 function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const options: { label: string; sub: string; icon: ReactNode; action: () => void }[] = [
+  const cards: { label: string; sub: string; Preview: () => ReactNode; action: () => void }[] = [
     {
       label: "Freeform",
       sub: "Text, headings, images",
-      icon: <AlignLeft size={15} />,
+      Preview: FreeformPreview,
       action: () => onAdd("freeform"),
     },
     {
-      label: "2-Column grid",
-      sub: "Two image + caption cards",
-      icon: <Columns3 size={15} />,
+      label: "2-Column",
+      sub: "Image + caption, side by side",
+      Preview: TwoColPreview,
       action: () => onAdd("image-grid-2"),
     },
     {
-      label: "More",
-      sub: "Browse all layouts",
-      icon: <Plus size={15} />,
-      action: () => setModalOpen(true),
+      label: "3-Column",
+      sub: "Three image + caption cards",
+      Preview: ThreeColPreview,
+      action: () => onAdd("image-grid-3"),
     },
   ];
 
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="flex flex-col items-center justify-center py-24 select-none"
+        className="flex flex-col items-center justify-center py-20 select-none"
       >
-        <p className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#B5AFA5] dark:text-[#5A5450] font-['DM_Mono'] mb-6">
-          No sections yet
+        <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#B5AFA5] dark:text-[#5A5450] font-['DM_Mono'] mb-8">
+          Choose a section type to begin
         </p>
-        <div className="flex items-stretch gap-2">
-          {options.map(({ label, sub, icon, action }) => (
-            <button
+
+        <div className="flex items-stretch gap-3 w-full max-w-[780px]">
+          {cards.map(({ label, sub, Preview, action }, i) => (
+            <motion.button
               key={label}
               onClick={action}
-              className="flex flex-col items-center gap-1.5 px-5 py-3.5 rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#232323] hover:bg-[#F5F3F0] dark:hover:bg-[#2A2A2A] active:scale-95 transition-all duration-150 min-w-[110px]"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: i * 0.06 }}
+              className="group flex-1 flex flex-col rounded-2xl overflow-hidden border border-black/[0.07] dark:border-white/[0.07] bg-[#F7F5F2] dark:bg-[#222222] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:shadow-md active:scale-[0.98] transition-all duration-200 text-left"
             >
-              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] opacity-70">{icon}</span>
-              <span className="text-[12.5px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{label}</span>
-              <span className="text-[10.5px] text-[#9E9893] dark:text-[#6A6460] leading-tight text-center">{sub}</span>
-            </button>
+              {/* Preview area */}
+              <div className="flex-1 p-5 pb-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
+                <div className="w-full aspect-[3/2]">
+                  <Preview />
+                </div>
+              </div>
+
+              {/* Label */}
+              <div className="px-5 pb-5 pt-2 border-t border-black/[0.05] dark:border-white/[0.05]">
+                <p className="text-[13px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] mb-0.5">{label}</p>
+                <p className="text-[11.5px] text-[#9E9893] dark:text-[#6A6460] leading-snug">{sub}</p>
+              </div>
+            </motion.button>
           ))}
         </div>
+
+        {/* More layouts link */}
+        <button
+          onClick={() => setModalOpen(true)}
+          className="mt-5 flex items-center gap-1.5 text-[11.5px] text-[#9E9893] dark:text-[#5A5450] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors duration-150 font-medium"
+        >
+          <Plus size={12} />
+          More layouts
+        </button>
       </motion.div>
 
       <AnimatePresence>
