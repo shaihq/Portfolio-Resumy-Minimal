@@ -504,7 +504,7 @@ export default function Project() {
           style={{ y: heroImageY, height: "130%", top: "-15%" }}
         />
         {/* Flat dark overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/25" />
         {/* Grain texture */}
         <div
           className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
