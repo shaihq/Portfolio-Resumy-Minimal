@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, type ReactNode } from "react";
 import {
   DndContext,
   closestCenter,
@@ -298,24 +298,51 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
 function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
   const [modalOpen, setModalOpen] = useState(false);
 
+  const options: { label: string; sub: string; icon: ReactNode; action: () => void }[] = [
+    {
+      label: "Freeform",
+      sub: "Text, headings, images",
+      icon: <AlignLeft size={15} />,
+      action: () => onAdd("freeform"),
+    },
+    {
+      label: "2-Column grid",
+      sub: "Two image + caption cards",
+      icon: <Columns3 size={15} />,
+      action: () => onAdd("image-grid-2"),
+    },
+    {
+      label: "More",
+      sub: "Browse all layouts",
+      icon: <Plus size={15} />,
+      action: () => setModalOpen(true),
+    },
+  ];
+
   return (
     <>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="flex flex-col items-center justify-center py-28 select-none"
+        className="flex flex-col items-center justify-center py-24 select-none"
       >
-        <p className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#B5AFA5] dark:text-[#5A5450] font-['DM_Mono'] mb-5">
+        <p className="text-[10px] font-semibold tracking-[0.18em] uppercase text-[#B5AFA5] dark:text-[#5A5450] font-['DM_Mono'] mb-6">
           No sections yet
         </p>
-        <button
-          onClick={() => setModalOpen(true)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[13px] font-medium shadow-sm hover:opacity-80 active:scale-95 transition-all duration-150"
-        >
-          <Plus size={14} />
-          Add first section
-        </button>
+        <div className="flex items-stretch gap-2">
+          {options.map(({ label, sub, icon, action }) => (
+            <button
+              key={label}
+              onClick={action}
+              className="flex flex-col items-center gap-1.5 px-5 py-3.5 rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#232323] hover:bg-[#F5F3F0] dark:hover:bg-[#2A2A2A] active:scale-95 transition-all duration-150 min-w-[110px]"
+            >
+              <span className="text-[#1A1A1A] dark:text-[#F0EDE7] opacity-70">{icon}</span>
+              <span className="text-[12.5px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">{label}</span>
+              <span className="text-[10.5px] text-[#9E9893] dark:text-[#6A6460] leading-tight text-center">{sub}</span>
+            </button>
+          ))}
+        </div>
       </motion.div>
 
       <AnimatePresence>
