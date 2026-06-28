@@ -748,7 +748,7 @@ export default function Home() {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative"
+        className="min-h-screen bg-white dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative"
       >
         {/* Full-bleed wallpaper — Minimal template only, sits behind the card */}
         {activeTemplate === "Minimal" && (
@@ -763,7 +763,7 @@ export default function Home() {
             {/* Light mode: fade image into page bg at bottom */}
             <div
               className="absolute inset-0 dark:hidden"
-              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(240,237,231,0.7) 92%, #F0EDE7 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(255,255,255,0.7) 92%, #ffffff 100%)' }}
             />
             {/* Dark mode */}
             <div
@@ -1007,7 +1007,7 @@ export default function Home() {
         {activeTemplate === "Minimal" ? (
           <>
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible bg-[#F0EDE7]/75 dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
+            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible bg-white/75 dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1016,7 +1016,7 @@ export default function Home() {
             </div>
           )}
           <div className="flex items-start justify-between gap-4 mb-6">
-            <Avatar className="w-[96px] h-[96px] rounded-2xl -mt-14 ring-[3px] ring-[#F0EDE7] dark:ring-[#1A1A1A] shadow-lg">
+            <Avatar className="w-[96px] h-[96px] rounded-2xl -mt-14 ring-[3px] ring-white dark:ring-[#1A1A1A] shadow-lg">
               <AvatarImage src={profileImg} className="object-cover" />
               <AvatarFallback>M</AvatarFallback>
             </Avatar>
@@ -1041,7 +1041,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <div className="bg-[#F0EDE7] dark:bg-[#1A1A1A] flex flex-col flex-1">
+        <div className="bg-white dark:bg-[#1A1A1A] flex flex-col flex-1">
         <motion.div variants={itemVariants} className="custom-dashed-t"></motion.div>
 
         {/* Contact Section */}
