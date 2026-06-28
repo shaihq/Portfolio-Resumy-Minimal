@@ -27,7 +27,7 @@ import { CaseStudyEditor } from "./case-study-editor";
 
 type ImageCard = { imageUrl: string | null; heading: string; body: string };
 
-type FreeformSection      = { id: string; type: "freeform"; title: string; imageUrl?: string | null };
+type FreeformSection      = { id: string; type: "freeform"; title: string };
 type ImageGridSection     = { id: string; type: "image-grid"; columns: 2 | 3; items: ImageCard[] };
 type ImageTextSection     = {
   id: string; type: "image-text";
@@ -546,17 +546,9 @@ function ImageSlot({ imageUrl, onUpload, className }: { imageUrl: string | null;
 
 // ─── Freeform section ─────────────────────────────────────────────────────────
 
-function FreeformBlock({ section, projectId, onUpdate }: {
-  section: FreeformSection; projectId: string;
-  onUpdate: (u: FreeformSection) => void;
-}) {
+function FreeformBlock({ section, projectId }: { section: FreeformSection; projectId: string }) {
   return (
-    <div className="py-10 flex flex-col gap-6">
-      <ImageSlot
-        imageUrl={section.imageUrl ?? null}
-        onUpload={(url) => onUpdate({ ...section, imageUrl: url })}
-        className="w-full aspect-[16/7] rounded-2xl"
-      />
+    <div className="py-14">
       <CaseStudyEditor initialContent="" storageKey={sectionContentKey(projectId, section.id)} />
     </div>
   );
@@ -785,7 +777,7 @@ function SortableSection({ section, projectId, onUpdate, onDelete, isOnly }: {
       </div>
 
       <div>
-        {section.type === "freeform"         && <FreeformBlock        section={section} projectId={projectId} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "freeform"         && <FreeformBlock        section={section} projectId={projectId} />}
         {section.type === "image-grid"       && <ImageGridBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
         {section.type === "image-text"       && <ImageTextBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
         {section.type === "text-split"       && <TextSplitBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
@@ -831,7 +823,7 @@ function AddSectionButton({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) 
 function makeSection(type: SectionTypeKey): Section {
   const id = uid();
   const bodyPlaceholder = "You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words.";
-  if (type === "freeform") return { id, type: "freeform", title: "Section", imageUrl: null };
+  if (type === "freeform") return { id, type: "freeform", title: "Section" };
   if (type === "text-split") return { id, type: "text-split", heading: "This is your heading", body: bodyPlaceholder };
   if (type === "text-3col") return {
     id, type: "text-3col",
