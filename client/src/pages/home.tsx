@@ -32,6 +32,7 @@ import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, Dribbbl
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
+import { useImageColor } from "@/hooks/use-image-color";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
@@ -579,6 +580,7 @@ export default function Home() {
   };
 
   const { activeTemplate, activeBackground } = useTemplate();
+  const bgColor = useImageColor(activeTemplate === "Minimal" ? activeBackground : "");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("Projects");
   
@@ -750,6 +752,23 @@ export default function Home() {
         variants={containerVariants}
         className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative"
       >
+        {/* Bottom glow — Minimal template only, extracted from bg image primary color */}
+        {activeTemplate === "Minimal" && bgColor && (
+          <div
+            className="pointer-events-none z-0"
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 500,
+              background: `radial-gradient(ellipse 80% 60% at 50% 100%, rgba(${bgColor},0.35) 0%, rgba(${bgColor},0.12) 45%, transparent 100%)`,
+              transition: 'background 1.2s ease',
+            }}
+            aria-hidden="true"
+          />
+        )}
+
         {/* Full-bleed wallpaper — Minimal template only, sits behind the card */}
         {activeTemplate === "Minimal" && (
           <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 580 }}>
