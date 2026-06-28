@@ -19,7 +19,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import {
-  GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload, X,
+  GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload, X, Code2,
 } from "lucide-react";
 import { CaseStudyEditor } from "./case-study-editor";
 
@@ -43,14 +43,20 @@ type GalleryScrollSection  = { id: string; type: "gallery-scroll";   items: { im
 
 type Section = FreeformSection | ImageGridSection | ImageTextSection
              | TextSplitSection | TextThreeColSection | TextHighlightsSection | TextAccordionSection
-             | GalleryCarouselSection | GalleryScrollSection;
+             | GalleryCarouselSection | GalleryScrollSection
+             | EmbedFigmaSection | EmbedYoutubeSection | EmbedCodeSection;
+
+type EmbedFigmaSection   = { id: string; type: "embed-figma";   url: string };
+type EmbedYoutubeSection = { id: string; type: "embed-youtube"; url: string };
+type EmbedCodeSection    = { id: string; type: "embed-code";    code: string; language: string };
 
 type SectionTypeKey =
   | "freeform"
   | "text-split" | "text-3col" | "text-highlights" | "text-accordion"
   | "image-grid-2" | "image-grid-3"
   | "image-text-left" | "image-text-right" | "image-text-top"
-  | "gallery-carousel" | "gallery-scroll";
+  | "gallery-carousel" | "gallery-scroll"
+  | "embed-figma" | "embed-youtube" | "embed-code";
 
 // ─── Storage helpers ──────────────────────────────────────────────────────────
 
@@ -296,6 +302,61 @@ function GalleryScrollPreview() {
   );
 }
 
+// ─── Embed preview SVGs ───────────────────────────────────────────────────────
+
+function FigmaEmbedPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      <rect x="8" y="8" width="164" height="104" rx="6" fill="currentColor" opacity="0.09" />
+      <rect x="8" y="8" width="164" height="18" rx="6" fill="currentColor" opacity="0.10" />
+      <rect x="14" y="14" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.35" />
+      <rect x="24" y="14" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.35" />
+      <rect x="34" y="14" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.35" />
+      <rect x="26" y="36" width="128" height="62" rx="4" fill="currentColor" opacity="0.10" />
+      <rect x="40" y="52" width="36" height="28" rx="3" fill="currentColor" opacity="0.18" />
+      <rect x="84" y="52" width="56" height="7" rx="2" fill="currentColor" opacity="0.22" />
+      <rect x="84" y="64" width="44" height="5" rx="2" fill="currentColor" opacity="0.14" />
+      <rect x="84" y="73" width="50" height="5" rx="2" fill="currentColor" opacity="0.14" />
+    </svg>
+  );
+}
+
+function YoutubeEmbedPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      <rect x="8" y="8" width="164" height="104" rx="6" fill="currentColor" opacity="0.10" />
+      <circle cx="90" cy="56" r="18" fill="currentColor" opacity="0.16" />
+      <polygon points="84,48 84,64 102,56" fill="currentColor" opacity="0.45" />
+      <rect x="8" y="90" width="164" height="22" rx="0" fill="currentColor" opacity="0.07" />
+      <rect x="14" y="96" width="60" height="5" rx="2" fill="currentColor" opacity="0.22" />
+      <rect x="14" y="104" width="40" height="4" rx="2" fill="currentColor" opacity="0.14" />
+    </svg>
+  );
+}
+
+function CodeEmbedPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      <rect x="8" y="8" width="164" height="104" rx="6" fill="currentColor" opacity="0.08" />
+      <rect x="8" y="8" width="164" height="16" rx="6" fill="currentColor" opacity="0.12" />
+      <circle cx="18" cy="16" r="3.5" fill="currentColor" opacity="0.30" />
+      <circle cx="28" cy="16" r="3.5" fill="currentColor" opacity="0.30" />
+      <circle cx="38" cy="16" r="3.5" fill="currentColor" opacity="0.30" />
+      {/* code lines */}
+      <rect x="16" y="34" width="28" height="4" rx="2" fill="currentColor" opacity="0.35" />
+      <rect x="48" y="34" width="44" height="4" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="24" y="44" width="36" height="4" rx="2" fill="currentColor" opacity="0.22" />
+      <rect x="64" y="44" width="56" height="4" rx="2" fill="currentColor" opacity="0.14" />
+      <rect x="24" y="54" width="20" height="4" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="48" y="54" width="68" height="4" rx="2" fill="currentColor" opacity="0.12" />
+      <rect x="16" y="64" width="48" height="4" rx="2" fill="currentColor" opacity="0.30" />
+      <rect x="68" y="64" width="32" height="4" rx="2" fill="currentColor" opacity="0.16" />
+      <rect x="24" y="74" width="60" height="4" rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="16" y="84" width="28" height="4" rx="2" fill="currentColor" opacity="0.35" />
+    </svg>
+  );
+}
+
 // ─── Modal categories & layouts ───────────────────────────────────────────────
 
 const MODAL_CATEGORIES = [
@@ -330,6 +391,16 @@ const MODAL_CATEGORIES = [
     layouts: [
       { key: "gallery-carousel" as SectionTypeKey, label: "Carousel",     sub: "One image at a time with arrows",       Preview: GalleryCarouselPreview },
       { key: "gallery-scroll"   as SectionTypeKey, label: "Scroll gallery",sub: "Horizontal scroll, center image large",Preview: GalleryScrollPreview },
+    ],
+  },
+  {
+    key: "embeds",
+    label: "Embeds",
+    icon: Code2,
+    layouts: [
+      { key: "embed-figma"   as SectionTypeKey, label: "Figma",       sub: "Embed a Figma file or prototype",        Preview: FigmaEmbedPreview },
+      { key: "embed-youtube" as SectionTypeKey, label: "YouTube",     sub: "Embed a YouTube video",                  Preview: YoutubeEmbedPreview },
+      { key: "embed-code"    as SectionTypeKey, label: "Code",        sub: "Display a code snippet inline",          Preview: CodeEmbedPreview },
     ],
   },
 ];
@@ -371,13 +442,22 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
           <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#B5AFA5] dark:text-[#5A5450] px-2 mb-2">
             Add section
           </p>
+          {/* Standalone Freeform shortcut */}
+          <button
+            onClick={() => { onAdd("freeform"); onClose(); }}
+            className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors text-left w-full text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-white/60 dark:hover:bg-white/5"
+          >
+            <AlignLeft size={14} strokeWidth={2} />
+            Freeform
+          </button>
+          <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mx-1 my-1.5" />
           {MODAL_CATEGORIES.map(({ key, label, icon: Icon }) => (
             <button
               key={key}
               onClick={() => setActiveCategory(key)}
               className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors text-left w-full
                 ${activeCategory === key
-                  ? "bg-white dark:bg-[#2A2720] text-[#1A1A1A] dark:text-[#F0EDE7] shadow-sm"
+                  ? "bg-white dark:bg-[#2A2720] text-[#1A1A1A] dark:text-[#F0EDE7]"
                   : "text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-white/60 dark:hover:bg-white/5"
                 }`}
             >
