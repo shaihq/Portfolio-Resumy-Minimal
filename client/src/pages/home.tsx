@@ -1038,7 +1038,7 @@ export default function Home() {
                 <motion.span
                   initial="hidden"
                   animate="visible"
-                  variants={{ visible: { transition: { staggerChildren: 0.08, staggerDirection: -1, delayChildren: 0.1 } } }}
+                  variants={{ visible: { transition: { staggerChildren: 0.18, staggerDirection: -1, delayChildren: 0.55 } } }}
                   className="inline-flex flex-wrap gap-x-[0.28em]"
                 >
                   {["Hey", "I'm", "Matt."].map((word, i) => (
@@ -1046,8 +1046,8 @@ export default function Home() {
                       key={i}
                       className="inline-block"
                       variants={{
-                        hidden: { opacity: 0, filter: "blur(5px)", x: 6 },
-                        visible: { opacity: 1, filter: "blur(0px)", x: 0, transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] } },
+                        hidden: { opacity: 0, filter: "blur(10px)", x: 12 },
+                        visible: { opacity: 1, filter: "blur(0px)", x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
                       }}
                     >
                       {word}
