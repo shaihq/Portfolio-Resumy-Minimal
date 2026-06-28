@@ -370,7 +370,7 @@ function SortableSection({
         )}
       </div>
 
-      <div className="px-6 md:px-10">
+      <div>
         {section.type === "freeform" ? (
           <FreeformBlock section={section} projectId={projectId} />
         ) : (
