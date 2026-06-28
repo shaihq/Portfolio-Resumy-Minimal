@@ -763,12 +763,12 @@ export default function Home() {
             {/* Light mode: fade image into page bg at bottom */}
             <div
               className="absolute inset-0 dark:hidden"
-              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 65%, #F0EDE7 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(240,237,231,0.7) 92%, #F0EDE7 100%)' }}
             />
             {/* Dark mode */}
             <div
               className="absolute inset-0 hidden dark:block"
-              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 65%, #1A1A1A 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(26,26,26,0.7) 92%, #1A1A1A 100%)' }}
             />
           </div>
         )}
