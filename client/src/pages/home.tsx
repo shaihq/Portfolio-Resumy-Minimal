@@ -882,8 +882,8 @@ export default function Home() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.92, y: 3 }}
                   transition={{ type: "spring", stiffness: 440, damping: 28 }}
-                  className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{ top: 34 }}
+                  className="fixed left-1/2 -translate-x-1/2 pointer-events-none z-[300]"
+                  style={{ top: 68 }}
                 >
                   <div className="flex items-center gap-2 bg-[#0D0D0D]/92 backdrop-blur-md border border-white/[0.1] text-white rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/40">
                     <span className="relative flex h-[7px] w-[7px] flex-shrink-0">
@@ -896,7 +896,7 @@ export default function Home() {
               )}
             </AnimatePresence>
 
-            {/* Viewport preset toolbar — appears below the handles */}
+            {/* Viewport preset toolbar — fixed below the top nav */}
             <AnimatePresence>
               {showHandles && !isResizing && (
                 <motion.div
@@ -905,8 +905,8 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  className="absolute left-1/2 -translate-x-1/2 pointer-events-auto"
-                  style={{ top: 104 }}
+                  className="fixed left-1/2 -translate-x-1/2 pointer-events-auto z-[300]"
+                  style={{ top: 68 }}
                 >
                   {showMaxEditor ? (
                     <motion.div
