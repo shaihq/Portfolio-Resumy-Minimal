@@ -489,7 +489,7 @@ export default function Project() {
       `}} />
 
       {/* ── FULL-BLEED HERO ── */}
-      <motion.div variants={itemVariants} className="relative w-full" style={{ minHeight: '92vh' }}>
+      <motion.div variants={itemVariants} className="relative w-full overflow-hidden" style={{ minHeight: '92vh' }}>
         {/* Background thumbnail — subtle zoom-in on mount */}
         <motion.img
           src={project.image}
