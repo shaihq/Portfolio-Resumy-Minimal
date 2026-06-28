@@ -1300,17 +1300,17 @@ export default function Home() {
                 title={projectsLayout === 'grid' ? 'Switch to single column' : 'Switch to 2-column grid'}
               >
                 {projectsLayout === 'grid' ? (
-                  <svg className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" viewBox="0 0 16 16" fill="currentColor">
-                    <rect x="1" y="1" width="6" height="6" rx="1.2"/>
-                    <rect x="9" y="1" width="6" height="6" rx="1.2"/>
-                    <rect x="1" y="9" width="6" height="6" rx="1.2"/>
-                    <rect x="9" y="9" width="6" height="6" rx="1.2"/>
+                  <svg className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinejoin="round">
+                    <rect x="1.5" y="1.5" width="5" height="5" rx="1"/>
+                    <rect x="9.5" y="1.5" width="5" height="5" rx="1"/>
+                    <rect x="1.5" y="9.5" width="5" height="5" rx="1"/>
+                    <rect x="9.5" y="9.5" width="5" height="5" rx="1"/>
                   </svg>
                 ) : (
-                  <svg className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" viewBox="0 0 16 16" fill="currentColor">
-                    <rect x="1" y="2" width="14" height="3.5" rx="1.2"/>
-                    <rect x="1" y="6.25" width="14" height="3.5" rx="1.2"/>
-                    <rect x="1" y="10.5" width="14" height="3.5" rx="1.2"/>
+                  <svg className="w-3.5 h-3.5 text-[#1A1A1A] dark:text-[#F0EDE7]" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinejoin="round">
+                    <rect x="1.5" y="2.5" width="13" height="3" rx="0.75"/>
+                    <rect x="1.5" y="6.5" width="13" height="3" rx="0.75"/>
+                    <rect x="1.5" y="10.5" width="13" height="3" rx="0.75"/>
                   </svg>
                 )}
               </Button>
