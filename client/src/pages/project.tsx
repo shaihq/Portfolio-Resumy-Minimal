@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRoute, useLocation } from "wouter";
 import { ChevronLeft, Phone } from "lucide-react";
 import { CaseStudyEditor } from "@/components/case-study-editor";
+import { SectionManager } from "@/components/section-manager";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
@@ -708,21 +709,13 @@ export default function Project() {
       </AnimatePresence>
 
       {/* ── BODY (shared between both views) ── */}
-      <div className="w-full max-w-[880px] mx-auto flex flex-col font-['Inter']">
+      <div className="w-full max-w-[880px] mx-auto flex flex-col font-['Inter'] pl-10">
 
-        {/* Introduction */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 py-14">
-          <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Introduction</h2>
-          <CaseStudyEditor
-            initialContent={project.introduction}
-            storageKey={`case-study-${project.id}-intro`}
-          />
-        </motion.div>
-
-        {/* Introduction Image */}
-        <motion.div variants={itemVariants} className="px-6 md:px-10 pb-16">
-          <img src={contentImage} alt="Introduction visual" className="w-full rounded-lg overflow-hidden" />
-        </motion.div>
+        {/* Sections */}
+        <SectionManager
+          projectId={project.id}
+          initialIntroContent={project.introduction}
+        />
 
         {/* Contact CTA / Footer */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 py-8 flex flex-col items-center text-center">
