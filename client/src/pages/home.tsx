@@ -1548,7 +1548,7 @@ export default function Home() {
                         </div>
                       </div>
                     )}
-                    <div className={`rounded-xl overflow-hidden mb-4 bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors ${projectsLayout === 'list' ? 'aspect-[3/1]' : 'aspect-[4/3]'}`}>
+                    <div className={`rounded-xl overflow-hidden mb-4 bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors ${projectsLayout === 'list' ? 'aspect-[16/7]' : 'aspect-[4/3]'}`}>
                       <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     </div>
                     <h3 className="font-semibold text-[17px] mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
