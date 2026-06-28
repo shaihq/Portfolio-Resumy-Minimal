@@ -793,7 +793,7 @@ export default function Project() {
                       exit={{ opacity: 0, y: -6, scale: 0.88, x: "-50%" }}
                       transition={{ type: "spring", stiffness: 500, damping: 32 }}
                       className="absolute flex items-center justify-center cursor-ns-resize select-none pointer-events-auto group/hh"
-                      style={{ bottom: -18, left: "50%", width: 128, height: 36 }}
+                      style={{ bottom: -22, left: "50%", width: 160, height: 44 }}
                       onMouseEnter={() => setHeightHandleHovered(true)}
                       onMouseLeave={() => setHeightHandleHovered(false)}
                       onMouseDown={(e) => {
@@ -818,15 +818,15 @@ export default function Project() {
                     >
                       <div
                         className={cn(
-                          "w-full rounded-full flex flex-row items-center justify-center gap-[5px] transition-all duration-200 border border-white/[0.15]",
+                          "w-full rounded-full flex flex-row items-center justify-center gap-[6px] transition-all duration-200 border border-white/[0.15]",
                           isResizingHeight
-                            ? "bg-white/[0.22] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_16px_rgba(255,255,255,0.18)] scale-105"
-                            : "bg-[#0D0D0D]/50 backdrop-blur-sm group-hover/hh:bg-white/[0.16] group-hover/hh:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_0_12px_rgba(255,255,255,0.14)] group-hover/hh:scale-105"
+                            ? "bg-[#0D0D0D]/60 shadow-[0_0_0_1px_rgba(255,255,255,0.18),0_0_24px_rgba(255,255,255,0.22)] scale-105"
+                            : "bg-[#0D0D0D]/50 backdrop-blur-sm group-hover/hh:shadow-[0_0_0_1px_rgba(255,255,255,0.18),0_0_20px_rgba(255,255,255,0.18)] group-hover/hh:scale-105"
                         )}
-                        style={{ height: 9 }}
+                        style={{ height: 12 }}
                       >
                         {[0, 1, 2].map((i) => (
-                          <div key={i} className={cn("rounded-full transition-colors duration-200", isResizingHeight ? "bg-white/90" : "bg-white/50 group-hover/hh:bg-white/80")} style={{ width: 3.5, height: 3.5 }} />
+                          <div key={i} className={cn("rounded-full transition-colors duration-200", isResizingHeight ? "bg-white/90" : "bg-white/50 group-hover/hh:bg-white/75")} style={{ width: 4, height: 4 }} />
                         ))}
                       </div>
                     </motion.div>
