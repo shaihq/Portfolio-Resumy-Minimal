@@ -154,7 +154,7 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="flex flex-col items-center justify-center py-24 px-6 select-none"
+      className="flex flex-col items-center justify-center py-24 select-none"
     >
       {/* Label */}
       <motion.p
@@ -167,7 +167,7 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
       </motion.p>
 
       {/* Cards */}
-      <div className="grid grid-cols-3 gap-3 w-full max-w-[580px]">
+      <div className="grid grid-cols-3 gap-3 w-full">
         {LAYOUT_OPTIONS.map(({ key, label, sub, Preview }, i) => (
           <motion.button
             key={key}
