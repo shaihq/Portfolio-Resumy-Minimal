@@ -855,7 +855,7 @@ export default function Home() {
 
         <div
           className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
-            activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl overflow-hidden" :
+            activeTemplate === "Minimal" ? "minimal-card-border mt-[200px] rounded-t-2xl" :
             activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
           )}
           style={activeTemplate === "Minimal" ? {
@@ -867,23 +867,6 @@ export default function Home() {
             transition: 'box-shadow 0.2s ease',
           } : undefined}
         >
-        {/* Bottom glow — Minimal template only, clipped inside the card */}
-        {activeTemplate === "Minimal" && bgColor && (
-          <div
-            className="pointer-events-none z-0"
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 500,
-              background: `radial-gradient(ellipse 80% 60% at 50% 100%, rgba(${bgColor},0.35) 0%, rgba(${bgColor},0.12) 45%, transparent 100%)`,
-              transition: 'background 1.2s ease',
-            }}
-            aria-hidden="true"
-          />
-        )}
-
         {/* ── Sticky sentinel: lives INSIDE the card so handles start at the card's top corners ── */}
         {activeTemplate === "Minimal" && (
           <div
@@ -4706,6 +4689,24 @@ export default function Home() {
         ) : null}
       </div>
       </div>{/* end resize wrapper */}
+
+      {/* Bottom glow — Minimal template only, sits in the page background at the very end of scroll */}
+      {activeTemplate === "Minimal" && bgColor && (
+        <div
+          className="pointer-events-none"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 500,
+            zIndex: 0,
+            background: `radial-gradient(ellipse 80% 60% at 50% 100%, rgba(${bgColor},0.35) 0%, rgba(${bgColor},0.12) 45%, transparent 100%)`,
+            transition: 'background 1.2s ease',
+          }}
+          aria-hidden="true"
+        />
+      )}
       </motion.div>
     </>
   );
