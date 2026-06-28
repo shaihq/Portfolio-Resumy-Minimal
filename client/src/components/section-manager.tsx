@@ -27,19 +27,26 @@ import { CaseStudyEditor } from "./case-study-editor";
 
 type ImageCard = { imageUrl: string | null; heading: string; body: string };
 
-type FreeformSection   = { id: string; type: "freeform"; title: string };
-type ImageGridSection  = { id: string; type: "image-grid"; columns: 2 | 3; items: ImageCard[] };
-type ImageTextSection  = {
-  id: string;
-  type: "image-text";
+type FreeformSection      = { id: string; type: "freeform"; title: string };
+type ImageGridSection     = { id: string; type: "image-grid"; columns: 2 | 3; items: ImageCard[] };
+type ImageTextSection     = {
+  id: string; type: "image-text";
   layout: "image-left" | "image-right" | "image-top";
-  imageUrl: string | null;
-  heading: string;
-  body: string;
+  imageUrl: string | null; heading: string; body: string;
 };
+type TextSplitSection     = { id: string; type: "text-split"; heading: string; body: string };
+type TextThreeColSection  = { id: string; type: "text-3col"; columns: { heading: string; body: string }[] };
+type TextHighlightsSection= { id: string; type: "text-highlights"; items: { title: string; detail: string }[] };
+type TextAccordionSection = { id: string; type: "text-accordion"; heading: string; items: { question: string; answer: string }[] };
 
-type Section = FreeformSection | ImageGridSection | ImageTextSection;
-type SectionTypeKey = "freeform" | "image-grid-2" | "image-grid-3" | "image-text-left" | "image-text-right" | "image-text-top";
+type Section = FreeformSection | ImageGridSection | ImageTextSection
+             | TextSplitSection | TextThreeColSection | TextHighlightsSection | TextAccordionSection;
+
+type SectionTypeKey =
+  | "freeform"
+  | "text-split" | "text-3col" | "text-highlights" | "text-accordion"
+  | "image-grid-2" | "image-grid-3"
+  | "image-text-left" | "image-text-right" | "image-text-top";
 
 // ─── Storage helpers ──────────────────────────────────────────────────────────
 
@@ -172,6 +179,85 @@ function ImageTextTopPreview() {
   );
 }
 
+// ─── Text-only layout preview SVGs ───────────────────────────────────────────
+
+function TextSplitPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {/* Left: large heading */}
+      <rect x="8"  y="30" width="68" height="9"  rx="3" fill="currentColor" opacity="0.40" />
+      <rect x="8"  y="46" width="50" height="6"  rx="2.5" fill="currentColor" opacity="0.22" />
+      {/* Right: body lines */}
+      <rect x="96" y="20" width="76" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="96" y="30" width="76" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="96" y="40" width="60" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="96" y="50" width="72" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="96" y="60" width="52" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="96" y="70" width="68" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+      <rect x="96" y="80" width="44" height="4"  rx="2" fill="currentColor" opacity="0.18" />
+    </svg>
+  );
+}
+
+function TextThreeColPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {[0,1,2].map(i => {
+        const x = 8 + i * 58;
+        return (
+          <g key={i}>
+            <rect x={x}    y="14" width="44" height="7"  rx="3"   fill="currentColor" opacity="0.38" />
+            <rect x={x}    y="28" width="50" height="3.5" rx="1.75" fill="currentColor" opacity="0.16" />
+            <rect x={x}    y="36" width="42" height="3.5" rx="1.75" fill="currentColor" opacity="0.16" />
+            <rect x={x}    y="44" width="48" height="3.5" rx="1.75" fill="currentColor" opacity="0.16" />
+            <rect x={x}    y="52" width="36" height="3.5" rx="1.75" fill="currentColor" opacity="0.16" />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function TextHighlightsPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {[0,1,2].map(i => {
+        const x = 6 + i * 57;
+        return (
+          <g key={i}>
+            <rect x={x} y="20" width="51" height="60" rx="6" fill="currentColor" opacity="0.09" />
+            <rect x={x+6} y="33" width="32" height="6" rx="2.5" fill="currentColor" opacity="0.38" />
+            <rect x={x+6} y="46" width="38" height="3.5" rx="1.75" fill="currentColor" opacity="0.18" />
+            <rect x={x+6} y="54" width="28" height="3.5" rx="1.75" fill="currentColor" opacity="0.18" />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function TextAccordionPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {/* Left heading */}
+      <rect x="8"  y="38" width="60" height="9"  rx="3" fill="currentColor" opacity="0.38" />
+      <rect x="8"  y="54" width="44" height="5"  rx="2" fill="currentColor" opacity="0.18" />
+      {/* Right accordion rows */}
+      {[0,1,2,3].map(i => (
+        <g key={i}>
+          <rect x="88" y={16 + i*24} width="84" height="0.75" rx="0.375" fill="currentColor" opacity="0.14" />
+          <rect x="88" y={22 + i*24} width="52" height="5"  rx="2" fill="currentColor" opacity={i === 0 ? 0.38 : 0.22} />
+          <rect x="164" y={23 + i*24} width="8" height="3" rx="1.5" fill="currentColor" opacity="0.30" />
+          {i === 0 && <>
+            <rect x="88" y="34" width="84" height="3" rx="1.5" fill="currentColor" opacity="0.13" />
+            <rect x="88" y="41" width="66" height="3" rx="1.5" fill="currentColor" opacity="0.13" />
+          </>}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 // ─── Modal categories & layouts ───────────────────────────────────────────────
 
 const MODAL_CATEGORIES = [
@@ -180,7 +266,11 @@ const MODAL_CATEGORIES = [
     label: "Text",
     icon: AlignLeft,
     layouts: [
-      { key: "freeform" as SectionTypeKey, label: "Freeform", sub: "Text, headings, images", Preview: FreeformPreview },
+      { key: "freeform"        as SectionTypeKey, label: "Freeform",    sub: "Rich text, headings, images",      Preview: FreeformPreview },
+      { key: "text-split"      as SectionTypeKey, label: "Split",       sub: "Heading left, body right",         Preview: TextSplitPreview },
+      { key: "text-3col"       as SectionTypeKey, label: "3-Column",    sub: "Three columns of heading + text",  Preview: TextThreeColPreview },
+      { key: "text-highlights" as SectionTypeKey, label: "Highlights",  sub: "Three stat or highlight cards",    Preview: TextHighlightsPreview },
+      { key: "text-accordion"  as SectionTypeKey, label: "Accordion",   sub: "Heading with collapsible FAQ rows",Preview: TextAccordionPreview },
     ],
   },
   {
@@ -207,7 +297,7 @@ const MODAL_CATEGORIES = [
 // ─── Add section modal ────────────────────────────────────────────────────────
 
 function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => void; onClose: () => void }) {
-  const [activeCategory, setActiveCategory] = useState("image-text");
+  const [activeCategory, setActiveCategory] = useState("text");
 
   const currentLayouts = MODAL_CATEGORIES.find(c => c.key === activeCategory)?.layouts ?? [];
 
@@ -540,6 +630,116 @@ function ImageTextBlock({ section, onUpdate }: { section: ImageTextSection; onUp
   );
 }
 
+// ─── Text-only section blocks ─────────────────────────────────────────────────
+
+function TextSplitBlock({ section, onUpdate }: { section: TextSplitSection; onUpdate: (u: TextSplitSection) => void }) {
+  return (
+    <div className="py-10 flex flex-col sm:flex-row gap-10 items-start">
+      <div className="w-full sm:w-[42%] shrink-0">
+        <EditableText value={section.heading} onChange={(v) => onUpdate({ ...section, heading: v })} tag="h2"
+          placeholder="This is your heading"
+          className="text-[28px] sm:text-[32px] font-bold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight tracking-tight" />
+      </div>
+      <div className="w-full sm:flex-1">
+        <EditableText value={section.body} onChange={(v) => onUpdate({ ...section, body: v })} tag="p"
+          placeholder="You can write here as much as you want, this text will always look nice."
+          className="text-[16px] text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] [font-weight:450]" />
+      </div>
+    </div>
+  );
+}
+
+function TextThreeColBlock({ section, onUpdate }: { section: TextThreeColSection; onUpdate: (u: TextThreeColSection) => void }) {
+  const updateCol = (idx: number, patch: Partial<{ heading: string; body: string }>) =>
+    onUpdate({ ...section, columns: section.columns.map((c, i) => i === idx ? { ...c, ...patch } : c) });
+  return (
+    <div className="py-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        {section.columns.map((col, idx) => (
+          <div key={idx} className="flex flex-col gap-3">
+            <EditableText value={col.heading} onChange={(v) => updateCol(idx, { heading: v })} tag="h3"
+              placeholder="This is your heading"
+              className="text-[18px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug" />
+            <EditableText value={col.body} onChange={(v) => updateCol(idx, { body: v })} tag="p"
+              placeholder="You can write here as much as you want."
+              className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5] leading-[1.65]" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TextHighlightsBlock({ section, onUpdate }: { section: TextHighlightsSection; onUpdate: (u: TextHighlightsSection) => void }) {
+  const updateItem = (idx: number, patch: Partial<{ title: string; detail: string }>) =>
+    onUpdate({ ...section, items: section.items.map((it, i) => i === idx ? { ...it, ...patch } : it) });
+  return (
+    <div className="py-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {section.items.map((item, idx) => (
+          <div key={idx} className="flex flex-col gap-2 bg-[#F7F5F2] dark:bg-[#222222] rounded-2xl p-6">
+            <EditableText value={item.title} onChange={(v) => updateItem(idx, { title: v })} tag="h3"
+              placeholder="Highlight"
+              className="text-[17px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-snug" />
+            <EditableText value={item.detail} onChange={(v) => updateItem(idx, { detail: v })} tag="p"
+              placeholder="Add some details here"
+              className="text-[13.5px] text-[#7A736C] dark:text-[#B5AFA5] leading-[1.6]" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TextAccordionBlock({ section, onUpdate }: { section: TextAccordionSection; onUpdate: (u: TextAccordionSection) => void }) {
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const updateItem = (idx: number, patch: Partial<{ question: string; answer: string }>) =>
+    onUpdate({ ...section, items: section.items.map((it, i) => i === idx ? { ...it, ...patch } : it) });
+  return (
+    <div className="py-10 flex flex-col sm:flex-row gap-10 items-start">
+      <div className="w-full sm:w-[36%] shrink-0">
+        <EditableText value={section.heading} onChange={(v) => onUpdate({ ...section, heading: v })} tag="h2"
+          placeholder="This is your heading"
+          className="text-[26px] sm:text-[30px] font-bold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight tracking-tight" />
+      </div>
+      <div className="w-full sm:flex-1 flex flex-col divide-y divide-black/[0.07] dark:divide-white/[0.07]">
+        {section.items.map((item, idx) => (
+          <div key={idx} className="py-4">
+            <button
+              onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+              className="w-full flex items-center justify-between gap-3 text-left group"
+            >
+              <EditableText value={item.question} onChange={(v) => updateItem(idx, { question: v })} tag="span"
+                placeholder={`Accordion ${idx + 1}`}
+                className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] flex-1" />
+              <span className="text-[#9E9893] shrink-0 transition-transform duration-200" style={{ transform: openIdx === idx ? "rotate(180deg)" : "rotate(0deg)" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+            </button>
+            <AnimatePresence initial={false}>
+              {openIdx === idx && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-3">
+                    <EditableText value={item.answer} onChange={(v) => updateItem(idx, { answer: v })} tag="p"
+                      placeholder="You can write here as much as you want."
+                      className="text-[14px] text-[#7A736C] dark:text-[#B5AFA5] leading-[1.65]" />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Sortable section wrapper ─────────────────────────────────────────────────
 
 function SortableSection({ section, projectId, onUpdate, onDelete, isOnly }: {
@@ -577,9 +777,13 @@ function SortableSection({ section, projectId, onUpdate, onDelete, isOnly }: {
       </div>
 
       <div>
-        {section.type === "freeform" && <FreeformBlock section={section} projectId={projectId} />}
-        {section.type === "image-grid" && <ImageGridBlock section={section} onUpdate={(u) => onUpdate(u)} />}
-        {section.type === "image-text" && <ImageTextBlock section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "freeform"         && <FreeformBlock        section={section} projectId={projectId} />}
+        {section.type === "image-grid"       && <ImageGridBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "image-text"       && <ImageTextBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-split"       && <TextSplitBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-3col"        && <TextThreeColBlock    section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-highlights"  && <TextHighlightsBlock  section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-accordion"   && <TextAccordionBlock   section={section} onUpdate={(u) => onUpdate(u)} />}
       </div>
     </motion.div>
   );
@@ -618,7 +822,35 @@ function AddSectionButton({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) 
 
 function makeSection(type: SectionTypeKey): Section {
   const id = uid();
+  const bodyPlaceholder = "You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words.";
   if (type === "freeform") return { id, type: "freeform", title: "Section" };
+  if (type === "text-split") return { id, type: "text-split", heading: "This is your heading", body: bodyPlaceholder };
+  if (type === "text-3col") return {
+    id, type: "text-3col",
+    columns: [
+      { heading: "This is your heading", body: bodyPlaceholder },
+      { heading: "This is your heading", body: bodyPlaceholder },
+      { heading: "This is your heading", body: bodyPlaceholder },
+    ],
+  };
+  if (type === "text-highlights") return {
+    id, type: "text-highlights",
+    items: [
+      { title: "Highlight 1", detail: "Add some details here" },
+      { title: "Highlight 2", detail: "Add some details here" },
+      { title: "Highlight 3", detail: "Add some details here" },
+    ],
+  };
+  if (type === "text-accordion") return {
+    id, type: "text-accordion",
+    heading: "This is your heading",
+    items: [
+      { question: "Accordion 1", answer: bodyPlaceholder },
+      { question: "Accordion 2", answer: "" },
+      { question: "Accordion 3", answer: "" },
+      { question: "Accordion 4", answer: "" },
+    ],
+  };
   if (type === "image-grid-2") return {
     id, type: "image-grid", columns: 2,
     items: [
@@ -634,11 +866,8 @@ function makeSection(type: SectionTypeKey): Section {
       { imageUrl: null, heading: "Step 3", body: "You can write here as much as you want." },
     ],
   };
-  // image-text layouts
   const layoutMap: Record<string, ImageTextSection["layout"]> = {
-    "image-text-left": "image-left",
-    "image-text-right": "image-right",
-    "image-text-top": "image-top",
+    "image-text-left": "image-left", "image-text-right": "image-right", "image-text-top": "image-top",
   };
   return {
     id, type: "image-text",
