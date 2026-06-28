@@ -37,16 +37,20 @@ type ImageTextSection     = {
 type TextSplitSection     = { id: string; type: "text-split"; heading: string; body: string };
 type TextThreeColSection  = { id: string; type: "text-3col"; columns: { heading: string; body: string }[] };
 type TextHighlightsSection= { id: string; type: "text-highlights"; items: { title: string; detail: string }[] };
-type TextAccordionSection = { id: string; type: "text-accordion"; heading: string; items: { question: string; answer: string }[] };
+type TextAccordionSection  = { id: string; type: "text-accordion"; heading: string; items: { question: string; answer: string }[] };
+type GalleryCarouselSection= { id: string; type: "gallery-carousel"; items: { imageUrl: string | null; caption: string }[] };
+type GalleryScrollSection  = { id: string; type: "gallery-scroll";   items: { imageUrl: string | null }[] };
 
 type Section = FreeformSection | ImageGridSection | ImageTextSection
-             | TextSplitSection | TextThreeColSection | TextHighlightsSection | TextAccordionSection;
+             | TextSplitSection | TextThreeColSection | TextHighlightsSection | TextAccordionSection
+             | GalleryCarouselSection | GalleryScrollSection;
 
 type SectionTypeKey =
   | "freeform"
   | "text-split" | "text-3col" | "text-highlights" | "text-accordion"
   | "image-grid-2" | "image-grid-3"
-  | "image-text-left" | "image-text-right" | "image-text-top";
+  | "image-text-left" | "image-text-right" | "image-text-top"
+  | "gallery-carousel" | "gallery-scroll";
 
 // ─── Storage helpers ──────────────────────────────────────────────────────────
 
@@ -258,6 +262,40 @@ function TextAccordionPreview() {
   );
 }
 
+// ─── Gallery preview SVGs ─────────────────────────────────────────────────────
+
+function GalleryCarouselPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {/* Main image */}
+      <rect x="24" y="8" width="132" height="88" rx="6" fill="currentColor" opacity="0.11" />
+      {/* Left arrow */}
+      <circle cx="14" cy="52" r="8" fill="currentColor" opacity="0.10" />
+      <polyline points="16,48 12,52 16,56" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.40" />
+      {/* Right arrow */}
+      <circle cx="166" cy="52" r="8" fill="currentColor" opacity="0.10" />
+      <polyline points="164,48 168,52 164,56" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.40" />
+      {/* Dots */}
+      <circle cx="84" cy="108" r="3.5" fill="currentColor" opacity="0.50" />
+      <circle cx="96" cy="108" r="3.5" fill="currentColor" opacity="0.18" />
+      <circle cx="108" cy="108" r="3.5" fill="currentColor" opacity="0.18" />
+    </svg>
+  );
+}
+
+function GalleryScrollPreview() {
+  return (
+    <svg viewBox="0 0 180 120" fill="none" className="w-full h-full">
+      {/* Side image left (peeking) */}
+      <rect x="2"  y="18" width="44" height="84" rx="5" fill="currentColor" opacity="0.08" />
+      {/* Center image (prominent) */}
+      <rect x="52" y="8"  width="76" height="104" rx="6" fill="currentColor" opacity="0.14" />
+      {/* Side image right (peeking) */}
+      <rect x="134" y="18" width="44" height="84" rx="5" fill="currentColor" opacity="0.08" />
+    </svg>
+  );
+}
+
 // ─── Modal categories & layouts ───────────────────────────────────────────────
 
 const MODAL_CATEGORIES = [
@@ -278,9 +316,11 @@ const MODAL_CATEGORIES = [
     label: "Image & text",
     icon: LayoutGrid,
     layouts: [
-      { key: "image-text-left"  as SectionTypeKey, label: "Image left",  sub: "Image on the left, text on the right", Preview: ImageTextLeftPreview },
-      { key: "image-text-right" as SectionTypeKey, label: "Image right", sub: "Text on the left, image on the right", Preview: ImageTextRightPreview },
-      { key: "image-text-top"   as SectionTypeKey, label: "Image top",   sub: "Full-width image above the text",      Preview: ImageTextTopPreview },
+      { key: "image-text-left"  as SectionTypeKey, label: "Image left",   sub: "Image on the left, text on the right",  Preview: ImageTextLeftPreview },
+      { key: "image-text-right" as SectionTypeKey, label: "Image right",  sub: "Text on the left, image on the right",  Preview: ImageTextRightPreview },
+      { key: "image-text-top"   as SectionTypeKey, label: "Image top",    sub: "Full-width image above the text",       Preview: ImageTextTopPreview },
+      { key: "image-grid-2"     as SectionTypeKey, label: "2-Column",     sub: "Two image + caption cards",             Preview: TwoColPreview },
+      { key: "image-grid-3"     as SectionTypeKey, label: "3-Column",     sub: "Three image + caption cards",           Preview: ThreeColPreview },
     ],
   },
   {
@@ -288,8 +328,8 @@ const MODAL_CATEGORIES = [
     label: "Gallery & media",
     icon: Columns3,
     layouts: [
-      { key: "image-grid-2" as SectionTypeKey, label: "2-Column", sub: "Two image + caption cards", Preview: TwoColPreview },
-      { key: "image-grid-3" as SectionTypeKey, label: "3-Column", sub: "Three image + caption cards", Preview: ThreeColPreview },
+      { key: "gallery-carousel" as SectionTypeKey, label: "Carousel",     sub: "One image at a time with arrows",       Preview: GalleryCarouselPreview },
+      { key: "gallery-scroll"   as SectionTypeKey, label: "Scroll gallery",sub: "Horizontal scroll, center image large",Preview: GalleryScrollPreview },
     ],
   },
 ];
@@ -740,6 +780,79 @@ function TextAccordionBlock({ section, onUpdate }: { section: TextAccordionSecti
   );
 }
 
+// ─── Gallery section blocks ───────────────────────────────────────────────────
+
+function GalleryCarouselBlock({ section, onUpdate }: { section: GalleryCarouselSection; onUpdate: (u: GalleryCarouselSection) => void }) {
+  const [idx, setIdx] = useState(0);
+  const total = section.items.length;
+  const prev = () => setIdx((i) => (i - 1 + total) % total);
+  const next = () => setIdx((i) => (i + 1) % total);
+  const current = section.items[idx];
+  const updateItem = (i: number, patch: Partial<GalleryCarouselSection["items"][number]>) =>
+    onUpdate({ ...section, items: section.items.map((it, j) => j === i ? { ...it, ...patch } : it) });
+
+  return (
+    <div className="py-10">
+      <div className="relative flex items-center gap-4">
+        {/* Prev */}
+        <button onClick={prev}
+          className="shrink-0 w-9 h-9 rounded-full border border-black/[0.10] dark:border-white/[0.10] bg-white dark:bg-[#232323] flex items-center justify-center text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#F0EDE7] dark:hover:bg-[#2A2A2A] transition-colors shadow-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+
+        {/* Image */}
+        <div className="flex-1">
+          <ImageSlot
+            imageUrl={current.imageUrl}
+            onUpload={(url) => updateItem(idx, { imageUrl: url })}
+            className="w-full aspect-[16/10] rounded-xl"
+          />
+          {/* Caption */}
+          <div className="mt-3 text-center">
+            <EditableText value={current.caption} onChange={(v) => updateItem(idx, { caption: v })} tag="p"
+              placeholder="Add a caption…"
+              className="text-[13px] text-[#9E9893] dark:text-[#6A6460] leading-snug text-center" />
+          </div>
+        </div>
+
+        {/* Next */}
+        <button onClick={next}
+          className="shrink-0 w-9 h-9 rounded-full border border-black/[0.10] dark:border-white/[0.10] bg-white dark:bg-[#232323] flex items-center justify-center text-[#1A1A1A] dark:text-[#F0EDE7] hover:bg-[#F0EDE7] dark:hover:bg-[#2A2A2A] transition-colors shadow-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      {/* Dots */}
+      <div className="flex items-center justify-center gap-2 mt-5">
+        {section.items.map((_, i) => (
+          <button key={i} onClick={() => setIdx(i)}
+            className={`rounded-full transition-all duration-200 ${i === idx ? "w-4 h-2 bg-[#1A1A1A] dark:bg-[#F0EDE7]" : "w-2 h-2 bg-black/20 dark:bg-white/20 hover:bg-black/40 dark:hover:bg-white/40"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GalleryScrollBlock({ section, onUpdate }: { section: GalleryScrollSection; onUpdate: (u: GalleryScrollSection) => void }) {
+  const updateItem = (i: number, imageUrl: string | null) =>
+    onUpdate({ ...section, items: section.items.map((it, j) => j === i ? { ...it, imageUrl } : it) });
+
+  return (
+    <div className="py-10">
+      <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-none -mx-6 px-6">
+        {section.items.map((item, i) => (
+          <div key={i}
+            className={`snap-center shrink-0 rounded-xl overflow-hidden transition-all duration-200 ${i === 1 ? "w-[55%]" : "w-[30%] opacity-70"}`}
+          >
+            <ImageSlot imageUrl={item.imageUrl} onUpload={(url) => updateItem(i, url)} className="w-full aspect-[4/3]" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Sortable section wrapper ─────────────────────────────────────────────────
 
 function SortableSection({ section, projectId, onUpdate, onDelete, isOnly }: {
@@ -777,13 +890,15 @@ function SortableSection({ section, projectId, onUpdate, onDelete, isOnly }: {
       </div>
 
       <div>
-        {section.type === "freeform"         && <FreeformBlock        section={section} projectId={projectId} />}
-        {section.type === "image-grid"       && <ImageGridBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
-        {section.type === "image-text"       && <ImageTextBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
-        {section.type === "text-split"       && <TextSplitBlock       section={section} onUpdate={(u) => onUpdate(u)} />}
-        {section.type === "text-3col"        && <TextThreeColBlock    section={section} onUpdate={(u) => onUpdate(u)} />}
-        {section.type === "text-highlights"  && <TextHighlightsBlock  section={section} onUpdate={(u) => onUpdate(u)} />}
-        {section.type === "text-accordion"   && <TextAccordionBlock   section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "freeform"          && <FreeformBlock         section={section} projectId={projectId} />}
+        {section.type === "image-grid"        && <ImageGridBlock        section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "image-text"        && <ImageTextBlock        section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-split"        && <TextSplitBlock        section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-3col"         && <TextThreeColBlock     section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-highlights"   && <TextHighlightsBlock   section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "text-accordion"    && <TextAccordionBlock    section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "gallery-carousel"  && <GalleryCarouselBlock  section={section} onUpdate={(u) => onUpdate(u)} />}
+        {section.type === "gallery-scroll"    && <GalleryScrollBlock    section={section} onUpdate={(u) => onUpdate(u)} />}
       </div>
     </motion.div>
   );
@@ -864,6 +979,23 @@ function makeSection(type: SectionTypeKey): Section {
       { imageUrl: null, heading: "Step 1", body: "You can write here as much as you want." },
       { imageUrl: null, heading: "Step 2", body: "You can write here as much as you want." },
       { imageUrl: null, heading: "Step 3", body: "You can write here as much as you want." },
+    ],
+  };
+  if (type === "gallery-carousel") return {
+    id, type: "gallery-carousel",
+    items: [
+      { imageUrl: null, caption: "" },
+      { imageUrl: null, caption: "" },
+      { imageUrl: null, caption: "" },
+    ],
+  };
+  if (type === "gallery-scroll") return {
+    id, type: "gallery-scroll",
+    items: [
+      { imageUrl: null },
+      { imageUrl: null },
+      { imageUrl: null },
+      { imageUrl: null },
     ],
   };
   const layoutMap: Record<string, ImageTextSection["layout"]> = {
