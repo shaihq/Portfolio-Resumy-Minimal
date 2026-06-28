@@ -852,6 +852,13 @@ export default function Home() {
         onMouseEnter={() => activeTemplate === "Minimal" && setShowHandles(true)}
         onMouseLeave={() => { if (!isResizing) { setShowHandles(false); setHandleHovered(false); } }}
       >
+      {/* Profile avatar — absolutely positioned, floating over the card boundary */}
+      {activeTemplate === "Minimal" && (
+        <Avatar className="absolute z-20 w-[120px] h-[120px] rounded-2xl ring-[3px] ring-white dark:ring-[#1A1A1A] shadow-lg" style={{ top: 158, left: 40 }}>
+          <AvatarImage src={profileImg} className="object-cover" />
+          <AvatarFallback>M</AvatarFallback>
+        </Avatar>
+      )}
 
         <div
           className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
@@ -1009,7 +1016,7 @@ export default function Home() {
         {activeTemplate === "Minimal" ? (
           <>
             {/* Header Section */}
-            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-10 pb-8 relative group/section overflow-visible bg-white dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
+            <motion.div variants={itemVariants} className="px-6 md:px-10 pt-8 pb-8 relative group/section bg-white dark:bg-[#1A1A1A]/75 backdrop-blur-md rounded-t-2xl">
           {isEditing && (
             <div className="absolute top-4 right-4 transition-opacity z-10 opacity-100 md:opacity-0 md:group-hover/section:opacity-100">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white dark:bg-[#2A2520] border-black/10 dark:border-white/10 shadow-sm hover:bg-gray-50 dark:hover:bg-[#35302A] transition-colors">
@@ -1017,11 +1024,7 @@ export default function Home() {
               </Button>
             </div>
           )}
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <Avatar className="w-[120px] h-[120px] rounded-2xl -mt-16 ring-[3px] ring-white dark:ring-[#1A1A1A] shadow-lg">
-              <AvatarImage src={profileImg} className="object-cover" />
-              <AvatarFallback>M</AvatarFallback>
-            </Avatar>
+          <div className="flex items-start justify-end gap-4 mb-6">
             <div className="flex items-center gap-2 mt-1">
               <AnimatedThemeToggler />
             </div>
