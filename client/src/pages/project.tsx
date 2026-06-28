@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRoute, useLocation } from "wouter";
 import { ChevronLeft, Phone } from "lucide-react";
+import { CaseStudyEditor } from "@/components/case-study-editor";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AtSignIcon } from "lucide-animated";
 import { Button } from "@/components/ui/button";
@@ -712,13 +713,10 @@ export default function Project() {
         {/* Introduction */}
         <motion.div variants={itemVariants} className="px-6 md:px-10 py-14">
           <h2 className="text-[11px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Introduction</h2>
-          <div className="space-y-4">
-            {project.introduction.split('\n\n').map((paragraph: string, idx: number) => (
-              <p key={idx} className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-[17px]" style={{ fontWeight: 450 }}>
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          <CaseStudyEditor
+            initialContent={project.introduction}
+            storageKey={`case-study-${project.id}-intro`}
+          />
         </motion.div>
 
         {/* Introduction Image */}
