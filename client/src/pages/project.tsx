@@ -530,24 +530,24 @@ export default function Project() {
           </h1>
 
           {/* Metadata row */}
-          <div className="flex flex-wrap gap-x-12 gap-y-4">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Role</span>
-              <span className="text-[13px] font-medium text-white">{project.details.client}</span>
-              <span className="text-[13px] text-white/80">{project.details.role}</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-5">
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Role</span>
+              <span className="text-[15px] font-semibold text-white leading-snug">{project.details.client}</span>
+              <span className="text-[14px] text-white/75">{project.details.role}</span>
             </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Timeline</span>
-              <span className="text-[13px] text-white">{project.details.industry}</span>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Timeline</span>
+              <span className="text-[15px] font-semibold text-white leading-snug">{project.details.industry}</span>
             </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Tools</span>
-              <span className="text-[13px] text-white">{project.details.platform}</span>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Tools</span>
+              <span className="text-[15px] font-semibold text-white leading-snug">{project.details.platform}</span>
             </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">Team</span>
-              <span className="text-[13px] font-medium text-white">Designer: Me</span>
-              <span className="text-[13px] text-white/80">Collaborators: PMs, Devs</span>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium text-white/50 uppercase tracking-widest">Team</span>
+              <span className="text-[15px] font-semibold text-white leading-snug">Designer: Me</span>
+              <span className="text-[14px] text-white/75">Collaborators: PMs, Devs</span>
             </div>
           </div>
         </div>
