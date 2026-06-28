@@ -507,7 +507,7 @@ export default function Project() {
         <div className="absolute inset-0 bg-black/40" />
         {/* Grain texture */}
         <div
-          className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
           style={{ backgroundImage: "url('/backgrounds/grainsnow.avif')", backgroundSize: "200px 200px", backgroundRepeat: "repeat" }}
         />
 
