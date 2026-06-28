@@ -505,6 +505,8 @@ export default function Project() {
         />
         {/* Flat dark overlay */}
         <div className="absolute inset-0 bg-black/25" />
+        {/* Bottom gradient for text legibility */}
+        <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none" />
         {/* Grain texture */}
         <div
           className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
