@@ -1032,7 +1032,27 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[30px] font-semibold mb-0.5 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]">Hey I'm Matt.</h1>
+              <h1 className="text-[30px] font-semibold mb-0.5 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]">
+                <motion.span
+                  initial="hidden"
+                  animate="visible"
+                  variants={{ visible: { transition: { staggerChildren: 0.08, staggerDirection: -1, delayChildren: 0.1 } } }}
+                  className="inline-flex flex-wrap gap-x-[0.28em]"
+                >
+                  {["Hey", "I'm", "Matt."].map((word, i) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block"
+                      variants={{
+                        hidden: { opacity: 0, filter: "blur(5px)", x: 6 },
+                        visible: { opacity: 1, filter: "blur(0px)", x: 0, transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] } },
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.span>
+              </h1>
               <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px]" style={{ fontWeight: 500 }}>Product Designer</p>
             </div>
             <a 
