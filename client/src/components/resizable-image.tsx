@@ -8,7 +8,6 @@ import { RefreshCw } from "lucide-react";
 function ResizableImageView({
   node,
   updateAttributes,
-  selected,
 }: {
   node: any;
   updateAttributes: (attrs: Record<string, any>) => void;
@@ -19,9 +18,7 @@ function ResizableImageView({
   const [isHovered, setIsHovered] = useState(false);
   const widthPct: number = node.attrs.width ?? 100;
 
-  const visible = isHovered || selected;
-
-  // ── Replace image ──────────────────────────────────────────────────────────
+  // ── Replace ────────────────────────────────────────────────────────────────
   const handleReplace = (file: File) => {
     if (!file.type.startsWith("image/")) return;
     const reader = new FileReader();
@@ -32,7 +29,7 @@ function ResizableImageView({
     reader.readAsDataURL(file);
   };
 
-  // ── Right-handle resize ────────────────────────────────────────────────────
+  // ── Right handle ───────────────────────────────────────────────────────────
   const startResizeRight = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
@@ -51,7 +48,7 @@ function ResizableImageView({
     [widthPct, updateAttributes]
   );
 
-  // ── Left-handle resize ─────────────────────────────────────────────────────
+  // ── Left handle ────────────────────────────────────────────────────────────
   const startResizeLeft = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
@@ -87,64 +84,68 @@ function ResizableImageView({
           className="w-full h-auto rounded-xl block pointer-events-none"
         />
 
-        {/* Selection / hover ring */}
-        {visible && (
-          <div className="absolute inset-0 rounded-xl ring-2 ring-[#1A1A1A]/25 dark:ring-[#F0EDE7]/25 pointer-events-none transition-opacity" />
+        {/* Hover ring — desktop only on hover */}
+        {isHovered && (
+          <div className="absolute inset-0 rounded-xl ring-2 ring-[#1A1A1A]/20 dark:ring-[#F0EDE7]/20 pointer-events-none" />
         )}
 
-        {/* Replace button — top-right corner on hover */}
-        {visible && (
-          <button
-            onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); fileInputRef.current?.click(); }}
-            className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5
-              px-3 py-1.5 rounded-full
-              bg-black/60 backdrop-blur-sm
-              text-white text-[11.5px] font-medium
-              hover:bg-black/80 transition-colors"
-          >
-            <RefreshCw size={11} strokeWidth={2.5} />
-            Replace
-          </button>
-        )}
+        {/* Replace button:
+            - Mobile (< md): always visible top-right
+            - Desktop (md+): only on hover */}
+        <button
+          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); fileInputRef.current?.click(); }}
+          className={`
+            absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5
+            px-3 py-1.5 rounded-full
+            bg-black/60 backdrop-blur-sm
+            text-white text-[11.5px] font-medium
+            hover:bg-black/80 transition-all duration-150
+            md:pointer-events-none
+            ${isHovered ? "md:opacity-100 md:pointer-events-auto" : "md:opacity-0"}
+          `}
+        >
+          <RefreshCw size={11} strokeWidth={2.5} />
+          Replace
+        </button>
 
-        {/* Width badge — bottom center on hover */}
-        {visible && (
-          <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-black/55 backdrop-blur-sm text-white text-[10px] font-medium tabular-nums pointer-events-none">
+        {/* Width badge — desktop only on hover */}
+        {isHovered && (
+          <div className="hidden md:block absolute bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-black/55 backdrop-blur-sm text-white text-[10px] font-medium tabular-nums pointer-events-none">
             {widthPct}%
           </div>
         )}
 
-        {/* Left resize handle */}
-        {visible && (
+        {/* Left resize handle — desktop only on hover */}
+        {isHovered && (
           <div
             onMouseDown={startResizeLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10
               w-3 h-10 rounded-full cursor-ew-resize
               bg-white dark:bg-[#2A2520]
               border border-black/15 dark:border-white/15
               shadow-[0_2px_8px_rgba(0,0,0,0.18)]
-              flex items-center justify-center"
+              items-center justify-center"
           >
             <div className="w-[1.5px] h-3 rounded-full bg-[#9E9893]" />
           </div>
         )}
 
-        {/* Right resize handle */}
-        {visible && (
+        {/* Right resize handle — desktop only on hover */}
+        {isHovered && (
           <div
             onMouseDown={startResizeRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10
               w-3 h-10 rounded-full cursor-ew-resize
               bg-white dark:bg-[#2A2520]
               border border-black/15 dark:border-white/15
               shadow-[0_2px_8px_rgba(0,0,0,0.18)]
-              flex items-center justify-center"
+              items-center justify-center"
           >
             <div className="w-[1.5px] h-3 rounded-full bg-[#9E9893]" />
           </div>
         )}
 
-        {/* Hidden file input for replace */}
+        {/* Hidden file input */}
         <input
           ref={fileInputRef}
           type="file"
