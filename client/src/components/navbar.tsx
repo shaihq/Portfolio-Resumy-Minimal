@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -38,7 +38,13 @@ export default function Navbar() {
   const [isOverlay, setIsOverlay] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
-  const { activeTemplate, setActiveTemplate } = useTemplate();
+  const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground } = useTemplate();
+  const [themePanelTab, setThemePanelTab] = useState<"themes" | "backgrounds">("themes");
+
+  const BACKGROUNDS = [
+    { id: "wall1", src: "/backgrounds/wall1.png", label: "Wall 1" },
+    { id: "wall2", src: "/backgrounds/wall2.png", label: "Wall 2" },
+  ];
 
   useEffect(() => {
     const checkOverlay = () => setIsOverlay(window.innerWidth < 1024);
@@ -192,66 +198,130 @@ export default function Navbar() {
                 <SheetHeader className="px-5 py-4 border-b border-black/10 dark:border-white/10 flex-shrink-0 flex flex-row items-center m-0 space-y-0 h-[65px]">
                   <SheetTitle className="text-[#1A1A1A] dark:text-[#F0EDE7] text-[15px] font-medium m-0">Themes settings</SheetTitle>
                 </SheetHeader>
-                <div className="flex-1 overflow-y-auto p-5 space-y-8">
-                  <SwitchToggleThemeDemo />
-                  
-                  <div className="space-y-4 pt-2">
-                    <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
-                      {["Minimal", "Professional", "Creative", "Chatfolio", "Designer"].map((template) => {
-                        const isSelected = activeTemplate === template;
-                        return (
-                          <div key={template} className="flex flex-col gap-3 items-center">
-                            <div className="relative w-full">
-                              <button 
-                                onClick={() => setActiveTemplate(template)}
-                                className={cn(
-                                  "w-full aspect-square rounded-[24px] transition-all focus:outline-none cursor-pointer group",
+
+                {/* Tabs */}
+                <div className="flex border-b border-black/10 dark:border-white/10 flex-shrink-0 px-5">
+                  {(["themes", "backgrounds"] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setThemePanelTab(tab)}
+                      className={cn(
+                        "py-3 px-1 mr-5 text-[13px] font-medium border-b-[2px] transition-colors capitalize",
+                        themePanelTab === tab
+                          ? "border-[#FF5A36] text-[#1A1A1A] dark:text-[#F0EDE7]"
+                          : "border-transparent text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
+                      )}
+                    >
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-5">
+                  {themePanelTab === "themes" ? (
+                    <div className="space-y-8">
+                      <SwitchToggleThemeDemo />
+                      <div className="space-y-4 pt-2">
+                        <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
+                          {["Minimal", "Professional", "Creative", "Chatfolio", "Designer"].map((template) => {
+                            const isSelected = activeTemplate === template;
+                            return (
+                              <div key={template} className="flex flex-col gap-3 items-center">
+                                <div className="relative w-full">
+                                  <button 
+                                    onClick={() => setActiveTemplate(template)}
+                                    className={cn(
+                                      "w-full aspect-square rounded-[24px] transition-all focus:outline-none cursor-pointer group",
+                                      isSelected 
+                                        ? "border-[2.5px] border-[#FF5A36] p-1.5" 
+                                        : "border-[2.5px] border-transparent p-1.5 hover:bg-black/5 dark:hover:bg-white/5"
+                                    )}
+                                  >
+                                    <div className={cn(
+                                      "w-full h-full rounded-[14px] overflow-hidden transition-all shadow-sm border border-black/5 dark:border-white/5 relative",
+                                      isSelected 
+                                        ? "bg-[#F0EDE7] dark:bg-[#3A3531]" 
+                                        : "bg-[#F5F5F5] dark:bg-[#2A2520] group-hover:shadow-md"
+                                    )}>
+                                      <div className="absolute inset-0 p-3 flex flex-col gap-2 opacity-40">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-5 h-5 rounded-full bg-black/20 dark:bg-white/20" />
+                                          <div className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
+                                        </div>
+                                        <div className="w-full h-12 mt-1 rounded-md bg-black/10 dark:bg-white/10" />
+                                        <div className="flex gap-2 mt-auto">
+                                          <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
+                                          <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </button>
+                                  {isSelected && (
+                                    <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
+                                      <Check size={14} strokeWidth={3.5} />
+                                    </div>
+                                  )}
+                                </div>
+                                <span className={cn(
+                                  "text-[14px] text-center transition-colors font-medium",
                                   isSelected 
-                                    ? "border-[2.5px] border-[#FF5A36] p-1.5" 
-                                    : "border-[2.5px] border-transparent p-1.5 hover:bg-black/5 dark:hover:bg-white/5"
-                                )}
-                              >
-                                <div className={cn(
-                                  "w-full h-full rounded-[14px] overflow-hidden transition-all shadow-sm border border-black/5 dark:border-white/5 relative",
-                                  isSelected 
-                                    ? "bg-[#F0EDE7] dark:bg-[#3A3531]" 
-                                    : "bg-[#F5F5F5] dark:bg-[#2A2520] group-hover:shadow-md"
+                                    ? "text-[#FF5A36]" 
+                                    : "text-[#7A736C] dark:text-[#9E9893]"
                                 )}>
-                                   {/* Subtle wireframe placeholder */}
-                                   <div className="absolute inset-0 p-3 flex flex-col gap-2 opacity-40">
-                                     <div className="flex items-center gap-2">
-                                       <div className="w-5 h-5 rounded-full bg-black/20 dark:bg-white/20" />
-                                       <div className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
-                                     </div>
-                                     <div className="w-full h-12 mt-1 rounded-md bg-black/10 dark:bg-white/10" />
-                                     <div className="flex gap-2 mt-auto">
-                                       <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
-                                       <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
-                                     </div>
-                                   </div>
-                                </div>
-                              </button>
-                              
-                              {isSelected && (
-                                <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
-                                  <Check size={14} strokeWidth={3.5} />
-                                </div>
-                              )}
-                            </div>
-                            <span className={cn(
-                              "text-[14px] text-center transition-colors font-medium",
-                              isSelected 
-                                ? "text-[#FF5A36]" 
-                                : "text-[#7A736C] dark:text-[#9E9893]"
-                            )}>
-                              {template}
-                            </span>
-                          </div>
-                        );
-                      })}
+                                  {template}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="space-y-4 pt-1">
+                      <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893] px-1 leading-relaxed">
+                        Applies to the <span className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Minimal</span> template header.
+                      </p>
+                      <div className="grid grid-cols-2 gap-3">
+                        {BACKGROUNDS.map((bg) => {
+                          const isSelected = activeBackground === bg.src;
+                          return (
+                            <div key={bg.id} className="flex flex-col gap-2 items-center">
+                              <div className="relative w-full">
+                                <button
+                                  onClick={() => setActiveBackground(bg.src)}
+                                  className={cn(
+                                    "w-full rounded-[18px] transition-all focus:outline-none cursor-pointer overflow-hidden",
+                                    isSelected
+                                      ? "ring-[2.5px] ring-[#FF5A36] ring-offset-2 ring-offset-white dark:ring-offset-[#2A2520]"
+                                      : "ring-[2px] ring-transparent hover:ring-black/10 dark:hover:ring-white/10"
+                                  )}
+                                  style={{ aspectRatio: "16/9" }}
+                                >
+                                  <img
+                                    src={bg.src}
+                                    alt={bg.label}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </button>
+                                {isSelected && (
+                                  <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
+                                    <Check size={14} strokeWidth={3.5} />
+                                  </div>
+                                )}
+                              </div>
+                              <span className={cn(
+                                "text-[13px] text-center font-medium transition-colors",
+                                isSelected ? "text-[#FF5A36]" : "text-[#7A736C] dark:text-[#9E9893]"
+                              )}>
+                                {bg.label}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

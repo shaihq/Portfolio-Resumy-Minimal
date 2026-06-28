@@ -571,7 +571,7 @@ export default function Home() {
     },
   };
 
-  const { activeTemplate } = useTemplate();
+  const { activeTemplate, activeBackground } = useTemplate();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("Projects");
   
@@ -720,7 +720,7 @@ export default function Home() {
         {activeTemplate === "Minimal" && (
           <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 580 }}>
             <img
-              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80"
+              src={activeBackground}
               alt=""
               aria-hidden="true"
               className="w-full h-full object-cover object-center"
