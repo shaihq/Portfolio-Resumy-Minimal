@@ -794,16 +794,6 @@ export default function Home() {
               className="w-full h-full object-cover object-center"
               loading="eager"
             />
-            {/* Subtle scrim so content remains readable — light mode */}
-            <div
-              className="absolute inset-0 dark:hidden"
-              style={{ background: 'rgba(240,237,231,0.55)' }}
-            />
-            {/* Dark mode scrim */}
-            <div
-              className="absolute inset-0 hidden dark:block"
-              style={{ background: 'rgba(26,26,26,0.62)' }}
-            />
           </div>
         )}
         <style dangerouslySetInnerHTML={{ __html: `

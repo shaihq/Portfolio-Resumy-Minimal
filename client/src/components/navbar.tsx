@@ -297,17 +297,14 @@ export default function Navbar() {
                                 key={mode.value}
                                 onClick={() => setBackgroundMode(mode.value)}
                                 className={cn(
-                                  "relative flex flex-col gap-1 px-3 py-3 rounded-2xl border-[2px] text-left transition-all focus:outline-none cursor-pointer",
+                                  "relative flex flex-col gap-1 px-3 py-3 rounded-2xl border text-left transition-all focus:outline-none cursor-pointer",
                                   isActive
-                                    ? "border-[#FF5A36] bg-[#FF5A36]/5 dark:bg-[#FF5A36]/10"
-                                    : "border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 bg-transparent"
+                                    ? "border-black/20 dark:border-white/20 bg-black/4 dark:bg-white/6"
+                                    : "border-black/8 dark:border-white/8 hover:border-black/15 dark:hover:border-white/15 bg-transparent"
                                 )}
                               >
                                 {/* Mini visual preview */}
-                                <div className={cn(
-                                  "w-full rounded-lg overflow-hidden mb-1",
-                                  "border border-black/8 dark:border-white/8"
-                                )} style={{ aspectRatio: "16/7" }}>
+                                <div className="w-full rounded-lg overflow-hidden mb-1 border border-black/8 dark:border-white/8" style={{ aspectRatio: "16/7" }}>
                                   {mode.value === "header" ? (
                                     <div className="w-full h-full flex flex-col">
                                       <div className="flex-[0_0_45%] bg-gradient-to-br from-amber-200/60 to-orange-200/60 dark:from-amber-900/40 dark:to-orange-900/40" />
@@ -319,18 +316,15 @@ export default function Navbar() {
                                     </div>
                                   )}
                                 </div>
-                                <span className={cn(
-                                  "text-[12px] font-semibold leading-tight",
-                                  isActive ? "text-[#FF5A36]" : "text-[#1A1A1A] dark:text-[#F0EDE7]"
-                                )}>
+                                <span className="text-[12px] font-medium leading-tight text-[#1A1A1A] dark:text-[#F0EDE7]">
                                   {mode.label}
                                 </span>
                                 <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] leading-tight">
                                   {mode.description}
                                 </span>
                                 {isActive && (
-                                  <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-[#FF5A36] flex items-center justify-center">
-                                    <Check size={9} strokeWidth={3.5} className="text-white" />
+                                  <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] flex items-center justify-center">
+                                    <Check size={8} strokeWidth={3} className="text-white dark:text-[#1A1A1A]" />
                                   </div>
                                 )}
                               </button>
