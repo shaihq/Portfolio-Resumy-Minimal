@@ -641,7 +641,7 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: i * (isMobile ? 0.22 : 0.06) }}
-              whileHover={{ scale: 1.04, rotate: 1.5, transition: { type: "spring", stiffness: 400, damping: 18 } }}
+              whileHover={{ scale: 1.04, rotate: ([-2, 1.5, -1] as number[])[i], transition: { type: "spring", stiffness: 400, damping: 18 } }}
               whileTap={{ scale: 0.97, rotate: 0, transition: { type: "spring", stiffness: 400, damping: 20 } }}
               className="group flex-1 flex flex-col rounded-2xl overflow-hidden border border-black/[0.07] dark:border-white/[0.07] bg-[#F7F5F2] dark:bg-[#222222] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:shadow-lg cursor-pointer text-left"
             >
