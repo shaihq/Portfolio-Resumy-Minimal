@@ -462,7 +462,7 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
           exit={{ y: "100%" }}
           transition={{ type: "spring", stiffness: 380, damping: 38 }}
           className="absolute inset-x-0 bottom-0 flex flex-col bg-white dark:bg-[#18160F] rounded-t-2xl shadow-2xl"
-          style={{ maxHeight: "88dvh" }}
+          style={{ height: "88dvh" }}
           onPointerDown={(e) => e.stopPropagation()}
         >
           {/* Drag handle */}
