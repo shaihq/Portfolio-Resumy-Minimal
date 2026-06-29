@@ -812,6 +812,53 @@ export default function Home() {
             />
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
+
+            {/* Birds — day mode */}
+            <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-700" aria-hidden="true">
+              {[
+                { top: '28%', delay: 0, duration: 22, startX: -60, endX: '110%', scale: 1 },
+                { top: '31%', delay: 1.2, duration: 26, startX: -40, endX: '110%', scale: 0.72 },
+                { top: '26%', delay: 2.5, duration: 30, startX: -50, endX: '110%', scale: 0.55 },
+                { top: '34%', delay: 0.6, duration: 24, startX: -30, endX: '110%', scale: 0.42 },
+                { top: '29%', delay: 3.8, duration: 28, startX: -45, endX: '110%', scale: 0.35 },
+                { top: '22%', delay: 5.0, duration: 32, startX: -55, endX: '110%', scale: 0.65 },
+                { top: '36%', delay: 4.2, duration: 20, startX: -35, endX: '110%', scale: 0.48 },
+              ].map((b, i) => (
+                <motion.div
+                  key={`bird-day-${i}`}
+                  style={{ position: 'absolute', top: b.top, left: 0 }}
+                  animate={{ x: [b.startX, b.endX] }}
+                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
+                >
+                  <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+                  </svg>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Birds — night mode */}
+            <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700" aria-hidden="true">
+              {[
+                { top: '25%', delay: 0, duration: 25, startX: -60, endX: '110%', scale: 1 },
+                { top: '28%', delay: 1.5, duration: 30, startX: -40, endX: '110%', scale: 0.68 },
+                { top: '22%', delay: 3.0, duration: 28, startX: -50, endX: '110%', scale: 0.50 },
+                { top: '31%', delay: 0.8, duration: 22, startX: -30, endX: '110%', scale: 0.40 },
+                { top: '20%', delay: 5.5, duration: 34, startX: -55, endX: '110%', scale: 0.60 },
+              ].map((b, i) => (
+                <motion.div
+                  key={`bird-night-${i}`}
+                  style={{ position: 'absolute', top: b.top, left: 0 }}
+                  animate={{ x: [b.startX, b.endX] }}
+                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 3 }}
+                >
+                  <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(180,200,255,0.7)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+                  </svg>
+                </motion.div>
+              ))}
+            </div>
+
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
             <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #1A1A1A 100%)' }} />
@@ -4798,73 +4845,27 @@ export default function Home() {
         ) : activeTemplate === "Designer" ? (
           <div className="flex-1 flex flex-col">
             {/* ── Designer Hero ── */}
-            <div className="relative flex flex-col items-start justify-center overflow-hidden" style={{ minHeight: '88vh' }}>
-
-              {/* Animated birds — day mode */}
-              <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-700" aria-hidden="true">
-                {[
-                  { top: '28%', delay: 0, duration: 22, startX: -60, endX: '110%', scale: 1 },
-                  { top: '31%', delay: 1.2, duration: 26, startX: -40, endX: '110%', scale: 0.72 },
-                  { top: '26%', delay: 2.5, duration: 30, startX: -50, endX: '110%', scale: 0.55 },
-                  { top: '34%', delay: 0.6, duration: 24, startX: -30, endX: '110%', scale: 0.42 },
-                  { top: '29%', delay: 3.8, duration: 28, startX: -45, endX: '110%', scale: 0.35 },
-                  { top: '22%', delay: 5.0, duration: 32, startX: -55, endX: '110%', scale: 0.65 },
-                  { top: '36%', delay: 4.2, duration: 20, startX: -35, endX: '110%', scale: 0.48 },
-                ].map((b, i) => (
-                  <motion.div
-                    key={i}
-                    style={{ position: 'absolute', top: b.top, left: 0 }}
-                    animate={{ x: [b.startX, b.endX] }}
-                    transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
-                  >
-                    <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
-                    </svg>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Animated birds — night mode */}
-              <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700" aria-hidden="true">
-                {[
-                  { top: '25%', delay: 0, duration: 25, startX: -60, endX: '110%', scale: 1 },
-                  { top: '28%', delay: 1.5, duration: 30, startX: -40, endX: '110%', scale: 0.68 },
-                  { top: '22%', delay: 3.0, duration: 28, startX: -50, endX: '110%', scale: 0.50 },
-                  { top: '31%', delay: 0.8, duration: 22, startX: -30, endX: '110%', scale: 0.40 },
-                  { top: '20%', delay: 5.5, duration: 34, startX: -55, endX: '110%', scale: 0.60 },
-                ].map((b, i) => (
-                  <motion.div
-                    key={i}
-                    style={{ position: 'absolute', top: b.top, left: 0 }}
-                    animate={{ x: [b.startX, b.endX] }}
-                    transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 3 }}
-                  >
-                    <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(180,200,255,0.7)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
-                    </svg>
-                  </motion.div>
-                ))}
-              </div>
+            <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
               {/* Hero content */}
-              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-4xl">
+              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
                 {/* Tagline */}
                 <motion.p
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/75 dark:text-[rgba(160,185,255,0.75)] text-[14px] font-medium tracking-wide mb-6 uppercase"
+                  transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-white/70 dark:text-[rgba(160,185,255,0.7)] text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
                 >
                   Hello, from the designer's desk.
                 </motion.p>
 
-                {/* Display headline */}
+                {/* Display headline — no blur to prevent flicker */}
                 <motion.h1
-                  initial={{ opacity: 0, y: 32, filter: 'blur(12px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ duration: 1.1, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
-                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white"
-                  style={{ fontSize: 'clamp(52px, 8vw, 96px)' }}
+                  initial={{ opacity: 0, y: 28 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
+                  style={{ fontSize: 'clamp(54px, 9vw, 102px)' }}
                 >
                   <span className="block font-semibold">Thoughtful</span>
                   <span className="block">
@@ -4875,10 +4876,10 @@ export default function Home() {
 
                 {/* Description */}
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-7 text-white/75 dark:text-[rgba(160,185,255,0.8)] text-[16px] leading-relaxed max-w-xs font-['Inter']"
+                  transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8 text-white/72 dark:text-[rgba(160,185,255,0.78)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
                 >
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
@@ -4887,7 +4888,7 @@ export default function Home() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1.0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
                   className="mt-10"
                 >
                   <AnimatedThemeToggler />
