@@ -813,55 +813,99 @@ export default function Home() {
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
 
-            {/* Birds — day mode — spread across full sky, left% = initial position across viewport */}
+            {/* Birds — day mode — L→R and R→L, starting beyond viewport, wings flapping */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-700" aria-hidden="true">
+              {/* Left → Right birds */}
               {[
-                { top: '8%',  left: '0%',  delay: 0,   duration: 22, scale: 1.0 },
-                { top: '14%', left: '18%', delay: 0,   duration: 26, scale: 0.72 },
-                { top: '21%', left: '0%',  delay: 1.5, duration: 20, scale: 0.85 },
-                { top: '29%', left: '38%', delay: 0,   duration: 28, scale: 0.55 },
-                { top: '36%', left: '8%',  delay: 2.5, duration: 24, scale: 0.65 },
-                { top: '43%', left: '55%', delay: 0,   duration: 30, scale: 0.48 },
-                { top: '51%', left: '22%', delay: 1.0, duration: 25, scale: 0.75 },
-                { top: '59%', left: '70%', delay: 0,   duration: 32, scale: 0.40 },
-                { top: '67%', left: '42%', delay: 3.0, duration: 22, scale: 0.58 },
-                { top: '73%', left: '85%', delay: 0,   duration: 28, scale: 0.35 },
+                { top: '9%',  w: 36, h: 16, dur: 22, delay: '-4s',  flap: '0.38s', flapBegin: '0s' },
+                { top: '20%', w: 28, h: 12, dur: 28, delay: '-12s', flap: '0.44s', flapBegin: '0.1s' },
+                { top: '32%', w: 40, h: 18, dur: 20, delay: '-8s',  flap: '0.36s', flapBegin: '0.05s' },
+                { top: '45%', w: 24, h: 11, dur: 26, delay: '-18s', flap: '0.48s', flapBegin: '0.15s' },
+                { top: '57%', w: 34, h: 15, dur: 24, delay: '-6s',  flap: '0.42s', flapBegin: '0s' },
+                { top: '70%', w: 22, h: 10, dur: 30, delay: '-22s', flap: '0.50s', flapBegin: '0.2s' },
               ].map((b, i) => (
-                <motion.div
-                  key={`bird-day-${i}`}
-                  style={{ position: 'absolute', top: b.top, left: b.left }}
-                  animate={{ x: ['0px', 'calc(100vw + 120px)'] }}
-                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 0 }}
+                <div
+                  key={`bird-ltr-day-${i}`}
+                  style={{ position: 'absolute', top: b.top, left: '-300px', animation: `designer-fly-ltr ${b.dur}s linear ${b.delay} infinite` }}
                 >
-                  <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(255,255,255,0.88)" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+                  <svg width={b.w} height={b.h} viewBox="-18 -8 36 16" fill="none">
+                    <path d="M0,0 Q-8,-5 -18,-2" stroke="rgba(255,255,255,0.88)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q-8,-5 -18,-2;M0,0 Q-8,4 -18,1;M0,0 Q-8,-5 -18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
+                    <path d="M0,0 Q8,-5 18,-2" stroke="rgba(255,255,255,0.88)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q8,-5 18,-2;M0,0 Q8,4 18,1;M0,0 Q8,-5 18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
                   </svg>
-                </motion.div>
+                </div>
+              ))}
+              {/* Right → Left birds */}
+              {[
+                { top: '14%', w: 32, h: 14, dur: 25, delay: '-10s', flap: '0.40s', flapBegin: '0.08s' },
+                { top: '26%', w: 38, h: 17, dur: 22, delay: '-3s',  flap: '0.37s', flapBegin: '0s' },
+                { top: '38%', w: 26, h: 12, dur: 29, delay: '-16s', flap: '0.46s', flapBegin: '0.12s' },
+                { top: '51%', w: 34, h: 15, dur: 23, delay: '-7s',  flap: '0.41s', flapBegin: '0.06s' },
+                { top: '63%', w: 20, h: 9,  dur: 27, delay: '-20s', flap: '0.52s', flapBegin: '0.18s' },
+              ].map((b, i) => (
+                <div
+                  key={`bird-rtl-day-${i}`}
+                  style={{ position: 'absolute', top: b.top, left: 'calc(100% + 300px)', animation: `designer-fly-rtl ${b.dur}s linear ${b.delay} infinite` }}
+                >
+                  <svg width={b.w} height={b.h} viewBox="-18 -8 36 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
+                    <path d="M0,0 Q-8,-5 -18,-2" stroke="rgba(255,255,255,0.88)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q-8,-5 -18,-2;M0,0 Q-8,4 -18,1;M0,0 Q-8,-5 -18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
+                    <path d="M0,0 Q8,-5 18,-2" stroke="rgba(255,255,255,0.88)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q8,-5 18,-2;M0,0 Q8,4 18,1;M0,0 Q8,-5 18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
+                  </svg>
+                </div>
               ))}
             </div>
 
-            {/* Birds — night mode — spread across full sky */}
+            {/* Birds — night mode — L→R and R→L with flapping */}
             <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700" aria-hidden="true">
+              {/* Left → Right birds */}
               {[
-                { top: '7%',  left: '0%',  delay: 0,   duration: 24, scale: 0.9 },
-                { top: '16%', left: '25%', delay: 0,   duration: 28, scale: 0.65 },
-                { top: '25%', left: '5%',  delay: 2.0, duration: 22, scale: 0.80 },
-                { top: '34%', left: '50%', delay: 0,   duration: 30, scale: 0.52 },
-                { top: '44%', left: '15%', delay: 1.5, duration: 26, scale: 0.62 },
-                { top: '54%', left: '68%', delay: 0,   duration: 32, scale: 0.44 },
-                { top: '63%', left: '35%', delay: 3.0, duration: 24, scale: 0.70 },
-                { top: '71%', left: '80%', delay: 0,   duration: 28, scale: 0.38 },
+                { top: '8%',  w: 34, h: 15, dur: 24, delay: '-6s',  flap: '0.40s', flapBegin: '0s' },
+                { top: '22%', w: 26, h: 12, dur: 30, delay: '-14s', flap: '0.46s', flapBegin: '0.1s' },
+                { top: '38%', w: 38, h: 17, dur: 22, delay: '-9s',  flap: '0.37s', flapBegin: '0.05s' },
+                { top: '55%', w: 22, h: 10, dur: 28, delay: '-20s', flap: '0.50s', flapBegin: '0.15s' },
+                { top: '68%', w: 30, h: 14, dur: 26, delay: '-4s',  flap: '0.43s', flapBegin: '0s' },
               ].map((b, i) => (
-                <motion.div
-                  key={`bird-night-${i}`}
-                  style={{ position: 'absolute', top: b.top, left: b.left }}
-                  animate={{ x: ['0px', 'calc(100vw + 120px)'] }}
-                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 0 }}
+                <div
+                  key={`bird-ltr-night-${i}`}
+                  style={{ position: 'absolute', top: b.top, left: '-300px', animation: `designer-fly-ltr ${b.dur}s linear ${b.delay} infinite` }}
                 >
-                  <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(180,200,255,0.68)" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+                  <svg width={b.w} height={b.h} viewBox="-18 -8 36 16" fill="none">
+                    <path d="M0,0 Q-8,-5 -18,-2" stroke="rgba(180,205,255,0.72)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q-8,-5 -18,-2;M0,0 Q-8,4 -18,1;M0,0 Q-8,-5 -18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
+                    <path d="M0,0 Q8,-5 18,-2" stroke="rgba(180,205,255,0.72)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q8,-5 18,-2;M0,0 Q8,4 18,1;M0,0 Q8,-5 18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
                   </svg>
-                </motion.div>
+                </div>
+              ))}
+              {/* Right → Left birds */}
+              {[
+                { top: '15%', w: 30, h: 14, dur: 26, delay: '-11s', flap: '0.42s', flapBegin: '0.08s' },
+                { top: '30%', w: 36, h: 16, dur: 23, delay: '-5s',  flap: '0.38s', flapBegin: '0s' },
+                { top: '46%', w: 24, h: 11, dur: 31, delay: '-18s', flap: '0.48s', flapBegin: '0.12s' },
+                { top: '62%', w: 32, h: 14, dur: 25, delay: '-8s',  flap: '0.44s', flapBegin: '0.06s' },
+              ].map((b, i) => (
+                <div
+                  key={`bird-rtl-night-${i}`}
+                  style={{ position: 'absolute', top: b.top, left: 'calc(100% + 300px)', animation: `designer-fly-rtl ${b.dur}s linear ${b.delay} infinite` }}
+                >
+                  <svg width={b.w} height={b.h} viewBox="-18 -8 36 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
+                    <path d="M0,0 Q-8,-5 -18,-2" stroke="rgba(180,205,255,0.72)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q-8,-5 -18,-2;M0,0 Q-8,4 -18,1;M0,0 Q-8,-5 -18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
+                    <path d="M0,0 Q8,-5 18,-2" stroke="rgba(180,205,255,0.72)" strokeWidth="1.6" strokeLinecap="round">
+                      <animate attributeName="d" values="M0,0 Q8,-5 18,-2;M0,0 Q8,4 18,1;M0,0 Q8,-5 18,-2" dur={b.flap} begin={b.flapBegin} repeatCount="indefinite"/>
+                    </path>
+                  </svg>
+                </div>
               ))}
             </div>
 
@@ -874,6 +918,14 @@ export default function Home() {
         <style dangerouslySetInnerHTML={{ __html: `
         .designer-hero-title {
           font-family: 'Playfair Display', Georgia, serif;
+        }
+        @keyframes designer-fly-ltr {
+          from { transform: translateX(0px) translateY(0px); }
+          to   { transform: translateX(calc(100vw + 500px)) translateY(-30px); }
+        }
+        @keyframes designer-fly-rtl {
+          from { transform: translateX(0px) translateY(0px); }
+          to   { transform: translateX(calc(-100vw - 500px)) translateY(-30px); }
         }
         .designer-stars {
           background-image:
