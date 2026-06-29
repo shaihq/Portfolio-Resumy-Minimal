@@ -456,20 +456,18 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[100]"
-        style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)" }}
-        onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
-        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+        className="fixed inset-0 z-[500]"
+        style={{ background: "rgba(0,0,0,0.55)" }}
+        onPointerDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
       >
         <motion.div
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
           transition={{ type: "spring", stiffness: 380, damping: 38 }}
-          className="absolute inset-x-0 bottom-0 flex flex-col bg-white dark:bg-[#18160F] rounded-t-2xl overflow-hidden shadow-2xl"
+          className="absolute inset-x-0 bottom-0 flex flex-col bg-white dark:bg-[#18160F] rounded-t-2xl shadow-2xl"
           style={{ maxHeight: "88dvh" }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
+          onPointerDown={(e) => e.stopPropagation()}
         >
           {/* Drag handle */}
           <div className="flex justify-center pt-3 pb-1 shrink-0">
@@ -534,7 +532,7 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[500] flex items-center justify-center p-4"
       style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
