@@ -451,11 +451,7 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
 
   if (isMobile) {
     return createPortal(
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
+      <div
         className="fixed inset-0 z-[500]"
         style={{ background: "rgba(0,0,0,0.55)" }}
         onPointerDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
