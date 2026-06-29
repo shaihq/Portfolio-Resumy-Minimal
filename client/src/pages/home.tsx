@@ -813,47 +813,51 @@ export default function Home() {
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
 
-            {/* Birds — day mode */}
+            {/* Birds — day mode — spread across full sky height */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-700" aria-hidden="true">
               {[
-                { top: '28%', delay: 0, duration: 22, startX: -60, endX: '110%', scale: 1 },
-                { top: '31%', delay: 1.2, duration: 26, startX: -40, endX: '110%', scale: 0.72 },
-                { top: '26%', delay: 2.5, duration: 30, startX: -50, endX: '110%', scale: 0.55 },
-                { top: '34%', delay: 0.6, duration: 24, startX: -30, endX: '110%', scale: 0.42 },
-                { top: '29%', delay: 3.8, duration: 28, startX: -45, endX: '110%', scale: 0.35 },
-                { top: '22%', delay: 5.0, duration: 32, startX: -55, endX: '110%', scale: 0.65 },
-                { top: '36%', delay: 4.2, duration: 20, startX: -35, endX: '110%', scale: 0.48 },
+                { top: '8%',  delay: 0,   duration: 18, startX: -60,  scale: 1.0 },
+                { top: '15%', delay: 2.8, duration: 23, startX: -40,  scale: 0.7 },
+                { top: '22%', delay: 0.8, duration: 20, startX: -55,  scale: 0.85 },
+                { top: '30%', delay: 4.5, duration: 26, startX: -30,  scale: 0.55 },
+                { top: '38%', delay: 1.5, duration: 22, startX: -70,  scale: 0.65 },
+                { top: '46%', delay: 6.0, duration: 29, startX: -45,  scale: 0.45 },
+                { top: '54%', delay: 3.2, duration: 24, startX: -50,  scale: 0.75 },
+                { top: '62%', delay: 7.5, duration: 31, startX: -35,  scale: 0.38 },
+                { top: '68%', delay: 2.0, duration: 19, startX: -60,  scale: 0.52 },
               ].map((b, i) => (
                 <motion.div
                   key={`bird-day-${i}`}
                   style={{ position: 'absolute', top: b.top, left: 0 }}
-                  animate={{ x: [b.startX, b.endX] }}
-                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
+                  animate={{ x: [b.startX, '110%'] }}
+                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 1.5 }}
                 >
                   <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
                   </svg>
                 </motion.div>
               ))}
             </div>
 
-            {/* Birds — night mode */}
+            {/* Birds — night mode — spread across full sky height */}
             <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700" aria-hidden="true">
               {[
-                { top: '25%', delay: 0, duration: 25, startX: -60, endX: '110%', scale: 1 },
-                { top: '28%', delay: 1.5, duration: 30, startX: -40, endX: '110%', scale: 0.68 },
-                { top: '22%', delay: 3.0, duration: 28, startX: -50, endX: '110%', scale: 0.50 },
-                { top: '31%', delay: 0.8, duration: 22, startX: -30, endX: '110%', scale: 0.40 },
-                { top: '20%', delay: 5.5, duration: 34, startX: -55, endX: '110%', scale: 0.60 },
+                { top: '6%',  delay: 0,   duration: 20, startX: -55,  scale: 0.9 },
+                { top: '14%', delay: 3.0, duration: 25, startX: -40,  scale: 0.65 },
+                { top: '24%', delay: 1.2, duration: 22, startX: -65,  scale: 0.80 },
+                { top: '34%', delay: 5.0, duration: 28, startX: -30,  scale: 0.50 },
+                { top: '44%', delay: 2.5, duration: 23, startX: -50,  scale: 0.60 },
+                { top: '55%', delay: 7.0, duration: 30, startX: -45,  scale: 0.42 },
+                { top: '64%', delay: 4.0, duration: 26, startX: -35,  scale: 0.70 },
               ].map((b, i) => (
                 <motion.div
                   key={`bird-night-${i}`}
                   style={{ position: 'absolute', top: b.top, left: 0 }}
-                  animate={{ x: [b.startX, b.endX] }}
-                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 3 }}
+                  animate={{ x: [b.startX, '110%'] }}
+                  transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
                 >
                   <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(180,200,255,0.7)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+                    <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(180,200,255,0.65)" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
                   </svg>
                 </motion.div>
               ))}
@@ -866,7 +870,6 @@ export default function Home() {
         )}
 
         <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
         .designer-hero-title {
           font-family: 'Playfair Display', Georgia, serif;
         }
@@ -4884,14 +4887,14 @@ export default function Home() {
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
 
-                {/* Theme toggler */}
+                {/* Glassmorphic theme toggler */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.9 }}
                   className="mt-10"
                 >
-                  <AnimatedThemeToggler />
+                  <AnimatedThemeToggler className="w-12 h-12 bg-white/25 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.12)] hover:bg-white/35 dark:hover:bg-white/18 hover:scale-105 active:scale-95 transition-all duration-200" />
                 </motion.div>
               </div>
             </div>
