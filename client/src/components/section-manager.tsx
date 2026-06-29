@@ -569,7 +569,7 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
           Choose a section type to begin
         </p>
 
-        <div className="flex items-stretch gap-3 w-full max-w-[780px]">
+        <div className="flex flex-col sm:flex-row items-stretch gap-3 w-full max-w-[780px]">
           {cards.map(({ label, sub, Preview, action }, i) => (
             <motion.button
               key={label}
