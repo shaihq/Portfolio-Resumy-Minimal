@@ -431,10 +431,12 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
         className="grid grid-cols-2 gap-3"
       >
         {currentLayouts.map(({ key, label, sub, Preview }) => (
-          <button
+          <motion.button
             key={key}
             onClick={() => { onAdd(key); onClose(); }}
-            className="group flex flex-col rounded-xl overflow-hidden text-left bg-[#F7F5F0] dark:bg-[#221F18] border border-black/[0.07] dark:border-white/[0.07] hover:border-black/20 dark:hover:border-white/15 hover:shadow-md transition-all duration-200 cursor-pointer"
+            whileHover={{ scale: 1.05, rotate: 1.5, transition: { type: "spring", stiffness: 400, damping: 18 } }}
+            whileTap={{ scale: 0.97, rotate: 0, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+            className="group flex flex-col rounded-xl overflow-hidden text-left bg-[#F7F5F0] dark:bg-[#221F18] border border-black/[0.07] dark:border-white/[0.07] hover:border-black/20 dark:hover:border-white/15 hover:shadow-lg cursor-pointer"
           >
             <div className="w-full aspect-[16/9] flex items-center justify-center p-5 text-[#1A1A1A] dark:text-[#F0EDE7]">
               <Preview />
@@ -443,7 +445,7 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
               <p className="text-[13px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight">{label}</p>
               <p className="text-[11px] text-[#9E9893] dark:text-[#6A6460] mt-0.5 leading-tight">{sub}</p>
             </div>
-          </button>
+          </motion.button>
         ))}
       </motion.div>
     </AnimatePresence>
@@ -639,7 +641,9 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: i * (isMobile ? 0.22 : 0.06) }}
-              className="group flex-1 flex flex-col rounded-2xl overflow-hidden border border-black/[0.07] dark:border-white/[0.07] bg-[#F7F5F2] dark:bg-[#222222] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:shadow-md active:scale-[0.98] transition-all duration-200 text-left"
+              whileHover={{ scale: 1.04, rotate: 1.5, transition: { type: "spring", stiffness: 400, damping: 18 } }}
+              whileTap={{ scale: 0.97, rotate: 0, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              className="group flex-1 flex flex-col rounded-2xl overflow-hidden border border-black/[0.07] dark:border-white/[0.07] bg-[#F7F5F2] dark:bg-[#222222] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:shadow-lg cursor-pointer text-left"
             >
               {/* Preview area */}
               <div className="flex-1 p-5 pb-3 text-[#1A1A1A] dark:text-[#F0EDE7]">
