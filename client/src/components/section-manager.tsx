@@ -410,15 +410,123 @@ const MODAL_CATEGORIES = [
 
 function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => void; onClose: () => void }) {
   const [activeCategory, setActiveCategory] = useState("text");
+  const isMobile = useIsMobile();
 
   const currentLayouts = MODAL_CATEGORIES.find(c => c.key === activeCategory)?.layouts ?? [];
 
-  // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
+
+  const layoutCards = (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={activeCategory}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.16 }}
+        className="grid grid-cols-2 gap-3"
+      >
+        {currentLayouts.map(({ key, label, sub, Preview }) => (
+          <button
+            key={key}
+            onClick={() => { onAdd(key); onClose(); }}
+            className="group flex flex-col rounded-xl overflow-hidden text-left bg-[#F7F5F0] dark:bg-[#221F18] border border-black/[0.07] dark:border-white/[0.07] hover:border-black/20 dark:hover:border-white/15 hover:shadow-md transition-all duration-200 cursor-pointer"
+          >
+            <div className="w-full aspect-[16/9] flex items-center justify-center p-5 text-[#1A1A1A] dark:text-[#F0EDE7]">
+              <Preview />
+            </div>
+            <div className="px-4 py-3 border-t border-black/[0.05] dark:border-white/[0.05] bg-white dark:bg-[#1C1A13]">
+              <p className="text-[13px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight">{label}</p>
+              <p className="text-[11px] text-[#9E9893] dark:text-[#6A6460] mt-0.5 leading-tight">{sub}</p>
+            </div>
+          </button>
+        ))}
+      </motion.div>
+    </AnimatePresence>
+  );
+
+  if (isMobile) {
+    return createPortal(
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 z-[100]"
+        style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)" }}
+        onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
+        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      >
+        <motion.div
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", stiffness: 380, damping: 38 }}
+          className="absolute inset-x-0 bottom-0 flex flex-col bg-white dark:bg-[#18160F] rounded-t-2xl overflow-hidden shadow-2xl"
+          style={{ maxHeight: "88dvh" }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Drag handle */}
+          <div className="flex justify-center pt-3 pb-1 shrink-0">
+            <div className="w-9 h-1 rounded-full bg-black/15 dark:bg-white/15" />
+          </div>
+
+          {/* Header */}
+          <div className="flex items-center justify-between px-5 py-3 shrink-0">
+            <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">Add section</p>
+            <button
+              onClick={onClose}
+              className="w-7 h-7 flex items-center justify-center rounded-lg text-[#9E9893] hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            >
+              <X size={15} />
+            </button>
+          </div>
+
+          {/* Category tabs — horizontal scroll */}
+          <div className="shrink-0 px-5 pb-3">
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+              {/* Freeform shortcut tab */}
+              <button
+                onClick={() => { onAdd("freeform"); onClose(); }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium whitespace-nowrap shrink-0 transition-colors bg-[#F0EDE7] dark:bg-[#2A2520] text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
+              >
+                <AlignLeft size={12} strokeWidth={2} />
+                Freeform
+              </button>
+              <div className="w-px h-4 bg-black/10 dark:bg-white/10 shrink-0" />
+              {MODAL_CATEGORIES.map(({ key, label, icon: Icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveCategory(key)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium whitespace-nowrap shrink-0 transition-colors ${
+                    activeCategory === key
+                      ? "bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A]"
+                      : "bg-[#F0EDE7] dark:bg-[#2A2520] text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7]"
+                  }`}
+                >
+                  <Icon size={12} strokeWidth={2} />
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] shrink-0" />
+
+          {/* Layout cards */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {layoutCards}
+          </div>
+        </motion.div>
+      </motion.div>,
+      document.body
+    );
+  }
 
   return createPortal(
     <motion.div
@@ -443,7 +551,6 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
           <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#B5AFA5] dark:text-[#5A5450] px-2 mb-2">
             Add section
           </p>
-          {/* Standalone Freeform shortcut */}
           <button
             onClick={() => { onAdd("freeform"); onClose(); }}
             className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-colors text-left w-full text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] hover:bg-white/60 dark:hover:bg-white/5"
@@ -470,7 +577,6 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
 
         {/* Right content */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-black/8 dark:border-white/8">
             <p className="text-[15px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7]">
               {MODAL_CATEGORIES.find(c => c.key === activeCategory)?.label}
@@ -482,46 +588,8 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
               <X size={15} />
             </button>
           </div>
-
-          {/* Layout cards */}
           <div className="flex-1 overflow-y-auto p-5">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.16 }}
-                className="grid grid-cols-2 gap-3"
-              >
-                {currentLayouts.map(({ key, label, sub, Preview }) => (
-                  <button
-                    key={key}
-                    onClick={() => { onAdd(key); onClose(); }}
-                    className="
-                      group flex flex-col rounded-xl overflow-hidden text-left
-                      bg-[#F7F5F0] dark:bg-[#221F18]
-                      border border-black/[0.07] dark:border-white/[0.07]
-                      hover:border-black/20 dark:hover:border-white/15
-                      hover:shadow-md
-                      transition-all duration-200 cursor-pointer
-                    "
-                  >
-                    <div className="w-full aspect-[16/9] flex items-center justify-center p-5 text-[#1A1A1A] dark:text-[#F0EDE7]">
-                      <Preview />
-                    </div>
-                    <div className="px-4 py-3 border-t border-black/[0.05] dark:border-white/[0.05] bg-white dark:bg-[#1C1A13]">
-                      <p className="text-[13px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] leading-tight">
-                        {label}
-                      </p>
-                      <p className="text-[11px] text-[#9E9893] dark:text-[#6A6460] mt-0.5 leading-tight">
-                        {sub}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+            {layoutCards}
           </div>
         </div>
       </motion.div>
