@@ -755,7 +755,7 @@ export default function Home() {
         variants={containerVariants}
         className={cn(
           "min-h-screen flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative",
-          activeTemplate === "Minimal" && backgroundMode === "full-page"
+          (activeTemplate === "Minimal" && backgroundMode === "full-page") || activeTemplate === "Designer"
             ? "bg-transparent"
             : "bg-[#F0EDE7] dark:bg-[#1A1A1A]"
         )}
@@ -796,7 +796,55 @@ export default function Home() {
             />
           </div>
         )}
+
+        {/* Designer template — sky background fills the full top area */}
+        {activeTemplate === "Designer" && (
+          <div className="absolute top-0 left-0 right-0 z-0 overflow-hidden" style={{ height: '100vh' }}>
+            {/* Day sky */}
+            <div
+              className="absolute inset-0 dark:hidden"
+              style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
+            />
+            {/* Night sky */}
+            <div
+              className="absolute inset-0 hidden dark:block"
+              style={{ background: 'linear-gradient(to bottom, #020916 0%, #050F2E 22%, #091540 46%, #0C1A52 68%, #101E4A 85%, #141B3A 100%)' }}
+            />
+            {/* Night stars */}
+            <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
+            {/* Bottom fade into page bg */}
+            <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #1A1A1A 100%)' }} />
+          </div>
+        )}
+
         <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+        .designer-hero-title {
+          font-family: 'Playfair Display', Georgia, serif;
+        }
+        .designer-stars {
+          background-image:
+            radial-gradient(1.5px 1.5px at 8% 12%, rgba(255,255,255,0.9) 0%, transparent 100%),
+            radial-gradient(1px 1px at 15% 28%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(2px 2px at 22% 8%, rgba(255,255,255,0.8) 0%, transparent 100%),
+            radial-gradient(1px 1px at 30% 42%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 38% 18%, rgba(255,255,255,0.85) 0%, transparent 100%),
+            radial-gradient(1px 1px at 45% 6%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(2px 2px at 52% 32%, rgba(255,255,255,0.9) 0%, transparent 100%),
+            radial-gradient(1px 1px at 58% 22%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 65% 14%, rgba(255,255,255,0.75) 0%, transparent 100%),
+            radial-gradient(1px 1px at 72% 38%, rgba(255,255,255,0.65) 0%, transparent 100%),
+            radial-gradient(2px 2px at 78% 9%, rgba(255,255,255,0.8) 0%, transparent 100%),
+            radial-gradient(1px 1px at 84% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 91% 16%, rgba(255,255,255,0.85) 0%, transparent 100%),
+            radial-gradient(1px 1px at 96% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 12% 52%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 27% 60%, rgba(255,255,255,0.55) 0%, transparent 100%),
+            radial-gradient(1px 1px at 42% 55%, rgba(255,255,255,0.45) 0%, transparent 100%),
+            radial-gradient(1px 1px at 68% 58%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 85% 48%, rgba(255,255,255,0.6) 0%, transparent 100%);
+        }
         .custom-dashed-x {
           position: relative;
         }
@@ -884,6 +932,7 @@ export default function Home() {
         <div
           className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
             activeTemplate === "Minimal" ? "mt-[200px] rounded-t-2xl dark:border dark:border-[rgba(58,53,46,0.7)]" :
+            activeTemplate === "Designer" ? "bg-transparent" :
             activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
           )}
           style={{
@@ -4745,6 +4794,109 @@ export default function Home() {
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
+        ) : activeTemplate === "Designer" ? (
+          <div className="flex-1 flex flex-col">
+            {/* ── Designer Hero ── */}
+            <div className="relative flex flex-col items-start justify-center overflow-hidden" style={{ minHeight: '88vh' }}>
+
+              {/* Animated birds — day mode */}
+              <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-700" aria-hidden="true">
+                {[
+                  { top: '28%', delay: 0, duration: 22, startX: -60, endX: '110%', scale: 1 },
+                  { top: '31%', delay: 1.2, duration: 26, startX: -40, endX: '110%', scale: 0.72 },
+                  { top: '26%', delay: 2.5, duration: 30, startX: -50, endX: '110%', scale: 0.55 },
+                  { top: '34%', delay: 0.6, duration: 24, startX: -30, endX: '110%', scale: 0.42 },
+                  { top: '29%', delay: 3.8, duration: 28, startX: -45, endX: '110%', scale: 0.35 },
+                  { top: '22%', delay: 5.0, duration: 32, startX: -55, endX: '110%', scale: 0.65 },
+                  { top: '36%', delay: 4.2, duration: 20, startX: -35, endX: '110%', scale: 0.48 },
+                ].map((b, i) => (
+                  <motion.div
+                    key={i}
+                    style={{ position: 'absolute', top: b.top, left: 0 }}
+                    animate={{ x: [b.startX, b.endX] }}
+                    transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
+                  >
+                    <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+                    </svg>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Animated birds — night mode */}
+              <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700" aria-hidden="true">
+                {[
+                  { top: '25%', delay: 0, duration: 25, startX: -60, endX: '110%', scale: 1 },
+                  { top: '28%', delay: 1.5, duration: 30, startX: -40, endX: '110%', scale: 0.68 },
+                  { top: '22%', delay: 3.0, duration: 28, startX: -50, endX: '110%', scale: 0.50 },
+                  { top: '31%', delay: 0.8, duration: 22, startX: -30, endX: '110%', scale: 0.40 },
+                  { top: '20%', delay: 5.5, duration: 34, startX: -55, endX: '110%', scale: 0.60 },
+                ].map((b, i) => (
+                  <motion.div
+                    key={i}
+                    style={{ position: 'absolute', top: b.top, left: 0 }}
+                    animate={{ x: [b.startX, b.endX] }}
+                    transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: 'linear', repeatDelay: 3 }}
+                  >
+                    <svg width={28 * b.scale} height={14 * b.scale} viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 7 C4 3, 8 1, 14 4 C20 1, 24 3, 27 7" stroke="rgba(180,200,255,0.7)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+                    </svg>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Hero content */}
+              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-4xl">
+                {/* Tagline */}
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-white/75 dark:text-[rgba(160,185,255,0.75)] text-[14px] font-medium tracking-wide mb-6 uppercase"
+                >
+                  Hello, from the designer's desk.
+                </motion.p>
+
+                {/* Display headline */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 32, filter: 'blur(12px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  transition={{ duration: 1.1, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white"
+                  style={{ fontSize: 'clamp(52px, 8vw, 96px)' }}
+                >
+                  <span className="block font-semibold">Thoughtful</span>
+                  <span className="block">
+                    <em className="italic font-normal">by</em>
+                    <span className="font-semibold"> design</span>
+                  </span>
+                </motion.h1>
+
+                {/* Description */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-7 text-white/75 dark:text-[rgba(160,185,255,0.8)] text-[16px] leading-relaxed max-w-xs font-['Inter']"
+                >
+                  I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
+                </motion.p>
+
+                {/* Theme toggler */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 1.0 }}
+                  className="mt-10"
+                >
+                  <AnimatedThemeToggler />
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Spacer so below-fold content starts after sky */}
+            <div className="h-8 bg-[#F0EDE7] dark:bg-[#1A1A1A]" />
           </div>
         ) : null}
       </div>
