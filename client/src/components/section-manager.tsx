@@ -22,6 +22,7 @@ import {
   GripVertical, Plus, Trash2, AlignLeft, LayoutGrid, Columns3, Upload, X, Code2,
 } from "lucide-react";
 import { CaseStudyEditor } from "./case-study-editor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -533,6 +534,7 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
 
 function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const cards: { label: string; sub: string; Preview: () => ReactNode; action: () => void }[] = [
     {
@@ -574,7 +576,7 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
               onClick={action}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: i * 0.06 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: i * (isMobile ? 0.22 : 0.06) }}
               className="group flex-1 flex flex-col rounded-2xl overflow-hidden border border-black/[0.07] dark:border-white/[0.07] bg-[#F7F5F2] dark:bg-[#222222] hover:border-black/[0.18] dark:hover:border-white/[0.18] hover:shadow-md active:scale-[0.98] transition-all duration-200 text-left"
             >
               {/* Preview area */}
