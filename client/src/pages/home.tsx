@@ -848,11 +848,11 @@ export default function Home() {
           right: 0;
         }
       `}} />
-      {/* Resize wrapper — only active for Minimal template */}
+      {/* Resize wrapper */}
       <div
         className="relative"
-        style={activeTemplate === "Minimal" ? { width: containerWidth, transition: isResizing ? 'none' : 'width 0.2s cubic-bezier(0.23,1,0.32,1)' } : undefined}
-        onMouseEnter={() => activeTemplate === "Minimal" && setShowHandles(true)}
+        style={{ width: containerWidth, transition: isResizing ? 'none' : 'width 0.2s cubic-bezier(0.23,1,0.32,1)' }}
+        onMouseEnter={() => setShowHandles(true)}
         onMouseLeave={() => { if (!isResizing) { setShowHandles(false); setHandleHovered(false); } }}
       >
       {/* Profile avatar — absolutely positioned, floating over the card boundary */}
@@ -866,19 +866,18 @@ export default function Home() {
         <div
           className={cn("w-full relative min-h-screen flex flex-col font-['Inter'] transition-all duration-700 z-10",
             activeTemplate === "Minimal" ? "mt-[200px] rounded-t-2xl dark:border dark:border-[rgba(58,53,46,0.7)]" :
-            activeTemplate === "Professional" ? "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "max-w-[880px] bg-[#EFECE6] dark:bg-[#1A1A1A]"
+            activeTemplate === "Professional" ? "bg-[#EFECE6] dark:bg-[#1A1A1A] custom-solid-x" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
           )}
-          style={activeTemplate === "Minimal" ? {
+          style={{
             boxShadow: (handleHovered || isResizing)
               ? (isResizing
                   ? '0 0 0 2px rgba(99,102,241,0.45), 0 0 40px rgba(99,102,241,0.1)'
                   : '0 0 0 1.5px rgba(99,102,241,0.28), 0 0 24px rgba(99,102,241,0.08)')
               : undefined,
             transition: 'box-shadow 0.2s ease',
-          } : undefined}
+          }}
         >
         {/* ── Sticky sentinel: lives INSIDE the card so handles start at the card's top corners ── */}
-        {activeTemplate === "Minimal" && (
           <div
             className="sticky z-[200] overflow-visible pointer-events-none"
             style={{ top: 80, height: 0 }}
@@ -1014,7 +1013,6 @@ export default function Home() {
               )}
             </AnimatePresence>
           </div>
-        )}
 
         {activeTemplate === "Minimal" ? (
           <>
