@@ -580,7 +580,7 @@ export default function Home() {
     },
   };
 
-  const { activeTemplate, activeBackground } = useTemplate();
+  const { activeTemplate, activeBackground, backgroundMode } = useTemplate();
 
   const sectionVariants = activeTemplate === "Minimal" ? {} : itemVariants;
   const bgColor = useImageColor(activeTemplate === "Minimal" ? activeBackground : "");
@@ -753,11 +753,16 @@ export default function Home() {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="min-h-screen bg-[#F0EDE7] dark:bg-[#1A1A1A] flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative"
+        className={cn(
+          "min-h-screen flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative",
+          activeTemplate === "Minimal" && backgroundMode === "full-page"
+            ? "bg-transparent"
+            : "bg-[#F0EDE7] dark:bg-[#1A1A1A]"
+        )}
       >
 
-        {/* Full-bleed wallpaper — Minimal template only, sits behind the card */}
-        {activeTemplate === "Minimal" && (
+        {/* Background image — Minimal template only */}
+        {activeTemplate === "Minimal" && backgroundMode === "header" && (
           <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 580 }}>
             <img
               src={activeBackground}
@@ -775,6 +780,29 @@ export default function Home() {
             <div
               className="absolute inset-0 hidden dark:block"
               style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(26,26,26,0.7) 92%, #1A1A1A 100%)' }}
+            />
+          </div>
+        )}
+
+        {/* Full-page background — covers entire portfolio behind all sections */}
+        {activeTemplate === "Minimal" && backgroundMode === "full-page" && (
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            <img
+              src={activeBackground}
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+            />
+            {/* Subtle scrim so content remains readable — light mode */}
+            <div
+              className="absolute inset-0 dark:hidden"
+              style={{ background: 'rgba(240,237,231,0.55)' }}
+            />
+            {/* Dark mode scrim */}
+            <div
+              className="absolute inset-0 hidden dark:block"
+              style={{ background: 'rgba(26,26,26,0.62)' }}
             />
           </div>
         )}

@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTemplate } from "@/hooks/use-template";
+import type { BackgroundMode } from "@/hooks/use-template";
 
 import SwitchToggleThemeDemo from "@/components/ui/toggle-theme";
 import { FluidDropdown } from "@/components/ui/fluid-dropdown";
@@ -38,7 +39,7 @@ export default function Navbar() {
   const [isOverlay, setIsOverlay] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
-  const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground } = useTemplate();
+  const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode } = useTemplate();
   const [themePanelTab, setThemePanelTab] = useState<"themes" | "backgrounds">("themes");
 
   const BACKGROUNDS = [
@@ -278,48 +279,112 @@ export default function Navbar() {
                       </div>
                     </div>
                   ) : (
-                    <div className="space-y-4 pt-1">
-                      <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893] px-1 leading-relaxed">
-                        Applies to the <span className="font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">Minimal</span> template header.
-                      </p>
-                      <div className="grid grid-cols-2 gap-3">
-                        {BACKGROUNDS.map((bg) => {
-                          const isSelected = activeBackground === bg.src;
-                          return (
-                            <div key={bg.id} className="flex flex-col gap-2 items-center">
-                              <div className="relative w-full">
-                                <button
-                                  onClick={() => setActiveBackground(bg.src)}
-                                  className={cn(
-                                    "w-full rounded-[18px] transition-all focus:outline-none cursor-pointer overflow-hidden",
-                                    isSelected
-                                      ? "ring-[2.5px] ring-[#FF5A36] ring-offset-2 ring-offset-white dark:ring-offset-[#2A2520]"
-                                      : "ring-[2px] ring-transparent hover:ring-black/10 dark:hover:ring-white/10"
+                    <div className="space-y-5 pt-1">
+
+                      {/* Display mode toggle */}
+                      <div className="space-y-2">
+                        <p className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Display mode</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {(
+                            [
+                              { value: "header", label: "Header only", description: "Image in top section" },
+                              { value: "full-page", label: "Full page", description: "Image behind all sections" },
+                            ] as { value: BackgroundMode; label: string; description: string }[]
+                          ).map((mode) => {
+                            const isActive = backgroundMode === mode.value;
+                            return (
+                              <button
+                                key={mode.value}
+                                onClick={() => setBackgroundMode(mode.value)}
+                                className={cn(
+                                  "relative flex flex-col gap-1 px-3 py-3 rounded-2xl border-[2px] text-left transition-all focus:outline-none cursor-pointer",
+                                  isActive
+                                    ? "border-[#FF5A36] bg-[#FF5A36]/5 dark:bg-[#FF5A36]/10"
+                                    : "border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 bg-transparent"
+                                )}
+                              >
+                                {/* Mini visual preview */}
+                                <div className={cn(
+                                  "w-full rounded-lg overflow-hidden mb-1",
+                                  "border border-black/8 dark:border-white/8"
+                                )} style={{ aspectRatio: "16/7" }}>
+                                  {mode.value === "header" ? (
+                                    <div className="w-full h-full flex flex-col">
+                                      <div className="flex-[0_0_45%] bg-gradient-to-br from-amber-200/60 to-orange-200/60 dark:from-amber-900/40 dark:to-orange-900/40" />
+                                      <div className="flex-1 bg-[#F0EDE7] dark:bg-[#2A2520]" />
+                                    </div>
+                                  ) : (
+                                    <div className="w-full h-full bg-gradient-to-br from-amber-200/60 to-orange-200/60 dark:from-amber-900/40 dark:to-orange-900/40 relative">
+                                      <div className="absolute inset-x-2 top-2 bottom-2 rounded bg-white/30 dark:bg-black/20 backdrop-blur-[1px]" />
+                                    </div>
                                   )}
-                                  style={{ aspectRatio: "16/9" }}
-                                >
-                                  <img
-                                    src={bg.src}
-                                    alt={bg.label}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </button>
-                                {isSelected && (
-                                  <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
-                                    <Check size={14} strokeWidth={3.5} />
+                                </div>
+                                <span className={cn(
+                                  "text-[12px] font-semibold leading-tight",
+                                  isActive ? "text-[#FF5A36]" : "text-[#1A1A1A] dark:text-[#F0EDE7]"
+                                )}>
+                                  {mode.label}
+                                </span>
+                                <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] leading-tight">
+                                  {mode.description}
+                                </span>
+                                {isActive && (
+                                  <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-[#FF5A36] flex items-center justify-center">
+                                    <Check size={9} strokeWidth={3.5} className="text-white" />
                                   </div>
                                 )}
-                              </div>
-                              <span className={cn(
-                                "text-[13px] text-center font-medium transition-colors",
-                                isSelected ? "text-[#FF5A36]" : "text-[#7A736C] dark:text-[#9E9893]"
-                              )}>
-                                {bg.label}
-                              </span>
-                            </div>
-                          );
-                        })}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
+
+                      {/* Divider */}
+                      <div className="h-px bg-black/8 dark:bg-white/8" />
+
+                      {/* Background image grid */}
+                      <div className="space-y-3">
+                        <p className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Background image</p>
+                        <div className="grid grid-cols-2 gap-3">
+                          {BACKGROUNDS.map((bg) => {
+                            const isSelected = activeBackground === bg.src;
+                            return (
+                              <div key={bg.id} className="flex flex-col gap-2 items-center">
+                                <div className="relative w-full">
+                                  <button
+                                    onClick={() => setActiveBackground(bg.src)}
+                                    className={cn(
+                                      "w-full rounded-[18px] transition-all focus:outline-none cursor-pointer overflow-hidden",
+                                      isSelected
+                                        ? "ring-[2.5px] ring-[#FF5A36] ring-offset-2 ring-offset-white dark:ring-offset-[#2A2520]"
+                                        : "ring-[2px] ring-transparent hover:ring-black/10 dark:hover:ring-white/10"
+                                    )}
+                                    style={{ aspectRatio: "16/9" }}
+                                  >
+                                    <img
+                                      src={bg.src}
+                                      alt={bg.label}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </button>
+                                  {isSelected && (
+                                    <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
+                                      <Check size={14} strokeWidth={3.5} />
+                                    </div>
+                                  )}
+                                </div>
+                                <span className={cn(
+                                  "text-[13px] text-center font-medium transition-colors",
+                                  isSelected ? "text-[#FF5A36]" : "text-[#7A736C] dark:text-[#9E9893]"
+                                )}>
+                                  {bg.label}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
                     </div>
                   )}
                 </div>
