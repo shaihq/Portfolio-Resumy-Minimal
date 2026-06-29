@@ -1037,7 +1037,7 @@ export default function Home() {
                 <motion.span
                   initial="hidden"
                   animate="visible"
-                  variants={{ visible: { transition: { staggerChildren: 0.18, staggerDirection: -1, delayChildren: 0.55 } } }}
+                  variants={{ visible: { transition: { staggerChildren: 0.18, delayChildren: 0.55 } } }}
                   className="inline-flex flex-wrap gap-x-[0.28em]"
                 >
                   {["Hey", "I'm", "Matt."].map((word, i) => (
