@@ -573,7 +573,7 @@ export default function Project() {
                   style={{ y: heroImageY, height: "130%", top: "-15%" }}
                 />
               </ThumbnailUpload>
-              <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+              <div className="absolute inset-0 bg-black/12 pointer-events-none" />
               <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none" />
               <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('/backgrounds/grainsnow.avif')", backgroundSize: "200px 200px", backgroundRepeat: "repeat" }} />
 
