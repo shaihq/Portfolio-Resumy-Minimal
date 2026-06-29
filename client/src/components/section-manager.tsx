@@ -517,7 +517,7 @@ function AddSectionModal({ onAdd, onClose }: { onAdd: (type: SectionTypeKey) => 
             {layoutCards}
           </div>
         </motion.div>
-      </motion.div>,
+      </div>,
       document.body
     );
   }
