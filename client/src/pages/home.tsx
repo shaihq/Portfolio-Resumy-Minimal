@@ -4978,7 +4978,7 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Selected Work ── */}
-            <div className="px-6 md:px-14 pb-28 pt-10">
+            <div className="px-6 md:px-0 pb-28 pt-10">
               {/* Section label */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
