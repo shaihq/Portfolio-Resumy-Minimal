@@ -4945,8 +4945,8 @@ export default function Home() {
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center rounded-2xl"
-                  style={{ fontSize: 'clamp(54px, 9vw, 102px)', backdropFilter: 'blur(2px) saturate(1.1)', WebkitBackdropFilter: 'blur(2px) saturate(1.1)', background: 'rgba(255,255,255,0.03)', padding: '0.1em 0.3em', margin: '0 -0.3em' }}
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
+                  style={{ fontSize: 'clamp(54px, 9vw, 102px)', opacity: 0.88, filter: 'blur(0.4px)' }}
                 >
                   <span className="block font-semibold">Thoughtful</span>
                   <span className="block">
