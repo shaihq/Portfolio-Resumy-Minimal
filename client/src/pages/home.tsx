@@ -879,7 +879,7 @@ export default function Home() {
 
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 280, background: 'linear-gradient(to bottom, transparent 0%, #0E2E3E 40%, #1A1A1A 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 340, background: 'linear-gradient(to bottom, transparent 0%, #0D2B38 28%, #14190F 58%, #1A1A14 78%, #1A1A1A 100%)' }} />
           </div>
         )}
 
@@ -5025,7 +5025,7 @@ export default function Home() {
 
                     {/* Card */}
                     <div
-                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2D2D2D] bg-white/60 dark:bg-white/[0.025] backdrop-blur-sm px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3D3D] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.3)]`}
+                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/60 dark:bg-transparent px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3A3A3A] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-none`}
                     >
                       {/* Text side */}
                       <div className="flex-1 flex flex-col items-start min-w-0">
