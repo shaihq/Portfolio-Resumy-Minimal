@@ -819,10 +819,17 @@ export default function Home() {
               className="absolute inset-0 dark:hidden"
               style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
             />
-            {/* Night sky */}
+            {/* Night sky — premium dusk */}
             <div
               className="absolute inset-0 hidden dark:block"
-              style={{ background: 'linear-gradient(to bottom, #0D0905 0%, #1E0F06 20%, #3A1B07 40%, #6B3310 58%, #9E5020 76%, #C4721A 90%, #D4842A 100%)' }}
+              style={{
+                background: `
+                  radial-gradient(ellipse 170% 90% at 50% -5%, rgba(9,11,42,0.18) 0%, transparent 65%),
+                  radial-gradient(ellipse 155% 75% at 18% 38%, rgba(26,33,90,0.14) 0%, transparent 68%),
+                  radial-gradient(ellipse 180% 55% at 82% 98%, rgba(247,163,122,0.12) 0%, transparent 62%),
+                  linear-gradient(to bottom, #090B2A 0%, #1A215A 26%, #4A5CA8 56%, #A06840 76%, #F7A37A 100%)
+                `
+              }}
             />
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
@@ -885,7 +892,7 @@ export default function Home() {
 
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 360, background: 'linear-gradient(to bottom, transparent 0%, #7A3E12 20%, #3A1C08 45%, #221408 65%, #1A1510 82%, #1A1A1A 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 380, background: 'linear-gradient(to bottom, transparent 0%, rgba(12,8,18,0.22) 25%, rgba(12,8,18,0.58) 52%, rgba(18,14,22,0.82) 72%, #1A1A1A 100%)' }} />
           </div>
         )}
 
