@@ -4935,7 +4935,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/70 dark:text-[rgba(255,220,170,0.6)] text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
+                  className="text-white/70 dark:text-white/60 text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
                 >
                   Hello, from the designer's desk.
                 </motion.p>
@@ -4945,8 +4945,8 @@ export default function Home() {
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
-                  style={{ fontSize: 'clamp(54px, 9vw, 102px)' }}
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center rounded-2xl"
+                  style={{ fontSize: 'clamp(54px, 9vw, 102px)', backdropFilter: 'blur(2px) saturate(1.1)', WebkitBackdropFilter: 'blur(2px) saturate(1.1)', background: 'rgba(255,255,255,0.03)', padding: '0.1em 0.3em', margin: '0 -0.3em' }}
                 >
                   <span className="block font-semibold">Thoughtful</span>
                   <span className="block">
@@ -4960,7 +4960,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
+                  className="mt-8 text-white/72 dark:text-white/60 text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
                 >
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
