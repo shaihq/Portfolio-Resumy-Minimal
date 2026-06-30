@@ -189,6 +189,12 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (activeTemplate === "Designer") {
+      setContainerWidth(1024);
+    }
+  }, [activeTemplate]);
+
+  useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
       if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isProjectsRearrangeOpen || isProjectsPanelOpen || isMyStoryPanelOpen || isExperiencePanelOpen) {
@@ -5034,7 +5040,7 @@ export default function Home() {
                           {cs.tags.map(tag => (
                             <span
                               key={tag}
-                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#7A6F63] dark:text-[#8A8077] bg-[#E8E0D6] dark:bg-[#252218] px-2.5 py-1 rounded-full"
+                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#7A6F63] dark:text-[#C4AE94] bg-[#E8E0D6] dark:bg-[#332C22] px-2.5 py-1 rounded-full"
                             >
                               {tag}
                             </span>
