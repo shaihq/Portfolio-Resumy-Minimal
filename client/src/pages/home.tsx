@@ -4977,9 +4977,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Spacer so below-fold content starts after sky */}
-            <div className="h-8 bg-[#F0EDE7] dark:bg-[#1A1A1A]" />
-
             {/* ── Designer: Selected Work ── */}
             <div className="px-6 md:px-14 pb-28 pt-10">
               {/* Section label */}
