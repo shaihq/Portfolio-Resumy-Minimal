@@ -5025,7 +5025,7 @@ export default function Home() {
 
                     {/* Card */}
                     <div
-                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/60 dark:bg-transparent px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3A3A3A] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-none`}
+                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/60 dark:bg-[#231F19] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3830] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]`}
                     >
                       {/* Text side */}
                       <div className="flex-1 flex flex-col items-start min-w-0">
