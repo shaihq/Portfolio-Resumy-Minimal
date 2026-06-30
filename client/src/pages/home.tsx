@@ -4935,7 +4935,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/70 dark:text-white/60 text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
+                  className="text-white/90 dark:text-white/85 text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
                 >
                   Hello, from the designer's desk.
                 </motion.p>
@@ -4946,7 +4946,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
-                  style={{ fontSize: 'clamp(54px, 9vw, 102px)', opacity: 0.88, filter: 'blur(0.4px)' }}
+                  style={{ fontSize: 'clamp(54px, 9vw, 102px)', opacity: 0.88 }}
                 >
                   <span className="block font-semibold">Thoughtful</span>
                   <span className="block">
@@ -4960,7 +4960,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/72 dark:text-white/60 text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
+                  className="mt-8 text-white/88 dark:text-white/80 text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
                 >
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
