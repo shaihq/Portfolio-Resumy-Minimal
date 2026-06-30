@@ -29,7 +29,7 @@ import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
-import { motion, AnimatePresence, Reorder, Variants, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, Reorder, Variants, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { useImageColor } from "@/hooks/use-image-color";
@@ -61,39 +61,68 @@ type DesignerCS = {
 function DesignerStackCard({
   cs,
   i,
-  isLast,
+  total,
+  sectionRef,
   onProjectClick,
 }: {
   cs: DesignerCS;
   i: number;
-  isLast: boolean;
+  total: number;
+  sectionRef: React.RefObject<HTMLDivElement>;
   onProjectClick: (slug: string) => void;
 }) {
-  const outerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: outerRef,
-    offset: ["start start", "end start"],
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.91]);
-  const stickyTop = 80 + i * 18;
+  const isLast = i === total - 1;
+  const progress = useMotionValue(0);
+
+  useEffect(() => {
+    const update = () => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const totalScrollable = el.offsetHeight - window.innerHeight;
+      if (totalScrollable <= 0) return;
+      const scrolled = -el.getBoundingClientRect().top;
+      progress.set(Math.max(0, Math.min(1, scrolled / totalScrollable)));
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+    return () => window.removeEventListener('scroll', update);
+  }, [sectionRef, progress]);
+
+  const cardStart = i / total;
+  const cardEnd = Math.min(1, (i + 1) / total);
+  const prevStart = Math.max(0, (i - 1) / total);
+
+  const translateY = useTransform(
+    progress,
+    i === 0 ? [0, 0.001] : [prevStart, cardStart],
+    i === 0 ? ['0%', '0%'] : ['105%', '0%'],
+  );
+  const scale = useTransform(progress, [cardStart, cardEnd], [1, 0.88]);
+  const filterVal = useTransform(progress, [cardStart, cardEnd], ['blur(0px)', 'blur(5px)']);
+  const opacity = useTransform(progress, [cardStart, cardEnd], [1, 0.82]);
 
   return (
-    <div ref={outerRef} style={{ minHeight: '90vh', position: 'relative' }}>
-      <motion.div
-        style={{
-          position: 'sticky',
-          top: `${stickyTop}px`,
-          scale: isLast ? undefined : scale,
-          transformOrigin: 'top center',
-          zIndex: i + 1,
-          willChange: 'transform',
-        }}
-        className="relative group"
-      >
-        <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#B0A396] dark:text-[#4A4035] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`} />
-        <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#C8BFB4] dark:text-[#3A3530] opacity-50 transition-all duration-500 group-hover:opacity-80`} />
+    <motion.div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: i + 1,
+        translateY,
+        scale: isLast ? undefined : scale,
+        filter: isLast ? undefined : filterVal,
+        opacity: isLast ? undefined : opacity,
+        transformOrigin: 'top center',
+        willChange: 'transform, filter, opacity',
+      }}
+    >
+      <div className="w-full max-w-5xl mx-auto px-6 md:px-0 relative group">
+        <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#B0A396] dark:text-[#4A4035] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 z-10`} />
+        <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#C8BFB4] dark:text-[#3A3530] opacity-50 transition-all duration-500 group-hover:opacity-80 z-10`} />
         <div
-          className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/60 dark:bg-[#231F19] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3830] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]`}
+          className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/90 dark:bg-[#231F19] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3830] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]`}
         >
           <div className="flex-1 flex flex-col items-start min-w-0">
             <div className="flex flex-wrap gap-2 mb-5">
@@ -123,7 +152,34 @@ function DesignerStackCard({
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+function DesignerStackSection({
+  cases,
+  onProjectClick,
+}: {
+  cases: DesignerCS[];
+  onProjectClick: (slug: string) => void;
+}) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div ref={sectionRef} style={{ height: `${cases.length * 85}vh`, position: 'relative' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+        {cases.map((cs, i) => (
+          <DesignerStackCard
+            key={cs.slug}
+            cs={cs}
+            i={i}
+            total={cases.length}
+            sectionRef={sectionRef}
+            onProjectClick={onProjectClick}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -5072,22 +5128,15 @@ export default function Home() {
                 <div className="flex-1 h-px bg-[#C8BFB4] dark:bg-[#2E2E2E]" />
               </motion.div>
 
-              {/* Case study cards — sticky stacking */}
-              <div className="flex flex-col max-w-5xl mx-auto">
-                {([
+              {/* Case study cards — overlapping stack */}
+              <DesignerStackSection
+                cases={[
                   { tags: ["Product Design", "SaaS", "B2B"], title: "Redesigning the dashboard to reduce time-on-task by 60%", description: "Slate was drowning in complexity. A focused design sprint untangled the information architecture and surfaced the right signals — cutting the average session time in half.", image: project1, slug: "slate", flip: false },
                   { tags: ["Motion Design", "Landing Page", "B2C"], title: "Crafting an animated brand experience that converts", description: "Antimetal needed a web presence as dynamic as its product. Micro-interactions and scroll-driven storytelling turned visitors into believers.", image: project2, slug: "antimetal", flip: true },
                   { tags: ["Design System", "Fintech", "Mobile"], title: "Building a design system that unified the product and cut delivery time by 80%", description: "A shared design foundation gave the team a common language. The redesign turned that momentum into measurable, compounding growth.", image: project3, slug: "slate-2", flip: false },
-                ] as DesignerCS[]).map((cs, i, arr) => (
-                  <DesignerStackCard
-                    key={cs.slug}
-                    cs={cs}
-                    i={i}
-                    isLast={i === arr.length - 1}
-                    onProjectClick={handleProjectClick}
-                  />
-                ))}
-              </div>
+                ]}
+                onProjectClick={handleProjectClick}
+              />
             </div>
           </div>
         ) : null}
