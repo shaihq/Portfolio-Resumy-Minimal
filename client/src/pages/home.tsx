@@ -4929,7 +4929,7 @@ export default function Home() {
             <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
               {/* Hero content */}
-              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
+              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-4xl mx-auto flex flex-col items-center">
                 {/* Tagline */}
                 <motion.p
                   initial={{ opacity: 0, y: 14 }}
@@ -4960,7 +4960,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/88 dark:text-white/80 text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
+                  className="mt-8 text-white/88 dark:text-white/80 text-[15px] leading-relaxed max-w-[420px] font-['Inter'] text-center"
                 >
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
