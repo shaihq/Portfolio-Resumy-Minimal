@@ -49,6 +49,14 @@ import story2 from "@/assets/images/story-2.jpg";
 import story3 from "@/assets/images/story-3.jpg";
 import story4 from "@/assets/images/story-4.jpg";
 
+function SparkleIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2 C12 2 12.8 7.2 15.5 9.5 C18.2 11.8 23 12 23 12 C23 12 18.2 12.2 15.5 14.5 C12.8 16.8 12 22 12 22 C12 22 11.2 16.8 8.5 14.5 C5.8 12.2 1 12 1 12 C1 12 5.8 11.8 8.5 9.5 C11.2 7.2 12 2 12 2Z" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [, navigate] = useLocation();
   const atSignRef = useRef<AtSignIconHandle>(null);
@@ -4958,6 +4966,119 @@ export default function Home() {
 
             {/* Spacer so below-fold content starts after sky */}
             <div className="h-8 bg-[#F0EDE7] dark:bg-[#1A1A1A]" />
+
+            {/* ── Designer: Selected Work ── */}
+            <div className="bg-[#F0EDE7] dark:bg-[#1A1A1A] px-6 md:px-14 pb-28 pt-10">
+              {/* Section label */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-center gap-4 mb-14 md:mb-20"
+              >
+                <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#7A6F63] dark:text-[#8A8077]">
+                  Selected Work
+                </span>
+                <div className="flex-1 h-px bg-[#C8BFB4] dark:bg-[#2E2E2E]" />
+              </motion.div>
+
+              {/* Case study cards */}
+              <div className="flex flex-col gap-8 md:gap-10 max-w-5xl mx-auto">
+                {[
+                  {
+                    tags: ["Product Design", "SaaS", "B2B"],
+                    title: "Redesigning the dashboard to reduce time-on-task by 60%",
+                    description: "Slate was drowning in complexity. A focused design sprint untangled the information architecture and surfaced the right signals — cutting the average session time in half.",
+                    image: project1,
+                    slug: "slate",
+                    flip: false,
+                  },
+                  {
+                    tags: ["Motion Design", "Landing Page", "B2C"],
+                    title: "Crafting an animated brand experience that converts",
+                    description: "Antimetal needed a web presence as dynamic as its product. Micro-interactions and scroll-driven storytelling turned visitors into believers.",
+                    image: project2,
+                    slug: "antimetal",
+                    flip: true,
+                  },
+                  {
+                    tags: ["Design System", "Fintech", "Mobile"],
+                    title: "Building a design system that unified the product and cut delivery time by 80%",
+                    description: "A shared design foundation gave the team a common language. The redesign turned that momentum into measurable, compounding growth.",
+                    image: project3,
+                    slug: "slate-2",
+                    flip: false,
+                  },
+                ].map((cs, i) => (
+                  <motion.div
+                    key={cs.slug}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.85, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative group"
+                  >
+                    {/* Sparkle decorations */}
+                    <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#B0A396] dark:text-[#4A4035] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`} />
+                    <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#C8BFB4] dark:text-[#3A3530] opacity-50 transition-all duration-500 group-hover:opacity-80`} />
+
+                    {/* Card */}
+                    <div
+                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2D2D2D] bg-white/60 dark:bg-white/[0.025] backdrop-blur-sm px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3D3D] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.3)]`}
+                    >
+                      {/* Text side */}
+                      <div className="flex-1 flex flex-col items-start min-w-0">
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mb-5">
+                          {cs.tags.map(tag => (
+                            <span
+                              key={tag}
+                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#7A6F63] dark:text-[#8A8077] bg-[#E8E0D6] dark:bg-[#252218] px-2.5 py-1 rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Headline */}
+                        <h3
+                          className="designer-hero-title text-[#1A1A1A] dark:text-[#F0EDE7] leading-[1.12] tracking-tight mb-4"
+                          style={{ fontSize: 'clamp(22px, 3.2vw, 34px)', fontWeight: 600 }}
+                        >
+                          {cs.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-[14.5px] leading-[1.7] text-[#6B6159] dark:text-[#8A8077] max-w-[360px] mb-7 font-['Inter']">
+                          {cs.description}
+                        </p>
+
+                        {/* CTA */}
+                        <button
+                          onClick={() => handleProjectClick(cs.slug)}
+                          className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#5C4F45] dark:hover:text-[#C8C0B5] transition-colors duration-200"
+                        >
+                          Read case study
+                          <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+                        </button>
+                      </div>
+
+                      {/* Image side */}
+                      <div className="w-full md:w-[46%] flex-shrink-0">
+                        <div className="relative rounded-[16px] overflow-hidden bg-[#E4DBD0] dark:bg-[#222] shadow-[0_4px_32px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-[1.02]">
+                          <img
+                            src={cs.image}
+                            alt={cs.title}
+                            className="w-full h-auto object-cover aspect-[4/3] block"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         ) : null}
       </div>
