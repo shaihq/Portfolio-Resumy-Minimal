@@ -822,7 +822,7 @@ export default function Home() {
             {/* Night sky */}
             <div
               className="absolute inset-0 hidden dark:block"
-              style={{ background: 'linear-gradient(to bottom, #0B2533 0%, #0E3244 22%, #134C65 46%, #1A6580 68%, #2E8499 85%, #4AA0B8 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, #0D0905 0%, #1E0F06 20%, #3A1B07 40%, #6B3310 58%, #9E5020 76%, #C4721A 90%, #D4842A 100%)' }}
             />
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
@@ -885,7 +885,7 @@ export default function Home() {
 
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 340, background: 'linear-gradient(to bottom, transparent 0%, #0D2B38 28%, #14190F 58%, #1A1A14 78%, #1A1A1A 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 360, background: 'linear-gradient(to bottom, transparent 0%, #7A3E12 20%, #3A1C08 45%, #221408 65%, #1A1510 82%, #1A1A1A 100%)' }} />
           </div>
         )}
 
@@ -4928,7 +4928,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/70 dark:text-[rgba(200,230,238,0.65)] text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
+                  className="text-white/70 dark:text-[rgba(255,220,170,0.6)] text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
                 >
                   Hello, from the designer's desk.
                 </motion.p>
@@ -4953,7 +4953,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/72 dark:text-[rgba(200,230,238,0.72)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
+                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
                 >
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
