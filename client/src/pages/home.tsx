@@ -29,7 +29,7 @@ import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
-import { motion, AnimatePresence, Reorder, Variants, useScroll, useTransform, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { useImageColor } from "@/hooks/use-image-color";
@@ -48,141 +48,6 @@ import story1 from "@/assets/images/story-1.jpg";
 import story2 from "@/assets/images/story-2.jpg";
 import story3 from "@/assets/images/story-3.jpg";
 import story4 from "@/assets/images/story-4.jpg";
-
-type DesignerCS = {
-  tags: string[];
-  title: string;
-  description: string;
-  image: string;
-  slug: string;
-  flip: boolean;
-};
-
-function DesignerStackCard({
-  cs,
-  i,
-  total,
-  sectionRef,
-  onProjectClick,
-}: {
-  cs: DesignerCS;
-  i: number;
-  total: number;
-  sectionRef: React.RefObject<HTMLDivElement>;
-  onProjectClick: (slug: string) => void;
-}) {
-  const isLast = i === total - 1;
-  const progress = useMotionValue(0);
-
-  useEffect(() => {
-    const update = () => {
-      const el = sectionRef.current;
-      if (!el) return;
-      const totalScrollable = el.offsetHeight - window.innerHeight;
-      if (totalScrollable <= 0) return;
-      const scrolled = -el.getBoundingClientRect().top;
-      progress.set(Math.max(0, Math.min(1, scrolled / totalScrollable)));
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-    return () => window.removeEventListener('scroll', update);
-  }, [sectionRef, progress]);
-
-  const cardStart = i / total;
-  const cardEnd = Math.min(1, (i + 1) / total);
-  const prevStart = Math.max(0, (i - 1) / total);
-
-  const translateY = useTransform(
-    progress,
-    i === 0 ? [0, 0.001] : [prevStart, cardStart],
-    i === 0 ? ['0%', '0%'] : ['105%', '0%'],
-  );
-  const scale = useTransform(progress, [cardStart, cardEnd], [1, 0.88]);
-  const filterVal = useTransform(progress, [cardStart, cardEnd], ['blur(0px)', 'blur(5px)']);
-  const opacity = useTransform(progress, [cardStart, cardEnd], [1, 0.82]);
-
-  return (
-    <motion.div
-      style={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: i + 1,
-        translateY,
-        scale: isLast ? undefined : scale,
-        filter: isLast ? undefined : filterVal,
-        opacity: isLast ? undefined : opacity,
-        transformOrigin: 'top center',
-        willChange: 'transform, filter, opacity',
-      }}
-    >
-      <div className="w-full max-w-5xl mx-auto px-6 md:px-0 relative group">
-        <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#B0A396] dark:text-[#4A4035] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 z-10`} />
-        <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#C8BFB4] dark:text-[#3A3530] opacity-50 transition-all duration-500 group-hover:opacity-80 z-10`} />
-        <div
-          className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/90 dark:bg-[#231F19] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3830] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]`}
-        >
-          <div className="flex-1 flex flex-col items-start min-w-0">
-            <div className="flex flex-wrap gap-2 mb-5">
-              {cs.tags.map(tag => (
-                <span key={tag} className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#7A6F63] dark:text-[#C4AE94] bg-[#E8E0D6] dark:bg-[#332C22] px-2.5 py-1 rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <h3 className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4" style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: 'clamp(22px, 3.2vw, 34px)', fontWeight: 400, lineHeight: 1.22, letterSpacing: '0.01em' }}>
-              {cs.title}
-            </h3>
-            <p className="text-[14.5px] leading-[1.7] text-[#6B6159] dark:text-[#8A8077] max-w-[360px] mb-7 font-['Inter']">
-              {cs.description}
-            </p>
-            <button
-              onClick={() => onProjectClick(cs.slug)}
-              className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#5C4F45] dark:hover:text-[#C8C0B5] transition-colors duration-200"
-            >
-              Read case study
-              <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-            </button>
-          </div>
-          <div className="w-full md:w-[46%] flex-shrink-0">
-            <div className="relative rounded-[16px] overflow-hidden bg-[#E4DBD0] dark:bg-[#222] shadow-[0_4px_32px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-[1.02]">
-              <img src={cs.image} alt={cs.title} className="w-full h-auto object-cover aspect-[4/3] block" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function DesignerStackSection({
-  cases,
-  onProjectClick,
-}: {
-  cases: DesignerCS[];
-  onProjectClick: (slug: string) => void;
-}) {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  return (
-    <div ref={sectionRef} style={{ height: `${cases.length * 85}vh`, position: 'relative' }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
-        {cases.map((cs, i) => (
-          <DesignerStackCard
-            key={cs.slug}
-            cs={cs}
-            i={i}
-            total={cases.length}
-            sectionRef={sectionRef}
-            onProjectClick={onProjectClick}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5064,13 +4929,13 @@ export default function Home() {
             <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
               {/* Hero content */}
-              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-4xl mx-auto flex flex-col items-center">
+              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
                 {/* Tagline */}
                 <motion.p
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/90 dark:text-white/85 text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
+                  className="text-white/70 dark:text-[rgba(255,220,170,0.6)] text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
                 >
                   Hello, from the designer's desk.
                 </motion.p>
@@ -5081,7 +4946,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
-                  style={{ fontSize: 'clamp(54px, 9vw, 102px)', opacity: 0.88 }}
+                  style={{ fontSize: 'clamp(54px, 9vw, 102px)' }}
                 >
                   <span className="block font-semibold">Thoughtful</span>
                   <span className="block">
@@ -5095,7 +4960,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/88 dark:text-white/80 text-[15px] leading-relaxed max-w-[420px] font-['Inter'] text-center"
+                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
                 >
                   I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
@@ -5113,7 +4978,7 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Selected Work ── */}
-            <div className="px-6 md:px-0 pb-28 pt-10">
+            <div className="px-6 md:px-14 pb-28 pt-10">
               {/* Section label */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -5128,15 +4993,101 @@ export default function Home() {
                 <div className="flex-1 h-px bg-[#C8BFB4] dark:bg-[#2E2E2E]" />
               </motion.div>
 
-              {/* Case study cards — overlapping stack */}
-              <DesignerStackSection
-                cases={[
-                  { tags: ["Product Design", "SaaS", "B2B"], title: "Redesigning the dashboard to reduce time-on-task by 60%", description: "Slate was drowning in complexity. A focused design sprint untangled the information architecture and surfaced the right signals — cutting the average session time in half.", image: project1, slug: "slate", flip: false },
-                  { tags: ["Motion Design", "Landing Page", "B2C"], title: "Crafting an animated brand experience that converts", description: "Antimetal needed a web presence as dynamic as its product. Micro-interactions and scroll-driven storytelling turned visitors into believers.", image: project2, slug: "antimetal", flip: true },
-                  { tags: ["Design System", "Fintech", "Mobile"], title: "Building a design system that unified the product and cut delivery time by 80%", description: "A shared design foundation gave the team a common language. The redesign turned that momentum into measurable, compounding growth.", image: project3, slug: "slate-2", flip: false },
-                ]}
-                onProjectClick={handleProjectClick}
-              />
+              {/* Case study cards */}
+              <div className="flex flex-col gap-8 md:gap-10 max-w-5xl mx-auto">
+                {[
+                  {
+                    tags: ["Product Design", "SaaS", "B2B"],
+                    title: "Redesigning the dashboard to reduce time-on-task by 60%",
+                    description: "Slate was drowning in complexity. A focused design sprint untangled the information architecture and surfaced the right signals — cutting the average session time in half.",
+                    image: project1,
+                    slug: "slate",
+                    flip: false,
+                  },
+                  {
+                    tags: ["Motion Design", "Landing Page", "B2C"],
+                    title: "Crafting an animated brand experience that converts",
+                    description: "Antimetal needed a web presence as dynamic as its product. Micro-interactions and scroll-driven storytelling turned visitors into believers.",
+                    image: project2,
+                    slug: "antimetal",
+                    flip: true,
+                  },
+                  {
+                    tags: ["Design System", "Fintech", "Mobile"],
+                    title: "Building a design system that unified the product and cut delivery time by 80%",
+                    description: "A shared design foundation gave the team a common language. The redesign turned that momentum into measurable, compounding growth.",
+                    image: project3,
+                    slug: "slate-2",
+                    flip: false,
+                  },
+                ].map((cs, i) => (
+                  <motion.div
+                    key={cs.slug}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.85, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative group"
+                  >
+                    {/* Sparkle decorations */}
+                    <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#B0A396] dark:text-[#4A4035] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`} />
+                    <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#C8BFB4] dark:text-[#3A3530] opacity-50 transition-all duration-500 group-hover:opacity-80`} />
+
+                    {/* Card */}
+                    <div
+                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/60 dark:bg-[#231F19] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3830] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]`}
+                    >
+                      {/* Text side */}
+                      <div className="flex-1 flex flex-col items-start min-w-0">
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mb-5">
+                          {cs.tags.map(tag => (
+                            <span
+                              key={tag}
+                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#7A6F63] dark:text-[#C4AE94] bg-[#E8E0D6] dark:bg-[#332C22] px-2.5 py-1 rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Headline */}
+                        <h3
+                          className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4"
+                          style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: 'clamp(22px, 3.2vw, 34px)', fontWeight: 400, lineHeight: 1.22, letterSpacing: '0.01em' }}
+                        >
+                          {cs.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-[14.5px] leading-[1.7] text-[#6B6159] dark:text-[#8A8077] max-w-[360px] mb-7 font-['Inter']">
+                          {cs.description}
+                        </p>
+
+                        {/* CTA */}
+                        <button
+                          onClick={() => handleProjectClick(cs.slug)}
+                          className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#5C4F45] dark:hover:text-[#C8C0B5] transition-colors duration-200"
+                        >
+                          Read case study
+                          <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+                        </button>
+                      </div>
+
+                      {/* Image side */}
+                      <div className="w-full md:w-[46%] flex-shrink-0">
+                        <div className="relative rounded-[16px] overflow-hidden bg-[#E4DBD0] dark:bg-[#222] shadow-[0_4px_32px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-[1.02]">
+                          <img
+                            src={cs.image}
+                            alt={cs.title}
+                            className="w-full h-auto object-cover aspect-[4/3] block"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         ) : null}
