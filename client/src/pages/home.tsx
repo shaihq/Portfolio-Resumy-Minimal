@@ -5043,8 +5043,8 @@ export default function Home() {
 
                         {/* Headline */}
                         <h3
-                          className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4"
-                          style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 400, lineHeight: 1.22, letterSpacing: '0.01em' }}
+                          className="designer-hero-title text-[#1A1A1A] dark:text-[#F0EDE7] leading-[1.18] mb-4"
+                          style={{ fontSize: 'clamp(22px, 3.2vw, 34px)', fontWeight: 600, letterSpacing: '0.01em' }}
                         >
                           {cs.title}
                         </h3>
