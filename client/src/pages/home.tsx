@@ -189,12 +189,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (activeTemplate === "Designer") {
-      setContainerWidth(1024);
-    }
-  }, [activeTemplate]);
-
-  useEffect(() => {
     const root = document.getElementById('root');
     if (root) {
       if (isContactPanelOpen || isStackPanelOpen || isRecommendationsPanelOpen || isRecommendationsRearrangeOpen || isProjectsRearrangeOpen || isProjectsPanelOpen || isMyStoryPanelOpen || isExperiencePanelOpen) {
@@ -595,6 +589,12 @@ export default function Home() {
   };
 
   const { activeTemplate, activeBackground, backgroundMode } = useTemplate();
+
+  useEffect(() => {
+    if (activeTemplate === "Designer") {
+      setContainerWidth(1024);
+    }
+  }, [activeTemplate]);
 
   const sectionVariants = activeTemplate === "Minimal" ? {} : itemVariants;
   const bgColor = useImageColor(activeTemplate === "Minimal" ? activeBackground : "");
