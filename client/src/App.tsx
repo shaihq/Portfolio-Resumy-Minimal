@@ -30,6 +30,7 @@ import PrivacyPolicy from "@/pages/privacy-policy";
 import PublicJob from "@/pages/public-job";
 import AITools from "@/pages/ai-tools";
 import { FloatingNav } from "@/components/floating-nav";
+import { BlindersProvider } from "@/components/blinders-transition";
 
 
 // Temporary dev navigation to easily switch pages in the Replit preview
@@ -441,8 +442,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TemplateProvider>
           <TooltipProvider>
-            <Toaster />
-            <Router />
+            <BlindersProvider>
+              <Toaster />
+              <Router />
+            </BlindersProvider>
           </TooltipProvider>
         </TemplateProvider>
       </QueryClientProvider>

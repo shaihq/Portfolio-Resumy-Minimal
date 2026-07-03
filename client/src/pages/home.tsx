@@ -32,6 +32,7 @@ import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, Dribbbl
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
+import { useBlindersTransition } from "@/hooks/use-blinders-transition";
 import { useImageColor } from "@/hooks/use-image-color";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
@@ -59,6 +60,7 @@ function SparkleIcon({ className }: { className?: string }) {
 
 export default function Home() {
   const [, navigate] = useLocation();
+  const { transitionTo } = useBlindersTransition();
   const atSignRef = useRef<AtSignIconHandle>(null);
   const downloadRef = useRef<DownloadIconHandle>(null);
   const dribbbleRef = useRef<DribbbleIconHandle>(null);
@@ -399,7 +401,11 @@ export default function Home() {
   };
 
   const handleProjectClick = (projectId: string) => {
-    navigate(`/project/${projectId}`);
+    if (activeTemplate === "Minimal") {
+      transitionTo(`/project/${projectId}`);
+    } else {
+      navigate(`/project/${projectId}`);
+    }
   };
 
   // Dino Game State
