@@ -48,6 +48,7 @@ import recommender1 from "/images/recommender-1.jpg";
 import story1 from "@/assets/images/story-1.jpg";
 import story2 from "@/assets/images/story-2.jpg";
 import story3 from "@/assets/images/story-3.jpg";
+import pegboardBg from "@/assets/pegboard/pegboard1.png";
 import story4 from "@/assets/images/story-4.jpg";
 
 function SparkleIcon({ className }: { className?: string }) {
@@ -3600,22 +3601,17 @@ export default function Home() {
               )}
               <h2 className="text-[#7A736C] dark:text-[#B5AFA5] text-xs font-mono mb-8" style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: '500' }}>MY STORY</h2>
               
-              {/* Pegboard Grid Background */}
+              {/* Pegboard Background */}
               <div className="relative w-full mb-10 rounded-[26px] border border-black/5 dark:border-white/10 bg-[#F7F4EF] dark:bg-[#1E1B18]">
                 {/* Invisible larger boundary for drag constraints allowing slight overflow */}
                 <div className="absolute -inset-6 md:-inset-10 pointer-events-none" ref={pegboardRef}></div>
                 
-                {/* Light Mode Grid */}
-                <div className="absolute inset-0 dark:hidden pointer-events-none rounded-[26px] overflow-hidden" style={{
-                  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
-                  backgroundSize: '40px 40px',
-                  backgroundPosition: 'center center'
-                }}></div>
-                {/* Dark Mode Grid */}
-                <div className="absolute inset-0 hidden dark:block pointer-events-none rounded-[26px] overflow-hidden" style={{
-                  backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
-                  backgroundSize: '40px 40px',
-                  backgroundPosition: 'center center'
+                {/* Pegboard Image Background */}
+                <div className="absolute inset-0 pointer-events-none rounded-[26px] overflow-hidden" style={{
+                  backgroundImage: `url(${pegboardBg})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                  backgroundRepeat: 'no-repeat'
                 }}></div>
 
                 <div className="relative h-[260px] md:h-[320px] flex flex-row items-center justify-center px-2 md:p-4 gap-4 md:gap-10">
