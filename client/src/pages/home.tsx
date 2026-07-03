@@ -2540,7 +2540,7 @@ export default function Home() {
               <div style={{ perspective: "1000px" }} className="mb-6 shrink-0 mt-2">
                 <motion.div
                   ref={profImgRef}
-                  className="w-[120px] h-[120px] rounded-2xl overflow-hidden cursor-pointer shadow-lg"
+                  className="w-[120px] h-[120px] rounded-2xl cursor-pointer shadow-lg"
                   onMouseMove={!profIsMobile ? (e) => {
                     const rect = profImgRef.current!.getBoundingClientRect();
                     const tiltX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -12;
@@ -2549,43 +2549,48 @@ export default function Home() {
                     setProfHovered(true);
                   } : undefined}
                   onMouseLeave={!profIsMobile ? () => { setProfTilt({ x: 0, y: 0 }); setProfHovered(false); } : undefined}
-                  animate={profIsMobile ? {
-                    rotateX: [0, 8, 0, -8, 0],
-                    rotateY: [0, -10, 0, 10, 0],
-                  } : {
+                  animate={profHovered && !profIsMobile ? {
                     rotateX: profTilt.x,
                     rotateY: profTilt.y,
-                    scale: profHovered ? 1.05 : 1,
-                  }}
-                  transition={profIsMobile ? {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
+                    scale: 1.05,
                   } : {
+                    rotateX: [0, 8, 0, -8, 0],
+                    rotateY: [0, -10, 0, 10, 0],
+                    scale: 1,
+                  }}
+                  transition={profHovered && !profIsMobile ? {
                     type: "spring",
                     stiffness: 400,
                     damping: 25,
+                  } : {
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
                   }}
                 >
-                  <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+                  {/* Inner clip wrapper — keeps shimmer masked to rounded corners
+                      even when the parent has a 3D transform applied */}
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                    <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
 
-                  {/* Glass rim — subtle white edge highlight */}
-                  <div className="absolute inset-0 rounded-2xl pointer-events-none"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 40%, transparent 70%)",
-                      boxShadow: "inset 0 1px 1px rgba(255,255,255,0.55), inset 0 -1px 1px rgba(0,0,0,0.08)",
-                    }}
-                  />
+                    {/* Glass rim — subtle white edge highlight */}
+                    <div className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 40%, transparent 70%)",
+                        boxShadow: "inset 0 1px 1px rgba(255,255,255,0.55), inset 0 -1px 1px rgba(0,0,0,0.08)",
+                      }}
+                    />
 
-                  {/* Shimmer streak — animated light sweep */}
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background: "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%)",
-                    }}
-                    animate={{ x: ["-100%", "160%"] }}
-                    transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 2.8, ease: "easeInOut" }}
-                  />
+                    {/* Shimmer streak — animated light sweep */}
+                    <motion.div
+                      className="absolute inset-y-0 w-1/2 pointer-events-none"
+                      style={{
+                        background: "linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.5) 50%, transparent 80%)",
+                      }}
+                      animate={{ x: ["-100%", "280%"] }}
+                      transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 2.6, ease: "easeInOut" }}
+                    />
+                  </div>
                 </motion.div>
               </div>
               
