@@ -646,6 +646,18 @@ export default function Home() {
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
 
+  // Professional template — 3D tilt profile image
+  const [profTilt, setProfTilt] = useState({ x: 0, y: 0 });
+  const [profHovered, setProfHovered] = useState(false);
+  const [profIsMobile, setProfIsMobile] = useState(false);
+  const profImgRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const check = () => setProfIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const PASTEL_DARK_COLORS: Record<string, string> = {
     "#FFD6E0": "#3D1F2A",
     "#E2D9F3": "#2A1F3D",
@@ -2525,8 +2537,38 @@ export default function Home() {
                 <CinematicThemeSwitcher />
               </div>
               
-              <div className="w-[68px] h-[68px] bg-[#E37941] mb-6 flex items-center justify-center overflow-hidden shrink-0 mt-2">
-                <img src={profileImg} alt="Profile" className="w-full h-full object-cover mix-blend-multiply opacity-90 grayscale-[0.2]" style={{ filter: "contrast(1.2)" }} />
+              <div style={{ perspective: "1000px" }} className="mb-6 shrink-0 mt-2">
+                <motion.div
+                  ref={profImgRef}
+                  className="w-[120px] h-[120px] rounded-2xl overflow-hidden cursor-pointer shadow-lg"
+                  onMouseMove={!profIsMobile ? (e) => {
+                    const rect = profImgRef.current!.getBoundingClientRect();
+                    const tiltX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -12;
+                    const tiltY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 12;
+                    setProfTilt({ x: tiltX, y: tiltY });
+                    setProfHovered(true);
+                  } : undefined}
+                  onMouseLeave={!profIsMobile ? () => { setProfTilt({ x: 0, y: 0 }); setProfHovered(false); } : undefined}
+                  animate={profIsMobile ? {
+                    rotateX: [0, 8, 0, -8, 0],
+                    rotateY: [0, -10, 0, 10, 0],
+                  } : {
+                    rotateX: profTilt.x,
+                    rotateY: profTilt.y,
+                    scale: profHovered ? 1.05 : 1,
+                  }}
+                  transition={profIsMobile ? {
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  } : {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 25,
+                  }}
+                >
+                  <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+                </motion.div>
               </div>
               
               <div className="w-full flex mb-6 relative overflow-hidden items-center h-[100px] md:h-[120px]">
