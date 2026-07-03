@@ -54,6 +54,7 @@ export default function Navbar() {
   ];
 
   const PASTELS = [
+    { id: "none",     color: "transparent", darkColor: "transparent", label: "None" },
     { id: "blush",    color: "#FFD6E0", darkColor: "#3D1F2A", label: "Blush" },
     { id: "lavender", color: "#E2D9F3", darkColor: "#2A1F3D", label: "Lavender" },
     { id: "sage",     color: "#C8E6C9", darkColor: "#1A2E20", label: "Sage" },
@@ -358,42 +359,6 @@ export default function Navbar() {
                         <p className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Background</p>
                         <div className="grid grid-cols-2 gap-3">
 
-                          {/* Default option */}
-                          {(() => {
-                            const isSelected = activeBackground === "default";
-                            return (
-                              <div className="flex flex-col gap-2 items-center">
-                                <div className="relative w-full">
-                                  <button
-                                    onClick={() => setActiveBackground("default")}
-                                    className={cn(
-                                      "w-full rounded-[18px] transition-all focus:outline-none cursor-pointer overflow-hidden",
-                                      isSelected
-                                        ? "ring-[2.5px] ring-[#FF5A36] ring-offset-2 ring-offset-white dark:ring-offset-[#2A2520]"
-                                        : "ring-[2px] ring-transparent hover:ring-black/10 dark:hover:ring-white/10"
-                                    )}
-                                    style={{ aspectRatio: "16/9" }}
-                                  >
-                                    <div className="w-full h-full bg-[#F0EDE7] dark:bg-[#1A1A1A] flex items-center justify-center">
-                                      <span className="text-[10px] font-medium text-[#7A736C] dark:text-[#9E9893] tracking-wide">Default</span>
-                                    </div>
-                                  </button>
-                                  {isSelected && (
-                                    <div className="absolute -bottom-1 -left-1 bg-[#FF5A36] text-white rounded-full p-1.5 shadow-sm flex items-center justify-center border-[2px] border-white dark:border-[#2A2520] z-10">
-                                      <Check size={14} strokeWidth={3.5} />
-                                    </div>
-                                  )}
-                                </div>
-                                <span className={cn(
-                                  "text-[13px] text-center font-medium transition-colors",
-                                  isSelected ? "text-[#FF5A36]" : "text-[#7A736C] dark:text-[#9E9893]"
-                                )}>
-                                  Default
-                                </span>
-                              </div>
-                            );
-                          })()}
-
                           {/* Image options */}
                           {BACKGROUNDS.map((bg) => {
                             const isSelected = activeBackground === bg.src;
@@ -437,13 +402,13 @@ export default function Navbar() {
                       {/* Divider */}
                       <div className="h-px bg-black/8 dark:bg-white/8" />
 
-                      {/* Pastel colors */}
+                      {/* Colors */}
                       <div className="space-y-3">
-                        <p className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Pastel colors</p>
+                        <p className="text-[12px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Colors</p>
                         <div className="grid grid-cols-4 gap-2">
                           {PASTELS.map((p) => {
                             const isSelected = activeBackground === p.color;
-                            const displayColor = navIsDark ? p.darkColor : p.color;
+                            const isNone = p.id === "none";
                             return (
                               <div key={p.id} className="flex flex-col gap-1.5 items-center">
                                 <div className="relative">
@@ -454,25 +419,36 @@ export default function Navbar() {
                                       "w-10 h-10 rounded-full transition-all focus:outline-none cursor-pointer border-[2px] overflow-hidden relative",
                                       isSelected
                                         ? "border-[#FF5A36] scale-110 shadow-md"
-                                        : "border-transparent hover:scale-105 hover:shadow-sm"
+                                        : "border-black/10 dark:border-white/10 hover:scale-105 hover:shadow-sm"
                                     )}
                                   >
-                                    {/* Light half — top-left triangle */}
-                                    <div
-                                      className="absolute inset-0"
-                                      style={{
-                                        backgroundColor: p.color,
-                                        clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                                      }}
-                                    />
-                                    {/* Dark half — bottom-right triangle */}
-                                    <div
-                                      className="absolute inset-0"
-                                      style={{
-                                        backgroundColor: p.darkColor,
-                                        clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
-                                      }}
-                                    />
+                                    {isNone ? (
+                                      /* Transparent / none — white base with a red diagonal slash */
+                                      <div className="absolute inset-0 bg-white dark:bg-[#2A2520]">
+                                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" preserveAspectRatio="none">
+                                          <line x1="4" y1="36" x2="36" y2="4" stroke="#FF5A36" strokeWidth="2.5" strokeLinecap="round" />
+                                        </svg>
+                                      </div>
+                                    ) : (
+                                      <>
+                                        {/* Light half — top-left triangle */}
+                                        <div
+                                          className="absolute inset-0"
+                                          style={{
+                                            backgroundColor: p.color,
+                                            clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                                          }}
+                                        />
+                                        {/* Dark half — bottom-right triangle */}
+                                        <div
+                                          className="absolute inset-0"
+                                          style={{
+                                            backgroundColor: p.darkColor,
+                                            clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+                                          }}
+                                        />
+                                      </>
+                                    )}
                                   </button>
                                   {isSelected && (
                                     <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#FF5A36] text-white rounded-full flex items-center justify-center border border-white dark:border-[#2A2520]">
