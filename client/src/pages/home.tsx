@@ -2568,6 +2568,24 @@ export default function Home() {
                   }}
                 >
                   <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+
+                  {/* Glass rim — subtle white edge highlight */}
+                  <div className="absolute inset-0 rounded-2xl pointer-events-none"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 40%, transparent 70%)",
+                      boxShadow: "inset 0 1px 1px rgba(255,255,255,0.55), inset 0 -1px 1px rgba(0,0,0,0.08)",
+                    }}
+                  />
+
+                  {/* Shimmer streak — animated light sweep */}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%)",
+                    }}
+                    animate={{ x: ["-100%", "160%"] }}
+                    transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 2.8, ease: "easeInOut" }}
+                  />
                 </motion.div>
               </div>
               
