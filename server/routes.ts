@@ -2,7 +2,10 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
-const ANAM_API_KEY = process.env.ANAM_API_KEY || "";
+const ANAM_API_KEY = process.env.ANAM_API_KEY;
+if (!ANAM_API_KEY) {
+  console.warn("[routes] ANAM_API_KEY is not set — /api/anam/session will return 503");
+}
 const ANAM_API_BASE = "https://api.anam.ai";
 const KEVIN_LLM_ID = "0934d97d-0c3a-4f33-91b0-5e136a0ef466";
 
@@ -54,8 +57,11 @@ export async function registerRoutes(
         return res.status(400).json({ error: "company, role, and description are required" });
       }
 
+      if (!ANAM_API_KEY) {
+        return res.status(503).json({ error: "Interview feature is not configured" });
+      }
+
       const systemPrompt = buildSystemPrompt(company, role, description);
-      console.log("SYSTEM PROMPT BEING SENT:", systemPrompt);
 
       const response = await fetch(`${ANAM_API_BASE}/v1/auth/session-token`, {
         method: "POST",
@@ -77,7 +83,7 @@ export async function registerRoutes(
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Anam session token error:", response.status, errorText);
-        return res.status(response.status).json({ error: "Failed to get Anam session token", detail: errorText });
+        return res.status(502).json({ error: "Failed to create interview session" });
       }
 
       const data = await response.json();
