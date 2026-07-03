@@ -174,7 +174,8 @@ export function BlindersProvider({ children }: { children: React.ReactNode }) {
       >
         {/* Top panel */}
         <motion.div
-          className="absolute top-0 left-0 right-0 h-1/2 bg-background"
+          className="absolute top-0 left-0 right-0 h-1/2"
+          style={{ background: "color-mix(in srgb, var(--background) 80%, var(--foreground) 20%)" }}
           initial={{ y: "-100%" }}
           animate={{ y: topY }}
           transition={panelTransition}
@@ -182,7 +183,8 @@ export function BlindersProvider({ children }: { children: React.ReactNode }) {
 
         {/* Bottom panel */}
         <motion.div
-          className="absolute bottom-0 left-0 right-0 h-1/2 bg-background"
+          className="absolute bottom-0 left-0 right-0 h-1/2"
+          style={{ background: "color-mix(in srgb, var(--background) 80%, var(--foreground) 20%)" }}
           initial={{ y: "100%" }}
           animate={{ y: bottomY }}
           transition={panelTransition}
