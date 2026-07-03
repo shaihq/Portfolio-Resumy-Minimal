@@ -400,14 +400,6 @@ export default function Home() {
     }
   };
 
-  const handleProjectClick = (projectId: string) => {
-    if (activeTemplate === "Minimal") {
-      transitionTo(`/project/${projectId}`);
-    } else {
-      navigate(`/project/${projectId}`);
-    }
-  };
-
   // Dino Game State
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -604,6 +596,14 @@ export default function Home() {
 
   const sectionVariants = activeTemplate === "Minimal" ? {} : itemVariants;
   const bgColor = useImageColor(activeTemplate === "Minimal" ? activeBackground : "");
+
+  const handleProjectClick = (projectId: string) => {
+    if (activeTemplate === "Minimal") {
+      transitionTo(`/project/${projectId}`);
+    } else {
+      navigate(`/project/${projectId}`);
+    }
+  };
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("Projects");
   

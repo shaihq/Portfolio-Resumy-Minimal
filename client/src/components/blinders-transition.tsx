@@ -1,149 +1,112 @@
 /**
- * Blinders page transition — two panels (top + bottom half) that slide in from
- * the edges and meet in the centre like a book binding closing, then split back
- * apart to reveal the new page.
+ * Blinders page transition — two panels (top + bottom half) slide in from the
+ * edges and meet in the centre like a book binding closing, then split apart
+ * to reveal the new page.
  *
- * Usage:
- *   1. Wrap your router tree with <BlindersProvider>
- *   2. import { useBlindersTransition } from "@/hooks/use-blinders-transition"
- *   3. Call transitionTo("/project/slug") instead of navigate()
+ * Timing is driven by setTimeout rather than onAnimationComplete to avoid
+ * Framer Motion edge cases. Panels are always mounted; visibility is controlled
+ * purely by the y transform so there is no AnimatePresence conflict.
  */
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { BlindersContext } from "@/hooks/use-blinders-transition";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Timing ──────────────────────────────────────────────────────────────────
+
+const CLOSE_MS = 460; // how long the panels take to close
+const OPEN_MS  = 500; // how long the panels take to open
+
+// ─── Easing ──────────────────────────────────────────────────────────────────
+
+const EASE_CLOSE = [0.76, 0, 0.24, 1] as const;
+const EASE_OPEN  = [0.25, 1, 0.5,  1] as const;
+
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 type Phase = "idle" | "closing" | "opening";
 
-// ─── Easing ───────────────────────────────────────────────────────────────────
-
-// Sharp ease-in for closing (panels accelerate toward centre)
-const EASE_CLOSE: [number, number, number, number] = [0.76, 0, 0.24, 1];
-// Gentle ease-out for opening (panels decelerate away from centre)
-const EASE_OPEN: [number, number, number, number] = [0.25, 1, 0.5, 1];
-
-const CLOSE_DURATION = 0.46;
-const OPEN_DURATION  = 0.52;
-
-// ─── Provider ─────────────────────────────────────────────────────────────────
+// ─── Provider ────────────────────────────────────────────────────────────────
 
 export function BlindersProvider({ children }: { children: React.ReactNode }) {
-  const [location, navigate] = useLocation();
-  const [phase, setPhase] = useState<Phase>("idle");
-  const pendingPath  = useRef<string>("");
-  // Guards to prevent double-firing when both panels complete at the same time.
-  const closingFired = useRef(false);
-  const openingFired = useRef(false);
-  // Ref-based in-flight lock — independent of render cycle so same-tick calls
-  // cannot overwrite pendingPath before the state update is committed.
-  const inFlight = useRef(false);
+  const [, navigate] = useLocation();
+  const [phase, setPhase]   = useState<Phase>("idle");
+  const inFlight            = useRef(false);
+  const timers              = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  const transitionTo = useCallback((path: string) => {
+  const clearTimers = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  };
+
+  useEffect(() => () => clearTimers(), []);
+
+  const transitionTo = (path: string) => {
     if (inFlight.current) return;
     inFlight.current = true;
-    pendingPath.current = path;
-    closingFired.current = false;
-    openingFired.current = false;
+    clearTimers();
+
+    // Step 1 — panels sweep to centre.
     setPhase("closing");
-  }, []);
 
-  // If the location changes BEFORE navigation has happened (e.g. browser back
-  // during the closing animation), abort so panels don't freeze on screen.
-  // We only guard the "closing" phase — "opening" means navigate() already fired
-  // and the location is legitimately changing to pendingPath.
-  useEffect(() => {
-    if (phase === "closing" && location !== pendingPath.current) {
-      inFlight.current = false;
-      setPhase("idle");
-    }
-  }, [location, phase]);
+    // Step 2 — once closed: navigate + open panels.
+    const t1 = setTimeout(() => {
+      navigate(path);
+      setPhase("opening");
 
-  // Called when either panel finishes its "closing" animation.
-  const onCloseComplete = () => {
-    if (closingFired.current) return;
-    closingFired.current = true;
-    // Navigate AFTER panels have fully covered the screen.
-    navigate(pendingPath.current);
-    setPhase("opening");
+      // Step 3 — once open: reset to idle.
+      const t2 = setTimeout(() => {
+        setPhase("idle");
+        inFlight.current = false;
+      }, OPEN_MS + 50);
+
+      timers.current.push(t2);
+    }, CLOSE_MS + 40);
+
+    timers.current.push(t1);
   };
 
-  // Called when either panel finishes its "opening" animation.
-  const onOpenComplete = () => {
-    if (openingFired.current) return;
-    openingFired.current = true;
-    inFlight.current = false;
-    setPhase("idle");
-  };
+  // y positions: panels are off-screen in "idle" and "opening", at 0 when "closing".
+  const topY    = phase === "closing" ? "0%"   : "-100%";
+  const bottomY = phase === "closing" ? "0%"   : "100%";
 
-  // Each panel's animated `y` target depends on the current phase.
-  // "idle"    → off-screen  (no render cost — panels are invisible)
-  // "closing" → slide to 0  (cover the screen)
-  // "opening" → slide back off-screen
-  const topY    = phase === "idle" ? "-100%" : phase === "closing" ? "0%" : "-100%";
-  const bottomY = phase === "idle" ? "100%"  : phase === "closing" ? "0%" : "100%";
-
-  const topTransition =
+  const panelTransition =
     phase === "closing"
-      ? { duration: CLOSE_DURATION, ease: EASE_CLOSE }
-      : { duration: OPEN_DURATION,  ease: EASE_OPEN, delay: 0.04 };
-
-  const bottomTransition =
-    phase === "closing"
-      ? { duration: CLOSE_DURATION, ease: EASE_CLOSE }
-      : { duration: OPEN_DURATION,  ease: EASE_OPEN, delay: 0.04 };
+      ? { duration: CLOSE_MS / 1000, ease: EASE_CLOSE }
+      : { duration: OPEN_MS  / 1000, ease: EASE_OPEN  };
 
   return (
     <BlindersContext.Provider value={{ transitionTo }}>
       {children}
 
-      {/* Overlay — pointer-events:none so it never blocks interaction */}
+      {/* Always-mounted overlay — pointer-events:none so it never blocks clicks */}
       <div
         className="fixed inset-0 z-[500] overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
-        {/* ── Top panel ── */}
+        {/* Top panel */}
         <motion.div
           className="absolute top-0 left-0 right-0 h-1/2 bg-background"
-          style={{ originY: 0 }}
           initial={{ y: "-100%" }}
           animate={{ y: topY }}
-          transition={topTransition}
-          onAnimationComplete={() => {
-            if (phase === "closing") onCloseComplete();
-            if (phase === "opening") onOpenComplete();
-          }}
+          transition={panelTransition}
         />
 
-        {/* ── Bottom panel ── */}
+        {/* Bottom panel */}
         <motion.div
           className="absolute bottom-0 left-0 right-0 h-1/2 bg-background"
-          style={{ originY: 1 }}
           initial={{ y: "100%" }}
           animate={{ y: bottomY }}
-          transition={bottomTransition}
-          onAnimationComplete={() => {
-            if (phase === "closing") onCloseComplete();
-            if (phase === "opening") onOpenComplete();
-          }}
+          transition={panelTransition}
         />
 
-        {/* ── Seam line — visible only when panels meet at centre ── */}
+        {/* Seam line — visible only when panels are fully closed */}
         <motion.div
           className="absolute left-0 right-0 bg-border"
           style={{ top: "50%", height: 1, translateY: "-50%" }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity:
-              phase === "closing" ? [0, 0, 1]
-              : phase === "opening" ? [1, 0]
-              : 0,
-          }}
-          transition={{
-            duration: phase === "closing" ? CLOSE_DURATION : OPEN_DURATION * 0.4,
-          }}
+          animate={{ opacity: phase === "closing" ? 1 : 0 }}
+          transition={{ duration: 0.15, delay: phase === "closing" ? CLOSE_MS / 1000 - 0.1 : 0 }}
         />
       </div>
     </BlindersContext.Provider>
