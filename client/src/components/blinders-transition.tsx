@@ -50,10 +50,12 @@ export function BlindersProvider({ children }: { children: React.ReactNode }) {
     setPhase("closing");
   }, []);
 
-  // If the location changes while a transition is in flight (e.g. browser back),
-  // abort cleanly so the panels don't freeze on screen.
+  // If the location changes BEFORE navigation has happened (e.g. browser back
+  // during the closing animation), abort so panels don't freeze on screen.
+  // We only guard the "closing" phase — "opening" means navigate() already fired
+  // and the location is legitimately changing to pendingPath.
   useEffect(() => {
-    if (phase !== "idle" && location !== pendingPath.current) {
+    if (phase === "closing" && location !== pendingPath.current) {
       inFlight.current = false;
       setPhase("idle");
     }
