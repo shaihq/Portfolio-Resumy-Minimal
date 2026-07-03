@@ -49,6 +49,7 @@ import story1 from "@/assets/images/story-1.jpg";
 import story2 from "@/assets/images/story-2.jpg";
 import story3 from "@/assets/images/story-3.jpg";
 import pegboardBg from "@/assets/pegboard/pegboard1.png";
+import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 
 function SparkleIcon({ className }: { className?: string }) {
@@ -3606,9 +3607,16 @@ export default function Home() {
                 {/* Invisible larger boundary for drag constraints allowing slight overflow */}
                 <div className="absolute -inset-6 md:-inset-10 pointer-events-none" ref={pegboardRef}></div>
                 
-                {/* Pegboard Image Background */}
-                <div className="absolute inset-0 pointer-events-none rounded-[26px] overflow-hidden" style={{
+                {/* Pegboard Image Background - Light Mode */}
+                <div className="absolute inset-0 dark:hidden pointer-events-none rounded-[26px] overflow-hidden" style={{
                   backgroundImage: `url(${pegboardBg})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                  backgroundRepeat: 'no-repeat'
+                }}></div>
+                {/* Pegboard Image Background - Dark Mode */}
+                <div className="absolute inset-0 hidden dark:block pointer-events-none rounded-[26px] overflow-hidden" style={{
+                  backgroundImage: `url(${pegboardBgDark})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center center',
                   backgroundRepeat: 'no-repeat'
