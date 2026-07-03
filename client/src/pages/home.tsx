@@ -595,7 +595,8 @@ export default function Home() {
   }, [activeTemplate]);
 
   const sectionVariants = activeTemplate === "Minimal" ? {} : itemVariants;
-  const bgColor = useImageColor(activeTemplate === "Minimal" ? activeBackground : "");
+  const isImageBackground = activeBackground !== "default" && activeBackground.startsWith("/");
+  const bgColor = useImageColor(activeTemplate === "Minimal" && isImageBackground ? activeBackground : "");
 
   const handleProjectClick = (projectId: string) => {
     if (activeTemplate === "Minimal") {
@@ -781,22 +782,25 @@ export default function Home() {
         )}
       >
 
-        {/* Background image — Minimal template only */}
-        {activeTemplate === "Minimal" && backgroundMode === "header" && (
+        {/* Background — Minimal template only, header mode */}
+        {activeTemplate === "Minimal" && backgroundMode === "header" && activeBackground !== "default" && (
           <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 580 }}>
-            <img
-              src={activeBackground}
-              alt=""
-              aria-hidden="true"
-              className="w-full h-full object-cover object-center"
-              loading="eager"
-            />
-            {/* Light mode: fade image into page bg at bottom */}
+            {isImageBackground ? (
+              <img
+                src={activeBackground}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover object-center"
+                loading="eager"
+              />
+            ) : (
+              <div className="w-full h-full" style={{ backgroundColor: activeBackground }} />
+            )}
+            {/* Fade into page bg at bottom */}
             <div
               className="absolute inset-0 dark:hidden"
               style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(240,237,231,0.7) 92%, #F0EDE7 100%)' }}
             />
-            {/* Dark mode */}
             <div
               className="absolute inset-0 hidden dark:block"
               style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(26,26,26,0.7) 92%, #1A1A1A 100%)' }}
@@ -805,15 +809,19 @@ export default function Home() {
         )}
 
         {/* Full-page background — covers entire portfolio behind all sections */}
-        {activeTemplate === "Minimal" && backgroundMode === "full-page" && (
+        {activeTemplate === "Minimal" && backgroundMode === "full-page" && activeBackground !== "default" && (
           <div className="fixed inset-0 z-0 pointer-events-none">
-            <img
-              src={activeBackground}
-              alt=""
-              aria-hidden="true"
-              className="w-full h-full object-cover object-center"
-              loading="eager"
-            />
+            {isImageBackground ? (
+              <img
+                src={activeBackground}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover object-center"
+                loading="eager"
+              />
+            ) : (
+              <div className="w-full h-full" style={{ backgroundColor: activeBackground }} />
+            )}
           </div>
         )}
 

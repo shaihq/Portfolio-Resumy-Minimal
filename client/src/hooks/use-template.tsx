@@ -15,7 +15,7 @@ const TemplateContext = createContext<TemplateContextType | undefined>(undefined
 
 export function TemplateProvider({ children }: { children: ReactNode }) {
   const [activeTemplate, setActiveTemplate] = useState("Minimal");
-  const [activeBackground, setActiveBackground] = useState("/backgrounds/wall1.png");
+  const [activeBackground, setActiveBackground] = useState("default");
   const [backgroundMode, setBackgroundMode] = useState<BackgroundMode>("header");
   return (
     <TemplateContext.Provider value={{ activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode }}>
