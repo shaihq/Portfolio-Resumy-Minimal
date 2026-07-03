@@ -21,7 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ChartSpline, Eye, PaintRoller, Check, Menu } from "lucide-react";
+import { ChartSpline, Eye, PaintRoller, Check, Menu, Pipette } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import profileImg from "@/assets/images/profile.png";
 import { cn } from "@/lib/utils";
@@ -40,6 +40,8 @@ export default function Navbar() {
   const [isOverlay, setIsOverlay] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [navMounted, setNavMounted] = useState(false);
+  const [customColor, setCustomColor] = useState("#D4C5F9");
+  const colorInputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
   const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode } = useTemplate();
   const [themePanelTab, setThemePanelTab] = useState<"themes" | "backgrounds">("themes");
@@ -465,6 +467,68 @@ export default function Navbar() {
                               </div>
                             );
                           })}
+
+                          {/* Custom color picker */}
+                          {(() => {
+                            const presetColors = new Set(PASTELS.map((p) => p.color));
+                            const isCustomActive =
+                              !activeBackground.startsWith("/") &&
+                              activeBackground !== "default" &&
+                              !presetColors.has(activeBackground);
+                            return (
+                              <div className="flex flex-col gap-1.5 items-center">
+                                <div className="relative">
+                                  <button
+                                    onClick={() => colorInputRef.current?.click()}
+                                    title="Custom color"
+                                    className={cn(
+                                      "w-10 h-10 rounded-full transition-all focus:outline-none cursor-pointer border-[2px] overflow-hidden relative",
+                                      isCustomActive
+                                        ? "border-[#FF5A36] scale-110 shadow-md"
+                                        : "border-black/10 dark:border-white/10 hover:scale-105 hover:shadow-sm"
+                                    )}
+                                  >
+                                    {isCustomActive ? (
+                                      /* Show the chosen custom color */
+                                      <div className="absolute inset-0" style={{ backgroundColor: activeBackground }} />
+                                    ) : (
+                                      /* Rainbow spectrum swatch */
+                                      <div
+                                        className="absolute inset-0"
+                                        style={{
+                                          background:
+                                            "conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #c77dff, #ff6b6b)",
+                                        }}
+                                      />
+                                    )}
+                                  </button>
+                                  {isCustomActive && (
+                                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#FF5A36] text-white rounded-full flex items-center justify-center border border-white dark:border-[#2A2520]">
+                                      <Check size={8} strokeWidth={3.5} />
+                                    </div>
+                                  )}
+                                  {/* Hidden native color input */}
+                                  <input
+                                    ref={colorInputRef}
+                                    type="color"
+                                    value={isCustomActive ? activeBackground : customColor}
+                                    onChange={(e) => {
+                                      setCustomColor(e.target.value);
+                                      setActiveBackground(e.target.value);
+                                    }}
+                                    className="sr-only"
+                                    aria-label="Pick a custom background color"
+                                  />
+                                </div>
+                                <span className={cn(
+                                  "text-[10px] text-center font-medium transition-colors leading-tight",
+                                  isCustomActive ? "text-[#FF5A36]" : "text-[#7A736C] dark:text-[#9E9893]"
+                                )}>
+                                  Custom
+                                </span>
+                              </div>
+                            );
+                          })()}
                         </div>
                       </div>
 
