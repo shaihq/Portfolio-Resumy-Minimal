@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -38,9 +39,14 @@ export default function Navbar() {
   const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [navMounted, setNavMounted] = useState(false);
   const isMobile = useIsMobile();
   const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode } = useTemplate();
   const [themePanelTab, setThemePanelTab] = useState<"themes" | "backgrounds">("themes");
+  const { resolvedTheme } = useTheme();
+  const navIsDark = navMounted && resolvedTheme === "dark";
+
+  useEffect(() => { setNavMounted(true); }, []);
 
   const BACKGROUNDS = [
     { id: "wall1", src: "/backgrounds/wall1.png", label: "Meadow" },
@@ -48,14 +54,14 @@ export default function Navbar() {
   ];
 
   const PASTELS = [
-    { id: "blush",    color: "#FFD6E0", label: "Blush" },
-    { id: "lavender", color: "#E2D9F3", label: "Lavender" },
-    { id: "sage",     color: "#C8E6C9", label: "Sage" },
-    { id: "sky",      color: "#C5E3F7", label: "Sky" },
-    { id: "peach",    color: "#FFE0C8", label: "Peach" },
-    { id: "butter",   color: "#FFF4C2", label: "Butter" },
-    { id: "mint",     color: "#C8F0E8", label: "Mint" },
-    { id: "lilac",    color: "#EDD5F0", label: "Lilac" },
+    { id: "blush",    color: "#FFD6E0", darkColor: "#3D1F2A", label: "Blush" },
+    { id: "lavender", color: "#E2D9F3", darkColor: "#2A1F3D", label: "Lavender" },
+    { id: "sage",     color: "#C8E6C9", darkColor: "#1A2E20", label: "Sage" },
+    { id: "sky",      color: "#C5E3F7", darkColor: "#1A2A3D", label: "Sky" },
+    { id: "peach",    color: "#FFE0C8", darkColor: "#3D2A1A", label: "Peach" },
+    { id: "butter",   color: "#FFF4C2", darkColor: "#2E2A10", label: "Butter" },
+    { id: "mint",     color: "#C8F0E8", darkColor: "#1A2E2A", label: "Mint" },
+    { id: "lilac",    color: "#EDD5F0", darkColor: "#2E1F3D", label: "Lilac" },
   ];
 
   useEffect(() => {
@@ -437,6 +443,7 @@ export default function Navbar() {
                         <div className="grid grid-cols-4 gap-2">
                           {PASTELS.map((p) => {
                             const isSelected = activeBackground === p.color;
+                            const displayColor = navIsDark ? p.darkColor : p.color;
                             return (
                               <div key={p.id} className="flex flex-col gap-1.5 items-center">
                                 <div className="relative">
@@ -444,13 +451,29 @@ export default function Navbar() {
                                     onClick={() => setActiveBackground(p.color)}
                                     title={p.label}
                                     className={cn(
-                                      "w-10 h-10 rounded-full transition-all focus:outline-none cursor-pointer border-[2px]",
+                                      "w-10 h-10 rounded-full transition-all focus:outline-none cursor-pointer border-[2px] overflow-hidden relative",
                                       isSelected
                                         ? "border-[#FF5A36] scale-110 shadow-md"
                                         : "border-transparent hover:scale-105 hover:shadow-sm"
                                     )}
-                                    style={{ backgroundColor: p.color }}
-                                  />
+                                  >
+                                    {/* Light half — top-left triangle */}
+                                    <div
+                                      className="absolute inset-0"
+                                      style={{
+                                        backgroundColor: p.color,
+                                        clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                                      }}
+                                    />
+                                    {/* Dark half — bottom-right triangle */}
+                                    <div
+                                      className="absolute inset-0"
+                                      style={{
+                                        backgroundColor: p.darkColor,
+                                        clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+                                      }}
+                                    />
+                                  </button>
                                   {isSelected && (
                                     <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#FF5A36] text-white rounded-full flex items-center justify-center border border-white dark:border-[#2A2520]">
                                       <Check size={8} strokeWidth={3.5} />

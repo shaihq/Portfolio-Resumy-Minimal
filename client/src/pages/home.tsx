@@ -645,6 +645,21 @@ export default function Home() {
     return localStorage.getItem("theme") === "dark" || 
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
+
+  const PASTEL_DARK_COLORS: Record<string, string> = {
+    "#FFD6E0": "#3D1F2A",
+    "#E2D9F3": "#2A1F3D",
+    "#C8E6C9": "#1A2E20",
+    "#C5E3F7": "#1A2A3D",
+    "#FFE0C8": "#3D2A1A",
+    "#FFF4C2": "#2E2A10",
+    "#C8F0E8": "#1A2E2A",
+    "#EDD5F0": "#2E1F3D",
+  };
+  const resolvedBg =
+    !isImageBackground && activeBackground !== "default" && isDark
+      ? (PASTEL_DARK_COLORS[activeBackground] ?? activeBackground)
+      : activeBackground;
   
   const [chatRevealStep, setChatRevealStep] = useState(0);
 
@@ -794,7 +809,7 @@ export default function Home() {
                 loading="eager"
               />
             ) : (
-              <div className="w-full h-full" style={{ backgroundColor: activeBackground }} />
+              <div className="w-full h-full" style={{ backgroundColor: resolvedBg }} />
             )}
             {/* Fade into page bg at bottom */}
             <div
@@ -820,7 +835,7 @@ export default function Home() {
                 loading="eager"
               />
             ) : (
-              <div className="w-full h-full" style={{ backgroundColor: activeBackground }} />
+              <div className="w-full h-full" style={{ backgroundColor: resolvedBg }} />
             )}
           </div>
         )}
