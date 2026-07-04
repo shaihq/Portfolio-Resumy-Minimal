@@ -1306,7 +1306,7 @@ export default function Home() {
             </div>
             <a 
               href="#" 
-              className="text-[13px] font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] dark:border-[#F0EDE7] pb-0.5 hover:opacity-70 transition-opacity w-fit group/download text-[#1A1A1A] dark:text-[#F0EDE7]"
+              className={`${typographySize === "expressive" ? "text-[15px]" : "text-[13px]"} font-medium flex items-center gap-1.5 border-b border-[#1A1A1A] dark:border-[#F0EDE7] pb-0.5 hover:opacity-70 transition-opacity w-fit group/download text-[#1A1A1A] dark:text-[#F0EDE7]`}
               onMouseEnter={() => downloadRef.current?.startAnimation()}
               onMouseLeave={() => downloadRef.current?.stopAnimation()}
             >
@@ -1372,7 +1372,7 @@ export default function Home() {
               </Button>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Intro</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5`}>Intro</h2>
           <p className={`text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"}`} style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
@@ -1439,7 +1439,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Experience</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5`}>Experience</h2>
           <div className="space-y-1">
             {experiences.map((exp, index) => (
               <div key={index} className="rounded-lg transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05] -mx-3 px-3 relative group/item">
@@ -1455,7 +1455,7 @@ export default function Home() {
                 )}
                 <button 
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                  className="w-full flex justify-between items-center py-2.5 text-base group"
+                  className={`w-full flex justify-between items-center py-2.5 ${typographySize === "expressive" ? "text-[18px]" : "text-base"} group`}
                 >
                   <div className="flex items-center gap-3">
                     <motion.span 
@@ -1469,7 +1469,7 @@ export default function Home() {
                       {exp.company}
                     </span>
                   </div>
-                  <span className="text-[#1A1A1A] dark:text-[#F0EDE7] font-medium group-hover:opacity-70 transition-opacity">{exp.role}</span>
+                  <span className={`text-[#1A1A1A] dark:text-[#F0EDE7] font-medium group-hover:opacity-70 transition-opacity ${typographySize === "expressive" ? "text-[18px]" : "text-base"}`}>{exp.role}</span>
                 </button>
                 <AnimatePresence>
                   {expandedIndex === index && (
@@ -1720,7 +1720,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Projects</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5`}>Projects</h2>
           
           {projects.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-2xl border border-dashed border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 backdrop-blur-sm">
@@ -1924,7 +1924,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Recommendations</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6`}>Recommendations</h2>
           
           {recommendations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-2xl border border-dashed border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#2A2520]/50 backdrop-blur-sm">
@@ -1991,7 +1991,7 @@ export default function Home() {
                         <svg viewBox="0 0 24 24" className="w-4 h-4 text-black dark:text-[#F0EDE7] transition-colors duration-200 hover:text-[#0077B5] dark:hover:text-[#87CEEB] cursor-pointer" fill="currentColor">
                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                         </svg>
-                        <span className="text-[13px] text-[#7A736C] dark:text-[#9E9893]">{rec.role}</span>
+                        <span className={`${typographySize === "expressive" ? "text-[15px]" : "text-[13px]"} text-[#7A736C] dark:text-[#9E9893]`}>{rec.role}</span>
                       </div>
                     </div>
                     <Avatar className="w-[80px] h-[80px] rounded-none -mr-6 -my-4 transition-all duration-700">
@@ -2098,7 +2098,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">My Story</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6`}>My Story</h2>
           
           <div className="relative mb-8 h-56 flex items-center justify-center">
             <motion.div 
@@ -2132,10 +2132,10 @@ export default function Home() {
           </div>
 
           <div className="space-y-6">
-            <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]" style={{ fontWeight: 450 }}>
+            <p className={`text-[#7A736C] dark:text-[#B5AFA5] ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"} leading-[1.7]`} style={{ fontWeight: 450 }}>
               I'm David Simmons, a passionate digital designer and no-code developer who bridges creativity with technology. Currently exploring new ways to craft meaningful digital experiences, I'm driven by curiosity and a love for clean, purposeful design.
             </p>
-            <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]" style={{ fontWeight: 450 }}>
+            <p className={`text-[#7A736C] dark:text-[#B5AFA5] ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"} leading-[1.7]`} style={{ fontWeight: 450 }}>
               I thrive on transforming ideas into reality — whether it's shaping intuitive interfaces, crafting distinctive brand identities, designing immersive visuals, or building websites that feel effortless to use.
             </p>
           </div>
@@ -2231,7 +2231,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6">Stack</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-6`}>Stack</h2>
           <div className="flex flex-wrap gap-8 items-end">
             {activeTools.map((tool, i) => (
               <motion.div
@@ -2377,7 +2377,7 @@ export default function Home() {
               </Sheet>
             </div>
           )}
-          <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-8">Contact</h2>
+          <h2 className={`${typographySize === "expressive" ? "text-[16px]" : "text-[14px]"} font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-8`}>Contact</h2>
           <div className="font-['DM_Mono'] grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
 
             {/* LEFT: email + phone */}
@@ -2386,14 +2386,14 @@ export default function Home() {
               {/* email */}
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[#463B34] dark:text-[#C4B5A0] text-[13px]">&#62;</span>
-                  <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">email</span>
+                  <span className={`text-[#463B34] dark:text-[#C4B5A0] ${typographySize === "expressive" ? "text-[15px]" : "text-[13px]"}`}>&#62;</span>
+                  <span className={`${typographySize === "expressive" ? "text-[13px]" : "text-[11px]"} uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]`}>email</span>
                 </div>
                 <button
                   onClick={() => handleCopy("matt@gmail.com", "email")}
                   className="group flex items-center gap-2.5 ml-4"
                 >
-                  <span className="text-[17px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug">matt@gmail.com</span>
+                  <span className={`${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"} text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug`}>matt@gmail.com</span>
                   <span className="text-[10px] uppercase tracking-widest transition-all duration-150 opacity-0 group-hover:opacity-100">
                     {copiedItem === "email"
                       ? <span className="text-[#463B34] dark:text-[#C4B5A0]">copied</span>
@@ -2406,14 +2406,14 @@ export default function Home() {
               {/* phone */}
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[#463B34] dark:text-[#C4B5A0] text-[13px]">&#62;</span>
-                  <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">phone</span>
+                  <span className={`text-[#463B34] dark:text-[#C4B5A0] ${typographySize === "expressive" ? "text-[15px]" : "text-[13px]"}`}>&#62;</span>
+                  <span className={`${typographySize === "expressive" ? "text-[13px]" : "text-[11px]"} uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]`}>phone</span>
                 </div>
                 <button
                   onClick={() => handleCopy("+91 98765 43210", "phone")}
                   className="group flex items-center gap-2.5 ml-4"
                 >
-                  <span className="text-[15px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug">+91 98765 43210</span>
+                  <span className={`${typographySize === "expressive" ? "text-[18px]" : "text-[15px]"} text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 transition-all duration-200 pb-px leading-snug`}>+91 98765 43210</span>
                   <span className="text-[10px] uppercase tracking-widest transition-all duration-150 opacity-0 group-hover:opacity-100">
                     {copiedItem === "phone"
                       ? <span className="text-[#463B34] dark:text-[#C4B5A0]">copied</span>
@@ -2428,8 +2428,8 @@ export default function Home() {
             {/* RIGHT: links */}
             <div className="space-y-1">
               <div className="flex items-center gap-1.5 mb-2">
-                <span className="text-[#463B34] dark:text-[#C4B5A0] text-[13px]">&#62;</span>
-                <span className="text-[11px] uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]">links</span>
+                <span className={`text-[#463B34] dark:text-[#C4B5A0] ${typographySize === "expressive" ? "text-[15px]" : "text-[13px]"}`}>&#62;</span>
+                <span className={`${typographySize === "expressive" ? "text-[13px]" : "text-[11px]"} uppercase tracking-widest text-[#7A736C] dark:text-[#9E9893]`}>links</span>
               </div>
               <div className="ml-4 space-y-2">
                 {[
@@ -2447,7 +2447,7 @@ export default function Home() {
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     className="group flex items-center gap-1.5 w-fit"
                   >
-                    <span className="text-[15px] text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-all duration-200 pb-px leading-snug">{label}</span>
+                    <span className={`${typographySize === "expressive" ? "text-[18px]" : "text-[15px]"} text-[#1A1A1A]/80 dark:text-[#F0EDE7]/80 border-b border-dashed border-[#1A1A1A]/15 dark:border-[#F0EDE7]/15 group-hover:border-solid group-hover:border-[#463B34]/50 dark:group-hover:border-[#C4B5A0]/50 group-hover:text-[#1A1A1A] dark:group-hover:text-[#F0EDE7] transition-all duration-200 pb-px leading-snug`}>{label}</span>
                     <span className="text-[12px] text-[#7A736C]/60 dark:text-[#9E9893]/60 group-hover:text-[#7A736C] dark:group-hover:text-[#9E9893] group-hover:translate-x-0.5 transition-all duration-200">↗</span>
                   </motion.a>
                 ))}
