@@ -85,7 +85,7 @@ export function PublishDropdown() {
               onKeyDown={handleKeyDown}
               style={{ transformOrigin: "top right" }}
             >
-              <div className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2A2520] p-1.5 shadow-lg overflow-hidden">
+              <div className="w-full rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#2A2520] p-1.5 overflow-hidden" style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.07), 0 10px 24px -4px rgba(0,0,0,0.12), 0 0 0 0.5px rgba(0,0,0,0.04)" }}>
                 <div className="flex flex-col">
                   <div className="flex items-center justify-between gap-3 px-3 py-2">
                     <div className="flex flex-col gap-0.5 overflow-hidden">
