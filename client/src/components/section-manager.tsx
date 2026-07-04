@@ -624,6 +624,7 @@ function EmptyState({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) {
   return (
     <>
       <motion.div
+        data-joyride="add-section"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
