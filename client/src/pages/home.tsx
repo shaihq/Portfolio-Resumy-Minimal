@@ -26,7 +26,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
@@ -653,6 +653,16 @@ export default function Home() {
   const [profHovered, setProfHovered] = useState(false);
   const [profIsMobile, setProfIsMobile] = useState(false);
   const profImgRef = useRef<HTMLDivElement>(null);
+  const profIdleAnimate = useMemo(() => ({
+    rotateX: [0, 8, 0, -8, 0],
+    rotateY: [0, -10, 0, 10, 0],
+    scale: 1,
+  }), []);
+  const profIdleTransition = useMemo(() => ({
+    duration: 4,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }), []);
   useEffect(() => {
     const check = () => setProfIsMobile(window.innerWidth < 768);
     check();
@@ -2555,20 +2565,12 @@ export default function Home() {
                     rotateX: profTilt.x,
                     rotateY: profTilt.y,
                     scale: 1.05,
-                  } : {
-                    rotateX: [0, 8, 0, -8, 0],
-                    rotateY: [0, -10, 0, 10, 0],
-                    scale: 1,
-                  }}
+                  } : profIdleAnimate}
                   transition={profHovered && !profIsMobile ? {
                     type: "spring",
                     stiffness: 400,
                     damping: 25,
-                  } : {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
+                  } : profIdleTransition}
                 >
                   {/* Inner clip wrapper — keeps shimmer masked to rounded corners
                       even when the parent has a 3D transform applied */}
