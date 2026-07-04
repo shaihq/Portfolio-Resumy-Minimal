@@ -1158,6 +1158,7 @@ function AddSectionButton({ onAdd }: { onAdd: (type: SectionTypeKey) => void }) 
           style={{ left: "50%", transform: "translateX(-50%) translateY(-50%)", width: "100vw" }}
         />
         <button
+          data-joyride="add-section"
           onClick={() => setOpen(true)}
           className="relative z-10 flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1A1A] dark:bg-[#F0EDE7] text-white dark:text-[#1A1A1A] text-[12.5px] font-medium shadow-sm hover:opacity-80 active:scale-95 transition-all duration-150"
           aria-label="Add section"

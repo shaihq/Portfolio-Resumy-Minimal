@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTemplate } from "@/hooks/use-template";
+import { CaseStudyJoyride } from "@/components/case-study-joyride";
 import { cn } from "@/lib/utils";
 import profileImg from "@/assets/images/profile.png";
 import project2 from "@/assets/images/project2.png";
@@ -589,7 +590,7 @@ export default function Project() {
                       <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
                       <button className="flex items-center gap-1 hover:text-white transition-colors"><span className="text-[10px]">✦</span> Resume</button>
                     </div>
-                    <div className="flex items-center gap-0.5 bg-white/10 backdrop-blur-sm rounded-lg p-1 ml-2">
+                    <div data-joyride="view-toggle" className="flex items-center gap-0.5 bg-white/10 backdrop-blur-sm rounded-lg p-1 ml-2">
                       <button onClick={() => setHeroView("immersive")} title="Immersive view" className="w-7 h-7 rounded-md flex items-center justify-center transition-all bg-white/20">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1.5" fill="white" /></svg>
                       </button>
@@ -657,7 +658,7 @@ export default function Project() {
                     <button onClick={() => navigate("/")} className="hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors">Work</button>
                     <button className="flex items-center gap-1 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors"><span className="text-[10px]">✦</span> Resume</button>
                   </div>
-                  <div className="flex items-center gap-0.5 bg-black/5 dark:bg-white/5 rounded-lg p-1 ml-2">
+                  <div data-joyride="view-toggle" className="flex items-center gap-0.5 bg-black/5 dark:bg-white/5 rounded-lg p-1 ml-2">
                     <button onClick={() => setHeroView("immersive")} title="Immersive view" className="w-7 h-7 rounded-md flex items-center justify-center transition-all hover:bg-black/5 dark:hover:bg-white/5">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1.5" fill="currentColor" className="text-[#7A736C] dark:text-[#9E9893]" fillOpacity="0.5" /></svg>
                     </button>
@@ -869,6 +870,9 @@ export default function Project() {
           <p className="text-[12px] text-[#7A736C] dark:text-[#9E9893]" style={{ fontWeight: 450 }}>© ALL RIGHTS RESERVED.</p>
         </motion.div>
       </div>
+
+      {/* Joyride — floats above the page, only in Minimal template */}
+      <CaseStudyJoyride />
     </motion.div>
   );
 }
