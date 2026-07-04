@@ -661,7 +661,7 @@ export default function Home() {
   const profIdleTransition = useMemo(() => ({
     duration: 4,
     repeat: Infinity,
-    ease: "easeInOut",
+    ease: "easeInOut" as const,
   }), []);
   useEffect(() => {
     const check = () => setProfIsMobile(window.innerWidth < 768);
