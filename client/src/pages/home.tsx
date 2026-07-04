@@ -588,7 +588,7 @@ export default function Home() {
     },
   };
 
-  const { activeTemplate, activeBackground, backgroundMode } = useTemplate();
+  const { activeTemplate, activeBackground, backgroundMode, typographySize } = useTemplate();
 
   useEffect(() => {
     if (activeTemplate === "Designer") {
@@ -1281,7 +1281,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0">
             <div>
-              <h1 className="text-[30px] font-semibold mb-0.5 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]">
+              <h1 className={`${typographySize === "expressive" ? "text-[38px]" : "text-[30px]"} font-semibold mb-0.5 tracking-[-0.01em] text-[#1A1A1A] dark:text-[#F0EDE7]`}>
                 <motion.span
                   initial="hidden"
                   animate="visible"
@@ -1302,7 +1302,7 @@ export default function Home() {
                   ))}
                 </motion.span>
               </h1>
-              <p className="text-[#4A4440] dark:text-[#C8C0B5] text-[17px]" style={{ fontWeight: 500 }}>Product Designer</p>
+              <p className={`text-[#4A4440] dark:text-[#C8C0B5] ${typographySize === "expressive" ? "text-[21px]" : "text-[17px]"}`} style={{ fontWeight: 500 }}>Product Designer</p>
             </div>
             <a 
               href="#" 
@@ -1329,7 +1329,7 @@ export default function Home() {
           )}
           <a 
             href="mailto:matt@gmail.com" 
-            className="flex items-center gap-2 text-base text-[#666666] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group"
+            className={`flex items-center gap-2 ${typographySize === "expressive" ? "text-[18px]" : "text-base"} text-[#666666] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors group`}
             onMouseEnter={() => atSignRef.current?.startAnimation()}
             onMouseLeave={() => atSignRef.current?.stopAnimation()}
           >
@@ -1373,7 +1373,7 @@ export default function Home() {
             </div>
           )}
           <h2 className="text-[14px] font-bold text-[#463B34] dark:text-[#D4C9BC] font-['DM_Mono'] uppercase tracking-wider mb-5">Intro</h2>
-          <p className="text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] text-[17px]" style={{ fontWeight: 450 }}>
+          <p className={`text-[#7A736C] dark:text-[#B5AFA5] leading-[1.7] ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"}`} style={{ fontWeight: 450 }}>
             I'm a Design Engineer focused on crafting meaningful digital experiences where design meets code. With a strong front-end development and UX design background, I build scalable UI systems and contribute to user-centered products from concept to deployment.
           </p>
         </motion.div>
@@ -1493,7 +1493,7 @@ export default function Home() {
                           }}
                           initial="hidden"
                           animate="show"
-                          className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7] break-words whitespace-normal"
+                          className={`text-[#7A736C] dark:text-[#B5AFA5] ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"} leading-[1.7] break-words whitespace-normal`}
                         >
                           {exp.description.split(" ").map((word, wordIndex) => (
                             <span key={wordIndex} className="inline-block whitespace-nowrap">
@@ -1797,8 +1797,8 @@ export default function Home() {
                     <div className={`rounded-xl overflow-hidden mb-4 bg-white dark:bg-[#2A2520] drop-shadow-sm border border-black/5 dark:border-white/10 group-hover:border-black/10 dark:group-hover:border-white/20 transition-colors ${projectsLayout === 'list' ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}>
                       <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     </div>
-                    <h3 className="font-semibold text-[17px] mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]">{project.title}</h3>
-                    <p className="text-[15px] text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed" style={{ fontWeight: 450 }}>
+                    <h3 className={`font-semibold ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"} mb-1.5 text-[#1A1A1A] dark:text-[#F0EDE7]`}>{project.title}</h3>
+                    <p className={`${typographySize === "expressive" ? "text-[18px]" : "text-[15px]"} text-[#7A736C] dark:text-[#B5AFA5] leading-relaxed`} style={{ fontWeight: 450 }}>
                       {project.description}
                     </p>
                   </div>
@@ -1986,7 +1986,7 @@ export default function Home() {
                   )}
                   <div className="flex justify-between items-center px-6 py-4">
                     <div className="flex flex-col">
-                      <h3 className="font-medium text-base text-[#1A1A1A] dark:text-[#F0EDE7] mb-1">{rec.name}</h3>
+                      <h3 className={`font-medium ${typographySize === "expressive" ? "text-[18px]" : "text-base"} text-[#1A1A1A] dark:text-[#F0EDE7] mb-1`}>{rec.name}</h3>
                       <div className="flex items-center gap-2">
                         <svg viewBox="0 0 24 24" className="w-4 h-4 text-black dark:text-[#F0EDE7] transition-colors duration-200 hover:text-[#0077B5] dark:hover:text-[#87CEEB] cursor-pointer" fill="currentColor">
                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -2001,7 +2001,7 @@ export default function Home() {
                   </div>
                   <div className="p-0">
                     <div className="border border-dashed border-[#E5D7C4] dark:border-[#3A352E] rounded-[12px] p-4">
-                      <p className="text-[#7A736C] dark:text-[#B5AFA5] text-[17px] leading-[1.7]" style={{ fontWeight: 450 }}>
+                      <p className={`text-[#7A736C] dark:text-[#B5AFA5] ${typographySize === "expressive" ? "text-[20px]" : "text-[17px]"} leading-[1.7]`} style={{ fontWeight: 450 }}>
                         {rec.content}
                       </p>
                     </div>

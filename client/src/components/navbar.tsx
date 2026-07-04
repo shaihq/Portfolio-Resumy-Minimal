@@ -43,7 +43,7 @@ export default function Navbar() {
   const [customColor, setCustomColor] = useState("#D4C5F9");
   const colorInputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
-  const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode } = useTemplate();
+  const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode, typographySize, setTypographySize } = useTemplate();
   const [themePanelTab, setThemePanelTab] = useState<"themes" | "backgrounds">("themes");
   const { resolvedTheme } = useTheme();
   const navIsDark = navMounted && resolvedTheme === "dark";
@@ -242,6 +242,45 @@ export default function Navbar() {
                   {themePanelTab === "themes" ? (
                     <div className="space-y-8">
                       <SwitchToggleThemeDemo />
+                      {activeTemplate === "Minimal" && (
+                        <div className="space-y-3 pt-2">
+                          <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Typography</div>
+                          <div className="grid grid-cols-2 gap-2">
+                            {(
+                              [
+                                { value: "compact", label: "Compact", description: "Tight, focused sizing" },
+                                { value: "expressive", label: "Expressive", description: "Bolder type hierarchy" },
+                              ] as { value: "compact" | "expressive"; label: string; description: string }[]
+                            ).map((opt) => {
+                              const isActive = typographySize === opt.value;
+                              return (
+                                <button
+                                  key={opt.value}
+                                  onClick={() => setTypographySize(opt.value)}
+                                  className={cn(
+                                    "relative flex flex-col gap-1 px-3 py-3 rounded-2xl border text-left transition-all focus:outline-none cursor-pointer",
+                                    isActive
+                                      ? "border-[#FF5A36] bg-[#FF5A36]/5 dark:bg-[#FF5A36]/10"
+                                      : "border-black/10 dark:border-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.03]"
+                                  )}
+                                >
+                                  <span className={cn(
+                                    "text-[13px] font-medium transition-colors",
+                                    isActive ? "text-[#FF5A36]" : "text-[#1A1A1A] dark:text-[#F0EDE7]"
+                                  )}>{opt.label}</span>
+                                  <span className="text-[11px] text-[#7A736C] dark:text-[#9E9893] leading-tight">{opt.description}</span>
+                                  {isActive && (
+                                    <div className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-[#FF5A36] flex items-center justify-center">
+                                      <Check size={9} strokeWidth={3.5} className="text-white" />
+                                    </div>
+                                  )}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="space-y-4 pt-2">
                         <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
                         <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
