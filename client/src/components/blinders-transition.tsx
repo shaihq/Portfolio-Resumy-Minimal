@@ -44,12 +44,33 @@ function SeamLoader({ phase }: { phase: Phase }) {
       {show && (
         <motion.div
           key="seam-loader"
-          className="select-none"
+          className="flex flex-col items-center gap-3 select-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: FADE_MS / 1000, ease: "easeInOut" }}
         >
+          {/* "LOADING" — blur-reveal for a quick beat, then dissolves before the bar ends */}
+          <motion.p
+            className="font-mono uppercase"
+            style={{
+              fontSize: 9,
+              letterSpacing: "0.42em",
+              color: "var(--blinder-fg)",
+            }}
+            animate={{
+              opacity: [0, 0.75, 0.75, 0],
+              filter: ["blur(10px)", "blur(0px)", "blur(0px)", "blur(8px)"],
+            }}
+            transition={{
+              duration: PROGRESS_MS * 0.8 / 1000,
+              times: [0, 0.25, 0.65, 1],
+              ease: "easeInOut",
+            }}
+          >
+            Loading
+          </motion.p>
+
           {/*
            * Wrapper gives vertical room for the glow dot (14px tall).
            * Track sits at the vertical midpoint. The dot is a sibling —
