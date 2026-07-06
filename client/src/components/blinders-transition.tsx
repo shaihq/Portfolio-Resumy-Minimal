@@ -39,18 +39,29 @@ function SeamLoader({ phase }: { phase: Phase }) {
   // when phase switches to "fading", giving a clean exit before panels move.
   const show = phase === "loading";
 
+  // Measure the rendered track width so the glow dot animates to the correct
+  // pixel position on every screen size (no hardcoded 224px).
+  const wrapperRef  = useRef<HTMLDivElement>(null);
+  const [dotEnd, setDotEnd] = useState(224);
+
+  useEffect(() => {
+    if (show && wrapperRef.current) {
+      setDotEnd(wrapperRef.current.offsetWidth);
+    }
+  }, [show]);
+
   return (
     <AnimatePresence>
       {show && (
         <motion.div
           key="seam-loader"
-          className="flex flex-col items-center gap-3 select-none"
+          className="flex flex-col items-center gap-3 select-none w-[44vw] max-w-[224px] min-w-[120px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: FADE_MS / 1000, ease: "easeInOut" }}
         >
-          {/* "LOADING" — blur-reveal for a quick beat, then dissolves before the bar ends */}
+          {/* "LOADING" — blurs into focus and stays */}
           <motion.p
             className="font-mono uppercase"
             style={{
@@ -58,26 +69,20 @@ function SeamLoader({ phase }: { phase: Phase }) {
               letterSpacing: "0.42em",
               color: "var(--blinder-fg)",
             }}
-            animate={{
-              opacity: [0, 0.75, 0.75, 0],
-              filter: ["blur(10px)", "blur(0px)", "blur(0px)", "blur(8px)"],
-            }}
-            transition={{
-              duration: PROGRESS_MS * 0.8 / 1000,
-              times: [0, 0.25, 0.65, 1],
-              ease: "easeInOut",
-            }}
+            initial={{ opacity: 0, filter: "blur(10px)" }}
+            animate={{ opacity: 0.75, filter: "blur(0px)" }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
           >
             Loading
           </motion.p>
 
           {/*
-           * Wrapper gives vertical room for the glow dot (14px tall).
-           * Track sits at the vertical midpoint. The dot is a sibling —
-           * not a child of the overflow:hidden track — so it renders unclipped.
+           * ref wrapper is the source-of-truth width for dot animation.
+           * 14px height gives the glow dot vertical room — the dot is a sibling
+           * of the overflow:hidden track so it renders fully unclipped.
            */}
-          <div className="relative" style={{ width: 224, height: 14 }}>
-            {/* Track — color calibrated to blinder panel, not page foreground */}
+          <div ref={wrapperRef} className="relative w-full" style={{ height: 14 }}>
+            {/* Track */}
             <div
               className="absolute inset-x-0 overflow-hidden"
               style={{
@@ -103,7 +108,7 @@ function SeamLoader({ phase }: { phase: Phase }) {
               />
             </div>
 
-            {/* Leading-edge glow dot — sibling of track so overflow:hidden doesn't clip it */}
+            {/* Leading-edge glow dot — animates to measured dotEnd, not hardcoded pixels */}
             <motion.div
               className="absolute rounded-full"
               style={{
@@ -116,7 +121,7 @@ function SeamLoader({ phase }: { phase: Phase }) {
                 translateX: "-50%",
               }}
               initial={{ left: 0 }}
-              animate={{ left: 224 }}
+              animate={{ left: dotEnd }}
               transition={{
                 duration: PROGRESS_MS / 1000,
                 ease: [0.33, 1, 0.68, 1],
