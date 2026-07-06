@@ -44,49 +44,58 @@ function SeamLoader({ phase }: { phase: Phase }) {
       {show && (
         <motion.div
           key="seam-loader"
-          className="flex flex-col items-center gap-3 select-none"
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
+          className="select-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: FADE_MS / 1000, ease: "easeInOut" }}
         >
-          {/* Label */}
-          <p className="text-[9px] font-mono tracking-[0.35em] uppercase text-foreground/30">
-            loading
-          </p>
-
-          {/* Progress track */}
-          <div
-            className="relative w-56 rounded-full overflow-hidden"
-            style={{ height: 4, background: "color-mix(in srgb, currentColor 7%, transparent)" }}
-          >
-            {/* Gradient fill */}
-            <motion.div
-              className="absolute inset-y-0 left-0 rounded-full"
+          {/*
+           * Wrapper gives vertical room for the glow dot (14px tall).
+           * Track sits at the vertical midpoint. The dot is a sibling —
+           * not a child of the overflow:hidden track — so it renders unclipped.
+           */}
+          <div className="relative" style={{ width: 224, height: 14 }}>
+            {/* Track — color calibrated to blinder panel, not page foreground */}
+            <div
+              className="absolute inset-x-0 overflow-hidden"
               style={{
-                background:
-                  "linear-gradient(90deg, color-mix(in srgb, currentColor 30%, transparent) 0%, currentColor 100%)",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: 2,
+                background: "color-mix(in srgb, var(--blinder-fg) 14%, transparent)",
               }}
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{
-                duration: PROGRESS_MS / 1000,
-                ease: [0.33, 1, 0.68, 1], // cubic ease-out — fast start, smooth finish
-              }}
-            />
+            >
+              {/* Fill */}
+              <motion.div
+                className="absolute inset-y-0 left-0"
+                style={{
+                  background:
+                    "linear-gradient(90deg, color-mix(in srgb, var(--blinder-fg) 35%, transparent) 0%, var(--blinder-fg) 100%)",
+                }}
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{
+                  duration: PROGRESS_MS / 1000,
+                  ease: [0.33, 1, 0.68, 1],
+                }}
+              />
+            </div>
 
-            {/* Leading-edge glow dot */}
+            {/* Leading-edge glow dot — sibling of track so overflow:hidden doesn't clip it */}
             <motion.div
-              className="absolute top-1/2 -translate-y-1/2 rounded-full"
+              className="absolute rounded-full"
               style={{
-                width: 6,
-                height: 6,
-                background: "currentColor",
-                boxShadow: "0 0 6px 2px color-mix(in srgb, currentColor 60%, transparent)",
+                width: 5,
+                height: 5,
+                top: "50%",
+                background: "var(--blinder-fg)",
+                boxShadow: "0 0 8px 3px color-mix(in srgb, var(--blinder-fg) 50%, transparent)",
+                translateY: "-50%",
                 translateX: "-50%",
               }}
-              initial={{ left: "0%" }}
-              animate={{ left: "100%" }}
+              initial={{ left: 0 }}
+              animate={{ left: 224 }}
               transition={{
                 duration: PROGRESS_MS / 1000,
                 ease: [0.33, 1, 0.68, 1],
