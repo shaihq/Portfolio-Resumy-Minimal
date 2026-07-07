@@ -889,30 +889,8 @@ export default function Home() {
 
             {/* Clouds — day mode only, subtle drift */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-1000" aria-hidden="true">
-              {/* Cloud left — larger, crisp, lower */}
-              <img
-                src="/backgrounds/cloud1.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '11%', left: '-3%',
-                  width: '42%', opacity: 0.82,
-                  filter: 'blur(0.5px)',
-                  animation: 'designer-cloud-drift-1 28s ease-in-out infinite',
-                  willChange: 'transform',
-                }}
-              />
-              {/* Cloud right — smaller, softer blur, higher up */}
-              <img
-                src="/backgrounds/cloud2.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '2%', right: '-2%',
-                  width: '30%', opacity: 0.62,
-                  filter: 'blur(3.5px)',
-                  animation: 'designer-cloud-drift-2 38s ease-in-out infinite',
-                  willChange: 'transform',
-                }}
-              />
+              <img src="/backgrounds/cloud1.avif" alt="" className="designer-cloud-1" />
+              <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2" />
             </div>
 
             {/* Birds — sprite sheet, day mode */}
@@ -979,6 +957,42 @@ export default function Home() {
           50%  { transform: translateY(0vh) translateX(90vw) scale(0.45); }
           51%  { transform: translateY(0vh) translateX(110vw) scale(0.45); }
           100% { transform: translateY(0vh) translateX(110vw) scale(0.45); }
+        }
+        .designer-cloud-1 {
+          position: absolute;
+          top: 6%;
+          left: -6%;
+          width: 72%;
+          opacity: 0.80;
+          filter: blur(1.5px);
+          animation: designer-cloud-drift-1 28s ease-in-out infinite;
+          will-change: transform;
+        }
+        .designer-cloud-2 {
+          position: absolute;
+          top: 28%;
+          right: -8%;
+          width: 62%;
+          opacity: 0.60;
+          filter: blur(4px);
+          animation: designer-cloud-drift-2 38s ease-in-out infinite;
+          will-change: transform;
+        }
+        @media (min-width: 768px) {
+          .designer-cloud-1 {
+            top: 11%;
+            left: -3%;
+            width: 46%;
+            opacity: 0.82;
+            filter: blur(1px);
+          }
+          .designer-cloud-2 {
+            top: 2%;
+            right: -2%;
+            width: 34%;
+            opacity: 0.62;
+            filter: blur(3.5px);
+          }
         }
         @keyframes designer-cloud-drift-1 {
           0%, 100% { transform: translateX(0px) translateY(0px); }
