@@ -887,15 +887,42 @@ export default function Home() {
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
 
-            {/* Clouds — day mode only, subtle drift */}
+            {/* Clouds — day mode only, multi-layer atmospheric depth */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-1000" aria-hidden="true">
+
+              {/* Layer 1 — deep background: tiny, heavy blur, very slow, translucent */}
+              <img
+                src="/backgrounds/cloud2.avif"
+                alt=""
+                style={{
+                  position: 'absolute', top: '3%', left: '8%',
+                  width: '22%', opacity: 0.38,
+                  filter: 'blur(5px)',
+                  animation: 'designer-cloud-drift-1 52s ease-in-out infinite',
+                  willChange: 'transform',
+                }}
+              />
               <img
                 src="/backgrounds/cloud1.avif"
                 alt=""
                 style={{
-                  position: 'absolute', top: '6%', left: '-2%',
-                  width: '38%', opacity: 0.82,
-                  animation: 'designer-cloud-drift-1 28s ease-in-out infinite',
+                  position: 'absolute', top: '0%', right: '10%',
+                  width: '20%', opacity: 0.32,
+                  filter: 'blur(6px)',
+                  animation: 'designer-cloud-drift-2 58s ease-in-out infinite',
+                  willChange: 'transform',
+                }}
+              />
+
+              {/* Layer 2 — midground: medium, soft blur, moderate opacity */}
+              <img
+                src="/backgrounds/cloud1.avif"
+                alt=""
+                style={{
+                  position: 'absolute', top: '8%', left: '-4%',
+                  width: '40%', opacity: 0.58,
+                  filter: 'blur(2.5px)',
+                  animation: 'designer-cloud-drift-3 34s ease-in-out infinite',
                   willChange: 'transform',
                 }}
               />
@@ -903,9 +930,34 @@ export default function Home() {
                 src="/backgrounds/cloud2.avif"
                 alt=""
                 style={{
-                  position: 'absolute', top: '2%', right: '-1%',
-                  width: '34%', opacity: 0.75,
-                  animation: 'designer-cloud-drift-2 34s ease-in-out infinite',
+                  position: 'absolute', top: '4%', right: '-3%',
+                  width: '36%', opacity: 0.52,
+                  filter: 'blur(2px)',
+                  animation: 'designer-cloud-drift-4 40s ease-in-out 4s infinite',
+                  willChange: 'transform',
+                }}
+              />
+
+              {/* Layer 3 — foreground: large, crisp (no blur), rich opacity, faster */}
+              <img
+                src="/backgrounds/cloud1.avif"
+                alt=""
+                style={{
+                  position: 'absolute', top: '14%', left: '-6%',
+                  width: '56%', opacity: 0.82,
+                  filter: 'blur(0px)',
+                  animation: 'designer-cloud-drift-1 22s ease-in-out 2s infinite',
+                  willChange: 'transform',
+                }}
+              />
+              <img
+                src="/backgrounds/cloud2.avif"
+                alt=""
+                style={{
+                  position: 'absolute', top: '10%', right: '-5%',
+                  width: '48%', opacity: 0.76,
+                  filter: 'blur(0.5px)',
+                  animation: 'designer-cloud-drift-2 26s ease-in-out 6s infinite',
                   willChange: 'transform',
                 }}
               />
@@ -978,11 +1030,24 @@ export default function Home() {
         }
         @keyframes designer-cloud-drift-1 {
           0%, 100% { transform: translateX(0px) translateY(0px); }
-          50%       { transform: translateX(30px) translateY(-8px); }
+          33%       { transform: translateX(24px) translateY(-6px); }
+          66%       { transform: translateX(12px) translateY(4px); }
         }
         @keyframes designer-cloud-drift-2 {
           0%, 100% { transform: translateX(0px) translateY(0px); }
-          50%       { transform: translateX(-22px) translateY(6px); }
+          40%       { transform: translateX(-18px) translateY(8px); }
+          75%       { transform: translateX(-28px) translateY(2px); }
+        }
+        @keyframes designer-cloud-drift-3 {
+          0%, 100% { transform: translateX(0px) translateY(0px); }
+          30%       { transform: translateX(18px) translateY(-10px); }
+          60%       { transform: translateX(30px) translateY(-4px); }
+        }
+        @keyframes designer-cloud-drift-4 {
+          0%, 100% { transform: translateX(0px) translateY(0px); }
+          25%       { transform: translateX(-14px) translateY(6px); }
+          55%       { transform: translateX(-24px) translateY(-2px); }
+          80%       { transform: translateX(-10px) translateY(8px); }
         }
         .designer-bird {
           background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/174479/bird-cells-new.svg');
