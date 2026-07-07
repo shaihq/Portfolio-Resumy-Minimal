@@ -5030,15 +5030,6 @@ export default function Home() {
 
               {/* Hero content */}
               <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
-                {/* Tagline */}
-                <motion.p
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/70 dark:text-[rgba(255,220,170,0.6)] text-[13px] font-medium tracking-[0.12em] mb-7 uppercase font-['Inter']"
-                >
-                  Hello, from the designer's desk.
-                </motion.p>
 
                 {/* Display headline — no blur to prevent flicker */}
                 <motion.h1
