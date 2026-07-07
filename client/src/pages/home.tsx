@@ -5060,7 +5060,7 @@ export default function Home() {
             <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
               {/* Designer portfolio nav — name left, links right */}
-              <nav className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5">
+              <nav className="fixed top-24 left-0 right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5">
                 <span className="text-white/90 text-[13px] font-medium tracking-wide font-['Inter']">
                   Matt
                 </span>
