@@ -1,5 +1,19 @@
 # Designfolio – Replit.md
 
+## How to Run
+
+```
+npm run dev
+```
+
+The Express server starts on **port 5000**, serving both the API and the Vite-bundled frontend with HMR. The "Start application" workflow handles this automatically.
+
+**Optional environment variables** (the app runs without them — features degrade gracefully):
+- `ANAM_API_KEY` — enables the AI mock interview avatar (`/api/anam/session` returns 503 without it)
+- `DATABASE_URL` — switches from in-memory storage to PostgreSQL via Drizzle ORM
+
+---
+
 ## Overview
 
 Designfolio is an AI-powered portfolio builder and job-matching platform built for product designers. It has two main areas:
