@@ -83,6 +83,7 @@ export default function Home() {
   const [handleHovered, setHandleHovered] = useState(false);
   const dragRef = useRef<{ startX: number; startWidth: number; side: 'left' | 'right' } | null>(null);
   const designerHeroRef = useRef<HTMLDivElement>(null);
+  const designerNavRef = useRef<HTMLElement>(null);
   const maxWidthRef = useRef(1200);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
@@ -113,6 +114,7 @@ export default function Home() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [toolSearchQuery, setToolSearchQuery] = useState("");
   const [designerNavScrolled, setDesignerNavScrolled] = useState(false);
+  const [designerMenuOpen, setDesignerMenuOpen] = useState(false);
   const [recommendations, setRecommendations] = useState([
     {
       id: "rec-1",
@@ -792,6 +794,23 @@ export default function Home() {
     observer.observe(hero);
     return () => observer.disconnect();
   }, [activeTemplate]);
+
+  // Designer mobile menu — Escape + outside-click close
+  useEffect(() => {
+    if (!designerMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setDesignerMenuOpen(false); };
+    const onOutside = (e: MouseEvent) => {
+      if (designerNavRef.current && !designerNavRef.current.contains(e.target as Node)) {
+        setDesignerMenuOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onOutside);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onOutside);
+    };
+  }, [designerMenuOpen]);
 
   const handleResizeMouseDown = useCallback((e: React.MouseEvent, side: 'left' | 'right') => {
     e.preventDefault();
@@ -5076,28 +5095,122 @@ export default function Home() {
             {/* ── Designer Hero ── */}
             <div ref={designerHeroRef} className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
-              {/* Designer portfolio nav — name left, links right */}
-              <nav className="fixed top-24 left-[72px] right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5 transition-colors duration-500">
-                <span
-                  className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
-                  style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.9)' }}
-                >
-                  Matt
-                </span>
-                <div className="flex items-center gap-7 md:gap-9">
-                  {["CV", "Work", "About", "Contact"].map((link) => (
-                    <a
-                      key={link}
-                      href="#"
-                      className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
-                      style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,1)' : 'rgba(255,255,255,1)')}
-                      onMouseLeave={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)')}
+              {/* Designer portfolio nav — responsive with hamburger on mobile */}
+              <nav
+                ref={designerNavRef}
+                className="fixed top-24 left-0 md:left-[72px] right-0 z-20 px-5 md:px-12 py-5"
+              >
+                <div className="flex items-center justify-between">
+                  {/* Name */}
+                  <span
+                    className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
+                    style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.9)' }}
+                  >
+                    Matt
+                  </span>
+
+                  {/* Desktop links */}
+                  <div className="hidden md:flex items-center gap-9">
+                    {["CV", "Work", "About", "Contact"].map((link) => (
+                      <a
+                        key={link}
+                        href="#"
+                        className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
+                        style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,1)' : 'rgba(255,255,255,1)')}
+                        onMouseLeave={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)')}
+                      >
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+
+                  {/* Mobile hamburger */}
+                  <button
+                    id="designer-menu-btn"
+                    className="md:hidden flex flex-col items-end gap-[3px]"
+                    onClick={() => setDesignerMenuOpen(o => !o)}
+                    aria-label="Toggle menu"
+                    aria-expanded={designerMenuOpen}
+                    aria-controls="designer-mobile-menu"
+                  >
+                    {/* MENU label */}
+                    <span
+                      className="text-[10px] font-semibold tracking-[0.18em] font-['Inter'] mb-[4px] transition-colors duration-500"
+                      style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.7)' : 'rgba(255,255,255,0.75)' }}
                     >
-                      {link}
-                    </a>
-                  ))}
+                      {designerMenuOpen ? 'CLOSE' : 'MENU'}
+                    </span>
+                    {/* Top bar: extends + rotates into top of X */}
+                    <motion.span
+                      className="block h-[1.5px] rounded-full"
+                      style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.9)' }}
+                      animate={{ width: designerMenuOpen ? 22 : 16, rotate: designerMenuOpen ? -45 : 0, y: designerMenuOpen ? 5 : 0 }}
+                      transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                    {/* Middle bar: shrinks away */}
+                    <motion.span
+                      className="block h-[1.5px] rounded-full"
+                      style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.9)' }}
+                      animate={{ width: designerMenuOpen ? 0 : 13, opacity: designerMenuOpen ? 0 : 1 }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                    {/* Bottom bar: full-width + rotates into bottom of X */}
+                    <motion.span
+                      className="block h-[1.5px] rounded-full"
+                      style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.9)' }}
+                      animate={{ width: 22, rotate: designerMenuOpen ? 45 : 0, y: designerMenuOpen ? -5 : 0 }}
+                      transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </button>
                 </div>
+
+                {/* Mobile dropdown */}
+                <AnimatePresence>
+                  {designerMenuOpen && (
+                    <motion.div
+                      id="designer-mobile-menu"
+                      key="designer-mobile-menu"
+                      initial={{ height: 0, opacity: 0, filter: 'blur(10px)' }}
+                      animate={{ height: 'auto', opacity: 1, filter: 'blur(0px)' }}
+                      exit={{ height: 0, opacity: 0, filter: 'blur(10px)' }}
+                      transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                      className="md:hidden overflow-hidden mt-3"
+                    >
+                      <div
+                        className="rounded-2xl px-5 py-2 flex flex-col"
+                        style={{
+                          background: designerNavScrolled
+                            ? 'rgba(255,255,255,0.76)'
+                            : 'rgba(20,20,30,0.35)',
+                          backdropFilter: 'blur(22px)',
+                          WebkitBackdropFilter: 'blur(22px)',
+                          border: designerNavScrolled
+                            ? '1px solid rgba(0,0,0,0.07)'
+                            : '1px solid rgba(255,255,255,0.16)',
+                        }}
+                      >
+                        {["CV", "Work", "About", "Contact"].map((link, i) => (
+                          <motion.a
+                            key={link}
+                            href="#"
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.07 + i * 0.055, duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                            className="text-[15px] font-medium tracking-wide font-['Inter'] py-[14px] border-b last:border-b-0 transition-colors duration-300"
+                            style={{
+                              color: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.88)',
+                              borderColor: designerNavScrolled ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.10)',
+                            }}
+                            onClick={() => setDesignerMenuOpen(false)}
+                          >
+                            {link}
+                          </motion.a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </nav>
 
               {/* Hero content */}
