@@ -111,6 +111,7 @@ export default function Home() {
   const [isDraggingResume, setIsDraggingResume] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [toolSearchQuery, setToolSearchQuery] = useState("");
+  const [designerNavScrolled, setDesignerNavScrolled] = useState(false);
   const [recommendations, setRecommendations] = useState([
     {
       id: "rec-1",
@@ -775,6 +776,15 @@ export default function Home() {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (activeTemplate !== "Designer") return;
+    const onScroll = () => {
+      setDesignerNavScrolled(window.scrollY > window.innerHeight * 0.72);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [activeTemplate]);
 
   const handleResizeMouseDown = useCallback((e: React.MouseEvent, side: 'left' | 'right') => {
     e.preventDefault();
@@ -5060,8 +5070,11 @@ export default function Home() {
             <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
               {/* Designer portfolio nav — name left, links right */}
-              <nav className="fixed top-24 left-[72px] right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5">
-                <span className="text-white/90 text-[13px] font-medium tracking-wide font-['Inter']">
+              <nav className="fixed top-24 left-[72px] right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5 transition-colors duration-500">
+                <span
+                  className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
+                  style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.9)' }}
+                >
                   Matt
                 </span>
                 <div className="flex items-center gap-7 md:gap-9">
@@ -5069,7 +5082,10 @@ export default function Home() {
                     <a
                       key={link}
                       href="#"
-                      className="text-white/70 hover:text-white text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-200"
+                      className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
+                      style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,1)' : 'rgba(255,255,255,1)')}
+                      onMouseLeave={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)')}
                     >
                       {link}
                     </a>
