@@ -5095,10 +5095,10 @@ export default function Home() {
             {/* ── Designer Hero ── */}
             <div ref={designerHeroRef} className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
-              {/* Designer portfolio nav — responsive with hamburger on mobile */}
+              {/* Designer portfolio nav — responsive with MENU pill on mobile */}
               <nav
                 ref={designerNavRef}
-                className="fixed top-24 left-0 md:left-[72px] right-0 z-20 px-5 md:px-12 py-5"
+                className="fixed top-24 left-[72px] right-0 z-20 px-5 md:px-12 py-5"
               >
                 <div className="flex items-center justify-between">
                   {/* Name */}
@@ -5125,92 +5125,84 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* Mobile hamburger */}
-                  <button
-                    id="designer-menu-btn"
-                    className="md:hidden flex flex-col items-end gap-[3px]"
-                    onClick={() => setDesignerMenuOpen(o => !o)}
-                    aria-label="Toggle menu"
-                    aria-expanded={designerMenuOpen}
-                    aria-controls="designer-mobile-menu"
-                  >
-                    {/* MENU label */}
-                    <span
-                      className="text-[10px] font-semibold tracking-[0.18em] font-['Inter'] mb-[4px] transition-colors duration-500"
-                      style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.7)' : 'rgba(255,255,255,0.75)' }}
+                  {/* Mobile — MENU pill + dropdown */}
+                  <div className="md:hidden relative">
+                    {/* Pill trigger */}
+                    <button
+                      id="designer-menu-btn"
+                      onClick={() => setDesignerMenuOpen(o => !o)}
+                      aria-label="Toggle menu"
+                      aria-expanded={designerMenuOpen}
+                      aria-controls="designer-mobile-menu"
+                      className="flex items-center gap-[6px] px-[10px] py-[7px] rounded-full transition-all duration-300 select-none"
+                      style={{
+                        background: designerNavScrolled ? 'rgba(26,26,26,0.06)' : 'rgba(255,255,255,0.18)',
+                        backdropFilter: 'blur(12px)',
+                        WebkitBackdropFilter: 'blur(12px)',
+                        border: designerNavScrolled ? '1px solid rgba(26,26,26,0.10)' : '1px solid rgba(255,255,255,0.26)',
+                      }}
                     >
-                      {designerMenuOpen ? 'CLOSE' : 'MENU'}
-                    </span>
-                    {/* Top bar: extends + rotates into top of X */}
-                    <motion.span
-                      className="block h-[1.5px] rounded-full"
-                      style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.9)' }}
-                      animate={{ width: designerMenuOpen ? 22 : 16, rotate: designerMenuOpen ? -45 : 0, y: designerMenuOpen ? 5 : 0 }}
-                      transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                    {/* Middle bar: shrinks away */}
-                    <motion.span
-                      className="block h-[1.5px] rounded-full"
-                      style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.9)' }}
-                      animate={{ width: designerMenuOpen ? 0 : 13, opacity: designerMenuOpen ? 0 : 1 }}
-                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                    {/* Bottom bar: full-width + rotates into bottom of X */}
-                    <motion.span
-                      className="block h-[1.5px] rounded-full"
-                      style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.9)' }}
-                      animate={{ width: 22, rotate: designerMenuOpen ? 45 : 0, y: designerMenuOpen ? -5 : 0 }}
-                      transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </button>
-                </div>
-
-                {/* Mobile dropdown */}
-                <AnimatePresence>
-                  {designerMenuOpen && (
-                    <motion.div
-                      id="designer-mobile-menu"
-                      key="designer-mobile-menu"
-                      initial={{ height: 0, opacity: 0, filter: 'blur(10px)' }}
-                      animate={{ height: 'auto', opacity: 1, filter: 'blur(0px)' }}
-                      exit={{ height: 0, opacity: 0, filter: 'blur(10px)' }}
-                      transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-                      className="md:hidden overflow-hidden mt-3"
-                    >
-                      <div
-                        className="rounded-2xl px-5 py-2 flex flex-col"
-                        style={{
-                          background: designerNavScrolled
-                            ? 'rgba(255,255,255,0.76)'
-                            : 'rgba(20,20,30,0.35)',
-                          backdropFilter: 'blur(22px)',
-                          WebkitBackdropFilter: 'blur(22px)',
-                          border: designerNavScrolled
-                            ? '1px solid rgba(0,0,0,0.07)'
-                            : '1px solid rgba(255,255,255,0.16)',
-                        }}
+                      {/* Static three-line icon */}
+                      <span className="flex flex-col justify-center gap-[3.5px]" aria-hidden>
+                        <span className="block w-[13px] h-[1.5px] rounded-full transition-colors duration-300"
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }} />
+                        <span className="block w-[9px] h-[1.5px] rounded-full transition-colors duration-300"
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }} />
+                        <span className="block w-[13px] h-[1.5px] rounded-full transition-colors duration-300"
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }} />
+                      </span>
+                      <span
+                        className="text-[10px] font-semibold tracking-[0.15em] font-['Inter'] transition-colors duration-300"
+                        style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }}
                       >
-                        {["CV", "Work", "About", "Contact"].map((link, i) => (
-                          <motion.a
-                            key={link}
-                            href="#"
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.07 + i * 0.055, duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-[15px] font-medium tracking-wide font-['Inter'] py-[14px] border-b last:border-b-0 transition-colors duration-300"
-                            style={{
-                              color: designerNavScrolled ? 'rgba(26,26,26,0.8)' : 'rgba(255,255,255,0.88)',
-                              borderColor: designerNavScrolled ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.10)',
-                            }}
-                            onClick={() => setDesignerMenuOpen(false)}
-                          >
-                            {link}
-                          </motion.a>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        MENU
+                      </span>
+                    </button>
+
+                    {/* Compact dropdown — right-aligned, white card */}
+                    <AnimatePresence>
+                      {designerMenuOpen && (
+                        <motion.div
+                          id="designer-mobile-menu"
+                          key="designer-mobile-menu"
+                          initial={{ opacity: 0, y: -6, scale: 0.95, transformOrigin: 'top right' }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -4, scale: 0.96 }}
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="absolute top-[calc(100%+8px)] right-0 min-w-[150px] overflow-hidden"
+                          style={{
+                            background: 'rgba(255,255,255,0.97)',
+                            backdropFilter: 'blur(20px)',
+                            WebkitBackdropFilter: 'blur(20px)',
+                            borderRadius: '14px',
+                            border: '1px solid rgba(0,0,0,0.07)',
+                            boxShadow: '0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06)',
+                          }}
+                        >
+                          {["CV", "Work", "About", "Contact"].map((link, i) => (
+                            <motion.a
+                              key={link}
+                              href="#"
+                              initial={{ opacity: 0, y: 3 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.03 + i * 0.035, duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                              className="flex items-center px-5 py-[13px] text-[13.5px] font-medium font-['Inter'] tracking-wide border-b last:border-b-0 active:bg-black/5"
+                              style={{
+                                color: 'rgba(26,26,26,0.80)',
+                                borderColor: 'rgba(0,0,0,0.055)',
+                              }}
+                              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.025)')}
+                              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                              onClick={() => setDesignerMenuOpen(false)}
+                            >
+                              {link}
+                            </motion.a>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
               </nav>
 
               {/* Hero content */}
