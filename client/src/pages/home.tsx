@@ -5059,6 +5059,24 @@ export default function Home() {
             {/* ── Designer Hero ── */}
             <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
+              {/* Designer portfolio nav — name left, links right */}
+              <nav className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5">
+                <span className="text-white/90 text-[13px] font-medium tracking-wide font-['Inter']">
+                  Matt
+                </span>
+                <div className="flex items-center gap-7 md:gap-9">
+                  {["CV", "Work", "About", "Contact"].map((link) => (
+                    <a
+                      key={link}
+                      href="#"
+                      className="text-white/70 hover:text-white text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-200"
+                    >
+                      {link}
+                    </a>
+                  ))}
+                </div>
+              </nav>
+
               {/* Hero content */}
               <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
 
