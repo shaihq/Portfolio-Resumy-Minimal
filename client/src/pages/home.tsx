@@ -887,77 +887,29 @@ export default function Home() {
             {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
 
-            {/* Clouds — day mode only, multi-layer atmospheric depth */}
+            {/* Clouds — day mode only, subtle drift */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-1000" aria-hidden="true">
-
-              {/* Layer 1 — deep background: tiny, heavy blur, very slow, translucent */}
-              <img
-                src="/backgrounds/cloud2.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '3%', left: '8%',
-                  width: '22%', opacity: 0.38,
-                  filter: 'blur(5px)',
-                  animation: 'designer-cloud-drift-1 52s ease-in-out infinite',
-                  willChange: 'transform',
-                }}
-              />
+              {/* Cloud left — larger, crisp, lower */}
               <img
                 src="/backgrounds/cloud1.avif"
                 alt=""
                 style={{
-                  position: 'absolute', top: '0%', right: '10%',
-                  width: '20%', opacity: 0.32,
-                  filter: 'blur(6px)',
-                  animation: 'designer-cloud-drift-2 58s ease-in-out infinite',
-                  willChange: 'transform',
-                }}
-              />
-
-              {/* Layer 2 — midground: medium, soft blur, moderate opacity */}
-              <img
-                src="/backgrounds/cloud1.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '8%', left: '-4%',
-                  width: '40%', opacity: 0.58,
-                  filter: 'blur(2.5px)',
-                  animation: 'designer-cloud-drift-3 34s ease-in-out infinite',
-                  willChange: 'transform',
-                }}
-              />
-              <img
-                src="/backgrounds/cloud2.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '4%', right: '-3%',
-                  width: '36%', opacity: 0.52,
-                  filter: 'blur(2px)',
-                  animation: 'designer-cloud-drift-4 40s ease-in-out 4s infinite',
-                  willChange: 'transform',
-                }}
-              />
-
-              {/* Layer 3 — foreground: large, crisp (no blur), rich opacity, faster */}
-              <img
-                src="/backgrounds/cloud1.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '14%', left: '-6%',
-                  width: '56%', opacity: 0.82,
-                  filter: 'blur(0px)',
-                  animation: 'designer-cloud-drift-1 22s ease-in-out 2s infinite',
-                  willChange: 'transform',
-                }}
-              />
-              <img
-                src="/backgrounds/cloud2.avif"
-                alt=""
-                style={{
-                  position: 'absolute', top: '10%', right: '-5%',
-                  width: '48%', opacity: 0.76,
+                  position: 'absolute', top: '11%', left: '-3%',
+                  width: '42%', opacity: 0.82,
                   filter: 'blur(0.5px)',
-                  animation: 'designer-cloud-drift-2 26s ease-in-out 6s infinite',
+                  animation: 'designer-cloud-drift-1 28s ease-in-out infinite',
+                  willChange: 'transform',
+                }}
+              />
+              {/* Cloud right — smaller, softer blur, higher up */}
+              <img
+                src="/backgrounds/cloud2.avif"
+                alt=""
+                style={{
+                  position: 'absolute', top: '2%', right: '-2%',
+                  width: '30%', opacity: 0.62,
+                  filter: 'blur(3.5px)',
+                  animation: 'designer-cloud-drift-2 38s ease-in-out infinite',
                   willChange: 'transform',
                 }}
               />
