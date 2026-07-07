@@ -5031,38 +5031,40 @@ export default function Home() {
               {/* Hero content */}
               <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
 
-                {/* Headline */}
-                <h1 className="text-[34px] font-semibold mb-1 tracking-[-0.01em] text-white text-center">
-                  <motion.span
-                    initial="hidden"
-                    animate="visible"
-                    variants={{ visible: { transition: { staggerChildren: 0.18, delayChildren: 0.3 } } }}
-                    className="inline-flex flex-wrap gap-x-[0.28em] justify-center"
-                  >
-                    {["Hey", "I'm", "Matt."].map((word, i) => (
-                      <motion.span
-                        key={i}
-                        className="inline-block"
-                        variants={{
-                          hidden: { opacity: 0, filter: "blur(10px)", x: 12 },
-                          visible: { opacity: 1, filter: "blur(0px)", x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-                        }}
-                      >
-                        {word}
-                      </motion.span>
-                    ))}
-                  </motion.span>
-                </h1>
-
-                {/* Sub-copy */}
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
+                {/* Display headline — no blur to prevent flicker */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/75 text-[19px] font-medium text-center"
+                  transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
+                  style={{ fontSize: 'clamp(54px, 9vw, 102px)' }}
                 >
-                  Product Designer
+                  <span className="block font-semibold">Thoughtful</span>
+                  <span className="block">
+                    <em className="italic font-normal">by</em>
+                    <span className="font-semibold"> design</span>
+                  </span>
+                </motion.h1>
+
+                {/* Description */}
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
+                >
+                  I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
                 </motion.p>
+
+                {/* Glassmorphic theme toggler */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                  className="mt-10"
+                >
+                  <AnimatedThemeToggler className="w-12 h-12 bg-white/25 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.12)] hover:bg-white/35 dark:hover:bg-white/18 hover:scale-105 active:scale-95 transition-all duration-200" />
+                </motion.div>
               </div>
             </div>
 
