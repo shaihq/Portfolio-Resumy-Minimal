@@ -82,6 +82,7 @@ export default function Home() {
   const [showHandles, setShowHandles] = useState(false);
   const [handleHovered, setHandleHovered] = useState(false);
   const dragRef = useRef<{ startX: number; startWidth: number; side: 'left' | 'right' } | null>(null);
+  const designerHeroRef = useRef<HTMLDivElement>(null);
   const maxWidthRef = useRef(1200);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
@@ -778,12 +779,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (activeTemplate !== "Designer") return;
-    const onScroll = () => {
-      setDesignerNavScrolled(window.scrollY > window.innerHeight * 0.72);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    if (activeTemplate !== "Designer") {
+      setDesignerNavScrolled(false);
+      return;
+    }
+    const hero = designerHeroRef.current;
+    if (!hero) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setDesignerNavScrolled(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-80px 0px 0px 0px" }
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
   }, [activeTemplate]);
 
   const handleResizeMouseDown = useCallback((e: React.MouseEvent, side: 'left' | 'right') => {
@@ -5067,7 +5074,7 @@ export default function Home() {
         ) : activeTemplate === "Designer" ? (
           <div className="flex-1 flex flex-col">
             {/* ── Designer Hero ── */}
-            <div className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
+            <div ref={designerHeroRef} className="relative flex flex-col items-center justify-center overflow-hidden text-center" style={{ minHeight: '88vh' }}>
 
               {/* Designer portfolio nav — name left, links right */}
               <nav className="fixed top-24 left-[72px] right-0 z-20 flex items-center justify-between px-7 md:px-12 py-5 transition-colors duration-500">
