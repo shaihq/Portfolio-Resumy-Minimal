@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, User, Briefcase } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
 import { useLocation } from "wouter";
@@ -5142,14 +5142,35 @@ export default function Home() {
                         border: designerNavScrolled ? '1px solid rgba(26,26,26,0.10)' : '1px solid rgba(255,255,255,0.26)',
                       }}
                     >
-                      {/* Static three-line icon */}
-                      <span className="flex flex-col justify-center gap-[3.5px]" aria-hidden>
-                        <span className="block w-[13px] h-[1.5px] rounded-full transition-colors duration-300"
-                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }} />
-                        <span className="block w-[9px] h-[1.5px] rounded-full transition-colors duration-300"
-                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }} />
-                        <span className="block w-[13px] h-[1.5px] rounded-full transition-colors duration-300"
-                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }} />
+                      {/* Animated three-line → X icon */}
+                      <span className="relative flex flex-col justify-center gap-[3.5px] w-[13px] h-[11px]" aria-hidden>
+                        {/* Top bar */}
+                        <motion.span
+                          className="absolute block h-[1.5px] rounded-full left-0"
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.80)' : 'rgba(255,255,255,0.95)', top: 0 }}
+                          animate={designerMenuOpen
+                            ? { width: 13, top: '50%', y: '-50%', rotate: 45 }
+                            : { width: 13, top: 0,    y: 0,      rotate: 0 }}
+                          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                        />
+                        {/* Middle bar */}
+                        <motion.span
+                          className="absolute block h-[1.5px] rounded-full left-0"
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.80)' : 'rgba(255,255,255,0.95)', top: '50%', marginTop: '-0.75px', width: 9 }}
+                          animate={designerMenuOpen
+                            ? { opacity: 0, scaleX: 0 }
+                            : { opacity: 1, scaleX: 1 }}
+                          transition={{ duration: 0.18, ease: 'easeInOut' }}
+                        />
+                        {/* Bottom bar */}
+                        <motion.span
+                          className="absolute block h-[1.5px] rounded-full left-0"
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.80)' : 'rgba(255,255,255,0.95)', bottom: 0 }}
+                          animate={designerMenuOpen
+                            ? { width: 13, bottom: 'auto', top: '50%', y: '-50%', rotate: -45 }
+                            : { width: 13, bottom: 0,      top: 'auto', y: 0,       rotate: 0 }}
+                          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                        />
                       </span>
                       <span
                         className="text-[10px] font-semibold tracking-[0.15em] font-['Inter'] transition-colors duration-300"
@@ -5159,43 +5180,51 @@ export default function Home() {
                       </span>
                     </button>
 
-                    {/* Compact dropdown — right-aligned, white card */}
+                    {/* Compact dropdown — matches pill glass style */}
                     <AnimatePresence>
                       {designerMenuOpen && (
                         <motion.div
                           id="designer-mobile-menu"
                           key="designer-mobile-menu"
-                          initial={{ opacity: 0, y: -6, scale: 0.95, transformOrigin: 'top right' }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -4, scale: 0.96 }}
-                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute top-[calc(100%+8px)] right-0 min-w-[150px] overflow-hidden"
+                          initial={{ opacity: 0, y: -8, scale: 0.94 }}
+                          animate={{ opacity: 1, y: 0,  scale: 1 }}
+                          exit={{ opacity: 0, y: -6, scale: 0.96 }}
+                          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                          className="absolute top-[calc(100%+8px)] right-0 min-w-[176px] overflow-hidden"
                           style={{
-                            background: 'rgba(255,255,255,0.97)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            borderRadius: '14px',
-                            border: '1px solid rgba(0,0,0,0.07)',
-                            boxShadow: '0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06)',
+                            background: designerNavScrolled ? 'rgba(255,255,255,0.72)' : 'rgba(255,255,255,0.16)',
+                            backdropFilter: 'blur(24px)',
+                            WebkitBackdropFilter: 'blur(24px)',
+                            borderRadius: '16px',
+                            border: designerNavScrolled ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.28)',
+                            boxShadow: designerNavScrolled
+                              ? '0 8px 32px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06)'
+                              : '0 8px 32px rgba(0,0,0,0.18), 0 1px 6px rgba(0,0,0,0.10)',
                           }}
                         >
-                          {["CV", "Work", "About", "Contact"].map((link, i) => (
+                          {([
+                            { label: 'CV',      Icon: FileText  },
+                            { label: 'Work',    Icon: Briefcase },
+                            { label: 'About',   Icon: User      },
+                            { label: 'Contact', Icon: Mail      },
+                          ] as const).map(({ label, Icon }, i) => (
                             <motion.a
-                              key={link}
+                              key={label}
                               href="#"
-                              initial={{ opacity: 0, y: 3 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.03 + i * 0.035, duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                              className="flex items-center px-5 py-[13px] text-[13.5px] font-medium font-['Inter'] tracking-wide border-b last:border-b-0 active:bg-black/5"
+                              initial={{ opacity: 0, y: 5, filter: 'blur(6px)' }}
+                              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                              transition={{ delay: 0.04 + i * 0.05, duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                              className="flex items-center gap-3 px-4 py-[13px] border-b last:border-b-0"
                               style={{
-                                color: 'rgba(26,26,26,0.80)',
-                                borderColor: 'rgba(0,0,0,0.055)',
+                                color: designerNavScrolled ? 'rgba(26,26,26,0.82)' : 'rgba(255,255,255,0.90)',
+                                borderColor: designerNavScrolled ? 'rgba(0,0,0,0.055)' : 'rgba(255,255,255,0.12)',
                               }}
-                              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.025)')}
+                              onMouseEnter={e => (e.currentTarget.style.background = designerNavScrolled ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.10)')}
                               onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                               onClick={() => setDesignerMenuOpen(false)}
                             >
-                              {link}
+                              <Icon size={13} strokeWidth={1.8} style={{ opacity: 0.7, flexShrink: 0 }} />
+                              <span className="text-[13.5px] font-medium font-['Inter'] tracking-wide">{label}</span>
                             </motion.a>
                           ))}
                         </motion.div>
