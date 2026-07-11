@@ -93,6 +93,8 @@ export default function Navbar() {
   useEffect(() => {
     if (isThemePanelOpen) {
       window.dispatchEvent(new CustomEvent('panelOpened', { detail: 'theme' }));
+    } else {
+      setShowMoreBackgrounds(false);
     }
   }, [isThemePanelOpen]);
 
