@@ -456,26 +456,31 @@ export default function Navbar() {
                             </span>
                           </div>
 
-                          <div className="flex flex-col gap-2 items-center">
-                            <button
-                              onClick={() => setShowMoreBackgrounds((v) => !v)}
-                              className="w-full rounded-[18px] border border-black/8 dark:border-white/8 hover:border-black/15 dark:hover:border-white/15 bg-transparent flex flex-col items-center justify-center gap-1 cursor-pointer transition-all focus:outline-none"
-                              style={{ aspectRatio: "16/9" }}
-                            >
+                          <AnimatePresence initial={false}>
+                            {!showMoreBackgrounds && (
                               <motion.div
-                                animate={{ rotate: showMoreBackgrounds ? 180 : 0 }}
-                                transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+                                key="view-more-trigger"
+                                initial={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+                                className="flex flex-col gap-2 items-center"
                               >
-                                <ChevronDown size={16} className="text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                <button
+                                  onClick={() => setShowMoreBackgrounds(true)}
+                                  className="w-full rounded-[18px] border border-black/8 dark:border-white/8 hover:border-black/15 dark:hover:border-white/15 bg-transparent flex flex-col items-center justify-center gap-1 cursor-pointer transition-all focus:outline-none"
+                                  style={{ aspectRatio: "16/9" }}
+                                >
+                                  <ChevronDown size={16} className="text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                                  <span className="text-[11px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">
+                                    View 5 more
+                                  </span>
+                                </button>
+                                <span className="text-[13px] text-center font-medium text-transparent select-none">
+                                  spacer
+                                </span>
                               </motion.div>
-                              <span className="text-[11px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">
-                                {showMoreBackgrounds ? "Show less" : "View 5 more"}
-                              </span>
-                            </button>
-                            <span className="text-[13px] text-center font-medium text-transparent select-none">
-                              spacer
-                            </span>
-                          </div>
+                            )}
+                          </AnimatePresence>
                         </div>
 
                         <AnimatePresence initial={false}>
