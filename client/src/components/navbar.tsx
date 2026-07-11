@@ -21,8 +21,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ChartSpline, Eye, PaintRoller, Check, Menu, Pipette } from "lucide-react";
+import { ChartSpline, Eye, PaintRoller, Check, Menu, Pipette, ChevronDown, Sparkles } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { motion, AnimatePresence } from "framer-motion";
 import profileImg from "@/assets/images/profile.png";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +46,7 @@ export default function Navbar() {
   const isMobile = useIsMobile();
   const { activeTemplate, setActiveTemplate, activeBackground, setActiveBackground, backgroundMode, setBackgroundMode, typographySize, setTypographySize } = useTemplate();
   const [themePanelTab, setThemePanelTab] = useState<"themes" | "backgrounds">("themes");
+  const [showMoreBackgrounds, setShowMoreBackgrounds] = useState(false);
   const { resolvedTheme } = useTheme();
   const navIsDark = navMounted && resolvedTheme === "dark";
 
@@ -437,7 +439,83 @@ export default function Navbar() {
                               </div>
                             );
                           })}
+
+                          {/* Coming soon placeholder + reveal trigger */}
+                          <div className="flex flex-col gap-2 items-center">
+                            <div
+                              className="w-full rounded-[18px] border border-dashed border-black/12 dark:border-white/15 bg-black/[0.02] dark:bg-white/[0.03] flex flex-col items-center justify-center gap-1 text-center px-2"
+                              style={{ aspectRatio: "16/9" }}
+                            >
+                              <Sparkles size={14} className="text-[#B0A99F] dark:text-[#6E6862]" />
+                              <span className="text-[10px] font-medium text-[#B0A99F] dark:text-[#6E6862]">
+                                Coming soon
+                              </span>
+                            </div>
+                            <span className="text-[13px] text-center font-medium text-[#7A736C] dark:text-[#9E9893]">
+                              New backdrop
+                            </span>
+                          </div>
+
+                          <div className="flex flex-col gap-2 items-center">
+                            <button
+                              onClick={() => setShowMoreBackgrounds((v) => !v)}
+                              className="w-full rounded-[18px] border border-black/8 dark:border-white/8 hover:border-black/15 dark:hover:border-white/15 bg-transparent flex flex-col items-center justify-center gap-1 cursor-pointer transition-all focus:outline-none"
+                              style={{ aspectRatio: "16/9" }}
+                            >
+                              <motion.div
+                                animate={{ rotate: showMoreBackgrounds ? 180 : 0 }}
+                                transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+                              >
+                                <ChevronDown size={16} className="text-[#1A1A1A] dark:text-[#F0EDE7]" />
+                              </motion.div>
+                              <span className="text-[11px] font-medium text-[#1A1A1A] dark:text-[#F0EDE7]">
+                                {showMoreBackgrounds ? "Show less" : "View 5 more"}
+                              </span>
+                            </button>
+                            <span className="text-[13px] text-center font-medium text-transparent select-none">
+                              spacer
+                            </span>
+                          </div>
                         </div>
+
+                        <AnimatePresence initial={false}>
+                          {showMoreBackgrounds && (
+                            <motion.div
+                              key="more-backgrounds"
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="grid grid-cols-2 gap-3 pt-3">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <motion.div
+                                    key={`coming-soon-${i}`}
+                                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                                    transition={{ duration: 0.3, delay: showMoreBackgrounds ? i * 0.05 : 0, ease: [0.32, 0.72, 0, 1] }}
+                                    className="flex flex-col gap-2 items-center"
+                                  >
+                                    <div
+                                      className="w-full rounded-[18px] border border-dashed border-black/12 dark:border-white/15 bg-black/[0.02] dark:bg-white/[0.03] flex flex-col items-center justify-center gap-1 text-center px-2"
+                                      style={{ aspectRatio: "16/9" }}
+                                    >
+                                      <Sparkles size={14} className="text-[#B0A99F] dark:text-[#6E6862]" />
+                                      <span className="text-[10px] font-medium text-[#B0A99F] dark:text-[#6E6862]">
+                                        Coming soon
+                                      </span>
+                                    </div>
+                                    <span className="text-[13px] text-center font-medium text-[#7A736C] dark:text-[#9E9893]">
+                                      New backdrop
+                                    </span>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
 
                       {/* Divider */}
