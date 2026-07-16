@@ -851,7 +851,7 @@ export default function Home() {
         variants={containerVariants}
         className={cn(
           "min-h-screen flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative",
-          (activeTemplate === "Minimal" && backgroundMode === "full-page") || activeTemplate === "Designer"
+          (activeTemplate === "Minimal" && backgroundMode === "full-page") || activeTemplate === "Designer" || (activeTemplate === "Chatfolio" && backgroundMode === "full-page")
             ? "bg-transparent"
             : "bg-[#F0EDE7] dark:bg-[#1A1A1A]"
         )}
@@ -885,6 +885,49 @@ export default function Home() {
 
         {/* Full-page background — covers entire portfolio behind all sections */}
         {activeTemplate === "Minimal" && backgroundMode === "full-page" && activeBackground !== "default" && (
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            {isImageBackground ? (
+              <img
+                src={activeBackground}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover object-center"
+                loading="eager"
+              />
+            ) : (
+              <div className="w-full h-full" style={{ backgroundColor: resolvedBg }} />
+            )}
+          </div>
+        )}
+
+        {/* Background — Chatfolio template, header mode */}
+        {activeTemplate === "Chatfolio" && backgroundMode === "header" && activeBackground !== "default" && (
+          <div className="absolute top-0 left-0 right-0 overflow-hidden z-0" style={{ height: 580 }}>
+            {isImageBackground ? (
+              <img
+                src={activeBackground}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover object-center"
+                loading="eager"
+              />
+            ) : (
+              <div className="w-full h-full" style={{ backgroundColor: resolvedBg }} />
+            )}
+            {/* Fade into page bg at bottom */}
+            <div
+              className="absolute inset-0 dark:hidden"
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(240,237,231,0.7) 92%, #F0EDE7 100%)' }}
+            />
+            <div
+              className="absolute inset-0 hidden dark:block"
+              style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 82%, rgba(26,26,26,0.7) 92%, #1A1A1A 100%)' }}
+            />
+          </div>
+        )}
+
+        {/* Full-page background — Chatfolio template */}
+        {activeTemplate === "Chatfolio" && backgroundMode === "full-page" && activeBackground !== "default" && (
           <div className="fixed inset-0 z-0 pointer-events-none">
             {isImageBackground ? (
               <img
