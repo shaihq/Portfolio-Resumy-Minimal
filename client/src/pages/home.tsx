@@ -4149,7 +4149,12 @@ export default function Home() {
             </motion.div>
           </div>
         ) : activeTemplate === "Chatfolio" ? (
-          <div className="flex-1 flex flex-col pt-0 pb-24 px-4 sm:px-6 w-full max-w-2xl mx-auto space-y-8">
+          <div className={cn(
+            "flex-1 flex flex-col w-full space-y-8",
+            activeBackground !== "default"
+              ? "p-6 bg-white/85 dark:bg-[#1A1A1A]/85 backdrop-blur-sm rounded-2xl border border-black/5 dark:border-white/5"
+              : "pt-0 pb-24 px-4 sm:px-6 max-w-2xl mx-auto"
+          )}>
             {/* Header */}
             <motion.div 
               initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
@@ -4197,7 +4202,10 @@ export default function Home() {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-dashed border-black/10 dark:border-white/10"></div>
               </div>
-              <span className="relative bg-[#EFECE6] dark:bg-[#1A1A1A] px-4 text-xs font-medium text-[#7A736C] dark:text-[#B5AFA5] transition-colors duration-700">
+              <span className={cn(
+                "relative px-4 text-xs font-medium text-[#7A736C] dark:text-[#B5AFA5] transition-colors duration-700",
+                activeBackground !== "default" ? "bg-transparent" : "bg-[#EFECE6] dark:bg-[#1A1A1A]"
+              )}>
                 {format(currentTime, "d EEE, h:mm:ss a")}
               </span>
             </motion.div>
