@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import { Lock, ShieldOff } from "lucide-react"
+import { Lock } from "lucide-react"
 import { motion, AnimatePresence, MotionConfig } from "framer-motion"
 
 function useClickAway(
@@ -117,25 +117,18 @@ export function PasswordProtectDropdown({
                     Password protect.
                   </motion.p>
 
-                  {/* Fake password input — locked */}
+                  {/* Preview image */}
                   <motion.div
                     variants={rowVariants}
-                    className="flex items-center gap-2.5 rounded-[13px] px-3.5 py-2.5"
-                    style={{
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full overflow-hidden rounded-[13px]"
+                    style={{ border: "1px solid rgba(255,255,255,0.08)" }}
                   >
-                    <Lock size={14} className="text-white/25 shrink-0" strokeWidth={2} />
-                    <span className="flex-1 text-[13px] text-white/25 tracking-widest select-none">
-                      ••••••••••
-                    </span>
-                    <div
-                      className="h-7 w-7 rounded-[9px] flex items-center justify-center shrink-0"
-                      style={{ background: "rgba(255,255,255,0.06)" }}
-                    >
-                      <ShieldOff size={12} className="text-white/25" strokeWidth={2} />
-                    </div>
+                    <img
+                      src="/custompassword.png"
+                      alt="Password protect preview"
+                      className="w-full h-auto block"
+                      draggable={false}
+                    />
                   </motion.div>
 
                   {/* CTA */}
