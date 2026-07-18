@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useRoute, useLocation } from "wouter";
-import { ChevronLeft, Phone, Upload } from "lucide-react";
+import { ChevronLeft, Phone, Upload, Lock } from "lucide-react";
 import { CaseStudyEditor } from "@/components/case-study-editor";
 import { SectionManager } from "@/components/section-manager";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
@@ -586,10 +586,10 @@ export default function Project() {
                     <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" /> Go Back
                   </button>
                   <div className="flex items-center gap-5">
-                    <div className="flex items-center gap-5 text-[13px] font-medium text-white/80">
-                      <button onClick={() => navigate("/")} className="hover:text-white transition-colors">Work</button>
-                      <button className="flex items-center gap-1 hover:text-white transition-colors"><span className="text-[10px]">✦</span> Resume</button>
-                    </div>
+                    <button className="flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition-colors bg-white/10 hover:bg-white/15 backdrop-blur-sm px-3.5 py-1.5 rounded-full">
+                      <Lock size={12} strokeWidth={2.5} />
+                      Password Protect
+                    </button>
                     <div data-joyride="view-toggle" className="flex items-center gap-0.5 bg-white/10 backdrop-blur-sm rounded-lg p-1 ml-2">
                       <button onClick={() => setHeroView("immersive")} title="Immersive view" className="w-7 h-7 rounded-md flex items-center justify-center transition-all bg-white/20">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1.5" fill="white" /></svg>
@@ -654,10 +654,10 @@ export default function Project() {
                   <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-1" /> Go Back
                 </button>
                 <div className="flex items-center gap-5">
-                  <div className="flex items-center gap-5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893]">
-                    <button onClick={() => navigate("/")} className="hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors">Work</button>
-                    <button className="flex items-center gap-1 hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors"><span className="text-[10px]">✦</span> Resume</button>
-                  </div>
+                  <button className="flex items-center gap-1.5 text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] hover:text-[#1A1A1A] dark:hover:text-[#F0EDE7] transition-colors bg-black/5 dark:bg-white/5 hover:bg-black/8 dark:hover:bg-white/8 px-3.5 py-1.5 rounded-full">
+                    <Lock size={12} strokeWidth={2.5} />
+                    Password Protect
+                  </button>
                   <div data-joyride="view-toggle" className="flex items-center gap-0.5 bg-black/5 dark:bg-white/5 rounded-lg p-1 ml-2">
                     <button onClick={() => setHeroView("immersive")} title="Immersive view" className="w-7 h-7 rounded-md flex items-center justify-center transition-all hover:bg-black/5 dark:hover:bg-white/5">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1.5" fill="currentColor" className="text-[#7A736C] dark:text-[#9E9893]" fillOpacity="0.5" /></svg>
