@@ -109,6 +109,14 @@ export function PublishDropdown() {
                 {/* Main body */}
                 <div className="px-5 pt-5 pb-5 flex flex-col gap-3.5">
 
+                  {/* Heading */}
+                  <motion.p
+                    variants={rowVariants}
+                    className="text-[13px] font-medium text-white/40 tracking-[-0.1px]"
+                  >
+                    Ready to publish.
+                  </motion.p>
+
                   {/* URL row */}
                   <motion.div
                     variants={rowVariants}
