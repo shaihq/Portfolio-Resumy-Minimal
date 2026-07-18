@@ -176,22 +176,26 @@ export function PublishDropdown() {
                     </span>
                   </div>
 
-                  <motion.button
-                    className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold cursor-pointer shrink-0"
+                  <button
+                    className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold cursor-pointer shrink-0 transition-all duration-150"
                     style={{
                       background: "rgba(255,90,54,0.12)",
                       color: "#FF5A36",
                       border: "1px solid rgba(255,90,54,0.2)",
                     }}
-                    whileHover={{
-                      background: "rgba(212,255,75,0.16)",
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = "rgba(255,90,54,0.22)"
+                      e.currentTarget.style.borderColor = "rgba(255,90,54,0.35)"
                     }}
-                    whileTap={{ scale: 0.96 }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = "rgba(255,90,54,0.12)"
+                      e.currentTarget.style.borderColor = "rgba(255,90,54,0.2)"
+                    }}
                     aria-label="Upgrade to unlock custom domain"
                   >
                     <Lock size={11} strokeWidth={2.5} />
                     Upgrade to unlock
-                  </motion.button>
+                  </button>
                 </motion.div>
               </div>
             </motion.div>
