@@ -135,10 +135,10 @@ export function PasswordProtectDropdown({
                 <div className="px-5 pb-5">
                   <motion.button
                     variants={rowVariants}
-                    className="w-full h-[50px] rounded-[13px] text-[14px] font-bold text-[#111] tracking-[-0.2px] cursor-pointer"
-                    style={{ background: "#D4FF4B" }}
-                    whileHover={{ filter: "brightness(1.06)" }}
-                    whileTap={{ scale: 0.98, filter: "brightness(0.94)" }}
+                    className="w-full h-[50px] rounded-[13px] text-[14px] font-bold text-white tracking-[-0.2px] cursor-pointer"
+                    style={{ background: "#FF5A36" }}
+                    whileHover={{ filter: "brightness(1.08)" }}
+                    whileTap={{ scale: 0.98, filter: "brightness(0.96)" }}
                     transition={{ type: "spring", stiffness: 400, damping: 24 }}
                   >
                     Upgrade to unlock
