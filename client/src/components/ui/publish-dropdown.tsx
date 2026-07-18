@@ -101,21 +101,13 @@ export function PublishDropdown() {
               <div
                 className="w-full rounded-[20px] overflow-hidden"
                 style={{
-                  background: "#1C1C1E",
+                  background: "#1A1A1A",
                   boxShadow:
-                    "0 0 0 0.5px rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.28), 0 24px 48px rgba(0,0,0,0.18)",
+                    "0 0 0 0.5px rgba(255,255,255,0.07), 0 8px 24px rgba(0,0,0,0.28), 0 24px 48px rgba(0,0,0,0.18)",
                 }}
               >
                 {/* Main body */}
                 <div className="px-5 pt-5 pb-5 flex flex-col gap-3.5">
-
-                  {/* Heading */}
-                  <motion.p
-                    variants={rowVariants}
-                    className="text-[17px] font-semibold text-white tracking-[-0.3px] leading-tight"
-                  >
-                    Ready to publish
-                  </motion.p>
 
                   {/* URL row */}
                   <motion.div
@@ -149,8 +141,8 @@ export function PublishDropdown() {
                   {/* CTA */}
                   <motion.button
                     variants={rowVariants}
-                    className="w-full h-[50px] rounded-[13px] text-[14px] font-semibold text-[#111] tracking-[-0.2px] cursor-pointer"
-                    style={{ background: "#D4FF4B" }}
+                    className="w-full h-[50px] rounded-[13px] text-[14px] font-semibold text-white tracking-[-0.2px] cursor-pointer"
+                    style={{ background: "#FF5A36" }}
                     whileHover={{ filter: "brightness(1.06)" }}
                     whileTap={{ scale: 0.98, filter: "brightness(0.96)" }}
                     transition={{ type: "spring", stiffness: 400, damping: 24 }}
@@ -187,9 +179,9 @@ export function PublishDropdown() {
                   <motion.button
                     className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold cursor-pointer shrink-0"
                     style={{
-                      background: "rgba(212,255,75,0.1)",
-                      color: "#C8F03A",
-                      border: "1px solid rgba(212,255,75,0.18)",
+                      background: "rgba(255,90,54,0.12)",
+                      color: "#FF5A36",
+                      border: "1px solid rgba(255,90,54,0.2)",
                     }}
                     whileHover={{
                       background: "rgba(212,255,75,0.16)",
