@@ -94,7 +94,7 @@ export function PublishDropdown() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute right-0 top-full mt-2.5 z-50 w-[312px]"
+              className="absolute right-0 top-full mt-2.5 z-50 w-[360px]"
               onKeyDown={handleKeyDown}
               style={{ transformOrigin: "top right" }}
             >
