@@ -1,5 +1,4 @@
 import React, { useRef } from "react"
-import { Lock } from "lucide-react"
 import { motion, AnimatePresence, MotionConfig } from "framer-motion"
 
 function useClickAway(
@@ -106,57 +105,45 @@ export function PasswordProtectDropdown({
                     "0 0 0 0.5px rgba(255,255,255,0.07), 0 8px 24px rgba(0,0,0,0.28), 0 24px 48px rgba(0,0,0,0.18)",
                 }}
               >
-                {/* Main body */}
-                <div className="px-5 pt-5 pb-5 flex flex-col gap-3.5">
+                {/* Image — flush at top, card clips the corners */}
+                <motion.div variants={rowVariants}>
+                  <img
+                    src="/custompassword.png"
+                    alt="Password protect preview"
+                    className="w-full h-auto block"
+                    draggable={false}
+                  />
+                </motion.div>
 
-                  {/* Subtle title */}
+                {/* Content */}
+                <div className="px-5 pt-4 pb-5 flex flex-col gap-2">
                   <motion.p
                     variants={rowVariants}
-                    className="text-[13px] font-medium text-white/40 tracking-[-0.1px]"
+                    className="text-[17px] font-bold text-white tracking-[-0.4px] leading-snug"
                   >
-                    Password protect.
+                    Unlock password protection
                   </motion.p>
-
-                  {/* Preview image */}
-                  <motion.div
+                  <motion.p
                     variants={rowVariants}
-                    className="w-full overflow-hidden rounded-[13px]"
-                    style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+                    className="text-[14px] text-white/50 leading-snug tracking-[-0.1px]"
                   >
-                    <img
-                      src="/custompassword.png"
-                      alt="Password protect preview"
-                      className="w-full h-auto block"
-                      draggable={false}
-                    />
-                  </motion.div>
+                    Protect your portfolio with a password
+                  </motion.p>
+                </div>
 
-                  {/* CTA */}
+                {/* CTA */}
+                <div className="px-5 pb-5">
                   <motion.button
                     variants={rowVariants}
-                    className="w-full h-[50px] rounded-[13px] text-[14px] font-semibold text-white tracking-[-0.2px] cursor-pointer"
-                    style={{ background: "#FF5A36" }}
-                    whileHover={{ filter: "brightness(1.08)" }}
-                    whileTap={{ scale: 0.98, filter: "brightness(0.96)" }}
+                    className="w-full h-[50px] rounded-[13px] text-[14px] font-bold text-[#111] tracking-[-0.2px] cursor-pointer"
+                    style={{ background: "#D4FF4B" }}
+                    whileHover={{ filter: "brightness(1.06)" }}
+                    whileTap={{ scale: 0.98, filter: "brightness(0.94)" }}
                     transition={{ type: "spring", stiffness: 400, damping: 24 }}
                   >
                     Upgrade to unlock
                   </motion.button>
                 </div>
-
-                {/* Divider */}
-                <div style={{ height: "1px", background: "rgba(255,255,255,0.07)" }} />
-
-                {/* Footer */}
-                <motion.div
-                  variants={rowVariants}
-                  className="px-5 py-3.5 flex items-center gap-2.5"
-                >
-                  <Lock size={13} className="text-white/25 shrink-0" strokeWidth={2} />
-                  <span className="text-[12px] text-white/30 leading-snug">
-                    Keep your case study private with a password before sharing.
-                  </span>
-                </motion.div>
               </div>
             </motion.div>
           )}
