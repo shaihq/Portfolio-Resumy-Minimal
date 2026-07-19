@@ -86,7 +86,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
       }}
     >
       {/* Section header — lives outside sticky cards so it's never covered */}
-      <div className="px-6 md:px-0 pb-4">
+      <div className="px-6 md:px-0 pb-1">
         {/* Badge + divider row */}
         <div className="flex items-center gap-3 mb-4">
           {/* Blue diamond sparkle */}
