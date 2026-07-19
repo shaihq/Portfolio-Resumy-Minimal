@@ -394,7 +394,7 @@ export function MarioNavButtons({ onLeft, onRight }: { onLeft: () => void; onRig
             onClick={() => handle(dir, dir === "left" ? onLeft : onRight)}
             title={dir === "left" ? "Previous" : "Next"}
             style={{
-              width: 36, height: 36,
+              width: 52, height: 52,
               cursor: "pointer",
               border: "3px solid #5A2D00",
               borderRadius: 6,
@@ -490,7 +490,7 @@ export const DesignerMarioExperience = forwardRef<MarioExperienceHandle>(functio
   );
 
   return (
-    <div style={{ position: "relative", marginTop: 0, marginBottom: 64 }}>
+    <div style={{ position: "relative", marginTop: 0, marginBottom: 80 }}>
       {/* Scroll container */}
       <div
         ref={scrollRef}
@@ -602,6 +602,22 @@ export const DesignerMarioExperience = forwardRef<MarioExperienceHandle>(functio
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Floating nav buttons — centered on the bottom edge of the world */}
+      <div style={{
+        position: "absolute",
+        bottom: -26,
+        left: "50%",
+        transform: "translateX(-50%)",
+        display: "flex",
+        gap: 10,
+        zIndex: 10,
+      }}>
+        <MarioNavButtons
+          onLeft={() => scrollByCard("left")}
+          onRight={() => scrollByCard("right")}
+        />
       </div>
 
       <style>{`

@@ -5419,13 +5419,6 @@ export default function Home() {
                   Work experience
                 </span>
                 <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
-                {/* Mario nav buttons — desktop only, right of the title row */}
-                <div className="hidden md:block flex-shrink-0">
-                  <MarioNavButtons
-                    onLeft={() => marioRef.current?.scrollByCard("left")}
-                    onRight={() => marioRef.current?.scrollByCard("right")}
-                  />
-                </div>
               </div>
 
               {/* Title */}
@@ -5446,13 +5439,6 @@ export default function Home() {
             {/* ── Designer: Mario-style horizontal experience ── */}
             <DesignerMarioExperience ref={marioRef} />
 
-            {/* Mario nav buttons — mobile only, below the world */}
-            <div className="flex md:hidden justify-center mt-4">
-              <MarioNavButtons
-                onLeft={() => marioRef.current?.scrollByCard("left")}
-                onRight={() => marioRef.current?.scrollByCard("right")}
-              />
-            </div>
 
           </div>
         ) : null}
