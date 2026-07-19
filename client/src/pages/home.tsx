@@ -5411,7 +5411,7 @@ export default function Home() {
             />
 
             {/* ── Designer: Skills & Tools cross banners ── */}
-            <div className="py-14" style={{ overflow: "hidden" }}>
+            <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
 
               {/* Skills strip — tilts left, scrolls right-to-left */}
               <div style={{ transform: "rotate(-2.5deg)", margin: "0 -80px 18px" }}>
