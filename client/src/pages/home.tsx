@@ -36,6 +36,7 @@ import { useBlindersTransition } from "@/hooks/use-blinders-transition";
 import { useImageColor } from "@/hooks/use-image-color";
 import { Cursor, CursorFollow, CursorProvider } from "@/components/ui/cursor";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
+import { DesignerGreetingCursor } from "@/components/ui/designer-greeting-cursor";
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -859,6 +860,7 @@ export default function Home() {
       {/* Cursor hoisted to top level — outside all stacking contexts so it overlays everywhere */}
       {activeTemplate === "Minimal" && <SmoothCursor type="minimal" />}
       {activeTemplate === "Professional" && <SmoothCursor type="professional" />}
+      {activeTemplate === "Designer" && <DesignerGreetingCursor />}
       <motion.div 
         initial="hidden"
         animate="visible"
