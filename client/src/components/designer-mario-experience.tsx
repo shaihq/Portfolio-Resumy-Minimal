@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useCallback } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useCallback } from "react";
+import { motion } from "motion/react";
 import { MapPin } from "lucide-react";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -53,36 +53,37 @@ const EXPERIENCES: WorkExperience[] = [
 ];
 
 // ── Layout constants ──────────────────────────────────────────────────────────
-const SECTION_W   = 440;   // px per experience column
-const LEAD_PAD    = 100;   // left breathing room before first card
-const TRAIL_PAD   = 160;   // right breathing room after last card
-const TOTAL_H     = 520;   // component height
+const SECTION_W   = 400;   // px per experience column
+const LEAD_PAD    = 80;    // left breathing room before first card
+const TRAIL_PAD   = 120;   // right breathing room after last card
+const TOTAL_H     = 500;   // component height
 const GROUND_H    = 72;    // ground strip height
 const PLATFORM_H  = 28;    // brick platform row height
 const PLATFORM_W  = 180;   // brick platform width
-const CARD_W      = 320;   // experience card width
+const CARD_W      = 310;   // experience card width
 
-// Alternating card elevations (distance up from ground)
-const ELEVATIONS = [220, 130, 250];
+// Alternating card elevations: higher = more breathing room from ground
+const ELEVATIONS  = [200, 120, 230, 140];
 
-// Decorative cloud configs [left%, top%]
+// Decorative cloud positions [x%, y%]
 const CLOUDS = [
-  { x: 6,  y: 6,  scale: 1.1 },
-  { x: 24, y: 11, scale: 0.75 },
-  { x: 44, y: 5,  scale: 1.3 },
-  { x: 64, y: 9,  scale: 0.9 },
-  { x: 82, y: 5,  scale: 1.05 },
-  { x: 93, y: 13, scale: 0.65 },
+  { x: 8, y: 8, scale: 1 },
+  { x: 28, y: 14, scale: 0.7 },
+  { x: 52, y: 6, scale: 1.2 },
+  { x: 72, y: 12, scale: 0.85 },
+  { x: 88, y: 7, scale: 0.95 },
 ];
 
-// Floating coin clusters [left%, top%]
-const COIN_CLUSTERS = [
-  [{ x: 22.0, y: 40 }, { x: 22.8, y: 40 }, { x: 23.6, y: 40 }],
-  [{ x: 48.0, y: 48 }, { x: 48.8, y: 48 }],
-  [{ x: 73.0, y: 43 }, { x: 73.8, y: 43 }, { x: 74.6, y: 43 }],
+// Floating coins between entries [x%, y%]
+const COINS = [
+  { x: 22, y: 42 }, { x: 22.8, y: 42 }, { x: 23.6, y: 42 },
+  { x: 47, y: 50 }, { x: 47.8, y: 50 },
+  { x: 71, y: 44 }, { x: 71.8, y: 44 }, { x: 72.6, y: 44 },
 ];
 
-// ── Pixel cloud ───────────────────────────────────────────────────────────────
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+/** Classic Mario-style pixel cloud */
 function PixelCloud({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   return (
     <div
@@ -93,177 +94,231 @@ function PixelCloud({ x, y, scale = 1 }: { x: number; y: number; scale?: number 
         transform: `scale(${scale})`,
         transformOrigin: "left top",
         pointerEvents: "none",
-        zIndex: 2,
+        imageRendering: "pixelated",
       }}
     >
-      <div style={{ position: "relative", width: 96, height: 48 }}>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 18, background: "rgba(255,255,255,0.92)" }} />
-        <div style={{ position: "absolute", bottom: 14, left: 10, width: 32, height: 22, background: "rgba(255,255,255,0.92)" }} />
-        <div style={{ position: "absolute", bottom: 20, left: 24, width: 40, height: 28, background: "rgba(255,255,255,0.92)" }} />
-        <div style={{ position: "absolute", bottom: 14, left: 54, width: 26, height: 20, background: "rgba(255,255,255,0.92)" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 4, right: 4, height: 4, background: "rgba(0,0,0,0.04)" }} />
+      {/* Cloud built from stacked rounded rectangles — no border-radius = pixel style */}
+      <div style={{ position: "relative", width: 80, height: 40 }}>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 16, background: "white", borderRadius: 0 }} />
+        <div style={{ position: "absolute", bottom: 12, left: 12, width: 28, height: 20, background: "white" }} />
+        <div style={{ position: "absolute", bottom: 16, left: 24, width: 32, height: 22, background: "white" }} />
+        <div style={{ position: "absolute", bottom: 12, left: 44, width: 22, height: 18, background: "white" }} />
+        {/* shadow line */}
+        <div style={{ position: "absolute", bottom: 0, left: 2, right: 2, height: 3, background: "rgba(0,0,0,0.06)" }} />
       </div>
     </div>
   );
 }
 
-// ── Coin ─────────────────────────────────────────────────────────────────────
-function Coin({ x, y, delay = 0 }: { x: number; y: number; delay?: number }) {
+/** Mario coin (yellow circle with $ highlight) */
+function Coin({ x, y }: { x: number; y: number }) {
   return (
     <motion.div
-      style={{ position: "absolute", left: `${x}%`, top: `${y}%`, zIndex: 3 }}
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay }}
+      style={{ position: "absolute", left: `${x}%`, top: `${y}%` }}
+      animate={{ y: [0, -6, 0] }}
+      transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: Math.random() * 1.2 }}
     >
-      <div style={{
-        width: 20,
-        height: 20,
-        borderRadius: "50%",
-        background: "linear-gradient(135deg, #FFE045 0%, #F5B800 55%, #CC8C00 100%)",
-        border: "2px solid #B87800",
-        boxShadow: "inset 2px 2px 0 rgba(255,245,180,0.8), 0 3px 6px rgba(160,100,0,0.3)",
-      }} />
+      <div
+        style={{
+          width: 18,
+          height: 18,
+          borderRadius: "50%",
+          background: "linear-gradient(135deg, #FFE045 0%, #F5B800 60%, #CC8C00 100%)",
+          border: "2px solid #CC8800",
+          boxShadow: "inset 2px 2px 0 rgba(255,255,200,0.7), 0 2px 4px rgba(180,120,0,0.3)",
+        }}
+      />
     </motion.div>
   );
 }
 
-// ── Green pipe ────────────────────────────────────────────────────────────────
-function Pipe({ centerX }: { centerX: number }) {
+/** Green pipe (classic Mario) */
+function Pipe({ x }: { x: number }) {
   return (
-    <div style={{ position: "absolute", left: centerX - 26, bottom: GROUND_H, zIndex: 3, pointerEvents: "none" }}>
-      {/* Cap */}
+    <div
+      style={{
+        position: "absolute",
+        left: `${x}%`,
+        bottom: GROUND_H,
+        transform: "translateX(-50%)",
+        pointerEvents: "none",
+      }}
+    >
+      {/* Pipe cap */}
       <div style={{
-        width: 60, height: 18,
-        marginLeft: -6,
-        background: "linear-gradient(to right, #228B22 0%, #32CD32 45%, #228B22 100%)",
-        border: "2.5px solid #155C15",
+        width: 52, height: 16,
+        background: "linear-gradient(to right, #2EA829 0%, #3FBF3A 40%, #2EA829 100%)",
+        border: "2.5px solid #1D7C19",
         borderBottom: "none",
-        boxShadow: "inset 5px 0 0 rgba(255,255,255,0.2)",
+        marginLeft: -4,
+        boxShadow: "inset 4px 0 0 rgba(255,255,255,0.18)",
       }} />
-      {/* Body */}
+      {/* Pipe body */}
       <div style={{
-        width: 48, height: 64,
-        background: "linear-gradient(to right, #228B22 0%, #32CD32 45%, #228B22 100%)",
-        border: "2.5px solid #155C15",
+        width: 44, height: 56,
+        background: "linear-gradient(to right, #2EA829 0%, #3FBF3A 40%, #2EA829 100%)",
+        border: "2.5px solid #1D7C19",
         borderTop: "none",
-        boxShadow: "inset 5px 0 0 rgba(255,255,255,0.2)",
+        boxShadow: "inset 4px 0 0 rgba(255,255,255,0.18)",
       }} />
     </div>
   );
 }
 
-// ── Brick platform ────────────────────────────────────────────────────────────
+/** Brick platform under each card */
 function BrickPlatform({ centerX }: { centerX: number }) {
-  const count = Math.round(PLATFORM_W / 36);
+  const brickCount = Math.round(PLATFORM_W / 32);
   return (
-    <div style={{
-      position: "absolute",
-      left: centerX - PLATFORM_W / 2,
-      bottom: GROUND_H,
-      width: PLATFORM_W,
-      height: PLATFORM_H,
-      display: "flex",
-      zIndex: 4,
-    }}>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} style={{
-          flex: 1,
-          height: PLATFORM_H,
-          background: "#C84B11",
-          border: "2px solid #8B3A0D",
-          borderRight: i < count - 1 ? "1px solid #8B3A0D" : "2px solid #8B3A0D",
-          boxShadow: "inset 0 3px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.2)",
-        }} />
+    <div
+      style={{
+        position: "absolute",
+        left: centerX - PLATFORM_W / 2,
+        bottom: GROUND_H,
+        width: PLATFORM_W,
+        height: PLATFORM_H,
+        display: "flex",
+        gap: 0,
+      }}
+    >
+      {Array.from({ length: brickCount }).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            flex: 1,
+            height: PLATFORM_H,
+            background: "#C84B11",
+            border: "2px solid #8B3A0D",
+            borderRight: i < brickCount - 1 ? "1px solid #8B3A0D" : "2px solid #8B3A0D",
+            boxShadow: "inset 0 3px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.2)",
+            imageRendering: "pixelated",
+          }}
+        />
       ))}
     </div>
   );
 }
 
-// ── Date badge ────────────────────────────────────────────────────────────────
+/** Yellow "? block" style date badge */
 function DateBadge({ text, centerX, y }: { text: string; centerX: number; y: number }) {
   return (
-    <div style={{
-      position: "absolute",
-      left: centerX,
-      top: y,
-      transform: "translateX(-50%)",
-      background: "linear-gradient(160deg, #FFE045 0%, #F5B800 55%, #E09C00 100%)",
-      border: "2.5px solid #A06800",
-      borderRadius: 8,
-      padding: "6px 16px",
-      fontFamily: "'Inter', sans-serif",
-      fontSize: 11.5,
-      fontWeight: 800,
-      color: "#3D1C00",
-      letterSpacing: "0.03em",
-      whiteSpace: "nowrap",
-      boxShadow: "0 1px 0 rgba(255,240,140,0.9) inset, 0 -2px 0 rgba(120,70,0,0.4) inset, 0 4px 14px rgba(180,120,0,0.3)",
-      zIndex: 6,
-    }}>
+    <div
+      style={{
+        position: "absolute",
+        left: centerX,
+        top: y,
+        transform: "translateX(-50%)",
+        background: "linear-gradient(160deg, #FFE045 0%, #F5B800 55%, #E09C00 100%)",
+        border: "2.5px solid #A06800",
+        borderRadius: 6,
+        padding: "5px 14px",
+        fontFamily: "'Inter', sans-serif",
+        fontSize: 11,
+        fontWeight: 800,
+        color: "#3D1C00",
+        letterSpacing: "0.04em",
+        whiteSpace: "nowrap",
+        boxShadow:
+          "0 1px 0 rgba(255,240,140,0.9) inset, 0 -2px 0 rgba(120,70,0,0.4) inset, 0 4px 12px rgba(180,120,0,0.25)",
+        zIndex: 4,
+      }}
+    >
       {text}
     </div>
   );
 }
 
-// ── Connector ─────────────────────────────────────────────────────────────────
-function Connector({ x, top, height }: { x: number; top: number; height: number }) {
+/** Vertical dotted connector from badge to card */
+function Connector({ x, top, bottom }: { x: number; top: number; bottom: number }) {
   return (
-    <div style={{
-      position: "absolute",
-      left: x - 1,
-      top,
-      width: 2,
-      height,
-      backgroundImage: "repeating-linear-gradient(to bottom, #94A3B8 0px, #94A3B8 5px, transparent 5px, transparent 11px)",
-      zIndex: 5,
-    }} />
+    <div
+      style={{
+        position: "absolute",
+        left: x - 1,
+        top,
+        width: 2,
+        height: bottom - top,
+        backgroundImage: "repeating-linear-gradient(to bottom, #CBD5E1 0px, #CBD5E1 5px, transparent 5px, transparent 10px)",
+        zIndex: 3,
+      }}
+    />
   );
 }
 
-// ── Experience card ───────────────────────────────────────────────────────────
-function ExperienceCard({ exp, centerX, top }: { exp: WorkExperience; centerX: number; top: number }) {
+/** Experience card */
+function ExperienceCard({
+  exp,
+  centerX,
+  top,
+}: {
+  exp: WorkExperience;
+  centerX: number;
+  top: number;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "-40px" }}
       style={{
         position: "absolute",
         left: centerX - CARD_W / 2,
         top,
         width: CARD_W,
         background: "rgba(255,255,255,0.97)",
-        border: "1.5px solid rgba(220,230,244,0.9)",
-        borderRadius: 16,
-        padding: "20px 22px",
-        boxShadow: "0 8px 32px rgba(15,23,42,0.10), 0 2px 6px rgba(15,23,42,0.06)",
-        zIndex: 7,
+        border: "1.5px solid rgba(226,232,240,0.9)",
+        borderRadius: 14,
+        padding: "18px 20px",
+        boxShadow:
+          "0 4px 24px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.06)",
+        zIndex: 5,
       }}
     >
-      <p style={{ fontSize: 13.5, fontWeight: 700, color: "#0F172A", fontFamily: "'Inter', sans-serif", marginBottom: 3 }}>
-        {exp.role}
-      </p>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 12 }}>
-        <p style={{ fontSize: 12, color: "#64748B", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
-          {exp.company}
+      {/* Header */}
+      <div style={{ marginBottom: 10 }}>
+        <p style={{
+          fontSize: 13,
+          fontWeight: 700,
+          color: "#0F172A",
+          fontFamily: "'Inter', sans-serif",
+          marginBottom: 2,
+        }}>
+          {exp.role}
         </p>
-        <div style={{ display: "flex", alignItems: "center", gap: 3, flexShrink: 0 }}>
-          <MapPin size={10} color="#94A3B8" strokeWidth={2} />
-          <p style={{ fontSize: 11, color: "#94A3B8", fontFamily: "'Inter', sans-serif", whiteSpace: "nowrap" }}>
-            {exp.location}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+          <p style={{ fontSize: 12, color: "#64748B", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
+            {exp.company}
           </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 3, flexShrink: 0 }}>
+            <MapPin size={10} color="#94A3B8" strokeWidth={2} />
+            <p style={{ fontSize: 10.5, color: "#94A3B8", fontFamily: "'Inter', sans-serif", whiteSpace: "nowrap" }}>
+              {exp.location}
+            </p>
+          </div>
         </div>
       </div>
-      <div style={{ height: 1, background: "#F1F5F9", marginBottom: 12 }} />
-      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+
+      {/* Divider */}
+      <div style={{ height: 1, background: "#F1F5F9", marginBottom: 10 }} />
+
+      {/* Bullets */}
+      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 7 }}>
         {exp.bullets.map((b, i) => (
-          <li key={i} style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
+          <li key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
             <span style={{
-              marginTop: 5, flexShrink: 0,
-              width: 5, height: 5, borderRadius: "50%", background: "#CBD5E1",
+              marginTop: 5,
+              flexShrink: 0,
+              width: 5,
+              height: 5,
+              borderRadius: "50%",
+              background: "#CBD5E1",
             }} />
-            <span style={{ fontSize: 12, color: "#475569", fontFamily: "'Inter', sans-serif", lineHeight: 1.6 }}>
+            <span style={{
+              fontSize: 11.5,
+              color: "#475569",
+              fontFamily: "'Inter', sans-serif",
+              lineHeight: 1.55,
+            }}>
               {b}
             </span>
           </li>
@@ -275,18 +330,10 @@ function ExperienceCard({ exp, centerX, top }: { exp: WorkExperience; centerX: n
 
 // ── Main component ─────────────────────────────────────────────────────────────
 export function DesignerMarioExperience() {
-  const outerRef   = useRef<HTMLDivElement>(null);
   const scrollRef  = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX     = useRef(0);
   const scrollLeft = useRef(0);
-
-  // Parallax: clouds drift as section scrolls into view
-  const { scrollYProgress } = useScroll({ target: outerRef, offset: ["start end", "end start"] });
-  const cloud1X = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const cloud2X = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const cloud3X = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  const cloudXs = [cloud1X, cloud2X, cloud3X, cloud1X, cloud2X, cloud3X];
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     isDragging.current = true;
@@ -308,32 +355,38 @@ export function DesignerMarioExperience() {
     if (scrollRef.current) scrollRef.current.style.cursor = "grab";
   }, []);
 
-  const n          = EXPERIENCES.length;
+  const n         = EXPERIENCES.length;
   const totalWidth = LEAD_PAD + n * SECTION_W + TRAIL_PAD;
-  const centerXs   = EXPERIENCES.map((_, i) => LEAD_PAD + i * SECTION_W + SECTION_W / 2);
-  const cardTops   = EXPERIENCES.map((_, i) => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATIONS[i % ELEVATIONS.length]);
-  const badgeTops  = cardTops.map(t => t - 58);
 
-  // Pipe positions: midpoints between adjacent entries
-  const pipeXs = EXPERIENCES.slice(0, -1).map((_, i) => (centerXs[i] + centerXs[i + 1]) / 2);
+  // Positions
+  const centerXs = EXPERIENCES.map((_, i) => LEAD_PAD + i * SECTION_W + SECTION_W / 2);
+  const cardTops = EXPERIENCES.map((_, i) => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATIONS[i % ELEVATIONS.length]);
+  const badgeTops = cardTops.map(t => t - 54);
+  const connTop   = (i: number) => badgeTops[i] + 28;
+  const connBot   = (i: number) => cardTops[i];
+
+  // Pipe positions (between entries)
+  const pipeXs = EXPERIENCES.slice(0, -1).map((_, i) =>
+    ((centerXs[i] + centerXs[i + 1]) / 2 / totalWidth) * 100
+  );
 
   return (
-    <div ref={outerRef} style={{ position: "relative", marginBottom: 80 }}>
+    <div style={{ position: "relative", marginTop: 0, marginBottom: 64 }}>
       {/* Drag hint */}
       <p style={{
         textAlign: "center",
         fontSize: 11,
         color: "#94A3B8",
         fontFamily: "'Inter', sans-serif",
-        letterSpacing: "0.1em",
+        letterSpacing: "0.08em",
         textTransform: "uppercase",
-        marginBottom: 14,
+        marginBottom: 12,
         userSelect: "none",
       }}>
         ← drag to scroll →
       </p>
 
-      {/* Scroll container — full-bleed, no border-radius */}
+      {/* Scroll container */}
       <div
         ref={scrollRef}
         onMouseDown={onMouseDown}
@@ -345,83 +398,93 @@ export function DesignerMarioExperience() {
           overflowY: "hidden",
           cursor: "grab",
           userSelect: "none",
+          borderRadius: 20,
+          border: "1.5px solid rgba(226,232,240,0.7)",
+          boxShadow: "0 8px 40px rgba(15,23,42,0.07)",
           scrollbarWidth: "none",
-          WebkitOverflowScrolling: "touch",
         }}
+        className="hide-scrollbar"
       >
         {/* Inner track */}
-        <div style={{
-          position: "relative",
-          width: totalWidth,
-          height: TOTAL_H,
-          background: "linear-gradient(to bottom, #B8DFF8 0%, #CAEBFF 35%, #D8F0FF 100%)",
-          overflow: "hidden",
-        }}>
-
-          {/* ── Parallax clouds ── */}
+        <div
+          style={{
+            position: "relative",
+            width: totalWidth,
+            height: TOTAL_H,
+            background: "linear-gradient(to bottom, #DAEFFE 0%, #C5E8FB 40%, #B3DFF8 100%)",
+            flexShrink: 0,
+          }}
+        >
+          {/* ── Clouds ── */}
           {CLOUDS.map((c, i) => (
-            <motion.div key={i} style={{ x: cloudXs[i % cloudXs.length] }}>
-              <PixelCloud x={c.x} y={c.y} scale={c.scale} />
-            </motion.div>
+            <PixelCloud key={i} x={(c.x / 100) * totalWidth / totalWidth * 100} y={c.y} scale={c.scale} />
           ))}
 
-          {/* ── Coins ── */}
-          {COIN_CLUSTERS.map((cluster, ci) =>
-            cluster.map((coin, i) => (
-              <Coin key={`${ci}-${i}`} x={coin.x} y={coin.y} delay={i * 0.2 + ci * 0.5} />
-            ))
-          )}
+          {/* ── Floating coins between platforms ── */}
+          {COINS.map((c, i) => (
+            <Coin key={i} x={c.x} y={c.y} />
+          ))}
 
-          {/* ── Ground: green grass strip ── */}
-          <div style={{
-            position: "absolute",
-            bottom: GROUND_H - 22,
-            left: 0,
-            width: totalWidth,
-            height: 22,
-            background: "linear-gradient(to bottom, #4EC944 0%, #3BAB34 100%)",
-            zIndex: 1,
-          }} />
-          {/* ── Ground: brick dirt ── */}
-          <div style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: totalWidth,
-            height: GROUND_H - 22,
-            backgroundColor: "#C84B11",
-            backgroundImage: [
-              "repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(0,0,0,0.16) 39px, rgba(0,0,0,0.16) 40px)",
-              "repeating-linear-gradient(0deg, transparent 0px, transparent 19px, rgba(0,0,0,0.16) 19px, rgba(0,0,0,0.16) 20px)",
-            ].join(", "),
-            boxShadow: "inset 0 4px 0 rgba(255,255,255,0.12)",
-            zIndex: 1,
-          }} />
+          {/* ── Ground strip ── */}
+          {/* Green grass top */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: GROUND_H - 20,
+              left: 0,
+              width: totalWidth,
+              height: 20,
+              background: "linear-gradient(to bottom, #4ABA41 0%, #3DA435 100%)",
+            }}
+          />
+          {/* Brick dirt */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: totalWidth,
+              height: GROUND_H - 20,
+              backgroundColor: "#C84B11",
+              backgroundImage: [
+                "repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(0,0,0,0.18) 39px, rgba(0,0,0,0.18) 40px)",
+                "repeating-linear-gradient(0deg, transparent 0px, transparent 19px, rgba(0,0,0,0.18) 19px, rgba(0,0,0,0.18) 20px)",
+              ].join(", "),
+              boxShadow: "inset 0 3px 0 rgba(255,255,255,0.15)",
+            }}
+          />
 
           {/* ── Pipes between entries ── */}
-          {pipeXs.map((x, i) => <Pipe key={i} centerX={x} />)}
+          {pipeXs.map((x, i) => (
+            <Pipe key={i} x={(((centerXs[i] + centerXs[i + 1]) / 2) / totalWidth) * 100} />
+          ))}
 
           {/* ── Per-experience elements ── */}
-          {EXPERIENCES.map((exp, i) => {
-            const cx      = centerXs[i];
-            const cardTop = cardTops[i];
-            const badgeTop = badgeTops[i];
-            const connTop  = badgeTop + 30;
-            const connH    = cardTop - connTop;
-            return (
-              <div key={exp.id}>
-                <BrickPlatform centerX={cx} />
-                <Connector x={cx} top={connTop} height={connH} />
-                <DateBadge text={exp.period} centerX={cx} y={badgeTop} />
-                <ExperienceCard exp={exp} centerX={cx} top={cardTop} />
-              </div>
-            );
-          })}
+          {EXPERIENCES.map((exp, i) => (
+            <div key={exp.id}>
+              {/* Brick platform */}
+              <BrickPlatform centerX={centerXs[i]} />
 
+              {/* Connector line */}
+              <Connector
+                x={centerXs[i]}
+                top={connTop(i)}
+                bottom={connBot(i)}
+              />
+
+              {/* Date badge */}
+              <DateBadge text={exp.period} centerX={centerXs[i]} y={badgeTops[i]} />
+
+              {/* Experience card */}
+              <ExperienceCard exp={exp} centerX={centerXs[i]} top={cardTops[i]} />
+            </div>
+          ))}
         </div>
       </div>
 
-      <style>{`.mario-scroll::-webkit-scrollbar { display: none; }`}</style>
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+      `}</style>
     </div>
   );
 }
