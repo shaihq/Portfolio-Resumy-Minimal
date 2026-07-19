@@ -75,6 +75,21 @@ function LetterCard({ rec }: { rec: Recommendation }) {
     /* Outer wrapper — not clipped, holds the floating paperclip */
     <div style={{ flexShrink: 0, width: 460, position: "relative" }}>
 
+      {/* Clip image — only bottom 20% peeks over the top of the card */}
+      <img
+        src="/clip.png"
+        alt=""
+        draggable={false}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%) translateY(-80%)",
+          width: 72,
+          zIndex: 10,
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Clipped card body */}
       <div
