@@ -952,32 +952,26 @@ export default function Home() {
               className="absolute inset-0 dark:hidden"
               style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
             />
-            {/* Night sky — twilight dusk matching reference */}
+            {/* Night sky — deep midnight, minimal warm bleed */}
             <div
               className="absolute inset-0 hidden dark:block"
               style={{
                 background: `
-                  radial-gradient(ellipse 120% 55% at 15% 45%, rgba(120,60,160,0.22) 0%, transparent 65%),
-                  radial-gradient(ellipse 80% 40% at 85% 20%, rgba(40,50,180,0.12) 0%, transparent 60%),
-                  radial-gradient(ellipse 100% 35% at 50% 102%, rgba(238,130,60,0.28) 0%, transparent 55%),
                   linear-gradient(to bottom,
-                    #1A2488 0%,
-                    #2235A8 16%,
-                    #3042BE 30%,
-                    #4844B4 44%,
-                    #6848A8 56%,
-                    #9A5890 67%,
-                    #C06878 77%,
-                    #D88060 87%,
-                    #ECA040 100%
+                    #0A1035 0%,
+                    #0E1648 20%,
+                    #121E60 42%,
+                    #172470 62%,
+                    #1A2878 78%,
+                    #1C2A7A 88%,
+                    #1E2868 95%,
+                    #221E50 100%
                   )
                 `
               }}
             />
-            {/* Night stars — upper sky concentration */}
+            {/* Night stars */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
-            {/* Crescent moon */}
-            <div className="absolute hidden dark:block pointer-events-none designer-moon" />
 
             {/* Clouds — day mode */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-1000" aria-hidden="true">
@@ -994,7 +988,7 @@ export default function Home() {
 
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 280, background: 'linear-gradient(to bottom, transparent 0%, rgba(26,26,26,0.55) 55%, #1A1A1A 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #1A1A1A 100%)' }} />
           </div>
         )}
 
@@ -1125,18 +1119,6 @@ export default function Home() {
             radial-gradient(1px  1px  at 89% 42%, rgba(255,255,255,0.44) 0%, transparent 100%),
             radial-gradient(1.5px 1.5px at 36% 38%, rgba(255,255,255,0.40) 0%, transparent 100%),
             radial-gradient(1px  1px  at 63% 44%, rgba(255,255,255,0.38) 0%, transparent 100%);
-        }
-        .designer-moon {
-          top: 12%;
-          left: 27%;
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          background: transparent;
-          box-shadow:
-            inset -11px 5px 0 3px rgba(240, 230, 172, 0.95),
-            0 0 18px 2px rgba(240, 230, 172, 0.20),
-            0 0 40px 4px rgba(240, 230, 172, 0.10);
         }
         .designer-cloud-night {
           filter: brightness(0.55) sepia(0.6) hue-rotate(255deg) saturate(2.8) brightness(1.9);
