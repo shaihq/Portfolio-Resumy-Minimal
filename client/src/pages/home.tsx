@@ -5619,7 +5619,7 @@ export default function Home() {
               <h2 style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "clamp(52px, 9vw, 108px)",
-                fontWeight: 800,
+                fontWeight: 500,
                 lineHeight: 1,
                 letterSpacing: "-0.03em",
                 color: "#3B82F6",
