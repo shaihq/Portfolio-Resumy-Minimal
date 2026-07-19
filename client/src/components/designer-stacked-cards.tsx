@@ -149,9 +149,10 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             <div
               className={`relative flex flex-col ${
                 cs.flip ? "md:flex-row-reverse" : "md:flex-row"
-              } items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
+              } items-center gap-8 md:gap-12 px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
               style={{
                 clipPath: CARD_CLIP,
+                backgroundColor: "#ffffff",
                 backgroundImage: "url('/bgcard.avif')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
