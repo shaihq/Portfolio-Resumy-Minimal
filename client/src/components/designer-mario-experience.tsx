@@ -395,34 +395,39 @@ function MarioBtn({
   );
 }
 
+// ── Carousel geometry ─────────────────────────────────────────────────────────
+// Left margin before the active card inside the viewport
+const CARD_MARGIN_L = 24;
+// How many px of the next card peek on the right
+const NEXT_PEEK     = 88;
+// Visible viewport width = left margin + card + gap-to-next-card-edge + peek
+// Gap between card right edge and next card left edge = SECTION_W - CARD_W = 80px
+const VIEWPORT_W    = CARD_MARGIN_L + CARD_W + (SECTION_W - CARD_W) + NEXT_PEEK; // 24+370+80+88 = 562
+
+// translateX that brings card[i] to CARD_MARGIN_L inside the viewport
+// card[i] left edge in the world = LEAD_PAD + i*SECTION_W + SECTION_W/2 - CARD_W/2
+//                                 = 80 + i*450 + 225 - 185 = 120 + i*450
+// we want it at CARD_MARGIN_L = 24 inside viewport, so:
+// translateX = CARD_MARGIN_L - (120 + i*SECTION_W) = 24 - 120 - i*450 = -(96 + i*450)
+const trackOffset = (i: number) => -(96 + i * SECTION_W);
+
 // ── Main component ─────────────────────────────────────────────────────────────
 export function DesignerMarioExperience() {
-  const scrollRef               = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [pressedBtn, setPressedBtn]   = useState<"left" | "right" | null>(null);
 
   const n          = EXPERIENCES.length;
   const totalWidth = LEAD_PAD + n * SECTION_W + TRAIL_PAD;
 
-  // Positions
+  // Absolute positions inside the world
   const centerXs  = EXPERIENCES.map((_, i) => LEAD_PAD + i * SECTION_W + SECTION_W / 2);
   const cardTops  = EXPERIENCES.map((_, i) => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATIONS[i % ELEVATIONS.length]);
   const badgeTops = cardTops.map(t => t - 54);
   const connTop   = (i: number) => badgeTops[i] + 28;
   const connBot   = (i: number) => cardTops[i];
-
-  // Pipe positions (between entries)
-  const pipeXs = EXPERIENCES.slice(0, -1).map((_, i) =>
+  const pipeXs    = EXPERIENCES.slice(0, -1).map((_, i) =>
     ((centerXs[i] + centerXs[i + 1]) / 2 / totalWidth) * 100
   );
-
-  /** Scroll so card[index] is the active one, with the next peeking */
-  const scrollToIndex = useCallback((idx: number) => {
-    if (!scrollRef.current) return;
-    // Left edge of card[idx] minus a small left margin so it breathes
-    const cardLeft = centerXs[idx] - CARD_W / 2 - 24;
-    scrollRef.current.scrollTo({ left: Math.max(0, cardLeft), behavior: "smooth" });
-  }, [centerXs]);
 
   /** Synthesised Mario coin sound */
   const playMarioSound = useCallback((direction: "left" | "right") => {
@@ -453,8 +458,7 @@ export function DesignerMarioExperience() {
     setPressedBtn(dir);
     setTimeout(() => setPressedBtn(null), 160);
     setActiveIndex(next);
-    scrollToIndex(next);
-  }, [activeIndex, n, playMarioSound, scrollToIndex]);
+  }, [activeIndex, n, playMarioSound]);
 
   return (
     <div style={{ position: "relative", marginTop: 0, marginBottom: 64 }}>
@@ -471,9 +475,7 @@ export function DesignerMarioExperience() {
               onClick={() => {
                 if (i === activeIndex) return;
                 playMarioSound(i > activeIndex ? "right" : "left");
-                setPressedBtn(null);
                 setActiveIndex(i);
-                scrollToIndex(i);
               }}
               style={{
                 width:  i === activeIndex ? 20 : 8,
@@ -496,28 +498,28 @@ export function DesignerMarioExperience() {
         <MarioBtn dir="right" disabled={activeIndex === n - 1} pressed={pressedBtn === "right"} onClick={() => go("right")} />
       </div>
 
-      {/* ── Scroll viewport ── */}
+      {/* ── Clip viewport — fixed width so only 1 card + peek is visible ── */}
       <div
-        ref={scrollRef}
         style={{
-          overflowX: "hidden",   // no drag, buttons only
-          overflowY: "hidden",
+          width: VIEWPORT_W,
+          maxWidth: "100%",
+          overflow: "hidden",
           borderRadius: 20,
           border: "1.5px solid rgba(226,232,240,0.7)",
           boxShadow: "0 8px 40px rgba(15,23,42,0.07)",
-          scrollbarWidth: "none",
           userSelect: "none",
         }}
-        className="hide-scrollbar"
       >
-        {/* Inner world track */}
+        {/* Inner world — slides left/right via translateX */}
         <div
           style={{
             position: "relative",
             width: totalWidth,
             height: TOTAL_H,
             background: "linear-gradient(to bottom, #DAEFFE 0%, #C5E8FB 40%, #B3DFF8 100%)",
-            flexShrink: 0,
+            transform: `translateX(${trackOffset(activeIndex)}px)`,
+            transition: "transform 0.52s cubic-bezier(0.32, 0, 0.12, 1)",
+            willChange: "transform",
           }}
         >
           {/* Clouds */}
@@ -565,9 +567,6 @@ export function DesignerMarioExperience() {
         </div>
       </div>
 
-      <style>{`
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-      `}</style>
     </div>
   );
 }
