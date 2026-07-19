@@ -34,8 +34,8 @@ export function DesignerBirds() {
       const applyTransform = (el: HTMLDivElement | null, tx: number, ty: number, fast: boolean) => {
         if (!el) return
         el.style.transition = fast
-          ? 'transform 0.07s cubic-bezier(0.2, 0, 0.5, 1)'
-          : 'transform 1.6s cubic-bezier(0.22, 1, 0.36, 1)'
+          ? 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+          : 'transform 2.0s cubic-bezier(0.22, 1, 0.36, 1)'
         el.style.transform = tx === 0 && ty === 0
           ? ''
           : `translate(${tx}px, ${ty}px)`
