@@ -5265,15 +5265,35 @@ export default function Home() {
               {/* Hero content */}
               <div className="relative z-10 px-6 md:px-0 pt-4 pb-20 w-full flex flex-col items-start md:items-center">
 
-                {/* Profile image — glass card */}
+                {/* Profile image — glass card with shimmer */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.88, y: 12 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                   className="mb-8 p-[5px] rounded-[22px] bg-white/20 backdrop-blur-md border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.18)]"
                 >
-                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-[17px] overflow-hidden">
+                  {/* Inner clip wrapper — keeps shimmer masked to rounded corners */}
+                  <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-[17px] overflow-hidden">
                     <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+
+                    {/* Glass rim — subtle white edge highlight */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 40%, transparent 70%)",
+                        boxShadow: "inset 0 1px 1px rgba(255,255,255,0.55), inset 0 -1px 1px rgba(0,0,0,0.08)",
+                      }}
+                    />
+
+                    {/* Shimmer streak — animated light sweep */}
+                    <motion.div
+                      className="absolute inset-y-0 w-1/2 pointer-events-none"
+                      style={{
+                        background: "linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.5) 50%, transparent 80%)",
+                      }}
+                      animate={{ x: ["-100%", "280%"] }}
+                      transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 2.6, ease: "easeInOut" }}
+                    />
                   </div>
                 </motion.div>
 
