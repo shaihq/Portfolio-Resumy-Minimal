@@ -37,20 +37,12 @@ function SparkleIcon({ className }: { className?: string }) {
  *   Card 1 scales 1 → 0.90 during scroll progress 0.5 → 1
  *   Card 2 stays at 1 (it's the frontmost card)
  */
-// Sharp zigzag (sawtooth) crown edge — 8 teeth across top and bottom
+// Subtle zigzag (sawtooth) — 12 small teeth across top and bottom
 const CARD_CLIP =
   "polygon(" +
-  // Top edge — left to right, peaks point upward
-  "0% 8%, 6.25% 0%, 12.5% 8%, 18.75% 0%, 25% 8%, 31.25% 0%, 37.5% 8%, 43.75% 0%, 50% 8%, 56.25% 0%, 62.5% 8%, 68.75% 0%, 75% 8%, 81.25% 0%, 87.5% 8%, 93.75% 0%, 100% 8%," +
-  // Bottom edge — right to left, peaks point downward
-  "100% 92%, 93.75% 100%, 87.5% 92%, 81.25% 100%, 75% 92%, 68.75% 100%, 62.5% 92%, 56.25% 100%, 50% 92%, 43.75% 100%, 37.5% 92%, 31.25% 100%, 25% 92%, 18.75% 100%, 12.5% 92%, 6.25% 100%, 0% 92%" +
+  "0% 3%, 4.17% 0%, 8.33% 3%, 12.5% 0%, 16.67% 3%, 20.83% 0%, 25% 3%, 29.17% 0%, 33.33% 3%, 37.5% 0%, 41.67% 3%, 45.83% 0%, 50% 3%, 54.17% 0%, 58.33% 3%, 62.5% 0%, 66.67% 3%, 70.83% 0%, 75% 3%, 79.17% 0%, 83.33% 3%, 87.5% 0%, 91.67% 3%, 95.83% 0%, 100% 3%," +
+  "100% 97%, 95.83% 100%, 91.67% 97%, 87.5% 100%, 83.33% 97%, 79.17% 100%, 75% 97%, 70.83% 100%, 66.67% 97%, 62.5% 100%, 58.33% 97%, 54.17% 100%, 50% 97%, 45.83% 100%, 41.67% 97%, 37.5% 100%, 33.33% 97%, 29.17% 100%, 25% 97%, 20.83% 100%, 16.67% 97%, 12.5% 100%, 8.33% 97%, 4.17% 100%, 0% 97%" +
   ")";
-
-// Alternating palette — [even, odd]
-const CARD_PALETTE = [
-  { bg: "rgb(255, 246, 195)", badgeBg: "rgba(160, 110, 0, 0.14)", badgeText: "#7A5500" },
-  { bg: "rgb(255, 249, 162)", badgeBg: "rgba(180, 130, 0, 0.18)", badgeText: "#6B4C00" },
-];
 
 export function DesignerStackedCards({ projects, onProjectClick }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -74,7 +66,17 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
 
   return (
     // Outer wrapper — N × 100vh tall so the browser has room to scroll
-    <div ref={containerRef} style={{ height: `${n * 100}vh`, position: "relative" }}>
+    <div
+      ref={containerRef}
+      style={{
+        height: `${n * 100}vh`,
+        position: "relative",
+        backgroundImage: "url('/bgcard.avif')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "local",
+      }}
+    >
       {projects.map((cs, i) => (
         /*
          * Each card IS its own sticky section.
@@ -151,9 +153,8 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             <div
               className={`relative flex flex-col ${
                 cs.flip ? "md:flex-row-reverse" : "md:flex-row"
-              } items-center gap-8 md:gap-12 px-7 pt-16 pb-16 md:px-10 md:pt-16 md:pb-16 overflow-hidden`}
+              } items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#0F172A] px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
               style={{
-                background: CARD_PALETTE[i % 2].bg,
                 clipPath: CARD_CLIP,
                 boxShadow:
                   i === n - 1
@@ -168,11 +169,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                   {cs.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10.5px] font-semibold tracking-[0.13em] uppercase px-2.5 py-1 rounded-full"
-                      style={{
-                        background: CARD_PALETTE[i % 2].badgeBg,
-                        color: CARD_PALETTE[i % 2].badgeText,
-                      }}
+                      className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#475569] dark:text-[#94A3B8] bg-[#F1F5F9] dark:bg-[#1E293B] px-2.5 py-1 rounded-full"
                     >
                       {tag}
                     </span>
