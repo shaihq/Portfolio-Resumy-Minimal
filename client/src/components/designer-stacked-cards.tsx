@@ -37,6 +37,15 @@ function SparkleIcon({ className }: { className?: string }) {
  *   Card 1 scales 1 → 0.90 during scroll progress 0.5 → 1
  *   Card 2 stays at 1 (it's the frontmost card)
  */
+const CARD_CLIP =
+  "polygon(0% 1.2%, 7% 0.2%, 14% 1.6%, 21% 0.4%, 29% 1.8%, 36% 0.6%, 43% 1.4%, 50% 0.3%, 57% 1.7%, 64% 0.5%, 71% 1.5%, 79% 0.4%, 86% 1.8%, 93% 0.6%, 100% 1.2%, 100% 98.8%, 93% 99.6%, 86% 98.4%, 79% 99.5%, 71% 98.5%, 64% 99.4%, 57% 98.6%, 50% 99.7%, 43% 98.3%, 36% 99.5%, 29% 98.4%, 21% 99.6%, 14% 98.5%, 7% 99.8%, 0% 98.8%)";
+
+// Alternating palette — [even, odd]
+const CARD_PALETTE = [
+  { bg: "rgb(255, 246, 195)", badgeBg: "rgba(160, 110, 0, 0.14)", badgeText: "#7A5500" },
+  { bg: "rgb(255, 249, 162)", badgeBg: "rgba(180, 130, 0, 0.18)", badgeText: "#6B4C00" },
+];
+
 export function DesignerStackedCards({ projects, onProjectClick }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const n = projects.length; // 3
@@ -136,8 +145,10 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             <div
               className={`relative flex flex-col ${
                 cs.flip ? "md:flex-row-reverse" : "md:flex-row"
-              } items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#0F172A] px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
+              } items-center gap-8 md:gap-12 px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
               style={{
+                background: CARD_PALETTE[i % 2].bg,
+                clipPath: CARD_CLIP,
                 boxShadow:
                   i === n - 1
                     ? "0 8px 48px rgba(15,23,42,0.10)"
@@ -151,7 +162,11 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                   {cs.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#475569] dark:text-[#94A3B8] bg-[#F1F5F9] dark:bg-[#1E293B] px-2.5 py-1 rounded-full"
+                      className="text-[10.5px] font-semibold tracking-[0.13em] uppercase px-2.5 py-1 rounded-full"
+                      style={{
+                        background: CARD_PALETTE[i % 2].badgeBg,
+                        color: CARD_PALETTE[i % 2].badgeText,
+                      }}
                     >
                       {tag}
                     </span>
