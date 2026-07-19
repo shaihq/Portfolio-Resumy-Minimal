@@ -5536,15 +5536,17 @@ export default function Home() {
             {/* ── Designer: Skills & Tools cross banners ── */}
             <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
 
-              {/* Skills strip — tilts left, scrolls right-to-left */}
-              <div style={{ transform: "rotate(-2.5deg)", margin: "0 -80px 18px" }}>
-                <div style={{ backgroundColor: "#0F172A", padding: "14px 0", overflow: "hidden" }}>
-                  <div style={{
-                    display: "flex",
-                    gap: 36,
-                    width: "max-content",
-                    animation: "dsn-skills-ltr 28s linear infinite",
-                  }}>
+              {/* Skills strip */}
+              <div style={{ perspective: "700px", margin: "0 -80px 28px" }}>
+                <div style={{
+                  transform: "rotate(-2.5deg) rotateX(10deg)",
+                  transformOrigin: "center bottom",
+                  boxShadow: "0 18px 48px -8px rgba(15,23,42,0.55), 0 6px 16px -4px rgba(15,23,42,0.35)",
+                  backgroundColor: "#0F172A",
+                  padding: "14px 0",
+                  overflow: "hidden",
+                }}>
+                  <div style={{ display: "flex", gap: 36, width: "max-content", animation: "dsn-skills-ltr 28s linear infinite" }}>
                     {[0, 1].map((copy) => (
                       <div key={copy} style={{ display: "flex", gap: 36, alignItems: "center", flexShrink: 0 }}>
                         {["Interaction Design", "3D Design", "User Research", "UI/UX Design", "Prototyping", "Design Systems", "Motion Design", "Visual Design"].map((skill, j) => (
@@ -5563,15 +5565,17 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Tools strip — tilts right, scrolls left-to-right */}
-              <div style={{ transform: "rotate(2.5deg)", margin: "0 -80px" }}>
-                <div style={{ backgroundColor: "#3B82F6", padding: "14px 0", overflow: "hidden" }}>
-                  <div style={{
-                    display: "flex",
-                    gap: 40,
-                    width: "max-content",
-                    animation: "dsn-tools-rtl 32s linear infinite",
-                  }}>
+              {/* Tools strip */}
+              <div style={{ perspective: "700px", margin: "0 -80px" }}>
+                <div style={{
+                  transform: "rotate(2.5deg) rotateX(-10deg)",
+                  transformOrigin: "center top",
+                  boxShadow: "0 -18px 48px -8px rgba(59,130,246,0.45), 0 -6px 16px -4px rgba(59,130,246,0.3)",
+                  backgroundColor: "#3B82F6",
+                  padding: "14px 0",
+                  overflow: "hidden",
+                }}>
+                  <div style={{ display: "flex", gap: 40, width: "max-content", animation: "dsn-tools-rtl 32s linear infinite" }}>
                     {[0, 1].map((copy) => (
                       <div key={copy} style={{ display: "flex", gap: 40, alignItems: "center", flexShrink: 0 }}>
                         {[
