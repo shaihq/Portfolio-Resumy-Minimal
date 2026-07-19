@@ -960,6 +960,17 @@ export default function Home() {
           </div>
         )}
 
+        {/* Designer template — dotted grid over the white body area */}
+        {activeTemplate === "Designer" && (
+          <div
+            className="fixed inset-0 pointer-events-none z-0"
+            style={{
+              backgroundImage: "radial-gradient(circle, rgba(160,170,200,0.28) 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+            }}
+          />
+        )}
+
         {/* Designer template — sky background fills the full top area */}
         {activeTemplate === "Designer" && (
           <div className="absolute top-0 left-0 right-0 z-0 overflow-hidden" style={{ height: '100vh' }}>
