@@ -5542,6 +5542,7 @@ export default function Home() {
               lineHeight: 0,
               zIndex: 0,
               marginTop: 40,
+              background: "linear-gradient(to bottom, #4A8FE8 0%, #7AB3EF 20%, #B3D3F2 45%, #D4E8F8 65%, #F0F8FF 82%, #ffffff 100%)",
             }}>
               <img
                 src="/bottom%20grass.png"
