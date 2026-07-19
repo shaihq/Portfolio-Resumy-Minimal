@@ -5499,6 +5499,16 @@ export default function Home() {
               </div>
             </div>
 
+            {/* ── Designer: bottom sky gradient — mirrors the hero, reversed ── */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none"
+              style={{
+                marginTop: -160,
+                height: 420,
+                background: "linear-gradient(to bottom, transparent 0%, #D4E8F8 28%, #B3D3F2 52%, #7AB3EF 72%, #4A8FE8 86%, #2B6BD6 95%, #1B4EC8 100%)",
+              }}
+            />
 
           </div>
         ) : null}
