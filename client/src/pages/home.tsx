@@ -5514,7 +5514,7 @@ export default function Home() {
               </div>
 
               {/* Title */}
-              <div className="px-6 md:px-0 mb-12">
+              <div className="px-6 md:px-0 mb-8">
                 <h2
                   className="text-[#0F172A] dark:text-[#F8FAFC]"
                   style={{
