@@ -73,8 +73,8 @@ const PLATFORM_H  = 28;    // brick platform row height
 const PLATFORM_W  = 210;   // brick platform width
 const CARD_W      = 370;   // experience card width
 
-// Alternating elevations tuned so cards cluster around vertical centre of the sky
-const ELEVATIONS  = [290, 210, 305, 225];
+// Single elevation — all cards sit on the same horizontal line, centred in the sky
+const ELEVATION = 230;
 
 // Decorative cloud positions [x%, y%]
 const CLOUDS = [
@@ -424,7 +424,7 @@ export function DesignerMarioExperience() {
 
   // Positions
   const centerXs = EXPERIENCES.map((_, i) => LEAD_PAD + i * SECTION_W + SECTION_W / 2);
-  const cardTops = EXPERIENCES.map((_, i) => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATIONS[i % ELEVATIONS.length]);
+  const cardTops = EXPERIENCES.map(() => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATION);
   const badgeTops = cardTops.map(t => t - 54);
   const connTop   = (i: number) => badgeTops[i] + 28;
   const connBot   = (i: number) => cardTops[i];
