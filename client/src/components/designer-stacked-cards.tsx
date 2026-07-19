@@ -37,8 +37,14 @@ function SparkleIcon({ className }: { className?: string }) {
  *   Card 1 scales 1 → 0.90 during scroll progress 0.5 → 1
  *   Card 2 stays at 1 (it's the frontmost card)
  */
+// Sharp zigzag (sawtooth) crown edge — 8 teeth across top and bottom
 const CARD_CLIP =
-  "polygon(0% 1.2%, 7% 0.2%, 14% 1.6%, 21% 0.4%, 29% 1.8%, 36% 0.6%, 43% 1.4%, 50% 0.3%, 57% 1.7%, 64% 0.5%, 71% 1.5%, 79% 0.4%, 86% 1.8%, 93% 0.6%, 100% 1.2%, 100% 98.8%, 93% 99.6%, 86% 98.4%, 79% 99.5%, 71% 98.5%, 64% 99.4%, 57% 98.6%, 50% 99.7%, 43% 98.3%, 36% 99.5%, 29% 98.4%, 21% 99.6%, 14% 98.5%, 7% 99.8%, 0% 98.8%)";
+  "polygon(" +
+  // Top edge — left to right, peaks point upward
+  "0% 8%, 6.25% 0%, 12.5% 8%, 18.75% 0%, 25% 8%, 31.25% 0%, 37.5% 8%, 43.75% 0%, 50% 8%, 56.25% 0%, 62.5% 8%, 68.75% 0%, 75% 8%, 81.25% 0%, 87.5% 8%, 93.75% 0%, 100% 8%," +
+  // Bottom edge — right to left, peaks point downward
+  "100% 92%, 93.75% 100%, 87.5% 92%, 81.25% 100%, 75% 92%, 68.75% 100%, 62.5% 92%, 56.25% 100%, 50% 92%, 43.75% 100%, 37.5% 92%, 31.25% 100%, 25% 92%, 18.75% 100%, 12.5% 92%, 6.25% 100%, 0% 92%" +
+  ")";
 
 // Alternating palette — [even, odd]
 const CARD_PALETTE = [
@@ -145,7 +151,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             <div
               className={`relative flex flex-col ${
                 cs.flip ? "md:flex-row-reverse" : "md:flex-row"
-              } items-center gap-8 md:gap-12 px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
+              } items-center gap-8 md:gap-12 px-7 pt-16 pb-16 md:px-10 md:pt-16 md:pb-16 overflow-hidden`}
               style={{
                 background: CARD_PALETTE[i % 2].bg,
                 clipPath: CARD_CLIP,
