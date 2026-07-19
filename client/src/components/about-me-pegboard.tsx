@@ -10,8 +10,8 @@ const PHOTOS = [
     note: "deep in figma mode ✦",
     noteRotate: -3,
     rotate: -4,
-    top: "16%",
-    left: "7%",
+    top: "18%",
+    left: "12%",
   },
   {
     id: "p2",
@@ -19,17 +19,8 @@ const PHOTOS = [
     note: "coffee is fuel ☕",
     noteRotate: 2,
     rotate: 3,
-    top: "10%",
-    left: "37%",
-  },
-  {
-    id: "p3",
-    src: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80",
-    note: "shipped it! 🎉",
-    noteRotate: -1,
-    rotate: -2,
-    top: "18%",
-    left: "64%",
+    top: "14%",
+    left: "48%",
   },
 ];
 
@@ -47,7 +38,7 @@ export function AboutMePegboard() {
         userSelect: "none",
       }}
     >
-      {/* Half-book / pegboard background */}
+      {/* Half-book background */}
       <img
         src="/halfbook.png"
         alt=""
@@ -59,6 +50,19 @@ export function AboutMePegboard() {
           borderRadius: 16,
           userSelect: "none",
           pointerEvents: "none",
+        }}
+      />
+
+      {/* Right-edge fade */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: 16,
+          background:
+            "linear-gradient(to right, transparent 55%, white 100%)",
+          pointerEvents: "none",
+          zIndex: 10,
         }}
       />
 
@@ -74,7 +78,7 @@ export function AboutMePegboard() {
             position: "absolute",
             top: photo.top,
             left: photo.left,
-            zIndex: 5,
+            zIndex: 15,
             cursor: "grab",
             touchAction: "none",
           }}
@@ -106,7 +110,7 @@ export function AboutMePegboard() {
               transform: `rotate(${photo.rotate}deg)`,
               boxShadow:
                 "0 8px 28px rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.10)",
-              width: 165,
+              width: 155,
               display: "block",
             }}
           >
