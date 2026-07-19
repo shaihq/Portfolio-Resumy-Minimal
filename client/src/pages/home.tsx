@@ -26,7 +26,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
-import { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo, lazy, Suspense, Component, type ReactNode } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, ArrowDown, User, Briefcase } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
@@ -54,7 +54,15 @@ import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 import { DesignerBirds } from "@/components/designer-birds";
 import { DesignerStackedCards } from "@/components/designer-stacked-cards";
-import Spline from "@splinetool/react-spline";
+
+const Spline = lazy(() => import("@splinetool/react-spline"));
+
+class SplineErrorBoundary extends Component<{ children: ReactNode }, { crashed: boolean }> {
+  state = { crashed: false };
+  static getDerivedStateFromError() { return { crashed: true }; }
+  componentDidCatch() {}
+  render() { return this.state.crashed ? null : this.props.children; }
+}
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5408,8 +5416,12 @@ export default function Home() {
             />
 
             {/* ── Spline Robot ── */}
-            <div className="w-full flex justify-center items-end pointer-events-none" style={{ height: 480, marginTop: 40 }}>
-              <Spline scene="https://prod.spline.design/jqS5x5fJNipGnGDQ/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+            <div className="w-full flex justify-center items-end" style={{ height: 480, marginTop: 40 }}>
+              <SplineErrorBoundary>
+                <Suspense fallback={null}>
+                  <Spline scene="https://prod.spline.design/jqS5x5fJNipGnGDQ/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+                </Suspense>
+              </SplineErrorBoundary>
             </div>
           </div>
         ) : null}
