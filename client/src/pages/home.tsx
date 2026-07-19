@@ -5500,8 +5500,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ── Designer: Bottom grass ── */}
-            <div style={{ width: "100%", lineHeight: 0 }}>
+            {/* ── Designer: Bottom grass — full viewport width ── */}
+            <div style={{
+              position: "relative",
+              left: "50%",
+              marginLeft: "-50vw",
+              width: "100vw",
+              lineHeight: 0,
+            }}>
               <img
                 src="/bottom%20grass.png"
                 alt=""
