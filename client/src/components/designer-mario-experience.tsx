@@ -74,7 +74,7 @@ const PLATFORM_W  = 210;   // brick platform width
 const CARD_W      = 370;   // experience card width
 
 // Single elevation — all cards sit on the same horizontal line, centred in the sky
-const ELEVATION = 230;
+const ELEVATION = 310;
 
 // Decorative cloud positions [x%, y%]
 const CLOUDS = [
@@ -85,12 +85,6 @@ const CLOUDS = [
   { x: 88, y: 7, scale: 0.95 },
 ];
 
-// Floating coins between entries [x%, y%]
-const COINS = [
-  { x: 22, y: 42 }, { x: 22.8, y: 42 }, { x: 23.6, y: 42 },
-  { x: 47, y: 50 }, { x: 47.8, y: 50 },
-  { x: 71, y: 44 }, { x: 71.8, y: 44 }, { x: 72.6, y: 44 },
-];
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
@@ -527,9 +521,24 @@ export function DesignerMarioExperience() {
             <PixelCloud key={i} x={(c.x / 100) * totalWidth / totalWidth * 100} y={c.y} scale={c.scale} />
           ))}
 
-          {/* ── Floating coins between platforms ── */}
-          {COINS.map((c, i) => (
-            <Coin key={i} x={c.x} y={c.y} />
+          {/* ── One static coin above each pipe ── */}
+          {pipeXs.map((x, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                left: `${x}%`,
+                bottom: GROUND_H + 80,
+                transform: "translateX(-50%)",
+                width: 18,
+                height: 18,
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #FFE045 0%, #F5B800 60%, #CC8C00 100%)",
+                border: "2px solid #CC8800",
+                boxShadow: "inset 2px 2px 0 rgba(255,255,200,0.7), 0 2px 4px rgba(180,120,0,0.3)",
+                pointerEvents: "none",
+              }}
+            />
           ))}
 
           {/* ── Ground strip ── */}
