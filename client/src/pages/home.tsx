@@ -5613,6 +5613,134 @@ export default function Home() {
               `}</style>
             </div>
 
+            {/* ── Designer: Contact Footer ── */}
+            <div className="px-6 md:px-0 pt-20 pb-16">
+              {/* "Contact" heading */}
+              <h2 style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: "clamp(52px, 9vw, 108px)",
+                fontWeight: 800,
+                lineHeight: 1,
+                letterSpacing: "-0.03em",
+                color: "#3B82F6",
+                marginBottom: 24,
+              }}>
+                Contact
+              </h2>
+
+              {/* Top rule */}
+              <div style={{ height: 1.5, backgroundColor: "#CBD5E1", marginBottom: 0 }} />
+
+              {/* Contact rows */}
+              {[
+                { label: "MAIL",        value: "matt@gmail.com",           href: "mailto:matt@gmail.com" },
+                { label: "BOOK A CALL", value: "cal.com/matt",             href: "#" },
+                { label: "LINKEDIN",    value: "linkedin-matt",            href: "https://linkedin.com/in/username" },
+                { label: "TWITTER",     value: "@MattDesigns",             href: "https://x.com/username" },
+              ].map((row, i) => (
+                <a
+                  key={i}
+                  href={row.href}
+                  target={row.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none" }}
+                  className="group"
+                >
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "20px 0",
+                    borderBottom: "1px solid #CBD5E1",
+                  }}>
+                    <span style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#64748B",
+                    }}>
+                      {row.label}
+                    </span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize: 15,
+                        fontWeight: 500,
+                        color: "#0F172A",
+                        transition: "color 0.15s",
+                      }}
+                        className="group-hover:text-[#3B82F6]"
+                      >
+                        {row.value}
+                      </span>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, opacity: 0.5, transition: "opacity 0.15s" }} className="group-hover:opacity-100">
+                        <path d="M2 12L12 2M12 2H5M12 2V9" stroke="#3B82F6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              ))}
+
+              {/* Bottom bar */}
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 32,
+                flexWrap: "wrap",
+                gap: 16,
+              }}>
+                {/* Nav links */}
+                <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
+                  {[
+                    { label: "/ Work",      href: "#" },
+                    { label: "/ Dribbble",  href: "#" },
+                    { label: "/ LinkedIn",  href: "https://linkedin.com/in/username" },
+                    { label: "/ Twitter",   href: "https://x.com/username" },
+                    { label: "/ Blog",      href: "#" },
+                  ].map((link, i) => (
+                    <a key={i} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 13,
+                      color: "#64748B",
+                      textDecoration: "none",
+                      transition: "color 0.15s",
+                    }}
+                      className="hover:text-[#0F172A]"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+
+                {/* Copyright + Resume */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+                  <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 12, color: "#94A3B8" }}>
+                    © 2026 Matt
+                  </span>
+                  <a href="#" style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "#0F172A",
+                    textDecoration: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
+                    className="hover:text-[#3B82F6] transition-colors"
+                  >
+                    Resume
+                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
             {/* ── Designer: Bottom grass — full viewport width, footer decoration ── */}
             <div style={{
               position: "relative",
