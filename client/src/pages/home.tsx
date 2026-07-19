@@ -26,7 +26,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
-import { useRef, useState, useEffect, useCallback, useMemo, lazy, Suspense, Component, type ReactNode } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, ArrowDown, User, Briefcase } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
@@ -54,15 +54,6 @@ import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 import { DesignerBirds } from "@/components/designer-birds";
 import { DesignerStackedCards } from "@/components/designer-stacked-cards";
-
-const Spline = lazy(() => import("@splinetool/react-spline"));
-
-class SplineErrorBoundary extends Component<{ children: ReactNode }, { crashed: boolean }> {
-  state = { crashed: false };
-  static getDerivedStateFromError() { return { crashed: true }; }
-  componentDidCatch() {}
-  render() { return this.state.crashed ? null : this.props.children; }
-}
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5416,12 +5407,15 @@ export default function Home() {
             />
 
             {/* ── Spline Robot ── */}
-            <div className="w-full flex justify-center items-end" style={{ height: 480, marginTop: 40 }}>
-              <SplineErrorBoundary>
-                <Suspense fallback={null}>
-                  <Spline scene="https://prod.spline.design/jqS5x5fJNipGnGDQ/scene.splinecode" style={{ width: '100%', height: '100%' }} />
-                </Suspense>
-              </SplineErrorBoundary>
+            <div className="w-full" style={{ height: 480, marginTop: 40 }}>
+              <iframe
+                src="https://my.spline.design/jqS5x5fJNipGnGDQ/"
+                frameBorder="0"
+                width="100%"
+                height="100%"
+                title="3D Robot"
+                style={{ display: 'block', border: 'none' }}
+              />
             </div>
           </div>
         ) : null}
