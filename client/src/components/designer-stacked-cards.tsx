@@ -84,7 +84,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
     <div
       ref={containerRef}
       style={{
-        height: `${n * 100}vh`,
+        height: `${n * 65}vh`,
         position: "relative",
       }}
     >
