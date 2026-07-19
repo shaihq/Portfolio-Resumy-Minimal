@@ -979,6 +979,19 @@ export default function Home() {
               className="absolute inset-0"
               style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
             />
+            {/* Grain overlay — inline SVG with feTurbulence for crisp film grain */}
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              style={{ mixBlendMode: "soft-light", opacity: 0.45 }}
+            >
+              <filter id="sky-grain-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" />
+                <feColorMatrix type="saturate" values="0" />
+              </filter>
+              <rect width="100%" height="100%" filter="url(#sky-grain-filter)" />
+            </svg>
             {/* Night stars */}
             {/* Clouds */}
             <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
