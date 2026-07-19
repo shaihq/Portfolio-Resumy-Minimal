@@ -5313,7 +5313,8 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-6 text-white/88 text-[17px] leading-relaxed font-['Inter'] text-left md:text-center w-full max-w-xl md:mx-auto"
+                  className="mt-6 text-white text-[17px] leading-relaxed font-['Inter'] font-medium text-left md:text-center w-full max-w-xl md:mx-auto"
+                  style={{ textShadow: '0 1px 16px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.35)' }}
                 >
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
