@@ -161,7 +161,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
               } items-center gap-8 md:gap-12 px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
               style={{
                 clipPath: CARD_CLIP,
-                backgroundColor: i % 2 === 0 ? "rgb(255, 246, 195)" : "rgb(255, 249, 162)",
+                backgroundColor: i % 2 === 0 ? "#FBEFDD" : "rgb(255, 249, 162)",
                 backgroundImage: "url('/bgcard.avif')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
