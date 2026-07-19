@@ -5543,22 +5543,12 @@ export default function Home() {
               zIndex: 0,
               marginTop: 40,
             }}>
-              {/* Sky gradient — starts at white (page bg), bleeds blue well past the image bottom */}
-              <div style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "calc(100% + 200vh)",
-                background: "linear-gradient(to bottom, #ffffff 0%, #D4E8F8 18%, #B3D3F2 38%, #7AB3EF 60%, #4A8FE8 80%, #1B4EC8 100%)",
-                zIndex: -1,
-              }} />
               <img
                 src="/bottom%20grass.png"
                 alt=""
                 aria-hidden="true"
                 draggable={false}
-                style={{ width: "100%", display: "block", position: "relative", zIndex: 1 }}
+                style={{ width: "100%", display: "block" }}
               />
             </div>
 
