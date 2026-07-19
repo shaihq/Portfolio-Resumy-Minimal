@@ -84,7 +84,8 @@ function LetterCard({ rec }: { rec: Recommendation }) {
           position: "absolute",
           top: 0,
           left: "50%",
-          transform: "translateX(-50%) translateY(-25%)",
+          transform: "translateX(-50%)",
+          top: -26,
           width: 72,
           zIndex: 10,
           pointerEvents: "none",
@@ -170,13 +171,13 @@ export function DesignerRecommendations() {
     <div style={{ overflowX: "clip", overflowY: "visible", width: "100%", position: "relative" }}>
       {/* Left fade */}
       <div style={{
-        position: "absolute", top: 0, left: 0, bottom: 0, width: 140, zIndex: 10,
+        position: "absolute", top: 0, left: 0, bottom: 0, width: 80, zIndex: 10,
         pointerEvents: "none",
         background: "linear-gradient(to right, white 0%, transparent 100%)",
       }} />
       {/* Right fade */}
       <div style={{
-        position: "absolute", top: 0, right: 0, bottom: 0, width: 140, zIndex: 10,
+        position: "absolute", top: 0, right: 0, bottom: 0, width: 80, zIndex: 10,
         pointerEvents: "none",
         background: "linear-gradient(to left, white 0%, transparent 100%)",
       }} />
