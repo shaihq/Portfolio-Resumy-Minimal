@@ -71,10 +71,6 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
       style={{
         height: `${n * 100}vh`,
         position: "relative",
-        backgroundImage: "url('/bgcard.avif')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "local",
       }}
     >
       {projects.map((cs, i) => (
@@ -153,9 +149,12 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             <div
               className={`relative flex flex-col ${
                 cs.flip ? "md:flex-row-reverse" : "md:flex-row"
-              } items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#0F172A] px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
+              } items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] px-7 py-8 md:px-10 md:py-10 overflow-hidden`}
               style={{
                 clipPath: CARD_CLIP,
+                backgroundImage: "url('/bgcard.avif')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 boxShadow:
                   i === n - 1
                     ? "0 8px 48px rgba(15,23,42,0.10)"
