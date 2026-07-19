@@ -658,13 +658,8 @@ export default function Home() {
   useEffect(() => {
     const root = document.documentElement;
     if (activeTemplate === "Designer") {
-      if (isDark) {
-        root.style.setProperty("--page-bg", "#0B0C11");
-        root.style.setProperty("--background", "230 22% 6%");
-      } else {
-        root.style.setProperty("--page-bg", "#FAFAFA");
-        root.style.setProperty("--background", "0 0% 98%");
-      }
+      root.style.setProperty("--page-bg", "#FAFAFA");
+      root.style.setProperty("--background", "0 0% 98%");
     } else {
       root.style.removeProperty("--page-bg");
       root.style.removeProperty("--background");
@@ -967,47 +962,20 @@ export default function Home() {
           <div className="absolute top-0 left-0 right-0 z-0 overflow-hidden" style={{ height: '100vh' }}>
             {/* Day sky */}
             <div
-              className="absolute inset-0 dark:hidden"
+              className="absolute inset-0"
               style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
             />
-            {/* Night sky — Linear-style deep dark, subtle blue-black horizon */}
-            <div
-              className="absolute inset-0 hidden dark:block"
-              style={{
-                background: `
-                  radial-gradient(ellipse 70% 45% at 50% 100%, rgba(14, 24, 60, 0.55) 0%, transparent 70%),
-                  radial-gradient(ellipse 40% 25% at 20% 70%, rgba(10, 18, 48, 0.25) 0%, transparent 60%),
-                  linear-gradient(to bottom,
-                    #04040A 0%,
-                    #05060D 18%,
-                    #070810 35%,
-                    #090B16 52%,
-                    #0B0E1C 68%,
-                    #0D1121 82%,
-                    #0F1326 100%
-                  )
-                `
-              }}
-            />
             {/* Night stars */}
-            <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
-
-            {/* Clouds — day mode */}
-            <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-1000" aria-hidden="true">
+            {/* Clouds */}
+            <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
               <img src="/backgrounds/cloud1.avif" alt="" className="designer-cloud-1" />
               <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2" />
-            </div>
-            {/* Clouds — night mode, pink-mauve tinted */}
-            <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-1000" aria-hidden="true">
-              <img src="/backgrounds/cloud1.avif" alt="" className="designer-cloud-1 designer-cloud-night" />
-              <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2 designer-cloud-night" style={{ top: '3%', right: '-4%', width: '28%' }} />
             </div>
 
             <DesignerBirds />
 
             {/* Bottom fade into page bg */}
-            <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #FAFAFA 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #080F1E 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #FAFAFA 100%)' }} />
           </div>
         )}
 
@@ -1394,7 +1362,7 @@ export default function Home() {
           )}
           <div className="flex items-start justify-end gap-4 mb-6">
             <div className="flex items-center gap-2 mt-1">
-              <AnimatedThemeToggler />
+              {activeTemplate !== "Designer" && <AnimatedThemeToggler />}
             </div>
           </div>
 
@@ -5318,15 +5286,6 @@ export default function Home() {
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
 
-                {/* Glassmorphic theme toggler */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.9 }}
-                  className="mt-10 self-center"
-                >
-                  <AnimatedThemeToggler className="w-12 h-12 bg-white/25 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.12)] hover:bg-white/35 dark:hover:bg-white/18 hover:scale-105 active:scale-95 transition-all duration-200" />
-                </motion.div>
               </div>
             </div>
 
