@@ -5414,7 +5414,7 @@ export default function Home() {
             <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
 
               {/* Skills strip — tilts left, scrolls right-to-left */}
-              <div style={{ transform: "rotate(-1.2deg)", margin: "0 -80px 18px" }}>
+              <div style={{ transform: "rotate(-5deg)", transformOrigin: "left center", margin: "0 -80px 24px" }}>
                 <div style={{ backgroundColor: "#0F172A", padding: "20px 0", overflow: "hidden" }}>
                   <div style={{
                     display: "flex",
@@ -5441,7 +5441,7 @@ export default function Home() {
               </div>
 
               {/* Tools strip — tilts right, scrolls left-to-right */}
-              <div style={{ transform: "rotate(1.2deg)", margin: "0 -80px" }}>
+              <div style={{ transform: "rotate(5deg)", transformOrigin: "left center", margin: "0 -80px" }}>
                 <div style={{ backgroundColor: "#3B82F6", padding: "20px 0", overflow: "hidden" }}>
                   <div style={{
                     display: "flex",
