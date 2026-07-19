@@ -601,6 +601,7 @@ export default function Home() {
     }
   }, [activeTemplate]);
 
+
   const sectionVariants = activeTemplate === "Minimal" ? {} : itemVariants;
   const isImageBackground = activeBackground !== "default" && activeBackground.startsWith("/");
   const bgColor = useImageColor(activeTemplate === "Minimal" && isImageBackground ? activeBackground : "");
@@ -652,6 +653,16 @@ export default function Home() {
     return localStorage.getItem("theme") === "dark" || 
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
+
+  // Designer template — override page background with modern white/navy palette
+  useEffect(() => {
+    const root = document.documentElement;
+    if (activeTemplate === "Designer") {
+      root.style.setProperty("--page-bg", isDark ? "#080F1E" : "#FAFAFA");
+    } else {
+      root.style.removeProperty("--page-bg");
+    }
+  }, [activeTemplate, isDark]);
 
   // Professional template — 3D tilt profile image
   const [profTilt, setProfTilt] = useState({ x: 0, y: 0 });
