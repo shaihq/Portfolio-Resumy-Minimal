@@ -76,16 +76,35 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             zIndex: i + 1,
           }}
         >
-          {/* Section label — only on first card */}
+          {/* Section header — only on first card */}
           {i === 0 && (
-            <div
-              className="absolute top-10 left-0 right-0 flex items-center gap-4 px-8 max-w-4xl mx-auto"
-              style={{ width: "100%" }}
-            >
-              <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#64748B]">
-                Selected Work
-              </span>
-              <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
+            <div className="absolute top-8 left-0 right-0 px-6 md:px-0">
+              {/* Badge + divider row */}
+              <div className="flex items-center gap-3 mb-4">
+                {/* Blue diamond sparkle */}
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                  <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="#3B82F6"/>
+                </svg>
+                <span className="text-[10.5px] font-bold tracking-[0.22em] uppercase text-[#64748B] dark:text-[#64748B]">
+                  Selected Work
+                </span>
+                <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
+              </div>
+
+              {/* Title */}
+              <h2
+                className="text-[#0F172A] dark:text-[#F8FAFC]"
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: "clamp(22px, 3.2vw, 38px)",
+                  fontWeight: 600,
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                check out some of{" "}
+                <span className="text-[#94A3B8] dark:text-[#475569]">my work</span>
+              </h2>
             </div>
           )}
 
