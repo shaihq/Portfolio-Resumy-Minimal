@@ -5454,14 +5454,14 @@ export default function Home() {
 
               {/* Content: photo left, text right */}
               <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16 relative" style={{ overflow: "visible" }}>
-                {/* Book — absolute, center aligned on left edge so exactly half bleeds outside */}
+                {/* Book — huge, center at left edge so right half shows, left half outside viewport */}
                 <img
                   src="/book.png"
                   alt=""
                   aria-hidden="true"
                   style={{
                     position: "absolute",
-                    width: 320,
+                    width: 700,
                     left: 0,
                     top: "50%",
                     transform: "translate(-50%, -50%)",
