@@ -54,6 +54,7 @@ import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 import { DesignerBirds } from "@/components/designer-birds";
 import { DesignerStackedCards } from "@/components/designer-stacked-cards";
+import Spline from "@splinetool/react-spline";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5405,6 +5406,11 @@ export default function Home() {
               ]}
               onProjectClick={handleProjectClick}
             />
+
+            {/* ── Spline Robot ── */}
+            <div className="w-full flex justify-center items-end pointer-events-none" style={{ height: 480, marginTop: 40 }}>
+              <Spline scene="https://prod.spline.design/jqS5x5fJNipGnGDQ/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+            </div>
           </div>
         ) : null}
       </div>
