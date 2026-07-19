@@ -51,6 +51,7 @@ import story3 from "@/assets/images/story-3.jpg";
 import pegboardBg from "@/assets/pegboard/pegboard1.png";
 import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
+import { DesignerBirds } from "@/components/designer-birds";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -972,37 +973,7 @@ export default function Home() {
               <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2" />
             </div>
 
-            {/* Birds — sprite sheet, day mode */}
-            <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-700" aria-hidden="true">
-              <div style={{ position: 'absolute', top: '8%',  left: '-3%', willChange: 'transform', animation: 'designer-fly-right-one 15s linear 0s infinite' }}>
-                <div className="designer-bird designer-bird-day designer-bird-one" />
-              </div>
-              <div style={{ position: 'absolute', top: '14%', left: '-3%', willChange: 'transform', animation: 'designer-fly-right-two 16s linear 1s infinite' }}>
-                <div className="designer-bird designer-bird-day designer-bird-two" />
-              </div>
-              <div style={{ position: 'absolute', top: '22%', left: '-3%', willChange: 'transform', animation: 'designer-fly-right-one 14.6s linear 9.5s infinite' }}>
-                <div className="designer-bird designer-bird-day designer-bird-three" />
-              </div>
-              <div style={{ position: 'absolute', top: '30%', left: '-3%', willChange: 'transform', animation: 'designer-fly-right-two 16s linear 10.25s infinite' }}>
-                <div className="designer-bird designer-bird-day designer-bird-four" />
-              </div>
-            </div>
-
-            {/* Birds — sprite sheet, night mode */}
-            <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700" aria-hidden="true">
-              <div style={{ position: 'absolute', top: '8%',  left: '-3%', willChange: 'transform', animation: 'designer-fly-right-one 15s linear 0s infinite' }}>
-                <div className="designer-bird designer-bird-night designer-bird-one" />
-              </div>
-              <div style={{ position: 'absolute', top: '14%', left: '-3%', willChange: 'transform', animation: 'designer-fly-right-two 16s linear 1s infinite' }}>
-                <div className="designer-bird designer-bird-night designer-bird-two" />
-              </div>
-              <div style={{ position: 'absolute', top: '22%', left: '-3%', willChange: 'transform', animation: 'designer-fly-right-one 14.6s linear 9.5s infinite' }}>
-                <div className="designer-bird designer-bird-night designer-bird-three" />
-              </div>
-              <div style={{ position: 'absolute', top: '30%', left: '-3%', willChange: 'transform', animation: 'designer-fly-right-two 16s linear 10.25s infinite' }}>
-                <div className="designer-bird designer-bird-night designer-bird-four" />
-              </div>
-            </div>
+            <DesignerBirds />
 
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
