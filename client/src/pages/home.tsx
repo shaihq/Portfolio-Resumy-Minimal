@@ -983,7 +983,7 @@ export default function Home() {
 
         <style dangerouslySetInnerHTML={{ __html: `
         .designer-hero-title {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Poppins', sans-serif;
         }
         @keyframes designer-fly-cycle {
           100% { background-position: -900px 0; }
@@ -5371,7 +5371,7 @@ export default function Home() {
                         {/* Headline */}
                         <h3
                           className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4"
-                          style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: 'clamp(22px, 3.2vw, 34px)', fontWeight: 400, lineHeight: 1.22, letterSpacing: '0.01em' }}
+                          style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(20px, 2.8vw, 30px)', fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em' }}
                         >
                           {cs.title}
                         </h3>
