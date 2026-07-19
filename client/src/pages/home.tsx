@@ -5541,10 +5541,10 @@ export default function Home() {
                 <div style={{
                   transform: "rotate(-2.5deg) rotateX(10deg)",
                   transformOrigin: "center bottom",
-                  boxShadow: "0 18px 48px -8px rgba(15,23,42,0.55), 0 6px 16px -4px rgba(15,23,42,0.35)",
-                  backgroundColor: "#0F172A",
+                  background: "linear-gradient(180deg, #1e3a5c 0%, #0f172a 45%, #04090f 100%)",
                   padding: "14px 0",
                   overflow: "hidden",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -2px 0 rgba(0,0,0,0.4)",
                 }}>
                   <div style={{ display: "flex", gap: 36, width: "max-content", animation: "dsn-skills-ltr 28s linear infinite" }}>
                     {[0, 1].map((copy) => (
@@ -5570,10 +5570,10 @@ export default function Home() {
                 <div style={{
                   transform: "rotate(2.5deg) rotateX(-10deg)",
                   transformOrigin: "center top",
-                  boxShadow: "0 -18px 48px -8px rgba(59,130,246,0.45), 0 -6px 16px -4px rgba(59,130,246,0.3)",
-                  backgroundColor: "#3B82F6",
+                  background: "linear-gradient(180deg, #60a5fa 0%, #3b82f6 45%, #1d4ed8 100%)",
                   padding: "14px 0",
                   overflow: "hidden",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -2px 0 rgba(0,0,0,0.25)",
                 }}>
                   <div style={{ display: "flex", gap: 40, width: "max-content", animation: "dsn-tools-rtl 32s linear infinite" }}>
                     {[0, 1].map((copy) => (
