@@ -82,9 +82,10 @@ function LetterCard({ rec }: { rec: Recommendation }) {
         draggable={false}
         style={{
           position: "absolute",
-          top: -45,
+          top: 0,
           left: "50%",
           transform: "translateX(-50%)",
+          top: -45,
           width: 72,
           zIndex: 10,
           pointerEvents: "none",

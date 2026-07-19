@@ -2051,24 +2051,8 @@ export default function Home() {
             </div>
           ) : (
             <div className="space-y-6">
-              {recommendations.map((rec, index) => (
-                <div key={rec.id} style={{ position: "relative", paddingTop: 45 }}>
-                  {/* Clip image — only bottom portion overlaps card top */}
-                  <img
-                    src="/clip.png"
-                    alt=""
-                    draggable={false}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: 72,
-                      zIndex: 10,
-                      pointerEvents: "none",
-                    }}
-                  />
-                <div className={`${index % 2 === 0 ? "bg-white dark:bg-[#2A2520]" : "bg-[#F5EFE8] dark:bg-[#2E2923]"} rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative`}>
+              {recommendations.map((rec) => (
+                <div key={rec.id} className="bg-white dark:bg-[#2A2520] rounded-[16px] border border-black/5 dark:border-white/10 drop-shadow-sm overflow-hidden group/card relative">
                   {isEditing && (
                     <div className="absolute top-3 right-3 z-20 transition-opacity flex gap-2 opacity-100 md:opacity-0 md:group-hover/card:opacity-100">
                       <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-[#2A2520]/90 backdrop-blur-sm border-black/10 dark:border-white/10 shadow-sm hover:bg-white dark:hover:bg-[#35302A]" onClick={(e) => e.stopPropagation()}>
@@ -2127,7 +2111,6 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                </div>
                 </div>
               ))}
             </div>
