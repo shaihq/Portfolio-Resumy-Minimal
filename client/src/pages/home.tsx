@@ -5453,32 +5453,26 @@ export default function Home() {
               </div>
 
               {/* Content: photo left, text right */}
-              <div className="flex flex-col md:flex-row items-start gap-12 md:gap-16">
-                {/* Book + Polaroid composite */}
-                <div className="flex-shrink-0 self-start" style={{ position: "relative", width: 360, height: 310 }}>
-                  {/* Book — sits behind, right half visible */}
-                  <img
-                    src="/book.png"
-                    alt=""
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      width: 280,
-                      top: 40,
-                      left: 80,
-                      zIndex: 1,
-                      transform: "rotate(2deg)",
-                      pointerEvents: "none",
-                    }}
-                  />
-                  {/* Polaroid — on top */}
+              <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16 relative" style={{ overflow: "visible" }}>
+                {/* Book — absolute, center aligned on left edge so exactly half bleeds outside */}
+                <img
+                  src="/book.png"
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    width: 320,
+                    left: 0,
+                    top: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 1,
+                    pointerEvents: "none",
+                  }}
+                />
+                {/* Polaroid — flex item, sits over the book's right half */}
+                <div className="flex-shrink-0" style={{ position: "relative", zIndex: 2 }}>
                   <div
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      zIndex: 2,
-                      transform: "rotate(-2deg)",
                       background: "white",
                       padding: "12px 12px 40px 12px",
                       border: "1px solid #E2E8F0",
