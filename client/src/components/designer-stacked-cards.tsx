@@ -98,9 +98,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
               top: `calc(-5vh + ${i * 25}px)`,
               position: "relative",
               width: "100%",
-              maxWidth: "900px",
             }}
-            className="px-6"
           >
             {/* Sparkle decorations */}
             <SparkleIcon
