@@ -5503,7 +5503,7 @@ export default function Home() {
             {/* ── Designer: Recommendations section ── */}
             <div className="pt-28 pb-20">
               {/* Badge + divider row */}
-              <div className="px-6 md:px-0 flex items-center gap-3 mb-12">
+              <div className="px-6 md:px-0 flex items-center gap-3 mb-4">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                   <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="#3B82F6"/>
                 </svg>
