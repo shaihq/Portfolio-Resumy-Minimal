@@ -84,7 +84,7 @@ function LetterCard({ rec }: { rec: Recommendation }) {
           position: "absolute",
           top: 0,
           left: "50%",
-          transform: "translateX(-50%) translateY(-80%)",
+          transform: "translateX(-50%) translateY(-25%)",
           width: 72,
           zIndex: 10,
           pointerEvents: "none",
@@ -167,7 +167,7 @@ export function DesignerRecommendations() {
   const cards = [...RECS, ...RECS];
 
   return (
-    <div style={{ overflow: "hidden", width: "100%", position: "relative" }}>
+    <div style={{ overflowX: "clip", overflowY: "visible", width: "100%", position: "relative" }}>
       {/* Left fade */}
       <div style={{
         position: "absolute", top: 0, left: 0, bottom: 0, width: 140, zIndex: 10,
