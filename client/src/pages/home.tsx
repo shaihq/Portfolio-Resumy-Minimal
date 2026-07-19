@@ -5500,23 +5500,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ── Designer: Bottom grass — full viewport width ── */}
-            <div style={{
-              position: "relative",
-              left: "50%",
-              marginLeft: "-50vw",
-              width: "100vw",
-              lineHeight: 0,
-            }}>
-              <img
-                src="/bottom%20grass.png"
-                alt=""
-                aria-hidden="true"
-                draggable={false}
-                style={{ width: "100%", display: "block" }}
-              />
-            </div>
-
             {/* ── Designer: Recommendations section ── */}
             <div className="pt-28 pb-20">
               {/* Badge + divider row */}
@@ -5550,6 +5533,24 @@ export default function Home() {
               <DesignerRecommendations />
             </div>
 
+            {/* ── Designer: Bottom grass — full viewport width, footer decoration ── */}
+            <div style={{
+              position: "relative",
+              left: "50%",
+              marginLeft: "-50vw",
+              width: "100vw",
+              lineHeight: 0,
+              zIndex: 0,
+              marginTop: 40,
+            }}>
+              <img
+                src="/bottom%20grass.png"
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                style={{ width: "100%", display: "block" }}
+              />
+            </div>
 
           </div>
         ) : null}
