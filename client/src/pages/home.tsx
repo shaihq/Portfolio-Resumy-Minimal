@@ -5331,7 +5331,7 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Selected Work ── */}
-            <div className="px-0 pb-28 pt-10 bg-[#FAFAFA] dark:bg-[#080F1E]">
+            <div className="px-0 pb-28 pt-10">
               {/* Section label */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
