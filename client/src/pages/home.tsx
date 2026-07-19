@@ -5295,7 +5295,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed font-['Inter'] text-center w-full max-w-xl mx-auto px-6 md:px-0"
+                  className="mt-8 text-white/72 dark:text-white/65 text-[15px] leading-relaxed font-['Inter'] text-center w-full max-w-xl mx-auto px-6 md:px-0"
                 >
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
