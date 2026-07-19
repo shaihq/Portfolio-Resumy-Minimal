@@ -5410,86 +5410,6 @@ export default function Home() {
               onProjectClick={handleProjectClick}
             />
 
-            {/* ── Designer: Skills & Tools cross banners ── */}
-            <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
-
-              {/* Skills strip — tilts left, scrolls right-to-left */}
-              <div style={{ transform: "rotate(-2.5deg)", margin: "0 -80px 18px" }}>
-                <div style={{ backgroundColor: "#0F172A", padding: "14px 0", overflow: "hidden" }}>
-                  <div style={{
-                    display: "flex",
-                    gap: 36,
-                    width: "max-content",
-                    animation: "dsn-skills-ltr 28s linear infinite",
-                  }}>
-                    {[0, 1].map((copy) => (
-                      <div key={copy} style={{ display: "flex", gap: 36, alignItems: "center", flexShrink: 0 }}>
-                        {["Interaction Design", "3D Design", "User Research", "UI/UX Design", "Prototyping", "Design Systems", "Motion Design", "Visual Design"].map((skill, j) => (
-                          <div key={j} style={{ display: "flex", alignItems: "center", gap: 36, flexShrink: 0 }}>
-                            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#F8FAFC", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
-                              {skill}
-                            </span>
-                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-                              <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="#439BEA"/>
-                            </svg>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Tools strip — tilts right, scrolls left-to-right */}
-              <div style={{ transform: "rotate(2.5deg)", margin: "0 -80px" }}>
-                <div style={{ backgroundColor: "#3B82F6", padding: "14px 0", overflow: "hidden" }}>
-                  <div style={{
-                    display: "flex",
-                    gap: 40,
-                    width: "max-content",
-                    animation: "dsn-tools-rtl 32s linear infinite",
-                  }}>
-                    {[0, 1].map((copy) => (
-                      <div key={copy} style={{ display: "flex", gap: 40, alignItems: "center", flexShrink: 0 }}>
-                        {[
-                          { name: "Figma",      image: "/tools/image 4.png" },
-                          { name: "Notion",     image: "/tools/image 5.png" },
-                          { name: "Procreate",  image: "/tools/image 6.png" },
-                          { name: "Plasticity", image: "/tools/image 7.png" },
-                          { name: "Reeder",     image: "/tools/image 8.png" },
-                          { name: "Anthropic",  image: "/tools/image 9.png" },
-                          { name: "Sketch",     image: "/tools/image 10.png" },
-                        ].map((tool, j) => (
-                          <div key={j} style={{ display: "flex", alignItems: "center", gap: 40, flexShrink: 0 }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
-                              <img src={tool.image} alt={tool.name} style={{ width: 22, height: 22, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
-                              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#FFFFFF", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
-                                {tool.name}
-                              </span>
-                            </div>
-                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-                              <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="white" fillOpacity="0.45"/>
-                            </svg>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <style>{`
-                @keyframes dsn-skills-ltr {
-                  from { transform: translateX(0); }
-                  to   { transform: translateX(-50%); }
-                }
-                @keyframes dsn-tools-rtl {
-                  from { transform: translateX(-50%); }
-                  to   { transform: translateX(0); }
-                }
-              `}</style>
-            </div>
-
             {/* ── Designer: Work Experience section header ── */}
             <div className="px-6 md:px-0 pt-32 pb-10">
               {/* Badge + divider row */}
@@ -5611,6 +5531,86 @@ export default function Home() {
 
               {/* Auto-scrolling letter cards — full bleed */}
               <DesignerRecommendations />
+            </div>
+
+            {/* ── Designer: Skills & Tools cross banners ── */}
+            <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
+
+              {/* Skills strip — tilts left, scrolls right-to-left */}
+              <div style={{ transform: "rotate(-2.5deg)", margin: "0 -80px 18px" }}>
+                <div style={{ backgroundColor: "#0F172A", padding: "14px 0", overflow: "hidden" }}>
+                  <div style={{
+                    display: "flex",
+                    gap: 36,
+                    width: "max-content",
+                    animation: "dsn-skills-ltr 28s linear infinite",
+                  }}>
+                    {[0, 1].map((copy) => (
+                      <div key={copy} style={{ display: "flex", gap: 36, alignItems: "center", flexShrink: 0 }}>
+                        {["Interaction Design", "3D Design", "User Research", "UI/UX Design", "Prototyping", "Design Systems", "Motion Design", "Visual Design"].map((skill, j) => (
+                          <div key={j} style={{ display: "flex", alignItems: "center", gap: 36, flexShrink: 0 }}>
+                            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#F8FAFC", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                              {skill}
+                            </span>
+                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+                              <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="#439BEA"/>
+                            </svg>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Tools strip — tilts right, scrolls left-to-right */}
+              <div style={{ transform: "rotate(2.5deg)", margin: "0 -80px" }}>
+                <div style={{ backgroundColor: "#3B82F6", padding: "14px 0", overflow: "hidden" }}>
+                  <div style={{
+                    display: "flex",
+                    gap: 40,
+                    width: "max-content",
+                    animation: "dsn-tools-rtl 32s linear infinite",
+                  }}>
+                    {[0, 1].map((copy) => (
+                      <div key={copy} style={{ display: "flex", gap: 40, alignItems: "center", flexShrink: 0 }}>
+                        {[
+                          { name: "Figma",      image: "/tools/image 4.png" },
+                          { name: "Notion",     image: "/tools/image 5.png" },
+                          { name: "Procreate",  image: "/tools/image 6.png" },
+                          { name: "Plasticity", image: "/tools/image 7.png" },
+                          { name: "Reeder",     image: "/tools/image 8.png" },
+                          { name: "Anthropic",  image: "/tools/image 9.png" },
+                          { name: "Sketch",     image: "/tools/image 10.png" },
+                        ].map((tool, j) => (
+                          <div key={j} style={{ display: "flex", alignItems: "center", gap: 40, flexShrink: 0 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
+                              <img src={tool.image} alt={tool.name} style={{ width: 22, height: 22, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+                              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#FFFFFF", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                                {tool.name}
+                              </span>
+                            </div>
+                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+                              <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="white" fillOpacity="0.45"/>
+                            </svg>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <style>{`
+                @keyframes dsn-skills-ltr {
+                  from { transform: translateX(0); }
+                  to   { transform: translateX(-50%); }
+                }
+                @keyframes dsn-tools-rtl {
+                  from { transform: translateX(-50%); }
+                  to   { transform: translateX(0); }
+                }
+              `}</style>
             </div>
 
             {/* ── Designer: Bottom grass — full viewport width, footer decoration ── */}
