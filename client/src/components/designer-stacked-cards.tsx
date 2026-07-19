@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 interface CaseStudy {
@@ -43,6 +43,37 @@ const CARD_CLIP =
   "0% 3%, 4.17% 0%, 8.33% 3%, 12.5% 0%, 16.67% 3%, 20.83% 0%, 25% 3%, 29.17% 0%, 33.33% 3%, 37.5% 0%, 41.67% 3%, 45.83% 0%, 50% 3%, 54.17% 0%, 58.33% 3%, 62.5% 0%, 66.67% 3%, 70.83% 0%, 75% 3%, 79.17% 0%, 83.33% 3%, 87.5% 0%, 91.67% 3%, 95.83% 0%, 100% 3%," +
   "100% 97%, 95.83% 100%, 91.67% 97%, 87.5% 100%, 83.33% 97%, 79.17% 100%, 75% 97%, 70.83% 100%, 66.67% 97%, 62.5% 100%, 58.33% 97%, 54.17% 100%, 50% 97%, 45.83% 100%, 41.67% 97%, 37.5% 100%, 33.33% 97%, 29.17% 100%, 25% 97%, 20.83% 100%, 16.67% 97%, 12.5% 100%, 8.33% 97%, 4.17% 100%, 0% 97%" +
   ")";
+
+function TiltCard({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rotateX = useSpring(useMotionValue(0), { stiffness: 180, damping: 18 });
+  const rotateY = useSpring(useMotionValue(0), { stiffness: 180, damping: 18 });
+  const scale   = useSpring(useMotionValue(1), { stiffness: 220, damping: 22 });
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const dx = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2);
+    const dy = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2);
+    rotateY.set(dx * 4);
+    rotateX.set(-dy * 2.5);
+  }
+
+  function onMouseEnter() { scale.set(1.022); }
+  function onMouseLeave() { rotateX.set(0); rotateY.set(0); scale.set(1); }
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ rotateX, rotateY, scale, transformStyle: "preserve-3d" }}
+      onMouseMove={onMouseMove}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function DesignerStackedCards({ projects, onProjectClick }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -155,6 +186,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             />
 
             {/* Card body */}
+            <TiltCard>
             <div
               className={`relative flex flex-col ${
                 cs.flip ? "md:flex-row-reverse" : "md:flex-row"
@@ -226,6 +258,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                 </div>
               </div>
             </div>
+            </TiltCard>
           </motion.div>
         </div>
       ))}
