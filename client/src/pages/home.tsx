@@ -659,8 +659,8 @@ export default function Home() {
     const root = document.documentElement;
     if (activeTemplate === "Designer") {
       if (isDark) {
-        root.style.setProperty("--page-bg", "#080F1E");
-        root.style.setProperty("--background", "222 68% 7%");
+        root.style.setProperty("--page-bg", "#0B0C11");
+        root.style.setProperty("--background", "230 22% 6%");
       } else {
         root.style.setProperty("--page-bg", "#FAFAFA");
         root.style.setProperty("--background", "0 0% 98%");
@@ -970,21 +970,21 @@ export default function Home() {
               className="absolute inset-0 dark:hidden"
               style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
             />
-            {/* Night sky — deep midnight, minimal warm bleed */}
+            {/* Night sky — Linear-style deep dark, subtle blue-black horizon */}
             <div
               className="absolute inset-0 hidden dark:block"
               style={{
                 background: `
-                  radial-gradient(ellipse 100% 35% at 50% 105%, rgba(160,90,60,0.09) 0%, transparent 60%),
+                  radial-gradient(ellipse 70% 45% at 50% 100%, rgba(14, 24, 60, 0.55) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 25% at 20% 70%, rgba(10, 18, 48, 0.25) 0%, transparent 60%),
                   linear-gradient(to bottom,
-                    #0E0D28 0%,
-                    #151230 20%,
-                    #1C1840 40%,
-                    #221C4A 58%,
-                    #281E50 72%,
-                    #2E1E52 83%,
-                    #341C4A 92%,
-                    #381840 100%
+                    #04040A 0%,
+                    #05060D 18%,
+                    #070810 35%,
+                    #090B16 52%,
+                    #0B0E1C 68%,
+                    #0D1121 82%,
+                    #0F1326 100%
                   )
                 `
               }}
@@ -1238,8 +1238,8 @@ export default function Home() {
           style={{
             boxShadow: (handleHovered || isResizing)
               ? (isResizing
-                  ? '0 0 0 2px rgba(99,102,241,0.45), 0 0 40px rgba(99,102,241,0.1)'
-                  : '0 0 0 1.5px rgba(99,102,241,0.28), 0 0 24px rgba(99,102,241,0.08)')
+                  ? '0 0 0 2px rgba(94,106,210,0.45), 0 0 40px rgba(94,106,210,0.1)'
+                  : '0 0 0 1.5px rgba(94,106,210,0.28), 0 0 24px rgba(94,106,210,0.08)')
               : undefined,
             transition: 'box-shadow 0.2s ease',
           }}
@@ -1263,8 +1263,8 @@ export default function Home() {
                 >
                   <div className="flex items-center gap-2 bg-[#0D0D0D]/92 backdrop-blur-md border border-white/[0.1] text-white rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/40">
                     <span className="relative flex h-[7px] w-[7px] flex-shrink-0">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-60" />
-                      <span className="relative inline-flex rounded-full h-[7px] w-[7px] bg-indigo-400" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ backgroundColor: '#5E6AD2' }} />
+                      <span className="relative inline-flex rounded-full h-[7px] w-[7px]" style={{ backgroundColor: '#5E6AD2' }} />
                     </span>
                     <span className="text-[12px] font-semibold tracking-wide" style={{ fontFamily: 'Geist Mono, DM Mono, monospace' }}>{containerWidth}px</span>
                   </div>
