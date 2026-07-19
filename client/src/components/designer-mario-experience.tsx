@@ -12,6 +12,7 @@ export interface WorkExperience {
   company: string;
   location: string;
   bullets: string[];
+  logo: string; // URL or data-URI
 }
 
 const EXPERIENCES: WorkExperience[] = [
@@ -21,6 +22,7 @@ const EXPERIENCES: WorkExperience[] = [
     role: "Senior Product Designer",
     company: "Designfolio Inc.",
     location: "San Francisco, CA",
+    logo: "https://logo.clearbit.com/figma.com",
     bullets: [
       "Led end-to-end redesign of the core dashboard, cutting time-on-task by 40%.",
       "Built a cross-team design system adopted by 3 product squads.",
@@ -31,8 +33,9 @@ const EXPERIENCES: WorkExperience[] = [
     id: "exp-2",
     period: "Mar '22 – Dec '23",
     role: "Product Designer",
-    company: "Acme Corp",
+    company: "Google",
     location: "New York, NY",
+    logo: "https://logo.clearbit.com/google.com",
     bullets: [
       "Redesigned the onboarding flow, boosting activation rate by 28%.",
       "Partnered with engineering to ship a new mobile app in 3 months.",
@@ -43,8 +46,9 @@ const EXPERIENCES: WorkExperience[] = [
     id: "exp-3",
     period: "Jun '20 – Feb '22",
     role: "UI / UX Design Intern",
-    company: "Startup Studio",
+    company: "Facebook",
     location: "Austin, TX",
+    logo: "https://logo.clearbit.com/facebook.com",
     bullets: [
       "Designed user flows and wireframes for 4 client products.",
       "Created a component library reducing UI inconsistencies by 60%.",
@@ -274,39 +278,58 @@ function ExperienceCard({
         zIndex: 5,
       }}
     >
-      {/* Header */}
-      <div style={{ marginBottom: 12 }}>
-        <p style={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: "#0F172A",
-          fontFamily: "'Inter', sans-serif",
-          marginBottom: 4,
-        }}>
-          {exp.role}
-        </p>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-          <p style={{ fontSize: 14, color: "#64748B", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
-            {exp.company}
+      {/* Logo + header row */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 14 }}>
+        {/* Company logo */}
+        <img
+          src={exp.logo}
+          alt={exp.company}
+          width={40}
+          height={40}
+          style={{
+            borderRadius: 10,
+            border: "1px solid #E2E8F0",
+            objectFit: "contain",
+            background: "#fff",
+            flexShrink: 0,
+          }}
+          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+        />
+
+        {/* Text */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: "#0F172A",
+            fontFamily: "'Inter', sans-serif",
+            marginBottom: 4,
+          }}>
+            {exp.role}
           </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 3, flexShrink: 0 }}>
-            <MapPin size={12} color="#94A3B8" strokeWidth={2} />
-            <p style={{ fontSize: 12, color: "#94A3B8", fontFamily: "'Inter', sans-serif", whiteSpace: "nowrap" }}>
-              {exp.location}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+            <p style={{ fontSize: 15, color: "#64748B", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
+              {exp.company}
             </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 3, flexShrink: 0 }}>
+              <MapPin size={13} color="#94A3B8" strokeWidth={2} />
+              <p style={{ fontSize: 13, color: "#94A3B8", fontFamily: "'Inter', sans-serif", whiteSpace: "nowrap" }}>
+                {exp.location}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Divider */}
-      <div style={{ height: 1, background: "#F1F5F9", marginBottom: 12 }} />
+      <div style={{ height: 1, background: "#F1F5F9", marginBottom: 14 }} />
 
       {/* Bullets */}
-      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
+      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
         {exp.bullets.map((b, i) => (
           <li key={i} style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
             <span style={{
-              marginTop: 6,
+              marginTop: 7,
               flexShrink: 0,
               width: 5,
               height: 5,
@@ -314,10 +337,10 @@ function ExperienceCard({
               background: "#CBD5E1",
             }} />
             <span style={{
-              fontSize: 13,
+              fontSize: 14,
               color: "#475569",
               fontFamily: "'Inter', sans-serif",
-              lineHeight: 1.6,
+              lineHeight: 1.65,
             }}>
               {b}
             </span>
