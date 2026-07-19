@@ -93,19 +93,18 @@ function LetterCard({ rec }: { rec: Recommendation }) {
     <div
       style={{
         flexShrink: 0,
-        width: 360,
+        width: 440,
         background: "#FDFAF3",
         border: "1px solid #E8DEC8",
         borderRadius: 6,
-        padding: "28px 28px 32px",
+        padding: "36px 36px 40px",
         boxShadow:
           "0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(255,255,255,0.6)",
         position: "relative",
-        /* subtle aged-paper line pattern */
         backgroundImage:
           "repeating-linear-gradient(transparent, transparent 27px, #EDE5D0 28px)",
         backgroundSize: "100% 28px",
-        backgroundPositionY: "48px",
+        backgroundPositionY: "56px",
       }}
     >
       {/* Paper clip top-center */}
@@ -138,8 +137,8 @@ function LetterCard({ rec }: { rec: Recommendation }) {
             alt={rec.name}
             draggable={false}
             style={{
-              width: 56,
-              height: 56,
+              width: 68,
+              height: 68,
               objectFit: "cover",
               display: "block",
             }}
@@ -152,9 +151,9 @@ function LetterCard({ rec }: { rec: Recommendation }) {
             style={{
               fontFamily: "'Inter', sans-serif",
               fontWeight: 700,
-              fontSize: 14,
+              fontSize: 16,
               color: "#1A1A1A",
-              marginBottom: 2,
+              marginBottom: 3,
             }}
           >
             {rec.name}
@@ -162,7 +161,7 @@ function LetterCard({ rec }: { rec: Recommendation }) {
           <p
             style={{
               fontFamily: "'Inter', sans-serif",
-              fontSize: 12,
+              fontSize: 13,
               color: "#6B7280",
               lineHeight: 1.4,
             }}
@@ -178,7 +177,7 @@ function LetterCard({ rec }: { rec: Recommendation }) {
       <p
         style={{
           fontFamily: "'Caveat', cursive",
-          fontSize: 18,
+          fontSize: 22,
           lineHeight: 1.65,
           color: "#374151",
           margin: 0,
@@ -197,7 +196,17 @@ export function DesignerRecommendations() {
   const cards = [...RECS, ...RECS];
 
   return (
-    <div style={{ overflow: "hidden", width: "100%" }}>
+    <div style={{ overflow: "hidden", width: "100%", position: "relative" }}>
+      {/* Left fade */}
+      <div style={{
+        position: "absolute", top: 0, left: 0, bottom: 0, width: 120, zIndex: 10, pointerEvents: "none",
+        background: "linear-gradient(to right, white 0%, transparent 100%)",
+      }} />
+      {/* Right fade */}
+      <div style={{
+        position: "absolute", top: 0, right: 0, bottom: 0, width: 120, zIndex: 10, pointerEvents: "none",
+        background: "linear-gradient(to left, white 0%, transparent 100%)",
+      }} />
       <div
         ref={trackRef}
         style={{
