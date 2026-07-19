@@ -966,7 +966,7 @@ export default function Home() {
           <div
             className="fixed inset-0 pointer-events-none z-0"
             style={{
-              backgroundImage: "radial-gradient(circle, rgba(150,160,190,0.36) 1px, transparent 1px)",
+              backgroundImage: "radial-gradient(circle, rgba(150,160,190,0.55) 1px, transparent 1px)",
               backgroundSize: "22px 22px",
             }}
           />
