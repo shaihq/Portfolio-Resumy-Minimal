@@ -53,6 +53,7 @@ import pegboardBg from "@/assets/pegboard/pegboard1.png";
 import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 import { DesignerBirds } from "@/components/designer-birds";
+import { DesignerStackedCards } from "@/components/designer-stacked-cards";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5362,118 +5363,36 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ── Designer: Selected Work ── */}
-            <div className="px-0 pb-28 pt-10">
-              {/* Section label */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="flex items-center gap-4 mb-14 md:mb-20"
-              >
-                <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#64748B] dark:text-[#64748B]">
-                  Selected Work
-                </span>
-                <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
-              </motion.div>
-
-              {/* Case study cards */}
-              <div className="flex flex-col gap-8 md:gap-10 max-w-5xl mx-auto">
-                {[
-                  {
-                    tags: ["Product Design", "SaaS", "B2B"],
-                    title: "Redesigning the dashboard to reduce time-on-task by 60%",
-                    description: "Slate was drowning in complexity. A focused design sprint untangled the information architecture and surfaced the right signals — cutting the average session time in half.",
-                    image: project1,
-                    slug: "slate",
-                    flip: false,
-                  },
-                  {
-                    tags: ["Motion Design", "Landing Page", "B2C"],
-                    title: "Crafting an animated brand experience that converts",
-                    description: "Antimetal needed a web presence as dynamic as its product. Micro-interactions and scroll-driven storytelling turned visitors into believers.",
-                    image: project2,
-                    slug: "antimetal",
-                    flip: true,
-                  },
-                  {
-                    tags: ["Design System", "Fintech", "Mobile"],
-                    title: "Building a design system that unified the product and cut delivery time by 80%",
-                    description: "A shared design foundation gave the team a common language. The redesign turned that momentum into measurable, compounding growth.",
-                    image: project3,
-                    slug: "slate-2",
-                    flip: false,
-                  },
-                ].map((cs, i) => (
-                  <motion.div
-                    key={cs.slug}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.85, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative group"
-                  >
-                    {/* Sparkle decorations */}
-                    <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#94A3B8] dark:text-[#334155] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`} />
-                    <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#CBD5E1] dark:text-[#1E293B] opacity-50 transition-all duration-500 group-hover:opacity-80`} />
-
-                    {/* Card */}
-                    <div
-                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#0F172A] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#94A3B8] dark:group-hover:border-[#334155] group-hover:shadow-[0_8px_48px_rgba(15,23,42,0.08)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.4)]`}
-                    >
-                      {/* Text side */}
-                      <div className="flex-1 flex flex-col items-start min-w-0">
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mb-5">
-                          {cs.tags.map(tag => (
-                            <span
-                              key={tag}
-                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#475569] dark:text-[#94A3B8] bg-[#F1F5F9] dark:bg-[#1E293B] px-2.5 py-1 rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Headline */}
-                        <h3
-                          className="text-[#0F172A] dark:text-[#F8FAFC] mb-4"
-                          style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(20px, 2.8vw, 30px)', fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em' }}
-                        >
-                          {cs.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="text-[14.5px] leading-[1.7] text-[#475569] dark:text-[#94A3B8] max-w-[360px] mb-7 font-['Inter']">
-                          {cs.description}
-                        </p>
-
-                        {/* CTA */}
-                        <button
-                          onClick={() => handleProjectClick(cs.slug)}
-                          className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#0F172A] dark:text-[#F8FAFC] hover:text-[#1D4ED8] dark:hover:text-[#93C5FD] transition-colors duration-200"
-                        >
-                          Read case study
-                          <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-                        </button>
-                      </div>
-
-                      {/* Image side */}
-                      <div className="w-full md:w-[46%] flex-shrink-0">
-                        <div className="relative rounded-[16px] overflow-hidden bg-[#E2E8F0] dark:bg-[#1E293B] shadow-[0_4px_32px_rgba(15,23,42,0.08)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-[1.02]">
-                          <img
-                            src={cs.image}
-                            alt={cs.title}
-                            className="w-full h-auto object-cover aspect-[4/3] block"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+            {/* ── Designer: Selected Work (scroll-stacking cards) ── */}
+            <DesignerStackedCards
+              projects={[
+                {
+                  tags: ["Product Design", "SaaS", "B2B"],
+                  title: "Redesigning the dashboard to reduce time-on-task by 60%",
+                  description: "Slate was drowning in complexity. A focused design sprint untangled the information architecture and surfaced the right signals — cutting the average session time in half.",
+                  image: project1,
+                  slug: "slate",
+                  flip: false,
+                },
+                {
+                  tags: ["Motion Design", "Landing Page", "B2C"],
+                  title: "Crafting an animated brand experience that converts",
+                  description: "Antimetal needed a web presence as dynamic as its product. Micro-interactions and scroll-driven storytelling turned visitors into believers.",
+                  image: project2,
+                  slug: "antimetal",
+                  flip: true,
+                },
+                {
+                  tags: ["Design System", "Fintech", "Mobile"],
+                  title: "Building a design system that unified the product and cut delivery time by 80%",
+                  description: "A shared design foundation gave the team a common language. The redesign turned that momentum into measurable, compounding growth.",
+                  image: project3,
+                  slug: "slate-2",
+                  flip: false,
+                },
+              ]}
+              onProjectClick={handleProjectClick}
+            />
           </div>
         ) : null}
       </div>
