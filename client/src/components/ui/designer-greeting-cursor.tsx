@@ -10,25 +10,19 @@ const DELETE_MS = 36;
 const HOLD_MS   = 860;
 const BLUR_MS   = 170;
 
-// Resets on every page load / refresh — persists across template switches
-let hasShownGreeting = false;
-
 export function DesignerGreetingCursor() {
   const [pos, setPos]             = useState({ x: -999, y: -999 });
   const [displayText, setDisplay] = useState("");
   const [blurring, setBlurring]   = useState(false);
-  const [visible, setVisible]     = useState(false); // true once first mousemove
-  const [done, setDone]           = useState(hasShownGreeting);
+  const [visible, setVisible]     = useState(false);
+  const [done, setDone]           = useState(false);
 
-  // All sequencing lives in refs to avoid stale-closure issues
-  const charRef    = useRef(0);
-  const wordRef    = useRef(0);
-  const phaseRef   = useRef<"typing" | "holding" | "deleting" | "blurring">("typing");
-  const timerRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const charRef  = useRef(0);
+  const wordRef  = useRef(0);
+  const phaseRef = useRef<"typing" | "holding" | "deleting" | "blurring">("typing");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (hasShownGreeting) return;
-
     document.body.style.cursor = "none";
 
     const onMove = (e: MouseEvent) => {
@@ -56,9 +50,7 @@ export function DesignerGreetingCursor() {
 
       } else if (phaseRef.current === "holding") {
         if (wordRef.current === GREETINGS.length - 1) {
-          // Last word — fade out and finish
           schedule(() => {
-            hasShownGreeting = true;
             document.body.style.cursor = "";
             setDone(true);
           }, 420);
@@ -73,7 +65,6 @@ export function DesignerGreetingCursor() {
           setDisplay(word.slice(0, charRef.current));
           schedule(tick, DELETE_MS);
         } else {
-          // Blur morph — briefly blur, swap word, unblur
           phaseRef.current = "blurring";
           setBlurring(true);
           schedule(() => {
@@ -88,7 +79,6 @@ export function DesignerGreetingCursor() {
       }
     };
 
-    // Slight delay so the pill appears naturally on first mouse move
     schedule(tick, 280);
 
     return () => {
@@ -106,42 +96,51 @@ export function DesignerGreetingCursor() {
         {visible && (
           <motion.div
             key="greeting-badge"
-            initial={{ opacity: 0, scale: 0.8, y: 6 }}
+            initial={{ opacity: 0, scale: 0.78, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.88, filter: "blur(8px)" }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="absolute pointer-events-none"
-            style={{ left: pos.x + 20, top: pos.y + 16 }}
+            style={{ left: pos.x + 22, top: pos.y + 18 }}
           >
-            {/* Glass pill — layout-animated so it morphs width smoothly */}
+            {/* Pale-yellow frosted glass pill */}
             <motion.div
               layout
-              transition={{ type: "spring", stiffness: 480, damping: 38, mass: 0.7 }}
-              className="flex items-center backdrop-blur-xl rounded-full px-[18px] py-[10px] overflow-hidden"
+              transition={{ type: "spring", stiffness: 460, damping: 36, mass: 0.7 }}
+              className="flex items-center rounded-full overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.78)",
-                border: "1px solid rgba(255,255,255,0.55)",
+                padding: "11px 24px",
+                background: "rgba(254, 252, 232, 0.88)",
+                border: "1px solid rgba(253, 224, 71, 0.45)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
                 boxShadow:
-                  "0 6px 32px rgba(0,0,0,0.14), 0 1px 0 rgba(255,255,255,0.7) inset, 0 -1px 0 rgba(0,0,0,0.04) inset",
+                  "0 4px 28px rgba(234, 179, 8, 0.18), 0 1px 0 rgba(255,255,255,0.85) inset, 0 -1px 0 rgba(180,140,0,0.06) inset",
               }}
             >
-              {/* Text + cursor — blur applied only during word-switch morph */}
               <motion.span
                 animate={{
                   filter: blurring ? "blur(7px)" : "blur(0px)",
-                  opacity: blurring ? 0.35 : 1,
+                  opacity: blurring ? 0.3 : 1,
                 }}
                 transition={{ duration: 0.16, ease: "easeInOut" }}
                 className="flex items-center"
               >
                 <span
-                  className="text-[14px] font-semibold tracking-[-0.01em] text-[#0D0D0D] whitespace-nowrap select-none"
-                  style={{ fontFamily: "Inter, sans-serif", minWidth: "2px" }}
+                  className="whitespace-nowrap select-none"
+                  style={{
+                    fontFamily: "Inter, sans-serif",
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    letterSpacing: "-0.01em",
+                    color: "#1A1200",
+                    minWidth: "2px",
+                  }}
                 >
                   {displayText}
                 </span>
 
-                {/* Blinking cursor bar */}
+                {/* Blinking caret */}
                 <motion.span
                   animate={{ opacity: [1, 1, 0, 0] }}
                   transition={{
@@ -150,11 +149,13 @@ export function DesignerGreetingCursor() {
                     ease: "linear",
                     times: [0, 0.45, 0.5, 0.95],
                   }}
-                  className="inline-block ml-[2px] align-middle rounded-[1px]"
                   style={{
-                    width: "1.5px",
-                    height: "15px",
-                    background: "rgba(13,13,13,0.75)",
+                    display: "inline-block",
+                    marginLeft: "2px",
+                    width: "2px",
+                    height: "16px",
+                    background: "rgba(120, 90, 0, 0.65)",
+                    borderRadius: "1px",
                     verticalAlign: "middle",
                     position: "relative",
                     top: "-0.5px",
