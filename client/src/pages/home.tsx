@@ -5505,20 +5505,6 @@ export default function Home() {
       </div>
       </div>{/* end resize wrapper */}
 
-      {/* ── Designer: bottom sky gradient — full viewport width, reversed hero ── */}
-      {activeTemplate === "Designer" && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none"
-          style={{
-            width: "100vw",
-            marginTop: -160,
-            height: 420,
-            background: "linear-gradient(to bottom, transparent 0%, #D4E8F8 28%, #B3D3F2 52%, #7AB3EF 72%, #4A8FE8 86%, #2B6BD6 95%, #1B4EC8 100%)",
-          }}
-        />
-      )}
-
       {/* Bottom glow — Minimal template only, sits in the page background at the very end of scroll */}
       {activeTemplate === "Minimal" && bgColor && (
         <div
