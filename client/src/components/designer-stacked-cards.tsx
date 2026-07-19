@@ -223,7 +223,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
               </div>
 
               {/* Image side */}
-              <div className="w-full md:w-[44%] flex-shrink-0">
+              <div className="w-full md:w-[56%] flex-shrink-0">
                 <div className="relative rounded-[16px] overflow-hidden bg-[#E2E8F0] dark:bg-[#1E293B] shadow-[0_4px_32px_rgba(15,23,42,0.08)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)]">
                   <img
                     src={cs.image}
