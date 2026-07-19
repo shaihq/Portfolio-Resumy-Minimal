@@ -5414,8 +5414,8 @@ export default function Home() {
             <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
 
               {/* Skills strip — tilts left, scrolls right-to-left */}
-              <div style={{ transform: "rotate(-2.5deg)", margin: "0 -80px 18px" }}>
-                <div style={{ backgroundColor: "#0F172A", padding: "14px 0", overflow: "hidden" }}>
+              <div style={{ transform: "rotate(-1.2deg)", margin: "0 -80px 18px" }}>
+                <div style={{ backgroundColor: "#0F172A", padding: "20px 0", overflow: "hidden" }}>
                   <div style={{
                     display: "flex",
                     gap: 36,
@@ -5426,7 +5426,7 @@ export default function Home() {
                       <div key={copy} style={{ display: "flex", gap: 36, alignItems: "center", flexShrink: 0 }}>
                         {["Interaction Design", "3D Design", "User Research", "UI/UX Design", "Prototyping", "Design Systems", "Motion Design", "Visual Design"].map((skill, j) => (
                           <div key={j} style={{ display: "flex", alignItems: "center", gap: 36, flexShrink: 0 }}>
-                            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#F8FAFC", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 15, fontWeight: 500, color: "#F8FAFC", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
                               {skill}
                             </span>
                             <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
@@ -5441,8 +5441,8 @@ export default function Home() {
               </div>
 
               {/* Tools strip — tilts right, scrolls left-to-right */}
-              <div style={{ transform: "rotate(2.5deg)", margin: "0 -80px" }}>
-                <div style={{ backgroundColor: "#3B82F6", padding: "14px 0", overflow: "hidden" }}>
+              <div style={{ transform: "rotate(1.2deg)", margin: "0 -80px" }}>
+                <div style={{ backgroundColor: "#3B82F6", padding: "20px 0", overflow: "hidden" }}>
                   <div style={{
                     display: "flex",
                     gap: 40,
@@ -5462,8 +5462,8 @@ export default function Home() {
                         ].map((tool, j) => (
                           <div key={j} style={{ display: "flex", alignItems: "center", gap: 40, flexShrink: 0 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }}>
-                              <img src={tool.image} alt={tool.name} style={{ width: 22, height: 22, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
-                              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#FFFFFF", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                              <img src={tool.image} alt={tool.name} style={{ width: 26, height: 26, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+                              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 15, fontWeight: 500, color: "#FFFFFF", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.07em" }}>
                                 {tool.name}
                               </span>
                             </div>
