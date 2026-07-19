@@ -957,16 +957,16 @@ export default function Home() {
               className="absolute inset-0 hidden dark:block"
               style={{
                 background: `
-                  radial-gradient(ellipse 100% 40% at 50% 105%, rgba(180,80,90,0.10) 0%, transparent 60%),
+                  radial-gradient(ellipse 100% 35% at 50% 105%, rgba(160,90,60,0.09) 0%, transparent 60%),
                   linear-gradient(to bottom,
-                    #0A1035 0%,
-                    #0E1648 22%,
-                    #121E60 44%,
-                    #172470 62%,
-                    #1E2572 75%,
-                    #28246A 85%,
-                    #321E5A 93%,
-                    #3A1A40 100%
+                    #0E0D28 0%,
+                    #151230 20%,
+                    #1C1840 40%,
+                    #221C4A 58%,
+                    #281E50 72%,
+                    #2E1E52 83%,
+                    #341C4A 92%,
+                    #381840 100%
                   )
                 `
               }}
