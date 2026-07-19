@@ -5295,14 +5295,10 @@ export default function Home() {
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center"
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center font-semibold"
                   style={{ fontSize: 'clamp(54px, 9vw, 102px)' }}
                 >
-                  <span className="block font-semibold">Thoughtful</span>
-                  <span className="block">
-                    <em className="italic font-normal">by</em>
-                    <span className="font-semibold"> design</span>
-                  </span>
+                  Hey I'm Matt.
                 </motion.h1>
 
                 {/* Description */}
@@ -5312,7 +5308,7 @@ export default function Home() {
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
                 >
-                  I'm Matt, a Product Designer working at the intersection of SaaS, craft, and thoughtful AI experiences.
+                  I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
 
                 {/* Glassmorphic theme toggler */}
