@@ -47,9 +47,9 @@ export function AboutMePegboard() {
         userSelect: "none",
       }}
     >
-      {/* Book / pegboard background */}
+      {/* Half-book / pegboard background */}
       <img
-        src="/book.png"
+        src="/halfbook.png"
         alt=""
         aria-hidden="true"
         draggable={false}

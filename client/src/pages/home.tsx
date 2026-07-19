@@ -5453,44 +5453,49 @@ export default function Home() {
                 <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
               </div>
 
-              {/* Pegboard — book full width with draggable photos */}
-              <AboutMePegboard />
+              {/* Two-column: half-book pegboard left, bio text right */}
+              <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                {/* Left — half-book pegboard */}
+                <div className="w-full md:w-[45%] flex-shrink-0">
+                  <AboutMePegboard />
+                </div>
 
-              {/* Bio text below the board */}
-              <div className="max-w-2xl">
-                <h2
-                  className="text-[#0F172A] dark:text-[#F8FAFC] mb-6"
-                  style={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: "clamp(26px, 3.5vw, 44px)",
-                    fontWeight: 600,
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.025em",
-                  }}
-                >
-                  a little about myself
-                </h2>
+                {/* Right — bio text */}
+                <div className="flex-1 min-w-0">
+                  <h2
+                    className="text-[#0F172A] dark:text-[#F8FAFC] mb-6"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: "clamp(26px, 3.5vw, 44px)",
+                      fontWeight: 600,
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.025em",
+                    }}
+                  >
+                    a little about myself
+                  </h2>
 
-                <p
-                  className="text-[#475569] dark:text-[#94A3B8] mb-4"
-                  style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.75 }}
-                >
-                  Design, for me, has always been about people — understanding how they think, what they need, and building things that feel effortless in their hands. I grew up tinkering with interfaces long before I knew what product design was, driven purely by the curiosity of why some things just feel right.
-                </p>
+                  <p
+                    className="text-[#475569] dark:text-[#94A3B8] mb-4"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.75 }}
+                  >
+                    Design, for me, has always been about people — understanding how they think, what they need, and building things that feel effortless in their hands. I grew up tinkering with interfaces long before I knew what product design was, driven purely by the curiosity of why some things just feel right.
+                  </p>
 
-                <p
-                  className="text-[#475569] dark:text-[#94A3B8] mb-8"
-                  style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.75 }}
-                >
-                  These days I work across the full spectrum — from early-stage discovery and research to pixel-perfect delivery — and I care deeply about the space where clarity meets craft. When I'm not designing, I'm usually sketching ideas on paper, obsessing over typography, or hunting for the perfect cup of coffee.
-                </p>
+                  <p
+                    className="text-[#475569] dark:text-[#94A3B8] mb-8"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.75 }}
+                  >
+                    These days I work across the full spectrum — from early-stage discovery and research to pixel-perfect delivery — and I care deeply about the space where clarity meets craft. When I'm not designing, I'm usually sketching ideas on paper, obsessing over typography, or hunting for the perfect cup of coffee.
+                  </p>
 
-                <span
-                  className="text-[#439BEA]"
-                  style={{ fontFamily: "'Caveat', cursive", fontSize: 32, fontWeight: 600, letterSpacing: "0.01em" }}
-                >
-                  Matt.
-                </span>
+                  <span
+                    className="text-[#439BEA]"
+                    style={{ fontFamily: "'Caveat', cursive", fontSize: 32, fontWeight: 600, letterSpacing: "0.01em" }}
+                  >
+                    Matt.
+                  </span>
+                </div>
               </div>
             </div>
 
