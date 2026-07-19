@@ -5288,7 +5288,7 @@ export default function Home() {
               </nav>
 
               {/* Hero content */}
-              <div className="relative z-10 px-0 pt-4 pb-20 w-full flex flex-col items-center">
+              <div className="relative z-10 px-0 pt-4 pb-20 w-full flex flex-col">
 
                 {/* Display headline — no blur to prevent flicker */}
                 <motion.h1
@@ -5316,7 +5316,7 @@ export default function Home() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.9 }}
-                  className="mt-10"
+                  className="mt-10 self-center"
                 >
                   <AnimatedThemeToggler className="w-12 h-12 bg-white/25 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.12)] hover:bg-white/35 dark:hover:bg-white/18 hover:scale-105 active:scale-95 transition-all duration-200" />
                 </motion.div>
@@ -5324,7 +5324,7 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Selected Work ── */}
-            <div className="px-6 md:px-14 pb-28 pt-10">
+            <div className="px-0 pb-28 pt-10">
               {/* Section label */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
