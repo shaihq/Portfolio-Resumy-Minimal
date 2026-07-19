@@ -61,6 +61,12 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
 
   const scales = [scale0, scale1, scale2];
 
+  // Tilt: each card enters slightly rotated, straightens when it reaches its resting spot
+  const rotate0 = useTransform(scrollYProgress, [0, 0.18], [-2.5, 0]);
+  const rotate1 = useTransform(scrollYProgress, [0.28, 0.52], [3, 0]);
+  const rotate2 = useTransform(scrollYProgress, [0.62, 0.88], [-2, 0]);
+  const rotates = [rotate0, rotate1, rotate2];
+
   // Header fades out as the second card starts sliding in
   const headerOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
@@ -126,11 +132,12 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             </motion.div>
           )}
 
-          {/* Card — scale from center-top as later cards stack on it */}
+          {/* Card — scale + tilt in from scroll */}
           <motion.div
             style={{
               scale: scales[i],
-              transformOrigin: "top center",
+              rotate: rotates[i],
+              transformOrigin: "center center",
               top: `calc(-12vh + ${i * 25}px)`,
               position: "relative",
               width: "100%",
@@ -156,10 +163,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                 backgroundImage: "url('/bgcard.avif')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                boxShadow:
-                  i === n - 1
-                    ? "0 8px 48px rgba(15,23,42,0.10)"
-                    : "0 4px 24px rgba(15,23,42,0.07)",
+                boxShadow: "0 2px 4px rgba(15,23,42,0.04), 0 8px 24px rgba(15,23,42,0.10), 0 24px 56px rgba(15,23,42,0.12)",
               }}
             >
               {/* Text side */}
@@ -169,7 +173,11 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                   {cs.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#475569] dark:text-[#94A3B8] bg-[#F1F5F9] dark:bg-[#1E293B] px-2.5 py-1 rounded-full"
+                      className="text-[10.5px] font-semibold tracking-[0.13em] uppercase px-2.5 py-1 rounded-full"
+                      style={{
+                        backgroundColor: i % 2 === 0 ? "rgba(155, 105, 0, 0.18)" : "rgba(175, 125, 0, 0.22)",
+                        color: i % 2 === 0 ? "#7A5500" : "#6B4800",
+                      }}
                     >
                       {tag}
                     </span>
