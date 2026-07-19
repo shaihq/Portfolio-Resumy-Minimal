@@ -5405,18 +5405,6 @@ export default function Home() {
               ]}
               onProjectClick={handleProjectClick}
             />
-
-            {/* ── Spline Robot ── */}
-            <div className="w-full" style={{ height: 480, marginTop: 40 }}>
-              <iframe
-                src="https://my.spline.design/jqS5x5fJNipGnGDQ/"
-                frameBorder="0"
-                width="100%"
-                height="100%"
-                title="3D Robot"
-                style={{ display: 'block', border: 'none' }}
-              />
-            </div>
           </div>
         ) : null}
       </div>
