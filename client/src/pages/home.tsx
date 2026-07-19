@@ -654,13 +654,20 @@ export default function Home() {
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
   });
 
-  // Designer template — override page background with modern white/navy palette
+  // Designer template — override page + component backgrounds with modern white/navy palette
   useEffect(() => {
     const root = document.documentElement;
     if (activeTemplate === "Designer") {
-      root.style.setProperty("--page-bg", isDark ? "#080F1E" : "#FAFAFA");
+      if (isDark) {
+        root.style.setProperty("--page-bg", "#080F1E");
+        root.style.setProperty("--background", "222 68% 7%");
+      } else {
+        root.style.setProperty("--page-bg", "#FAFAFA");
+        root.style.setProperty("--background", "0 0% 98%");
+      }
     } else {
       root.style.removeProperty("--page-bg");
+      root.style.removeProperty("--background");
     }
   }, [activeTemplate, isDark]);
 
