@@ -15,6 +15,13 @@ export interface WorkExperience {
   logo: string; // URL or data-URI
 }
 
+// Inline SVG logos — no external requests, always visible
+const LOGO_DESIGNFOLIO = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' rx='10' fill='%23111827'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='700' fill='white'>D</text></svg>`;
+
+const LOGO_GOOGLE = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/><path fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/><path fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/><path fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/><path fill='none' d='M0 0h48v48H0z'/></svg>`;
+
+const LOGO_FACEBOOK = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' rx='10' fill='%231877F2'/><path d='M22 20h3l.5-3.5H22V14c0-1 .5-2 2-2h2V9s-1.3-.2-2.8-.2c-2.8 0-4.7 1.7-4.7 4.8v2.9H16V20h2.5v10H22V20z' fill='white'/></svg>`;
+
 const EXPERIENCES: WorkExperience[] = [
   {
     id: "exp-1",
@@ -22,7 +29,7 @@ const EXPERIENCES: WorkExperience[] = [
     role: "Senior Product Designer",
     company: "Designfolio Inc.",
     location: "San Francisco, CA",
-    logo: "https://logo.clearbit.com/figma.com",
+    logo: LOGO_DESIGNFOLIO,
     bullets: [
       "Led end-to-end redesign of the core dashboard, cutting time-on-task by 40%.",
       "Built a cross-team design system adopted by 3 product squads.",
@@ -35,7 +42,7 @@ const EXPERIENCES: WorkExperience[] = [
     role: "Product Designer",
     company: "Google",
     location: "New York, NY",
-    logo: "https://logo.clearbit.com/google.com",
+    logo: LOGO_GOOGLE,
     bullets: [
       "Redesigned the onboarding flow, boosting activation rate by 28%.",
       "Partnered with engineering to ship a new mobile app in 3 months.",
@@ -48,7 +55,7 @@ const EXPERIENCES: WorkExperience[] = [
     role: "UI / UX Design Intern",
     company: "Facebook",
     location: "Austin, TX",
-    logo: "https://logo.clearbit.com/facebook.com",
+    logo: LOGO_FACEBOOK,
     bullets: [
       "Designed user flows and wireframes for 4 client products.",
       "Created a component library reducing UI inconsistencies by 60%.",
@@ -293,7 +300,6 @@ function ExperienceCard({
             background: "#fff",
             flexShrink: 0,
           }}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />
 
         {/* Text */}
