@@ -54,6 +54,9 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
 
   const scales = [scale0, scale1, scale2];
 
+  // Header fades out as the second card starts sliding in
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+
   return (
     // Outer wrapper — N × 100vh tall so the browser has room to scroll
     <div ref={containerRef} style={{ height: `${n * 100}vh`, position: "relative" }}>
@@ -68,7 +71,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
           key={cs.slug}
           style={{
             position: "sticky",
-            top: 0,
+            top: 72,
             height: "100vh",
             display: "flex",
             alignItems: "center",
@@ -76,9 +79,12 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             zIndex: i + 1,
           }}
         >
-          {/* Section header — only on first card */}
+          {/* Section header — only on first card, fades out as card 2 slides in */}
           {i === 0 && (
-            <div className="absolute top-8 left-0 right-0 px-6 md:px-0">
+            <motion.div
+              className="absolute top-14 left-0 right-0 px-6 md:px-0"
+              style={{ opacity: headerOpacity }}
+            >
               {/* Badge + divider row */}
               <div className="flex items-center gap-3 mb-4">
                 {/* Blue diamond sparkle */}
@@ -104,7 +110,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
               >
                 check out some of my work
               </h2>
-            </div>
+            </motion.div>
           )}
 
           {/* Card — scale from center-top as later cards stack on it */}
