@@ -165,7 +165,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                 backgroundImage: "url('/bgcard.avif')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                boxShadow: "0 2px 4px rgba(15,23,42,0.04), 0 8px 24px rgba(15,23,42,0.10), 0 24px 56px rgba(15,23,42,0.12)",
+                boxShadow: "0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.08)",
               }}
             >
               {/* Text side */}
@@ -217,7 +217,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
 
               {/* Image side */}
               <div className="w-full md:w-[56%] flex-shrink-0">
-                <div className="relative rounded-[16px] overflow-hidden bg-[#E2E8F0] dark:bg-[#1E293B] shadow-[0_4px_32px_rgba(15,23,42,0.08)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)]">
+                <div className="relative rounded-[16px] overflow-hidden bg-[#E2E8F0] dark:bg-[#1E293B] border border-black/[0.08] dark:border-white/[0.08]">
                   <img
                     src={cs.image}
                     alt={cs.title}
