@@ -5303,7 +5303,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="designer-hero-title leading-[1.02] tracking-tight text-white text-left md:text-center font-semibold"
-                  style={{ fontSize: 'clamp(44px, 9vw, 102px)' }}
+                  style={{ fontSize: 'clamp(40px, 8vw, 92px)' }}
                 >
                   Hey I'm Matt.
                 </motion.h1>
@@ -5313,7 +5313,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-6 text-white/72 text-[15px] leading-relaxed font-['Inter'] text-left md:text-center w-full max-w-xl md:mx-auto"
+                  className="mt-6 text-white/88 text-[17px] leading-relaxed font-['Inter'] text-left md:text-center w-full max-w-xl md:mx-auto"
                 >
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
@@ -5339,8 +5339,8 @@ export default function Home() {
                         />
                       </defs>
                       <text
-                        fill="rgba(255,255,255,0.78)"
-                        style={{ fontSize: '7px', fontFamily: 'Inter, sans-serif', fontWeight: 500, letterSpacing: '0.04em' }}
+                        fill="rgba(255,255,255,0.90)"
+                        style={{ fontSize: '8.5px', fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: '0.04em' }}
                       >
                         <textPath href="#designer-scroll-ring" textLength="226" lengthAdjust="spacing">
                           SCROLL DOWN FOR MORE ✦ SCROLL DOWN FOR MORE ✦
