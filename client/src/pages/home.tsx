@@ -29,7 +29,7 @@ import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, ArrowDown, User, Briefcase } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
-import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
+import { motion, AnimatePresence, Reorder, Variants, useScroll, useTransform } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { useBlindersTransition } from "@/hooks/use-blinders-transition";
@@ -598,6 +598,11 @@ export default function Home() {
 
   const { activeTemplate, activeBackground, backgroundMode, typographySize } = useTemplate();
 
+  // Hero sky parallax
+  const { scrollY } = useScroll();
+  const skyParallaxY  = useTransform(scrollY, [0, 900], [0, -110]);
+  const cloudParallaxY = useTransform(scrollY, [0, 900], [0, -200]);
+
   useEffect(() => {
     if (activeTemplate === "Designer") {
       setContainerWidth(1024);
@@ -868,7 +873,7 @@ export default function Home() {
         animate="visible"
         variants={containerVariants}
         className={cn(
-          "min-h-screen flex justify-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative",
+          "min-h-screen flex flex-col items-center font-['Inter'] text-[#1A1A1A] dark:text-[#F0EDE7] selection:bg-[#1A1A1A] dark:selection:bg-[#F0EDE7] selection:text-[#F0EDE7] dark:selection:text-[#1A1A1A] transition-colors duration-700 pt-24 relative",
           (activeTemplate === "Minimal" && backgroundMode === "full-page") || activeTemplate === "Designer" || (activeTemplate === "Chatfolio" && backgroundMode === "full-page")
             ? "bg-transparent"
             : "bg-[#F0EDE7] dark:bg-[#1A1A1A]"
@@ -975,17 +980,24 @@ export default function Home() {
         {/* Designer template — sky background fills the full top area */}
         {activeTemplate === "Designer" && (
           <div className="absolute top-0 left-0 right-0 z-0 overflow-hidden" style={{ height: '100vh' }}>
-            {/* Day sky */}
-            <div
+            {/* Day sky — moves slowly for depth */}
+            <motion.div
               className="absolute inset-0"
-              style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
+              style={{
+                y: skyParallaxY,
+                background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)',
+                height: '130%',
+              }}
             />
-            {/* Night stars */}
-            {/* Clouds */}
-            <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+            {/* Clouds — move faster for foreground feel */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{ y: cloudParallaxY }}
+              aria-hidden="true"
+            >
               <img src="/backgrounds/cloud1.avif" alt="" className="designer-cloud-1" />
               <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2" />
-            </div>
+            </motion.div>
 
             <DesignerBirds />
 
@@ -5435,13 +5447,18 @@ export default function Home() {
               </h2>
             </div>
 
-            {/* ── Designer: Mario-style horizontal experience ── */}
-            <DesignerMarioExperience />
 
           </div>
         ) : null}
       </div>
       </div>{/* end resize wrapper */}
+
+      {/* ── Designer: Mario experience — full-width, outside resize wrapper ── */}
+      {activeTemplate === "Designer" && (
+        <div style={{ width: 'calc(100vw - 72px)', marginLeft: '72px', alignSelf: 'flex-start' }}>
+          <DesignerMarioExperience />
+        </div>
+      )}
 
       {/* Bottom glow — Minimal template only, sits in the page background at the very end of scroll */}
       {activeTemplate === "Minimal" && bgColor && (
