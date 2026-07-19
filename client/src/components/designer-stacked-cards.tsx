@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
@@ -47,6 +47,15 @@ const CARD_CLIP =
 export function DesignerStackedCards({ projects, onProjectClick }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const n = projects.length; // 3
+
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -136,7 +145,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
           <motion.div
             style={{
               scale: scales[i],
-              rotate: rotates[i],
+              rotate: isMobile ? 0 : rotates[i],
               transformOrigin: "center center",
               top: `calc(-12vh + ${i * 25}px)`,
               position: "relative",
