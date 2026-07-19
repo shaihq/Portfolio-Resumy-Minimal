@@ -5288,7 +5288,7 @@ export default function Home() {
               </nav>
 
               {/* Hero content */}
-              <div className="relative z-10 px-8 md:px-14 pt-4 pb-20 w-full max-w-3xl mx-auto flex flex-col items-center">
+              <div className="relative z-10 px-0 pt-4 pb-20 w-full flex flex-col items-center">
 
                 {/* Display headline — no blur to prevent flicker */}
                 <motion.h1
@@ -5306,7 +5306,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed max-w-[280px] font-['Inter'] text-center"
+                  className="mt-8 text-white/72 dark:text-[rgba(255,215,165,0.68)] text-[15px] leading-relaxed font-['Inter'] text-center w-full"
                 >
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
