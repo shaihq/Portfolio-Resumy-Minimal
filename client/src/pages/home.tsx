@@ -952,32 +952,49 @@ export default function Home() {
               className="absolute inset-0 dark:hidden"
               style={{ background: 'linear-gradient(to bottom, #1B4EC8 0%, #2B6BD6 18%, #4A8FE8 42%, #7AB3EF 66%, #B3D3F2 84%, #D4E8F8 100%)' }}
             />
-            {/* Night sky — premium dusk */}
+            {/* Night sky — twilight dusk matching reference */}
             <div
               className="absolute inset-0 hidden dark:block"
               style={{
                 background: `
-                  radial-gradient(ellipse 170% 90% at 50% -5%, rgba(9,11,42,0.18) 0%, transparent 65%),
-                  radial-gradient(ellipse 155% 75% at 18% 38%, rgba(26,33,90,0.14) 0%, transparent 68%),
-                  radial-gradient(ellipse 180% 55% at 82% 98%, rgba(247,163,122,0.12) 0%, transparent 62%),
-                  linear-gradient(to bottom, #090B2A 0%, #1A215A 26%, #4A5CA8 56%, #A06840 76%, #F7A37A 100%)
+                  radial-gradient(ellipse 120% 55% at 15% 45%, rgba(120,60,160,0.22) 0%, transparent 65%),
+                  radial-gradient(ellipse 80% 40% at 85% 20%, rgba(40,50,180,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse 100% 35% at 50% 102%, rgba(238,130,60,0.28) 0%, transparent 55%),
+                  linear-gradient(to bottom,
+                    #1A2488 0%,
+                    #2235A8 16%,
+                    #3042BE 30%,
+                    #4844B4 44%,
+                    #6848A8 56%,
+                    #9A5890 67%,
+                    #C06878 77%,
+                    #D88060 87%,
+                    #ECA040 100%
+                  )
                 `
               }}
             />
-            {/* Night stars */}
+            {/* Night stars — upper sky concentration */}
             <div className="absolute inset-0 hidden dark:block pointer-events-none designer-stars" />
+            {/* Crescent moon */}
+            <div className="absolute hidden dark:block pointer-events-none designer-moon" />
 
-            {/* Clouds — day mode only, subtle drift */}
+            {/* Clouds — day mode */}
             <div className="absolute inset-0 pointer-events-none dark:opacity-0 transition-opacity duration-1000" aria-hidden="true">
               <img src="/backgrounds/cloud1.avif" alt="" className="designer-cloud-1" />
               <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2" />
+            </div>
+            {/* Clouds — night mode, pink-mauve tinted */}
+            <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-1000" aria-hidden="true">
+              <img src="/backgrounds/cloud1.avif" alt="" className="designer-cloud-1 designer-cloud-night" />
+              <img src="/backgrounds/cloud2.avif" alt="" className="designer-cloud-2 designer-cloud-night" style={{ top: '3%', right: '-4%', width: '28%' }} />
             </div>
 
             <DesignerBirds />
 
             {/* Bottom fade into page bg */}
             <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 380, background: 'linear-gradient(to bottom, transparent 0%, rgba(12,8,18,0.22) 25%, rgba(12,8,18,0.58) 52%, rgba(18,14,22,0.82) 72%, #1A1A1A 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 280, background: 'linear-gradient(to bottom, transparent 0%, rgba(26,26,26,0.55) 55%, #1A1A1A 100%)' }} />
           </div>
         )}
 
@@ -1087,25 +1104,43 @@ export default function Home() {
         .designer-bird-four  { animation-duration: 1.1s;  animation-delay: -0.5s; }
         .designer-stars {
           background-image:
-            radial-gradient(1.5px 1.5px at 8% 12%, rgba(255,255,255,0.9) 0%, transparent 100%),
-            radial-gradient(1px 1px at 15% 28%, rgba(255,255,255,0.7) 0%, transparent 100%),
-            radial-gradient(2px 2px at 22% 8%, rgba(255,255,255,0.8) 0%, transparent 100%),
-            radial-gradient(1px 1px at 30% 42%, rgba(255,255,255,0.6) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 38% 18%, rgba(255,255,255,0.85) 0%, transparent 100%),
-            radial-gradient(1px 1px at 45% 6%, rgba(255,255,255,0.7) 0%, transparent 100%),
-            radial-gradient(2px 2px at 52% 32%, rgba(255,255,255,0.9) 0%, transparent 100%),
-            radial-gradient(1px 1px at 58% 22%, rgba(255,255,255,0.6) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 65% 14%, rgba(255,255,255,0.75) 0%, transparent 100%),
-            radial-gradient(1px 1px at 72% 38%, rgba(255,255,255,0.65) 0%, transparent 100%),
-            radial-gradient(2px 2px at 78% 9%, rgba(255,255,255,0.8) 0%, transparent 100%),
-            radial-gradient(1px 1px at 84% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 91% 16%, rgba(255,255,255,0.85) 0%, transparent 100%),
-            radial-gradient(1px 1px at 96% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
-            radial-gradient(1px 1px at 12% 52%, rgba(255,255,255,0.5) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 27% 60%, rgba(255,255,255,0.55) 0%, transparent 100%),
-            radial-gradient(1px 1px at 42% 55%, rgba(255,255,255,0.45) 0%, transparent 100%),
-            radial-gradient(1px 1px at 68% 58%, rgba(255,255,255,0.5) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 85% 48%, rgba(255,255,255,0.6) 0%, transparent 100%);
+            radial-gradient(1.5px 1.5px at 6%  5%,  rgba(255,255,255,0.90) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 11% 11%, rgba(255,255,255,0.75) 0%, transparent 100%),
+            radial-gradient(2px  2px  at 18% 4%,  rgba(255,255,255,0.85) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 24% 18%, rgba(255,255,255,0.65) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 33% 8%,  rgba(255,255,255,0.80) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 40% 3%,  rgba(255,255,255,0.70) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 47% 14%, rgba(255,255,255,0.60) 0%, transparent 100%),
+            radial-gradient(2px  2px  at 55% 7%,  rgba(255,255,255,0.88) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 61% 20%, rgba(255,255,255,0.65) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 68% 10%, rgba(255,255,255,0.80) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 74% 24%, rgba(255,255,255,0.60) 0%, transparent 100%),
+            radial-gradient(2px  2px  at 80% 6%,  rgba(255,255,255,0.85) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 86% 17%, rgba(255,255,255,0.70) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 92% 9%,  rgba(255,255,255,0.88) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 97% 28%, rgba(255,255,255,0.62) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 14% 33%, rgba(255,255,255,0.50) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 50% 30%, rgba(255,255,255,0.55) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 76% 35%, rgba(255,255,255,0.48) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 89% 42%, rgba(255,255,255,0.44) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 36% 38%, rgba(255,255,255,0.40) 0%, transparent 100%),
+            radial-gradient(1px  1px  at 63% 44%, rgba(255,255,255,0.38) 0%, transparent 100%);
+        }
+        .designer-moon {
+          top: 12%;
+          left: 27%;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: transparent;
+          box-shadow:
+            inset -11px 5px 0 3px rgba(240, 230, 172, 0.95),
+            0 0 18px 2px rgba(240, 230, 172, 0.20),
+            0 0 40px 4px rgba(240, 230, 172, 0.10);
+        }
+        .designer-cloud-night {
+          filter: brightness(0.55) sepia(0.6) hue-rotate(255deg) saturate(2.8) brightness(1.9);
+          opacity: 0.72 !important;
         }
         .custom-dashed-x {
           position: relative;
