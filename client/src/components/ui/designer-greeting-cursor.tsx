@@ -103,19 +103,17 @@ export function DesignerGreetingCursor() {
             className="absolute pointer-events-none"
             style={{ left: pos.x + 22, top: pos.y + 18 }}
           >
-            {/* Pale-yellow frosted glass pill */}
+            {/* Solid 3D yellow pill */}
             <motion.div
               layout
               transition={{ type: "spring", stiffness: 460, damping: 36, mass: 0.7 }}
               className="flex items-center rounded-full overflow-hidden"
               style={{
-                padding: "11px 24px",
-                background: "rgba(254, 252, 232, 0.88)",
-                border: "1px solid rgba(253, 224, 71, 0.45)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
+                padding: "13px 28px",
+                background: "linear-gradient(170deg, #FFE047 0%, #F5C800 55%, #E0B000 100%)",
+                border: "1px solid rgba(160, 120, 0, 0.25)",
                 boxShadow:
-                  "0 4px 28px rgba(234, 179, 8, 0.18), 0 1px 0 rgba(255,255,255,0.85) inset, 0 -1px 0 rgba(180,140,0,0.06) inset",
+                  "0 1px 0 rgba(255,240,120,0.9) inset, 0 -2px 0 rgba(140,100,0,0.3) inset, 0 6px 18px rgba(200,160,0,0.22), 0 2px 4px rgba(160,120,0,0.18)",
               }}
             >
               <motion.span
@@ -130,11 +128,12 @@ export function DesignerGreetingCursor() {
                   className="whitespace-nowrap select-none"
                   style={{
                     fontFamily: "Inter, sans-serif",
-                    fontSize: "15px",
-                    fontWeight: 600,
+                    fontSize: "16px",
+                    fontWeight: 700,
                     letterSpacing: "-0.01em",
-                    color: "#1A1200",
+                    color: "#3D2800",
                     minWidth: "2px",
+                    textShadow: "0 1px 0 rgba(255,240,100,0.5)",
                   }}
                 >
                   {displayText}
@@ -153,8 +152,8 @@ export function DesignerGreetingCursor() {
                     display: "inline-block",
                     marginLeft: "2px",
                     width: "2px",
-                    height: "16px",
-                    background: "rgba(120, 90, 0, 0.65)",
+                    height: "17px",
+                    background: "rgba(100, 65, 0, 0.6)",
                     borderRadius: "1px",
                     verticalAlign: "middle",
                     position: "relative",
