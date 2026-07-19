@@ -165,7 +165,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                 backgroundImage: "url('/bgcard.avif')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                boxShadow: "0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.08)",
+                boxShadow: "0 4px 16px rgba(15,23,42,0.14), 0 16px 48px rgba(15,23,42,0.18)",
               }}
             >
               {/* Text side */}
