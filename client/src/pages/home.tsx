@@ -56,6 +56,7 @@ import { DesignerBirds } from "@/components/designer-birds";
 import { DesignerStackedCards } from "@/components/designer-stacked-cards";
 import { DesignerMarioExperience, MarioNavButtons, MarioExperienceHandle } from "@/components/designer-mario-experience";
 import { AboutMePegboard } from "@/components/about-me-pegboard";
+import { DesignerRecommendations } from "@/components/designer-recommendations";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5497,6 +5498,39 @@ export default function Home() {
                   </span>
                 </div>
               </div>
+            </div>
+
+            {/* ── Designer: Recommendations section ── */}
+            <div className="pt-28 pb-20">
+              {/* Badge + divider row */}
+              <div className="px-6 md:px-0 flex items-center gap-3 mb-12">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                  <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="#3B82F6"/>
+                </svg>
+                <span className="text-[22px] font-bold tracking-[0.04em] text-[#439BEA] dark:text-[#439BEA] font-['Caveat']">
+                  Recommendations
+                </span>
+                <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
+              </div>
+
+              {/* Title */}
+              <div className="px-6 md:px-0 mb-12">
+                <h2
+                  className="text-[#0F172A] dark:text-[#F8FAFC]"
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "clamp(22px, 3.2vw, 38px)",
+                    fontWeight: 600,
+                    lineHeight: 1.15,
+                    letterSpacing: "-0.025em",
+                  }}
+                >
+                  what people say
+                </h2>
+              </div>
+
+              {/* Auto-scrolling letter cards — full bleed */}
+              <DesignerRecommendations />
             </div>
 
 
