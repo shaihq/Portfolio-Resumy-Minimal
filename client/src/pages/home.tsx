@@ -54,7 +54,7 @@ import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 import { DesignerBirds } from "@/components/designer-birds";
 import { DesignerStackedCards } from "@/components/designer-stacked-cards";
-import { DesignerMarioExperience } from "@/components/designer-mario-experience";
+import { DesignerMarioExperience, MarioNavButtons, MarioExperienceHandle } from "@/components/designer-mario-experience";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -87,6 +87,7 @@ export default function Home() {
   const [handleHovered, setHandleHovered] = useState(false);
   const dragRef = useRef<{ startX: number; startWidth: number; side: 'left' | 'right' } | null>(null);
   const designerHeroRef = useRef<HTMLDivElement>(null);
+  const marioRef = useRef<MarioExperienceHandle>(null);
   const designerNavRef = useRef<HTMLElement>(null);
   const maxWidthRef = useRef(1200);
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
@@ -5418,6 +5419,13 @@ export default function Home() {
                   Work experience
                 </span>
                 <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
+                {/* Mario nav buttons — desktop only, right of the title row */}
+                <div className="hidden md:block flex-shrink-0">
+                  <MarioNavButtons
+                    onLeft={() => marioRef.current?.scrollByCard("left")}
+                    onRight={() => marioRef.current?.scrollByCard("right")}
+                  />
+                </div>
               </div>
 
               {/* Title */}
@@ -5436,7 +5444,15 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Mario-style horizontal experience ── */}
-            <DesignerMarioExperience />
+            <DesignerMarioExperience ref={marioRef} />
+
+            {/* Mario nav buttons — mobile only, below the world */}
+            <div className="flex md:hidden justify-center mt-4">
+              <MarioNavButtons
+                onLeft={() => marioRef.current?.scrollByCard("left")}
+                onRight={() => marioRef.current?.scrollByCard("right")}
+              />
+            </div>
 
           </div>
         ) : null}

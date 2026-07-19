@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, forwardRef, useImperativeHandle } from "react";
 import { motion } from "motion/react";
 import { MapPin } from "lucide-react";
 
@@ -351,47 +351,108 @@ function ExperienceCard({
   );
 }
 
+// ── Shared sound — exported so MarioNavButtons can call it anywhere ────────────
+export function playMarioSound(direction: "left" | "right") {
+  try {
+    const ctx  = new AudioContext();
+    const gain = ctx.createGain();
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0.28, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
+    const freqs = direction === "right"
+      ? [783.99, 1046.50]
+      : [1046.50, 783.99];
+    freqs.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = "square";
+      osc.connect(gain);
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.09);
+      osc.start(ctx.currentTime + i * 0.09);
+      osc.stop(ctx.currentTime + i * 0.09 + 0.10);
+    });
+  } catch { /* AudioContext blocked */ }
+}
+
+// ── Exported nav buttons — self-contained pressed state ────────────────────────
+export function MarioNavButtons({ onLeft, onRight }: { onLeft: () => void; onRight: () => void }) {
+  const [pressedBtn, setPressedBtn] = useState<"left" | "right" | null>(null);
+
+  const handle = (dir: "left" | "right", fn: () => void) => {
+    playMarioSound(dir);
+    setPressedBtn(dir);
+    setTimeout(() => setPressedBtn(null), 160);
+    fn();
+  };
+
+  return (
+    <div style={{ display: "flex", gap: 8 }}>
+      {(["left", "right"] as const).map((dir) => {
+        const pressed = pressedBtn === dir;
+        return (
+          <button
+            key={dir}
+            onClick={() => handle(dir, dir === "left" ? onLeft : onRight)}
+            title={dir === "left" ? "Previous" : "Next"}
+            style={{
+              width: 36, height: 36,
+              cursor: "pointer",
+              border: "3px solid #5A2D00",
+              borderRadius: 6,
+              background: pressed
+                ? "linear-gradient(to bottom, #D49000 0%, #A06800 100%)"
+                : "linear-gradient(to bottom, #FFE045 0%, #F5A800 60%, #D48000 100%)",
+              boxShadow: pressed
+                ? "inset 0 3px 6px rgba(0,0,0,0.35), 0 1px 0 #5A2D00"
+                : "inset 0 3px 0 rgba(255,255,200,0.55), 0 4px 0 #5A2D00, 0 5px 8px rgba(0,0,0,0.22)",
+              transform: pressed ? "translateY(3px)" : "translateY(0px)",
+              transition: "transform 0.08s, box-shadow 0.08s, background 0.08s",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: 0, outline: "none", userSelect: "none",
+            }}
+          >
+            {dir === "left" ? (
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                <rect x="8" y="1" width="2" height="2" fill="#5A2D00"/>
+                <rect x="6" y="3" width="2" height="2" fill="#5A2D00"/>
+                <rect x="4" y="5" width="2" height="2" fill="#5A2D00"/>
+                <rect x="4" y="7" width="2" height="2" fill="#5A2D00"/>
+                <rect x="6" y="9" width="2" height="2" fill="#5A2D00"/>
+                <rect x="8" y="11" width="2" height="2" fill="#5A2D00"/>
+              </svg>
+            ) : (
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                <rect x="4" y="1" width="2" height="2" fill="#5A2D00"/>
+                <rect x="6" y="3" width="2" height="2" fill="#5A2D00"/>
+                <rect x="8" y="5" width="2" height="2" fill="#5A2D00"/>
+                <rect x="8" y="7" width="2" height="2" fill="#5A2D00"/>
+                <rect x="6" y="9" width="2" height="2" fill="#5A2D00"/>
+                <rect x="4" y="11" width="2" height="2" fill="#5A2D00"/>
+              </svg>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Handle exposed via forwardRef ──────────────────────────────────────────────
+export interface MarioExperienceHandle {
+  scrollByCard: (dir: "left" | "right") => void;
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
-export function DesignerMarioExperience() {
+export const DesignerMarioExperience = forwardRef<MarioExperienceHandle>(function DesignerMarioExperience(_, ref) {
   const scrollRef   = useRef<HTMLDivElement>(null);
   const isDragging  = useRef(false);
   const startX      = useRef(0);
   const scrollLeft  = useRef(0);
-  const [pressedBtn, setPressedBtn] = useState<"left" | "right" | null>(null);
 
-  /** Synthesised Mario coin sound — no audio file needed */
-  const playMarioSound = useCallback((direction: "left" | "right") => {
-    try {
-      const ctx  = new AudioContext();
-      const gain = ctx.createGain();
-      gain.connect(ctx.destination);
-      gain.gain.setValueAtTime(0.28, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
-
-      // Two-note Mario coin sweep (square wave)
-      const freqs = direction === "right"
-        ? [783.99, 1046.50]   // G5 → C6  (forward / coin)
-        : [1046.50, 783.99];  // C6 → G5  (backward)
-
-      freqs.forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        osc.type = "square";
-        osc.connect(gain);
-        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.09);
-        osc.start(ctx.currentTime + i * 0.09);
-        osc.stop(ctx.currentTime + i * 0.09 + 0.10);
-      });
-    } catch { /* AudioContext blocked — silently ignore */ }
+  const scrollByCard = useCallback((dir: "left" | "right") => {
+    scrollRef.current?.scrollBy({ left: dir === "right" ? SECTION_W : -SECTION_W, behavior: "smooth" });
   }, []);
 
-  /** Scroll by exactly one card section */
-  const scrollByCard = useCallback((dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    playMarioSound(dir);
-    setPressedBtn(dir);
-    setTimeout(() => setPressedBtn(null), 160);
-    scrollRef.current.scrollBy({ left: dir === "right" ? SECTION_W : -SECTION_W, behavior: "smooth" });
-  }, [playMarioSound]);
+  useImperativeHandle(ref, () => ({ scrollByCard }), [scrollByCard]);
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     isDragging.current = true;
@@ -430,63 +491,6 @@ export function DesignerMarioExperience() {
 
   return (
     <div style={{ position: "relative", marginTop: 0, marginBottom: 64 }}>
-      {/* Mario nav buttons */}
-      <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 14 }}>
-        {(["left", "right"] as const).map((dir) => {
-          const pressed = pressedBtn === dir;
-          return (
-            <button
-              key={dir}
-              onClick={() => scrollByCard(dir)}
-              title={dir === "left" ? "Previous" : "Next"}
-              style={{
-                width: 44,
-                height: 44,
-                cursor: "pointer",
-                border: "3px solid #5A2D00",
-                borderRadius: 6,
-                background: pressed
-                  ? "linear-gradient(to bottom, #D49000 0%, #A06800 100%)"
-                  : "linear-gradient(to bottom, #FFE045 0%, #F5A800 60%, #D48000 100%)",
-                boxShadow: pressed
-                  ? "inset 0 3px 6px rgba(0,0,0,0.35), 0 1px 0 #5A2D00"
-                  : "inset 0 3px 0 rgba(255,255,200,0.55), 0 4px 0 #5A2D00, 0 5px 8px rgba(0,0,0,0.22)",
-                transform: pressed ? "translateY(3px)" : "translateY(0px)",
-                transition: "transform 0.08s, box-shadow 0.08s, background 0.08s",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 0,
-                outline: "none",
-                userSelect: "none",
-                imageRendering: "pixelated",
-              }}
-            >
-              {/* Pixel chevron SVG */}
-              {dir === "left" ? (
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ imageRendering: "pixelated" }}>
-                  <rect x="8"  y="1"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="6"  y="3"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="4"  y="5"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="4"  y="7"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="6"  y="9"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="8"  y="11" width="2" height="2" fill="#5A2D00"/>
-                </svg>
-              ) : (
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ imageRendering: "pixelated" }}>
-                  <rect x="4"  y="1"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="6"  y="3"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="8"  y="5"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="8"  y="7"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="6"  y="9"  width="2" height="2" fill="#5A2D00"/>
-                  <rect x="4"  y="11" width="2" height="2" fill="#5A2D00"/>
-                </svg>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
       {/* Scroll container */}
       <div
         ref={scrollRef}
@@ -521,10 +525,12 @@ export function DesignerMarioExperience() {
             <PixelCloud key={i} x={(c.x / 100) * totalWidth / totalWidth * 100} y={c.y} scale={c.scale} />
           ))}
 
-          {/* ── One static coin above each pipe ── */}
+          {/* ── Animated coin above each pipe ── */}
           {pipeXs.map((x, i) => (
-            <div
+            <motion.div
               key={i}
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
               style={{
                 position: "absolute",
                 left: `${x}%`,
@@ -603,4 +609,4 @@ export function DesignerMarioExperience() {
       `}</style>
     </div>
   );
-}
+});
