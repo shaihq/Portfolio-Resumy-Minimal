@@ -85,7 +85,7 @@ function LetterCard({ rec }: { rec: Recommendation }) {
           top: 0,
           left: "50%",
           transform: "translateX(-50%)",
-          top: -26,
+          top: -33,
           width: 72,
           zIndex: 10,
           pointerEvents: "none",
