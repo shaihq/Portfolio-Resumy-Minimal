@@ -5263,15 +5263,27 @@ export default function Home() {
               </nav>
 
               {/* Hero content */}
-              <div className="relative z-10 px-0 pt-4 pb-20 w-full flex flex-col">
+              <div className="relative z-10 px-6 md:px-0 pt-4 pb-20 w-full flex flex-col items-start md:items-center">
+
+                {/* Profile image — glass card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.88, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-8 p-[5px] rounded-[22px] bg-white/20 backdrop-blur-md border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.18)]"
+                >
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-[17px] overflow-hidden">
+                    <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+                  </div>
+                </motion.div>
 
                 {/* Display headline — no blur to prevent flicker */}
                 <motion.h1
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="designer-hero-title leading-[1.02] tracking-tight text-white dark:text-white text-center font-semibold"
-                  style={{ fontSize: 'clamp(54px, 9vw, 102px)' }}
+                  className="designer-hero-title leading-[1.02] tracking-tight text-white text-left md:text-center font-semibold"
+                  style={{ fontSize: 'clamp(44px, 9vw, 102px)' }}
                 >
                   Hey I'm Matt.
                 </motion.h1>
@@ -5281,10 +5293,24 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 text-white/72 dark:text-white/65 text-[15px] leading-relaxed font-['Inter'] text-center w-full max-w-xl mx-auto px-6 md:px-0"
+                  className="mt-6 text-white/72 text-[15px] leading-relaxed font-['Inter'] text-left md:text-center w-full max-w-xl md:mx-auto"
                 >
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
+
+                {/* Available for work badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.82, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-6 md:mx-auto flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/25 rounded-full px-4 py-2 w-fit"
+                >
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                  </span>
+                  <span className="text-white/90 text-[13px] font-medium font-['Inter'] tracking-wide">Available for work</span>
+                </motion.div>
 
               </div>
             </div>
