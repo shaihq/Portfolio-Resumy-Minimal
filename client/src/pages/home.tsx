@@ -5500,6 +5500,17 @@ export default function Home() {
               </div>
             </div>
 
+            {/* ── Designer: Bottom grass ── */}
+            <div style={{ width: "100%", lineHeight: 0 }}>
+              <img
+                src="/bottom%20grass.png"
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                style={{ width: "100%", display: "block" }}
+              />
+            </div>
+
             {/* ── Designer: Recommendations section ── */}
             <div className="pt-28 pb-20">
               {/* Badge + divider row */}
