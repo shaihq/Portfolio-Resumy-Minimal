@@ -53,17 +53,17 @@ const EXPERIENCES: WorkExperience[] = [
 ];
 
 // ── Layout constants ──────────────────────────────────────────────────────────
-const SECTION_W   = 400;   // px per experience column
+const SECTION_W   = 450;   // px per experience column
 const LEAD_PAD    = 80;    // left breathing room before first card
 const TRAIL_PAD   = 120;   // right breathing room after last card
-const TOTAL_H     = 500;   // component height
+const TOTAL_H     = 580;   // component height
 const GROUND_H    = 72;    // ground strip height
 const PLATFORM_H  = 28;    // brick platform row height
-const PLATFORM_W  = 180;   // brick platform width
-const CARD_W      = 310;   // experience card width
+const PLATFORM_W  = 210;   // brick platform width
+const CARD_W      = 370;   // experience card width
 
-// Alternating card elevations: higher = more breathing room from ground
-const ELEVATIONS  = [200, 120, 230, 140];
+// Alternating elevations tuned so cards cluster around vertical centre of the sky
+const ELEVATIONS  = [290, 210, 305, 225];
 
 // Decorative cloud positions [x%, y%]
 const CLOUDS = [
@@ -210,9 +210,9 @@ function DateBadge({ text, centerX, y }: { text: string; centerX: number; y: num
         background: "linear-gradient(160deg, #FFE045 0%, #F5B800 55%, #E09C00 100%)",
         border: "2.5px solid #A06800",
         borderRadius: 6,
-        padding: "5px 14px",
+        padding: "6px 16px",
         fontFamily: "'Inter', sans-serif",
-        fontSize: 11,
+        fontSize: 13,
         fontWeight: 800,
         color: "#3D1C00",
         letterSpacing: "0.04em",
@@ -268,30 +268,30 @@ function ExperienceCard({
         background: "rgba(255,255,255,0.97)",
         border: "1.5px solid rgba(226,232,240,0.9)",
         borderRadius: 14,
-        padding: "18px 20px",
+        padding: "22px 26px",
         boxShadow:
           "0 4px 24px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.06)",
         zIndex: 5,
       }}
     >
       {/* Header */}
-      <div style={{ marginBottom: 10 }}>
+      <div style={{ marginBottom: 12 }}>
         <p style={{
-          fontSize: 13,
+          fontSize: 16,
           fontWeight: 700,
           color: "#0F172A",
           fontFamily: "'Inter', sans-serif",
-          marginBottom: 2,
+          marginBottom: 4,
         }}>
           {exp.role}
         </p>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-          <p style={{ fontSize: 12, color: "#64748B", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
+          <p style={{ fontSize: 14, color: "#64748B", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
             {exp.company}
           </p>
           <div style={{ display: "flex", alignItems: "center", gap: 3, flexShrink: 0 }}>
-            <MapPin size={10} color="#94A3B8" strokeWidth={2} />
-            <p style={{ fontSize: 10.5, color: "#94A3B8", fontFamily: "'Inter', sans-serif", whiteSpace: "nowrap" }}>
+            <MapPin size={12} color="#94A3B8" strokeWidth={2} />
+            <p style={{ fontSize: 12, color: "#94A3B8", fontFamily: "'Inter', sans-serif", whiteSpace: "nowrap" }}>
               {exp.location}
             </p>
           </div>
@@ -299,14 +299,14 @@ function ExperienceCard({
       </div>
 
       {/* Divider */}
-      <div style={{ height: 1, background: "#F1F5F9", marginBottom: 10 }} />
+      <div style={{ height: 1, background: "#F1F5F9", marginBottom: 12 }} />
 
       {/* Bullets */}
-      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 7 }}>
+      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
         {exp.bullets.map((b, i) => (
-          <li key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+          <li key={i} style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
             <span style={{
-              marginTop: 5,
+              marginTop: 6,
               flexShrink: 0,
               width: 5,
               height: 5,
@@ -314,10 +314,10 @@ function ExperienceCard({
               background: "#CBD5E1",
             }} />
             <span style={{
-              fontSize: 11.5,
+              fontSize: 13,
               color: "#475569",
               fontFamily: "'Inter', sans-serif",
-              lineHeight: 1.55,
+              lineHeight: 1.6,
             }}>
               {b}
             </span>
