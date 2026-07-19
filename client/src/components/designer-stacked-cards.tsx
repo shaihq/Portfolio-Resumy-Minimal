@@ -2,6 +2,76 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
+function playCoinSound() {
+  try {
+    const ctx  = new AudioContext();
+    const gain = ctx.createGain();
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0.32, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.38);
+    // Classic coin: two quick ascending square-wave blips
+    [{ f: 988.0, t: 0.00 }, { f: 1318.5, t: 0.09 }].forEach(({ f, t }) => {
+      const osc = ctx.createOscillator();
+      osc.type = "square";
+      osc.connect(gain);
+      osc.frequency.setValueAtTime(f, ctx.currentTime + t);
+      osc.start(ctx.currentTime + t);
+      osc.stop(ctx.currentTime + t + 0.12);
+    });
+  } catch { /* blocked */ }
+}
+
+function MarioCTAButton({ label, onClick }: { label: string; onClick: () => void }) {
+  const [pressed, setPressed] = useState(false);
+  const handle = () => {
+    playCoinSound();
+    setPressed(true);
+    setTimeout(() => setPressed(false), 140);
+    onClick();
+  };
+  return (
+    <button
+      onClick={handle}
+      style={{
+        cursor: "pointer",
+        border: "3px solid #5A2D00",
+        borderRadius: 6,
+        padding: "9px 20px",
+        background: pressed
+          ? "linear-gradient(to bottom, #D49000 0%, #A06800 100%)"
+          : "linear-gradient(to bottom, #FFE045 0%, #F5A800 60%, #D48000 100%)",
+        boxShadow: pressed
+          ? "inset 0 3px 6px rgba(0,0,0,0.35), 0 1px 0 #5A2D00"
+          : "inset 0 3px 0 rgba(255,255,200,0.55), 0 4px 0 #5A2D00, 0 5px 8px rgba(0,0,0,0.22)",
+        transform: pressed ? "translateY(3px)" : "translateY(0px)",
+        transition: "transform 0.08s, box-shadow 0.08s, background 0.08s",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 7,
+        outline: "none",
+        userSelect: "none",
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: 13,
+        fontWeight: 700,
+        color: "#3D1A00",
+        letterSpacing: "0.02em",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {label}
+      {/* pixel arrow icon */}
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+        <rect x="6" y="0" width="2" height="2" fill="#3D1A00"/>
+        <rect x="8" y="2" width="2" height="2" fill="#3D1A00"/>
+        <rect x="8" y="4" width="2" height="2" fill="#3D1A00"/>
+        <rect x="0" y="4" width="8" height="2" fill="#3D1A00"/>
+        <rect x="8" y="6" width="2" height="2" fill="#3D1A00"/>
+        <rect x="6" y="8" width="2" height="2" fill="#3D1A00"/>
+      </svg>
+    </button>
+  );
+}
+
 interface CaseStudy {
   tags: string[];
   title: string;
@@ -206,13 +276,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                 </p>
 
                 {/* CTA */}
-                <button
-                  onClick={() => onProjectClick(cs.slug)}
-                  className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#0F172A] dark:text-[#F8FAFC] hover:text-[#1D4ED8] dark:hover:text-[#93C5FD] transition-colors duration-200"
-                >
-                  Read case study
-                  <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-                </button>
+                <MarioCTAButton label="Read case study" onClick={() => onProjectClick(cs.slug)} />
               </div>
 
               {/* Image side */}
