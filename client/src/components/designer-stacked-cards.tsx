@@ -83,7 +83,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
           {i === 0 && (
             <motion.div
               className="absolute top-14 left-0 right-0 px-6 md:px-0"
-              style={{ opacity: headerOpacity }}
+              style={{ opacity: headerOpacity, zIndex: 10 }}
             >
               {/* Badge + divider row */}
               <div className="flex items-center gap-3 mb-4">
@@ -118,10 +118,10 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
             style={{
               scale: scales[i],
               transformOrigin: "top center",
-              // Slight upward offset so cards sit a touch above center (ref: calc(-5vh + index*25px))
               top: `calc(-12vh + ${i * 25}px)`,
               position: "relative",
               width: "100%",
+              zIndex: 1,
             }}
           >
             {/* Sparkle decorations */}
