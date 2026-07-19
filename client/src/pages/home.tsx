@@ -5320,7 +5320,7 @@ export default function Home() {
                   className="designer-hero-title leading-[1.02] tracking-tight text-white text-left md:text-center font-semibold"
                   style={{ fontSize: 'clamp(40px, 8vw, 92px)' }}
                 >
-                  Hey I'm Matt.
+                  Hey I'm <span className="font-['Caveat']">Matt.</span>
                 </motion.h1>
 
                 {/* Description */}
