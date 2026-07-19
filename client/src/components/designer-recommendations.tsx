@@ -59,8 +59,7 @@ const RECS: Recommendation[] = [
   },
 ];
 
-/* Irregular polygon that mimics natural torn/deckled paper edges */
-const PAPER_CLIP = `polygon(
+const PAPER_CLIP_PATH = `polygon(
   0% 3%, 2% 1%, 5% 2%, 9% 0%, 14% 2%, 20% 0%, 27% 2%, 34% 0%,
   41% 2%, 49% 0%, 56% 2%, 63% 0%, 70% 2%, 77% 0%, 83% 2%,
   89% 0%, 94% 2%, 97% 1%, 100% 3%,
@@ -73,119 +72,112 @@ const PAPER_CLIP = `polygon(
 
 function LetterCard({ rec }: { rec: Recommendation }) {
   return (
-    <div
-      style={{
-        flexShrink: 0,
-        width: 460,
-        position: "relative",
-        /* clip-path for deckled paper edges */
-        clipPath: PAPER_CLIP,
-        /* bgcard.avif as texture, blended over flat fill */
-        backgroundColor: "#F8E3C4",
-        backgroundImage: "url('/bgcard.avif')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundBlendMode: "multiply",
-        padding: "48px 36px 44px",
-      }}
-    >
-      {/* Paperclip — upper right */}
+    /* Outer wrapper — not clipped, holds the floating paperclip */
+    <div style={{ flexShrink: 0, width: 460, position: "relative" }}>
+
+      {/* Paperclip floats above the card, outside clip-path */}
       <img
         src="/paperclip.png"
         draggable={false}
         alt=""
         style={{
           position: "absolute",
-          top: -10,
-          right: 36,
-          width: 48,
+          top: -30,
+          right: 44,
+          width: 52,
+          zIndex: 20,
           pointerEvents: "none",
           userSelect: "none",
-          zIndex: 2,
         }}
       />
 
-      {/* Photo + name block */}
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
-        {/* Polaroid-style photo */}
-        <div
-          style={{
-            background: "white",
-            padding: "5px 5px 18px 5px",
-            boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
-            transform: "rotate(-2deg)",
-            flexShrink: 0,
-          }}
-        >
-          <img
-            src={rec.photo}
-            alt={rec.name}
-            draggable={false}
-            style={{ width: 82, height: 82, objectFit: "cover", display: "block" }}
-          />
-        </div>
-
-        {/* Name / title */}
-        <div>
-          <p
+      {/* Clipped card body */}
+      <div
+        style={{
+          width: "100%",
+          clipPath: PAPER_CLIP_PATH,
+          backgroundColor: "#F8E3C4",
+          backgroundImage: "url('/bgcard.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundBlendMode: "multiply",
+          padding: "48px 36px 44px",
+          position: "relative",
+        }}
+      >
+        {/* Photo + name block */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+          <div
             style={{
+              background: "white",
+              padding: "5px 5px 18px 5px",
+              boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+              transform: "rotate(-2deg)",
+              flexShrink: 0,
+            }}
+          >
+            <img
+              src={rec.photo}
+              alt={rec.name}
+              draggable={false}
+              style={{ width: 82, height: 82, objectFit: "cover", display: "block" }}
+            />
+          </div>
+
+          <div>
+            <p style={{
               fontFamily: "'Poppins', sans-serif",
               fontWeight: 700,
               fontSize: 17,
               color: "#1A1A1A",
               marginBottom: 3,
-            }}
-          >
-            {rec.name}
-          </p>
-          <p
-            style={{
+            }}>
+              {rec.name}
+            </p>
+            <p style={{
               fontFamily: "'Poppins', sans-serif",
               fontSize: 13,
               color: "#6B5B45",
               lineHeight: 1.5,
               fontWeight: 400,
-            }}
-          >
-            {rec.title}
-            <br />
-            {rec.company}
-          </p>
+            }}>
+              {rec.title}<br />{rec.company}
+            </p>
+          </div>
         </div>
-      </div>
 
-      {/* Quote */}
-      <p
-        style={{
+        {/* Quote */}
+        <p style={{
           fontFamily: "'Poppins', sans-serif",
           fontSize: 16,
           lineHeight: 1.75,
           color: "#2D1F0E",
           margin: 0,
           fontWeight: 400,
-        }}
-      >
-        "{rec.quote}"
-      </p>
+        }}>
+          "{rec.quote}"
+        </p>
+      </div>
     </div>
   );
 }
 
 export function DesignerRecommendations() {
   const trackRef = useRef<HTMLDivElement>(null);
-
   const cards = [...RECS, ...RECS];
 
   return (
     <div style={{ overflow: "hidden", width: "100%", position: "relative" }}>
       {/* Left fade */}
       <div style={{
-        position: "absolute", top: 0, left: 0, bottom: 0, width: 140, zIndex: 10, pointerEvents: "none",
+        position: "absolute", top: 0, left: 0, bottom: 0, width: 140, zIndex: 10,
+        pointerEvents: "none",
         background: "linear-gradient(to right, white 0%, transparent 100%)",
       }} />
       {/* Right fade */}
       <div style={{
-        position: "absolute", top: 0, right: 0, bottom: 0, width: 140, zIndex: 10, pointerEvents: "none",
+        position: "absolute", top: 0, right: 0, bottom: 0, width: 140, zIndex: 10,
+        pointerEvents: "none",
         background: "linear-gradient(to left, white 0%, transparent 100%)",
       }} />
 
@@ -197,7 +189,7 @@ export function DesignerRecommendations() {
           width: "max-content",
           animation: "rec-scroll 44s linear infinite",
           paddingBottom: 12,
-          paddingTop: 32,
+          paddingTop: 40,
         }}
         onMouseEnter={() => {
           if (trackRef.current) trackRef.current.style.animationPlayState = "paused";
