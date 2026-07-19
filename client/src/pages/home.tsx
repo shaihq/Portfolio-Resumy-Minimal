@@ -5454,20 +5454,41 @@ export default function Home() {
 
               {/* Content: photo left, text right */}
               <div className="flex flex-col md:flex-row items-start gap-12 md:gap-16">
-                {/* Polaroid-style photo */}
-                <div className="flex-shrink-0 self-start" style={{ transform: "rotate(-2deg)" }}>
-                  <div
-                    className="bg-white shadow-xl"
+                {/* Book + Polaroid composite */}
+                <div className="flex-shrink-0 self-start" style={{ position: "relative", width: 360, height: 310 }}>
+                  {/* Book — sits behind, right half visible */}
+                  <img
+                    src="/book.png"
+                    alt=""
+                    aria-hidden="true"
                     style={{
+                      position: "absolute",
+                      width: 280,
+                      top: 40,
+                      left: 80,
+                      zIndex: 1,
+                      transform: "rotate(2deg)",
+                      pointerEvents: "none",
+                    }}
+                  />
+                  {/* Polaroid — on top */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      zIndex: 2,
+                      transform: "rotate(-2deg)",
+                      background: "white",
                       padding: "12px 12px 40px 12px",
                       border: "1px solid #E2E8F0",
                       borderRadius: 4,
                       width: 220,
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.13)",
                     }}
                   >
                     <div
-                      className="bg-[#F1F5F9] dark:bg-[#1E293B]"
-                      style={{ width: "100%", aspectRatio: "1 / 1.1", borderRadius: 2, overflow: "hidden" }}
+                      style={{ width: "100%", aspectRatio: "1 / 1.1", borderRadius: 2, overflow: "hidden", background: "#F1F5F9" }}
                     >
                       <img
                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80"
