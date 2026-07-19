@@ -5439,6 +5439,90 @@ export default function Home() {
             {/* ── Designer: Mario-style horizontal experience ── */}
             <DesignerMarioExperience ref={marioRef} />
 
+            {/* ── Designer: About Me section ── */}
+            <div className="px-6 md:px-0 pt-28 pb-4">
+              {/* Badge + divider row */}
+              <div className="flex items-center gap-3 mb-10">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                  <path d="M7 0L8.4 5.6L14 7L8.4 8.4L7 14L5.6 8.4L0 7L5.6 5.6L7 0Z" fill="#3B82F6"/>
+                </svg>
+                <span className="text-[22px] font-bold tracking-[0.04em] text-[#439BEA] dark:text-[#439BEA] font-['Caveat']">
+                  About me
+                </span>
+                <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
+              </div>
+
+              {/* Content: photo left, text right */}
+              <div className="flex flex-col md:flex-row items-start gap-12 md:gap-16">
+                {/* Polaroid-style photo */}
+                <div className="flex-shrink-0 self-start" style={{ transform: "rotate(-2deg)" }}>
+                  <div
+                    className="bg-white shadow-xl"
+                    style={{
+                      padding: "12px 12px 40px 12px",
+                      border: "1px solid #E2E8F0",
+                      borderRadius: 4,
+                      width: 220,
+                    }}
+                  >
+                    <div
+                      className="bg-[#F1F5F9] dark:bg-[#1E293B]"
+                      style={{ width: "100%", aspectRatio: "1 / 1.1", borderRadius: 2, overflow: "hidden" }}
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80"
+                        alt="About me"
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Text */}
+                <div className="flex-1 min-w-0 pt-2">
+                  <h2
+                    className="text-[#0F172A] dark:text-[#F8FAFC] mb-6"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: "clamp(26px, 3.5vw, 44px)",
+                      fontWeight: 600,
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.025em",
+                    }}
+                  >
+                    a little about myself
+                  </h2>
+
+                  <p
+                    className="text-[#475569] dark:text-[#94A3B8] mb-4"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.75 }}
+                  >
+                    Design, for me, has always been about people — understanding how they think, what they need, and building things that feel effortless in their hands. I grew up tinkering with interfaces long before I knew what product design was, driven purely by the curiosity of why some things just feel right.
+                  </p>
+
+                  <p
+                    className="text-[#475569] dark:text-[#94A3B8] mb-8"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.75 }}
+                  >
+                    These days I work across the full spectrum — from early-stage discovery and research to pixel-perfect delivery — and I care deeply about the space where clarity meets craft. When I'm not designing, I'm usually sketching ideas on paper, obsessing over typography, or hunting for the perfect cup of coffee.
+                  </p>
+
+                  {/* Signature */}
+                  <span
+                    className="text-[#439BEA]"
+                    style={{
+                      fontFamily: "'Caveat', cursive",
+                      fontSize: 32,
+                      fontWeight: 600,
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    Matt.
+                  </span>
+                </div>
+              </div>
+            </div>
+
 
           </div>
         ) : null}
