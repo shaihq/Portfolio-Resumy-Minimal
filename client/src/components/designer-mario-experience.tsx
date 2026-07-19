@@ -328,108 +328,15 @@ function ExperienceCard({
   );
 }
 
-// ── Mario nav button ──────────────────────────────────────────────────────────
-function MarioBtn({
-  dir,
-  disabled,
-  pressed,
-  onClick,
-}: {
-  dir: "left" | "right";
-  disabled: boolean;
-  pressed: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      title={dir === "left" ? "Previous" : "Next"}
-      style={{
-        width: 44,
-        height: 44,
-        cursor: disabled ? "not-allowed" : "pointer",
-        border: `3px solid ${disabled ? "#C8B89A" : "#5A2D00"}`,
-        borderRadius: 6,
-        background: disabled
-          ? "linear-gradient(to bottom, #EDE0C8 0%, #D4C4A0 100%)"
-          : pressed
-          ? "linear-gradient(to bottom, #D49000 0%, #A06800 100%)"
-          : "linear-gradient(to bottom, #FFE045 0%, #F5A800 60%, #D48000 100%)",
-        boxShadow: disabled
-          ? "0 2px 0 #C8B89A"
-          : pressed
-          ? "inset 0 3px 6px rgba(0,0,0,0.35), 0 1px 0 #5A2D00"
-          : "inset 0 3px 0 rgba(255,255,200,0.55), 0 4px 0 #5A2D00, 0 5px 8px rgba(0,0,0,0.22)",
-        transform: pressed ? "translateY(3px)" : "translateY(0px)",
-        transition: "transform 0.08s, box-shadow 0.08s, background 0.08s",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 0,
-        outline: "none",
-        userSelect: "none",
-        opacity: disabled ? 0.45 : 1,
-      }}
-    >
-      {dir === "left" ? (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="8"  y="1"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="6"  y="3"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="4"  y="5"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="4"  y="7"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="6"  y="9"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="8"  y="11" width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-        </svg>
-      ) : (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="4"  y="1"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="6"  y="3"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="8"  y="5"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="8"  y="7"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="6"  y="9"  width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-          <rect x="4"  y="11" width="2" height="2" fill={disabled ? "#A09070" : "#5A2D00"}/>
-        </svg>
-      )}
-    </button>
-  );
-}
-
-// ── Carousel geometry ─────────────────────────────────────────────────────────
-// Left margin before the active card inside the viewport
-const CARD_MARGIN_L = 24;
-// How many px of the next card peek on the right
-const NEXT_PEEK     = 88;
-// Visible viewport width = left margin + card + gap-to-next-card-edge + peek
-// Gap between card right edge and next card left edge = SECTION_W - CARD_W = 80px
-const VIEWPORT_W    = CARD_MARGIN_L + CARD_W + (SECTION_W - CARD_W) + NEXT_PEEK; // 24+370+80+88 = 562
-
-// translateX that brings card[i] to CARD_MARGIN_L inside the viewport
-// card[i] left edge in the world = LEAD_PAD + i*SECTION_W + SECTION_W/2 - CARD_W/2
-//                                 = 80 + i*450 + 225 - 185 = 120 + i*450
-// we want it at CARD_MARGIN_L = 24 inside viewport, so:
-// translateX = CARD_MARGIN_L - (120 + i*SECTION_W) = 24 - 120 - i*450 = -(96 + i*450)
-const trackOffset = (i: number) => -(96 + i * SECTION_W);
-
 // ── Main component ─────────────────────────────────────────────────────────────
 export function DesignerMarioExperience() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [pressedBtn, setPressedBtn]   = useState<"left" | "right" | null>(null);
+  const scrollRef   = useRef<HTMLDivElement>(null);
+  const isDragging  = useRef(false);
+  const startX      = useRef(0);
+  const scrollLeft  = useRef(0);
+  const [pressedBtn, setPressedBtn] = useState<"left" | "right" | null>(null);
 
-  const n          = EXPERIENCES.length;
-  const totalWidth = LEAD_PAD + n * SECTION_W + TRAIL_PAD;
-
-  // Absolute positions inside the world
-  const centerXs  = EXPERIENCES.map((_, i) => LEAD_PAD + i * SECTION_W + SECTION_W / 2);
-  const cardTops  = EXPERIENCES.map((_, i) => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATIONS[i % ELEVATIONS.length]);
-  const badgeTops = cardTops.map(t => t - 54);
-  const connTop   = (i: number) => badgeTops[i] + 28;
-  const connBot   = (i: number) => cardTops[i];
-  const pipeXs    = EXPERIENCES.slice(0, -1).map((_, i) =>
-    ((centerXs[i] + centerXs[i + 1]) / 2 / totalWidth) * 100
-  );
-
-  /** Synthesised Mario coin sound */
+  /** Synthesised Mario coin sound — no audio file needed */
   const playMarioSound = useCallback((direction: "left" | "right") => {
     try {
       const ctx  = new AudioContext();
@@ -437,7 +344,12 @@ export function DesignerMarioExperience() {
       gain.connect(ctx.destination);
       gain.gain.setValueAtTime(0.28, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
-      const freqs = direction === "right" ? [783.99, 1046.50] : [1046.50, 783.99];
+
+      // Two-note Mario coin sweep (square wave)
+      const freqs = direction === "right"
+        ? [783.99, 1046.50]   // G5 → C6  (forward / coin)
+        : [1046.50, 783.99];  // C6 → G5  (backward)
+
       freqs.forEach((freq, i) => {
         const osc = ctx.createOscillator();
         osc.type = "square";
@@ -446,127 +358,211 @@ export function DesignerMarioExperience() {
         osc.start(ctx.currentTime + i * 0.09);
         osc.stop(ctx.currentTime + i * 0.09 + 0.10);
       });
-    } catch { /* silently ignore */ }
+    } catch { /* AudioContext blocked — silently ignore */ }
   }, []);
 
-  const go = useCallback((dir: "left" | "right") => {
-    const next = dir === "right"
-      ? Math.min(activeIndex + 1, n - 1)
-      : Math.max(activeIndex - 1, 0);
-    if (next === activeIndex) return;
+  /** Scroll by exactly one card section */
+  const scrollByCard = useCallback((dir: "left" | "right") => {
+    if (!scrollRef.current) return;
     playMarioSound(dir);
     setPressedBtn(dir);
     setTimeout(() => setPressedBtn(null), 160);
-    setActiveIndex(next);
-  }, [activeIndex, n, playMarioSound]);
+    scrollRef.current.scrollBy({ left: dir === "right" ? SECTION_W : -SECTION_W, behavior: "smooth" });
+  }, [playMarioSound]);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    isDragging.current = true;
+    startX.current     = e.pageX - (scrollRef.current?.offsetLeft ?? 0);
+    scrollLeft.current = scrollRef.current?.scrollLeft ?? 0;
+    if (scrollRef.current) scrollRef.current.style.cursor = "grabbing";
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    const x     = e.pageX - (scrollRef.current?.offsetLeft ?? 0);
+    const delta = (x - startX.current) * 1.2;
+    if (scrollRef.current) scrollRef.current.scrollLeft = scrollLeft.current - delta;
+  }, []);
+
+  const stopDrag = useCallback(() => {
+    isDragging.current = false;
+    if (scrollRef.current) scrollRef.current.style.cursor = "grab";
+  }, []);
+
+  const n         = EXPERIENCES.length;
+  const totalWidth = LEAD_PAD + n * SECTION_W + TRAIL_PAD;
+
+  // Positions
+  const centerXs = EXPERIENCES.map((_, i) => LEAD_PAD + i * SECTION_W + SECTION_W / 2);
+  const cardTops = EXPERIENCES.map((_, i) => TOTAL_H - GROUND_H - PLATFORM_H - ELEVATIONS[i % ELEVATIONS.length]);
+  const badgeTops = cardTops.map(t => t - 54);
+  const connTop   = (i: number) => badgeTops[i] + 28;
+  const connBot   = (i: number) => cardTops[i];
+
+  // Pipe positions (between entries)
+  const pipeXs = EXPERIENCES.slice(0, -1).map((_, i) =>
+    ((centerXs[i] + centerXs[i + 1]) / 2 / totalWidth) * 100
+  );
 
   return (
     <div style={{ position: "relative", marginTop: 0, marginBottom: 64 }}>
-
-      {/* ── Controls row ── */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 14 }}>
-        <MarioBtn dir="left"  disabled={activeIndex === 0}     pressed={pressedBtn === "left"}  onClick={() => go("left")}  />
-
-        {/* Dot indicators */}
-        <div style={{ display: "flex", gap: 7, alignItems: "center" }}>
-          {EXPERIENCES.map((_, i) => (
+      {/* Mario nav buttons */}
+      <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 14 }}>
+        {(["left", "right"] as const).map((dir) => {
+          const pressed = pressedBtn === dir;
+          return (
             <button
-              key={i}
-              onClick={() => {
-                if (i === activeIndex) return;
-                playMarioSound(i > activeIndex ? "right" : "left");
-                setActiveIndex(i);
-              }}
+              key={dir}
+              onClick={() => scrollByCard(dir)}
+              title={dir === "left" ? "Previous" : "Next"}
               style={{
-                width:  i === activeIndex ? 20 : 8,
-                height: 8,
-                borderRadius: 4,
-                border: "none",
-                padding: 0,
+                width: 44,
+                height: 44,
                 cursor: "pointer",
+                border: "3px solid #5A2D00",
+                borderRadius: 6,
+                background: pressed
+                  ? "linear-gradient(to bottom, #D49000 0%, #A06800 100%)"
+                  : "linear-gradient(to bottom, #FFE045 0%, #F5A800 60%, #D48000 100%)",
+                boxShadow: pressed
+                  ? "inset 0 3px 6px rgba(0,0,0,0.35), 0 1px 0 #5A2D00"
+                  : "inset 0 3px 0 rgba(255,255,200,0.55), 0 4px 0 #5A2D00, 0 5px 8px rgba(0,0,0,0.22)",
+                transform: pressed ? "translateY(3px)" : "translateY(0px)",
+                transition: "transform 0.08s, box-shadow 0.08s, background 0.08s",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
                 outline: "none",
-                background: i === activeIndex
-                  ? "linear-gradient(to right, #FFE045, #F5A800)"
-                  : "rgba(180,160,120,0.35)",
-                boxShadow: i === activeIndex ? "0 0 0 1.5px #A06800" : "none",
-                transition: "width 0.25s, background 0.25s, box-shadow 0.25s",
+                userSelect: "none",
+                imageRendering: "pixelated",
               }}
-            />
-          ))}
-        </div>
-
-        <MarioBtn dir="right" disabled={activeIndex === n - 1} pressed={pressedBtn === "right"} onClick={() => go("right")} />
+            >
+              {/* Pixel chevron SVG */}
+              {dir === "left" ? (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ imageRendering: "pixelated" }}>
+                  <rect x="8"  y="1"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="6"  y="3"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="4"  y="5"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="4"  y="7"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="6"  y="9"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="8"  y="11" width="2" height="2" fill="#5A2D00"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ imageRendering: "pixelated" }}>
+                  <rect x="4"  y="1"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="6"  y="3"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="8"  y="5"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="8"  y="7"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="6"  y="9"  width="2" height="2" fill="#5A2D00"/>
+                  <rect x="4"  y="11" width="2" height="2" fill="#5A2D00"/>
+                </svg>
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* ── Clip viewport — fixed width so only 1 card + peek is visible ── */}
+      {/* Scroll container */}
       <div
+        ref={scrollRef}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={stopDrag}
+        onMouseLeave={stopDrag}
         style={{
-          width: VIEWPORT_W,
-          maxWidth: "100%",
-          overflow: "hidden",
+          overflowX: "auto",
+          overflowY: "hidden",
+          cursor: "grab",
+          userSelect: "none",
           borderRadius: 20,
           border: "1.5px solid rgba(226,232,240,0.7)",
           boxShadow: "0 8px 40px rgba(15,23,42,0.07)",
-          userSelect: "none",
+          scrollbarWidth: "none",
         }}
+        className="hide-scrollbar"
       >
-        {/* Inner world — slides left/right via translateX */}
+        {/* Inner track */}
         <div
           style={{
             position: "relative",
             width: totalWidth,
             height: TOTAL_H,
             background: "linear-gradient(to bottom, #DAEFFE 0%, #C5E8FB 40%, #B3DFF8 100%)",
-            transform: `translateX(${trackOffset(activeIndex)}px)`,
-            transition: "transform 0.52s cubic-bezier(0.32, 0, 0.12, 1)",
-            willChange: "transform",
+            flexShrink: 0,
           }}
         >
-          {/* Clouds */}
+          {/* ── Clouds ── */}
           {CLOUDS.map((c, i) => (
-            <PixelCloud key={i} x={c.x} y={c.y} scale={c.scale} />
+            <PixelCloud key={i} x={(c.x / 100) * totalWidth / totalWidth * 100} y={c.y} scale={c.scale} />
           ))}
 
-          {/* Floating coins */}
+          {/* ── Floating coins between platforms ── */}
           {COINS.map((c, i) => (
             <Coin key={i} x={c.x} y={c.y} />
           ))}
 
-          {/* Ground — grass */}
-          <div style={{
-            position: "absolute", bottom: GROUND_H - 20, left: 0,
-            width: totalWidth, height: 20,
-            background: "linear-gradient(to bottom, #4ABA41 0%, #3DA435 100%)",
-          }} />
-          {/* Ground — brick dirt */}
-          <div style={{
-            position: "absolute", bottom: 0, left: 0,
-            width: totalWidth, height: GROUND_H - 20,
-            backgroundColor: "#C84B11",
-            backgroundImage: [
-              "repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(0,0,0,0.18) 39px, rgba(0,0,0,0.18) 40px)",
-              "repeating-linear-gradient(0deg, transparent 0px, transparent 19px, rgba(0,0,0,0.18) 19px, rgba(0,0,0,0.18) 20px)",
-            ].join(", "),
-            boxShadow: "inset 0 3px 0 rgba(255,255,255,0.15)",
-          }} />
+          {/* ── Ground strip ── */}
+          {/* Green grass top */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: GROUND_H - 20,
+              left: 0,
+              width: totalWidth,
+              height: 20,
+              background: "linear-gradient(to bottom, #4ABA41 0%, #3DA435 100%)",
+            }}
+          />
+          {/* Brick dirt */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: totalWidth,
+              height: GROUND_H - 20,
+              backgroundColor: "#C84B11",
+              backgroundImage: [
+                "repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(0,0,0,0.18) 39px, rgba(0,0,0,0.18) 40px)",
+                "repeating-linear-gradient(0deg, transparent 0px, transparent 19px, rgba(0,0,0,0.18) 19px, rgba(0,0,0,0.18) 20px)",
+              ].join(", "),
+              boxShadow: "inset 0 3px 0 rgba(255,255,255,0.15)",
+            }}
+          />
 
-          {/* Pipes */}
-          {pipeXs.map((_, i) => (
+          {/* ── Pipes between entries ── */}
+          {pipeXs.map((x, i) => (
             <Pipe key={i} x={(((centerXs[i] + centerXs[i + 1]) / 2) / totalWidth) * 100} />
           ))}
 
-          {/* Per-experience elements */}
+          {/* ── Per-experience elements ── */}
           {EXPERIENCES.map((exp, i) => (
             <div key={exp.id}>
+              {/* Brick platform */}
               <BrickPlatform centerX={centerXs[i]} />
-              <Connector x={centerXs[i]} top={connTop(i)} bottom={connBot(i)} />
+
+              {/* Connector line */}
+              <Connector
+                x={centerXs[i]}
+                top={connTop(i)}
+                bottom={connBot(i)}
+              />
+
+              {/* Date badge */}
               <DateBadge text={exp.period} centerX={centerXs[i]} y={badgeTops[i]} />
+
+              {/* Experience card */}
               <ExperienceCard exp={exp} centerX={centerXs[i]} top={cardTops[i]} />
             </div>
           ))}
         </div>
       </div>
 
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+      `}</style>
     </div>
   );
 }
