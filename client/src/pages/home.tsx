@@ -5361,6 +5361,16 @@ export default function Home() {
                 </motion.div>
 
               </div>
+
+              {/* Hero → projects fade: dissolves the hero bottom into the page background */}
+              <div
+                className="absolute bottom-0 left-0 right-0 pointer-events-none"
+                style={{
+                  height: 180,
+                  background: "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.55) 55%, rgba(255,255,255,1) 100%)",
+                }}
+                aria-hidden="true"
+              />
             </div>
 
             {/* ── Designer: Selected Work (scroll-stacking cards) ── */}

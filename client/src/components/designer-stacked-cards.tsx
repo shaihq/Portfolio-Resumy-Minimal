@@ -102,8 +102,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
                   letterSpacing: "-0.025em",
                 }}
               >
-                check out some of{" "}
-                <span className="text-[#94A3B8] dark:text-[#475569]">my work</span>
+                check out some of my work
               </h2>
             </div>
           )}
@@ -114,7 +113,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
               scale: scales[i],
               transformOrigin: "top center",
               // Slight upward offset so cards sit a touch above center (ref: calc(-5vh + index*25px))
-              top: `calc(-5vh + ${i * 25}px)`,
+              top: `calc(-12vh + ${i * 25}px)`,
               position: "relative",
               width: "100%",
             }}
