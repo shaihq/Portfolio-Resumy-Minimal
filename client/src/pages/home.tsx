@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
-import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, User, Briefcase } from "lucide-react";
+import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, ArrowDown, User, Briefcase } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
 import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
 import { useLocation } from "wouter";
@@ -5318,18 +5318,43 @@ export default function Home() {
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
                 </motion.p>
 
-                {/* Available for work badge */}
+                {/* Rotating circular scroll indicator */}
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.82, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-6 md:mx-auto flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/25 rounded-full px-4 py-2 w-fit"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.7, delay: 0.88, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8 md:mx-auto relative w-[84px] h-[84px] cursor-pointer select-none"
                 >
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                  </span>
-                  <span className="text-white/90 text-[13px] font-medium font-['Inter'] tracking-wide">Available for work</span>
+                  {/* Rotating text ring */}
+                  <motion.div
+                    className="absolute inset-0"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 11, repeat: Infinity, ease: "linear" }}
+                  >
+                    <svg viewBox="0 0 84 84" className="w-full h-full">
+                      <defs>
+                        <path
+                          id="designer-scroll-ring"
+                          d="M42,42 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"
+                        />
+                      </defs>
+                      <text
+                        fill="rgba(255,255,255,0.78)"
+                        style={{ fontSize: '7px', fontFamily: 'Inter, sans-serif', fontWeight: 500, letterSpacing: '0.04em' }}
+                      >
+                        <textPath href="#designer-scroll-ring" textLength="226" lengthAdjust="spacing">
+                          SCROLL DOWN FOR MORE ✦ SCROLL DOWN FOR MORE ✦
+                        </textPath>
+                      </text>
+                    </svg>
+                  </motion.div>
+
+                  {/* Static center arrow */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-full border border-white/40 bg-white/12 backdrop-blur-sm flex items-center justify-center">
+                      <ArrowDown className="w-[15px] h-[15px] text-white/85" strokeWidth={2.2} />
+                    </div>
+                  </div>
                 </motion.div>
 
               </div>
