@@ -988,8 +988,8 @@ export default function Home() {
             <DesignerBirds />
 
             {/* Bottom fade into page bg */}
-            <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F0EDE7 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #1A1A1A 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 dark:hidden" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #FAFAFA 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 hidden dark:block" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #080F1E 100%)' }} />
           </div>
         )}
 
@@ -5146,7 +5146,7 @@ export default function Home() {
                   {/* Name */}
                   <span
                     className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
-                    style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.9)' }}
+                    style={{ color: designerNavScrolled ? 'rgba(15,23,42,0.9)' : 'rgba(255,255,255,0.9)' }}
                   >
                     Matt
                   </span>
@@ -5158,9 +5158,9 @@ export default function Home() {
                         key={link}
                         href="#"
                         className="text-[13px] font-medium tracking-wide font-['Inter'] transition-colors duration-500"
-                        style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,1)' : 'rgba(255,255,255,1)')}
-                        onMouseLeave={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(26,26,26,0.65)' : 'rgba(255,255,255,0.70)')}
+                        style={{ color: designerNavScrolled ? 'rgba(15,23,42,0.60)' : 'rgba(255,255,255,0.70)' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(15,23,42,1)' : 'rgba(255,255,255,1)')}
+                        onMouseLeave={e => (e.currentTarget.style.color = designerNavScrolled ? 'rgba(15,23,42,0.60)' : 'rgba(255,255,255,0.70)')}
                       >
                         {link}
                       </a>
@@ -5178,10 +5178,10 @@ export default function Home() {
                       aria-controls="designer-mobile-menu"
                       className="flex items-center gap-[6px] px-[10px] py-[7px] rounded-full transition-all duration-300 select-none"
                       style={{
-                        background: designerNavScrolled ? 'rgba(26,26,26,0.06)' : 'rgba(255,255,255,0.18)',
+                        background: designerNavScrolled ? 'rgba(15,23,42,0.06)' : 'rgba(255,255,255,0.18)',
                         backdropFilter: 'blur(12px)',
                         WebkitBackdropFilter: 'blur(12px)',
-                        border: designerNavScrolled ? '1px solid rgba(26,26,26,0.10)' : '1px solid rgba(255,255,255,0.26)',
+                        border: designerNavScrolled ? '1px solid rgba(15,23,42,0.10)' : '1px solid rgba(255,255,255,0.26)',
                       }}
                     >
                       {/* Animated three-line → X icon */}
@@ -5189,7 +5189,7 @@ export default function Home() {
                         {/* Top bar */}
                         <motion.span
                           className="absolute block h-[1.5px] rounded-full left-0"
-                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.80)' : 'rgba(255,255,255,0.95)', top: 0 }}
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(15,23,42,0.80)' : 'rgba(255,255,255,0.95)', top: 0 }}
                           animate={designerMenuOpen
                             ? { width: 13, top: '50%', y: '-50%', rotate: 45 }
                             : { width: 13, top: 0,    y: 0,      rotate: 0 }}
@@ -5198,7 +5198,7 @@ export default function Home() {
                         {/* Middle bar */}
                         <motion.span
                           className="absolute block h-[1.5px] rounded-full left-0"
-                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.80)' : 'rgba(255,255,255,0.95)', top: '50%', marginTop: '-0.75px', width: 9 }}
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(15,23,42,0.80)' : 'rgba(255,255,255,0.95)', top: '50%', marginTop: '-0.75px', width: 9 }}
                           animate={designerMenuOpen
                             ? { opacity: 0, scaleX: 0 }
                             : { opacity: 1, scaleX: 1 }}
@@ -5207,7 +5207,7 @@ export default function Home() {
                         {/* Bottom bar */}
                         <motion.span
                           className="absolute block h-[1.5px] rounded-full left-0"
-                          style={{ backgroundColor: designerNavScrolled ? 'rgba(26,26,26,0.80)' : 'rgba(255,255,255,0.95)', bottom: 0 }}
+                          style={{ backgroundColor: designerNavScrolled ? 'rgba(15,23,42,0.80)' : 'rgba(255,255,255,0.95)', bottom: 0 }}
                           animate={designerMenuOpen
                             ? { width: 13, bottom: 'auto', top: '50%', y: '-50%', rotate: -45 }
                             : { width: 13, bottom: 0,      top: 'auto', y: 0,       rotate: 0 }}
@@ -5216,7 +5216,7 @@ export default function Home() {
                       </span>
                       <span
                         className="text-[10px] font-semibold tracking-[0.15em] font-['Inter'] transition-colors duration-300"
-                        style={{ color: designerNavScrolled ? 'rgba(26,26,26,0.72)' : 'rgba(255,255,255,0.92)' }}
+                        style={{ color: designerNavScrolled ? 'rgba(15,23,42,0.72)' : 'rgba(255,255,255,0.92)' }}
                       >
                         MENU
                       </span>
@@ -5258,10 +5258,10 @@ export default function Home() {
                               transition={{ delay: 0.04 + i * 0.05, duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                               className="flex items-center gap-3 px-4 py-[13px] border-b last:border-b-0"
                               style={{
-                                color: designerNavScrolled ? 'rgba(26,26,26,0.82)' : 'rgba(255,255,255,0.90)',
-                                borderColor: designerNavScrolled ? 'rgba(0,0,0,0.055)' : 'rgba(255,255,255,0.12)',
+                                color: designerNavScrolled ? 'rgba(15,23,42,0.82)' : 'rgba(255,255,255,0.90)',
+                                borderColor: designerNavScrolled ? 'rgba(15,23,42,0.07)' : 'rgba(255,255,255,0.12)',
                               }}
-                              onMouseEnter={e => (e.currentTarget.style.background = designerNavScrolled ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.10)')}
+                              onMouseEnter={e => (e.currentTarget.style.background = designerNavScrolled ? 'rgba(15,23,42,0.05)' : 'rgba(255,255,255,0.10)')}
                               onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                               onClick={() => setDesignerMenuOpen(false)}
                             >
@@ -5313,7 +5313,7 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Selected Work ── */}
-            <div className="px-0 pb-28 pt-10">
+            <div className="px-0 pb-28 pt-10 bg-[#FAFAFA] dark:bg-[#080F1E]">
               {/* Section label */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -5322,10 +5322,10 @@ export default function Home() {
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="flex items-center gap-4 mb-14 md:mb-20"
               >
-                <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#7A6F63] dark:text-[#8A8077]">
+                <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#64748B] dark:text-[#64748B]">
                   Selected Work
                 </span>
-                <div className="flex-1 h-px bg-[#C8BFB4] dark:bg-[#2E2E2E]" />
+                <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
               </motion.div>
 
               {/* Case study cards */}
@@ -5365,12 +5365,12 @@ export default function Home() {
                     className="relative group"
                   >
                     {/* Sparkle decorations */}
-                    <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#B0A396] dark:text-[#4A4035] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`} />
-                    <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#C8BFB4] dark:text-[#3A3530] opacity-50 transition-all duration-500 group-hover:opacity-80`} />
+                    <SparkleIcon className={`absolute ${cs.flip ? 'bottom-4 left-5' : 'top-4 right-5'} w-5 h-5 text-[#94A3B8] dark:text-[#334155] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`} />
+                    <SparkleIcon className={`absolute ${cs.flip ? 'top-5 right-6' : 'bottom-5 left-6'} w-3 h-3 text-[#CBD5E1] dark:text-[#1E293B] opacity-50 transition-all duration-500 group-hover:opacity-80`} />
 
                     {/* Card */}
                     <div
-                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#C0B5A8] dark:border-[#2A2A2A] bg-white/60 dark:bg-[#231F19] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#A09387] dark:group-hover:border-[#3D3830] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.07)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]`}
+                      className={`relative flex flex-col ${cs.flip ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 rounded-[24px] border border-dashed border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#0F172A] px-7 py-8 md:px-10 md:py-10 overflow-hidden transition-all duration-500 group-hover:border-[#94A3B8] dark:group-hover:border-[#334155] group-hover:shadow-[0_8px_48px_rgba(15,23,42,0.08)] dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.4)]`}
                     >
                       {/* Text side */}
                       <div className="flex-1 flex flex-col items-start min-w-0">
@@ -5379,7 +5379,7 @@ export default function Home() {
                           {cs.tags.map(tag => (
                             <span
                               key={tag}
-                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#7A6F63] dark:text-[#C4AE94] bg-[#E8E0D6] dark:bg-[#332C22] px-2.5 py-1 rounded-full"
+                              className="text-[10.5px] font-semibold tracking-[0.13em] uppercase text-[#475569] dark:text-[#94A3B8] bg-[#F1F5F9] dark:bg-[#1E293B] px-2.5 py-1 rounded-full"
                             >
                               {tag}
                             </span>
@@ -5388,21 +5388,21 @@ export default function Home() {
 
                         {/* Headline */}
                         <h3
-                          className="text-[#1A1A1A] dark:text-[#F0EDE7] mb-4"
+                          className="text-[#0F172A] dark:text-[#F8FAFC] mb-4"
                           style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(20px, 2.8vw, 30px)', fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em' }}
                         >
                           {cs.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-[14.5px] leading-[1.7] text-[#6B6159] dark:text-[#8A8077] max-w-[360px] mb-7 font-['Inter']">
+                        <p className="text-[14.5px] leading-[1.7] text-[#475569] dark:text-[#94A3B8] max-w-[360px] mb-7 font-['Inter']">
                           {cs.description}
                         </p>
 
                         {/* CTA */}
                         <button
                           onClick={() => handleProjectClick(cs.slug)}
-                          className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#1A1A1A] dark:text-[#F0EDE7] hover:text-[#5C4F45] dark:hover:text-[#C8C0B5] transition-colors duration-200"
+                          className="group/cta inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#0F172A] dark:text-[#F8FAFC] hover:text-[#1D4ED8] dark:hover:text-[#93C5FD] transition-colors duration-200"
                         >
                           Read case study
                           <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
@@ -5411,7 +5411,7 @@ export default function Home() {
 
                       {/* Image side */}
                       <div className="w-full md:w-[46%] flex-shrink-0">
-                        <div className="relative rounded-[16px] overflow-hidden bg-[#E4DBD0] dark:bg-[#222] shadow-[0_4px_32px_rgba(0,0,0,0.10)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-[1.02]">
+                        <div className="relative rounded-[16px] overflow-hidden bg-[#E2E8F0] dark:bg-[#1E293B] shadow-[0_4px_32px_rgba(15,23,42,0.08)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-[1.02]">
                           <img
                             src={cs.image}
                             alt={cs.title}
