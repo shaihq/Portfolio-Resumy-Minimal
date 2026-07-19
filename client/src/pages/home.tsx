@@ -54,6 +54,7 @@ import pegboardBgDark from "@/assets/pegboard/pegboard1dark.png";
 import story4 from "@/assets/images/story-4.jpg";
 import { DesignerBirds } from "@/components/designer-birds";
 import { DesignerStackedCards } from "@/components/designer-stacked-cards";
+import { DesignerMarioExperience } from "@/components/designer-mario-experience";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -5407,7 +5408,7 @@ export default function Home() {
             />
 
             {/* ── Designer: Work Experience section header ── */}
-            <div className="px-6 md:px-0 pt-32 pb-16">
+            <div className="px-6 md:px-0 pt-32 pb-10">
               {/* Badge + divider row */}
               <div className="flex items-center gap-3 mb-4">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
@@ -5433,6 +5434,9 @@ export default function Home() {
                 where I've done my best work
               </h2>
             </div>
+
+            {/* ── Designer: Mario-style horizontal experience ── */}
+            <DesignerMarioExperience />
 
           </div>
         ) : null}
