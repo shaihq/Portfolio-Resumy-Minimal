@@ -5335,15 +5335,15 @@ export default function Home() {
                       <defs>
                         <path
                           id="designer-scroll-ring"
-                          d="M42,42 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"
+                          d="M42,42 m-28,0 a28,28 0 1,1 56,0 a28,28 0 1,1 -56,0"
                         />
                       </defs>
                       <text
                         fill="rgba(255,255,255,0.90)"
-                        style={{ fontSize: '10px', fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: '0.04em' }}
+                        style={{ fontSize: '11px', fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: '0.04em' }}
                       >
-                        <textPath href="#designer-scroll-ring" textLength="226" lengthAdjust="spacing">
-                          SCROLL DOWN FOR MORE ✦ SCROLL DOWN FOR MORE ✦
+                        <textPath href="#designer-scroll-ring" textLength="175" lengthAdjust="spacing">
+                          SCROLL DOWN ✦ SCROLL DOWN ✦
                         </textPath>
                       </text>
                     </svg>
