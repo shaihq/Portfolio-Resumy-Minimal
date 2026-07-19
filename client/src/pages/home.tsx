@@ -660,8 +660,8 @@ export default function Home() {
   useEffect(() => {
     const root = document.documentElement;
     if (activeTemplate === "Designer") {
-      root.style.setProperty("--page-bg", "#FAFAFA");
-      root.style.setProperty("--background", "0 0% 98%");
+      root.style.setProperty("--page-bg", "#F2F2F4");
+      root.style.setProperty("--background", "240 5% 95%");
     } else {
       root.style.removeProperty("--page-bg");
       root.style.removeProperty("--background");
@@ -978,7 +978,7 @@ export default function Home() {
             <DesignerBirds />
 
             {/* Bottom fade into page bg */}
-            <div className="absolute bottom-0 left-0 right-0" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #FAFAFA 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0" style={{ height: 220, background: 'linear-gradient(to bottom, transparent 0%, #F2F2F4 100%)' }} />
           </div>
         )}
 
