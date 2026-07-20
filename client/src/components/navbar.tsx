@@ -288,8 +288,9 @@ export default function Navbar() {
                       <div className="space-y-4 pt-2">
                         <div className="text-[13px] font-medium text-[#7A736C] dark:text-[#9E9893] px-1">Templates</div>
                         <div className="grid grid-cols-2 gap-x-4 gap-y-6 pb-4">
-                          {["Minimal", "Professional", "Creative", "Chatfolio", "Designer"].map((template) => {
+                          {["Minimal", "Professional", "Creative", "Chatfolio", "Designer", "Pearl"].map((template) => {
                             const isSelected = activeTemplate === template;
+                            const isComingSoon = template === "Pearl";
                             return (
                               <div key={template} className="flex flex-col gap-3 items-center">
                                 <div className="relative w-full">
@@ -319,6 +320,13 @@ export default function Navbar() {
                                           <div className="w-full h-8 rounded-md bg-black/10 dark:bg-white/10" />
                                         </div>
                                       </div>
+                                      {isComingSoon && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 dark:bg-black/40 rounded-[14px]">
+                                          <span className="text-[10px] font-semibold tracking-widest uppercase text-white/90 bg-black/40 px-2 py-1 rounded-full">
+                                            Soon
+                                          </span>
+                                        </div>
+                                      )}
                                     </div>
                                   </button>
                                   {isSelected && (

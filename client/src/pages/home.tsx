@@ -5846,6 +5846,19 @@ export default function Home() {
             </div>
 
           </div>
+        ) : activeTemplate === "Pearl" ? (
+          <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] select-none">
+            <div className="flex flex-col items-center gap-4 text-center px-6">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#f0e6ff] to-[#d4c5f9] flex items-center justify-center shadow-sm">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="#a78bfa" strokeWidth="1.5"/>
+                  <circle cx="12" cy="12" r="4" fill="#c4b5fd" opacity="0.6"/>
+                </svg>
+              </div>
+              <p className="text-[13px] font-medium tracking-widest uppercase text-[#9E9893] dark:text-[#6E6862]">Coming Soon</p>
+              <p className="text-[13px] text-[#B8B0A8] dark:text-[#6E6862] max-w-[220px] leading-relaxed">Pearl is currently in the works. Check back soon.</p>
+            </div>
+          </div>
         ) : null}
       </div>
       </div>{/* end resize wrapper */}
