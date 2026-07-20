@@ -5285,9 +5285,9 @@ export default function Home() {
 
                 {/* Profile image — glass card with shimmer */}
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.88, y: 12 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1.2, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
                   className="mb-8 p-[5px] rounded-[22px] bg-white/20 backdrop-blur-md border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.18)]"
                 >
                   {/* Inner clip wrapper — keeps shimmer masked to rounded corners */}
@@ -5315,7 +5315,7 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                {/* Display headline — blur ripple reveal word by word */}
+                {/* Display headline — slow blur ripple reveal, word by word */}
                 <h1
                   className="designer-hero-title leading-[1.02] tracking-tight text-white text-left md:text-center font-semibold"
                   style={{ fontSize: 'clamp(40px, 8vw, 92px)' }}
@@ -5323,9 +5323,9 @@ export default function Home() {
                   {["Hey", "I'm"].map((word, i) => (
                     <motion.span
                       key={word}
-                      initial={{ opacity: 0, filter: "blur(18px)", y: 12 }}
-                      animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                      transition={{ duration: 1.0, delay: 0.2 + i * 0.13, ease: [0.16, 1, 0.3, 1] }}
+                      initial={{ opacity: 0, filter: "blur(10px)" }}
+                      animate={{ opacity: 1, filter: "blur(0px)" }}
+                      transition={{ duration: 1.8, delay: 0.3 + i * 0.18, ease: [0.25, 0.1, 0.25, 1] }}
                       style={{ display: "inline-block", marginRight: "0.28em" }}
                     >
                       {word}
@@ -5333,9 +5333,9 @@ export default function Home() {
                   ))}
                   <motion.span
                     className="font-['Caveat']"
-                    initial={{ opacity: 0, filter: "blur(18px)", y: 12 }}
-                    animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                    transition={{ duration: 1.0, delay: 0.46, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ opacity: 0, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    transition={{ duration: 1.8, delay: 0.66, ease: [0.25, 0.1, 0.25, 1] }}
                     style={{ display: "inline-block" }}
                   >
                     Matt.
@@ -5344,9 +5344,9 @@ export default function Home() {
 
                 {/* Description */}
                 <motion.p
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.4, delay: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
                   className="mt-6 text-white text-[17px] leading-relaxed font-['Inter'] font-medium text-left md:text-center w-full max-w-xl md:mx-auto"
                 >
                   I turn messy, real-world problems into products people actually understand — interfaces that feel obvious, systems that scale, and details that quietly do the work.
