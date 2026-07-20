@@ -5701,7 +5701,7 @@ export default function Home() {
             {/* ── Designer: Contact Footer ── */}
             <div className="px-6 md:px-0 pt-20 pb-16">
               {/* "Contact" heading */}
-              <h2 style={{
+              <BlurRevealHeading style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "clamp(52px, 9vw, 108px)",
                 fontWeight: 500,
@@ -5711,7 +5711,7 @@ export default function Home() {
                 marginBottom: 24,
               }}>
                 Contact
-              </h2>
+              </BlurRevealHeading>
 
               {/* Top rule */}
               <div style={{ height: 1.5, backgroundColor: "#CBD5E1", marginBottom: 0 }} />
