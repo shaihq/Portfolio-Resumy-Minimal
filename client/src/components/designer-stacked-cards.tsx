@@ -1,6 +1,26 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+
+function BlurRevealH2({ children, className, style }: { children: string; className?: string; style?: React.CSSProperties }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
+  return (
+    <h2 ref={ref} className={className} style={{ ...style, overflow: "visible" }}>
+      {children.split(" ").map((word, i) => (
+        <motion.span
+          key={`${word}-${i}`}
+          initial={{ opacity: 0, filter: "blur(10px)" }}
+          animate={isInView ? { opacity: 1, filter: "blur(0px)" } : {}}
+          transition={{ duration: 1.1, delay: i * 0.14, ease: [0.25, 0.1, 0.25, 1] }}
+          style={{ display: "inline-block", marginRight: "0.28em", whiteSpace: "nowrap" }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </h2>
+  );
+}
 
 function playCoinSound() {
   try {
@@ -169,8 +189,8 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
           <div className="flex-1 h-px bg-[#E2E8F0] dark:bg-[#1E293B]" />
         </div>
 
-        {/* Title */}
-        <h2
+        {/* Title — scroll-triggered word-by-word blur ripple */}
+        <BlurRevealH2
           className="text-[#0F172A] dark:text-[#F8FAFC]"
           style={{
             fontFamily: "'Poppins', sans-serif",
@@ -181,7 +201,7 @@ export function DesignerStackedCards({ projects, onProjectClick }: Props) {
           }}
         >
           check out some of my work
-        </h2>
+        </BlurRevealH2>
       </div>
 
       {projects.map((cs, i) => (
