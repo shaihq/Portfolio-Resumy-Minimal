@@ -29,7 +29,7 @@ import Navbar from "@/components/navbar";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { Download, Dribbble, Mail, ChevronDown, Copy, Phone, Linkedin, Twitter, Globe, FileText, ArrowUpRight, Github, Play, Square, Sun, Moon, Move, Pencil, Plus, Trash2, Search, X, Check, ChevronsUpDown, GripVertical, ArrowUp, ArrowDown, User, Briefcase } from "lucide-react";
 import { AtSignIcon, AtSignIconHandle, DownloadIcon, DownloadIconHandle, DribbbleIcon, DribbbleIconHandle, TwitterIcon, TwitterIconHandle } from "lucide-animated";
-import { motion, AnimatePresence, Reorder, Variants } from "framer-motion";
+import { motion, AnimatePresence, Reorder, Variants, useInView } from "framer-motion";
 import { useLocation } from "wouter";
 import { useTemplate } from "@/hooks/use-template";
 import { useBlindersTransition } from "@/hooks/use-blinders-transition";
@@ -63,6 +63,39 @@ function SparkleIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 2 C12 2 12.8 7.2 15.5 9.5 C18.2 11.8 23 12 23 12 C23 12 18.2 12.2 15.5 14.5 C12.8 16.8 12 22 12 22 C12 22 11.2 16.8 8.5 14.5 C5.8 12.2 1 12 1 12 C1 12 5.8 11.8 8.5 9.5 C11.2 7.2 12 2 12 2Z" />
     </svg>
+  );
+}
+
+/** Scroll-triggered word-by-word blur ripple reveal for section headings */
+function BlurRevealHeading({
+  children,
+  as: Tag = "h2",
+  className,
+  style,
+}: {
+  children: string;
+  as?: "h1" | "h2" | "h3" | "h4";
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: "0px 0px -80px 0px" });
+  const words = children.split(" ");
+
+  return (
+    <Tag ref={ref as any} className={className} style={{ ...style, overflow: "visible" }}>
+      {words.map((word, i) => (
+        <motion.span
+          key={`${word}-${i}`}
+          initial={{ opacity: 0, filter: "blur(10px)" }}
+          animate={isInView ? { opacity: 1, filter: "blur(0px)" } : {}}
+          transition={{ duration: 1.1, delay: i * 0.14, ease: [0.25, 0.1, 0.25, 1] }}
+          style={{ display: "inline-block", marginRight: "0.28em", whiteSpace: "nowrap" }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </Tag>
   );
 }
 
@@ -5440,7 +5473,7 @@ export default function Home() {
               </div>
 
               {/* Title */}
-              <h2
+              <BlurRevealHeading
                 className="text-[#0F172A] dark:text-[#F8FAFC]"
                 style={{
                   fontFamily: "'Poppins', sans-serif",
@@ -5451,7 +5484,7 @@ export default function Home() {
                 }}
               >
                 where I've done my best work
-              </h2>
+              </BlurRevealHeading>
             </div>
 
             {/* ── Designer: Mario-style horizontal experience ── */}
@@ -5479,7 +5512,7 @@ export default function Home() {
 
                 {/* Right — bio text */}
                 <div className="flex-1 min-w-0">
-                  <h2
+                  <BlurRevealHeading
                     className="text-[#0F172A] dark:text-[#F8FAFC] mb-6"
                     style={{
                       fontFamily: "'Poppins', sans-serif",
@@ -5490,7 +5523,7 @@ export default function Home() {
                     }}
                   >
                     a little about myself
-                  </h2>
+                  </BlurRevealHeading>
 
                   <p
                     className="text-[#475569] dark:text-[#94A3B8] mb-4"
@@ -5531,7 +5564,7 @@ export default function Home() {
 
               {/* Title */}
               <div className="px-6 md:px-0 mb-8">
-                <h2
+                <BlurRevealHeading
                   className="text-[#0F172A] dark:text-[#F8FAFC]"
                   style={{
                     fontFamily: "'Poppins', sans-serif",
@@ -5542,7 +5575,7 @@ export default function Home() {
                   }}
                 >
                   what people say
-                </h2>
+                </BlurRevealHeading>
               </div>
 
               {/* Auto-scrolling letter cards — full bleed */}
@@ -5636,7 +5669,7 @@ export default function Home() {
             {/* ── Designer: Contact Footer ── */}
             <div className="px-6 md:px-0 pt-20 pb-16">
               {/* "Contact" heading */}
-              <h2 style={{
+              <BlurRevealHeading style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "clamp(52px, 9vw, 108px)",
                 fontWeight: 500,
@@ -5646,7 +5679,7 @@ export default function Home() {
                 marginBottom: 24,
               }}>
                 Contact
-              </h2>
+              </BlurRevealHeading>
 
               {/* Top rule */}
               <div style={{ height: 1.5, backgroundColor: "#CBD5E1", marginBottom: 0 }} />
