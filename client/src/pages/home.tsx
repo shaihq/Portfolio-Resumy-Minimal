@@ -5315,16 +5315,32 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                {/* Display headline — no blur to prevent flicker */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                {/* Display headline — blur ripple reveal word by word */}
+                <h1
                   className="designer-hero-title leading-[1.02] tracking-tight text-white text-left md:text-center font-semibold"
                   style={{ fontSize: 'clamp(40px, 8vw, 92px)' }}
                 >
-                  Hey I'm <span className="font-['Caveat']">Matt.</span>
-                </motion.h1>
+                  {["Hey", "I'm"].map((word, i) => (
+                    <motion.span
+                      key={word}
+                      initial={{ opacity: 0, filter: "blur(18px)", y: 12 }}
+                      animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                      transition={{ duration: 1.0, delay: 0.2 + i * 0.13, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ display: "inline-block", marginRight: "0.28em" }}
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                  <motion.span
+                    className="font-['Caveat']"
+                    initial={{ opacity: 0, filter: "blur(18px)", y: 12 }}
+                    animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                    transition={{ duration: 1.0, delay: 0.46, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ display: "inline-block" }}
+                  >
+                    Matt.
+                  </motion.span>
+                </h1>
 
                 {/* Description */}
                 <motion.p
