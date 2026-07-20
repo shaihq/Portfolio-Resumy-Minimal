@@ -66,6 +66,34 @@ function SparkleIcon({ className }: { className?: string }) {
   );
 }
 
+/** Scroll-triggered fade-in wrapper for section content */
+function FadeInSection({
+  children,
+  className,
+  style,
+  delay = 0.35,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: "0px 0px -60px 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      style={style}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 1.0, delay, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 /** Scroll-triggered word-by-word blur ripple reveal for section headings */
 function BlurRevealHeading({
   children,
@@ -5488,7 +5516,9 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Mario-style horizontal experience ── */}
-            <DesignerMarioExperience ref={marioRef} />
+            <FadeInSection>
+              <DesignerMarioExperience ref={marioRef} />
+            </FadeInSection>
 
             {/* ── Designer: About Me section ── */}
             <div className="px-6 md:px-0 pt-28 pb-16">
@@ -5504,7 +5534,7 @@ export default function Home() {
               </div>
 
               {/* Two-column: half-book pegboard left, bio text right */}
-              <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+              <FadeInSection className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
                 {/* Left — half-book pegboard */}
                 <div className="w-full md:w-[45%] flex-shrink-0">
                   <AboutMePegboard />
@@ -5546,7 +5576,7 @@ export default function Home() {
                     Matt.
                   </span>
                 </div>
-              </div>
+              </FadeInSection>
             </div>
 
             {/* ── Designer: Recommendations section ── */}
@@ -5579,10 +5609,13 @@ export default function Home() {
               </div>
 
               {/* Auto-scrolling letter cards — full bleed */}
-              <DesignerRecommendations />
+              <FadeInSection>
+                <DesignerRecommendations />
+              </FadeInSection>
             </div>
 
             {/* ── Designer: Skills & Tools cross banners ── */}
+            <FadeInSection>
             <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
 
               {/* Skills strip */}
@@ -5665,6 +5698,7 @@ export default function Home() {
                 }
               `}</style>
             </div>
+            </FadeInSection>
 
             {/* ── Designer: Contact Footer ── */}
             <div className="px-6 md:px-0 pt-20 pb-16">
@@ -5681,6 +5715,7 @@ export default function Home() {
                 Contact
               </BlurRevealHeading>
 
+              <FadeInSection>
               {/* Top rule */}
               <div style={{ height: 1.5, backgroundColor: "#CBD5E1", marginBottom: 0 }} />
 
@@ -5792,6 +5827,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
+              </FadeInSection>
             </div>
 
             {/* ── Designer: Bottom grass — full viewport width, footer decoration ── */}
