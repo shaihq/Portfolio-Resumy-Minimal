@@ -5615,7 +5615,6 @@ export default function Home() {
             </div>
 
             {/* ── Designer: Skills & Tools cross banners ── */}
-            <FadeInSection>
             <div className="py-14" style={{ position: "relative", left: "50%", marginLeft: "-50vw", width: "100vw", overflow: "hidden" }}>
 
               {/* Skills strip */}
@@ -5698,12 +5697,11 @@ export default function Home() {
                 }
               `}</style>
             </div>
-            </FadeInSection>
 
             {/* ── Designer: Contact Footer ── */}
             <div className="px-6 md:px-0 pt-20 pb-16">
               {/* "Contact" heading */}
-              <BlurRevealHeading style={{
+              <h2 style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "clamp(52px, 9vw, 108px)",
                 fontWeight: 500,
@@ -5713,9 +5711,8 @@ export default function Home() {
                 marginBottom: 24,
               }}>
                 Contact
-              </BlurRevealHeading>
+              </h2>
 
-              <FadeInSection>
               {/* Top rule */}
               <div style={{ height: 1.5, backgroundColor: "#CBD5E1", marginBottom: 0 }} />
 
@@ -5827,7 +5824,6 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              </FadeInSection>
             </div>
 
             {/* ── Designer: Bottom grass — full viewport width, footer decoration ── */}
