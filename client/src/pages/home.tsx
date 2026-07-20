@@ -5325,7 +5325,7 @@ export default function Home() {
                       key={word}
                       initial={{ opacity: 0, filter: "blur(10px)" }}
                       animate={{ opacity: 1, filter: "blur(0px)" }}
-                      transition={{ duration: 1.8, delay: 0.3 + i * 0.18, ease: [0.25, 0.1, 0.25, 1] }}
+                      transition={{ duration: 1.1, delay: 0.3 + i * 0.35, ease: [0.25, 0.1, 0.25, 1] }}
                       style={{ display: "inline-block", marginRight: "0.28em" }}
                     >
                       {word}
@@ -5335,7 +5335,7 @@ export default function Home() {
                     className="font-['Caveat']"
                     initial={{ opacity: 0, filter: "blur(10px)" }}
                     animate={{ opacity: 1, filter: "blur(0px)" }}
-                    transition={{ duration: 1.8, delay: 0.66, ease: [0.25, 0.1, 0.25, 1] }}
+                    transition={{ duration: 1.1, delay: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
                     style={{ display: "inline-block" }}
                   >
                     Matt.
